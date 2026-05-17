@@ -55,16 +55,30 @@ If you've ever shipped something and 24 hours later thought *"why didn't I think
 
 ### Path A — Plugin marketplace (recommended, Claude Code 2.1+)
 
-One-step install via Claude Code's native plugin manager. In any Claude Code session:
+One-step install via Claude Code's native plugin manager. Two equivalent paths:
 
+**Inside a Claude Code session:**
 ```
 /plugin marketplace add ulissesflores/anticipating-shadow-points
 /plugin install anticipating-shadow-points@anticipating-shadow-points
 ```
 
+**From the shell (works in non-interactive contexts):**
+```bash
+claude plugin marketplace add ulissesflores/anticipating-shadow-points
+claude plugin install anticipating-shadow-points@anticipating-shadow-points
+```
+
 Then invoke: `/anticipating-shadow-points:asp <task>` (plugin-namespaced).
 
-Benefits: native update via `/plugin update`, clean uninstall via `/plugin uninstall`, marketplace discoverability.
+Benefits: native update via `claude plugin update`, clean uninstall via `claude plugin uninstall anticipating-shadow-points`, marketplace discoverability.
+
+> [!IMPORTANT]
+> **If you don't have SSH configured for GitHub**, you may hit `git@github.com: Permission denied (publickey)` during `claude plugin install`. The marketplace `add` step auto-falls-back to HTTPS, but `install` does not (as of Claude Code 2.1.143). One-time workaround:
+> ```bash
+> git config --global url."https://github.com/".insteadOf "git@github.com:"
+> ```
+> Then retry `claude plugin install`. Empirically validated 2026-05-17.
 
 ### Path B — Local plugin dev mode (`--plugin-dir`)
 
