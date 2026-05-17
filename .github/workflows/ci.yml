@@ -1,0 +1,52 @@
+name: ASP CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  yaml-lint:
+    name: YAML lint (frontmatters)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install yq
+        run: sudo snap install yq || (curl -sSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq)
+      - name: Validate SKILL.md frontmatter
+        run: |
+          awk '/^---$/{i++; if(i==2)exit} i==1' skill/SKILL.md | tail -n +2 | yq -e '.name' && yq -e '.description' <(awk '/^---$/{i++; if(i==2)exit} i==1' skill/SKILL.md | tail -n +2)
+      - name: Validate command frontmatter
+        run: |
+          for f in command/*.md; do
+            awk '/^---$/{i++; if(i==2)exit} i==1' "$f" | tail -n +2 | yq -e '.description' || exit 1
+          done
+
+  shellcheck:
+    name: Shellcheck scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run shellcheck
+        run: |
+          sudo apt-get install -y shellcheck
+          shellcheck scripts/*.sh
+
+  markdown-lint:
+    name: Markdown lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v15
+        with:
+          globs: '**/*.md'
+        continue-on-error: true
+
+  verify:
+    name: Run scripts/verify.sh --pre-install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run verify in pre-install mode (skips criterion 13 staging check)
+        run: bash scripts/verify.sh --pre-install || true

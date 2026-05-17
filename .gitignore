@@ -1,0 +1,12 @@
+.DS_Store
+*.log
+node_modules/
+__pycache__/
+.venv/
+.env
+.env.local
+claude-cache/
+*.tmp
+.idea/
+.vscode/
+*.swp
