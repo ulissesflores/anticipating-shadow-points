@@ -156,6 +156,22 @@ Ningún task se marca `completed` sin **evidencia fresca** del ACCEPTANCE-TEST.
 
 Validación empírica confirmó que `claude -p` acepta `/goal` como first piped input. ASP v5 promueve ese patrón a kernel primario de Phase 9. Native kernel (in-session) queda como fallback. **Iron Law crítica**: nunca confiar en `$?` de `claude -p` — parsear JSON (`is_error`, `terminal_reason`, `total_cost_usd`). Detalles en `tests/claude-p-goal-runner-probe.md`.
 
+## Autor
+
+**Ulisses Flores** — CTO & Chief Researcher en [Codex Hash Ltda](https://ulissesflores.com); MSc AI candidate, American Global Tech University. Itupeva, Brasil.
+
+- 🌐 [ulissesflores.com](https://ulissesflores.com)
+- 🐙 [@ulissesflores en GitHub](https://github.com/ulissesflores)
+- ✉️ c.ulisses@gmail.com (divulgación de seguridad en [SECURITY.md](../SECURITY.md))
+
+Áreas: Finanzas Cuantitativas & Web3, Hardware & IoT, IA & Ciencia de Datos. Idiomas del mantenedor: Portugués (nativo), Inglés/Español (fluido), Italiano (conversacional), Hebreo (lectura académica). Revisión por hablantes nativos de ES/IT/HE bienvenida vía PR.
+
+**Co-autor**: Claude (Anthropic, Opus 4.7) — síntesis de investigación y drafting bajo dirección human-in-the-loop. Ver [AUTHORS](../AUTHORS).
+
+## Comunidad
+
+- [CONTRIBUTING.md](../CONTRIBUTING.md) · [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) · [SECURITY.md](../SECURITY.md) · [CHANGELOG.md](../CHANGELOG.md)
+
 ## Licencia
 
 MIT — ver [LICENSE](../LICENSE).

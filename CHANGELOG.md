@@ -1,0 +1,87 @@
+# Changelog
+
+All notable changes to ASP are documented in this file.
+
+Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
+Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
+
+## [Unreleased]
+
+### Planned
+- Native-speaker review of ES/IT/HE translations (community PRs welcome).
+- Additional evals from community domains.
+- Optional `PreToolUse` hook for contract enforcement.
+- Anthropic plugin directory submission (UI-only form at claude.ai/settings/plugins/submit).
+
+## [0.2.2] — 2026-05-17
+
+### Added
+- `CITATION.cff` — repository is now formally citable; references the four foundational papers (Klein 1998/2007, Berkeley MAST arxiv 2503.13657, Plan-and-Act arxiv 2503.09572, Reflexion).
+- `CONTRIBUTING.md` — formal contribution guide with workflow, commit conventions, and PR expectations.
+- `CODE_OF_CONDUCT.md` — Contributor Covenant 2.1 adoption + reporting/enforcement procedures.
+- `SECURITY.md` — vulnerability disclosure policy.
+- `AUTHORS` — maintainer and contributor list with attribution model.
+- `AGENTS.md` — rules for AI agents editing this repository (meta-skill alignment).
+- `.github/ISSUE_TEMPLATE/` — bug report, feature request, eval contribution templates + config.
+- `.github/PULL_REQUEST_TEMPLATE.md` — DCO-aware PR checklist.
+- `.github/FUNDING.yml` — sponsor button placeholder (opt-in).
+- `plugin.json` author field expanded with `email` and `url` (homepage).
+- `marketplace.json` owner field expanded with `email`.
+
+### Changed
+- `plugin.json` `author.url` is now `https://ulissesflores.com` (was GitHub URL only).
+
+## [0.2.1] — 2026-05-17
+
+### Added
+- "Example Use Cases" section in README and four translations (EN/ES/PT/IT/HE).
+- "Troubleshooting" section consolidating SSH→HTTPS workaround, `/asp` vs `/anticipating-shadow-points:asp` invocation, and `recall.py` opt-in notes.
+- Plugin homepage URL in manifests pointing to GitHub Pages.
+- Docs badge in README.
+
+### Changed
+- GitHub Pages enabled with `just-the-docs` remote theme — published at https://ulissesflores.github.io/anticipating-shadow-points/.
+- Jekyll front-matter added to README and key docs for navigation.
+- CI workflow paths updated post-v0.2.0 restructure; added `plugin.json` and `marketplace.json` validation jobs.
+
+### Fixed
+- `verify.sh` shellcheck warnings (removed unused `COMMAND_SRC` and `HOME_CMDS` variables).
+
+## [0.2.0] — 2026-05-17
+
+### Added
+- `.claude-plugin/plugin.json` manifest (official Anthropic plugin spec).
+- `.claude-plugin/marketplace.json` — repo is now a self-host marketplace; one-step install via `/plugin marketplace add ulissesflores/anticipating-shadow-points`.
+- Triple-distribution model documented in `docs/ARCHITECTURE.md` Section 8.7.
+
+### Changed
+- **BREAKING (file layout)**: `skill/` → `skills/anticipating-shadow-points/`; `command/` → `commands/`. Plugin spec requires plural directory names and per-skill subdirectories. `install.sh` and `verify.sh` source paths updated.
+- Plugin namespace: invocation is `/anticipating-shadow-points:asp` when installed via plugin manager; bare `/asp` remains via `install.sh` standalone path.
+
+### Empirical validation
+- `claude --plugin-dir ~/Developer/ASP` smoke test confirms all four invocation aliases register in session `slash_commands` and `skills` lists.
+- `claude plugin marketplace add` + `claude plugin install` validated end-to-end.
+
+## [0.1.1] — 2026-05-17
+
+### Added
+- `docs/ARCHITECTURE.md` — comprehensive state-of-the-art design document (10 parts: academic background, v1→v5 journey, empirical discoveries, Iron Law derivation, novelty claims, open questions, references).
+- Cross-links from README and four translations to ARCHITECTURE.md.
+
+## [0.1.0] — 2026-05-17
+
+### Initial release
+- 13-phase planning protocol: Klein pre-mortem, Berkeley MAST 14-mode, Plan-and-Act, independent validator subagent, contractual TaskCreate micro-TODO, `claude -p /goal` subprocess execution kernel, per-deliverable sign-off, memory write-back.
+- 12 Iron Laws documented in `skills/anticipating-shadow-points/SKILL.md`.
+- Iron Law 11 empirically discovered 2026-05-17: NEVER trust `$?` from `claude -p` for semantic success/failure — parse JSON instead.
+- 5 structured evals + RED/GREEN/REFACTOR baseline tests showing coverage lift from ~47% to ~100%.
+- Multilingual documentation (EN/ES/PT/IT/HE) — EN native; ES/IT/HE machine-assisted with native review welcomed.
+- Idempotent `install.sh` + `uninstall.sh` + `verify.sh` (16 success criteria → expanded to 19 in v0.2.0).
+- MIT license.
+
+[Unreleased]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.1...v0.2.2
+[0.2.1]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.1.1...v0.2.0
+[0.1.1]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/ulissesflores/anticipating-shadow-points/releases/tag/v0.1.0

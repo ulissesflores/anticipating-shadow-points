@@ -1,0 +1,13 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security disclosure (DO NOT open a public issue)
+    url: https://github.com/ulissesflores/anticipating-shadow-points/blob/main/SECURITY.md
+    about: For vulnerabilities, follow the private disclosure process in SECURITY.md.
+
+  - name: Author contact
+    url: https://ulissesflores.com
+    about: Direct contact with the maintainer for partnership, consulting, or research collaboration inquiries.
+
+  - name: Discussion (questions, ideas)
+    url: https://github.com/ulissesflores/anticipating-shadow-points/discussions
+    about: Open-ended questions or ideas that aren't a bug, feature request, or eval contribution.

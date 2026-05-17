@@ -1,0 +1,83 @@
+cff-version: 1.2.0
+message: "If you use ASP in a published work, evaluation, or production deployment, please cite it as below."
+title: "ASP — Anticipating Shadow Points"
+abstract: >-
+  A Claude Code skill that orchestrates a 13-phase planning protocol for
+  non-trivial engineering tasks. Combines Klein's pre-mortem (1998), Berkeley
+  MAST 14-mode failure taxonomy, Plan-and-Act separation, Reflexion-style
+  validator subagent with prompt isolation, contractual TaskCreate micro-TODO,
+  and `claude -p /goal` subprocess execution kernel. 12 Iron Laws.
+  Multilingual docs (EN/ES/PT/IT/HE). MIT.
+type: software
+authors:
+  - family-names: Flores
+    given-names: Ulisses
+    email: c.ulisses@gmail.com
+    website: "https://ulissesflores.com"
+    affiliation: "Codex Hash Ltda (CTO & Chief Researcher); American Global Tech University (MSc AI candidate)"
+    city: Itupeva
+    country: BR
+repository-code: "https://github.com/ulissesflores/anticipating-shadow-points"
+url: "https://ulissesflores.github.io/anticipating-shadow-points/"
+license: MIT
+version: 0.2.1
+date-released: 2026-05-17
+keywords:
+  - claude-code
+  - agentic-workflow
+  - pre-mortem
+  - shadow-points
+  - MAST
+  - validator-subagent
+  - plan-and-act
+  - reflexion
+  - claude-p-goal
+  - multi-agent
+preferred-citation:
+  type: software
+  title: "ASP — Anticipating Shadow Points (v0.2.1)"
+  authors:
+    - family-names: Flores
+      given-names: Ulisses
+  year: 2026
+  url: "https://github.com/ulissesflores/anticipating-shadow-points"
+  version: "0.2.1"
+  license: MIT
+
+# Methodological dependencies (papers the skill operationalizes — cite them
+# alongside ASP when discussing the methodology):
+references:
+  - type: article
+    title: "Performing a Project Premortem"
+    authors:
+      - family-names: Klein
+        given-names: Gary
+    journal: "Harvard Business Review"
+    year: 2007
+    notes: "Operationalized in ASP Phase 2 step 1 (pre-mortem prompt)."
+
+  - type: article
+    title: "Why Do Multi-Agent LLM Systems Fail?"
+    authors:
+      - family-names: Cemri
+        given-names: "et al."
+    year: 2025
+    url: "https://arxiv.org/abs/2503.13657"
+    notes: "14-mode failure taxonomy used as Phase 2 step 2 checklist."
+
+  - type: article
+    title: "Plan-and-Act: Improving Planning of Agents"
+    authors:
+      - family-names: Erdogan
+        given-names: "et al."
+    year: 2025
+    url: "https://arxiv.org/abs/2503.09572"
+    notes: "Planner ≠ executor separation enforced across phases."
+
+  - type: article
+    title: "Reflexion: Language Agents with Verbal Reinforcement Learning"
+    authors:
+      - family-names: Shinn
+        given-names: Noah
+    year: 2023
+    notes: "Validator subagent pattern with prompt isolation (Iron Law 2)."

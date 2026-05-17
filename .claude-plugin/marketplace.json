@@ -4,7 +4,8 @@
   "description": "Self-host marketplace for the anticipating-shadow-points plugin (ASP). One-step install: /plugin marketplace add ulissesflores/anticipating-shadow-points && /plugin install anticipating-shadow-points@anticipating-shadow-points",
   "owner": {
     "name": "Ulisses Flores",
-    "url": "https://github.com/ulissesflores"
+    "url": "https://ulissesflores.com",
+    "email": "c.ulisses@gmail.com"
   },
   "plugins": [
     {

@@ -187,6 +187,27 @@ Nenhuma task pode ser `completed` sem ACCEPTANCE-TEST passar com **evidência fr
 
 Validação empírica confirmou que `claude -p` aceita `/goal` como first piped input. ASP v5 promove esse padrão a kernel primário da Phase 9. Native kernel (in-session) vira fallback. **Iron Law crítica**: nunca confiar em `$?` do `claude -p` — parsear JSON (`is_error`, `terminal_reason`, `total_cost_usd`). Detalhes em `tests/claude-p-goal-runner-probe.md`.
 
+## Autor
+
+**Ulisses Flores** — CTO & Chief Researcher na [Codex Hash Ltda](https://ulissesflores.com); MSc AI candidate, American Global Tech University. Itupeva, Brasil.
+
+- 🌐 [ulissesflores.com](https://ulissesflores.com)
+- 🐙 [@ulissesflores no GitHub](https://github.com/ulissesflores)
+- ✉️ c.ulisses@gmail.com (disclosure de segurança em [SECURITY.md](../SECURITY.md))
+
+Foco de domínio: Finanças Quantitativas & Web3, Hardware & IoT, IA & Ciência de Dados. Os docs multilíngue (EN/ES/PT/IT/HE) refletem os idiomas de trabalho do mantenedor — Português (nativo), Inglês/Espanhol (fluente), Italiano (conversacional), Hebraico (leitura acadêmica).
+
+> *"Atuando na fronteira do desenvolvimento tecnológico, integrando rigor acadêmico e pragmatismo executivo para solucionar problemas em sistemas complexos adaptativos."*
+
+**Co-autor**: síntese de pesquisa, drafting inicial e scripts de verificação produzidos em colaboração com Claude (Anthropic, Opus 4.7) sob direção explícita human-in-the-loop. Ver [AUTHORS](../AUTHORS) e [docs/ARCHITECTURE.md](ARCHITECTURE.md) Partes 5-6.
+
+## Comunidade
+
+- [CONTRIBUTING.md](../CONTRIBUTING.md) — como contribuir
+- [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md)
+- [SECURITY.md](../SECURITY.md)
+- [CHANGELOG.md](../CHANGELOG.md)
+
 ## Licença
 
 MIT — ver [LICENSE](../LICENSE).

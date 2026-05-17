@@ -344,6 +344,30 @@ MIT — see [LICENSE](LICENSE).
 
 ---
 
+## Author
+
+**Ulisses Flores** — CTO & Chief Researcher at [Codex Hash Ltda](https://ulissesflores.com); MSc AI candidate, American Global Tech University. Itupeva, Brazil.
+
+- 🌐 [ulissesflores.com](https://ulissesflores.com)
+- 🐙 [@ulissesflores on GitHub](https://github.com/ulissesflores)
+- ✉️ c.ulisses@gmail.com (for security disclosures see [SECURITY.md](SECURITY.md))
+
+Domain focus: Quantitative Finance & Web3, Hardware & IoT, AI & Data Science. The multilingual docs (EN/ES/PT/IT/HE) reflect the maintainer's working languages — Portuguese (native), English/Spanish (fluent), Italian (conversational), Hebrew (academic reading). Native-speaker review of ES/IT/HE translations is welcomed via PR.
+
+**Co-author**: research synthesis, initial drafting, and verification scripts were produced in collaboration with Claude (Anthropic, Opus 4.7) under explicit human-in-the-loop direction. See [AUTHORS](AUTHORS) and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) Parts 5–6 for the contribution model.
+
+## Citing this work
+
+If you use ASP in published work or production, please cite it via [CITATION.cff](CITATION.cff) (GitHub's "Cite this repository" button uses this file automatically).
+
+## Community
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) — how to contribute (code, docs, evals, translations)
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — Contributor Covenant 2.1
+- [SECURITY.md](SECURITY.md) — vulnerability disclosure policy
+- [AGENTS.md](AGENTS.md) — rules for AI agents editing this repository
+- [CHANGELOG.md](CHANGELOG.md) — release history
+
 ## Acknowledgements
 
-ASP integrates patterns from [obra/superpowers](https://github.com/obra/superpowers) (the skill discipline framework) and aligns with the [agentskills.io](https://agentskills.io) open standard.
+ASP integrates patterns from [obra/superpowers](https://github.com/obra/superpowers) (the skill discipline framework) and aligns with the [agentskills.io](https://agentskills.io) open standard. The 2026-05-17 empirical battery and the `claude -p /goal` subprocess pattern were validated against Claude Code 2.1.143.

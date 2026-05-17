@@ -1,0 +1,33 @@
+# Authors and Contributors
+
+## Maintainer
+
+**Ulisses Flores** <c.ulisses@gmail.com>
+- CTO & Chief Researcher at Codex Hash Ltda
+- MSc AI candidate, American Global Tech University
+- Website: https://ulissesflores.com
+- GitHub: https://github.com/ulissesflores
+- Itupeva, Brazil
+
+Contribution: direction, empirical testing (2026-05-17 battery), methodology
+decisions, multilingual review (PT-BR native; ES/IT fluent reviewer; HE
+academic reading).
+
+## Co-author (research synthesis + writing)
+
+**Claude (Anthropic) — Opus 4.7**
+- Contribution: research synthesis (academic SOTA + Anthropic documentation),
+  initial drafting of all skill files and documentation, verification scripts,
+  TDD baseline subagent dispatches, plugin format conversion.
+
+## Contributors
+
+(none yet — be the first! See CONTRIBUTING.md)
+
+---
+
+For the human/agent collaboration model on this repository, see
+docs/ARCHITECTURE.md Part 5 ("User Contributions That Shaped the Design")
+and Part 6 ("Advisor's Role"). The project is explicitly human-in-the-loop:
+the agent contributes synthesis and drafting; the human contributes
+direction, judgment, empirical correction, and approval gates.

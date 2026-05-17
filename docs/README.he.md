@@ -158,6 +158,22 @@ DELIVERABLE-ID: <לאיזה תוצר תורם>
 
 אימות אמפירי אישר ש-`claude -p` מקבל `/goal` כקלט מועבר ראשון. ASP v5 מקדם דפוס זה לכרנל ראשי של Phase 9. Native kernel (in-session) הופך ל-fallback. **Iron Law קריטי**: אסור לסמוך על `$?` מ-`claude -p` — לפרסר את ה-JSON (`is_error`, `terminal_reason`, `total_cost_usd`). פרטים ב-`tests/claude-p-goal-runner-probe.md`.
 
+## מחבר
+
+**Ulisses Flores** — CTO וחוקר ראשי ב-[Codex Hash Ltda](https://ulissesflores.com); מועמד MSc AI, American Global Tech University. Itupeva, ברזיל.
+
+- 🌐 [ulissesflores.com](https://ulissesflores.com)
+- 🐙 [@ulissesflores ב-GitHub](https://github.com/ulissesflores)
+- ✉️ c.ulisses@gmail.com (חשיפת אבטחה ב-[SECURITY.md](../SECURITY.md))
+
+תחומים: מימון כמותי & Web3, חומרה & IoT, AI & מדעי הנתונים. שפות המתחזק: פורטוגזית (שפת אם), אנגלית/ספרדית (שוטף), איטלקית (שיחה), עברית (קריאה אקדמית). ביקורת דוברי שפת אם של ES/IT/HE מתקבלת בברכה דרך PR.
+
+**שותף ליצירה**: Claude (Anthropic, Opus 4.7) — סינתזת מחקר וטיוטה תחת הכוונת human-in-the-loop. ראה [AUTHORS](../AUTHORS).
+
+## קהילה
+
+- [CONTRIBUTING.md](../CONTRIBUTING.md) · [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) · [SECURITY.md](../SECURITY.md) · [CHANGELOG.md](../CHANGELOG.md)
+
 ## רישיון
 
 MIT — ראה [LICENSE](../LICENSE).
