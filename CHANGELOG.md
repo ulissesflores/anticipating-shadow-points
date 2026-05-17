@@ -13,6 +13,25 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Optional `PreToolUse` hook for contract enforcement.
 - Anthropic plugin directory submission (UI-only form at claude.ai/settings/plugins/submit).
 
+## [0.2.3] — 2026-05-17
+
+### Changed
+- **Landing page (`index.md`) rewritten as marketing-first SOTA showcase** — following patterns observed in shadcn/ui, biomejs.dev, bun.sh, htmx.org, and claude.com/product/claude-code. Hero is now action/benefit-oriented ("Ship ambitious work without missing the obvious."); subhead leads with numerical claim ("47% to 100% coverage"); proof block (3 big metrics + real before/after from RED/GREEN baseline) appears immediately after hero; feature grid as visual cards instead of bullet list; `/asp` demo block shows real structured output; "When to reach for ASP" green/red two-column matrix; footer is dense small-text for citation/community/license.
+- **`README.md` rewritten with the same marketing-first structure**, adapted for GitHub repo home audience: kept badges, language switcher inline, three install paths with collapsible `<details>` for B/C, dedicated Troubleshooting section, Community section header.
+- **Version field bumped in `.claude-plugin/plugin.json` (0.2.0 → 0.2.3)** so the version visible in `claude plugin details` aligns with the current release tag.
+- **`CITATION.cff` version field bumped (0.2.1 → 0.2.3)** for the same alignment reason.
+
+### Removed (from main flow — moved to footer or other docs)
+- Big "Citing this work" section in body (now 1-line footer pointer to CITATION.cff).
+- "What's new vN.x" version-history section.
+- "How It Works — The 13 Phases" expansion (linked to ARCHITECTURE.md).
+- "The Non-Violation Contract" body section (covered in `See it run` demo + ARCHITECTURE).
+- "Depth Flags", "File Structure", "Optional integrations", "Status" sections.
+- "Sources / Prior art" listing (lives in CITATION.cff and ARCHITECTURE.md).
+
+### Why
+The prior `index.md` and `README.md` were documentation-heavy: cold visitors got 2 lines of intro followed by academic citations and install paths, which doesn't sell the project. SOTA OSS landings answer three questions in the first 5 seconds: (a) what is this, (b) why should I care, (c) where do I click. The redesign delivers exactly that.
+
 ## [0.2.2] — 2026-05-17
 
 ### Added
@@ -79,7 +98,8 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Idempotent `install.sh` + `uninstall.sh` + `verify.sh` (16 success criteria → expanded to 19 in v0.2.0).
 - MIT license.
 
-[Unreleased]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.3...HEAD
+[0.2.3]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.1.1...v0.2.0
