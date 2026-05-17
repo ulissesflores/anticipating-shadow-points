@@ -7,12 +7,13 @@ set -u
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SKILL_SRC="$REPO_DIR/skills/anticipating-shadow-points"
-COMMAND_SRC="$REPO_DIR/commands"
 DOCS_DIR="$REPO_DIR/docs"
 TESTS_DIR="$REPO_DIR/tests"
 SCRIPTS_DIR="$REPO_DIR/scripts"
 HOME_SKILL="$HOME/.claude/skills/anticipating-shadow-points"
-HOME_CMDS="$HOME/.claude/commands"
+# Note: COMMAND_SRC and HOME_CMDS removed as currently unused (path checks
+# happen indirectly via install.sh ACCEPTANCE tests). Re-add if any criterion
+# below begins referencing commands/ source or ~/.claude/commands/ directly.
 
 PRE_INSTALL=0
 for arg in "$@"; do

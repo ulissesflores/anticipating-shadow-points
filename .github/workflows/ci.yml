@@ -16,12 +16,19 @@ jobs:
         run: sudo snap install yq || (curl -sSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq)
       - name: Validate SKILL.md frontmatter
         run: |
-          awk '/^---$/{i++; if(i==2)exit} i==1' skill/SKILL.md | tail -n +2 | yq -e '.name' && yq -e '.description' <(awk '/^---$/{i++; if(i==2)exit} i==1' skill/SKILL.md | tail -n +2)
+          SKILL_FILE=skills/anticipating-shadow-points/SKILL.md
+          awk '/^---$/{i++; if(i==2)exit} i==1' "$SKILL_FILE" | tail -n +2 | yq -e '.name' && yq -e '.description' <(awk '/^---$/{i++; if(i==2)exit} i==1' "$SKILL_FILE" | tail -n +2)
       - name: Validate command frontmatter
         run: |
-          for f in command/*.md; do
+          for f in commands/*.md; do
             awk '/^---$/{i++; if(i==2)exit} i==1' "$f" | tail -n +2 | yq -e '.description' || exit 1
           done
+      - name: Validate plugin.json
+        run: |
+          jq -e '.name and .description and .version' .claude-plugin/plugin.json
+      - name: Validate marketplace.json
+        run: |
+          jq -e '.name and .description and .plugins' .claude-plugin/marketplace.json
 
   shellcheck:
     name: Shellcheck scripts

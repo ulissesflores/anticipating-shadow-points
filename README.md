@@ -10,6 +10,7 @@ permalink: /
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Claude Code 2.1.139+](https://img.shields.io/badge/Claude%20Code-2.1.139%2B-blue.svg)](https://code.claude.com)
+[![Docs](https://img.shields.io/badge/docs-online-blue.svg)](https://ulissesflores.github.io/anticipating-shadow-points/)
 [![Status: Beta](https://img.shields.io/badge/Status-Beta-orange.svg)](#status)
 [![/goal-integrated](https://img.shields.io/badge/%2Fgoal-integrated-brightgreen.svg)](#goal-integration)
 
