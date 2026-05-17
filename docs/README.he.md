@@ -6,6 +6,8 @@
 
 [🇬🇧 English](../README.md) · [🇪🇸 Español](README.es.md) · [🇧🇷 Português](README.pt.md) · [🇮🇹 Italiano](README.it.md) · 🇮🇱 עברית (קובץ זה)
 
+📐 **[ARCHITECTURE.md](ARCHITECTURE.md)** — מסמך מלא של state-of-the-art: רקע אקדמי, מסע v1→v5, גילויים אמפיריים (כולל Iron Law 11), תרומות user/advisor, גזירת 12 Iron Laws.
+
 > תרגום בעזרת AI — ביקורת מקומית מתקבלת בברכה דרך PR.
 
 ---

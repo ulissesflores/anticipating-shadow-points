@@ -9,6 +9,8 @@
 
 🇬🇧 English (this file) · [🇪🇸 Español](docs/README.es.md) · [🇧🇷 Português](docs/README.pt.md) · [🇮🇹 Italiano](docs/README.it.md) · [🇮🇱 עברית](docs/README.he.md)
 
+📐 **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** — Full state-of-the-art design doc: academic background, v1→v5 architectural journey, empirical discoveries (incl. Iron Law 11 finding), user/advisor contributions, derivation of the 12 Iron Laws.
+
 ---
 
 ## What is ASP?

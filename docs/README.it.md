@@ -4,6 +4,8 @@
 
 [🇬🇧 English](../README.md) · [🇪🇸 Español](README.es.md) · [🇧🇷 Português](README.pt.md) · 🇮🇹 Italiano (questo file) · [🇮🇱 עברית](README.he.md)
 
+📐 **[ARCHITECTURE.md](ARCHITECTURE.md)** — Doc completa dello stato dell'arte: contesto accademico, percorso v1→v5, scoperte empiriche (incl. Iron Law 11), contributi user/advisor, derivazione delle 12 Iron Laws.
+
 > Traduzione assistita da IA — revisione nativa benvenuta via PR.
 
 ---
