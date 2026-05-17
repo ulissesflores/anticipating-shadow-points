@@ -1,3 +1,10 @@
+---
+title: "עברית"
+layout: default
+parent: Translations
+nav_order: 4
+---
+
 <div dir="rtl">
 
 # ASP — Anticipating Shadow Points (חיזוי נקודות-צל)
@@ -62,6 +69,38 @@ cd ~/Developer/ASP
 ```bash
 ./scripts/uninstall.sh
 ```
+
+---
+
+## מקרי שימוש (דוגמאות)
+
+תרחישים קונקרטיים בהם ASP זוהר. כל אחד מגיע מ-5 ה-evals המובנים שמלווים את ה-skill (`skills/anticipating-shadow-points/evals/`).
+
+### 1. Migration של schema על טבלה בפרודקשן
+> *"הוסף עמודת NOT NULL `tier` (default 'free') ב-`user_profiles`. הטבלה כוללת כ-1M שורות בפרודקשן."*
+
+ASP מאלץ בדיקה מוקדמת של: RLS policies, אסטרטגיית backfill + lock contention, replica lag במהלך DDL, סדר deploy של app מול migration, אינטראקציה עם triggers, locks ב-cascade דרך FK, תוכנית rollback, ספייק של monitoring, חלון downtime, רענון schema cache של PostgREST.
+
+### 2. Refactor של util בשימוש בקבצים רבים
+> *"בצע refactor ל-`formatDate(d: Date): string` שיקבל timezone אופציונלי. בשימוש ב-30 קבצים."*
+
+ASP חושף: סמנטיקת חוזה API, השלכות locale/i18n, enumeration של callsites דרך `ts-morph` (לא grep), בדיקות DST boundary, תקופת deprecation, אסטרטגיית branches, dependency graph טרנזיטיבי.
+
+### 3. Deploy של edge function עם תלות חיצונית
+> *"Deploy edge function `notify-on-signup` שקורא ל-Resend (rate limit 100 req/sec)."*
+
+ASP מאלץ עיצוב מוקדם של: `RESEND_API_KEY` ב-`supabase secrets`, backoff דרך outbox pattern, idempotency keys, cold-start timeout, observability מובנית, היוריסטיקות anti-bot, deliverability (SPF/DKIM/DMARC).
+
+### 4. שינוי RLS policy המתייחס לעמודה חדשה
+> *"עדכן RLS של `user_profiles` כך שמשתמשים יראו רק שורות עם אותו tier."*
+
+ASP תופס: עמימות spec, רקורסיה self-reference, פגיעות self-promotion, `FORCE ROW LEVEL SECURITY`, טרנזקציה אטומית, helper `SECURITY DEFINER` עם `search_path` קבוע.
+
+### 5. Cron שעלול להתנגש עם שירותים מבוטלים
+האינטגרציה `recall.py` של Phase 1 חושפת זיכרון של תקלה קודמת. ב-eval האמפירי, ה-validator subagent **סירב לבצע** כשגילה שה-path של הסקריפט תואם לשירות שבוטל בעבר.
+
+### 6. החלטת ארכיטקטורה cross-team
+Phase 3 (Project Charter) + Phase 4 (Deliverables Register עם אישור per-deliverable + owners) מבטל את "חשבתי שזה שלך".
 
 ---
 

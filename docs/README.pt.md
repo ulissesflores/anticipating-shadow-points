@@ -1,3 +1,10 @@
+---
+title: "Português"
+layout: default
+parent: Translations
+nav_order: 2
+---
+
 # ASP — Anticipating Shadow Points (Antecipando Pontos de Sombra)
 
 > **Skill para Claude Code que transforma tarefas ambiciosas em entregáveis enviados — através de pesquisa antecipada obrigatória, detecção pre-mortem de "shadow points", planos validados por agente independente, micro-TODOs contratuais e execução autônoma via `/goal`.**
@@ -89,6 +96,40 @@ ls ~/.agent/ 2>/dev/null
 ```bash
 ./scripts/uninstall.sh
 ```
+
+---
+
+## Casos de Uso (Exemplos)
+
+Cenários concretos onde ASP brilha. Cada um vem dos 5 evals estruturados que acompanham a skill (`skills/anticipating-shadow-points/evals/`).
+
+### 1. Migração de schema em tabela de produção
+> *"Adicione uma coluna NOT NULL `tier` (default 'free') em `user_profiles`. Tabela tem ~1M rows em prod."*
+
+ASP força auditoria upfront de: políticas RLS, estratégia de backfill + lock contention, replica lag durante DDL, ordem de deploy app vs migration, interação com triggers, locks em cascade via FK, plano de rollback, spike de monitoring, janela de downtime, reload do schema cache do PostgREST. Baseline sem ASP: ~60% coverage. Com ASP: 100%.
+
+### 2. Refactor de util usado em muitos arquivos
+> *"Refatore `formatDate(d: Date): string` pra aceitar timezone opcional. Usado em 30 arquivos."*
+
+ASP surfaca: semântica do contrato API com nova assinatura, implicações de locale/i18n, enumeração de callsites via `ts-morph` (não grep — que perde JSX spreads e imports dinâmicos), testes de DST boundary, deprecation period, branch strategy, build/CI cache, dependency graph transitivo, snapshot test breakage.
+
+### 3. Deploy de edge function com dependência externa
+> *"Deploy edge function `notify-on-signup` que chama Resend (rate limit 100 req/sec) em cada signup."*
+
+ASP força design upfront de: `RESEND_API_KEY` em `supabase secrets` (não `.env`), backoff via outbox pattern, idempotency keys, cold-start timeout, observability estruturada (sem PII em logs), heurística anti-bot, deliverability (SPF/DKIM/DMARC), verificação de webhook signature, DLQ para sends falhados.
+
+### 4. Mudança de RLS policy referenciando nova coluna
+> *"Atualize RLS de `user_profiles` pra usuários verem só rows com mesmo tier que o deles."*
+
+ASP captura: ambiguidade de spec (own-row only, cohort visibility, ou tier-rank floor? — leitura literal vaza dados), recursão self-reference em subquery, vulnerabilidade de self-promotion sem `REVOKE UPDATE (tier)`, `FORCE ROW LEVEL SECURITY`, transação atômica drop-and-create, helper `SECURITY DEFINER` com `search_path` pinned.
+
+### 5. Cron que pode conflitar com serviços desabilitados
+> *"Setup cron 08:00 diário pra `~/ulisses-kb/sync/update.sh`."*
+
+A integração `recall.py` da Phase 1 surfaca memória de incidente prévio antes de qualquer scheduling. No eval empírico, o validator subagent **recusou implementação** ao descobrir que o caminho do script bate com serviço previamente desabilitado por incidente de JVM-spawn-loop. ASP fez cumprir a regra agentic-stack "stop if a surfaced lesson would be violated".
+
+### 6. Decisão de arquitetura cross-team
+Phase 3 (Project Charter) + Phase 4 (Deliverables Register com aceite per-deliverable + owners) elimina o "achei que era teu" — cada time afetado tem deliverables nomeados que assina individualmente.
 
 ---
 

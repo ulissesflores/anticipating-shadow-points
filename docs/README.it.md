@@ -1,3 +1,10 @@
+---
+title: "Italiano"
+layout: default
+parent: Translations
+nav_order: 3
+---
+
 # ASP — Anticipating Shadow Points (Anticipare i Punti d'Ombra)
 
 > **Skill per Claude Code che trasforma compiti ambiziosi in deliverable spediti — tramite ricerca preventiva obbligatoria, rilevamento pre-mortem di "shadow points", piani validati da agente indipendente, micro-TODO contrattuali ed esecuzione autonoma via `/goal`.**
@@ -60,6 +67,38 @@ Disinstallare:
 ```bash
 ./scripts/uninstall.sh
 ```
+
+---
+
+## Casi d'Uso (Esempi)
+
+Scenari concreti dove ASP eccelle. Ciascuno proviene dai 5 eval strutturati che accompagnano lo skill (`skills/anticipating-shadow-points/evals/`).
+
+### 1. Migrazione di schema su tabella di produzione
+> *"Aggiungi colonna NOT NULL `tier` (default 'free') in `user_profiles`. Tabella ha ~1M righe in prod."*
+
+ASP forza audit upfront di: policy RLS, strategia di backfill + lock contention, replica lag durante DDL, ordine di deploy app vs migration, interazione con trigger, locks in cascata via FK, piano di rollback, spike di monitoring, finestra di downtime, reload dello schema cache di PostgREST.
+
+### 2. Refactor di util usato in molti file
+> *"Rifattorizza `formatDate(d: Date): string` per accettare timezone opzionale. Usato in 30 file."*
+
+ASP fa emergere: semantica del contratto API, implicazioni di locale/i18n, enumerazione di callsites via `ts-morph` (non grep), test di limite DST, deprecation period, strategia di branches, dependency graph transitivo.
+
+### 3. Deploy di edge function con dipendenza esterna
+> *"Deploy edge function `notify-on-signup` che chiama Resend (rate limit 100 req/sec)."*
+
+ASP forza design upfront di: `RESEND_API_KEY` in `supabase secrets`, backoff via outbox pattern, idempotency keys, cold-start timeout, observability strutturata, euristiche anti-bot, deliverability (SPF/DKIM/DMARC).
+
+### 4. Modifica di RLS policy che referenzia nuova colonna
+> *"Aggiorna RLS di `user_profiles` perché utenti vedano solo righe con stesso tier."*
+
+ASP cattura: ambiguità di spec, ricorsione self-reference, vulnerabilità di self-promotion, `FORCE ROW LEVEL SECURITY`, transazione atomica, helper `SECURITY DEFINER` con `search_path` fissato.
+
+### 5. Cron che può conflittare con servizi disabilitati
+L'integrazione `recall.py` di Phase 1 fa emergere memoria di incidente precedente. Nell'eval empirico, il validator subagent **ha rifiutato l'implementazione** scoprendo che il path dello script coincide con servizio precedentemente disabilitato.
+
+### 6. Decisione di architettura cross-team
+Phase 3 (Project Charter) + Phase 4 (Deliverables Register con accettazione per-deliverable + owners) elimina il "pensavo fosse tuo".
 
 ---
 

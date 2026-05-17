@@ -1,3 +1,11 @@
+---
+title: Home
+layout: default
+nav_order: 1
+description: "Claude Code skill: 13-phase planning protocol with Klein pre-mortem + Berkeley MAST + claude -p /goal subprocess execution. 12 Iron Laws."
+permalink: /
+---
+
 # ASP — Anticipating Shadow Points
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -49,6 +57,46 @@ If you've ever shipped something and 24 hours later thought *"why didn't I think
 
 ---
 
+## Example Use Cases
+
+Concrete scenarios where ASP shines. Each is drawn from the 5 structured evals shipped with the skill (`skills/anticipating-shadow-points/evals/`) and surfaces shadow points the average engineer (or LLM) misses on first pass.
+
+### 1. Schema migration on a production table
+
+> *"Add a NOT NULL column `tier` (default 'free') to `user_profiles`. Table has ~1M rows in prod."*
+
+ASP forces upfront audit of: RLS policies that may need updating, backfill strategy + lock contention, replica lag during DDL, app-deploy ordering, trigger interactions, foreign-key cascade locks, rollback path, monitoring spike, downtime window negotiation, and PostgREST schema cache reload. Baseline without ASP: ~60% coverage. With ASP: 100%.
+
+### 2. Refactor a util used across many files
+
+> *"Refactor `formatDate(d: Date): string` to accept an optional timezone. It's used in 30 files."*
+
+ASP surfaces: API contract semantics under the new signature, locale/i18n implications, callsite enumeration via `ts-morph` (not grep — which misses JSX spreads and dynamic imports), DST boundary tests, deprecation period, branch strategy, build/CI cache, transitive dependency impact, snapshot test breakage, stored-output drift in DB.
+
+### 3. Deploy an edge function with external API dependencies
+
+> *"Deploy a Supabase edge function `notify-on-signup` that calls Resend (100 req/sec rate limit) on every new signup."*
+
+ASP forces upfront design of: `RESEND_API_KEY` in `supabase secrets` (not `.env` — common gotcha), rate-limit backoff via outbox pattern, retry idempotency keys, cold-start timeout, structured observability (no PII in logs), bot-signup abuse heuristics, deliverability (SPF/DKIM/DMARC), webhook signature verification, DLQ for failed sends, cost-per-invocation budgeting.
+
+### 4. RLS policy change referencing a new column
+
+> *"Update RLS policy on `user_profiles` so users see only rows matching their own tier."*
+
+ASP catches: spec ambiguity (does "same tier" mean own-row only, cohort visibility, or tier-rank floor? — probably leaks data on literal reading), self-reference recursion in policy subquery, self-promotion vulnerability without `REVOKE UPDATE (tier)`, `FORCE ROW LEVEL SECURITY`, atomic drop-and-create transaction, helper function `SECURITY DEFINER` with pinned `search_path`, JWT-claim alternative to avoid subquery cost.
+
+### 5. Schedule a cron job that might conflict with disabled services
+
+> *"Set up a cron at 08:00 daily for `~/ulisses-kb/sync/update.sh`."*
+
+ASP's `recall.py` integration (Phase 1) surfaces prior incident memory before any scheduling happens. In the empirical eval, the validator subagent **refused to implement** when it discovered the script path matched a previously-disabled service from a known JVM-spawn-loop incident. ASP enforced the agentic-stack rule "stop if a surfaced lesson would be violated" — a recursion-prevention guarantee in action.
+
+### 6. Architecture decision with cross-team implications
+
+ASP's Phase 3 (Project Charter) + Phase 4 (Deliverables Register with per-deliverable acceptance criteria + owners) is purpose-built for cross-team work: each affected team gets named deliverables they sign off on individually, eliminating the "I thought you owned that" failure mode.
+
+---
+
 ## Quick Start
 
 **Three install paths** — choose the one that fits your workflow:
@@ -73,12 +121,7 @@ Then invoke: `/anticipating-shadow-points:asp <task>` (plugin-namespaced).
 
 Benefits: native update via `claude plugin update`, clean uninstall via `claude plugin uninstall anticipating-shadow-points`, marketplace discoverability.
 
-> [!IMPORTANT]
-> **If you don't have SSH configured for GitHub**, you may hit `git@github.com: Permission denied (publickey)` during `claude plugin install`. The marketplace `add` step auto-falls-back to HTTPS, but `install` does not (as of Claude Code 2.1.143). One-time workaround:
-> ```bash
-> git config --global url."https://github.com/".insteadOf "git@github.com:"
-> ```
-> Then retry `claude plugin install`. Empirically validated 2026-05-17.
+If you hit `git@github.com: Permission denied (publickey)` during install, see the [Troubleshooting](#troubleshooting) section below.
 
 ### Path B — Local plugin dev mode (`--plugin-dir`)
 
@@ -232,6 +275,39 @@ If you find ASP useful, please open issues or PRs:
 - Native review of translated READMEs (currently machine-assisted).
 - Additional evals from your domain.
 - Refinements to the MAST 14-mode prompts.
+
+---
+
+## Troubleshooting
+
+### `claude plugin install` fails with SSH permission denied
+
+If you see `git@github.com: Permission denied (publickey)` during `claude plugin install`, your git is configured to use SSH but you don't have an SSH key registered with GitHub. The `marketplace add` step has automatic HTTPS fallback, but `install` does not (as of Claude Code 2.1.143).
+
+**One-time workaround** — tells git to use HTTPS for github.com URLs even when SSH is requested:
+
+```bash
+git config --global url."https://github.com/".insteadOf "git@github.com:"
+```
+
+Then retry `claude plugin install`. Empirically validated 2026-05-17.
+
+### `recall.py` integration warnings
+
+If you don't have the `~/.agent/` agentic-stack installed, ASP's Phase 1 will skip the `python3 ~/.agent/tools/recall.py "<task>"` step silently. No action required — the integration is opt-in.
+
+### Plugin name shows up twice (`name@marketplace`)
+
+`anticipating-shadow-points@anticipating-shadow-points` is correct — it's `<plugin-name>@<marketplace-name>`, both happen to be the same string because the repo self-hosts its marketplace. The doubled-up appearance is visual only.
+
+### `/asp` invocation works but `/anticipating-shadow-points:asp` doesn't (or vice versa)
+
+The two invocations come from different install paths and don't conflict:
+
+- `/asp` works after Path C (`./scripts/install.sh`) — installs without plugin namespace.
+- `/anticipating-shadow-points:asp` works after Path A or Path B — plugin-namespaced.
+
+Both can coexist. To uninstall everything: `./scripts/uninstall.sh` AND `claude plugin uninstall anticipating-shadow-points`.
 
 ---
 

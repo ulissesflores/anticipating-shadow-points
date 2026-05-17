@@ -1,0 +1,78 @@
+# GitHub Pages configuration — just-the-docs remote theme.
+# Built automatically when changes land on `main`.
+# Public URL: https://ulissesflores.github.io/anticipating-shadow-points/
+
+title: ASP — Anticipating Shadow Points
+description: >-
+  Claude Code skill: 13-phase planning protocol combining Klein pre-mortem,
+  Berkeley MAST 14-mode failure detection, independent validator subagent,
+  contractual TaskCreate micro-TODO, and claude -p /goal subprocess execution.
+  12 Iron Laws. Multilingual docs (EN/ES/PT/IT/HE). MIT.
+
+# Remote theme: just-the-docs — SOTA for OSS technical docs on GitHub Pages.
+# https://just-the-docs.com
+remote_theme: just-the-docs/just-the-docs
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Source: build from repo root. README.md becomes the landing page.
+source: .
+
+# Files/dirs Jekyll should NOT process or serve.
+exclude:
+  - .claude-plugin/         # plugin manifest (not user-facing)
+  - skills/                 # skill internals are documented in ARCHITECTURE
+  - commands/               # ditto
+  - scripts/                # install/uninstall/verify
+  - tests/                  # evidence and probes — accessible via repo, not Pages
+  - .github/
+  - .gitignore
+  - .DS_Store
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+
+# just-the-docs theme options
+color_scheme: light
+search_enabled: true
+search:
+  heading_level: 3
+  previews: 3
+  preview_words_before: 5
+  preview_words_after: 10
+  tokenizer_separator: /[\s\-/]+/
+  rel_url: true
+  button: false
+
+# SEO and navigation
+url: https://ulissesflores.github.io
+baseurl: /anticipating-shadow-points
+repository: ulissesflores/anticipating-shadow-points
+
+# Header/footer
+aux_links:
+  GitHub repo: https://github.com/ulissesflores/anticipating-shadow-points
+  Releases: https://github.com/ulissesflores/anticipating-shadow-points/releases
+  ARCHITECTURE.md: https://github.com/ulissesflores/anticipating-shadow-points/blob/main/docs/ARCHITECTURE.md
+aux_links_new_tab: true
+
+footer_content: >-
+  ASP — MIT License — built and validated 2026-05-17 —
+  <a href="https://github.com/ulissesflores/anticipating-shadow-points">GitHub</a>
+
+# Back-to-top link
+back_to_top: true
+back_to_top_text: "Back to top"
+
+# GitHub edit link for community contributions
+gh_edit_link: true
+gh_edit_link_text: "Edit this page on GitHub"
+gh_edit_repository: https://github.com/ulissesflores/anticipating-shadow-points
+gh_edit_branch: main
+gh_edit_view_mode: edit
+
+# Collections — none for now, may add later for evals/templates as searchable docs
