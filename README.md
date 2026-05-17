@@ -1,18 +1,12 @@
----
-title: Home
-layout: default
-nav_order: 1
-description: "Claude Code skill: 13-phase planning protocol with Klein pre-mortem + Berkeley MAST + claude -p /goal subprocess execution. 12 Iron Laws."
-permalink: /
----
-
 # ASP — Anticipating Shadow Points
 
+[![Version](https://img.shields.io/github/v/release/ulissesflores/anticipating-shadow-points?sort=semver&color=blue)](https://github.com/ulissesflores/anticipating-shadow-points/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Claude Code 2.1.139+](https://img.shields.io/badge/Claude%20Code-2.1.139%2B-blue.svg)](https://code.claude.com)
 [![Docs](https://img.shields.io/badge/docs-online-blue.svg)](https://ulissesflores.github.io/anticipating-shadow-points/)
-[![Status: Beta](https://img.shields.io/badge/Status-Beta-orange.svg)](#status)
-[![/goal-integrated](https://img.shields.io/badge/%2Fgoal-integrated-brightgreen.svg)](#goal-integration)
+[![Citation](https://img.shields.io/badge/cite-CITATION.cff-purple.svg)](CITATION.cff)
+[![Code of Conduct](https://img.shields.io/badge/contributor%20covenant-2.1-green.svg)](CODE_OF_CONDUCT.md)
+[![Plugin Marketplace](https://img.shields.io/badge/plugin-marketplace--ready-brightgreen.svg)](#quick-start)
 
 > **A Claude Code skill that turns ambitious tasks into shipped deliverables — through forced upfront research, pre-mortem shadow-point detection, validator-checked plans, contractual micro-TODOs, and `/goal`-driven autonomous execution.**
 

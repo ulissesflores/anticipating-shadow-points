@@ -1,10 +1,3 @@
----
-title: Architecture (SOTA design doc)
-layout: default
-nav_order: 2
-description: "Full state-of-the-art design document: academic background, v1→v5 journey, empirical discoveries, derivation of 12 Iron Laws."
----
-
 # ASP — State of the Art, Architectural Journey, and Empirical Discoveries
 
 > Comprehensive design document covering: (1) academic state-of-the-art ASP draws from; (2) the industry/community gap ASP fills; (3) the v1→v5 architectural pivots and their triggers; (4) empirical discoveries (notably the 2026-05-17 `claude -p /goal` validation battery); (5) user contributions that shaped the design; (6) advisor reviews and pre-ship bug catches; (7) derivation of the 12 Iron Laws; (8) what is genuinely novel in ASP; (9) open questions and future work.
