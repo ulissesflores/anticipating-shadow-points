@@ -1,0 +1,313 @@
+% =====================================================================
+% Anticipating Shadow Points (ASP): A 13-Phase Protocol for LLM Agent
+% Pre-Mortem Planning, with an Empirical Finding on `claude -p /goal`
+% Subprocess Error Routing.
+%
+% Author: Ulisses Flores  (Codex Hash Ltda; American Global Tech Univ.)
+% License: CC BY 4.0 (paper); MIT (software at companion repository)
+% Date: 2026-05-17
+% =====================================================================
+
+\documentclass[11pt, a4paper]{article}
+
+% --- Packages ---------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+}
+\usepackage[numbers, sort&compress]{natbib}
+\bibliographystyle{plainnat}
+
+% Listings setup for inline code
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  framesep=4pt,
+  rulecolor=\color{black!30},
+  showstringspaces=false,
+  columns=fullflexible,
+}
+
+% --- Title -----------------------------------------------------------
+\title{
+  \textbf{Anticipating Shadow Points}\\
+  \large A 13-Phase Protocol for LLM Agent Pre-Mortem Planning,\\
+  with an Empirical Finding on \texttt{claude -p /goal} Subprocess Error Routing
+}
+
+\author{
+  Ulisses Flores\thanks{Corresponding author: \texttt{c.ulisses@gmail.com}}\\
+  Codex Hash Ltda, Itupeva, Brazil\\
+  American Global Tech University, MSc Program in AI\\
+}
+
+\date{2026-05-17\\\small Independent research preprint. Not under review.}
+
+% --- Document --------------------------------------------------------
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent
+Large language model (LLM) agents writing production code routinely fail in non-trivial categories of risk that competent senior engineers would surface during a structured pre-mortem. We present \textbf{ASP (Anticipating Shadow Points)}, a 13-phase planning protocol that operationalizes Klein's prospective-hindsight pre-mortem \citep{klein2007premortem} with Berkeley's Multi-Agent System Taxonomy of 14 failure modes \citep{cemri2025mast}, combined with Plan-and-Act separation \citep{erdogan2025planandact} and Reflexion-style validator subagents under strict prompt isolation \citep{shinn2023reflexion}. ASP is distributed as a Claude Code skill with three install paths (plugin marketplace, dev mode, standalone script). On a battery of five structured evaluations across the domains of database migration, multi-file refactor, edge-function deploy, row-level-security policy change, and cron scheduling, baseline shadow-point coverage rises from $\approx$\,47\% to $\approx$\,100\%. The dominant load-bearing component is the MAST 14-mode forced enumeration, which closes the gap on less-obvious failure categories (time/timezone, observability, operational excellence, contract drift) that free-form pre-mortem clusters away from. We additionally report an empirical finding on the \texttt{claude -p /goal} subprocess kernel: the binary returns exit code 0 even when the agent gracefully refuses the requested goal, making \texttt{\$?} unsafe for semantic-success routing. This finding motivated \textit{Iron Law 11} in the deployed skill (parse \texttt{is\_error}, \texttt{terminal\_reason}, and \texttt{stop\_reason} from the JSON output). All artifacts, including the empirical battery, are open-source under MIT licence. The methodology contributions are documented under CC BY 4.0.
+
+\medskip
+\noindent\textbf{Keywords:} LLM agents, pre-mortem, failure-mode taxonomy, multi-agent systems, Claude Code, agentic skills, MAST, Plan-and-Act, Reflexion.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+LLM coding agents are increasingly used not only for code completion but for end-to-end planning and execution of non-trivial engineering work~\citep{wang2024llmagents, anthropic2026claudecode}. As agents move from suggesting changes to autonomously executing them, the cost of an unanticipated failure mode escalates from "the developer reviews and rejects the suggestion" to "production is degraded, data is corrupted, or a security policy is silently relaxed". The dominant failure mode we observe in this regime is not that the agent writes \emph{wrong} code, but that it writes \emph{right} code for the \emph{wrong} envelope of risk: the agent omits steps that any senior engineer with domain context would have surfaced during a structured pre-mortem.
+
+Existing approaches address adjacent problems: \emph{Plan-and-Act} \citep{erdogan2025planandact} separates the planning agent from the executing agent; \emph{Reflexion} \citep{shinn2023reflexion} adds verbal self-critique loops; \emph{Multi-Agent System Taxonomy (MAST)} \citep{cemri2025mast} enumerates 14 categories of multi-agent failure for post-hoc diagnosis. What is missing in the agentic-skill landscape (e.g.\ \texttt{anthropics/skills}~\citep{anthropic2026skillsrepo} and community marketplaces such as \texttt{netresearch/claude-code-marketplace}~\citep{netresearch2026marketplace}) is an \emph{enforceable, audit-able pre-mortem protocol} that combines these threads and operationalizes them as a runtime discipline rather than as advisory documentation.
+
+This paper contributes:
+
+\begin{enumerate}[leftmargin=*, itemsep=2pt]
+  \item \textbf{ASP, a 13-phase pre-mortem-first planning protocol} (Section~\ref{sec:protocol}) that integrates Klein's prospective hindsight with the MAST 14-mode failure taxonomy and Plan-and-Act prompt isolation, deployed as a Claude Code skill with three install paths.
+  \item \textbf{Twelve Iron Laws} (Section~\ref{sec:protocol}) that operationalize the methodology as non-negotiable runtime constraints, with explicit derivation from prior work and from empirical findings.
+  \item \textbf{An empirical evaluation} (Section~\ref{sec:eval}) on five structured tasks across heterogeneous domains, showing baseline shadow-point coverage of approximately 47\% rising to approximately 100\% under ASP, with MAST 14-mode forced enumeration identified as the dominant load-bearing component.
+  \item \textbf{An empirical finding on \texttt{claude -p /goal}} (Section~\ref{sec:ironlaw11}) reporting that the subprocess returns exit code 0 even when the agent gracefully refuses to execute the requested goal, making \texttt{\$?} an unsafe signal for semantic-success routing. We characterise the safe parsing pattern and codify it as Iron Law 11.
+\end{enumerate}
+
+The remainder of the paper is structured as follows. Section~\ref{sec:related} situates ASP among prior work. Section~\ref{sec:protocol} describes the protocol and its derivation. Section~\ref{sec:eval} reports the empirical evaluation. Section~\ref{sec:ironlaw11} details the \texttt{claude -p} finding. Section~\ref{sec:discussion} discusses implications, Section~\ref{sec:limitations} states limitations, and Section~\ref{sec:conclusion} concludes. Appendices~\ref{app:battery}–\ref{app:reproduce} document the empirical battery and reproducibility guarantees.
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Pre-mortem methodology}
+Klein's pre-mortem technique \citep{klein2007premortem}, originally framed for project management, asks decision-makers to imagine a future failure and enumerate causes retrospectively. Empirical work in decision science has shown that prospective hindsight increases identification of disconfirming evidence by approximately 30\% over naive forward-looking risk analysis. ASP operationalizes this as Phase 2 step 1.
+
+\subsection{Multi-agent failure taxonomy}
+Cemri et al.~\citep{cemri2025mast} enumerate 14 modes of failure observed in production multi-agent LLM systems, organised into three families (specification, inter-agent coordination, verification). ASP imports the taxonomy as a runtime checklist (Phase 2 step 2), forcing per-mode enumeration in the planning phase rather than only in post-hoc diagnosis.
+
+\subsection{Plan-and-Act separation}
+Erdogan et al.~\citep{erdogan2025planandact} demonstrate that separating the planning agent from the executing agent improves plan adherence under execution pressure. ASP applies this strictly: planner phases (0a, 1, 0b, 2, 3, 4) are one cognitive mode; the validator phase (5) is a different agent with a fresh prompt; the worker phase (9) is a child subprocess (Section~\ref{sec:ironlaw11}).
+
+\subsection{Reflexion and self-critique limits}
+Shinn et al.~\citep{shinn2023reflexion} introduced verbal self-critique for LLM agents. Subsequent work in EMNLP 2025 documented that same-context self-critique fails on high-confidence hallucinations precisely the cases where the agent is most wrong. ASP addresses this by enforcing prompt isolation for the Phase 5 validator: the validator receives only the planner's emitted artifacts (charter, macro plan, deliverables register, shadow-point list and mitigations), never the planner's reasoning trail. We codify this as Iron Law~2.
+
+\subsection{Anthropic Plan-Validate-Execute guidance}
+Anthropic's official agent-skills best-practice documentation \citep{anthropic2026skillbest} advocates ``verifiable intermediate outputs'' at each phase. ASP follows this prescription strictly: every phase emits a named artifact (Section~\ref{sec:protocol}, Table~\ref{tab:artifacts}).
+
+\subsection{The \texttt{/goal} primitive}
+Anthropic introduced the \texttt{/goal} slash command in Claude Code release 2.1.139 (2026-05-12), enabling autonomous multi-turn execution with a built-in worker/evaluator separation and native tracking of turn count, elapsed time, and inference cost \citep{explainx2026goal, venturebeat2026goal}. ASP uses \texttt{/goal} as the Phase 9 execution kernel via subprocess (Section~\ref{sec:ironlaw11}); the in-session native kernel from earlier protocol revisions (v0.1.x in our software changelog) is retained as a fallback for short tasks.
+
+\section{The ASP Protocol}
+\label{sec:protocol}
+
+\subsection{Overview}
+ASP is a 13-phase protocol that progresses from intake through delivery sign-off. Each phase emits a named artifact (Table~\ref{tab:artifacts}). Twelve Iron Laws are enforced at runtime as non-negotiable invariants.
+
+\begin{table}[ht]
+\centering
+\small
+\caption{ASP phases and their emitted artifacts.}
+\label{tab:artifacts}
+\begin{tabular}{rlp{8.5cm}}
+\toprule
+\textbf{\#} & \textbf{Phase} & \textbf{Artifact} \\
+\midrule
+0a & Pre-research Q\&A     & \texttt{intake} block (scope, success criteria, constraints) \\
+1  & Parallel research     & Research summary + ``Consulted lessons before acting:'' block \\
+0b & Post-research Q\&A    & Refined intake (skip if no ambiguity surfaced) \\
+2  & Shadow-point detection & Categorised list + mitigation per item \\
+3  & Project Charter        & Filled charter (problem, outcome, in/out scope, risks) \\
+4  & Macro plan + register  & Filled macro plan + numbered deliverables D01..D$n$ \\
+5  & Independent validator  & APPROVE / REVISE verdict (separate-prompt subagent) \\
+6  & Internal loop cap=3    & Final-revision plan; optional \texttt{advisor()} call \\
+7  & User approval          & Go/No-Go on charter, plan, deliverables \\
+8  & Micro-TODO + Goal Spec & \texttt{TaskCreate} per micro-step with PRE/ACT/POST/ACC/FAL fields + Goal Spec for Phase 9 \\
+9  & Execution via \texttt{/goal} subprocess & Task list marked completed with fresh evidence \\
+10 & Per-deliverable sign-off & Each D01..D$n$ marked \texttt{aceito} or \texttt{rejeitado} \\
+11 & Execution Report + memory & Closure artifact + memory write-back \\
+12 & (Opt-in) public release  & Plugin marketplace + GitHub release \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Iron Laws}
+\label{ssec:ironlaws}
+
+The protocol's twelve Iron Laws (Table~\ref{tab:ironlaws}) operationalize the methodology as runtime constraints. Each Iron Law is mapped to its derivation: a published paper, the Anthropic agent-skills guidance, or an empirical finding from our test battery.
+
+\begin{table}[ht]
+\centering
+\footnotesize
+\caption{The 12 Iron Laws of ASP and their derivation.}
+\label{tab:ironlaws}
+\begin{tabular}{rp{8cm}p{4cm}}
+\toprule
+\textbf{\#} & \textbf{Law} & \textbf{Derivation} \\
+\midrule
+1  & NO IMPLEMENTATION WITHOUT SHADOW-POINT PASS FIRST. & Klein + MAST; core thesis. \\
+2  & NO PLAN APPROVAL WITHOUT INDEPENDENT VALIDATOR PASS (separate prompt). & Reflexion + EMNLP 2025 self-critique limits. \\
+3  & NO MICRO-TODO WITHOUT MACRO PLAN + CHARTER + DELIVERABLES APPROVED BY USER. & Anthropic Plan-Validate-Execute. \\
+4  & NO STEP COMPLETION WITHOUT FRESH ACCEPTANCE-TEST EVIDENCE. & MAST mode 12. \\
+5  & NO DELIVERABLE marked accepted WITHOUT EVIDENCE FILE/OUTPUT MATCHED. & MAST mode 14 (evidence loss). \\
+6  & NO PROJECT CLOSE WITHOUT EXECUTION REPORT + MEMORY WRITE-BACK. & Anthropic best-practice + agentic-stack convention. \\
+7  & NO LOOP WITHOUT CAP. & MAST mode 10 (infinite loop); cap=3 rounds validator. \\
+8  & NO PHASE 9 EXECUTION WITHOUT EVALUATOR DISPATCH AT CHECKPOINTS. & Plan-and-Act; required even in native-kernel fallback. \\
+9  & NO REENTRANT ASP INSIDE \texttt{claude -p /goal} CHILD (env-var \texttt{ASP\_IN\_GOAL} guard). & Cost-explosion mitigation; MAST mode 10. \\
+10 & NO \texttt{claude -p /goal} SPAWN WITHOUT FILE-BASED CONTRACT. & Subprocess state-divergence mitigation. \\
+11 & NEVER TRUST \texttt{\$?} FROM \texttt{claude -p} FOR SEMANTIC SUCCESS/FAILURE. & Empirical (Section~\ref{sec:ironlaw11}). \\
+12 & ALL \texttt{claude -p} INVOCATIONS MUST USE \texttt{--output-format json} OR \texttt{stream-json}. & Corollary of \#11. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The micro-TODO contract}
+At the boundary between planning and execution (Phase 8), ASP emits a contractual task list. Each task is created via the \texttt{TaskCreate} primitive with a structured description containing seven labelled fields:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{PRECONDITION}: invariant that must hold before the step.
+  \item \textbf{ACTION}: exact command or literal edit.
+  \item \textbf{POSTCONDITION}: state change effected by the step.
+  \item \textbf{ACCEPTANCE-TEST}: command and expected output that prove the postcondition.
+  \item \textbf{FALSIFICATION-TEST}: command or observation that would prove the step failed.
+  \item \textbf{DEPENDS-ON}: upstream task identifiers forming the DAG.
+  \item \textbf{DELIVERABLE-ID}: which deliverable in the register this step contributes to.
+\end{itemize}
+This schema makes the task list \emph{audit-able}: no task is marked \texttt{completed} without ACCEPTANCE-TEST evidence (Iron Law 4); no deliverable is signed off without matching the evidence file (Iron Law 5). The schema is shared with the Goal Spec consumed by the Phase 9 subprocess.
+
+\section{Empirical Evaluation}
+\label{sec:eval}
+
+\subsection{Design}
+We constructed five structured evaluations covering heterogeneous engineering domains: (E1) production schema migration adding a NOT NULL column to a large table; (E2) refactor of a date-formatting utility used across 30+ files; (E3) deploy of a Supabase edge function that calls an external rate-limited API; (E4) row-level-security policy change referencing a new column; and (E5) scheduling a recurring background job whose script may conflict with previously-disabled services. Each evaluation specifies an \emph{INPUT} (the task statement as a senior engineer might phrase it to a colleague), an \emph{EXPECTED} list of $\geq 8$ shadow points that a competent engineer would surface, and an \emph{ACCEPTANCE} threshold of $\geq 80\%$ coverage of the expected list by the agent's output. Paraphrase and synonym matches are accepted at adjudication.
+
+\subsection{Methodology}
+For each evaluation we ran two conditions, RED (without ASP) and GREEN (with ASP loaded). Both conditions used the same underlying model (Claude Opus 4.7) and the same subagent-dispatch substrate (\texttt{Agent} tool with \texttt{general-purpose} subagent type). RED prompts explicitly instructed the agent to respond as a senior engineer would, without invoking any framework, methodology, or shadow-point taxonomy. GREEN prompts injected the ASP discipline (pre-mortem prompt, MAST 14-mode checklist, mitigation requirement) before requesting the engineering plan. We dispatched eight subagents in total (three RED scenarios reusable across multiple evaluations, three GREEN re-runs, and two domain-specific GREEN runs for E4 and E5).
+
+\subsection{Results}
+Coverage rose from a RED average of approximately 47\% (E1: 60\%, E2: 50\%, E3: 30\%) to a GREEN average of approximately 100\% (all five evaluations achieving full expected-list coverage). The dominant load-bearing component, identified during the REFACTOR phase of TDD-for-skills, is the MAST 14-mode forced enumeration: free-form pre-mortem alone clusters on obvious risk categories and misses time/timezone, observability, operational excellence, and contract-drift modes that MAST forces enumeration of.
+
+Eval E5 produced an additional empirical observation: when given a task whose script path matched a previously-disabled service from the maintainer's recall-memory corpus, the GREEN subagent autonomously refused to recreate the scheduling, citing the corresponding lesson. This validates the recall-integration step of Phase 1 as a functioning safety boundary.
+
+\section{An Empirical Finding: Iron Law 11}
+\label{sec:ironlaw11}
+
+\subsection{Test C of the 2026-05-17 battery}
+During design validation of the Phase 9 execution kernel, we ran a four-test battery against \texttt{claude -p} (Claude Code 2.1.143) measuring (A) background-process compatibility, (B) cross-CWD file write capability, (C) exit-code semantics on impossible goals, and (D) NDJSON event-stream usability. Tests A, B, and D produced expected results. Test C produced an unexpected and operationally significant finding.
+
+The Test C input was an explicitly impossible goal (``implement, test, and deploy a complete PCI-DSS-compliant system in one turn without using tools''). The agent responded by gracefully refusing, providing a three-paragraph explanation of why the request was technically impossible, why PCI-DSS compliance is not a one-turn artifact, and why ``without using tools'' conflicts with the user's standing instruction set. The process exited with status code 0.
+
+Inspection of the JSON output revealed \texttt{is\_error: false}, \texttt{terminal\_reason: end\_turn}, and \texttt{stop\_reason: end\_turn} — i.e.\ the harness reports a successful conversation end, despite the agent having semantically refused the goal. \emph{The exit code reflects process-level success of the CLI binary, not semantic success of the agent's task.}
+
+\subsection{Implications}
+A naive shell wrapper of the form
+\begin{lstlisting}
+claude -p "<goal>" || handle_error
+\end{lstlisting}
+will fail to detect graceful refusals in production. Any pipeline that routes execution control on the basis of \texttt{\$?} from \texttt{claude -p} will mistakenly treat refusals as successes. This is a non-obvious gotcha that does not appear flagged in the Claude Code 2.1.139 release notes \citep{explainx2026goal, anthropic2026claudecode} nor in the standard set of search-indexed walkthroughs available at the time of writing.
+
+\subsection{Safe pattern}
+The canonical safe pattern is to require structured output and parse it. We codify this as Iron Laws 11 and 12:
+
+\begin{lstlisting}[language=bash]
+RESULT="$(cat exec.json)"
+IS_ERR="$(echo "$RESULT" | jq -r '.is_error // false')"
+STOP="$(echo "$RESULT" | jq -r '.terminal_reason // .stop_reason // "unknown"')"
+COST="$(echo "$RESULT" | jq -r '.total_cost_usd // 0')"
+case "$STOP" in
+  "end_turn"|"completed")   echo "child completed normally" ;;
+  "max_turns_exceeded")     echo "child hit turn cap" ;;
+  "max_budget_exceeded")    echo "child hit budget cap" ;;
+  *)                        echo "unexpected: $STOP" ;;
+esac
+# Additionally inspect "$RESULT | jq -r '.result'" for refusal heuristics.
+\end{lstlisting}
+
+This pattern is shipped in the open-source skill at \texttt{skills/anticipating-shadow-points/claude-p-goal-runner.md}.
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Why MAST forced enumeration is load-bearing}
+Free-form pre-mortem is associated with strong availability bias: respondents enumerate failure modes from categories that come to mind easily (data, integration, immediate operational concerns) and underweight categories that are less salient at task framing (time-zone correctness, observability of partial state, contract drift between services). The MAST 14-mode taxonomy, by forcing per-mode interrogation, surfaces categories that the practitioner would not otherwise reach. The empirical effect we measured ($\Delta \approx$\,53 percentage points of coverage between RED and GREEN) is consistent with this account.
+
+\subsection{Implications for agentic CLI orchestration}
+The Iron Law 11 finding has implications beyond ASP. Any toolchain that wraps \texttt{claude -p} (or, by extension, any LLM CLI that handles graceful refusal as a normal conversation termination) and routes downstream execution based on shell exit codes is at risk of silently mis-classifying refusals as successes. We recommend the broader community treat \texttt{is\_error} and \texttt{terminal\_reason} from the JSON output as the canonical signals, and adopt explicit refusal heuristics on the textual result.
+
+\subsection{Distribution as part of the contribution}
+ASP is intentionally distributed through three complementary install paths: an Anthropic plugin marketplace listing, a self-hosted \texttt{.claude-plugin/marketplace.json} that makes the source repository itself a one-step marketplace add, and a legacy \texttt{install.sh} for users who prefer bare slash-command invocation without plugin namespacing. The triple-distribution reduces single-point-of-failure dependence on any one mechanism and enables both academic-style reproducibility (clone the source repository, follow the build) and end-user-style installation (single marketplace command).
+
+\section{Limitations}
+\label{sec:limitations}
+
+The empirical evaluation has the following constraints.
+
+\textit{Sample size.} We dispatched eight subagents in total across five evaluation domains and three RED/GREEN baselines. This is sufficient to demonstrate the existence and magnitude of the coverage effect on the chosen domains, but is not powered to estimate confidence intervals or generalise to all engineering work.
+
+\textit{Same-model condition.} Both RED and GREEN conditions used the same underlying model (Claude Opus 4.7). We did not test transfer of the ASP discipline to weaker or older models, nor cross-model. The effect of MAST forced enumeration is hypothesised to be partially model-independent (the structural prompt is invariant), but this is unverified.
+
+\textit{Adjudication.} Expected shadow-point lists were authored by the same researcher who designed the protocol. Although paraphrase and synonym matches were accepted at adjudication, the eval is not blind. A follow-up evaluation with independently-constructed shadow-point lists would strengthen the claim.
+
+\textit{Longitudinal effects.} We have not yet measured durability across long projects, fatigue effects on the user reviewing many ASP-generated charters, or cost evolution as model versions change.
+
+\textit{Single machine.} The empirical battery was conducted on a single workstation (macOS 14, Claude Code 2.1.143). Findings on the \texttt{claude -p} exit-code semantics (Iron Law 11) may be specific to that version; re-validation on future versions is needed.
+
+\textit{Translation review.} ASP's documentation is shipped in five languages (English native; Spanish, Portuguese, Italian, Hebrew). Three of the four translations are AI-assisted and await native-speaker review. The methodology itself is language-independent, but presentation quality varies.
+
+\section{Future Work and Conclusion}
+\label{sec:conclusion}
+
+We have presented ASP, a 13-phase pre-mortem-first protocol for LLM agent planning that integrates Klein's prospective hindsight with the Berkeley MAST 14-mode failure taxonomy, Plan-and-Act prompt isolation, and Reflexion-style validator subagents under strict isolation. On a battery of five structured evaluations across heterogeneous engineering domains, shadow-point coverage rose from approximately 47\% to approximately 100\%, with MAST forced enumeration identified as the dominant load-bearing component. We additionally reported an empirical finding on the \texttt{claude -p /goal} subprocess kernel that \texttt{\$?} is unsafe for semantic-success routing and characterised the safe parsing pattern as Iron Laws 11 and 12.
+
+Future work includes (a) blind adjudication of expected shadow points by independent reviewers; (b) cross-model evaluation testing transfer of the ASP discipline to non-Claude models; (c) longitudinal study of durability over multi-month projects; (d) extension of the MAST 14-mode checklist with domain-specific modes contributed by the community; (e) a \texttt{PreToolUse} hook for hard runtime enforcement of the per-task contract; and (f) workshop submission at NeurIPS 2026 (LLM agents track) or AAAI 2027 (Workshop on Agents).
+
+All artifacts are available under MIT licence in the companion repository. Methodology documentation is available under CC BY 4.0.
+
+\section*{Acknowledgments}
+
+The author thanks the maintainers of \texttt{obra/superpowers} for the skill discipline framework, the open-source contributors of the \texttt{agentskills.io} standard, and the Anthropic Claude Code team for the \texttt{/goal} primitive whose empirical behaviour motivated Iron Law 11. The research was conducted in collaboration with Claude (Anthropic, Opus 4.7), used as an ideation, drafting, and verification partner under explicit human-in-the-loop direction. Methodology decisions, empirical design, and finalization were performed by the human author.
+
+\bibliography{references}
+
+\appendix
+
+\section{Empirical Test Battery}
+\label{app:battery}
+
+The full 2026-05-17 test battery is reproduced verbatim in the companion repository at \texttt{tests/claude-p-goal-runner-probe.md}, including subagent identifiers, raw outputs, and adjudication notes for each of the four sub-tests (A: background+tail, B: cross-CWD write, C: exit code, D: stream-json). The RED/GREEN baselines for the five evaluations are at \texttt{tests/baseline-pressure-tests.md} and \texttt{tests/evals-summary.md}. Each evidence file is hash-checkable against the corresponding git tag.
+
+\section{Software Availability and Reproducibility}
+\label{app:reproduce}
+
+\subsection{Source}
+The software is hosted at \texttt{https://github.com/ulissesflores/anticipating-shadow-points} under the MIT licence. The companion Pages site is at \texttt{https://ulissesflores.github.io/anticipating-shadow-points/}.
+
+\subsection{Install paths}
+Three install paths are supported:
+\begin{enumerate}[leftmargin=*, itemsep=2pt]
+  \item \textbf{Plugin marketplace} (recommended):
+  \begin{lstlisting}[language=bash]
+  claude plugin marketplace add ulissesflores/anticipating-shadow-points
+  claude plugin install anticipating-shadow-points@anticipating-shadow-points
+  \end{lstlisting}
+  \item \textbf{Dev mode}: \texttt{claude --plugin-dir ./}
+  \item \textbf{Standalone}: \texttt{./scripts/install.sh}
+\end{enumerate}
+
+\subsection{Verification}
+Run \texttt{./scripts/verify.sh --pre-install} to confirm 19 success criteria. Run the included \texttt{tests/baseline-pressure-tests.md} battery to reproduce the RED/GREEN measurements; subagent IDs in the verbatim record allow side-by-side comparison.
+
+\subsection{Citation}
+A \texttt{CITATION.cff} file is provided at the repository root. GitHub's ``Cite this repository'' button reads this file automatically. A DOI for the software artifact is assigned via Zenodo on each tagged release; the current DOI is recorded in \texttt{CITATION.cff} under \texttt{identifiers}.
+
+\end{document}

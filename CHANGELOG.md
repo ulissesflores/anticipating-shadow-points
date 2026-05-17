@@ -11,7 +11,37 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Native-speaker review of ES/IT/HE translations (community PRs welcome).
 - Additional evals from community domains.
 - Optional `PreToolUse` hook for contract enforcement.
-- Anthropic plugin directory submission (UI-only form at claude.ai/settings/plugins/submit).
+- Zenodo DOI activation on next tagged release (one-time GitHub-Zenodo OAuth).
+- arXiv preprint submission (LaTeX source ready in `paper/`).
+
+## [0.3.0] — 2026-05-17
+
+### Added
+
+Research-release artifacts, organized for a staged scientific-style announcement.
+
+- **`paper/`** — LaTeX preprint source ready for arXiv submission:
+  - `paper/asp-preprint.tex` — full ~10-page article (`article` class, ~3000 words) covering Abstract, Introduction, Related Work, The ASP Protocol, Empirical Evaluation, the `claude -p /goal` exit-code finding (Section 5), Discussion, Limitations, Future Work, References, Appendix A (empirical battery), Appendix B (software availability).
+  - `paper/references.bib` — BibTeX bibliography with Klein, Cemri (MAST), Erdogan (Plan-and-Act), Shinn (Reflexion), Anthropic skill docs, the two cited `/goal` walkthroughs, and the community marketplace repos.
+  - `paper/README.md` — build instructions, arXiv submission checklist, license notes (CC BY 4.0 for paper text; MIT for software).
+- **`social/`** — copy-paste-ready templates for staged community announcement, organized by channel and posting cadence:
+  - `social/README.md` — staging plan with anti-patterns and cross-channel consistency rules.
+  - `social/LINKEDIN.md` — long-form (~2000 words) article framed for CTO + academic audience.
+  - `social/TWITTER_THREAD.md` — 12-tweet thread with figure hooks and 3 canned-response templates.
+  - `social/HN_SHOW.md` — title, body, and 7 canned responses for predictable Show HN critique categories.
+  - `social/REDDIT_ML.md` — [R]-tagged submission with anticipated-critique answers (n-size, paraphrase tolerance, methodology vs prompt engineering, SWE-bench comparison).
+  - `social/HF_PAPERS.md` — Hugging Face Papers submission steps (post arXiv).
+  - `social/BLUESKY_MASTODON.md` — 5-post adaptation for the academic AI fediverse with server recommendations.
+  - `social/PERSONAL_BLOG.md` — long-form blog post outline (2500–4000 words) for ulissesflores.com with SEO notes.
+- **`PRIVACY.md`** — explicit privacy notice clarifying that ASP runs entirely client-side, collects no telemetry, and the only outbound network calls are `git` (for plugin install) and `claude -p` subprocess (governed by Anthropic's privacy policy).
+
+### Changed
+
+- **`CITATION.cff`** — added explicit `identifiers:` block with placeholders for the forthcoming arXiv ID and Zenodo DOI; added optional `orcid:` line (commented placeholder) for the author block.
+
+### Why
+
+ASP shipped through v0.2.x as a usable open-source skill with marketplace distribution and a polished marketing landing. v0.3.0 elevates it from "OSS release" to "research release" by adding the artifacts academic CS expects: a citable preprint, a software DOI deposit path, a privacy notice, and channel-specific announcement templates that respect community norms (academic AI fediverse, r/MachineLearning rigor, Show HN engagement pattern). Posting to social channels without these foundations would feel like marketing-push; posting with them positions ASP as an independent research contribution.
 
 ## [0.2.3] — 2026-05-17
 
@@ -98,7 +128,8 @@ The prior `index.md` and `README.md` were documentation-heavy: cold visitors got
 - Idempotent `install.sh` + `uninstall.sh` + `verify.sh` (16 success criteria → expanded to 19 in v0.2.0).
 - MIT license.
 
-[Unreleased]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.3...HEAD
+[Unreleased]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.3...v0.3.0
 [0.2.3]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/ulissesflores/anticipating-shadow-points/compare/v0.2.0...v0.2.1

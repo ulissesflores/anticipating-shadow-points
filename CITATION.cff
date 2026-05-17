@@ -14,9 +14,28 @@ authors:
     given-names: Ulisses
     email: c.ulisses@gmail.com
     website: "https://ulissesflores.com"
+    # ORCID iD — replace with your actual identifier when ready:
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
     affiliation: "Codex Hash Ltda (CTO & Chief Researcher); American Global Tech University (MSc AI candidate)"
     city: Itupeva
     country: BR
+
+# Identifiers — populate as artifacts are deposited:
+identifiers:
+  - type: url
+    value: "https://github.com/ulissesflores/anticipating-shadow-points"
+    description: "Software source repository"
+  - type: url
+    value: "https://ulissesflores.github.io/anticipating-shadow-points/"
+    description: "Public documentation site"
+  # Uncomment and populate after Zenodo archive:
+  # - type: doi
+  #   value: "10.5281/zenodo.XXXXXXX"
+  #   description: "Software DOI via Zenodo"
+  # Uncomment and populate after arXiv submission:
+  # - type: other
+  #   value: "arXiv:2606.XXXXX"
+  #   description: "Methodology preprint on arXiv"
 repository-code: "https://github.com/ulissesflores/anticipating-shadow-points"
 url: "https://ulissesflores.github.io/anticipating-shadow-points/"
 license: MIT
