@@ -468,6 +468,18 @@ Combining all three in a single skill, with concrete artifacts (project-charter,
 
 The `tests/baseline-pressure-tests.md` artifact captures the RED phase with subagent IDs and verbatim violations. The GREEN phase re-runs prove the skill works empirically (coverage 47% → 100%). The 5 evals provide a reusable measurement framework. This level of empirical rigor is rare in published skills.
 
+### 8.7 Triple-distribution: plugin marketplace + `--plugin-dir` dev mode + standalone install.sh (v0.2.0)
+
+Most skills ship via a single install mechanism. ASP v0.2.0 supports three install paths simultaneously:
+
+- **Path A — Native plugin marketplace**: `/plugin marketplace add ulissesflores/anticipating-shadow-points` then `/plugin install`. Discoverable via `/plugin`, updatable via `/plugin update`. Plugin-namespaced invocation: `/anticipating-shadow-points:asp`.
+- **Path B — `--plugin-dir` dev mode**: `claude --plugin-dir ./` loads for one session, perfect for testing local changes before publishing. Same namespaced invocation as Path A.
+- **Path C — Standalone `install.sh`**: idempotent script + uninstall.sh + verify.sh. Bare invocation `/asp` (no namespace). Useful for users who want full control or are on older CLI versions.
+
+The plugin manifest (`.claude-plugin/plugin.json`) follows Anthropic's published plugin spec; the self-hosted marketplace (`.claude-plugin/marketplace.json`) makes the repo directly add-able as a marketplace without going through a third-party catalog. The standalone install.sh path remains for backward compatibility and for users who want to inspect/modify before installing.
+
+Empirically validated: 2026-05-17 plugin smoke test via `claude -p --plugin-dir ~/Developer/ASP` confirmed all four invocation aliases (`asp`, `anticipating-shadow-points`, `anticipating-shadow-points:asp`, `anticipating-shadow-points:anticipating-shadow-points`) appear in the session's `slash_commands` + `skills` lists. Cost: $0.13 per smoke run.
+
 ---
 
 ## Part 9 — Open Questions and Future Work

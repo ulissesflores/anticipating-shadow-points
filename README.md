@@ -51,44 +51,52 @@ If you've ever shipped something and 24 hours later thought *"why didn't I think
 
 ## Quick Start
 
-### 1. Clone
+**Three install paths** — choose the one that fits your workflow:
+
+### Path A — Plugin marketplace (recommended, Claude Code 2.1+)
+
+One-step install via Claude Code's native plugin manager. In any Claude Code session:
+
+```
+/plugin marketplace add ulissesflores/anticipating-shadow-points
+/plugin install anticipating-shadow-points@anticipating-shadow-points
+```
+
+Then invoke: `/anticipating-shadow-points:asp <task>` (plugin-namespaced).
+
+Benefits: native update via `/plugin update`, clean uninstall via `/plugin uninstall`, marketplace discoverability.
+
+### Path B — Local plugin dev mode (`--plugin-dir`)
+
+For testing/development without installing permanently:
+
+```bash
+git clone https://github.com/ulissesflores/anticipating-shadow-points.git ~/Developer/ASP
+claude --plugin-dir ~/Developer/ASP
+```
+
+Loaded only for that session. Invoke: `/anticipating-shadow-points:asp <task>`.
+
+### Path C — Standalone install.sh (legacy, full control)
+
+For users who want bare `/asp` invocation (no plugin namespace) or want to inspect/modify before install:
 
 ```bash
 git clone https://github.com/ulissesflores/anticipating-shadow-points.git ~/Developer/ASP
 cd ~/Developer/ASP
+./scripts/verify.sh --pre-install   # 15/16 OK (skips staging check)
+./scripts/install.sh --dry-run      # preview
+./scripts/install.sh                # install to ~/.claude/skills/
 ```
 
-### 2. Verify dependencies
+Invoke: `/asp <task>` (no namespace). Uninstall: `./scripts/uninstall.sh`.
 
-```bash
-# Required: Claude Code 2.1.139+ (released 2026-05-12)
-claude --version  # should be ≥2.1.139
+### Requirements
 
-# Required: bash
-bash --version
+- **Required**: Claude Code 2.1.139+ (for `/goal` slash command in `claude -p` mode), `bash`, `jq`.
+- **Optional**: `~/.agent/` agentic-stack (enables `recall.py` lessons retrieval; skipped silently if absent).
 
-# Optional: ~/.agent/ agentic-stack (enables recall.py lessons retrieval)
-ls ~/.agent/ 2>/dev/null
-```
-
-### 3. Inspect before install
-
-```bash
-./scripts/verify.sh --pre-install
-```
-
-This runs 15/16 success criteria (skips staging-isolation check). All should be `OK`.
-
-### 4. Install
-
-```bash
-./scripts/install.sh --dry-run    # preview what will be copied
-./scripts/install.sh              # actually install
-```
-
-The skill installs to `~/.claude/skills/anticipating-shadow-points/`, slash commands to `~/.claude/commands/`. Both `/asp` and `/ASP` work.
-
-### 5. Invoke
+### Invoke
 
 In any Claude Code session:
 
@@ -96,13 +104,7 @@ In any Claude Code session:
 /asp Add a NOT NULL column `tier` (default 'free') to user_profiles. Table has 1M rows.
 ```
 
-The skill takes over. Follow the 13 phases.
-
-### 6. Uninstall (clean reversal)
-
-```bash
-./scripts/uninstall.sh
-```
+(Use `/anticipating-shadow-points:asp` if installed via Path A or B.) The skill takes over. Follow the 13 phases.
 
 ---
 

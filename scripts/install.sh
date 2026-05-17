@@ -45,7 +45,7 @@ do_run() {
 }
 
 # Sanity check
-if [[ ! -d "$REPO_DIR/skill" || ! -d "$REPO_DIR/command" ]]; then
+if [[ ! -d "$REPO_DIR/skills/anticipating-shadow-points" || ! -d "$REPO_DIR/commands" ]]; then
     echo "ERROR: $REPO_DIR is not a valid ASP repo (missing skill/ or command/)" >&2
     exit 1
 fi
@@ -56,7 +56,7 @@ log "Commands: $COMMANDS_DIR"
 
 # Backup existing skill if present and content differs
 if [[ -d "$SKILL_DIR" && $FORCE -eq 0 ]]; then
-    if diff -rq "$REPO_DIR/skill" "$SKILL_DIR" >/dev/null 2>&1; then
+    if diff -rq "$REPO_DIR/skills/anticipating-shadow-points" "$SKILL_DIR" >/dev/null 2>&1; then
         log "Skill already installed and identical — skipping skill copy."
         SKIP_SKILL=1
     else
@@ -74,7 +74,7 @@ if [[ ${SKIP_SKILL:-0} -ne 1 ]]; then
     log "Creating $SKILL_DIR"
     do_run mkdir -p "$SKILL_DIR"
     log "Copying skill/ -> $SKILL_DIR"
-    do_run cp -R "$REPO_DIR/skill/." "$SKILL_DIR/"
+    do_run cp -R "$REPO_DIR/skills/anticipating-shadow-points/." "$SKILL_DIR/"
 fi
 
 # Install slash commands
@@ -82,7 +82,7 @@ log "Ensuring $COMMANDS_DIR exists"
 do_run mkdir -p "$COMMANDS_DIR"
 
 for cmd in asp.md ASP.md; do
-    src="$REPO_DIR/command/$cmd"
+    src="$REPO_DIR/commands/$cmd"
     dst="$COMMANDS_DIR/$cmd"
     if [[ ! -f "$src" ]]; then
         log "Source missing: $src (skipping)"
