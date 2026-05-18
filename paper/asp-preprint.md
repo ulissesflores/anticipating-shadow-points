@@ -10,9 +10,10 @@
 
 # ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report
 
-**Author** · Ulisses Flores
+**Author** · Carlos Ulisses Flores
 CTO & Chief Researcher · Codex Hash Research Laboratory · São Paulo, Brazil
 MSc Program in Artificial Intelligence (in progress) · American Global Tech University
+ORCID: https://orcid.org/0000-0002-6034-7765 · Lattes: http://lattes.cnpq.br/6905246706890561
 c.ulisses@gmail.com · https://ulissesflores.com
 
 **Whitepaper · Version 1.0 · 2026-05-18**
@@ -688,25 +689,26 @@ re-implemented in another language.
 
 ## About the Author
 
-**Ulisses Flores** is CTO and Chief Researcher at Codex Hash Research
-Laboratory, an independent R&D lab in São Paulo, Brazil. He builds
-production systems where silent failure is expensive — historically in
-algorithmic trading, embedded IoT and edge cryptography, and currently
-in agentic-AI tooling. The ASP skill described in this whitepaper grew
-out of that latter line of work; the empirical finding reported in the
-companion whitepaper grew out of using Anthropic's `claude -p` runner
-as an autonomous execution kernel and watching it return exit code 0
-on a graceful agent refusal.
+**Carlos Ulisses Flores** is CTO and Chief Researcher at Codex Hash
+Research Laboratory, an independent R&D lab in São Paulo, Brazil. He
+builds production systems where silent failure is expensive —
+historically in algorithmic trading, embedded IoT and edge cryptography,
+and currently in agentic-AI tooling. The ASP skill described in this
+whitepaper grew out of that latter line of work; the empirical finding
+reported in the companion whitepaper grew out of using Anthropic's
+`claude -p` runner as an autonomous execution kernel and watching it
+return exit code 0 on a graceful agent refusal.
 
 He is an MSc candidate in Artificial Intelligence at American Global
 Tech University and writes in Portuguese, English, Spanish, and
 Italian.
 
+**Identifiers** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes: [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
 **Contact** · c.ulisses@gmail.com · https://ulissesflores.com
 
 ---
 
-© 2026 Ulisses Flores · Codex Hash Research Laboratory · São Paulo, Brazil
+© 2026 Carlos Ulisses Flores · Codex Hash Research Laboratory · São Paulo, Brazil
 Paper text licensed under CC BY 4.0 · Companion software licensed under MIT
 
 *End of whitepaper. References: 20 primary entries (1989, 2007 +

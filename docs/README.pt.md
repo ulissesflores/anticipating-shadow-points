@@ -189,7 +189,7 @@ Validação empírica confirmou que `claude -p` aceita `/goal` como first piped 
 
 ## Autor
 
-**Ulisses Flores** — CTO & Chief Researcher na [Codex Hash Research Laboratory](https://ulissesflores.com); MSc AI candidate, American Global Tech University. São Paulo, Brasil.
+**Carlos Ulisses Flores** — CTO & Chief Researcher na [Codex Hash Research Laboratory](https://ulissesflores.com); MSc AI candidate, American Global Tech University. São Paulo, Brasil. ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes: [`6905246706890561`](http://lattes.cnpq.br/6905246706890561).
 
 - 🌐 [ulissesflores.com](https://ulissesflores.com)
 - 🐙 [@ulissesflores no GitHub](https://github.com/ulissesflores)

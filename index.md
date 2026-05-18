@@ -201,7 +201,7 @@ claude plugin install anticipating-shadow-points@anticipating-shadow-points
 
 <div class="text-small" markdown="1" style="opacity: 0.75;">
 
-**Maintainer**: [Ulisses Flores](https://ulissesflores.com) — CTO & Chief Researcher at Codex Hash Research Laboratory · MSc AI candidate · São Paulo, Brazil · [@ulissesflores](https://github.com/ulissesflores)
+**Maintainer**: [Carlos Ulisses Flores](https://ulissesflores.com) — CTO & Chief Researcher at Codex Hash Research Laboratory · MSc AI candidate · São Paulo, Brazil · [ORCID `0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · [Lattes `6905246706890561`](http://lattes.cnpq.br/6905246706890561) · [@ulissesflores](https://github.com/ulissesflores)
 
 **Languages**: 🇬🇧 English · 🇪🇸 [Español](docs/README.es) · 🇧🇷 [Português](docs/README.pt) · 🇮🇹 [Italiano](docs/README.it) · 🇮🇱 [עברית](docs/README.he)
 

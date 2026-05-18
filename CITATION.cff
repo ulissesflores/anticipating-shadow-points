@@ -18,11 +18,12 @@ abstract: >-
 type: software
 authors:
   - family-names: Flores
-    given-names: Ulisses
+    given-names: Carlos Ulisses
     email: c.ulisses@gmail.com
+    orcid: "https://orcid.org/0000-0002-6034-7765"
     website: "https://ulissesflores.com"
-    # ORCID iD — replace with your actual identifier when ready:
-    # orcid: "https://orcid.org/0000-0000-0000-0000"
+    # Brazilian academic CV registry (CNPq Lattes):
+    # http://lattes.cnpq.br/6905246706890561
     affiliation: "Codex Hash Research Laboratory (CTO & Chief Researcher); American Global Tech University (MSc AI candidate)"
     city: São Paulo
     country: BR
@@ -69,7 +70,8 @@ preferred-citation:
   title: "ASP — Anticipating Shadow Points"
   authors:
     - family-names: Flores
-      given-names: Ulisses
+      given-names: Carlos Ulisses
+      orcid: "https://orcid.org/0000-0002-6034-7765"
   year: 2026
   doi: "10.5281/zenodo.20276631"
   url: "https://doi.org/10.5281/zenodo.20276631"

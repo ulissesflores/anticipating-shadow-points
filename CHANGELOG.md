@@ -23,6 +23,59 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Formal ablation: with/without MAST checklist, with/without validator
   prompt isolation.
 
+## [1.0.3] — 2026-05-18
+
+### Changed — Canonical author name + ORCID + Lattes
+
+The first three Zenodo deposits (v1.0.0, v1.0.1, v1.0.2) registered the
+maintainer as "Flores, Ulisses" — which is *not* the canonical citation
+form he uses across his other five Zenodo deposits ("Flores, Carlos
+Ulisses"). Consequence: this deposit appeared **isolated** from the
+maintainer's author cluster on Zenodo, because (a) the family/given
+names didn't match exactly and (b) the ORCID identifier wasn't recorded.
+
+This patch fixes the identity metadata across every surface that feeds
+into Zenodo (CITATION.cff) and every surface where readers see the
+author's name (AUTHORS, README, index, translations, both papers,
+Publications/).
+
+- `CITATION.cff`:
+  - `given-names: Ulisses` → `given-names: Carlos Ulisses`
+  - `orcid:` added: `https://orcid.org/0000-0002-6034-7765`
+  - `preferred-citation.authors[0]` now carries the canonical name + ORCID
+  - Lattes URL added as comment (CFF 1.2 has no native Lattes field)
+- `AUTHORS`: maintainer block updated with name + ORCID + Lattes
+- Both whitepapers:
+  - Author block uses canonical name + ORCID + Lattes inline
+  - "About the Author" section uses canonical name
+  - Footer copyright uses canonical name
+  - Both PDFs rebuilt with embedded canonical name + ORCID + Lattes
+- `README.md`, `index.md`, `docs/README.{pt,es,it,he}.md`: maintainer
+  references updated.
+- `Publications/anticipating-shadow-points/v1.0.0-launch/` (external):
+  all signatures and author-tag frontmatter updated to canonical name
+  (12 occurrences in 13 posts and meta files).
+
+### What the user must do manually (cannot be automated from repo)
+
+The 3 existing Zenodo deposits (v1.0.0 = `20276632`, v1.0.1 = `20276855`,
+v1.0.2 = `20276900`) have already-published metadata with the wrong
+name. CITATION.cff fixes only propagate to **new** deposits. The
+existing deposits must be edited in Zenodo's UI:
+
+1. Open each deposit on Zenodo
+2. Click **Edit**
+3. In **Creators**: change "Flores, Ulisses" → "Flores, Carlos Ulisses"
+4. **Add ORCID** `0000-0002-6034-7765` to the creator's identifiers
+5. (Optional) Add Lattes URL as an additional identifier
+6. **Save** (no new version mint required for metadata-only edits)
+
+After that, the deposits all link to the maintainer's author cluster.
+
+The newly-pushed v1.0.3 deposit will automatically register with the
+correct canonical name + ORCID, so this patch fixes future versions
+once-and-for-all.
+
 ## [1.0.2] — 2026-05-18
 
 ### Changed — Concept DOI now primary citation anchor

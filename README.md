@@ -300,7 +300,7 @@ Native-speaker review of ES/IT/HE translations welcomed via PR.
 
 ## Author
 
-**[Ulisses Flores](https://ulissesflores.com)** — CTO & Chief Researcher at Codex Hash Research Laboratory · MSc AI candidate, American Global Tech University · São Paulo, Brazil · [@ulissesflores on GitHub](https://github.com/ulissesflores)
+**[Carlos Ulisses Flores](https://ulissesflores.com)** — CTO & Chief Researcher at Codex Hash Research Laboratory · MSc AI candidate, American Global Tech University · São Paulo, Brazil · [ORCID `0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · [Lattes `6905246706890561`](http://lattes.cnpq.br/6905246706890561) · [@ulissesflores on GitHub](https://github.com/ulissesflores)
 
 Domain focus: Quantitative Finance & Web3 · Hardware & IoT · AI & Data Science. The multilingual docs reflect the maintainer's working languages — Portuguese (native), English/Spanish (fluent), Italian (conversational), Hebrew (academic reading).
 
