@@ -46,7 +46,7 @@ identifiers:
 repository-code: "https://github.com/ulissesflores/anticipating-shadow-points"
 url: "https://ulissesflores.github.io/anticipating-shadow-points/"
 license: MIT
-version: 0.7.1
+version: 1.0.0
 date-released: 2026-05-18
 keywords:
   - claude-code
@@ -61,13 +61,13 @@ keywords:
   - multi-agent
 preferred-citation:
   type: software
-  title: "ASP — Anticipating Shadow Points (v0.7.1)"
+  title: "ASP — Anticipating Shadow Points (v1.0.0)"
   authors:
     - family-names: Flores
       given-names: Ulisses
   year: 2026
   url: "https://github.com/ulissesflores/anticipating-shadow-points"
-  version: "0.7.1"
+  version: "1.0.0"
   license: MIT
 
 # Methodological dependencies (papers the skill operationalizes — cite them

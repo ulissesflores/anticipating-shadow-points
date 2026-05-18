@@ -23,6 +23,71 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Formal ablation: with/without MAST checklist, with/without validator
   prompt isolation.
 
+## [1.0.0] — 2026-05-18
+
+### First stable public release
+
+Repo enters its first publishable state. The work — ASP skill +
+two whitepapers + pre-registered protocol + Python benchmark — is
+ready for Zenodo DOI minting (auto-triggered by the next GitHub
+Release). Versioning jumps to semver "first stable public" because
+that is exactly what this is.
+
+### Changed — cleanup against the *artefato de geração ≠ produto gerado* filter
+
+The maintainer articulated the principle that gates everything in the
+repo: every file must justify its presence as a **product**, not as a
+**record of how the product was made**. Applied at this release:
+
+**Removed** (recoverable from git history, never lost):
+
+- `social/` directory (8 files) — Marketing/launch artefacts; now lives
+  in `~/Developer/Publications/anticipating-shadow-points/v1.0.0-launch/`
+  outside the repo, operated by a separate agent. The repo is product,
+  Publications is operations.
+- `WORKS.md` — Sumário of journey/index of the work; no canonical
+  justification in the repo (CITATION.cff covers citation; README +
+  paper/README orient; AGENTS.md doctrines; the journey is in git log).
+- `tests/advisor-final.md` — Dev-phase advisor log.
+- `tests/criteria-final-checklist.md` — Build-phase checklist.
+- `tests/demo-{charter,deliverables,execution-report}.md` — Demo
+  artefacts of templates; not cited as evidence.
+- `tests/execution-report-FINAL.md`, `tests/execution-report-v5-FINAL.md` —
+  Closure artefacts from intermediate build phases.
+- `tests/smoke-test-output.md` — Dev-phase smoke output.
+
+**Kept** (cited as evidence in published whitepapers):
+
+- `tests/baseline-pressure-tests.md` — n=8 evidence cited in Whitepaper 1.
+- `tests/claude-p-goal-runner-probe.md` — original Iron Law 11 observation cited in Whitepaper 2.
+- `tests/evals-summary.md` — hand-adjudication summary cited in Whitepaper 1.
+- `tests/goal-invocability-probe.md` — `/goal` invocability empirical test.
+- `tests/iron-law-11/` — full pre-registered protocol scaffolding + frozen per-trial dataset.
+
+### Changed — `AGENTS.md` adds the Cardinal Rule
+
+The repo-vs-publications separation is now an enforced rule for any
+agent editing this repo: marketing/ops artefacts MUST NOT be added to
+the repo; they live in `~/Developer/Publications/<project>/<version>-launch/`.
+
+### Changed — version bumps to 1.0.0
+
+- `.claude-plugin/plugin.json` 0.7.1 → 1.0.0
+- `CITATION.cff` 0.7.1 → 1.0.0; date-released 2026-05-18
+- Marketplace description refreshed (mentions companion whitepaper)
+
+### Changed — ARCHITECTURE.md slimmed
+
+References to the deleted dev-journal files removed; the "evidence
+files" list now reflects only the citation-justified artefacts. The
+v1→v5 journey content stays as design rationale.
+
+### Why
+The 5 commits ahead of `origin/main` were never pushed; the work
+accumulated and the repo accumulated debris alongside. v1.0.0 is the
+clean state from which the public release happens — and from which
+Zenodo DOI is minted. Every byte at this tag has a justification.
+
 ## [0.7.1] — 2026-05-18
 
 ### Added — PDF build infrastructure for the whitepaper series

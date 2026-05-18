@@ -12,6 +12,23 @@ This file applies to repository **editing** — manifest changes, code refactors
 
 ---
 
+## Cardinal rule — repo vs publications separation
+
+The repo is **the product**: skill, whitepapers (Markdown source), benchmark, pre-registered protocol, distribution manifests, documentation. Anything that supports a citing reader, user, or researcher of the work belongs here.
+
+The repo is **not** ops. Marketing copy, social-media posts, launch calendars, engagement playbooks, status trackers, influencer DM templates, newsletter outreach drafts, scheduled-post metadata — **all of that lives outside the repo**, in `~/Developer/Publications/anticipating-shadow-points/<version>-launch/`, and is operated by a separate agent (or the human author manually). The publications dir is intentionally never committed to this repository.
+
+The principle behind this separation, articulated by the maintainer: *artefato de geração ≠ produto gerado*. Every file in the repo must justify its presence as a product — not as a record of how the product was made. The journey is in `git log`, the build records are in commits, the changelog summarises versions. We do not duplicate that history as in-tree documents.
+
+An agent editing this repo therefore:
+
+- **MUST NOT** add a `social/`, `launch/`, `marketing/`, or `publications/` directory
+- **MUST NOT** commit launch-status trackers, posting calendars, or social-media drafts
+- **MUST NOT** add files that document journey-state (build journals, scratchpad reports, demo artefacts that aren't cited as evidence in a paper)
+- **CAN** point at the external `~/Developer/Publications/...` path from docs or CHANGELOG when relevant, but only as an out-of-tree reference
+
+---
+
 ## Layered responsibility
 
 | Layer | Responsibility |

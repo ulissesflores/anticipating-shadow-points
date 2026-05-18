@@ -577,14 +577,20 @@ The runner captures `total_cost_usd` per spawn but does not aggregate across mul
 - [VentureBeat: Claude Code's /goals separates worker from evaluator](https://venturebeat.com/orchestration/claude-codes-goals-separates-the-agent-that-works-from-the-one-that-decides-its-done)
 
 ### Internal probe / evidence files (shipped with this repo)
-- `tests/claude-p-goal-runner-probe.md` — 2026-05-17 empirical battery (this project's primary artifact).
-- `tests/goal-invocability-probe.md` — initial in-session limitation + v5 update.
-- `tests/baseline-pressure-tests.md` — RED phase TDD evidence.
-- `tests/evals-summary.md` — 5/5 evals at 100% coverage.
-- `tests/criteria-final-checklist.md` — 16+ verify criteria with evidence paths.
-- `tests/advisor-final.md` — 3 advisor calls log.
-- `tests/execution-report-FINAL.md` — v3 close report.
-- `tests/execution-report-v5-FINAL.md` — v5 close report.
+
+Per the maintainer's principle that *artefato de geração ≠ produto gerado*,
+only files that are **cited as evidence in a published whitepaper** are kept
+in the repo. Build journals, advisor logs, demo artefacts, and closure
+reports from the development phase live in git history but are not in-tree
+at v1.0.0+.
+
+- `tests/claude-p-goal-runner-probe.md` — 2026-05-17 empirical battery surfacing the Iron Law 11 finding; cited in Whitepaper 2 §1.
+- `tests/goal-invocability-probe.md` — `/goal` invocability empirical test; cited in Whitepaper 1.
+- `tests/baseline-pressure-tests.md` — RED-phase n=8 evidence; cited in Whitepaper 1 §5.
+- `tests/evals-summary.md` — hand-adjudication summary; cited in Whitepaper 1 §5.
+- `tests/iron-law-11/` — full pre-registered protocol scaffolding (50 scenarios, scripts, frozen per-trial dataset under `runs/published/`); the canonical empirical artefact for Whitepaper 2.
+
+(Files removed in v1.0.0 cleanup: `advisor-final.md`, `criteria-final-checklist.md`, `demo-charter.md`, `demo-deliverables.md`, `demo-execution-report.md`, `execution-report-FINAL.md`, `execution-report-v5-FINAL.md`, `smoke-test-output.md`. Recoverable from git history if ever needed.)
 
 ---
 
