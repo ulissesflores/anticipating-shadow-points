@@ -2,12 +2,19 @@ cff-version: 1.2.0
 message: "If you use ASP in a published work, evaluation, or production deployment, please cite it as below."
 title: "ASP — Anticipating Shadow Points"
 abstract: >-
-  A Claude Code skill that orchestrates a 13-phase planning protocol for
-  non-trivial engineering tasks. Combines Klein's pre-mortem (1998), Berkeley
-  MAST 14-mode failure taxonomy, Plan-and-Act separation, Reflexion-style
-  validator subagent with prompt isolation, contractual TaskCreate micro-TODO,
-  and `claude -p /goal` subprocess execution kernel. 12 Iron Laws.
-  Multilingual docs (EN/ES/PT/IT/HE). MIT.
+  A Claude Code skill orchestrating a 13-phase pre-mortem-first planning
+  protocol for non-trivial engineering tasks (migrations, deploys, refactors,
+  RLS changes, architecture decisions). Integrates the prospective-hindsight
+  finding of Mitchell, Russo & Pennington (1989), Klein's (2007) operational
+  pre-mortem, Cemri et al.'s (2025) MAST 14-mode multi-agent failure taxonomy
+  with kappa=0.88 inter-annotator agreement, Erdogan et al.'s (2025)
+  planner-executor separation, and the documented limits of intrinsic LLM
+  self-correction (Huang et al., 2024; Tyen et al., 2024; Zheng et al., 2023)
+  which motivate a prompt-isolated validator stage. Distributed as a Claude
+  Code plugin with three install paths. Two whitepapers in the companion
+  series document the system and an empirical finding on `claude -p`
+  exit-code semantics (60% silent-refusal rate, pre-registered N=50 protocol).
+  Multilingual docs (EN/ES/PT/IT/HE). MIT (software) + CC BY 4.0 (whitepapers).
 type: software
 authors:
   - family-names: Flores
@@ -39,8 +46,8 @@ identifiers:
 repository-code: "https://github.com/ulissesflores/anticipating-shadow-points"
 url: "https://ulissesflores.github.io/anticipating-shadow-points/"
 license: MIT
-version: 0.2.3
-date-released: 2026-05-17
+version: 0.7.1
+date-released: 2026-05-18
 keywords:
   - claude-code
   - agentic-workflow
@@ -54,13 +61,13 @@ keywords:
   - multi-agent
 preferred-citation:
   type: software
-  title: "ASP — Anticipating Shadow Points (v0.2.3)"
+  title: "ASP — Anticipating Shadow Points (v0.7.1)"
   authors:
     - family-names: Flores
       given-names: Ulisses
   year: 2026
   url: "https://github.com/ulissesflores/anticipating-shadow-points"
-  version: "0.2.3"
+  version: "0.7.1"
   license: MIT
 
 # Methodological dependencies (papers the skill operationalizes — cite them

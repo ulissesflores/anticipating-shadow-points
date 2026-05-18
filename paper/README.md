@@ -89,27 +89,65 @@ commit the analysis plan before observing the data.
 | File | Purpose | Status |
 |---|---|---|
 | `asp-preprint.md` | **Whitepaper 1** — experience report (canonical source) | ✓ current |
-| `iron-law-11.md` | **Whitepaper 2** — pre-registered protocol (canonical source) | ✓ committed; addendum pending |
-| `asp-preprint.tex` | LaTeX of Whitepaper 1 | ⚠️ outdated; pending re-sync from MD |
-| `references.bib` | BibTeX bibliography (used by .tex) | ⚠️ outdated; pending sync |
+| `iron-law-11.md` | **Whitepaper 2** — pre-registered protocol + addendum (canonical source) | ✓ current |
+| `Makefile` | Pandoc + tectonic PDF build recipe | ✓ current |
+| `header.tex` | LaTeX header included by Makefile (Unicode → math-mode mapping) | ✓ current |
+| `.gitignore` | Excludes generated `*.pdf` (rebuilt on demand from `.md`) | ✓ current |
 | `README.md` | This file | ✓ current |
 
-## Building PDFs (for offline review)
+The Markdown files are the **canonical source** of each whitepaper.
+A LaTeX (`.tex`) variant was previously kept and is no longer
+maintained — pandoc + tectonic produces the published PDF directly
+from the Markdown source.
 
-arXiv now accepts Markdown submissions for `cs.AI`; the recommended
-path is to submit the MD directly. For offline PDF generation:
+## Building PDFs
+
+The PDFs are not committed; they are reproducibly built from the
+canonical `.md` sources. Two tools are required, both available on
+macOS via Homebrew and on Linux via the distribution package manager:
+
+- **pandoc** (≥ 3.0) — Markdown to LaTeX/PDF converter
+- **tectonic** — self-contained LaTeX engine that downloads packages
+  on demand (no full TeXLive install required)
 
 ```bash
-# Whitepaper 1
-pandoc asp-preprint.md \
-  -o asp-preprint.pdf \
-  --pdf-engine=xelatex
+# macOS
+brew install pandoc tectonic
 
-# Whitepaper 2
-pandoc iron-law-11.md \
-  -o iron-law-11.pdf \
-  --pdf-engine=xelatex
+# Build both whitepapers
+cd paper
+make
+
+# Outputs:
+#   asp-preprint.pdf
+#   iron-law-11.pdf
 ```
+
+Other Makefile targets:
+
+```bash
+make clean    # remove generated PDFs
+make watch    # auto-rebuild on .md change (requires fswatch)
+make print    # show the resolved pandoc command (for inspection)
+make help
+```
+
+### What the build does
+
+The build uses pandoc's defaults plus a small LaTeX header
+(`header.tex`) that maps a handful of Unicode mathematical
+characters (≥, ≤, κ, Δ, ·, ×, →) to their LaTeX math-mode
+equivalents. This keeps the `.md` source clean (real Unicode,
+human-readable on GitHub/Typora/Obsidian) while ensuring the PDF
+renders correctly with the default Latin Modern fonts that tectonic
+ships in its bundle.
+
+Whitepaper PDFs are intentionally **not committed to the repository**:
+the `.md` is the source of truth, the `.pdf` is a derived artefact,
+and committing both invites drift. To publish a versioned PDF (for
+example to Zenodo with a DOI), tag the release first, build with
+`make`, and attach the produced PDFs to the GitHub release page or
+upload them to the deposit service of choice.
 
 ## Licensing
 

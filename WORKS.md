@@ -5,9 +5,14 @@ relevance, not by directory.
 
 **Repository**: https://github.com/ulissesflores/anticipating-shadow-points
 **Documentation site**: https://ulissesflores.github.io/anticipating-shadow-points/
-**Latest commits**:
-- [`f5c65f6`](https://github.com/ulissesflores/anticipating-shadow-points/commit/f5c65f6) — v0.6.0 Iron Law 11 empirical addendum (N=50 → 60% silent refusal)
-- [`5c656f1`](https://github.com/ulissesflores/anticipating-shadow-points/commit/5c656f1) — v0.4-v0.5.1 citation discipline + dual-paper restructure + pre-registered protocol
+**Publisher**: Codex Hash Research Laboratory · São Paulo, Brazil
+**Whitepaper Series**: 2026
+
+**Local-only commits** (not yet pushed to public `main`):
+- `v0.7.1` — PDF build infrastructure (pandoc + tectonic) · version bumps · stale `.tex`/`.bib` removed
+- `v0.7.0` — Whitepaper series rebrand (Codex Hash Research Laboratory) · São Paulo · About-the-Author sections · CODEX HASH ASCII logo on both whitepaper headers
+- `v0.6.0` — Iron Law 11 empirical addendum (N=50 → 60% silent refusal)
+- `v0.4-v0.5.1` — Citation discipline + dual-whitepaper restructure + Iron Law 11 pre-registered protocol
 
 ---
 
@@ -25,22 +30,25 @@ responses. Falsification verdict: **CONFIRMED (high)** per pre-registration
 
 ---
 
-## 📄 The two papers
+## 📄 The two whitepapers
 
-### Paper 1 — Experience Report
+Both whitepapers are published under the *Codex Hash Research Laboratory
+Whitepaper Series · 2026*. The Markdown files are the canonical source;
+PDFs are built on demand via `make` (see `paper/README.md`).
+
+### Whitepaper 1 — Experience Report
 
 > **ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report**
 
-5,300-word experience report on the system, with honest preliminary
+~5,300-word experience report on the system, with honest preliminary
 empirics (n=8 author-adjudicated) and a generalist-to-specialist
 introduction. Target venues: NeurIPS LLM-agents workshop, ICLR agents
 workshop, AAAI agents track.
 
 - **Canonical source**: [`paper/asp-preprint.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/asp-preprint.md)
-- LaTeX (outdated, MD is canonical): [`paper/asp-preprint.tex`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/asp-preprint.tex)
-- Bibliography: [`paper/references.bib`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/references.bib)
+- **Built PDF**: `paper/asp-preprint.pdf` (run `make` in `paper/`)
 
-### Paper 2 — Pre-Registered Protocol + Empirical Addendum
+### Whitepaper 2 — Pre-Registered Protocol + Empirical Addendum
 
 > **Graceful Refusals as Silent Successes: A Pre-Registered Protocol for Characterising `claude -p` Exit-Code Semantics**
 
@@ -50,8 +58,18 @@ recommendations to Anthropic in §10.8. Target venues: NeurIPS
 LLM-tooling workshop, EMNLP system demonstrations, SoLaR workshop.
 
 - **Canonical source**: [`paper/iron-law-11.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/iron-law-11.md)
-- §10 Empirical Addendum: same file, see §10
-- Two-paper track explanation: [`paper/README.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/README.md)
+- **Built PDF**: `paper/iron-law-11.pdf` (run `make` in `paper/`)
+- Two-whitepaper track explanation: [`paper/README.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/README.md)
+
+### PDF build infrastructure
+
+- [`paper/Makefile`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/Makefile) — pandoc + tectonic recipe
+- [`paper/header.tex`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/header.tex) — LaTeX header mapping Unicode (≥, ≤, κ, Δ, ·, ×, →) to math-mode for portable PDF rendering
+
+```bash
+brew install pandoc tectonic        # one-time
+cd paper && make                    # builds both whitepaper PDFs
+```
 
 ---
 
@@ -147,7 +165,7 @@ The actual Claude Code skill that implements the 13-phase protocol with
 - [`acceptance-contract.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/skills/anticipating-shadow-points/templates/acceptance-contract.md)
 - [`execution-report.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/skills/anticipating-shadow-points/templates/execution-report.md)
 
-### The 5 ASP evaluations (used by Paper 1 + benchmark)
+### The 5 ASP evaluations (used by Whitepaper 1 + benchmark)
 
 - [`evals/01-supabase-migration.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/skills/anticipating-shadow-points/evals/01-supabase-migration.md) (E1)
 - [`evals/02-edge-function-deploy.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/skills/anticipating-shadow-points/evals/02-edge-function-deploy.md) (E2)
@@ -192,7 +210,7 @@ The actual Claude Code skill that implements the 13-phase protocol with
 
 ## 📣 Social-channel templates (research-release artefacts)
 
-Channel-specific copy ready to post once Paper 2's notification step happens.
+Channel-specific copy ready to post once Whitepaper 2's notification step happens.
 
 - [`social/README.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/social/README.md) — Staging plan + anti-patterns
 - [`social/LINKEDIN.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/social/LINKEDIN.md) — Long-form article (~2,000 words, CTO + academic audience)
@@ -230,7 +248,7 @@ Channel-specific copy ready to post once Paper 2's notification step happens.
 
 ## 🧪 Earlier test artefacts (preliminary RED/GREEN battery)
 
-Original n=8 hand-adjudicated battery used in Paper 1 §5.
+Original n=8 hand-adjudicated battery used in Whitepaper 1 §5.
 
 - [`tests/baseline-pressure-tests.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/baseline-pressure-tests.md) — RED baseline scenarios
 - [`tests/evals-summary.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/evals-summary.md) — Adjudication summary
@@ -266,4 +284,8 @@ verified by direct URL fetch on 2026-05-17:
 - Shinn, N., et al. (2023). [*Reflexion*](https://arxiv.org/abs/2303.11366) — NeurIPS 2023.
 - Deng, X., et al. (2025). [*SWE-Bench Pro*](https://arxiv.org/abs/2509.16941) — arXiv.
 
-Full bibliography (26 verified primary entries): [`paper/references.bib`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/references.bib)
+Full APA-formatted reference list (26 verified primary entries) is in
+the References section of each whitepaper. The previously-maintained
+`paper/references.bib` was removed in v0.7.1: the Markdown sources are
+canonical, and pandoc renders the inline APA references directly in the
+PDF without needing a separate BibTeX file.

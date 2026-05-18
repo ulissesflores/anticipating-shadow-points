@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "anticipating-shadow-points",
-      "description": "Gold-standard planning protocol — Klein pre-mortem + Berkeley MAST 14-mode + claude -p /goal subprocess execution kernel + 12 Iron Laws (incl. NEVER trust $? from claude -p, parse JSON). Empirically validated 2026-05-17.",
+      "description": "Pre-mortem-first planning protocol for LLM coding agents — Klein pre-mortem + Berkeley MAST 14-mode + claude -p /goal subprocess execution kernel + 12 Iron Laws (incl. NEVER trust $? from claude -p, parse JSON). Empirically validated on a pre-registered N=50 protocol (60% silent-refusal rate; companion whitepaper).",
       "source": {
         "source": "github",
         "repo": "ulissesflores/anticipating-shadow-points"

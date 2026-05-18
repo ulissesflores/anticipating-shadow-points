@@ -1,7 +1,7 @@
 {
   "name": "anticipating-shadow-points",
   "description": "ASP (Ant-Shadow-Point) — gold-standard planning protocol for non-trivial engineering tasks. 13 phases: research, Klein pre-mortem + Berkeley MAST 14-mode shadow-point detection, independent validator subagent, contractual micro-TODO, claude -p /goal subprocess execution kernel, deliverables sign-off, memory write-back. 12 Iron Laws (including Iron Law 11: never trust $? from claude -p, parse JSON).",
-  "version": "0.2.3",
+  "version": "0.7.1",
   "author": {
     "name": "Ulisses Flores",
     "email": "c.ulisses@gmail.com",

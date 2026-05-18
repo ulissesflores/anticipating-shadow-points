@@ -23,6 +23,65 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Formal ablation: with/without MAST checklist, with/without validator
   prompt isolation.
 
+## [0.7.1] — 2026-05-18
+
+### Added — PDF build infrastructure for the whitepaper series
+
+Whitepapers are now produced as PDFs (the standard published format for
+the genre) directly from the canonical Markdown sources, with no
+intermediate LaTeX manual editing required.
+
+- **`paper/Makefile`** — pandoc + tectonic recipe. `make` builds both
+  whitepaper PDFs; `make clean`, `make watch`, `make print`, `make help`
+  available.
+- **`paper/header.tex`** — small LaTeX header included in pandoc builds.
+  Maps a handful of Unicode mathematical characters (≥, ≤, κ, Δ, ·, ×,
+  →, ⇒, ∈, ≈, ≠, σ, α, β) to their LaTeX math-mode equivalents via
+  `newunicodechar`. This keeps the `.md` source clean for human readers
+  (real Unicode renders correctly on GitHub/Typora/Obsidian) while
+  ensuring portable PDF rendering with tectonic's default Latin Modern
+  fonts (which lack text-mode glyphs for those symbols).
+- **`paper/.gitignore`** — excludes generated `*.pdf`. PDFs are derived
+  artefacts; the `.md` is the source of truth. Tagged release PDFs can
+  be attached to GitHub releases or uploaded to Zenodo as needed.
+- **`paper/README.md`** — updated with the PDF build section and
+  Homebrew install command for the toolchain (`brew install pandoc
+  tectonic`).
+
+### Removed — stale TeX / BibTeX artefacts
+
+- **`paper/asp-preprint.tex`** — removed. Previously kept as a parallel
+  LaTeX version; pandoc + tectonic now produces the published PDF
+  directly from the Markdown source.
+- **`paper/references.bib`** — removed for the same reason. The
+  whitepaper Markdown sources carry APA-formatted inline references in
+  the References section; no separate BibTeX file is needed.
+
+### Changed — version bumps to 0.7.1
+
+- **`.claude-plugin/plugin.json`** — version 0.2.3 → 0.7.1.
+- **`.claude-plugin/marketplace.json`** — description refreshed to
+  reference the 60% silent-refusal empirical claim and the companion
+  whitepaper.
+- **`CITATION.cff`** — version 0.2.3 → 0.7.1; date-released → 2026-05-18;
+  abstract substantially rewritten to reflect the verified citations
+  (Mitchell 1989; Klein 2007; Cemri 2025 with κ=0.88; Erdogan 2025;
+  Huang 2024; Tyen 2024; Zheng 2023) and the two-whitepaper series.
+
+### Changed — WORKS.md index
+
+- Updated to reflect the Codex Hash Research Laboratory whitepaper-series
+  branding throughout, the local-only v0.7.0/v0.7.1 commits, and the new
+  PDF build subsection. The previous reference to `paper/references.bib`
+  was removed.
+
+### Why
+The v0.7.0 commit established the whitepaper framing; v0.7.1 finishes
+the job by making PDF generation reproducible from the canonical
+Markdown sources and removing the stale LaTeX scaffolding that would
+otherwise drift. The whitepaper series is now publishable: clone, run
+`make`, attach the produced PDFs.
+
 ## [0.7.0] — 2026-05-18
 
 ### Changed — Reframed as Codex Hash Research Laboratory whitepaper series
