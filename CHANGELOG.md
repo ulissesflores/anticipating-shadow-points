@@ -23,6 +23,87 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Formal ablation: with/without MAST checklist, with/without validator
   prompt isolation.
 
+## [1.0.1] — 2026-05-18
+
+### Changed — Zenodo DOI embedded; `paper/` made consistent with the filter mestre
+
+The Zenodo deposit for v1.0.0 minted DOI **`10.5281/zenodo.20276632`**;
+this patch embeds the DOI throughout citable surfaces and finishes the
+`paper/` cleanup that should have been part of v1.0.0.
+
+**DOI embedded in**:
+
+- `CITATION.cff` — new `identifiers` entry of type `doi` + `preferred-citation`
+  carries the DOI directly so GitHub's "Cite this repository" button
+  presents it.
+- `paper/asp-preprint.md` — Status block now includes the DOI line.
+- `paper/iron-law-11.md` — same.
+- PDFs rebuilt with the DOI present in the rendered title block.
+
+### Changed — `paper/` is now the papers, not the build system
+
+The user observed (correctly) that the `paper/` directory at v1.0.0
+contained the Markdown sources, a `Makefile`, a `header.tex`, and a
+`.gitignore` — but NOT the PDFs themselves. The PDFs were gitignored as
+"derived artefacts" while a build system that produces them sat in
+their place. Under the filter mestre (*artefato de geração ≠ produto
+gerado*) the inversion is wrong: the PDFs are the papers; the build
+system is the generation.
+
+Resolved by:
+
+**Adding to `paper/`** (now in version control, ~210 KB combined):
+
+- `asp-preprint.pdf` — Whitepaper 1, built from the canonical `.md` source.
+- `iron-law-11.pdf` — Whitepaper 2.
+
+**Removing from `paper/`** (generation, not product):
+
+- `paper/Makefile` — pandoc + tectonic recipe. Content migrated as an
+  inline shell snippet inside `CONTRIBUTING.md § Rebuilding the
+  whitepaper PDFs`.
+- `paper/header.tex` — LaTeX header for Unicode → math-mode mapping.
+  Content migrated to a heredoc inside the same `CONTRIBUTING.md`
+  section.
+- `paper/.gitignore` — existed solely to exclude `*.pdf` from version
+  control. With PDFs now committed, the file has no purpose.
+- `paper/README.md` — the directory is self-explanatory after the
+  inversion is fixed; per-subdir README without a Makefile to document
+  is duplicative with top-level `README.md` and `CONTRIBUTING.md`.
+
+Final `paper/` contents (4 files):
+
+- `asp-preprint.pdf` (THE paper 1)
+- `asp-preprint.md` (canonical source — translation, grep, fork, accessibility)
+- `iron-law-11.pdf` (THE paper 2)
+- `iron-law-11.md` (canonical source)
+
+### Removed — redundant `.gitkeep` placeholders
+
+- `benchmark/runs/.gitkeep` — `runs/published/<id>/` is already tracked; the empty-dir trick is unnecessary.
+- `tests/iron-law-11/runs/.gitkeep` — same reasoning.
+- `tests/iron-law-11/smoke/runs/.gitkeep` — `smoke/runs/` is empty and gitignored; no need for an in-tree placeholder.
+
+### Added — Build instructions in `CONTRIBUTING.md`
+
+A new section "Rebuilding the whitepaper PDFs" replaces the
+`paper/Makefile` + `paper/header.tex` + `paper/README.md` combination.
+Contains: brew install command (macOS), an inline shell snippet that
+generates the Unicode header on-the-fly and invokes pandoc + tectonic
+per `.md` source, a portability note, and a verification recipe.
+
+### Updated — `README.md` top-level
+
+New section "Whitepapers" links directly to the in-repo PDFs and to
+the Zenodo DOI for the citable version.
+
+### Why
+
+The cleanup was *almost* right at v1.0.0; the inversion in `paper/`
+slipped through. This patch finishes the job. Zenodo will create a
+v1.0.1 deposit upon publication of the GitHub Release; the concept-DOI
+auto-points to the most recent version.
+
 ## [1.0.0] — 2026-05-18
 
 ### First stable public release

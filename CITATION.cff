@@ -27,18 +27,17 @@ authors:
     city: São Paulo
     country: BR
 
-# Identifiers — populate as artifacts are deposited:
+# Identifiers
 identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20276632"
+    description: "Versioned DOI for v1.0.0 release (Zenodo)"
   - type: url
     value: "https://github.com/ulissesflores/anticipating-shadow-points"
     description: "Software source repository"
   - type: url
     value: "https://ulissesflores.github.io/anticipating-shadow-points/"
     description: "Public documentation site"
-  # Uncomment and populate after Zenodo archive:
-  # - type: doi
-  #   value: "10.5281/zenodo.XXXXXXX"
-  #   description: "Software DOI via Zenodo"
   # Uncomment and populate after arXiv submission:
   # - type: other
   #   value: "arXiv:2606.XXXXX"
@@ -66,7 +65,8 @@ preferred-citation:
     - family-names: Flores
       given-names: Ulisses
   year: 2026
-  url: "https://github.com/ulissesflores/anticipating-shadow-points"
+  doi: "10.5281/zenodo.20276632"
+  url: "https://doi.org/10.5281/zenodo.20276632"
   version: "1.0.0"
   license: MIT
 

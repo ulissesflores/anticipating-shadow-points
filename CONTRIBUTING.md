@@ -11,6 +11,7 @@ Thanks for considering a contribution. ASP is a living skill — refinements to 
 | Contribute a new eval from your domain | [Eval Contribution issue](.github/ISSUE_TEMPLATE/eval_contribution.md) |
 | Submit code/docs changes | PR against `main` — see workflow below |
 | Improve a translation (native speaker) | PR editing `docs/README.{es,pt,it,he}.md` |
+| Rebuild a whitepaper PDF from its `.md` source | See [§ Rebuilding the whitepaper PDFs](#rebuilding-the-whitepaper-pdfs) |
 | Report a security vulnerability | **Do NOT open a public issue.** See [SECURITY.md](SECURITY.md) |
 
 ## Workflow
@@ -93,3 +94,109 @@ Open an issue with the question tag, or contact the maintainer:
 ## Code of conduct
 
 By participating, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md) (Contributor Covenant 2.1).
+
+## Rebuilding the whitepaper PDFs
+
+The repository ships pre-built whitepaper PDFs (`paper/asp-preprint.pdf`
+and `paper/iron-law-11.pdf`). The Markdown sources (`paper/*.md`) are
+canonical; the PDFs are derived artefacts. The current PDFs are also
+attached to the GitHub Release for v1.0.0 and archived under the
+Zenodo DOI for permanent citation.
+
+If you fork the work, change a `.md` source, or want to verify the
+PDFs were generated from the published `.md` sources, rebuild from
+scratch with **pandoc + tectonic** (a self-contained LaTeX engine that
+downloads its packages on demand — no full TeX Live install required).
+
+### One-time setup (macOS)
+
+```bash
+brew install pandoc tectonic
+```
+
+For Linux, install both via your distribution's package manager (or
+download tectonic's static binary from <https://tectonic-typesetting.github.io/>).
+
+### Inline build command
+
+The PDFs were built with the following invocation, applied to each
+`paper/*.md` source:
+
+```bash
+cd paper
+
+# Write the LaTeX header that maps Unicode → math-mode (keeps the .md
+# source human-readable while ensuring portable PDF rendering with
+# tectonic's default Latin Modern fonts):
+cat > /tmp/asp-pdf-header.tex <<'HEADER_EOF'
+\usepackage{newunicodechar}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{→}{\ensuremath{\to}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{"}{``}
+\newunicodechar{"}{''}
+\newunicodechar{'}{`}
+\newunicodechar{'}{'}
+HEADER_EOF
+
+# Build each whitepaper:
+for SRC in asp-preprint.md iron-law-11.md; do
+  pandoc "$SRC" \
+    --pdf-engine=tectonic \
+    --include-in-header=/tmp/asp-pdf-header.tex \
+    --variable=geometry:margin=1in \
+    --variable=fontsize:11pt \
+    --variable=documentclass:article \
+    --variable=linkcolor:NavyBlue \
+    --variable=urlcolor:NavyBlue \
+    --variable=colorlinks:true \
+    --highlight-style=tango \
+    -o "${SRC%.md}.pdf"
+done
+
+rm /tmp/asp-pdf-header.tex
+```
+
+That's it — two files are produced: `asp-preprint.pdf` and `iron-law-11.pdf`.
+
+### Why this build is portable
+
+- **pandoc** is widely packaged (macOS, all major Linux distros).
+- **tectonic** is a single static binary with no transitive system
+  dependencies; it downloads each LaTeX package the first time you
+  need it and caches it for subsequent runs.
+- The `newunicodechar` mappings let the canonical `.md` keep real
+  Unicode (≥, ≤, κ, ·, ×, etc.) — the source remains grep-able and
+  renders correctly on GitHub/Typora/Obsidian, while the PDF renders
+  these as proper math symbols.
+- Anyone with the same `pandoc` + `tectonic` versions reproduces the
+  PDF byte-identically (modulo PDF metadata timestamps).
+
+### Verifying a rebuild matches the published PDF
+
+Per-byte equality across pandoc versions is not guaranteed (pandoc
+revisions occasionally tweak typography). To verify your rebuild is
+semantically faithful:
+
+```bash
+pdftotext asp-preprint.pdf - | head -200       # extract first 200 lines
+pdftotext paper/asp-preprint.pdf - | head -200 # compare to shipped PDF
+diff <(...) <(...)                              # should be empty
+```
+
+For the canonical citable artefact, always reference the PDFs attached
+to the [GitHub Release](https://github.com/ulissesflores/anticipating-shadow-points/releases/tag/v1.0.0)
+or the [Zenodo deposit](https://doi.org/10.5281/zenodo.20276632), not
+a local rebuild.

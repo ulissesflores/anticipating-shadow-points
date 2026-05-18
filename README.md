@@ -265,6 +265,19 @@ Both can coexist.
 
 ---
 
+## Whitepapers
+
+Both whitepapers are published under **Codex Hash Research Laboratory Whitepaper Series · 2026** with permanent Zenodo DOI [10.5281/zenodo.20276632](https://doi.org/10.5281/zenodo.20276632).
+
+| # | Title | PDF | Markdown source |
+|---|---|---|---|
+| 1 | *ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report* | [`paper/asp-preprint.pdf`](paper/asp-preprint.pdf) | [`paper/asp-preprint.md`](paper/asp-preprint.md) |
+| 2 | *Graceful Refusals as Silent Successes: A Pre-Registered Protocol for Characterising `claude -p` Exit-Code Semantics* | [`paper/iron-law-11.pdf`](paper/iron-law-11.pdf) | [`paper/iron-law-11.md`](paper/iron-law-11.md) |
+
+The Markdown sources are canonical; the PDFs are the published artefacts. Both are also attached to the [GitHub Release v1.0.0](https://github.com/ulissesflores/anticipating-shadow-points/releases/tag/v1.0.0) and archived under the Zenodo DOI for permanent citation. To rebuild the PDFs from source, see [CONTRIBUTING.md § Rebuilding the whitepaper PDFs](CONTRIBUTING.md#rebuilding-the-whitepaper-pdfs).
+
+---
+
 ## Deeper reading
 
 - **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** — 10-part SOTA design document: academic background, v1→v5 architectural journey, empirical discoveries (including Iron Law 11 finding), derivation of all 12 Iron Laws, open questions.
