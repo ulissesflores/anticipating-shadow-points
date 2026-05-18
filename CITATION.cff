@@ -30,8 +30,14 @@ authors:
 # Identifiers
 identifiers:
   - type: doi
+    value: "10.5281/zenodo.20276631"
+    description: "Concept DOI (Zenodo) — resolves to the latest version. Use this for citations."
+  - type: doi
     value: "10.5281/zenodo.20276632"
-    description: "Versioned DOI for v1.0.0 release (Zenodo)"
+    description: "Versioned DOI (Zenodo) for v1.0.0 — pins citation to that specific release."
+  - type: doi
+    value: "10.5281/zenodo.20276855"
+    description: "Versioned DOI (Zenodo) for v1.0.1 — embeds DOI inline and ships rebuilt PDFs."
   - type: url
     value: "https://github.com/ulissesflores/anticipating-shadow-points"
     description: "Software source repository"
@@ -60,15 +66,15 @@ keywords:
   - multi-agent
 preferred-citation:
   type: software
-  title: "ASP — Anticipating Shadow Points (v1.0.0)"
+  title: "ASP — Anticipating Shadow Points"
   authors:
     - family-names: Flores
       given-names: Ulisses
   year: 2026
-  doi: "10.5281/zenodo.20276632"
-  url: "https://doi.org/10.5281/zenodo.20276632"
-  version: "1.0.0"
+  doi: "10.5281/zenodo.20276631"
+  url: "https://doi.org/10.5281/zenodo.20276631"
   license: MIT
+  # Concept DOI used; auto-resolves to the latest published version on Zenodo.
 
 # Methodological dependencies (papers the skill operationalizes — cite them
 # alongside ASP when discussing the methodology):

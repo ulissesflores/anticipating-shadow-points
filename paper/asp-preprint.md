@@ -16,7 +16,7 @@ MSc Program in Artificial Intelligence (in progress) · American Global Tech Uni
 c.ulisses@gmail.com · https://ulissesflores.com
 
 **Whitepaper · Version 1.0 · 2026-05-18**
-**DOI** https://doi.org/10.5281/zenodo.20276632
+**DOI** https://doi.org/10.5281/zenodo.20276631 *(concept · always resolves to latest version)*
 **Status** Independent technical whitepaper · not under peer review
 **License** Paper text — CC BY 4.0 · Companion software — MIT
 **Companion repository** https://github.com/ulissesflores/anticipating-shadow-points

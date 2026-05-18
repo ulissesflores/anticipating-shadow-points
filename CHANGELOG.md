@@ -23,6 +23,41 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Formal ablation: with/without MAST checklist, with/without validator
   prompt isolation.
 
+## [1.0.2] — 2026-05-18
+
+### Changed — Concept DOI now primary citation anchor
+
+Zenodo automatically created a concept DOI alongside each versioned DOI.
+The concept DOI **`10.5281/zenodo.20276631`** resolves to whichever
+version is most recent at the time of the request — meaning citations
+written today still work after a v1.1, v2.0, or any future release.
+This is the SOTA-2026 convention for Zenodo-deposited research.
+
+**Updated to use concept DOI as primary**:
+
+- `CITATION.cff` — `identifiers[]` now lists the concept DOI first, with
+  each versioned DOI as additional entries for use cases that need to
+  pin a specific release. `preferred-citation.doi` is the concept DOI.
+- `paper/asp-preprint.md` — Status block updated to the concept DOI
+  with a *(concept · always resolves to latest version)* note.
+- `paper/iron-law-11.md` — same.
+- Both PDFs rebuilt with the concept DOI in their title block.
+- `README.md` top-level "Whitepapers" section updated.
+
+**Versioned DOIs preserved**: each release also has its own
+versioned DOI for users who need to pin a specific snapshot
+(reproducibility, reviewer audit trails). Both `10.5281/zenodo.20276632`
+(v1.0.0) and `10.5281/zenodo.20276855` (v1.0.1) remain valid and resolve
+to their specific releases; the concept DOI is preferred for citations
+that should age gracefully.
+
+### Why
+
+A citation written today to `10.5281/zenodo.20276631` will continue to
+resolve to the most recent release in 2027, 2030, 2040. Pinning citations
+to specific versioned DOIs creates citation drift; the concept DOI is
+the long-lived anchor.
+
 ## [1.0.1] — 2026-05-18
 
 ### Changed — Zenodo DOI embedded; `paper/` made consistent with the filter mestre

@@ -267,7 +267,7 @@ Both can coexist.
 
 ## Whitepapers
 
-Both whitepapers are published under **Codex Hash Research Laboratory Whitepaper Series · 2026** with permanent Zenodo DOI [10.5281/zenodo.20276632](https://doi.org/10.5281/zenodo.20276632).
+Both whitepapers are published under **Codex Hash Research Laboratory Whitepaper Series · 2026** with permanent Zenodo concept DOI [10.5281/zenodo.20276631](https://doi.org/10.5281/zenodo.20276631) — always resolves to the latest version.
 
 | # | Title | PDF | Markdown source |
 |---|---|---|---|
