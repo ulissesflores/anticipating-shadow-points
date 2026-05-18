@@ -158,7 +158,7 @@ Validazione empirica ha confermato che `claude -p` accetta `/goal` come first pi
 
 ## Autore
 
-**Ulisses Flores** — CTO & Chief Researcher presso [Codex Hash Ltda](https://ulissesflores.com); MSc AI candidate, American Global Tech University. Itupeva, Brasile.
+**Ulisses Flores** — CTO & Chief Researcher presso [Codex Hash Research Laboratory](https://ulissesflores.com); MSc AI candidate, American Global Tech University. San Paolo, Brasile.
 
 - 🌐 [ulissesflores.com](https://ulissesflores.com)
 - 🐙 [@ulissesflores su GitHub](https://github.com/ulissesflores)

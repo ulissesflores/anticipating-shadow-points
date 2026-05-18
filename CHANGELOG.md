@@ -23,6 +23,41 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Formal ablation: with/without MAST checklist, with/without validator
   prompt isolation.
 
+## [0.7.0] — 2026-05-18
+
+### Changed — Reframed as Codex Hash Research Laboratory whitepaper series
+
+Both research documents were repositioned from "independent research preprint"
+to "independent technical whitepaper", a better fit for the operational and
+empirical content. The whitepaper framing removes the implicit "awaiting
+peer review" status, places the work as published by Codex Hash Research
+Laboratory (the author's R&D lab), and is the appropriate venue for
+practitioner-audience output.
+
+- **`paper/asp-preprint.md`**: new title block with Codex Hash ASCII logo +
+  whitepaper status + version + "Codex Hash Research Laboratory · Whitepaper
+  Series · 2026" branding. New "About the Author" section + copyright footer.
+- **`paper/iron-law-11.md`**: same structure.
+- **`paper/README.md`**: "two-paper track" → "two-whitepaper track"
+  throughout; document header now identifies the lab and author.
+- **`CITATION.cff`**: affiliation `Codex Hash Ltda` → `Codex Hash Research
+  Laboratory`; city `Itupeva` → `São Paulo`.
+- **`AUTHORS`**: same affiliation/city updates; removed the prior
+  "Co-author (research synthesis + writing) — Claude (Anthropic) — Opus 4.7"
+  section. The work is published under the human author's name alone;
+  the human/agent collaboration model is documented separately in
+  `docs/ARCHITECTURE.md` Parts 5–6.
+- **`README.md`**, **`index.md`**, all four `docs/README.*.md`
+  translations, **`social/LINKEDIN.md`**: affiliation and city updated to
+  match.
+
+### Why
+The previous "preprint" framing implied a venue submission pipeline.
+The current state is better described as "the lab's published whitepapers
+on this research line"; positioning them under Codex Hash Research
+Laboratory makes the publisher explicit and removes ambiguity about
+whether the documents are drafts.
+
 ## [0.6.0] — 2026-05-18
 
 ### Added — Iron Law 11 empirical addendum (formal N=50 run)

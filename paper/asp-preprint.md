@@ -1,15 +1,25 @@
+```
+   ____          _             _   _           _     
+  / ___|___   __| | _____  __ | | | | __ _ ___| |__  
+ | |   / _ \ / _` |/ _ \ \/ / | |_| |/ _` / __| '_ \ 
+ | |__| (_) | (_| |  __/>  <  |  _  | (_| \__ \ | | |
+  \____\___/ \__,_|\___/_/\_\ |_| |_|\__,_|___/_| |_|
+
+  ~ Codex Hash Research Laboratory · Whitepaper Series · 2026
+```
+
 # ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report
 
-**Author:** Ulisses Flores
-*Codex Hash Ltda, Itupeva, Brazil*
-*MSc Program in Artificial Intelligence (in progress), American Global Tech University*
-**Contact:** c.ulisses@gmail.com · https://ulissesflores.com
+**Author** · Ulisses Flores
+CTO & Chief Researcher · Codex Hash Research Laboratory · São Paulo, Brazil
+MSc Program in Artificial Intelligence (in progress) · American Global Tech University
+c.ulisses@gmail.com · https://ulissesflores.com
 
-**Date:** 2026-05-17
-**Status:** Independent experience report. Not under peer review.
-**License:** Paper text — CC BY 4.0. Companion software — MIT.
-**Companion repository:** https://github.com/ulissesflores/anticipating-shadow-points
-**Companion paper:** Flores, U. (2026b). *Graceful Refusals as Silent Successes: A Pre-Registered Protocol for Characterizing `claude -p` Exit-Code Semantics.* See `paper/iron-law-11.md`.
+**Whitepaper · Version 1.0 · 2026-05-18**
+**Status** Independent technical whitepaper · not under peer review
+**License** Paper text — CC BY 4.0 · Companion software — MIT
+**Companion repository** https://github.com/ulissesflores/anticipating-shadow-points
+**Companion whitepaper** Flores, U. (2026b). *Graceful Refusals as Silent Successes: A Pre-Registered Protocol for Characterising `claude -p` Exit-Code Semantics.* See `paper/iron-law-11.md`.
 
 ---
 
@@ -675,6 +685,29 @@ re-implemented in another language.
 
 ---
 
-*End of experience report. References: 20 primary entries (1989, 2007 +
+## About the Author
+
+**Ulisses Flores** is CTO and Chief Researcher at Codex Hash Research
+Laboratory, an independent R&D lab in São Paulo, Brazil. He builds
+production systems where silent failure is expensive — historically in
+algorithmic trading, embedded IoT and edge cryptography, and currently
+in agentic-AI tooling. The ASP skill described in this whitepaper grew
+out of that latter line of work; the empirical finding reported in the
+companion whitepaper grew out of using Anthropic's `claude -p` runner
+as an autonomous execution kernel and watching it return exit code 0
+on a graceful agent refusal.
+
+He is an MSc candidate in Artificial Intelligence at American Global
+Tech University and writes in Portuguese, English, Spanish, and
+Italian.
+
+**Contact** · c.ulisses@gmail.com · https://ulissesflores.com
+
+---
+
+© 2026 Ulisses Flores · Codex Hash Research Laboratory · São Paulo, Brazil
+Paper text licensed under CC BY 4.0 · Companion software licensed under MIT
+
+*End of whitepaper. References: 20 primary entries (1989, 2007 +
 18 papers from 2022–2026) + 3 documentation entries. Word count:
 approximately 5,000 words excluding tables, code blocks, and appendices.*

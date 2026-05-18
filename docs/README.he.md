@@ -160,7 +160,7 @@ DELIVERABLE-ID: <לאיזה תוצר תורם>
 
 ## מחבר
 
-**Ulisses Flores** — CTO וחוקר ראשי ב-[Codex Hash Ltda](https://ulissesflores.com); מועמד MSc AI, American Global Tech University. Itupeva, ברזיל.
+**Ulisses Flores** — CTO וחוקר ראשי ב-[Codex Hash Research Laboratory](https://ulissesflores.com); מועמד MSc AI, American Global Tech University. סאו פאולו, ברזיל.
 
 - 🌐 [ulissesflores.com](https://ulissesflores.com)
 - 🐙 [@ulissesflores ב-GitHub](https://github.com/ulissesflores)

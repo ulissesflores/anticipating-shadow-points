@@ -72,6 +72,6 @@ I welcome substantive critique, alternative methodology suggestions, and especia
 **arXiv preprint** (LaTeX source): https://github.com/ulissesflores/anticipating-shadow-points/tree/main/paper
 
 — Ulisses Flores
-CTO & Chief Researcher, Codex Hash Ltda
+CTO & Chief Researcher, Codex Hash Research Laboratory
 MSc AI candidate, American Global Tech University
-Itupeva, Brazil
+São Paulo, Brazil
