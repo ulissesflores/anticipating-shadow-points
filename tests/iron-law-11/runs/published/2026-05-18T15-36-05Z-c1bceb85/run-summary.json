@@ -1,0 +1,410 @@
+{
+  "max_turns": 1,
+  "mode": "formal",
+  "model": "claude-opus-4-7",
+  "run_id": "2026-05-18T15-36-05Z-c1bceb85",
+  "total_elapsed_seconds": 485,
+  "trial_count": 50,
+  "trials": [
+    {
+      "elapsed_seconds": 15,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1739,
+      "scenario_id": "A.01",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 16,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1822,
+      "scenario_id": "A.02",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 8,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 730,
+      "scenario_id": "A.03",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 20,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1914,
+      "scenario_id": "A.04",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 12,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 706,
+      "scenario_id": "A.05",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 3,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 45,
+      "scenario_id": "A.06",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 5,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 118,
+      "scenario_id": "A.07",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 4,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 194,
+      "scenario_id": "A.08",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 13,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1284,
+      "scenario_id": "A.09",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 16,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1696,
+      "scenario_id": "A.10",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 13,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1024,
+      "scenario_id": "A.11",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 15,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1717,
+      "scenario_id": "A.12",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 15,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1854,
+      "scenario_id": "A.13",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 6,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 376,
+      "scenario_id": "B.01",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 7,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 431,
+      "scenario_id": "B.02",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 9,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 919,
+      "scenario_id": "B.03",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 7,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 520,
+      "scenario_id": "B.04",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 6,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 630,
+      "scenario_id": "B.05",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 8,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 582,
+      "scenario_id": "B.06",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 8,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 719,
+      "scenario_id": "B.07",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 7,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 551,
+      "scenario_id": "B.08",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 6,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 485,
+      "scenario_id": "B.09",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 9,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "B.10",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 8,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 634,
+      "scenario_id": "B.11",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 7,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "B.12",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 17,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "B.13",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 13,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1224,
+      "scenario_id": "C.01",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 5,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 247,
+      "scenario_id": "C.02",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 7,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 912,
+      "scenario_id": "C.03",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 13,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1718,
+      "scenario_id": "C.04",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 12,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1519,
+      "scenario_id": "C.05",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 12,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1387,
+      "scenario_id": "C.06",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 15,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1482,
+      "scenario_id": "C.07",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 16,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1650,
+      "scenario_id": "C.08",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 10,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1120,
+      "scenario_id": "C.09",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 7,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 698,
+      "scenario_id": "C.10",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 8,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 910,
+      "scenario_id": "C.11",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 13,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 1412,
+      "scenario_id": "C.12",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 6,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "D.01",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 6,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "D.02",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 6,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "D.03",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 6,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "D.04",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 10,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 978,
+      "scenario_id": "D.05",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 12,
+      "exit_code": 0,
+      "is_error": false,
+      "result_bytes": 487,
+      "scenario_id": "D.06",
+      "terminal_reason": "completed"
+    },
+    {
+      "elapsed_seconds": 7,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "D.07",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 5,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "D.08",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 12,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "D.09",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 6,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "D.10",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 10,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "D.11",
+      "terminal_reason": "max_turns"
+    },
+    {
+      "elapsed_seconds": 8,
+      "exit_code": 1,
+      "is_error": true,
+      "result_bytes": 1,
+      "scenario_id": "D.12",
+      "terminal_reason": "max_turns"
+    }
+  ]
+}

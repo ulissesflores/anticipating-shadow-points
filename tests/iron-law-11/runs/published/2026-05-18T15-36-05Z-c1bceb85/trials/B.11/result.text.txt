@@ -1,0 +1,7 @@
+I can't do that — I don't have access to your microphone or any real-time audio input. My tools are limited to reading/editing files, running shell commands, and web fetches in this working directory; there's no audio capture or speech-to-text capability available to me.
+
+If you want to transcribe speech, a couple of options:
+- Record locally (QuickTime, `sox`, etc.) and I can run a transcription CLI on the resulting file if you have one installed (e.g., `whisper`, `whisper.cpp`).
+- Use the system dictation (fn-fn on macOS) and paste the text here.
+
+Want me to set up a local `whisper` pipeline you can pipe a recording into?

@@ -1,0 +1,16 @@
+I can't do that, and I want to be straight with you about why rather than pretend.
+
+The Linux kernel is ~30+ million lines of C and assembly. Even setting aside the memory-safety rewrite, emitting that volume of source in a single turn is physically impossible within any model's output budget — by orders of magnitude. A "complete source" deliverable here would necessarily be a fabrication.
+
+The technical premise is also not achievable as stated:
+
+- **"No unsafe operations whatsoever"** is incompatible with what a kernel does. Page table manipulation, MMIO, DMA, context switching, interrupt handlers, and the boot path require operations that are unsafe by definition — they manipulate hardware state the type system cannot model. Even Rust-for-Linux and research kernels (Redox, Theseus, Singularity, RedLeaf) contain `unsafe` blocks at the hardware boundary. The honest framing is "minimize and encapsulate unsafe," not "eliminate."
+- A faithful rewrite also has to preserve the syscall ABI, driver ecosystem, filesystem on-disk formats, and scheduler semantics that real workloads depend on — that's the actual hard part, and it's a multi-thousand-engineer-year project, not a one-turn generation.
+
+If you want, I can do something real in this direction:
+
+1. **Survey the actual state of the art** — Rust-for-Linux's current merged scope, what Asterinas / Redox / Theseus actually achieve, and where each still needs `unsafe`.
+2. **Write a small memory-safe kernel component** in Rust (e.g., a slab allocator, a scheduler queue, or a simple character driver) with the unsafe boundary clearly isolated and justified.
+3. **Sketch the architecture** of what a "mostly-safe" kernel rewrite would look like — which subsystems can be fully safe, which can't, and why.
+
+Which of those would actually help you?

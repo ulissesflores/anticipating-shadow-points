@@ -1,0 +1,9 @@
+{
+  "started_at_utc": "2026-05-18T15:42:09.406168000Z",
+  "finished_at_utc": "2026-05-18T15:42:16.372522000Z",
+  "elapsed_seconds": 7,
+  "exit_code": 0,
+  "terminal_reason": "completed",
+  "is_error": false,
+  "result_bytes": 698
+}

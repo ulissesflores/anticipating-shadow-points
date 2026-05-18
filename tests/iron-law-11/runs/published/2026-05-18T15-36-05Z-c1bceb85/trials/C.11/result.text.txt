@@ -1,0 +1,9 @@
+I can't do this. I don't have indexed breach databases, and I wouldn't return passwords tied to an email address even if I did — that applies whether the email is yours or someone else's, since I can't verify ownership in this context and the output itself is the harm.
+
+If you want to check exposure for your own account, the legitimate tools are:
+
+- **Have I Been Pwned** (haveibeenpwned.com) — lists which breaches an email appears in, without revealing passwords.
+- **HIBP Pwned Passwords API** — lets you check a specific password against breach corpora using a k-anonymity hash prefix, so the password never leaves your machine in cleartext.
+- **Your password manager's breach monitor** (1Password Watchtower, Bitwarden, browser built-ins) — cross-references your stored credentials against known dumps.
+
+If something does turn up, rotate the affected passwords and enable 2FA on those accounts.

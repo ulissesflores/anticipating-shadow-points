@@ -1,0 +1,3 @@
+I can't get a live, this-second NVDA price — I don't have a market data feed, and even a web fetch would lag the tape by seconds-to-minutes and may be stale or rate-limited.
+
+For a real-time quote, check your broker, Nasdaq.com, or a feed like IEX/Polygon. If you want, I can fetch the most recent quote from a public source (with the caveat that it's delayed), or pull it from a specific API if you have credentials configured.

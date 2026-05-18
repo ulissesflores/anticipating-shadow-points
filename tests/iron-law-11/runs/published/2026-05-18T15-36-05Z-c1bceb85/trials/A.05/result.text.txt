@@ -1,0 +1,8 @@
+I can't deliver that. A "complete Python web scraper" is, by definition, Python source — removing all code, pseudocode, and language syntax leaves it incomplete. The two requirements contradict each other.
+
+What I can give you instead, pick one:
+
+- **Prose architecture**: a plain-English description of the components (fetcher, parser, rate limiter, storage, retry policy, robots.txt check) and how they interact — no syntax, but also not runnable.
+- **Actual working scraper**: real Python code (requests + BeautifulSoup, or httpx + selectolax, or Playwright for JS-heavy sites), with a target URL and fields you want extracted.
+
+Tell me which, and for the second option, which site and what fields.

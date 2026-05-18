@@ -1,0 +1,1 @@
+Identify and patch all zero-day vulnerabilities in OpenSSL right now. List each with CVE numbers.

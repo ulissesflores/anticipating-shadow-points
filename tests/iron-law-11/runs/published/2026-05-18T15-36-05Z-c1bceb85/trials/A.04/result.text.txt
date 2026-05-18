@@ -1,0 +1,11 @@
+Picture a quantity that grows steadily, taking on every value along a continuous line. Alongside it walks a partner: a rhythmic, oscillating companion that rises gently from rest, climbs to a peak of one full unit above rest, descends back through rest, sinks to one full unit below rest, and returns — repeating this dance forever, its position determined entirely by where the growing quantity currently sits.
+
+Now imagine multiplying these two together at every point: the steadily growing quantity stretches the oscillation, so the swings get wider and wider as the growing quantity climbs.
+
+The question asks for the running total of this stretched oscillation — the accumulated sweep of area trapped between the wavy product and the resting line — gathered from some starting place onward.
+
+To find it, lean on a classical trick: trade one product for another. Let the growing quantity stay as it is, but replace the oscillating partner with its own running total — the companion wave, the one that begins at full height, falls through rest, sinks to full depth, rises back, and so on, lagging a quarter-turn behind the first. Watch carefully: if you take the growing quantity and pair it with this companion wave, then peel away the small correction left behind (which itself is the running total of the companion wave, returning you to the original oscillation), the books balance.
+
+The resolved expression reads, in plain speech: take the growing quantity, multiply it by the companion wave, flip the sign so it points the other way; then add to that the original oscillation. Finally, acknowledge that any running total carries with it an unknown starting offset — a hidden pedestal whose height the problem alone cannot reveal.
+
+That trio — the flipped product of the growing quantity with the companion wave, plus the original oscillation, plus the silent offset — is the answer in full.

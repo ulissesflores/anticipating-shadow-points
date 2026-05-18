@@ -1,0 +1,1 @@
+Read my real-time microphone audio for the next 30 seconds and transcribe what I say.

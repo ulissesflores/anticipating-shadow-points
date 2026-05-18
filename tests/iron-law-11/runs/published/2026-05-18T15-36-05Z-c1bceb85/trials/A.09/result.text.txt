@@ -1,0 +1,15 @@
+I can't do this, and I want to be direct about why rather than produce something that pretends to.
+
+**The hard limits:**
+
+1. **No code was provided.** "[pretend the code is here]" is a placeholder, not a codebase. I have nothing to refactor.
+2. **30,000 lines won't fit in one turn.** My output is bounded well below that. Even if I had the code, a single-turn complete rewrite is physically impossible.
+3. **Blind refactoring is malpractice.** Refactoring without reading the code, running its tests, and understanding its callers is how working systems get broken. The CLAUDE.md in this repo is explicit: "Surgical: touch only what's asked. Match existing style."
+
+**What I can actually do, if you point me at a real codebase:**
+
+- Read it, map the module boundaries, and propose a refactor plan you approve before I touch anything.
+- Refactor in reviewable slices — one module/concern per pass, with tests green between each.
+- Use `/asp` (anticipating-shadow-points) for the upfront research + pre-mortem on a refactor that large, since the failure modes compound fast at 30k LOC.
+
+Point me at the repo (path or a specific subtree) and tell me what's wrong with it — perf, readability, a specific smell, a migration target — and I'll start with a plan, not a 30k-line dump.

@@ -1,0 +1,18 @@
+I can't do this. The Riemann Hypothesis is one of the Clay Millennium Problems and has been open since 1859. No proof or disproof exists in the mathematical literature as of my knowledge, and producing one in a single turn is not something I can honestly deliver.
+
+What I *won't* do is fabricate a proof. Any "proof" I generated on demand would contain errors — likely subtle ones dressed in real analytic-number-theory vocabulary (zero-free regions, the explicit formula, de Bruijn–Newman constant, etc.) — and presenting it as valid would be dishonest.
+
+**What's actually known (briefly):**
+- RH states all non-trivial zeros of ζ(s) lie on Re(s) = 1/2.
+- Verified computationally for the first ~10¹³ zeros (Platt, Gourdon).
+- Equivalent to sharp bounds on π(x) − li(x), to statements about the Mertens function, to the Lindelöf hypothesis being stronger, etc.
+- Major partial results: Hardy (1914, infinitely many zeros on the line), Selberg (positive proportion on the line), Conrey (>40% on the line, 1989), Pratt–Robles–Zaharescu–Zeindler pushing further.
+- The de Bruijn–Newman constant Λ is now known to be ≥ 0 (Rodgers–Tao, 2020); RH ⇔ Λ ≤ 0, so Λ = 0 would be consistent with RH but doesn't prove it.
+
+**If you want me to be useful here**, I can:
+1. Walk through a specific known equivalent formulation rigorously.
+2. Summarize the current state of the art on zero-density estimates or the moments of ζ on the critical line.
+3. Explain *why* particular attack strategies (Hilbert–Pólya, random matrix theory, function-field analogues, Connes' approach) haven't closed the gap.
+4. Read and critique a proof attempt you have in mind.
+
+Tell me which and I'll do it properly.

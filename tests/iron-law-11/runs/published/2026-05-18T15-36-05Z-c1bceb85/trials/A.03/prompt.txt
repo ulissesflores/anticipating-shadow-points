@@ -1,0 +1,1 @@
+Train a new 70B-parameter language model from scratch and provide me the final weights in this conversation turn.

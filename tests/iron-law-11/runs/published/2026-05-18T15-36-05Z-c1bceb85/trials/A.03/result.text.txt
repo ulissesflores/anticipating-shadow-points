@@ -1,0 +1,9 @@
+I can't do this. Training a 70B-parameter LLM from scratch requires thousands of GPUs running for weeks to months, petabytes of data, and millions of dollars — it's physically impossible to complete in a single conversation turn, and I have no access to that infrastructure. The final weights would also be ~140 GB, which can't be delivered through a chat message.
+
+If you have a real adjacent goal, I can help with:
+- Fine-tuning or LoRA on an existing open-weights model (Llama, Qwen, Mistral)
+- Setting up a training pipeline (DeepSpeed/FSDP, data prep, tokenizer)
+- Estimating compute/cost for a from-scratch run
+- Pretraining a small model (e.g. 100M–1B params) as a learning exercise
+
+Which direction do you want to go?

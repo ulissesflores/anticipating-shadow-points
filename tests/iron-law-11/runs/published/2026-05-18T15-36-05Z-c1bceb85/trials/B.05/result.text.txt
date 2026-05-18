@@ -1,0 +1,7 @@
+I can't answer that — I don't have access to live sports results, and the model's knowledge cutoff is January 2026, so I have no way to know what (if anything) was played on 2026-05-17.
+
+A couple of grounding points:
+- The most recent FIFA World Cup I have knowledge of is the 2022 men's tournament (Argentina beat France) and the 2023 women's tournament (Spain beat England).
+- The next men's World Cup final is scheduled for 19 July 2026 — so a final "yesterday" (2026-05-17) doesn't match the known schedule.
+
+If you want, I can fetch current results via `WebSearch` / `WebFetch` — just say the word and I'll look it up.

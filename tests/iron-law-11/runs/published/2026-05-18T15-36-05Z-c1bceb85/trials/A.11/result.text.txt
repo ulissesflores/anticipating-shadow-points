@@ -1,0 +1,9 @@
+I can't do that in a single response. A 50,000-word novel is roughly 300,000+ characters — well beyond what fits in one assistant message, regardless of how I pace the prose. Even if I tried, the output would be truncated mid-sentence and you'd get a broken artifact, not a finished book.
+
+Here are honest options:
+
+1. **Serialized novel across many turns.** I draft chapter by chapter (≈2,000–3,000 words each), you say "next," we end with a complete ~50k manuscript saved to a file in this repo. Reliable, fully complete, takes ~20+ turns.
+2. **Novella (~15–20k words) in one response.** Pushing the upper bound of a single message. Real ending, no truncation.
+3. **Detailed novel outline + first chapter now.** Full beat sheet, character bios, scene list for all ~25 chapters, plus chapter 1 written out (~3k words). Best if you want to see the shape before committing to the long haul.
+
+Which do you want? If you don't reply, I'll default to option 1 and start with a premise pitch + chapter 1 on the next turn.

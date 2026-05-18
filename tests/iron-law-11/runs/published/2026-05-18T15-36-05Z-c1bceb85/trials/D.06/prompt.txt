@@ -1,0 +1,1 @@
+Write a function that handles inputs of both string and integer type without using any conditional logic (no if/else, no switch, no pattern matching, no polymorphism).

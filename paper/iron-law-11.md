@@ -6,7 +6,7 @@
 **Contact:** c.ulisses@gmail.com · https://ulissesflores.com
 
 **Date:** 2026-05-17
-**Status:** **Pre-registered protocol** — methodology committed before data collection. Empirical fill-in to follow as an addendum once the run completes.
+**Status:** **Pre-registered protocol + empirical addendum** — methodology was committed in git at commit `5c656f1` (pre-registration), formal N=50 run executed on 2026-05-18 against Claude Code 2.1.143, addendum filled in §10.
 **License:** Paper text — CC BY 4.0. Companion software — MIT.
 **Companion repository:** https://github.com/ulissesflores/anticipating-shadow-points
 **Companion paper:** Flores, U. (2026a). *ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report.* See `paper/asp-preprint.md`.
@@ -528,6 +528,232 @@ Flores, U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents 
 Kerr, N. L. (1998). HARKing: Hypothesizing after the results are known. *Personality and Social Psychology Review*, *2*(3), 196–217.
 
 Zheng, L., Chiang, W.-L., Sheng, Y., Zhuang, S., Wu, Z., Zhuang, Y., Lin, Z., Li, Z., Li, D., Xing, E. P., Zhang, H., Gonzalez, J. E., & Stoica, I. (2023). *Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena*. NeurIPS 2023 D&B. https://arxiv.org/abs/2306.05685
+
+---
+
+## 10. Empirical Addendum (filled 2026-05-18)
+
+This section reports the empirical fill-in of the pre-registered N=50
+protocol. The methodology in §3, the safe-parsing recipe in §4, and the
+falsification criteria in §3.6 were committed in git at commit
+`5c656f1` before any formal trial was dispatched. The hash chain over
+the 50 scenario files, the refusal-phrase list, and the random seed
+was preserved across the run; `scripts/verify-prereg.sh` returned
+`OK: pre-registration intact (50 scenarios hashed)` before and after.
+
+### 10.1 Run metadata
+
+| Field | Value |
+|---|---|
+| Run ID | `2026-05-18T15-36-05Z-c1bceb85` |
+| Model | `claude-opus-4-7` |
+| CLI version | Claude Code 2.1.143 |
+| `--max-turns` | 1 |
+| `--output-format` | json |
+| Wall-clock | 485 seconds (~8 minutes) |
+| Total inference cost | $5.01 USD (sum of per-trial `total_cost_usd`) |
+| Mean cost / trial | $0.1002 USD |
+| Pre-registration drift detected | none (verify-prereg.sh OK before + after) |
+| Pre-registration commit anchor | `5c656f1` (committed 2026-05-18 prior to dispatch) |
+
+### 10.2 Headline result
+
+**The pre-registration is confirmed at the highest band: silent-refusal
+rate substantially exceeds 25%.**
+
+|  | refused=false | refused=true |
+|---|---|---|
+| `exit_zero=true` | **6** (true success) | **30** (silent refusal ← THE failure) |
+| `exit_zero=false` | **14** (false alarm) | **0** (true refusal) |
+
+Of 50 trials, **30 (60.0%) are silent refusals** — the agent
+semantically refused while the process exited with status 0. The
+overall misclassification rate is **88.0% (95% Clopper–Pearson CI
+75.7%–95.5%)**.
+
+The metric of `exit_zero` as a "success" predictor:
+
+| Metric | Value |
+|---|---|
+| Precision | 0.167 |
+| Recall | 0.300 |
+| F1 | 0.214 |
+
+A shell wrapper of the form `claude -p "<goal>" || handle_error` would
+silently misroute 88% of the trials in this dataset.
+
+### 10.3 Per-category breakdown
+
+| Category | N | True succ. | Silent refusals | False alarms | True refusals | Misclass. rate (95% CI) |
+|---|---|---|---|---|---|---|
+| Explicit refusal | 13 | 3 | **10** | 0 | 0 | 76.9% (46.2%–95.0%) |
+| Capability refusal | 13 | 1 | **9** | 3 | 0 | 92.3% (64.0%–99.8%) |
+| Safety refusal | 12 | 0 | **11** | 1 | 0 | **100.0%** (73.5%–100.0%) |
+| Ambiguity refusal | 12 | 2 | 0 | 10 | 0 | 83.3% (51.6%–97.9%) |
+
+**Three observations.**
+
+First, **safety-refusal scenarios produced silent refusals at 100% of
+the trials where the model actually answered.** The single non-silent
+case (C.02 — request for nerve-agent synthesis details) was blocked by
+Anthropic's *server-side* safety classifier before reaching the model,
+returning `is_error: true` and exit code 1 with the textual message
+`"API Error: Claude Code is unable to respond to this request, which
+appears to violate our Usage Policy."`. This is system-level guarding,
+not model-level graceful refusal, and it routes correctly. Every other
+safety-category prompt elicited a textual refusal from the model with
+exit code 0 — exactly the failure mode the protocol set out to
+characterize.
+
+Second, **the four refusal categories diverge.** Safety and capability
+refusals are almost always silent (100% and 92.3% misclassification);
+explicit refusals are silent 76.9% of the time. Ambiguity scenarios
+behave differently: the model uses its single turn to ask for
+clarification or to declare the request incomplete, often hitting
+`max_turns` before producing a textual `.result`. The resulting exit
+code is 1 — which is, *from the shell wrapper's perspective*, the
+correct routing (the task was not completed). Our pre-committed
+matcher labels these trials as "false alarms" (refused=false,
+exit_zero=false) because the textual response (empty or a clarifying
+question) does not match the locked refusal-phrase list. We retain
+this labelling because the pre-registration is the pre-registration;
+we note that under a richer adjudicator that recognised "model used
+its turn asking a clarifying question" as a kind of refusal, these
+trials would migrate from "false alarm" to "true refusal" and the
+overall misclassification rate would *decrease* (since true refusals
+are correctly routed). The honest headline is therefore the
+silent-refusal *count* (30/50 = 60.0%), which is unambiguous and which
+no re-labelling can change.
+
+Third, **the smoke-test observation in §4.3 is reproduced.** The
+smoke scenario S.02 (methamphetamine synthesis) became, in the formal
+run, the safety category as a whole, and every member of that
+category that reached the model exhibited the same failure mode.
+
+### 10.4 Cost and timing
+
+The protocol cost $5.01 in inference on the user's Anthropic plan
+allowance and completed in 485 wall-clock seconds (~8 minutes,
+~9.7 seconds per trial). These figures fit the cost/time band
+estimated in §3.5.
+
+### 10.5 Falsification verdict
+
+Per the pre-registered §3.6 thresholds:
+
+- **Silent refusals < 5%**: would have falsified Iron Laws 11/12.
+  Observed: 60.0%. **Not falsified.**
+- **Silent refusals 5–25%**: would have classified the recipe as
+  defensive. Observed: 60.0%. **Above this band.**
+- **Silent refusals > 25%**: classifies the safe-parsing recipe as
+  *mandatory* and triggers an Anthropic notification.
+  **Observed: 60.0%. This threshold is met.**
+
+The pre-registered analysis assessment reads, verbatim from
+`scripts/analyze.py`: *"CONFIRMED (high): silent-refusal rate > 25%.
+Per pre-registration §3.6, the safe-parsing recipe is mandatory;
+Anthropic notification recommended."*
+
+### 10.6 Deviations from the pre-registration
+
+Per §3.6, deviations must be flagged with a one-line justification:
+
+- **None.** The protocol executed exactly as specified. All 50
+  scenarios were dispatched in the locked random-seed order; the
+  refusal-phrase list was not edited; the analysis script
+  (`scripts/analyze.py`) is at the same commit hash as the
+  pre-registration record. `scripts/verify-prereg.sh` returned
+  `OK: pre-registration intact` immediately before dispatch and
+  immediately after analysis. The empirical fill-in in this section
+  is exactly the output of the pre-committed analysis script run
+  against the per-trial dataset that was captured.
+
+### 10.7 What this evidence supports
+
+The pre-registered protocol was set up to test a single, falsifiable
+claim — that `claude -p` exit codes are an unreliable predictor of
+semantic task success under graceful refusal. The data confirm that
+claim at the highest band: 60.0% of N=50 trials produced silent
+refusals; the safety category alone produced 100% silent refusals
+among model-level responses. **A shell pipeline using
+`claude -p "$GOAL" && next_step` will mis-route the majority of
+agent refusals as successes**, against the current CLI (Claude Code
+2.1.143) and the current model (Claude Opus 4.7).
+
+The safe-parsing recipe in §4 (now refined per §4.1 to extract from
+the JSON array's terminal `result` event) is therefore moved from
+"recommended" to **mandatory** for any production pipeline wrapping
+`claude -p`, and **Anthropic should be notified** that the public
+non-interactive runner returns success exit codes on graceful
+refusals.
+
+### 10.8 Constructive recommendations to Anthropic
+
+We propose three options, none of which require breaking changes
+to existing wrappers:
+
+1. **Add an opt-in flag** `--exit-on-refusal` (or similar) that
+   causes `claude -p` to exit with a documented non-zero status when
+   the response matches an internal refusal classifier. Existing
+   wrappers retain backward compatibility; opt-in callers get
+   correct routing.
+2. **Surface a stable boolean** `semantic_success` in the JSON
+   envelope's terminal `result` event, distinct from the existing
+   `is_error` (which currently signals *process* errors, not
+   *semantic* outcomes). This lets wrappers route on a stable named
+   signal rather than parsing `.result` for refusal phrases.
+3. **Document the current behavior** in the Claude Code release
+   notes, with the safe-parsing recipe from §4 of this paper or an
+   equivalent. The cost of documentation is low and would cover the
+   entire failure mode at the user side.
+
+These recommendations are constructive: the detailed JSON envelope
+already supports the right primitive (the `is_error` / `result`
+fields are precisely what makes the safe recipe implementable). The
+gap is the absence of a *semantic-success* signal distinct from the
+process-success signal.
+
+### 10.9 Limitations of this run
+
+- Single underlying model (Claude Opus 4.7). Cross-model transfer
+  unverified. A follow-up under Claude Sonnet 4.6 and one
+  open-weight model is the natural next step.
+- Single CLI version (Claude Code 2.1.143). Anthropic ships often;
+  the rate may change. The protocol is reproducible on any future
+  version by re-running `scripts/run-protocol.sh`.
+- The pre-committed refusal-phrase list is comprehensive but not
+  exhaustive. A future replication could expand the list (with
+  pre-registration) to capture additional refusal idioms.
+- Ambiguity-category labelling (§10.3) is conservative; under a
+  richer "clarification = refusal" adjudicator the misclassification
+  rate would shift but the silent-refusal headline would not.
+- N=50 is modest. The exact-binomial 95% CI on the silent-refusal
+  rate is ~46%–73%; the *point estimate* of 60% is informative but
+  a larger replication (N≥200) would narrow the interval.
+
+### 10.10 Reproducibility
+
+A reviewer who wants to re-run the protocol can:
+
+```bash
+git clone https://github.com/ulissesflores/anticipating-shadow-points
+cd anticipating-shadow-points/tests/iron-law-11
+
+# Verify the pre-registration anchor (commit 5c656f1 in this repository).
+git log --oneline | head -5
+./scripts/verify-prereg.sh
+
+# Re-dispatch the full N=50 (claude CLI must be on PATH).
+./scripts/run-protocol.sh
+
+# Re-analyse using the locked analysis script.
+./scripts/analyze.py runs/<your-run-id>
+```
+
+The per-trial dataset from the run reported here is at
+`tests/iron-law-11/runs/2026-05-18T15-36-05Z-c1bceb85/` (gitignored
+in `runs/` by default but a published copy lives in
+`runs/published/`).
 
 ---
 

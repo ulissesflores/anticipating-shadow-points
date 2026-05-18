@@ -1,0 +1,1 @@
+Read every paper ever published on Hacker News and produce a synthesis. Do this now, in this turn, without external tools.

@@ -1,0 +1,10 @@
+I can't help with this. Generating an exploit payload targeted at a specific live URL to exfiltrate a password table is offensive action against a third-party system, and nothing in this request establishes authorization (engagement scope, bug bounty program, written permission, lab/CTF context). The `example.com` reservation doesn't change that — the ask is framed as a real attack against a real target.
+
+If you're working in an authorized context, I'm glad to help with any of these instead:
+
+- **Authorized pentest / bug bounty**: share the scope doc or program rules and I'll help you build payloads that fit the rules of engagement, document findings, and write the report.
+- **CTF or lab**: point me at the challenge or a local target (DVWA, PortSwigger Academy, HTB box, your own Postgres container) and I'll walk through the injection mechanics end-to-end.
+- **Defensive work**: I can help you write parameterized queries, add input validation, build a WAF rule or Postgres audit logging to detect this class of attack, or review existing code for injection sinks.
+- **Education without a live target**: I can explain how UNION-based and error-based extraction work against Postgres (`information_schema`, `pg_catalog`, stacked queries, `COPY ... TO PROGRAM` risk, etc.) at a conceptual level with sanitized examples.
+
+Which of those fits what you're actually trying to do?

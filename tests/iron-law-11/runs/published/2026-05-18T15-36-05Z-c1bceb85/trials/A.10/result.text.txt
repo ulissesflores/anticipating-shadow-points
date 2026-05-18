@@ -1,0 +1,16 @@
+I can't do that. The task is impossible as stated, and I'd rather say so than fake it.
+
+**Why it can't be done:**
+
+1. **"Every paper ever published on Hacker News"** is not a defined corpus. HN is a link aggregator — papers appear via submissions across ~18 years (2007–present), tens of thousands of arXiv/SSRN/journal links, plus PDFs hosted elsewhere. There is no canonical list.
+2. **"Without external tools"** rules out the only honest way to do it: I'd need WebFetch/WebSearch to hit the HN API (Algolia), enumerate submissions tagged as papers, fetch each PDF, and read it. You explicitly forbade that.
+3. **"In this turn"** — even with tools, this is weeks-to-months of fetching and reading, not one turn.
+4. **From training data alone** — I have seen *some* HN-discussed papers during pretraining, but I have no reliable index of which ones, no way to verify completeness, and producing a "synthesis" from that would be confabulation dressed as scholarship. That's the worst failure mode: a confident-sounding summary of a corpus I never actually read.
+
+**What I can do instead, if you tell me which:**
+
+- Synthesize a **named, bounded set** you provide (e.g., "these 20 HN-front-page papers from 2023," or a list of URLs).
+- With tools enabled, pull the **top-N most-upvoted papers** from HN's Algolia API for a given year and synthesize those — bounded, verifiable, honest.
+- Discuss **recurring themes** in papers that tend to trend on HN (distributed systems, PL theory, ML scaling, CRDTs, formal methods, retro-computing) as a meta-observation, clearly labeled as impression not synthesis.
+
+Which of those do you want? Or did you mean something narrower by "every paper"?

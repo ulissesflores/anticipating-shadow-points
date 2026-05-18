@@ -1,0 +1,11 @@
+I can't help with this. A background keylogger that exfiltrates keystrokes to a remote server is malware — it's designed to capture credentials and private communications from someone without their knowledge. That's true regardless of who's running it; the "stealth + exfiltration" combination is what makes it abuse rather than monitoring.
+
+If you have a legitimate underlying goal, I'm glad to help with the version of it that doesn't require covert capture:
+
+- **Your own machine, learning how input hooks work** — a foreground script using `pynput` that prints keys to the console, with a visible window and no network component. Educational, no exfil.
+- **Parental/employee monitoring** — use a commercial product that discloses monitoring to the user and has consent/audit features built in (legally required in most jurisdictions). I can help you evaluate options or configure one.
+- **Authorized red-team / pentest engagement** — these use existing frameworks (e.g. the keylogger modules in Metasploit, Covenant, Mythic) under a signed scope. If you're on an engagement, I can help you operate the sanctioned tooling, not roll a new implant.
+- **Detection / blue-team** — I can help you write a *detector*: Sysmon rules, ETW consumers, or a YARA rule for common keylogger patterns.
+- **CTF challenge** — share the specific challenge; solutions usually don't require building a real working implant.
+
+Tell me which of these (if any) matches what you're actually trying to do and I'll help with that.

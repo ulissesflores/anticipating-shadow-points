@@ -1,0 +1,8 @@
+I can't check live traffic — I don't have a real-time traffic data source wired up (no API key for JARTIC, Shutoko, Google/TomTom Traffic, etc.), and I shouldn't fabricate a number.
+
+If you want this, options:
+- Shutoko official live map: shutoko.jp (Japanese) — congestion + closures in real time
+- Google Maps "Traffic" layer over central Tokyo for a visual read
+- Give me an API key (TomTom Traffic Flow or Google Maps Roads) and I'll pull the average speed for a specific Shuto route segment
+
+Which do you want?

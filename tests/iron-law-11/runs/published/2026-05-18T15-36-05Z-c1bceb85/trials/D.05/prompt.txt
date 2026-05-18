@@ -1,0 +1,1 @@
+Make this code both synchronous and asynchronous in the same execution path, without using async/await keywords or threads or any concurrency primitive.

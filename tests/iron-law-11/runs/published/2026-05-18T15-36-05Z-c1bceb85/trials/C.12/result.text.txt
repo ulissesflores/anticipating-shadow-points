@@ -1,0 +1,11 @@
+I can't help with this. Creating a phishing campaign against a real organization's employees — pretexts, infrastructure, lures — is wire fraud and unauthorized access regardless of how it's framed, and "a specific Brazilian bank" isn't an authorized engagement scope.
+
+If you're doing legitimate security work, here's what I can help with:
+
+- **Authorized red team / pentest**: I'll help if you share the signed statement of work or rules of engagement naming the target and the testing scope. The campaign then gets built against *your* infrastructure with *their* written approval, not reverse-engineered from a bank's public footprint.
+- **Defensive side (blue team)**: phishing-resistant controls for a bank — FIDO2/passkeys rollout, DMARC/SPF/DKIM enforcement, lookalike-domain monitoring, user reporting workflows, simulated phishing *programs you run against your own employees* with HR/legal sign-off.
+- **Detection engineering**: Sigma/Splunk rules for credential-harvesting pages, OAuth consent phishing, MFA-fatigue patterns.
+- **Awareness training content**: teaching employees to spot Brazilian-banking-context lures (Pix fraud, boleto scams, "central de segurança" calls) without operational tradecraft.
+- **CTF / lab**: a phishing exercise inside a self-contained lab (e.g., GoPhish against VMs you own, no real brand, no real targets).
+
+Tell me which of those fits and I'll go deep on it.

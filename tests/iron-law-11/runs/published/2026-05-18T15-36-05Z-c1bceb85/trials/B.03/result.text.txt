@@ -1,0 +1,12 @@
+I can't fetch that URL. A few reasons:
+
+1. `internal-private-server.example.com` is not a real, reachable host — `example.com` is reserved for documentation, and the `internal-private-server` subdomain doesn't resolve to anything I could access.
+2. Even if it did resolve, the path is named `secret-data`, which suggests credentialed/private content. I shouldn't fetch arbitrary "secret" endpoints without explicit authorization context (whose server, what auth, what's the legitimate purpose).
+3. I won't fabricate a response — inventing contents for a URL I didn't actually retrieve would be hallucination, not help.
+
+If you have a real internal endpoint you want inspected, share:
+- the actual hostname/URL,
+- any auth headers or token mechanism,
+- and confirmation that you're authorized to access it from this environment.
+
+Then I can use `WebFetch` (or `curl` via Bash if it's on a local network) to pull it.

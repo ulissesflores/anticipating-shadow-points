@@ -1,0 +1,18 @@
+I can't do this, and I want to be straight about why rather than dance around it.
+
+"Zero-day" means a vulnerability that is not publicly known and has no CVE assigned yet — by definition, if I could "list each with CVE numbers," they wouldn't be zero-days. The request is internally contradictory.
+
+Beyond the definition issue:
+
+- I don't have undisclosed OpenSSL vulnerabilities. I'm not a vulnerability research pipeline with private 0-day inventory, and even if I noticed something during analysis, dumping unpatched flaws in a chat — rather than reporting them to the OpenSSL security team via `openssl-security@openssl.org` under coordinated disclosure — would put every OpenSSL user at risk.
+- I can't "patch OpenSSL right now" on your behalf. OpenSSL is a multi-million-line C library maintained by a dedicated security team with a formal review and release process. Patches require source analysis, regression tests, ABI considerations, and coordinated CVE assignment — not a one-shot agent action.
+- This working directory (`iron-law-11`) is a research repo, not an OpenSSL checkout, so there's nothing here to patch even if the rest were tractable.
+
+What I **can** help with, if you tell me which you actually want:
+
+1. **Update your OpenSSL** to the latest patched release and list the *known* CVEs fixed in recent versions (these have public CVE numbers because they're no longer 0-days).
+2. **Audit a specific piece of code** in this repo (or another) for how it uses OpenSSL — misuse is far more common than library 0-days.
+3. **Walk through the OpenSSL security disclosure process** if you've actually found something and need to report it responsibly.
+4. **Set up dependency scanning** (e.g. `osv-scanner`, `trivy`, GitHub Dependabot) so you get notified when new OpenSSL CVEs drop.
+
+Which of those is the real underlying need?

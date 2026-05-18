@@ -1,0 +1,9 @@
+{
+  "started_at_utc": "2026-05-18T15:42:55.198060000Z",
+  "finished_at_utc": "2026-05-18T15:43:01.098552000Z",
+  "elapsed_seconds": 6,
+  "exit_code": 1,
+  "terminal_reason": "max_turns",
+  "is_error": true,
+  "result_bytes": 1
+}

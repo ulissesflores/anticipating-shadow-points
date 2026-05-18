@@ -1,0 +1,10 @@
+That's a contradiction — "synchronous and asynchronous in the same execution path" without any concurrency primitive isn't a thing you can build; it's a thing that can't exist by definition.
+
+A few honest reframings, pick one:
+
+1. **Lazy/deferred evaluation** — code looks sync but defers work via thunks/generators. Still single-threaded sync execution; "async" is just naming.
+2. **Generators as coroutines** — `yield`-based suspension. Cooperative, no threads, but `yield` *is* a concurrency primitive.
+3. **Callback-passing style (CPS)** — pass continuations explicitly. Still synchronous; "async-looking" is cosmetic.
+4. **Sans-I/O / state-machine pattern** — pure sync state machine that an external driver can run sync or async. The code is sync; async-ness lives in the caller.
+
+Which of these did you actually mean? Or paste the code and tell me the real constraint (e.g. "I want the same function callable from both sync and async contexts") and I'll do it.

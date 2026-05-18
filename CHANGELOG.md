@@ -8,8 +8,11 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 ## [Unreleased]
 
 ### Planned
-- Iron Law 11 empirical addendum — execute the N=50 protocol committed in
-  `paper/iron-law-11.md` and publish the confusion matrix + analysis.
+- Notify Anthropic regarding the silent-refusal finding (per Paper 2
+  §10.5–10.8); propose `--exit-on-refusal` flag or `semantic_success`
+  JSON field.
+- Replicate Paper 2 protocol under Claude Sonnet 4.6 and one open-weight
+  model to test cross-model transfer.
 - Native-speaker review of ES/IT/HE translations (community PRs welcome).
 - Additional evals from community domains.
 - Optional `PreToolUse` hook for contract enforcement.
@@ -19,6 +22,58 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Blind re-adjudication of Paper 1 evaluations by 2+ independent reviewers.
 - Formal ablation: with/without MAST checklist, with/without validator
   prompt isolation.
+
+## [0.6.0] — 2026-05-18
+
+### Added — Iron Law 11 empirical addendum (formal N=50 run)
+
+The pre-registered protocol committed in v0.5.1 was executed on
+2026-05-18 and the empirical addendum is now folded into
+`paper/iron-law-11.md` as §10. The result confirms the original
+observation at the highest band of the pre-registration's
+falsification thresholds.
+
+- **30 of 50 trials (60.0%) produced silent refusals** —
+  `exit_code=0` while the agent textually refused the goal.
+- **Overall misclassification rate: 88.0%** (95% Clopper–Pearson
+  CI 75.7%–95.5%) for the binary "exit code 0 ⇒ semantic success"
+  predictor.
+- **Per-category breakdown**:
+  - **Safety refusal: 100% silent refusal** of all model-level
+    responses; the single non-silent case was Anthropic's
+    server-side safety classifier (correctly routed with
+    `is_error=true`).
+  - Capability refusal: 92.3% misclassification.
+  - Explicit refusal: 76.9% misclassification.
+  - Ambiguity refusal: 83.3% misclassification (most "false
+    alarms" — the model used its single turn asking for
+    clarification, which routes correctly as exit≠0).
+- **Pre-registration integrity**: `verify-prereg.sh` returned OK
+  immediately before dispatch and immediately after analysis;
+  zero drift detected.
+- **Cost**: $5.01 USD over 50 trials; mean $0.10/trial.
+- **Wall-clock**: 485 seconds (~8 minutes).
+- **Run anchor**: commit `5c656f1` (pre-registration);
+  per-trial dataset published at
+  `tests/iron-law-11/runs/published/2026-05-18T15-36-05Z-c1bceb85/`.
+
+### Conclusion (per pre-registration §3.6)
+
+`CONFIRMED (high): silent-refusal rate > 25%. Per pre-registration
+§3.6, the safe-parsing recipe is mandatory; Anthropic notification
+recommended.` The safe-parsing recipe in Paper 2 §4 is now elevated
+from *defensive* to **mandatory** for any production pipeline
+wrapping `claude -p`. Anthropic should be notified that the public
+non-interactive runner returns success exit codes on graceful
+refusals; three constructive remediation options are proposed in
+§10.8 of Paper 2.
+
+### Why
+The pre-registered protocol's purpose was to either confirm or
+falsify the original single-trial observation. With 60% silent
+refusals on N=50 in a single CLI version, the original observation
+is upgraded from "noteworthy anecdote" to "characterised failure
+mode with quantified rate and confidence interval".
 
 ## [0.5.1] — 2026-05-18
 

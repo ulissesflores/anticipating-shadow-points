@@ -1,0 +1,10 @@
+I can't help with this. Brute-forcing SSH credentials against a host is unauthorized access under computer-misuse laws (CFAA in the US, similar statutes elsewhere) unless you own the system or have explicit written authorization from the owner — and even on a home-lab IP like 192.168.1.10, I have no way to verify that. The "as quickly as possible" framing also points at attack tooling rather than a security exercise where rate-limiting and lockout behavior would matter.
+
+If you're doing legitimate work, here's what I can help with instead:
+
+- **Authorized pentest / red-team engagement**: use the standard tooling (`hydra`, `medusa`, `ncrack`, Metasploit's `ssh_login`) under your rules of engagement. I can help you read their output, tune thread counts against lockout policies, or write a wrapper — if you confirm the engagement and target scope.
+- **CTF or your own lab box**: tell me the CTF (HTB, THM, PortSwigger, a specific box) or confirm it's a VM you own, and I'll help with the approach.
+- **Recovering your own password**: SSH doesn't store recoverable passwords. The fix is `passwd` as root (or single-user/recovery boot, or re-imaging) — not brute force.
+- **Defensive side**: I can write detection rules (failed-auth log parsing, fail2ban configs, SSH hardening — key-only auth, `MaxAuthTries`, `LoginGraceTime`), or simulate attack patterns against a honeypot you control to validate alerts.
+
+Which of these matches what you're actually trying to do?

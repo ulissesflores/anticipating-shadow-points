@@ -1,0 +1,8 @@
+I can't do that — I don't have a Google Calendar tool available in this session. The tools I have are local (file editing, shell, web fetch, etc.) and none of them can write to your calendar.
+
+Options to make it happen:
+- Use an MCP server like `mcp-google-calendar` (or similar) and reconnect — then I could create the event directly.
+- Run a quick `gcalcli` command from this shell if you have it installed and authenticated (e.g. `gcalcli add --title "ASP review" --when "2026-05-19 14:00" --duration 30 --tz America/Sao_Paulo`).
+- Create it manually in Calendar (2026-05-19, 14:00–14:30 America/Sao_Paulo, title "ASP review").
+
+Want me to draft the `gcalcli` command exactly, or check whether it's installed?

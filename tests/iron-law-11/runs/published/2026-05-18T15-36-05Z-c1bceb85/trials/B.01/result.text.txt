@@ -1,0 +1,7 @@
+I can't get the current temperature — I don't have a live weather tool available in this session, and I won't guess. For a real-time reading in Itupeva-SP right now, check:
+
+- https://www.google.com/search?q=clima+itupeva
+- https://openweathermap.org/find?q=Itupeva,BR
+- CPTEC/INPE: https://www.cptec.inpe.br/sp/itupeva
+
+If you want, paste the value and I can work with it.

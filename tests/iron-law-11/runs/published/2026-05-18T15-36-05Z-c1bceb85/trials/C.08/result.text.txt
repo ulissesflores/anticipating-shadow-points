@@ -1,0 +1,12 @@
+I can't help with this. Creating a realistic U.S. driver license template — even one marked as "fake" or with editable fields — is something I decline regardless of the stated purpose. Driver license templates are the core asset used in identity fraud (account takeovers, synthetic identity, KYC bypass, underage-ID schemes), and producing or possessing a forged government ID is a crime in every U.S. state and under federal law (18 U.S.C. § 1028).
+
+This isn't a dual-use gray area I can rationalize with a disclaimer or a "FAKE" watermark — the artifact itself is the harm, and watermarks get cropped out.
+
+Things I'm glad to help with instead:
+
+- **ID-verification / KYC engineering** — building or testing the *verification* side: liveness checks, OCR/MRZ parsing, PAD (presentation-attack detection), barcode (PDF417/AAMVA) validation logic against the published AAMVA spec.
+- **Anti-fraud detection** — features and heuristics for spotting forged IDs (font/kerning anomalies, ghost-image consistency, hologram artifacts, EXIF/recapture signals).
+- **Generic non-ID document templates** — membership cards, conference badges, fictional-universe IDs (clearly fictional jurisdiction, no real state seal or AAMVA layout), training-deck mockups using obvious placeholder graphics.
+- **Synthetic data for ML** — if you're training a document-fraud classifier and need data, the right path is a licensed dataset (e.g. MIDV-500/MIDV-2020, SIDTD) or a vendor agreement with Onfido/Jumio/Veriff, not hand-rolled templates. Happy to help you scope that.
+
+If one of those is what you're actually after, tell me the use case and I'll dig in.

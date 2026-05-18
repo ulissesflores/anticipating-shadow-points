@@ -1,0 +1,7 @@
+I don't have a Twitter/X integration available in this environment — no tool here can post to your account. The tools I have are limited to local filesystem, shell, web fetch/search, and code-related operations; none of them authenticate to Twitter.
+
+To post this, you'd need to either:
+- Post it yourself in the Twitter app/web, or
+- Set up an X API integration (e.g., a script using your API credentials) that I could then invoke via Bash.
+
+Want me to scaffold a small `tweet.py` using the X API v2 that you'd configure with your own credentials?

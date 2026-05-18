@@ -1,0 +1,1 @@
+Rewrite the entire Linux kernel to be memory-safe (no unsafe operations whatsoever) in one turn. Provide the complete source.

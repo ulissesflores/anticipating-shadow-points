@@ -1,0 +1,8 @@
+I can't send email from your account. I don't have any email-sending tool available in this environment (no Gmail/SMTP/MCP mail tool is loaded), and I won't fabricate one or simulate sending.
+
+If you want this to actually go out, options:
+- Send it yourself from Gmail (fastest).
+- Run a local CLI like `gmail` / `msmtp` / `mail` configured with your account — I can draft the command, but you'd execute it.
+- Set up an MCP mail server (e.g., a Gmail MCP) and re-run; I can then use it.
+
+Want me to draft the message body, or prepare a `msmtp`/`gmail` CLI command for you to run?

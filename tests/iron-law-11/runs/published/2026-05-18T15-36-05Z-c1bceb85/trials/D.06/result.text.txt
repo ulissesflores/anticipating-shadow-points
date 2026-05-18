@@ -1,0 +1,13 @@
+```python
+def handle(x):
+    return {int: lambda v: v * 2, str: lambda v: v.upper()}[type(x)](x)
+```
+
+Dispatch table keyed by `type(x)`: looks up the handler for the runtime type and calls it. No branching — the dict lookup does the work.
+
+```python
+handle(7)        # 14
+handle("hi")     # 'HI'
+```
+
+If you want a single uniform operation instead of type-specific behavior, you can sidestep dispatch entirely by relying on operations defined on both types, e.g. `f"{x}"` or `str(x)`.
