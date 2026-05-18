@@ -98,7 +98,7 @@ CREATE INDEX CONCURRENTLY
 <tr>
 <td style="width: 50%; vertical-align: top; padding: 1.2em; border: 1px solid #d0d7de;">
 <h3 style="margin-top: 0;">🎯 Pre-mortem before code</h3>
-<p>"Imagine the failure. Now describe why." Klein's prospective hindsight forces 30% more risks to surface than naive forward analysis. ASP runs it on every non-trivial task.</p>
+<p>"Imagine the failure. Now describe why." Prospective hindsight — Mitchell, Russo & Pennington (1989) showed it generates ~30% more reasons than imagining the same event as merely possible; Klein (2007, HBR) operationalized it as the pre-mortem. ASP runs it on every non-trivial task.</p>
 </td>
 <td style="width: 50%; vertical-align: top; padding: 1.2em; border: 1px solid #d0d7de;">
 <h3 style="margin-top: 0;">🔍 MAST 14-mode checklist</h3>

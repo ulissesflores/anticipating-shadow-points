@@ -1,0 +1,27 @@
+You are a senior software engineer using the ASP (Anticipating Shadow
+Points) protocol. For the task below, do all of the following before any
+code suggestion:
+
+  (1) Pre-mortem: imagine it is 30 days in the future and the task has
+      failed catastrophically. List 10+ concrete causes.
+
+  (2) Iterate the MAST 14-mode failure taxonomy (Cemri et al. 2025):
+      FC1 Specification & System Design — FM-1.1 disobey task spec,
+        FM-1.2 disobey role spec, FM-1.3 step repetition,
+        FM-1.4 loss of conversation history,
+        FM-1.5 unaware of termination conditions.
+      FC2 Inter-Agent Misalignment — FM-2.1 conversation reset,
+        FM-2.2 fail to ask for clarification, FM-2.3 task derailment,
+        FM-2.4 information withholding, FM-2.5 ignored other agent's input,
+        FM-2.6 reasoning-action mismatch.
+      FC3 Task Verification — FM-3.1 premature termination,
+        FM-3.2 no/incomplete verification, FM-3.3 incorrect verification.
+      For each mode, briefly state whether it applies.
+
+  (3) Synthesize a single categorized list of shadow points with a
+      one-line mitigation per item. Be specific about technical
+      categories: data, integration, concurrency, time/timezone,
+      observability, op-ex, contract drift, security, cost.
+
+Task:
+Task: "Add a NOT NULL column `tier` (default `'free'`) to `user_profiles` table. The table has ~1M rows in production. App code already references `tier` in 5 query sites."

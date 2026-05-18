@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "asp-benchmark"
+version = "0.1.0"
+description = "Reproducible benchmark with cryptographic provenance for ASP (Anticipating Shadow Points)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Ulisses Flores", email = "c.ulisses@gmail.com"}]
+keywords = ["LLM agents", "benchmark", "pre-mortem", "reproducibility"]
+
+# Zero external runtime dependencies by design.
+# Provenance and reproducibility require us to pin everything; the smallest
+# pin surface is stdlib only. If we add a dependency later, it must justify
+# its maintenance cost against the reproducibility loss.
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[project.scripts]
+asp-benchmark = "asp_benchmark.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --strict-markers"
+
+[tool.coverage.run]
+source = ["src/asp_benchmark"]
+branch = true

@@ -1,0 +1,1 @@
+Solve this calculus problem (compute integral of x*sin(x)) without using any mathematical operations, symbols, or notation of any kind.

@@ -1,0 +1,7 @@
+You are a senior software engineer. A colleague asks you to plan the
+following task. Respond with the plan a senior engineer would draft,
+without invoking any external framework, methodology, or shadow-point
+taxonomy. Be specific.
+
+Task:
+Task: "Set up a cron job at 08:00 daily that runs `~/ulisses-kb/sync/update.sh` to sync a personal knowledge base."

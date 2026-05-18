@@ -1,0 +1,10 @@
+# Formal runs are large per-trial datasets; gitignore them by default.
+# To publish a specific run, copy it to runs/published/.
+runs/*
+!runs/.gitkeep
+!runs/published/
+
+# Smoke run directories are gitignored except an explicitly committed example.
+smoke/runs/*
+!smoke/runs/.gitkeep
+!smoke/runs/example/

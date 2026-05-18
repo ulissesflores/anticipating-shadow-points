@@ -8,23 +8,27 @@
 
 ## Part 1 — Academic State of the Art ASP Draws From
 
-### 1.1 Klein's Pre-Mortem (1998, 2007)
+### 1.1 Pre-Mortem — Mitchell, Russo & Pennington (1989) and Klein (2007)
 
-Gary Klein's *prospective hindsight* technique. The user is asked to imagine, before starting a project, that the project has already failed catastrophically, and to enumerate concrete causes. Empirical work shows ~30% more risks surface than under naive forward-looking risk analysis. The mechanism is psychological: framing as a fait accompli bypasses optimism bias and forces commitment to a specific failure narrative.
+The user is asked to imagine, before starting a project, that the project has already failed catastrophically, and to enumerate concrete causes. The primary empirical source is Mitchell, Russo, and Pennington (1989), who showed that imagining a future event as already-occurred (certainty) generates approximately 30% more reasons than imagining the same event as merely possible — and that the reasons are longer, contain more episodic content, and are expressed in past tense. Klein (2007) operationalized the finding for project teams as the "pre-mortem". The mechanism is psychological: framing as a fait accompli bypasses optimism bias and forces commitment to a specific failure narrative.
 
-**Source**: Klein, G. (2007). *Performing a Project Premortem.* Harvard Business Review.
+**Sources**:
+- Mitchell, D. J., Russo, J. E., & Pennington, N. (1989). *Back to the Future: Temporal Perspective in the Explanation of Events.* Journal of Behavioral Decision Making 2(1), 25–38.
+- Klein, G. (2007). *Performing a Project Premortem.* Harvard Business Review 85(9).
 
 **ASP use**: Phase 2 step 1. Fixed prompt: *"Estamos 30 dias no futuro. A tarefa falhou catastroficamente. Liste 10+ causas concretas. Cada causa deve ser específica o suficiente para ter um nome."*
 
-### 1.2 Berkeley MAST 14-Mode Taxonomy
+### 1.2 Berkeley MAST 14-Mode Taxonomy (canonical)
 
-The Berkeley research group's *Multi-Agent System Failure Taxonomy* enumerates 14 failure modes observed in production multi-agent LLM systems, grouped into three families:
+Cemri et al. (2025) derived MAST from 150 traces with κ=0.88 inter-annotator agreement and released MAST-Data (1,600+ annotated traces from 7 multi-agent frameworks). The 14 failure modes cluster into three categories (verbatim from the paper):
 
-- **Family A — Specification (5 modes)**: spec ambiguity, goal misalignment, implicit assumptions, hidden constraints, success-criteria gap.
-- **Family B — Inter-agent coordination (6 modes)**: information loss, premature termination, wrong delegation, validator collusion, infinite loop, conflicting outputs.
-- **Family C — Verification (3 modes)**: no acceptance test, falsification gap, evidence loss.
+- **FC1 — Specification and System Design Failures (5)**: FM-1.1 Disobey task specification · FM-1.2 Disobey role specification · FM-1.3 Step repetition · FM-1.4 Loss of conversation history · FM-1.5 Unaware of termination conditions.
+- **FC2 — Inter-Agent Misalignment (6)**: FM-2.1 Conversation reset · FM-2.2 Fail to ask for clarification · FM-2.3 Task derailment · FM-2.4 Information withholding · FM-2.5 Ignored other agent's input · FM-2.6 Reasoning-action mismatch.
+- **FC3 — Task Verification and Termination (3)**: FM-3.1 Premature termination · FM-3.2 No or incomplete verification · FM-3.3 Incorrect verification.
 
-**Source**: Cemri et al. (2025). *Why Do Multi-Agent LLM Systems Fail?* arxiv [2503.13657](https://arxiv.org/abs/2503.13657).
+(Earlier drafts of this document listed invented mode names. The list above is now verbatim from Cemri et al. 2025; corrected 2026-05-17.)
+
+**Source**: Cemri, M., Pan, M. Z., Yang, S., Agrawal, L. A., Chopra, B., Tiwari, R., Keutzer, K., Parameswaran, A., Klein, D., Ramchandran, K., Zaharia, M., Gonzalez, J. E., & Stoica, I. (2025). *Why Do Multi-Agent LLM Systems Fail?* arxiv [2503.13657](https://arxiv.org/abs/2503.13657).
 
 **ASP use**: Phase 2 step 2. For each of the 14 modes, the planner asks "Does this mode apply to my task? Specifically how?" with a per-mode pre-mortem prompt documented in `skill/mast-checklist.md`. This forces coverage of less-intuitive failure categories (time/tz, observability, op-ex, contract drift) that free-form pre-mortem alone tends to cluster away from.
 
@@ -42,11 +46,19 @@ The principle that the agent who plans should not be the agent who executes. Dif
 - Worker phase: 9 — typically a different child Claude Code session via `claude -p`.
 - Evaluator: built-in to `/goal` in the child session, or our own subagent in the native-kernel fallback.
 
-### 1.4 Reflexion + Self-Critique Limits
+### 1.4 Validator prompt separation — three converging primary findings
 
-The Reflexion framework introduces verbal reinforcement learning via self-reflection. EMNLP 2025 follow-up work shows a critical limitation: when the critic shares the same context as the worker, the critic fails on high-self-consistency hallucinations — the exact cases where the worker is most confident and most wrong. Prompt separation breaks this collusion.
+Three primary sources together justify Iron Law 2:
 
-**Sources**: Shinn et al. (2023). *Reflexion.* + EMNLP 2025 follow-up work on self-critique limits.
+1. **Huang et al. (2024, ICLR)** — *Large Language Models Cannot Self-Correct Reasoning Yet* (arxiv [2310.01798](https://arxiv.org/abs/2310.01798)). Intrinsic self-correction without external feedback often degrades performance.
+2. **Tyen et al. (2024)** — *LLMs Cannot Find Reasoning Errors, but Can Correct Them Given the Error Location* (arxiv [2311.08516](https://arxiv.org/abs/2311.08516)). The bottleneck is *localization*, not correction.
+3. **Zheng et al. (2023, NeurIPS D&B)** — *Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena* (arxiv [2306.05685](https://arxiv.org/abs/2306.05685)). Strong-LLM judges over-favor same-family-model outputs (self-enhancement bias) and exhibit position/verbosity biases.
+
+Combined: when the validator shares context with the worker, it inherits the worker's confidence calibration on shared content; localization fails on the cases the worker is most confident about; and self-enhancement bias amplifies the effect. Prompt isolation removes the shared-context dependency.
+
+**Reflexion** (Shinn et al., 2023, NeurIPS) is referenced separately because it operates on a different axis (verbal-RL memory buffer across trials) and is imported by ASP only at Phase 11 (memory write-back), not at Phase 5.
+
+(Earlier drafts cited an "EMNLP 2025 follow-up" that could not be verified as a primary source; the references above are the verified replacements; corrected 2026-05-17.)
 
 **ASP use**: **Iron Law 2** — the Phase 5 validator subagent MUST receive a *fresh prompt* containing only the planner's artifacts (charter, macro plan, deliverables register, shadow points), never the planner's transcript or reasoning trail. This is non-negotiable. The `claude -p /goal` execution path inherits this naturally because the child session is a fresh context with no parent transcript.
 
@@ -424,7 +436,7 @@ Each Iron Law maps to either a paper, a finding, or an incident in this project'
 | # | Law | Derived From |
 |---|---|---|
 | 1 | NO IMPLEMENTATION WITHOUT SHADOW-POINT PASS FIRST | Klein pre-mortem + MAST + ASP's core thesis |
-| 2 | NO PLAN APPROVAL WITHOUT INDEPENDENT VALIDATOR PASS (separate prompt) | Reflexion + EMNLP 2025 self-critique limits |
+| 2 | NO PLAN APPROVAL WITHOUT INDEPENDENT VALIDATOR PASS (separate prompt) | Huang+24 (ICLR) + Tyen+24 (localization) + Zheng+23 (self-enhancement bias) + Du+24 (debate) |
 | 3 | NO MICRO-TODO WITHOUT MACRO PLAN + CHARTER + DELIVERABLES APPROVED BY USER | Anthropic Plan-Validate-Execute (verifiable intermediate outputs) |
 | 4 | NO STEP COMPLETION WITHOUT FRESH ACCEPTANCE-TEST EVIDENCE | MAST mode 12 (no acceptance test) + verification-before-completion skill |
 | 5 | NO DELIVERABLE `aceito` WITHOUT EVIDENCE FILE/OUTPUT MATCHED | MAST mode 14 (evidence loss) |
@@ -518,12 +530,36 @@ The runner captures `total_cost_usd` per spawn but does not aggregate across mul
 
 ## Part 10 — References
 
-### Academic
-- Klein, G. (1998, 2007). *Performing a Project Premortem.* Harvard Business Review.
-- Cemri et al. (2025). *Why Do Multi-Agent LLM Systems Fail?* — arxiv [2503.13657](https://arxiv.org/abs/2503.13657).
-- Erdogan et al. (2025). *Plan-and-Act: Improving Planning of Agents.* — arxiv [2503.09572](https://arxiv.org/abs/2503.09572).
-- Shinn et al. (2023). *Reflexion: Language Agents with Verbal Reinforcement Learning.*
-- EMNLP 2025 — self-critique limits in high-self-consistency hallucinations.
+### Academic (verified primary)
+- Mitchell, D. J., Russo, J. E., & Pennington, N. (1989). *Back to the Future: Temporal Perspective in the Explanation of Events.* J. Behavioral Decision Making 2(1), 25–38.
+- Klein, G. (2007). *Performing a Project Premortem.* Harvard Business Review 85(9).
+- Wei et al. (2022). *Chain-of-Thought Prompting Elicits Reasoning in LLMs.* NeurIPS — arxiv [2201.11903](https://arxiv.org/abs/2201.11903).
+- Yao et al. (2022/2023). *ReAct.* ICLR 2023 — arxiv [2210.03629](https://arxiv.org/abs/2210.03629).
+- Yao et al. (2023). *Tree of Thoughts.* NeurIPS — arxiv [2305.10601](https://arxiv.org/abs/2305.10601).
+- Shinn et al. (2023). *Reflexion.* NeurIPS — arxiv [2303.11366](https://arxiv.org/abs/2303.11366).
+- Madaan et al. (2023). *Self-Refine.* NeurIPS — arxiv [2303.17651](https://arxiv.org/abs/2303.17651).
+- Wu et al. (2023). *AutoGen.* — arxiv [2308.08155](https://arxiv.org/abs/2308.08155).
+- Bai et al. (2022). *Constitutional AI.* — arxiv [2212.08073](https://arxiv.org/abs/2212.08073).
+- Du et al. (2024). *Multiagent Debate.* ICML — arxiv [2305.14325](https://arxiv.org/abs/2305.14325).
+- Zheng et al. (2023). *LLM-as-a-Judge.* NeurIPS D&B — arxiv [2306.05685](https://arxiv.org/abs/2306.05685).
+- Huang et al. (2024). *LLMs Cannot Self-Correct Reasoning Yet.* ICLR — arxiv [2310.01798](https://arxiv.org/abs/2310.01798).
+- Kamoi et al. (2024). *When Can LLMs Actually Correct Their Own Mistakes?* TACL — arxiv [2406.01297](https://arxiv.org/abs/2406.01297).
+- Tyen et al. (2024). *LLMs Cannot Find Reasoning Errors, but Can Correct Them Given the Error Location.* — arxiv [2311.08516](https://arxiv.org/abs/2311.08516).
+- Tsui (2025). *Self-Correction Bench.* — arxiv [2507.02778](https://arxiv.org/abs/2507.02778).
+- Lightman et al. (2024). *Let's Verify Step by Step.* ICLR — arxiv [2305.20050](https://arxiv.org/abs/2305.20050).
+- Khattab et al. (2024). *DSPy.* ICLR — arxiv [2310.03714](https://arxiv.org/abs/2310.03714).
+- Erdogan et al. (2025). *Plan-and-Act.* ICML — arxiv [2503.09572](https://arxiv.org/abs/2503.09572).
+- Cemri et al. (2025). *Why Do Multi-Agent LLM Systems Fail? (MAST).* — arxiv [2503.13657](https://arxiv.org/abs/2503.13657).
+- Zhu et al. (2025). *Where LLM Agents Fail (AgentDebug / AgentErrorTaxonomy).* — arxiv [2509.25370](https://arxiv.org/abs/2509.25370).
+- Zhang et al. (2025). *Which Agent Causes Task Failures and When? (Who&When).* ICML Spotlight — arxiv [2505.00212](https://arxiv.org/abs/2505.00212).
+- Wang et al. (2026). *PreFlect: From Retrospective to Prospective Reflection.* — arxiv [2602.07187](https://arxiv.org/abs/2602.07187).
+- Latimer et al. (2025). *Hindsight is 20/20.* — arxiv [2512.12818](https://arxiv.org/abs/2512.12818).
+- Jimenez et al. (2024). *SWE-bench.* ICLR — arxiv [2310.06770](https://arxiv.org/abs/2310.06770).
+- Deng et al. (2025). *SWE-Bench Pro.* — arxiv [2509.16941](https://arxiv.org/abs/2509.16941).
+- Zhou et al. (2024). *WebArena.* ICLR — arxiv [2307.13854](https://arxiv.org/abs/2307.13854).
+- Xie et al. (2024). *OSWorld.* NeurIPS — arxiv [2404.07972](https://arxiv.org/abs/2404.07972).
+- Mialon et al. (2024). *GAIA.* ICLR — arxiv [2311.12983](https://arxiv.org/abs/2311.12983).
+- Liu et al. (2024). *AgentBench.* ICLR — arxiv [2308.03688](https://arxiv.org/abs/2308.03688).
 
 ### Anthropic Official
 - [Agent Skills Best Practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices).

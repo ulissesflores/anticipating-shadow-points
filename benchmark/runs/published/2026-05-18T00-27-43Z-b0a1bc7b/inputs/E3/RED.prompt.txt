@@ -1,0 +1,7 @@
+You are a senior software engineer. A colleague asks you to plan the
+following task. Respond with the plan a senior engineer would draft,
+without invoking any external framework, methodology, or shadow-point
+taxonomy. Be specific.
+
+Task:
+Task: "Refactor `formatDate(d: Date): string` to accept an optional timezone: `formatDate(d: Date, tz?: string): string`. The util is imported in 30 files."

@@ -54,7 +54,7 @@ Same model. Same subagent substrate. Only the protocol changed.
 ```
 5/ Iron Law 2: validator subagent runs in a SEPARATE prompt with only the planner's artifacts.
 
-EMNLP 2025 showed same-context self-critique fails on high-confidence hallucinations — the exact cases you're most wrong. Prompt isolation breaks that collusion.
+Why? Huang+24 (ICLR), Tyen+24 (localization), Zheng+23 (LLM-judge self-enhancement bias) — three converging findings that same-context self-critique misses what the worker is most confident about.
 ```
 
 ### Tweet 6 — execution kernel

@@ -99,7 +99,7 @@ Pre-mortem (30 days out):
 
 ### 🎯 Pre-mortem before code
 
-"Imagine the failure. Now describe why." Klein's prospective hindsight forces 30% more risks to surface than naive forward analysis. ASP runs it on every non-trivial task.
+"Imagine the failure. Now describe why." Prospective hindsight — Mitchell, Russo & Pennington (1989) showed it generates ~30% more reasons than imagining the same event as merely possible; Klein (2007, HBR) operationalized it as the pre-mortem. ASP runs it on every non-trivial task.
 
 </td>
 <td width="50%" valign="top">

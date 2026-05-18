@@ -1,0 +1,7 @@
+You are a senior software engineer. A colleague asks you to plan the
+following task. Respond with the plan a senior engineer would draft,
+without invoking any external framework, methodology, or shadow-point
+taxonomy. Be specific.
+
+Task:
+Task: "Update RLS policy on `user_profiles` so users can only read rows where `tier` matches their own `tier` (newly added column from eval 01)."

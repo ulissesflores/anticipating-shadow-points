@@ -1,0 +1,7 @@
+You are a senior software engineer. A colleague asks you to plan the
+following task. Respond with the plan a senior engineer would draft,
+without invoking any external framework, methodology, or shadow-point
+taxonomy. Be specific.
+
+Task:
+Task: "Add a NOT NULL column `tier` (default `'free'`) to `user_profiles` table. The table has ~1M rows in production. App code already references `tier` in 5 query sites."

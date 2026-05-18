@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Run outputs are reproducible artifacts; commit only manifests, not bulk transcripts.
+# A run's full evidence stays under runs/<id>/ and is gitignored.
+# To publish a specific run, copy its manifest.json + report.md to runs/published/.
+runs/*
+!runs/.gitkeep
+!runs/published/

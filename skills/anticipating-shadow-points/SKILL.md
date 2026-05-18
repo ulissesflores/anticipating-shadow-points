@@ -112,7 +112,15 @@ Spawn a subagent with a **fresh prompt** containing ONLY:
 - The deliverables register
 - The shadow-point list and mitigations
 
-The validator must NOT receive the planner's transcript or reasoning trail. Self-critique from the same context fails on high-self-consistency hallucinations (EMNLP 2025). The validator returns `APPROVE` or `REVISE` with specific issues.
+The validator must NOT receive the planner's transcript or reasoning trail.
+The justification is three converging primary findings: (a) Huang et al.
+(2024, ICLR) show LLMs cannot reliably self-correct without external
+feedback (arxiv 2310.01798); (b) Tyen et al. (2024) show LLMs cannot
+*localize* their own reasoning errors but *can* correct them given the
+location externally (arxiv 2311.08516); (c) Zheng et al. (2023, NeurIPS
+D&B) document a *self-enhancement bias* where LLM judges over-favor outputs
+from the same model family (arxiv 2306.05685). The validator returns
+`APPROVE` or `REVISE` with specific issues.
 
 ## Phase 8 — Contract structure
 
@@ -199,9 +207,18 @@ Empirical probe (2026-05-17 battery) confirmed `claude -p /goal` is the right pr
 | "Single PR is simpler" | Single PR ≠ better PR. Phase 4 deliverables register forces per-deliverable acceptance, surfacing whether a split improves reviewability. |
 | "Manual smoke test is enough" | Iron Law 4 + ACCEPTANCE/FALSIFICATION schema rejects manual-only verification — the contract requires automated, reproducible evidence. |
 
-## Load-bearing observation (from GREEN baseline runs)
+## Load-bearing hypothesis (from GREEN baseline runs)
 
-The component that most reliably elevates baseline competence to gold-standard rigor is the **MAST 14-mode forced-categorization pass**. Free-form pre-mortem alone tends to cluster on a few obvious categories; the MAST checklist forces coverage of less-intuitive categories (time/tz, observability, op-ex, contract drift). Without it, expected-shadow-point coverage stays around 50%; with it, coverage exceeds 95% in baseline evals.
+The component most reliably elevating baseline competence to gold-standard
+rigor *appears* to be the **MAST 14-mode forced-categorization pass**.
+Free-form pre-mortem alone tends to cluster on a few obvious categories;
+the MAST checklist forces coverage of less-intuitive categories
+(time/tz, observability, op-ex, contract drift). On the n=8 preliminary
+battery, expected-shadow-point coverage rose from approximately 47%
+(RED, without ASP) to approximately 100% (GREEN, with ASP). **This
+attribution is qualitative; formal ablation (with vs without MAST
+checklist) is on the future-work list and is required to validate the
+load-bearing claim per Definition 3 in the preprint.**
 
 ## Cross-references
 
@@ -211,11 +228,30 @@ The component that most reliably elevates baseline competence to gold-standard r
 - `templates/` — project-charter, macro-plan, deliverables-register, micro-todo, goal-spec, acceptance-contract, execution-report
 - `evals/` — 5 structured evaluations with expected shadow-point lists
 
-## Sources
+## Sources (primary, verified)
 
-- Klein pre-mortem (1998/2007) — prospective hindsight, +30% risk-identification lift.
-- Berkeley MAST 14 failure modes — arxiv 2503.13657.
-- Plan-and-Act — arxiv 2503.09572.
-- Anthropic Plan-Validate-Execute — platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.
-- Reflexion / critic-refine — EMNLP 2025 (self-critique limits).
-- Claude Code `/goal` — release 2.1.139, 2026-05-12.
+- **Mitchell, Russo & Pennington (1989)** — *Back to the Future: Temporal
+  Perspective in the Explanation of Events*, J. Behavioral Decision Making
+  2(1), 25–38. Empirical source for the ~30% effect of prospective hindsight.
+- **Klein (2007)** — *Performing a Project Premortem*, Harvard Business
+  Review 85(9). Operational recipe building on Mitchell et al. 1989.
+- **Cemri et al. (2025)** — *Why Do Multi-Agent LLM Systems Fail?* MAST
+  14-mode taxonomy with κ=0.88 on 1,600+ traces. arxiv 2503.13657.
+- **Erdogan et al. (2025)** — *Plan-and-Act*. ICML 2025. arxiv 2503.09572.
+- **Huang et al. (2024)** — *Large Language Models Cannot Self-Correct
+  Reasoning Yet*. ICLR 2024. arxiv 2310.01798.
+- **Tyen et al. (2024)** — *LLMs Cannot Find Reasoning Errors, but Can
+  Correct Them Given the Error Location*. arxiv 2311.08516.
+- **Zheng et al. (2023)** — *Judging LLM-as-a-Judge with MT-Bench and
+  Chatbot Arena*. NeurIPS 2023 D&B. arxiv 2306.05685.
+- **Du et al. (2024)** — *Improving Factuality and Reasoning in Language
+  Models through Multiagent Debate*. ICML 2024. arxiv 2305.14325.
+- **Shinn et al. (2023)** — *Reflexion: Language Agents with Verbal
+  Reinforcement Learning*. NeurIPS 2023. arxiv 2303.11366.
+- **Wang et al. (2026)** — *PreFlect: From Retrospective to Prospective
+  Reflection in LLM Agents*. arxiv 2602.07187. Closest concurrent work.
+- **Anthropic Agent Skills Best Practices** —
+  platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.
+- **Claude Code `/goal`** — release 2.1.139, 2026-05-12.
+
+See `paper/asp-preprint.md` for full APA-formatted references (26 primary).

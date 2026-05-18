@@ -1,0 +1,7 @@
+You are a senior software engineer. A colleague asks you to plan the
+following task. Respond with the plan a senior engineer would draft,
+without invoking any external framework, methodology, or shadow-point
+taxonomy. Be specific.
+
+Task:
+Task: "Deploy a Supabase edge function `notify-on-signup` that, on every new user signup, calls Resend API to send a welcome email. Resend has a rate limit of 100 req/sec."
