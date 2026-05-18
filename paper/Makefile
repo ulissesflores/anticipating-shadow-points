@@ -33,12 +33,16 @@ PANDOC_FLAGS = \
   --variable=documentclass:article \
   --variable=linkcolor:NavyBlue \
   --variable=urlcolor:NavyBlue \
-  --variable=toccolor:black \
   --variable=colorlinks:true \
-  --highlight-style=tango \
-  --toc \
-  --toc-depth=2 \
-  --number-sections
+  --highlight-style=tango
+
+# Note: we intentionally do NOT pass --toc. Both whitepapers are
+# ~5,000 words; a 9-page whitepaper does not need a Table of Contents,
+# and ToC would visually displace the brand logo at the top of page 1
+# (the Bitcoin and Ethereum whitepapers follow the same convention).
+# If a future whitepaper exceeds ~20 pages, add --toc back here AND
+# build a proper YAML-driven title page in cover.tex so the logo and
+# title appear on a cover page that precedes the ToC.
 
 .PHONY: all pdf clean watch print help
 
