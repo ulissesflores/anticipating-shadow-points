@@ -7,6 +7,25 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## [Unreleased]
 
+### Corrected (2026-07-09) — honesty pass across the claim surface
+- **"Pre-registration" framing withdrawn** for the Iron Law 11 protocol. The
+  inputs were committed and hash-locked in the project's own git before the
+  run, but this is not public, timestamped pre-registration, and the commit
+  cited as the anchor (`5c656f1`) is no longer in the published history after
+  a later rebase. See the scope note in `paper/iron-law-11.md`. The
+  `preregistration.json` manifest is retained as an input-integrity lock; the
+  earlier entries below that call it "pre-registration" overstate it and are
+  corrected by this note.
+- **Silent-refusal figure superseded.** The 60% (30/50) reported for the
+  2026-05-18 run reflects Claude Code 2.1.143 / Opus 4.7. A fresh N=50 run
+  (2026-07-08, 2.1.200 / Opus 4.8, single-rater) reads ≈40% (95% Wilson CI
+  ≈28–54%), narrowing to a ≈24% core on unambiguous declines; the companion
+  paper reports the ≈24–40% band. Treat the older 60% as a dated snapshot.
+- **Main-paper evaluation reframed.** The deterministic adjudicator readings
+  are described as a match rate under an author-defined criterion, not a
+  coverage floor; the headline number is out of the abstract, conclusion,
+  and README.
+
 ### Planned
 - Notify Anthropic regarding the silent-refusal finding (per Paper 2
   §10.5–10.8); propose `--exit-on-refusal` flag or `semantic_success`

@@ -213,9 +213,12 @@ The component most reliably elevating baseline competence to gold-standard
 rigor *appears* to be the **MAST 14-mode forced-categorization pass**.
 Free-form pre-mortem alone tends to cluster on a few obvious categories;
 the MAST checklist forces coverage of less-intuitive categories
-(time/tz, observability, op-ex, contract drift). On the n=8 preliminary
-battery, expected-shadow-point coverage rose from approximately 47%
-(RED, without ASP) to approximately 100% (GREEN, with ASP). **This
+(time/tz, observability, op-ex, contract drift). On the preliminary
+five-task battery, the ASP condition raised the deterministic
+adjudicator's match rate against the author-authored expected lists
+relative to the un-assisted condition; the readings are reported
+descriptively in the preprint (§5) under an author-defined criterion,
+not as a coverage estimate. **This
 attribution is qualitative; formal ablation (with vs without MAST
 checklist) is on the future-work list and is required to validate the
 load-bearing claim per Definition 3 in the preprint.**

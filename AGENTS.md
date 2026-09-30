@@ -14,7 +14,7 @@ This file applies to repository **editing** — manifest changes, code refactors
 
 ## Cardinal rule — repo vs publications separation
 
-The repo is **the product**: skill, whitepapers (Markdown source), benchmark, pre-registered protocol, distribution manifests, documentation. Anything that supports a citing reader, user, or researcher of the work belongs here.
+The repo is **the product**: skill, whitepapers (Markdown source), benchmark, locked-inputs protocol, distribution manifests, documentation. Anything that supports a citing reader, user, or researcher of the work belongs here.
 
 The repo is **not** ops. Marketing copy, social-media posts, launch calendars, engagement playbooks, status trackers, influencer DM templates, newsletter outreach drafts, scheduled-post metadata — **all of that lives outside the repo**, in `~/Developer/Publications/anticipating-shadow-points/<version>-launch/`, and is operated by a separate agent (or the human author manually). The publications dir is intentionally never committed to this repository.
 

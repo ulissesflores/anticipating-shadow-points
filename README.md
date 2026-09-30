@@ -10,23 +10,23 @@
 
 ## Ship ambitious work without missing the obvious.
 
-ASP is a Claude Code skill that lifts shadow-point coverage from **47% to 100%** on non-trivial tasks — through forced pre-mortem, independent validator, and `claude -p /goal` subprocess execution.
+ASP is a Claude Code skill that surfaces the failure modes a senior engineer would catch in a pre-mortem — *before* any code is written — through a forced MAST-14 pre-mortem, a prompt-isolated independent validator, and a `claude -p /goal` subprocess executor.
 
 🇬🇧 English (this file) · [🇪🇸 Español](docs/README.es.md) · [🇧🇷 Português](docs/README.pt.md) · [🇮🇹 Italiano](docs/README.it.md) · [🇮🇱 עברית](docs/README.he.md)
 
 ---
 
-## The proof
+## Evidence — preliminary
 
 <table>
 <tr>
 <td align="center" width="33%">
-<h1>47% → 100%</h1>
-shadow-point coverage<br>(baseline vs. with ASP)
+<h1>preliminary</h1>
+5 tasks × 2 conditions, one dispatch each,<br>single model, author-adjudicated<br>(deterministic adjudicator readings in <a href="benchmark/">benchmark/</a>, §5)
 </td>
 <td align="center" width="33%">
 <h1>12</h1>
-non-negotiable Iron Laws<br>enforced at runtime
+runtime invariants ("Iron Laws")<br>enforced by the skill
 </td>
 <td align="center" width="33%">
 <h1>5</h1>
@@ -34,6 +34,8 @@ structured evals<br>across real domains
 </td>
 </tr>
 </table>
+
+> The evaluation is deliberately small: **5 tasks, two conditions, one dispatch each, a single model, author-adjudicated.** A deterministic adjudicator shipped in [`benchmark/`](benchmark/) — which anyone can re-run — re-scores the *same transcripts* under an author-defined criterion; its readings are reported descriptively in the whitepaper (§5), not as a coverage estimate against external ground truth. The sample size and non-blind adjudication are stated limitations (§7).
 
 ### Same task, two outcomes
 
@@ -87,7 +89,7 @@ Pre-mortem (30 days out):
 </tr>
 </table>
 
-*Built on proven methodology · [Klein pre-mortem](https://hbr.org/2007/09/performing-a-project-premortem) · [Berkeley MAST 14-mode](https://arxiv.org/abs/2503.13657) · [Plan-and-Act](https://arxiv.org/abs/2503.09572) · Reflexion · empirically validated 2026-05-17*
+*Built on established methodology · [Klein pre-mortem](https://hbr.org/2007/09/performing-a-project-premortem) · [Berkeley MAST 14-mode](https://arxiv.org/abs/2503.13657) · [Plan-and-Act](https://arxiv.org/abs/2503.09572) · Reflexion · preliminary evaluation (5 tasks), 2026-05-17 (see whitepaper §7 for limitations)*
 
 ---
 
@@ -272,7 +274,7 @@ Both whitepapers are published under **Codex Hash Research Laboratory Whitepaper
 | # | Title | PDF | Markdown source |
 |---|---|---|---|
 | 1 | *ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report* | [`paper/asp-preprint.pdf`](paper/asp-preprint.pdf) | [`paper/asp-preprint.md`](paper/asp-preprint.md) |
-| 2 | *Graceful Refusals as Silent Successes: A Pre-Registered Protocol for Characterising `claude -p` Exit-Code Semantics* | [`paper/iron-law-11.pdf`](paper/iron-law-11.pdf) | [`paper/iron-law-11.md`](paper/iron-law-11.md) |
+| 2 | *Graceful Refusals as Unsignalled Failures: Characterising `claude -p` Exit-Code Semantics on Agent Declines* | [`paper/iron-law-11.pdf`](paper/iron-law-11.pdf) *(PDF stale — pending rebuild from v2.0 source)* | [`paper/iron-law-11.md`](paper/iron-law-11.md) |
 
 The Markdown sources are canonical; the PDFs are the published artefacts. Both are also attached to the [GitHub Release v1.0.0](https://github.com/ulissesflores/anticipating-shadow-points/releases/tag/v1.0.0) and archived under the Zenodo DOI for permanent citation. To rebuild the PDFs from source, see [CONTRIBUTING.md § Rebuilding the whitepaper PDFs](CONTRIBUTING.md#rebuilding-the-whitepaper-pdfs).
 
@@ -280,7 +282,7 @@ The Markdown sources are canonical; the PDFs are the published artefacts. Both a
 
 ## Deeper reading
 
-- **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** — 10-part SOTA design document: academic background, v1→v5 architectural journey, empirical discoveries (including Iron Law 11 finding), derivation of all 12 Iron Laws, open questions.
+- **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** — 10-part SOTA design document: academic background, v1→v5 architectural journey, empirical discoveries (including the exit-code / graceful-refusal finding), derivation of all 12 Iron Laws, open questions.
 - **[5 structured evals](skills/anticipating-shadow-points/evals/)** — domain-specific shadow-point tests covering Supabase migration, edge function deploy, util refactor, RLS policy change, cron skill conflict.
 - **[12 Iron Laws](skills/anticipating-shadow-points/SKILL.md)** — non-negotiable runtime discipline.
 

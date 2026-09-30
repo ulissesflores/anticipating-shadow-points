@@ -14,7 +14,7 @@ For each evaluation $E$ in the eval set and each condition $c \in \{RED, GREEN\}
 - A candidate plan $p_{E,c}$ is collected — free-text prose from an LLM
   agent prompted under condition $c$.
 - A coverage score $\mathrm{cov}(p_{E,c}, S_E)$ is computed against the
-  expected shadow-point set $S_E$ defined ex-ante in the eval's
+  expected shadow-point set $S_E$ defined in the eval's
   markdown file.
 
 The headline metrics are:

@@ -56,4 +56,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run verify in pre-install mode (skips criterion 13 staging check)
-        run: bash scripts/verify.sh --pre-install || true
+        run: bash scripts/verify.sh --pre-install

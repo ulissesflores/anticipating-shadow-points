@@ -1,24 +1,32 @@
-# Iron Law 11 — Pre-registered protocol runner
+# Iron Law 11 — locked-inputs protocol runner
 
-This directory contains the executable scaffolding for the
-pre-registered protocol described in `paper/iron-law-11.md`. The
-protocol characterises `claude -p` exit-code semantics under graceful
-agent refusal across N=50 deliberate refusal scenarios.
+This directory contains the executable scaffolding for the protocol
+described in `paper/iron-law-11.md`. The protocol characterises
+`claude -p` exit-code semantics under graceful agent refusal across
+N=50 deliberate refusal scenarios.
 
-## What is committed BEFORE data collection (and locked)
+> **Note.** This was previously described as a "pre-registered protocol."
+> That framing is withdrawn (see the scope note in `paper/iron-law-11.md`):
+> the inputs were committed and hash-locked in the project's own git before
+> the run, but this is not public, timestamped pre-registration, and the
+> originally cited commit hash is no longer in the published history after a
+> later rebase. What the manifest below provides is *input-integrity locking*
+> — not pre-registration.
+
+## What is committed and hash-locked before the formal run
 
 | File | Purpose |
 |---|---|
 | `refusal-phrases.txt` | The locked list of refusal phrases used by `analyze.py` |
 | `random_seed.txt` | The committed run-id seed |
 | `scenarios/A.01.txt` … `D.12.txt` | 50 scenario prompts (13 + 13 + 12 + 12) |
-| `preregistration.json` | SHA-256 of each scenario + the refusal-phrase list + the seed; the timestamped record of pre-registration |
+| `preregistration.json` | SHA-256 of each scenario + the refusal-phrase list + the seed; the hash-lock manifest of the committed inputs (filename retained for continuity; it is an integrity lock, not a public pre-registration) |
 | `scripts/run-protocol.sh` | The dispatch script (Iron Laws 9, 11, 12 honored) |
 | `scripts/analyze.py` | The pre-committed analysis (confusion matrix + Clopper-Pearson 95% CI) |
 | `scripts/verify-prereg.sh` | Hash-checks every locked file against `preregistration.json` |
 
-Editing any of these files after the formal run has begun is a
-pre-registration violation. `verify-prereg.sh` is run before and after
+Editing any of these files after the formal run has begun is an
+input-integrity violation. `verify-prereg.sh` is run before and after
 the formal data collection to detect it.
 
 ## Smoke test (already executed)

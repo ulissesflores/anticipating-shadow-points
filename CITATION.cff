@@ -12,9 +12,12 @@ abstract: >-
   self-correction (Huang et al., 2024; Tyen et al., 2024; Zheng et al., 2023)
   which motivate a prompt-isolated validator stage. Distributed as a Claude
   Code plugin with three install paths. Two whitepapers in the companion
-  series document the system and an empirical finding on `claude -p`
-  exit-code semantics (60% silent-refusal rate, pre-registered N=50 protocol).
-  Multilingual docs (EN/ES/PT/IT/HE). MIT (software) + CC BY 4.0 (whitepapers).
+  series document the system and an empirical characterisation of `claude -p`
+  exit-code semantics under graceful refusal (a measured, conditional
+  silent-exit rate of roughly 40% over an adversarial N=50 suite on Claude Code
+  2.1.200 / Opus 4.8; a dated, single-rater snapshot against a non-deterministic
+  target, not a stable constant). Multilingual docs (EN/ES/PT/IT/HE). MIT
+  (software) + CC BY 4.0 (whitepapers).
 type: software
 authors:
   - family-names: Flores
@@ -52,7 +55,7 @@ identifiers:
 repository-code: "https://github.com/ulissesflores/anticipating-shadow-points"
 url: "https://ulissesflores.github.io/anticipating-shadow-points/"
 license: MIT
-version: 1.0.0
+version: 1.0.3
 date-released: 2026-05-18
 keywords:
   - claude-code

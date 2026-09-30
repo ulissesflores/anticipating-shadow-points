@@ -89,7 +89,7 @@ If you're a native speaker, open a PR with attribution — your authorship will 
 
 Open an issue with the question tag, or contact the maintainer:
 
-- **Ulisses Flores** — [@ulissesflores on GitHub](https://github.com/ulissesflores) — [ulissesflores.com](https://ulissesflores.com)
+- **Carlos Ulisses Flores** — [@ulissesflores on GitHub](https://github.com/ulissesflores) — [ulissesflores.com](https://ulissesflores.com)
 
 ## Code of conduct
 

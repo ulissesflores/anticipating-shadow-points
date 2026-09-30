@@ -322,7 +322,7 @@ esac
 
 ### 4.5 Why this battery deserves community attention
 
-The Iron Law 11 finding (`$? = 0` on graceful refusal) is non-obvious. The Claude Code 2.1.139 release notes do not flag it. The first three pages of Google results for "claude -p exit code" (as of 2026-05-17) do not surface it. Anyone writing a `claude -p` wrapper will hit it eventually; documenting it publicly saves the community real debugging time.
+The exit-code finding (`$? = 0` on graceful refusal) is non-obvious. The Claude Code 2.1.139 release notes do not flag it. The first three pages of Google results for "claude -p exit code" (as of 2026-05-17) do not surface it. Anyone writing a `claude -p` wrapper will hit it eventually; documenting it publicly saves the community real debugging time.
 
 ---
 
@@ -438,12 +438,12 @@ Each Iron Law maps to either a paper, a finding, or an incident in this project'
 | 1 | NO IMPLEMENTATION WITHOUT SHADOW-POINT PASS FIRST | Klein pre-mortem + MAST + ASP's core thesis |
 | 2 | NO PLAN APPROVAL WITHOUT INDEPENDENT VALIDATOR PASS (separate prompt) | Huang+24 (ICLR) + Tyen+24 (localization) + Zheng+23 (self-enhancement bias) + Du+24 (debate) |
 | 3 | NO MICRO-TODO WITHOUT MACRO PLAN + CHARTER + DELIVERABLES APPROVED BY USER | Anthropic Plan-Validate-Execute (verifiable intermediate outputs) |
-| 4 | NO STEP COMPLETION WITHOUT FRESH ACCEPTANCE-TEST EVIDENCE | MAST mode 12 (no acceptance test) + verification-before-completion skill |
-| 5 | NO DELIVERABLE `aceito` WITHOUT EVIDENCE FILE/OUTPUT MATCHED | MAST mode 14 (evidence loss) |
+| 4 | NO STEP COMPLETION WITHOUT FRESH ACCEPTANCE-TEST EVIDENCE | MAST FM-3.2 (no or incomplete verification) + verification-before-completion skill |
+| 5 | NO DELIVERABLE `aceito` WITHOUT EVIDENCE FILE/OUTPUT MATCHED | MAST FM-3.1 (premature termination) |
 | 6 | NO PROJECT CLOSE WITHOUT EXECUTION REPORT + MEMORY WRITE-BACK | User's CLAUDE.md mandate (memory_reflect/learn) + Anthropic best-practice on closing artifacts |
-| 7 | NO LOOP WITHOUT CAP | MAST mode 10 (infinite loop) — concrete: cap=3 rounds validator |
+| 7 | NO LOOP WITHOUT CAP | MAST FM-1.5 (unaware of termination conditions) — concrete: cap=3 rounds validator |
 | 8 | NO PHASE 9 EXECUTION WITHOUT EVALUATOR DISPATCH AT CHECKPOINTS | v4 — replicates `/goal`'s worker/evaluator separation when /goal not used |
-| 9 | NO REENTRANT ASP INSIDE `claude -p /goal` CHILD | v5 — prevent infinite Claude session spawn (MAST mode 10 + cost explosion). **Caught as non-functional by advisor; fixed pre-ship.** |
+| 9 | NO REENTRANT ASP INSIDE `claude -p /goal` CHILD | v5 — prevent infinite Claude session spawn (MAST FM-1.5 unaware of termination + cost explosion). **Caught as non-functional by advisor; fixed pre-ship.** |
 | 10 | NO `claude -p /goal` SPAWN WITHOUT FILE-BASED CONTRACT | v5 — child session has no parent state; file-based bus required |
 | 11 | NEVER TRUST `$?` FROM `claude -p` FOR SEMANTIC SUCCESS/FAILURE | **Empirical Test C 2026-05-17** — graceful refusal returns exit 0 |
 | 12 | ALL `claude -p` INVOCATIONS MUST USE `--output-format json` OR `stream-json` | Corollary of Iron Law 11 — text output unparseable |
@@ -460,13 +460,13 @@ Beyond the academic synthesis, these are the specific contributions that did not
 
 `/goal` is 5 days old at the time of v5 ship. No publicly visible skill uses it via subprocess invocation. ASP is the first (as far as can be searched).
 
-### 8.2 Iron Law 11 documented publicly
+### 8.2 The exit-code finding, documented publicly
 
 The "exit 0 on graceful refusal" gotcha is empirically validated and documented in `tests/claude-p-goal-runner-probe.md` Section 3 with verbatim outputs. This is a community resource independent of ASP — anyone writing a `claude -p` wrapper will need it.
 
 ### 8.3 File-based parent/child contract pattern (`runtime/<session-id>/`)
 
-The pattern of using a per-session directory for parent/child coordination, with explicit responsibilities (parent owns state.json initial state; child owns exec.json; parent reconciles filesystem evidence post-exit) is documented in `skill/claude-p-goal-runner.md` and is reusable beyond ASP for any parent/child Claude subprocess workflow.
+The pattern of using a per-session directory for parent/child coordination, with explicit responsibilities (parent owns state.json initial state; child owns exec.json; parent reconciles filesystem evidence post-exit) is documented in `skills/anticipating-shadow-points/claude-p-goal-runner.md` and is reusable beyond ASP for any parent/child Claude subprocess workflow.
 
 ### 8.4 Pre-mortem + MAST + worker/evaluator integrated skill
 
@@ -478,7 +478,7 @@ Combining all three in a single skill, with concrete artifacts (project-charter,
 
 ### 8.6 Empirical TDD-for-skills with RED-GREEN-REFACTOR baseline + 5 evals
 
-The `tests/baseline-pressure-tests.md` artifact captures the RED phase with subagent IDs and verbatim violations. The GREEN phase re-runs prove the skill works empirically (coverage 47% → 100%). The 5 evals provide a reusable measurement framework. This level of empirical rigor is rare in published skills.
+The `tests/baseline-pressure-tests.md` artifact captures the RED phase with subagent IDs and verbatim violations. The GREEN phase re-runs show the effect on the chosen tasks; a shipped deterministic adjudicator re-scores the *same transcripts* under an author-defined criterion, with the readings reported descriptively in the whitepaper (§5). The 5 evals provide a reusable measurement framework. The evaluation is preliminary — five tasks, one dispatch per condition, single model, non-blind author-adjudication — and is stated as such in the whitepaper's threats-to-validity section; it shows direction, not an estimable effect size.
 
 ### 8.7 Triple-distribution: plugin marketplace + `--plugin-dir` dev mode + standalone install.sh (v0.2.0)
 
@@ -516,7 +516,10 @@ If Anthropic adds an API or tool form of `/goal` (so it can be invoked from with
 
 ### 9.5 Marketplace PR (Q4)
 
-Submitting an entry to `anthropics/skills` and `netresearch/claude-code-marketplace` is held for explicit user opt-in. Pending.
+Two distribution channels, distinct status:
+
+- **`netresearch/claude-code-marketplace`** (third-party, not Anthropic-owned) — **submitted and rejected.** [PR #56](https://github.com/netresearch/claude-code-marketplace/pull/56) opened 2026-05-17; closed 2026-05-27 by maintainer `CybotTM` with the reason "We do not accept external skills on this marketplace" (the catalog only hosts netresearch's own skills). The maintainer separately noted the plugin "looks very interesting, will definitely look into it," but the policy stands — this path is closed unless netresearch changes its inclusion rule.
+- **`anthropics/skills`** (Anthropic-owned) — **never submitted**; still held for explicit user opt-in. No PR or issue was ever filed there, so Anthropic has not reviewed or responded to ASP.
 
 ### 9.6 Long-running task validation
 
@@ -584,9 +587,9 @@ in the repo. Build journals, advisor logs, demo artefacts, and closure
 reports from the development phase live in git history but are not in-tree
 at v1.0.0+.
 
-- `tests/claude-p-goal-runner-probe.md` — 2026-05-17 empirical battery surfacing the Iron Law 11 finding; cited in Whitepaper 2 §1.
+- `tests/claude-p-goal-runner-probe.md` — 2026-05-17 empirical battery surfacing the exit-code finding; cited in Whitepaper 2 §1.
 - `tests/goal-invocability-probe.md` — `/goal` invocability empirical test; cited in Whitepaper 1.
-- `tests/baseline-pressure-tests.md` — RED-phase n=8 evidence; cited in Whitepaper 1 §5.
+- `tests/baseline-pressure-tests.md` — RED-phase baseline evidence (5 tasks); cited in Whitepaper 1 §5.
 - `tests/evals-summary.md` — hand-adjudication summary; cited in Whitepaper 1 §5.
 - `tests/iron-law-11/` — full pre-registered protocol scaffolding (50 scenarios, scripts, frozen per-trial dataset under `runs/published/`); the canonical empirical artefact for Whitepaper 2.
 
@@ -597,8 +600,8 @@ at v1.0.0+.
 ## Document metadata
 
 - **Title**: ASP — State of the Art, Architectural Journey, and Empirical Discoveries
-- **Version**: corresponds to repo v0.1.0
-- **Author**: Ulisses Flores (direction, empirical testing, judgment) + Claude (Opus 4.7) (research synthesis, writing, verification)
+- **Version**: corresponds to repo v1.0.3
+- **Author**: Carlos Ulisses Flores (direction, empirical testing, judgment, authorship). AI tooling (Claude, Opus 4.7) assisted with research synthesis, drafting, and verification; per the project's authorship policy this document is published under the author's name alone (see `AUTHORS`).
 - **License**: MIT (same as repo)
-- **Last updated**: 2026-05-17
+- **Last updated**: 2026-07-05
 - **Status**: living document — pull requests welcome, especially Sections 8 (novelty) and 9 (open questions) which evolve as the skill matures

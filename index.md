@@ -2,7 +2,7 @@
 title: Home
 layout: default
 nav_order: 1
-description: "ASP — Anticipating Shadow Points. Lift shadow-point coverage from 47% to 100% on non-trivial Claude Code tasks. Pre-mortem, MAST 14-mode, independent validator, claude -p /goal subprocess kernel."
+description: "ASP — Anticipating Shadow Points. A Claude Code skill that surfaces the failure modes a senior engineer would catch in a pre-mortem — before code is written: forced MAST 14-mode pre-mortem, prompt-isolated validator, claude -p /goal subprocess kernel."
 permalink: /
 ---
 
@@ -11,12 +11,12 @@ permalink: /
 # Ship ambitious work without missing the obvious.
 {: .fs-9 .text-center }
 
-ASP is a Claude Code skill that lifts shadow-point coverage from **47% to 100%** on non-trivial tasks — through forced pre-mortem, independent validator, and `claude -p /goal` subprocess execution.
+ASP is a Claude Code skill that surfaces the failure modes a senior engineer would catch in a pre-mortem — *before* any code is written — through a forced MAST-14 pre-mortem, a prompt-isolated independent validator, and a `claude -p /goal` subprocess executor.
 {: .fs-5 .fw-300 .text-center }
 
 [Install in 30 seconds →](#get-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [View on GitHub](https://github.com/ulissesflores/anticipating-shadow-points){: .btn .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[See the proof ↓](#proof){: .btn .fs-5 .mb-4 .mb-md-0 }
+[See the evidence ↓](#proof){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 </div>
 
@@ -24,17 +24,17 @@ ASP is a Claude Code skill that lifts shadow-point coverage from **47% to 100%**
 
 <a id="proof"></a>
 
-## The proof
+## Evidence — preliminary
 
 <table style="width: 100%; border: 0; text-align: center; margin: 2em 0;">
 <tr style="border: 0;">
 <td style="border: 0; padding: 1em;">
-<div style="font-size: 3em; font-weight: 700; color: #2ea44f;">47% → 100%</div>
-<div style="font-size: 0.95em; opacity: 0.7;">shadow-point coverage<br>(baseline vs. with ASP)</div>
+<div style="font-size: 3em; font-weight: 700; color: #2ea44f;">preliminary</div>
+<div style="font-size: 0.95em; opacity: 0.7;">5 tasks × 2 conditions, one dispatch each,<br>single model, author-adjudicated<br>(adjudicator readings in benchmark/, §5)</div>
 </td>
 <td style="border: 0; padding: 1em;">
 <div style="font-size: 3em; font-weight: 700; color: #0969da;">12</div>
-<div style="font-size: 0.95em; opacity: 0.7;">non-negotiable Iron Laws<br>enforced at runtime</div>
+<div style="font-size: 0.95em; opacity: 0.7;">runtime invariants ("Iron Laws")<br>enforced by the skill</div>
 </td>
 <td style="border: 0; padding: 1em;">
 <div style="font-size: 3em; font-weight: 700; color: #8250df;">5</div>
@@ -42,6 +42,8 @@ ASP is a Claude Code skill that lifts shadow-point coverage from **47% to 100%**
 </td>
 </tr>
 </table>
+
+> The evaluation is deliberately small: **5 tasks, two conditions, one dispatch each, a single model, author-adjudicated.** A deterministic adjudicator shipped in [`benchmark/`](https://github.com/ulissesflores/anticipating-shadow-points/tree/main/benchmark) — which anyone can re-run — re-scores the *same transcripts* under an author-defined criterion; its readings are reported descriptively in the whitepaper (§5), not as a coverage estimate against external ground truth. The sample size and non-blind adjudication are stated limitations (§7).
 
 ### Same task, two outcomes
 
@@ -80,13 +82,13 @@ CREATE INDEX CONCURRENTLY
 14. Audit trail missing
 15. Time-zone in cron logic
 </code></pre>
-<em>100% shadow-point coverage.</em> Each surfaces a mitigation before any SQL runs.
+<em>Illustrative: all 15 surfaced on this example task.</em> Each surfaces a mitigation before any SQL runs.
 </td>
 </tr>
 </table>
 
 <div class="text-center" markdown="1">
-*Built on proven methodology · [Klein pre-mortem](https://hbr.org/2007/09/performing-a-project-premortem) · [Berkeley MAST 14-mode](https://arxiv.org/abs/2503.13657) · [Plan-and-Act](https://arxiv.org/abs/2503.09572) · Reflexion · empirically validated 2026-05-17*
+*Built on established methodology · [Klein pre-mortem](https://hbr.org/2007/09/performing-a-project-premortem) · [Berkeley MAST 14-mode](https://arxiv.org/abs/2503.13657) · [Plan-and-Act](https://arxiv.org/abs/2503.09572) · Reflexion · preliminary evaluation (5 tasks), 2026-05-17 (see whitepaper §7 for limitations)*
 {: .fs-3 .fw-300 }
 </div>
 

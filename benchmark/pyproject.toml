@@ -9,7 +9,7 @@ description = "Reproducible benchmark with cryptographic provenance for ASP (Ant
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
-authors = [{name = "Ulisses Flores", email = "c.ulisses@gmail.com"}]
+authors = [{name = "Carlos Ulisses Flores", email = "c.ulisses@gmail.com"}]
 keywords = ["LLM agents", "benchmark", "pre-mortem", "reproducibility"]
 
 # Zero external runtime dependencies by design.
