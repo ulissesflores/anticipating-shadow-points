@@ -2,7 +2,7 @@
 title: Home
 layout: default
 nav_order: 1
-description: "ASP — Anticipating Shadow Points. A Claude Code skill that surfaces the failure modes a senior engineer would catch in a pre-mortem — before code is written: forced MAST 14-mode pre-mortem, prompt-isolated validator, claude -p /goal subprocess kernel."
+description: "ASP — Anticipating Shadow Points. A Claude Code plugin that runs a pre-mortem before code is written, plus a replication layer that re-derives every number in its two papers under a SHA-256 seal."
 permalink: /
 ---
 
@@ -16,7 +16,7 @@ ASP is a Claude Code skill that surfaces the failure modes a senior engineer wou
 
 [Install in 30 seconds →](#get-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [View on GitHub](https://github.com/ulissesflores/anticipating-shadow-points){: .btn .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[See the evidence ↓](#proof){: .btn .fs-5 .mb-4 .mb-md-0 }
+[What is measured ↓](#proof){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 </div>
 
@@ -24,73 +24,15 @@ ASP is a Claude Code skill that surfaces the failure modes a senior engineer wou
 
 <a id="proof"></a>
 
-## Evidence — preliminary
+## Evidence — what is measured, and what is not
 
-<table style="width: 100%; border: 0; text-align: center; margin: 2em 0;">
-<tr style="border: 0;">
-<td style="border: 0; padding: 1em;">
-<div style="font-size: 3em; font-weight: 700; color: #2ea44f;">preliminary</div>
-<div style="font-size: 0.95em; opacity: 0.7;">5 tasks × 2 conditions, one dispatch each,<br>single model, author-adjudicated<br>(adjudicator readings in benchmark/, §5)</div>
-</td>
-<td style="border: 0; padding: 1em;">
-<div style="font-size: 3em; font-weight: 700; color: #0969da;">12</div>
-<div style="font-size: 0.95em; opacity: 0.7;">runtime invariants ("Iron Laws")<br>enforced by the skill</div>
-</td>
-<td style="border: 0; padding: 1em;">
-<div style="font-size: 3em; font-weight: 700; color: #8250df;">5</div>
-<div style="font-size: 0.95em; opacity: 0.7;">structured evals<br>across real domains</div>
-</td>
-</tr>
-</table>
+**Measured (Iron Law 11).** `claude -p` exits 0 when the agent gracefully declines. On 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), 24 exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were declines: 24% to 40% of the suite depending on how a decline is counted. Every number is re-derived from committed data by `python run_all.py` and sealed under a SHA-256 chain hash. [Paper](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/iron-law-11.md).
 
-> The evaluation is deliberately small: **5 tasks, two conditions, one dispatch each, a single model, author-adjudicated.** A deterministic adjudicator shipped in [`benchmark/`](https://github.com/ulissesflores/anticipating-shadow-points/tree/main/benchmark) — which anyone can re-run — re-scores the *same transcripts* under an author-defined criterion; its readings are reported descriptively in the whitepaper (§5), not as a coverage estimate against external ground truth. The sample size and non-blind adjudication are stated limitations (§7).
+![A recorded July 2026 trial: the agent refuses, exit code is 0, stop_reason is end_turn](assets/demo/exit-code.gif)
 
-### Same task, two outcomes
+**Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. An "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs, and is withdrawn as evidence. The first real benchmark is [pre-specified](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/PREREGISTRATION.md) with expected lists written blind by independent engineers.
 
-Real subagent dispatches from the 2026-05-17 RED/GREEN baseline. Task: *"Add a NOT NULL column `tier` (default 'free') to `user_profiles`. Table has 1M rows in production."*
-
-<table style="width: 100%; border-collapse: collapse;">
-<tr>
-<td style="width: 50%; vertical-align: top; padding: 1em; border: 1px solid #d0d7de; background: #fff8f8;">
-<strong style="color: #cf222e;">❌ Without ASP — baseline agent</strong>
-<pre><code>ALTER TABLE user_profiles
-  ADD COLUMN tier text
-  NOT NULL DEFAULT 'free';
-
-CREATE INDEX CONCURRENTLY
-  idx_user_profiles_tier
-  ON user_profiles (tier);
-</code></pre>
-<em>~60% shadow-point coverage.</em> Misses: replica lag, app deploy ordering, monitoring spike, trigger interaction, foreign key cascade.
-</td>
-<td style="width: 50%; vertical-align: top; padding: 1em; border: 1px solid #d0d7de; background: #f1f8f4;">
-<strong style="color: #2ea44f;">✅ With ASP — same agent, same task</strong>
-<pre><code>Pre-mortem (30 days out):
- 1. Full table rewrite locks
- 2. RLS policy not updated
- 3. Stale TS client types
- 4. Service-role bypass risk
- 5. Replica lag during DDL
- 6. App deploy ordering
- 7. Monitoring spike
- 8. Backup window collision
- 9. Index INVALID state
-10. WAL/disk pressure
-11. CDC realtime flood
-12. Rollback impossible
-13. CPU credit exhaustion
-14. Audit trail missing
-15. Time-zone in cron logic
-</code></pre>
-<em>Illustrative: all 15 surfaced on this example task.</em> Each surfaces a mitigation before any SQL runs.
-</td>
-</tr>
-</table>
-
-<div class="text-center" markdown="1">
-*Built on established methodology · [Klein pre-mortem](https://hbr.org/2007/09/performing-a-project-premortem) · [Berkeley MAST 14-mode](https://arxiv.org/abs/2503.13657) · [Plan-and-Act](https://arxiv.org/abs/2503.09572) · Reflexion · preliminary evaluation (5 tasks), 2026-05-17 (see whitepaper §7 for limitations)*
-{: .fs-3 .fw-300 }
-</div>
+![run_all.py re-derives every published number, runs the tests and verifies the SHA-256 seal](assets/demo/replicate.gif)
 
 ---
 
@@ -114,32 +56,10 @@ CREATE INDEX CONCURRENTLY
 </td>
 <td style="width: 50%; vertical-align: top; padding: 1.2em; border: 1px solid #d0d7de;">
 <h3 style="margin-top: 0;">⚡ <code>claude -p /goal</code> kernel</h3>
-<p>Spawns Anthropic's official worker/evaluator kernel as a subprocess. Empirically validated 2026-05-17. Iron Law 11: never trust <code>$?</code> — parse JSON.</p>
+<p>Hands execution to a <code>claude -p</code> child that runs under your own permission settings; the skill never widens them. Iron Law 11: never trust <code>$?</code> — parse the JSON.</p>
 </td>
 </tr>
 </table>
-
----
-
-## See it run
-
-```text
-$ /asp Add a NOT NULL column `tier` to user_profiles. 1M rows.
-
-Phase 1 — Parallel research (codebase + web + recall.py)          ✓
-Phase 2 — Shadow-point detection (Klein + MAST 14-mode)            ✓ 14 found
-Phase 4 — Macro plan + Deliverables Register (D01..D08)            ✓
-Phase 5 — Independent validator (separate-prompt subagent)         APPROVE
-Phase 7 — Awaiting user approval of charter + plan + deliverables  ✓
-Phase 8 — Micro-TODO contract emitted: 23 tasks (PRE/ACT/POST/ACC/FAL)
-Phase 9 — claude -p /goal autonomous execution                     → running
-
-Goal Spec: All 23 tasks completed with ACCEPTANCE-TEST evidence;
-           all 8 deliverables marked `aceito`; 12 Iron Laws respected.
-Hard stops: turn > 80 · elapsed > 30min · 3 consecutive falsifications.
-```
-
-Every step is auditable. Every task has a verifiable acceptance test. Nothing ships without fresh evidence.
 
 ---
 
@@ -211,6 +131,6 @@ claude plugin install anticipating-shadow-points@anticipating-shadow-points
 
 **Cite this work**: [CITATION.cff](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/CITATION.cff) · **Community**: [Contributing](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/CONTRIBUTING.md) · [Code of Conduct](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/CODE_OF_CONDUCT.md) · [Security](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/SECURITY.md) · [Changelog](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/CHANGELOG.md)
 
-**License**: MIT
+**License**: code MIT · papers, figures and data CC BY 4.0
 
 </div>

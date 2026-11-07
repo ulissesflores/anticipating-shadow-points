@@ -32,7 +32,7 @@ Cemri et al. (2025) derived MAST from 150 traces with κ=0.88 inter-annotator ag
 
 **ASP use**: Phase 2 step 2. For each of the 14 modes, the planner asks "Does this mode apply to my task? Specifically how?" with a per-mode pre-mortem prompt documented in `skill/mast-checklist.md`. This forces coverage of less-intuitive failure categories (time/tz, observability, op-ex, contract drift) that free-form pre-mortem alone tends to cluster away from.
 
-**Empirical result during this project's TDD**: Free-form pre-mortem yielded ~50% expected-shadow-point coverage. Adding MAST 14-mode forced enumeration brought coverage to ~100%. The MAST checklist is the **load-bearing** component of the skill, documented inline in SKILL.md after the GREEN baseline runs.
+**Observation during this project's TDD (author, non-blind, transcripts not preserved)**: free-form pre-mortem plans covered roughly half of the author's expected list; with MAST 14-mode forced enumeration they covered nearly all of it. The MAST checklist is therefore *hypothesised* to be the load-bearing component; no measurement supports it yet (see the correction note in `paper/asp-preprint.md` v2.0 and Protocol 2 in `PREREGISTRATION.md`).
 
 ### 1.3 Plan-and-Act Separation
 
@@ -481,7 +481,7 @@ Combining all three in a single skill, with concrete artifacts (project-charter,
 
 ### 8.6 Empirical TDD-for-skills with RED-GREEN-REFACTOR baseline + 5 evals
 
-The `tests/baseline-pressure-tests.md` artifact captures the RED phase with subagent IDs and verbatim violations. The GREEN phase re-runs show the effect on the chosen tasks; a shipped deterministic adjudicator re-scores the *same transcripts* under an author-defined criterion, with the readings reported descriptively in the whitepaper (§5). The 5 evals provide a reusable measurement framework. The evaluation is preliminary — five tasks, one dispatch per condition, single model, non-blind author-adjudication — and is stated as such in the whitepaper's threats-to-validity section; it shows direction, not an estimable effect size.
+The `tests/baseline-pressure-tests.md` artifact captures the RED phase with subagent IDs and verbatim violations. The GREEN phase re-runs were read by the author on the chosen tasks; their transcripts were not preserved. The shipped deterministic adjudicator has only been run on author-written fixtures (a mock run), which validates the instrument but measures nothing about ASP (whitepaper v2.0, §5.3). The 5 evals provide a reusable measurement framework. The evaluation is preliminary — five tasks, one dispatch per condition, single model, non-blind author-adjudication — and is stated as such in the whitepaper's threats-to-validity section; it shows direction, not an estimable effect size.
 
 ### 8.7 Triple-distribution: plugin marketplace + `--plugin-dir` dev mode + standalone install.sh (v0.2.0)
 
