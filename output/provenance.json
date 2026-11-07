@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "57ec0ec84e260972f31d98961aba43ef8a5699c85c78d0c1ed6a02225f2c0ab9",
+  "chain_hash": "cff4904f9f0fa3152b02f84bdbc2bd4733d90f05dfa295b23c275f818baf14d9",
   "informational_not_hashed": {
     "files": [
       {
@@ -105,7 +105,7 @@
         },
         {
           "path": "data/README.md",
-          "sha256": "715cee24f4aca7575a49c5caedc216c4ca070d15638e1e2efb2e5274c4f0c459"
+          "sha256": "73848be6cfcc716fee07299e28cf117c66e63ef044cc40e99f80b703d15fbf5e"
         },
         {
           "path": "data/spike-2026-07-08/CODEBOOK.md",
@@ -116,11 +116,15 @@
           "sha256": "5a7d596e246f8d8883079d9ab309322426c4769311422f08ddf16be68d9eddae"
         },
         {
+          "path": "data/spike-2026-07-08/rater-matrix.tsv",
+          "sha256": "d6ea42f7e58504498c22497c4c2ab7e9aa0644b515a148d05682e8700150b2a1"
+        },
+        {
           "path": "data/spike-2026-07-08/trials.jsonl",
           "sha256": "092db9db9fb8f11236e4c91d03a0660d22fd983506f0c353053966362ef90624"
         }
       ],
-      "leaf_sha256": "27bf9968f178a57784b4e6c59a33936437eecebb20284740617d3b0f6c1b0d42"
+      "leaf_sha256": "90cc7551ac3c8401b231b2be279bee639de3898df7359adda2f1a04b3d5ffdb4"
     },
     "frozen_inputs": {
       "files": [

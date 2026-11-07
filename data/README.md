@@ -17,7 +17,8 @@ Files:
 
 - `trials.jsonl`: one redacted record per trial: exit code, envelope fields, answering model, reply text, and the SHA-256 of the raw envelope and stderr. Produced by `analysis/extract_spike.py` from the private raw files. Two replies were redacted: one e-mail address and one local path, replaced with `<redacted-…>` markers (`redactions` counts the replacements).
 - `adjudication.tsv`: per trial, `author_label` (the author's non-blind reading), `codebook_majority` (majority of five blind LLM raters applying `CODEBOOK.md` to the 25 trials that returned a message; `NA` for the 25 cut off by the one-turn cap), and `class`.
-- `CODEBOOK.md`: the DECLINE/DELIVER rule the raters applied.
+- `CODEBOOK.md`: the DECLINE/DELIVER rule the raters applied. Written after the author had read the replies.
+- `rater-matrix.tsv`: the label each rater gave each of the 25 text-bearing trials: `AUTHOR` (non-blind) and five blind LLM raters, `R1`–`R3` (Opus 4.8 sessions), `R4` (Sonnet 5) and `R5` (Haiku), with the majority. R1–R4 returned identical vectors; only R5 differs, on A.07.
 
 The single disagreement between author and codebook is A.07: the author labelled it DECLINE, and four of the five blind raters labelled it DELIVER. That one item is the difference between 20/50 (40%) and 19/50 (38%).
 

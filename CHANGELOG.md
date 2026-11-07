@@ -71,7 +71,7 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   corrected by this note.
 - **Silent-refusal figure superseded.** The 60% (30/50) reported for the
   2026-05-18 run reflects Claude Code 2.1.143 / Opus 4.7. A fresh N=50 run
-  (2026-07-08, 2.1.200 / Opus 4.8, single-rater) reads ≈40% (95% Wilson CI
+  (2026-07-08, 2.1.200 / Opus 4.8 [model attribution corrected in 2.0.0: session model Fable 5], single-rater) reads ≈40% (95% Wilson CI
   ≈28–54%), narrowing to a ≈24% core on unambiguous declines; the companion
   paper reports the ≈24–40% band. Treat the older 60% as a dated snapshot.
 - **Main-paper evaluation reframed.** The deterministic adjudicator readings

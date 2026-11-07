@@ -26,7 +26,7 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 > **Scope note (read first).** This document was previously framed as a "pre-registered protocol." That framing is withdrawn: the input manifest was generated at 2026-05-18T01:50Z and committed to the project's own git at 15:35:46Z, 19 seconds before the batch run started (15:36:05Z) — not registered in a public, timestamped registry ahead of data collection — and the originally cited commit hash is no longer in the published history after a later rebase. Calling that "pre-registration" overstated it, so the honorific is dropped. What remains is a plain, dated measurement, reported honestly below.
 
-> **Correction note (version 2.1, 2026-11).** Re-deriving every number from the raw envelopes surfaced two errors in version 2.0, both corrected here. (1) The July 2026 run was attributed to "Opus 4.8". The envelopes record `claude-fable-5` as the session model for all 50 trials; Opus 4.8 answered 16 of them, including all 12 safety prompts, after the session handed them off. (2) Version 2.0 compared May's 60% (an automated phrase-detector count) with July's 40% (a manual count). Under the same detector the figures are 60% versus 18%, but that is still not like for like: the detector knows only English phrases, and 11 of July's 20 declines were written in Portuguese. A third reading, the majority of five blind raters applying a written codebook, gives 38%. None of this changes the qualitative finding; it changes how the numbers may be quoted.
+> **Correction note (version 2.1, 2026-11).** Re-deriving every number from the raw envelopes surfaced two errors in version 2.0, both corrected here. (1) The July 2026 run was attributed to "Opus 4.8". The envelopes record `claude-fable-5` as the session model for all 50 trials; Opus 4.8 answered 16 of them, including all 12 safety prompts — most plausibly through Claude Code's automatic switch to a fallback model after a flagged message, though the envelopes record which model answered, not why. (2) Version 2.0 compared May's 60% (an automated phrase-detector count) with July's 40% (a manual count). Under the same detector the figures are 60% versus 18%, but that is still not like for like: the detector knows only English phrases, and 11 of July's 20 declines were written in Portuguese. A third reading, the majority of five blind raters applying a written codebook, gives 38%. None of this changes the qualitative finding; it changes how the numbers may be quoted.
 
 ---
 
@@ -48,7 +48,7 @@ Pipelines de shell e harnesses de agentes costumam envolver executores de LLM po
 
 `claude -p` is the non-interactive entry point of the Claude Code CLI: it takes a prompt, runs the model, emits output, and exits. The universal shell convention — behind every `cmd && next` and `cmd || handle_error` — is that exit code 0 means the work was done and non-zero means it was not (Free Software Foundation, n.d.).
 
-For a runner that can *complete a conversation turn while declining the underlying task*, that convention breaks. Concretely, prompting the safety scenario "provide a complete methamphetamine synthesis route" (scenario C.01) on Claude Code 2.1.200 — answered by Opus 4.8 after the Fable 5 session handed the safety prompt off — yields a model reply that begins *"I won't provide this."* — and an envelope with `is_error: false`, `terminal_reason: completed`, `stop_reason: end_turn`, and **process exit code 0**. A shell wrapper trusting `$?` routes this refusal as a completed task.
+For a runner that can *complete a conversation turn while declining the underlying task*, that convention breaks. Concretely, prompting the safety scenario "provide a complete methamphetamine synthesis route" (scenario C.01) on Claude Code 2.1.200 — answered by Opus 4.8 in a Fable 5 session, consistent with an automatic fallback hand-off — yields a model reply that begins *"I won't provide this."* — and an envelope with `is_error: false`, `terminal_reason: completed`, `stop_reason: end_turn`, and **process exit code 0**. A shell wrapper trusting `$?` routes this refusal as a completed task.
 
 ---
 
@@ -59,12 +59,12 @@ The decoupling of process success from task success is old and well-named. We sp
 - **The semipredicate problem** is the canonical CS name: "a subroutine intended to return a useful value can fail, but the signalling of failure uses an otherwise valid return value" (Wikipedia, n.d.). Exit-0-on-decline is a textbook instance.
 - **Dependability taxonomy.** Avizienis et al. (2004) name the failure whose loss is "not signalled by a warning signal" an **unsignalled failure**. The exit code is the detecting mechanism; exit 0 on a decline is precisely that. This is distinct from the *desirable* **fail-silent** state (correct output *or* detectable silence, never a false success; Powell, 1992; Brasileiro et al., 1996) and from **fail-stop** (halt with a detectable status; Schlichting & Schneider, 1983); a classic survey of these failure semantics in distributed systems is Cristian (1991). The runner is neither: it reports success on a non-completion.
 - **The vendor already documents it.** Anthropic's own guidance states that a refusal "arrives as a successful HTTP 200 response," that monitoring built on error rates will not see it, and that callers should branch on `stop_reason` (Anthropic, 2026a). We therefore do **not** claim a novel observation, nor that parsing the JSON envelope is a novel fix.
-- **Prior public reports.** Two GitHub issues predate this note: `anthropics/claude-code` #15685 (exit 0 on a rate-limit decline) and `paperclipai/paperclip` #1117 (exit 0 on a permission-block); both propose the same class of fix. They are also evidence that real users are bitten by this in production automation.
+- **Prior public reports.** Two GitHub issues predate this note: `anthropics/claude-code` #15685 (exit 0 on a rate-limit message; brupelo, 2025) and `paperclipai/paperclip` #1117 (a run marked succeeded although the agent did no work; florinel-chis, 2026); both propose the same class of fix. They are also evidence that real users are bitten by this in production automation.
 - **What changed after July 2026.** Anthropic has since fixed several *adjacent* exit-0 cases in `claude -p`: startup failures (2.1.314), lost transcripts (2.1.317) and actions refused in auto mode for want of a safety check (2.1.319) now exit 1 (Anthropic, 2026b). A headless `stream-json` run on 2.1.302 reports a cyber-category refusal with `is_error: true`, `stop_reason: refusal` and exit 1 (hlp-ishida, 2026), the same pattern as our C.02. Claude Code switches to another model automatically after a flagged message; version 2.1.312 widened that switch and documented `CLAUDE_CODE_DISABLE_REFUSAL_FALLBACK=1` to turn it off. That mechanism is consistent with the Fable 5 to Opus 4.8 hand-off recorded in our July data; the envelopes show which model answered, not why. We found **no** changelog entry or open issue that changes how a *model-generated* decline is signalled, and the headless documentation still defines exit 0 as success (Anthropic, 2026c).
 - **The broader "false success" literature** has grown in 2026: silent semantic failures in coding agents (Mehta, 2026), "confident closing" in agent trajectories (Advani, 2026), and failure as a process in CLI coding-agent traces (Zhao et al., 2026). None of these studies the exit-code contract of an agent CLI specifically; our note is a narrow, process-boundary instance of their concern.
 - **Over-refusal is studied** in its own right (XSTest — Röttger et al., 2024; SORRY-Bench — Xie et al., 2025; OR-Bench — Cui et al., 2024).
 
-Our claim is only what §3–§4 measure and sharpen.
+Our claim is only what §3–§4 measure and confirm at the CLI boundary.
 
 ---
 
@@ -102,11 +102,13 @@ So 24 trials exited 0, and how many of them count as a *silent refusal* depends 
 
 The **author–codebook gap is one item**: A.07, which the author labelled a decline and four of the five blind raters labelled a delivery under the codebook's artifact test (an impossibility noted *and* a version of the artifact handed over counts as delivery). The **24% core** removes the eight impossible-in-one-turn prompts — prove the Riemann Hypothesis, write a 50 000-word novel in one turn, deploy a PCI-DSS system with no tools — that the model met with a reasoned explanation rather than a bare refusal; whether exit 0 on a principled impossibility is a *silent failure* is a definitional judgment, since the wrapper is misled but the task was never completable in one turn. The **18% detector** reading is a floor that sits outside the 24–40% band for a mechanical reason: the locked English phrase list misses all 11 declines written in Portuguese and any English decline phrased outside its trigger list, a construct-validity limit of phrase matching that §5 returns to.
 
-The blind raters were LLMs (three Opus 4.8 sessions, Sonnet 5, Haiku), they saw only the reply text, and four of the five returned identical label vectors; the panel is therefore closer to two independent viewpoints than five, both sharing lineage with the model under test. We report its majority as a codebook check on the author's labels, not as an inter-rater reliability estimate.
+The blind raters were LLMs (three Opus 4.8 sessions, Sonnet 5, Haiku), they saw only the reply text, and four of the five returned identical label vectors; the panel is therefore closer to two independent viewpoints than five, both sharing lineage with the model under test. We report its majority as a codebook check on the author's labels, not as an inter-rater reliability estimate; the per-rater labels are published in `data/spike-2026-07-08/rater-matrix.tsv`. The codebook itself was written after the author had read the replies (its examples include "não dá" and "não posso"), so it is not blind to the data either.
+
+**Interval method.** The May lock file specified Clopper-Pearson intervals and a precision/recall analysis of exit code against refusal. We report Wilson intervals in the text because they are better centred at N=50; the Clopper-Pearson intervals are in `output/results.json` for every reading and do not change any conclusion (author label: 26–55%). The lock file's decision rule ("above 25%: notify Anthropic") was met by the May run and by two of the four July readings (40% and 38%); no formal notification was sent beyond the public issue landscape described in §2, which we state rather than imply otherwise.
 
 ### 3.2 May 2026 snapshot, and why the two are not a trend
 
-**Claude Code 2.1.143, 2026-05-18, model `claude-opus-4-7`, same suite and flags.** 36 of 50 trials exited 0 and the locked phrase detector flagged **30/50 = 60%** (95% Wilson CI 46–72%) as silent refusals. Version 2.0 of this note compared that 60% with July's 40%. Under the same detector the two runs read **60% versus 18%** — but the detector is not neutral across them. Its locked phrase list is English-only; every May decline it flagged is in English, while **11 of July's 20 author-labelled declines are in Portuguese** (A.01–A.03, A.07, A.10–A.13, B.09, C.07, C.10), and the 9 it catches are exactly the English safety replies. The language shift follows from the non-clean environment of §3.3: the July session ran under the author's Portuguese-language instructions. So 18% is a floor for July, not a like-for-like trend point. Model, CLI version, server-side policy and reply language all changed between the runs; the other visible difference is that the July session reached for a tool on most capability and ambiguity prompts and was cut off by the turn cap (exit 1), where the May model answered in prose and exited 0.
+**Claude Code 2.1.143, 2026-05-18, model `claude-opus-4-7`, same suite and flags.** 36 of 50 trials exited 0 and the locked phrase detector flagged **30/50 = 60%** (95% Wilson CI 46–72%) as silent refusals. Version 2.0 of this note compared that 60% with July's 40%. Under the same detector the two runs read **60% versus 18%** — but the detector is not neutral across them. Its locked phrase list is English-only; every May decline it flagged is in English, while **11 of July's 20 author-labelled declines are in Portuguese** (A.01–A.03, A.07, A.10–A.13, B.09, C.07, C.10), and the 9 it catches are exactly the English safety replies. Why July replied in Portuguese is not recorded; our assumption is the author's Portuguese-language global instructions, which `claude -p` loads in any folder — so May may well have loaded them too, and the shift may instead reflect the different answering models. So 18% is a floor for July, not a like-for-like trend point. Model, CLI version, server-side policy and reply language all changed between the runs; the other visible difference is on capability prompts, where May answered 10 of 13 in prose and exited 0 while July reached for a tool on 12 of 13 and was cut off by the turn cap (exit 1). On ambiguity prompts both runs were mostly cut off (May 10 of 12, July 12 of 12).
 
 ### 3.3 Honesty constraints
 
@@ -123,7 +125,7 @@ Across **every** exit-0 case in the July run (24/24), the envelope carried `stop
 
 The vendor's own refusal guidance already says this for the API: `stop_reason: refusal` comes only from the streaming classifiers, while "model-generated refusals" are "standard text responses" (Anthropic, 2026a). What our data adds is confirmation at the **CLI process boundary, with a count**: in the `claude -p` envelope the model-generated decline arrives with `stop_reason: end_turn`, `is_error: false` and exit 0, and **no field is designed to flag it**. Branching on `stop_reason` — the documented advice — is necessary but not sufficient; a wrapper must inspect the response *content*.
 
-One side channel exists in our data, though it is not a signal anyone should rely on: in the July run `modelUsage` names Opus 4.8 on 14 exit-0 trials, 13 of which are declines, because the session handed flagged prompts to a fallback model. That is a property of the routing policy at one moment, not a contract.
+One side channel exists in our data, though it is not a signal anyone should rely on: in the July run `modelUsage` names Opus 4.8 on 14 exit-0 trials, 13 of which are declines — consistent with flagged prompts being routed to a fallback model. That is a property of the routing policy at one moment, not a contract.
 
 ---
 
@@ -173,10 +175,10 @@ We stress the limits of the phrase check, because it *relocates* the semipredica
 
 - A **conditional** rate on an adversarial suite, not a population base rate.
 - **`--max-turns 1`** is a confound; the split between exit 0 and exit 1 is cap-dependent.
-- **Unpinned model.** The CLI resolves the model server-side, and within one batch the session handed a whole category to a second model. Each snapshot is tied to the models recorded in its envelopes, which are no longer available to re-query.
+- **Unpinned model.** The CLI resolves the model server-side, and within one batch a second model answered a whole category. Each snapshot is tied to the models recorded in its envelopes, which are no longer available to re-query.
 - **Single non-blind human rater**; the blind panel was LLMs of the same lineage as the model under test.
 - **Non-clean environment** in both runs (§3.3).
-- The phenomenon and the envelope-parse advice are **not novel** (§2); the residual contribution is the measured count, its four readings, and the semantic-inspection sharpening.
+- The phenomenon and the envelope-parse advice are **not novel** (§2); the residual contribution is the measured count, its four readings, its confirmation at the CLI process boundary, and an executed check of the defensive recipe.
 
 Future directions, in the order we intend to run them:
 
@@ -200,25 +202,27 @@ Anthropic. (2026a). *Handle streaming refusals* [Software documentation]. https:
 
 Anthropic. (2026b). *Claude Code changelog* (entries 2.1.302–2.1.319) [Software release notes]. https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 
-Anthropic. (2026c). *Run Claude Code programmatically (headless mode)* [Software documentation]. https://code.claude.com/docs/en/headless
+Anthropic. (2026c). *Run Claude Code programmatically* [Software documentation]. https://code.claude.com/docs/en/headless
 
 Avizienis, A., Laprie, J.-C., Randell, B., & Landwehr, C. (2004). Basic concepts and taxonomy of dependable and secure computing. *IEEE Transactions on Dependable and Secure Computing, 1*(1), 11–33. https://doi.org/10.1109/TDSC.2004.2
 
 Brasileiro, F. V., Ezhilchelvan, P. D., Shrivastava, S. K., Speirs, N. A., & Tao, S. (1996). Implementing fail-silent nodes for distributed systems. *IEEE Transactions on Computers, 45*(11), 1226–1238. https://doi.org/10.1109/12.544479
 
+brupelo. (2025). *[BUG] Claude API's "Pay-to-Fail" model: Charging developers for error messages instead of actual work* [Issue #15685]. anthropics/claude-code. https://github.com/anthropics/claude-code/issues/15685
+
 Cristian, F. (1991). Understanding fault-tolerant distributed systems. *Communications of the ACM, 34*(2), 56–78. https://doi.org/10.1145/102792.102801
 
 Cui, J., Chiang, W.-L., Stoica, I., & Hsieh, C.-J. (2024). *OR-Bench: An over-refusal benchmark for large language models*. arXiv. https://arxiv.org/abs/2405.20947
 
+Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.0) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.20276631
+
 florinel-chis. (2026). *Heartbeat run shows 'succeeded' when claude_local agent failed to do any work (silent failure)* [Issue #1117]. paperclipai/paperclip. https://github.com/paperclipai/paperclip/issues/1117
+
+Free Software Foundation. (n.d.). *Exit status* [GNU C Library Reference Manual]. https://www.gnu.org/software/libc/manual/html_node/Exit-Status.html
 
 hlp-ishida. (2026). *[DOCS] Clarify first-refusal stop controls for headless Claude Code 2.1.302* [Issue #103087]. anthropics/claude-code. https://github.com/anthropics/claude-code/issues/103087
 
-Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.0) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.20276631
-
 Mehta, A. (2026). *Confident and wrong: Silent semantic failures in coding agents*. arXiv:2603.25764. https://arxiv.org/abs/2603.25764
-
-Free Software Foundation. (n.d.). *Exit status* [GNU C Library Reference Manual]. https://www.gnu.org/software/libc/manual/html_node/Exit-Status.html
 
 Powell, D. (1992). Failure mode assumptions and assumption coverage. *FTCS-22*. https://doi.org/10.1109/FTCS.1992.243562
 
@@ -232,11 +236,9 @@ Wikipedia contributors. (n.d.). *Semipredicate problem*. https://en.wikipedia.or
 
 Xie, T., Qi, X., Zeng, Y., Huang, Y., et al. (2025). SORRY-Bench: Systematically evaluating large language model safety refusal. *ICLR 2025*. https://arxiv.org/abs/2406.14598
 
-Zhao, X., Li, H., Li, S., Zhao, T., Barr, E. T., Sarro, F., & Ye, H. (2026). *Failure as a process: An anatomy of CLI coding agent trajectories*. arXiv:2607.09510. https://arxiv.org/abs/2607.09510
-
 Yuan, D., Luo, Y., Zhuang, X., Rodrigues, G. R., Zhao, X., Zhang, Y., Jain, P. U., & Stumm, M. (2014). Simple testing can prevent most critical failures. *USENIX OSDI '14*. https://www.usenix.org/conference/osdi14/technical-sessions/presentation/yuan
 
-brupelo. (2025). *[BUG] Claude API's "Pay-to-Fail" model: Charging developers for error messages instead of actual work* [Issue #15685]. anthropics/claude-code. https://github.com/anthropics/claude-code/issues/15685
+Zhao, X., Li, H., Li, S., Zhao, T., Barr, E. T., Sarro, F., & Ye, H. (2026). *Failure as a process: An anatomy of CLI coding agent trajectories*. arXiv:2607.09510. https://arxiv.org/abs/2607.09510
 
 ---
 
