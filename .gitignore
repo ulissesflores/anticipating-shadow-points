@@ -10,3 +10,11 @@ claude-cache/
 .idea/
 .vscode/
 *.swp
+
+# Agent instructions and local tooling never go public
+CLAUDE.md
+AGENTS.md
+.serena/
+runtime/
+.pytest_cache/
+.ruff_cache/

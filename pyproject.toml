@@ -1,0 +1,35 @@
+# Tooling configuration for the reproducibility layer (analysis/, tests/, run_all.py,
+# make_provenance.py). The Claude Code plugin itself (skills/, commands/) has no Python.
+# The benchmark package keeps its own pyproject in benchmark/.
+[project]
+name = "anticipating-shadow-points-replication"
+version = "2.0.0"
+description = "Replication layer for the ASP papers: derived numbers, tests, SHA-256 provenance"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Carlos Ulisses Flores", email = "c.ulisses@gmail.com" }]
+dependencies = ["matplotlib>=3.8"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "interrogate>=1.7"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+include = ["analysis/*.py", "tests/*.py", "run_all.py", "make_provenance.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "D"]
+ignore = ["D203", "D213"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.interrogate]
+fail-under = 100
+exclude = ["benchmark", "tests/iron-law-11", "skills", "claude-cache"]
+verbose = 1
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
