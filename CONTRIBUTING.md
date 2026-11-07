@@ -97,64 +97,21 @@ By participating, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md
 
 ## Rebuilding the whitepaper PDFs
 
-The repository ships pre-built whitepaper PDFs (`paper/asp-preprint.pdf`
-and `paper/iron-law-11.pdf`). The Markdown sources (`paper/*.md`) are
-canonical; the PDFs are derived artefacts. The current PDFs are also
-attached to the GitHub Release for v1.0.0 and archived under the
-Zenodo DOI for permanent citation.
-
-If you fork the work, change a `.md` source, or want to verify the
-PDFs were generated from the published `.md` sources, rebuild from
-scratch with **pandoc + tectonic** (a self-contained LaTeX engine that
-downloads its packages on demand — no full TeX Live install required).
-
-### One-time setup (macOS)
+The Markdown sources in `paper/*.md` are canonical; the PDF and DOCX editions
+are derived. They follow the Codex Hash house norm (cover with logo, Times New
+Roman 12, double spacing, APA 7 references) and are produced by
+`paper/tools/build_paper.sh`, which exports a DOCX and has **Microsoft Word**
+(macOS, through AppleScript) print the PDF:
 
 ```bash
-brew install pandoc tectonic
+python run_all.py                           # regenerate the figures first
+paper/tools/build_paper.sh iron-law-11      # -> docs/paper/iron-law-11.en.{pdf,docx}
+paper/tools/build_paper.sh asp-preprint     # -> docs/paper/asp-preprint.en.{pdf,docx}
 ```
 
-For Linux, install both via your distribution's package manager (or
-download tectonic's static binary from <https://tectonic-typesetting.github.io/>).
-
-### Build command
-
-```bash
-./paper/build.sh
-```
-
-The script runs pandoc with tectonic on both sources, using
-`paper/pdf-header.tex` for the Unicode mappings and reading the figures from
-`output/figures/` (regenerate them first with `python run_all.py`). An earlier
-inline version of this recipe mapped straight ASCII quotes instead of curly
-ones, which `newunicodechar` rejects; the script is the maintained copy.
-
-### Why this build is portable
-
-- **pandoc** is widely packaged (macOS, all major Linux distros).
-- **tectonic** is a single static binary with no transitive system
-  dependencies; it downloads each LaTeX package the first time you
-  need it and caches it for subsequent runs.
-- The `newunicodechar` mappings let the canonical `.md` keep real
-  Unicode (≥, ≤, κ, ·, ×, etc.) — the source remains grep-able and
-  renders correctly on GitHub/Typora/Obsidian, while the PDF renders
-  these as proper math symbols.
-- Anyone with the same `pandoc` + `tectonic` versions reproduces the
-  PDF byte-identically (modulo PDF metadata timestamps).
-
-### Verifying a rebuild matches the published PDF
-
-Per-byte equality across pandoc versions is not guaranteed (pandoc
-revisions occasionally tweak typography). To verify your rebuild is
-semantically faithful:
-
-```bash
-pdftotext asp-preprint.pdf - | head -200       # extract first 200 lines
-pdftotext paper/asp-preprint.pdf - | head -200 # compare to shipped PDF
-diff <(...) <(...)                              # should be empty
-```
-
-For the canonical citable artefact, always reference the PDFs attached
-to the [GitHub Release](https://github.com/ulissesflores/anticipating-shadow-points/releases/tag/v1.0.0)
-or the [Zenodo deposit](https://doi.org/10.5281/zenodo.20276632), not
-a local rebuild.
+Requirements: pandoc, qpdf, poppler and Microsoft Word, plus a Python with
+`lxml` and `Pillow`. The script also runs the house checker on the DOCX and the
+PDF. `docs/paper/` enters the repository only in a release that already carries
+its DOI; until then it is ignored by git. For the citable artefact, always use
+the files archived under the [Zenodo DOI](https://doi.org/10.5281/zenodo.20276631),
+not a local rebuild.

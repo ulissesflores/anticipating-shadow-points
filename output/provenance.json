@@ -1,23 +1,23 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "0b7a2128f6b183d7bf0e7857dac91de35e5fd809c4c678765bc4cf3f2a86be66",
+  "chain_hash": "f85b24bf7d525de47c630dae54d4494615382179ee7c0c710ec7dda40d2ddd9b",
   "informational_not_hashed": {
     "files": [
       {
         "path": "output/figures/fig1_silent_refusal_readings.png",
-        "sha256": "a904c984102d9948969cd24efff4f3dc9ed2fe23623c7f306b098ec300a7422c"
+        "sha256": "fa327ab4b96ef15aae49c5bde6a5a7e2a0e8e7643b54d32ae3b1586915328379"
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings.svg",
-        "sha256": "4ff57a94be47ffc4686428b1c943c9f174a7ee672b2d220ad898c420e71f05ea"
+        "sha256": "359d4837371c47332e060efdea6536bed69a2a65d7c867b6b41f76772aecb6bb"
       },
       {
         "path": "output/figures/fig2_adjudicator_fixture_check.png",
-        "sha256": "30955d2cbcd98dc6ed798dd829c1f762983b280cdcacce711d8bff8aa6929270"
+        "sha256": "c0ab490f13c820d516ef32e34f40e0e90d82b4a2ce43864ea18ce5b856f4dc1c"
       },
       {
         "path": "output/figures/fig2_adjudicator_fixture_check.svg",
-        "sha256": "acf2bf2e5b063be704b1b87adecb499fa61f8720f5500a4b934321e381a13b59"
+        "sha256": "5b705f76ee937036d61971ebc3f05d633233d41df54b49a3e447d4b881b7b22d"
       },
       {
         "path": "requirements.lock",
@@ -36,7 +36,7 @@
         },
         {
           "path": "analysis/make_figures.py",
-          "sha256": "2786dc2779bc7920dfcb679aa7f0a292d122d431c79086e0104da226776456c8"
+          "sha256": "fbfc0a20fd5699a5ee1e53d9ec3e00bfded583355ef0f4464216f3c7c06b99b4"
         },
         {
           "path": "analysis/results.py",
@@ -95,7 +95,7 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "461005174683b088fcafc461f7196104fe9ae7babd530b9a67d974f7eec4339f"
+      "leaf_sha256": "d95322653f255d7b2887a47808103b0e6402e2ef785342e82eb7b1e8bfd2fbaf"
     },
     "data": {
       "files": [
@@ -1788,10 +1788,10 @@
         },
         {
           "path": "tests/test_recipe.py",
-          "sha256": "914d2c8df5ec07bb7f0318a130070d007d797cd8e098a7ca3f6577a9dfb56d4d"
+          "sha256": "0f142c44ad80f57d609fa5554af2b01e43016e37852ccd4e54fac73a3f78546f"
         }
       ],
-      "leaf_sha256": "93bc442dc1c8e4268b60ad696251a1dcc584067e6aec914fed8771c3e9b402a6"
+      "leaf_sha256": "cad64d069899b211f8157baea60e3ef61ee8c2997fc5220bbd7c675f19a84b6a"
     }
   },
   "schema": 1

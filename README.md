@@ -23,7 +23,7 @@ English (this file) · [Português (BR)](docs/README.pt.md) · [Español](docs/R
 >
 > **Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. The "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs; it is withdrawn as evidence. A real, pre-registered benchmark is [planned](PREREGISTRATION.md).
 
-Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp-preprint.md) ([PDF](paper/asp-preprint.pdf)) · [*Graceful refusals as unsignalled failures*](paper/iron-law-11.md) ([PDF](paper/iron-law-11.pdf)). Both are technical reports, not peer-reviewed.
+Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp-preprint.md) · [*Graceful refusals as unsignalled failures*](paper/iron-law-11.md). Both are technical reports, not peer-reviewed. PDF and DOCX editions (en, pt-BR, es, it) ship in `docs/paper/` with the v2.0.0 release.
 
 ## What this contributes
 

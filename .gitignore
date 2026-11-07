@@ -18,3 +18,10 @@ AGENTS.md
 runtime/
 .pytest_cache/
 .ruff_cache/
+
+# Build outputs of paper/tools (Word-exported PDFs, render PNGs, canon mirrors)
+build/
+
+# PDFs and DOCX of the papers enter the tree only in the final release, with the DOI.
+docs/paper/
+uv.lock

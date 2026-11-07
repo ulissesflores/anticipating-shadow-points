@@ -34,7 +34,7 @@ nav_order: 3
 >
 > **Non ancora misurato: se ASP migliora i piani.** L'autore lo ha osservato senza procedura in cieco su cinque compiti a maggio 2026, e quelle trascrizioni non sono state conservate. La cifra «80% contro 4%» delle versioni precedenti derivava dal punteggio di fixture scritte dall'autore per testare il matcher, non da output di modelli; è ritirata come evidenza. Un benchmark reale e pre-registrato è [pianificato](../PREREGISTRATION.md).
 
-Paper: [*ASP: an operational pre-mortem skill for LLM coding agents*](../paper/asp-preprint.md) ([PDF](../paper/asp-preprint.pdf)) · [*Graceful refusals as unsignalled failures*](../paper/iron-law-11.md) ([PDF](../paper/iron-law-11.pdf)). Entrambi sono rapporti tecnici, non sottoposti a peer review.
+Paper: [*ASP: an operational pre-mortem skill for LLM coding agents*](../paper/asp-preprint.md) · [*Graceful refusals as unsignalled failures*](../paper/iron-law-11.md). Entrambi sono rapporti tecnici, non sottoposti a peer review. Le edizioni PDF e DOCX (en, pt-BR, es, it) arrivano in `docs/paper/` con la versione 2.0.0.
 
 ## Cosa apporta questo lavoro
 

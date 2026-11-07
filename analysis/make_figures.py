@@ -144,11 +144,6 @@ def fig1(results: dict) -> None:
         "% of 50 refusal-provoking prompts counted as exit 0 on a decline,"
         " by the reading named at left (95% Wilson CI)"
     )
-    ax.set_title(
-        "How often `claude -p` exits 0 on a decline depends on how a decline is counted",
-        fontsize=10,
-        loc="left",
-    )
     _clean(ax)
     _save(fig, "fig1_silent_refusal_readings")
 
@@ -186,15 +181,6 @@ def fig2(results: dict) -> None:
     ax.set_ylabel("author-constructed GREEN fixture of task")
     for side in ax.spines.values():
         side.set_visible(False)
-    diag = bench["permutation_diagonal_mean"] * 100
-    off = bench["permutation_offdiagonal_mean"] * 100
-    off_max = bench["permutation_offdiagonal_max"] * 100
-    ax.set_title(
-        f"Instrument check on constructed fixtures\nown list {diag:.0f}% · "
-        f"other task's list {off:.1f}% (max {off_max:.0f}%)",
-        fontsize=10,
-        loc="left",
-    )
     _save(fig, "fig2_adjudicator_fixture_check")
 
 

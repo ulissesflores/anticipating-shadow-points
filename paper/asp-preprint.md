@@ -921,6 +921,8 @@ record when each group of references was checked. The tag scheme is the author's
 to make verification trivial for a reviewer; tags do not appear in the
 body for readability.
 
+**Table A1.** Verification tags.
+
 | Tag | Meaning |
 |---|---|
 | **[V]** | Verified directly via the arXiv/journal/HBR URL listed above. |
@@ -1015,7 +1017,3 @@ He writes in Portuguese, English, Spanish, and Italian.
 
 © 2026 Carlos Ulisses Flores · Codex Hash Research Laboratory · São Paulo, Brazil
 Paper text licensed under CC BY 4.0 · Companion software licensed under MIT
-
-*End of whitepaper. References: 35 entries (33 sources and 2
-Anthropic documentation pages, spanning 1980–2026). Word count: approximately 5,600 words
-excluding tables, code blocks, and appendices.*

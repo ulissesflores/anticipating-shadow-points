@@ -34,7 +34,7 @@ nav_order: 4
 >
 > **טרם נמדד: האם ASP משפר תוכניות.** המחבר צפה בכך ללא עיוורון בחמש משימות במאי 2026, והתמלילים ההם לא נשמרו. הנתון "80% מול 4%" בגרסאות קודמות נבע מניקוד של fixtures שהמחבר כתב כדי לבדוק את ה-matcher, ולא מפלטים של מודלים; הוא נמשך כראיה. בנצ'מארק אמיתי שנרשם מראש [מתוכנן](../PREREGISTRATION.md).
 
-מאמרים: [*ASP: an operational pre-mortem skill for LLM coding agents*](../paper/asp-preprint.md) ([PDF](../paper/asp-preprint.pdf)) · [*Graceful refusals as unsignalled failures*](../paper/iron-law-11.md) ([PDF](../paper/iron-law-11.pdf)). שניהם דוחות טכניים שלא עברו ביקורת עמיתים.
+מאמרים: [*ASP: an operational pre-mortem skill for LLM coding agents*](../paper/asp-preprint.md) · [*Graceful refusals as unsignalled failures*](../paper/iron-law-11.md). שניהם דוחות טכניים שלא עברו ביקורת עמיתים. מהדורות PDF ו-DOCX (en, pt-BR, es, it) ייכנסו ל-`docs/paper/` עם גרסה 2.0.0.
 
 ## מה הפרויקט תורם
 
