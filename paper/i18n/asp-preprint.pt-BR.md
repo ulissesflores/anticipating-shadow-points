@@ -17,37 +17,7 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 ## Resumo
 
-Equipes de software delegam cada vez mais trabalho de engenharia rotineiro a
-assistentes de código baseados em LLM. Quando o assistente produz código
-*localmente correto* que omite modos de falha que um engenheiro sênior
-levantaria num pre-mortem — a política de segurança por linha que precisa
-mudar por causa de uma coluna nova, o limite de taxa da API externa, o atraso
-de réplica durante uma migração longa —, a produção quebra de formas caras de
-depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de
-experiência descreve o Anticipating Shadow Points (ASP), um protocolo de
-planejamento em 13 fases distribuído como skill do Claude Code, que integra o
-pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al.
-(2025), separa planejamento de validação sob isolamento de prompt, apoiado na
-literatura sobre os limites da autocorreção (Huang et al., 2024; Tyen et al.,
-2024), e entrega a execução a um subprocesso filho com contrato em arquivo.
-Documentamos o desenho, a implantação como plugin de código aberto e
-observações preliminares de cinco avaliações de engenharia (um modelo;
-GREEN nas cinco tarefas e RED em três, lidas pelo autor sem cegamento). As transcrições brutas dessas execuções
-não foram preservadas, então as observações são relatadas, não verificáveis.
-Um adjudicador determinístico com proveniência criptográfica acompanha a
-skill. Suas notas sobre fixtures de teste escritos pelo autor exercitam o
-instrumento — mostram especificidade, não sensibilidade — e nada mais, por isso não relatamos efeito medido do ASP.
-Fixamos de antemão o resultado que mostraria um: num benchmark em modo real,
-com listas esperadas escritas por revisores independentes e cegos e oito
-réplicas por tarefa e condição, o ASP mostra benefício medido se a cobertura
-média da condição assistida superar a da não assistida nas cinco tarefas e
-um teste de permutação unilateral sobre a diferença média por tarefa,
-estratificado por tarefa, der p < 0,05; nenhum benefício mensurável se não a
-superar em três ou mais; inconclusivo nos demais casos; e incompleto se o
-orçamento interromper a coleta. O
-protocolo está redigido e ainda não foi depositado. Um achado
-empírico separado, sobre a semântica do código de saída do `claude -p` quando
-o agente recusa com educação, é caracterizado num artigo complementar.
+Assistentes de código baseados em LLM muitas vezes produzem código *localmente correto* que omite modos de falha que um engenheiro sênior levantaria num pre-mortem — uma política de segurança por linha, o limite de taxa de uma API externa, o atraso de réplica durante uma migração —, e a produção então quebra de formas caras de depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de experiência descreve o Anticipating Shadow Points (ASP), um protocolo de planejamento em 13 fases distribuído como skill do Claude Code, que integra o pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al. (2025), confere o plano com um validador que não compartilha o contexto do planejador, seguindo a literatura sobre os limites da autocorreção (Huang et al., 2024; Tyen et al., 2024), e entrega a execução a um subprocesso filho com contrato em arquivo. Documentamos o desenho, a implantação como plugin de código aberto e observações preliminares de cinco avaliações de engenharia, lidas pelo autor sem cegamento e sem transcrições preservadas. Um adjudicador determinístico acompanha a skill; suas notas sobre fixtures escritos pelo autor exercitam o instrumento e nada mais, por isso não relatamos efeito medido do ASP. Fixamos de antemão o resultado que mostraria um: num benchmark em modo real, com listas esperadas cegas e escritas por revisores independentes e oito réplicas por tarefa e condição, benefício medido se a cobertura média da condição assistida superar a da não assistida nas cinco tarefas e um teste de permutação unilateral, estratificado por tarefa, der p < 0,05; nenhum benefício mensurável se não a superar em três ou mais; inconclusivo nos demais casos; incompleto se o orçamento interromper a coleta. O protocolo está redigido e ainda não foi depositado.
 
 **Palavras-chave:** agentes de código llm; pre-mortem; modos de falha
 multiagente; claude code; protocolos operacionais; relato de experiência
@@ -278,7 +248,7 @@ O pacote `benchmark/` pontua um plano contra uma lista esperada com um matcher d
 
 A propriedade útil que a execução em modo mock de fato estabelece é a **discriminação**: pontuar cada fixture GREEN contra a lista esperada de uma tarefa *diferente* derruba a média de 80% para 0,5% (maior célula fora da tarefa: 10%; Figura 2). Isso é uma evidência mais fraca do que parece: o único acerto fora da tarefa é o nome genérico de uma palavra, "Alerting", e as demais células são zero porque a camada 1 exige que um nome esperado inteiro apareça literalmente. O matcher também é mais estrito que os arquivos de avaliação, que dizem a um avaliador humano que aceite paráfrases. A revocação é um assunto à parte, e os fixtures mostram um falso negativo: o fixture RED da E2 menciona um limite de taxa, novas tentativas e logging e ainda assim pontua 0/10: sua melhor sobreposição de janela com o ponto esperado "Rate-limit backoff" (seu nome e sua descrição) é um Jaccard de 0,11, abaixo do limiar de 0,30, e o matcher não faz stemming ("logging" não casa com "logs"). Paráfrases com baixa sobreposição lexical são perdidas. A repontuação também expôs um defeito, corrigido na v2.0: a janela deslizante pulava os últimos tokens de um texto cujo comprimento não caía no passo; repontuar todos os fixtures com a correção não altera nenhum valor de cobertura, embora a melhor sobreposição de três pontos sem correspondência suba ligeiramente (E2 RED "Observability / logs" de 0,00 para 0,02), ainda muito abaixo do limiar. A camada 3 tem também um teto aritmético: o Jaccard divide pela união, e uma janela de 40 tokens dos fixtures contém de 27 a 40 palavras de conteúdo distintas (mediana 36); em qualquer janela com 34 ou mais, um ponto esperado com dez ou menos tokens distintos não consegue alcançar 0,30 mesmo que o plano repita todos eles, e 19 dos 50 pontos esperados são curtos assim. O protocolo em modo real, portanto, muda a camada 3 antes do depósito (`PREREGISTRATION.md`). O matcher ainda não foi aplicado a nenhuma transcrição real. O protocolo em modo real, com listas esperadas reescritas às cegas por engenheiros independentes, está especificado no `PREREGISTRATION.md` do repositório e não foi executado. Sua regra de decisão é fixada de antemão: com oito réplicas por tarefa e condição (80 execuções), um benefício só é relatado se a cobertura média da condição assistida superar a da não assistida nas cinco tarefas e um teste de permutação unilateral, estratificado por tarefa, sobre a diferença média por tarefa (10 000 reatribuições de rótulos, semente `asp-bench-v1`) der p < 0,05; nenhum benefício mensurável se não conseguir isso em três ou mais; inconclusivo nos demais casos; incompleto se o orçamento interromper a coleta. A cobertura será relatada por camada do matcher, já que a camada 1 premia um plano que reutiliza literalmente os nomes esperados.
 
-![Figura 2. Verificação do instrumento: cada fixture GREEN construído pelo autor, pontuado contra a lista esperada de cada tarefa. Não é um efeito do ASP.](../output/figures/fig2_adjudicator_fixture_check.png)
+![Figura 2. Verificação do instrumento: cada fixture GREEN construído pelo autor, pontuado contra a lista esperada de cada tarefa. Não é um efeito do ASP.](../output/figures/fig2_adjudicator_fixture_check.pt-BR.png)
 
 Qual componente seria o mais importante, se o ASP tiver efeito, é discutido como hipótese na Seção 6.
 
@@ -469,8 +439,3 @@ Escreve em português, inglês, espanhol e italiano.
 
 **Identificadores** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes: [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
 **Contato** · c.ulisses@gmail.com · https://ulissesflores.com
-
----
-
-© 2026 Carlos Ulisses Flores · Codex Hash Research Laboratory · São Paulo, Brasil
-Texto do artigo licenciado sob CC BY 4.0 · Software complementar licenciado sob MIT

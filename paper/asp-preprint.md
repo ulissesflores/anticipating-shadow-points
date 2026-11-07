@@ -17,71 +17,14 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 ## Abstract
 
-Software teams increasingly delegate routine engineering work to LLM coding
-assistants. When the assistant produces *locally correct* code that omits
-failure modes a senior engineer would surface in a pre-mortem — the row-level
-security policy that needs an update for a new column, the rate limit on the
-external API, the replica lag during a long migration — production breaks
-in ways that are expensive to debug. We call these missing items
-*shadow points*. This experience report describes Anticipating Shadow
-Points (ASP), a 13-phase planning protocol shipped as a Claude Code skill
-that integrates Klein's (2007) pre-mortem with the multi-agent failure
-taxonomy of Cemri et al. (2025), separates planning from validation under
-prompt isolation grounded in the self-correction-limit literature (Huang
-et al., 2024; Tyen et al., 2024), and hands execution to a child subprocess
-with a file-based contract. We document the design, the operational
-deployment as an open-source plugin, and preliminary observations from five
-engineering evaluations (single model; GREEN dispatched on all five tasks,
-RED on three; read by the author without blinding). The raw transcripts of those dispatches
-were not preserved, so the observations are reported, not verifiable. A
-deterministic adjudicator with cryptographic provenance ships with the skill.
-Its scores on author-constructed test fixtures exercise the instrument —
-they show specificity, not recall — and nothing more, so we report no measured effect of ASP. We state in advance
-the result that would show one: in a real-mode benchmark with independently
-authored, blind expected lists and eight replicates per task and condition,
-ASP shows a measured benefit if the assisted condition's mean coverage beats
-the unassisted one on all five tasks and a one-sided permutation test on
-the mean per-task difference, stratified by task, gives p < 0.05; no
-measurable benefit if it fails to beat it on three or more; inconclusive
-otherwise; and incomplete if the budget stops collection early. The protocol is drafted and not yet deposited. A separate empirical finding on `claude -p` exit-code semantics
-under graceful agent refusal is characterised in a companion paper.
+LLM coding assistants often produce *locally correct* code that omits failure modes a senior engineer would surface in a pre-mortem — a row-level security policy, an external API's rate limit, replica lag during a migration — and production then breaks in ways that are expensive to debug. We call these missing items *shadow points*. This experience report describes Anticipating Shadow Points (ASP), a 13-phase planning protocol shipped as a Claude Code skill that integrates Klein's (2007) pre-mortem with the multi-agent failure taxonomy of Cemri et al. (2025), checks the plan with a validator that does not share the planner's context, following the self-correction-limit literature (Huang et al., 2024; Tyen et al., 2024), and hands execution to a child subprocess with a file-based contract. We document the design, its deployment as an open-source plugin, and preliminary observations from five engineering evaluations, read by the author without blinding and with transcripts not preserved. A deterministic adjudicator ships with the skill; its scores on author-written fixtures exercise the instrument and nothing more, so we report no measured effect of ASP. We state in advance the result that would show one: in a real-mode benchmark with blind, independently written expected lists and eight replicates per task and condition, a measured benefit if the assisted condition's mean coverage beats the unassisted one on all five tasks and a one-sided, task-stratified permutation test gives p < 0.05; no measurable benefit if it fails on three or more; inconclusive otherwise; incomplete if the budget stops collection early. The protocol is drafted and not yet deposited.
 
 **Keywords:** llm coding agents; pre-mortem; multi-agent failure modes;
 claude code; operational protocols; experience report
 
 ## Resumo
 
-Equipes de software delegam cada vez mais trabalho de engenharia rotineiro a
-assistentes de código baseados em LLM. Quando o assistente produz código
-*localmente correto* que omite modos de falha que um engenheiro sênior
-levantaria num pre-mortem — a política de segurança por linha que precisa
-mudar por causa de uma coluna nova, o limite de taxa da API externa, o atraso
-de réplica durante uma migração longa —, a produção quebra de formas caras de
-depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de
-experiência descreve o Anticipating Shadow Points (ASP), um protocolo de
-planejamento em 13 fases distribuído como skill do Claude Code, que integra o
-pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al.
-(2025), separa planejamento de validação sob isolamento de prompt, apoiado na
-literatura sobre os limites da autocorreção (Huang et al., 2024; Tyen et al.,
-2024), e entrega a execução a um subprocesso filho com contrato em arquivo.
-Documentamos o desenho, a implantação como plugin de código aberto e
-observações preliminares de cinco avaliações de engenharia (um modelo;
-GREEN nas cinco tarefas e RED em três, lidas pelo autor sem cegamento). As transcrições brutas dessas execuções
-não foram preservadas, então as observações são relatadas, não verificáveis.
-Um adjudicador determinístico com proveniência criptográfica acompanha a
-skill. Suas notas sobre fixtures de teste escritos pelo autor exercitam o
-instrumento — mostram especificidade, não sensibilidade — e nada mais, por isso não relatamos efeito medido do ASP.
-Fixamos de antemão o resultado que mostraria um: num benchmark em modo real,
-com listas esperadas escritas por revisores independentes e cegos e oito
-réplicas por tarefa e condição, o ASP mostra benefício medido se a cobertura
-média da condição assistida superar a da não assistida nas cinco tarefas e
-um teste de permutação unilateral sobre a diferença média por tarefa,
-estratificado por tarefa, der p < 0,05; nenhum benefício mensurável se não a
-superar em três ou mais; inconclusivo nos demais casos; e incompleto se o
-orçamento interromper a coleta. O
-protocolo está redigido e ainda não foi depositado. Um achado
-empírico separado, sobre a semântica do código de saída do `claude -p` quando
-o agente recusa com educação, é caracterizado num artigo complementar.
+Assistentes de código baseados em LLM muitas vezes produzem código *localmente correto* que omite modos de falha que um engenheiro sênior levantaria num pre-mortem — uma política de segurança por linha, o limite de taxa de uma API externa, o atraso de réplica durante uma migração —, e a produção então quebra de formas caras de depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de experiência descreve o Anticipating Shadow Points (ASP), um protocolo de planejamento em 13 fases distribuído como skill do Claude Code, que integra o pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al. (2025), confere o plano com um validador que não compartilha o contexto do planejador, seguindo a literatura sobre os limites da autocorreção (Huang et al., 2024; Tyen et al., 2024), e entrega a execução a um subprocesso filho com contrato em arquivo. Documentamos o desenho, a implantação como plugin de código aberto e observações preliminares de cinco avaliações de engenharia, lidas pelo autor sem cegamento e sem transcrições preservadas. Um adjudicador determinístico acompanha a skill; suas notas sobre fixtures escritos pelo autor exercitam o instrumento e nada mais, por isso não relatamos efeito medido do ASP. Fixamos de antemão o resultado que mostraria um: num benchmark em modo real, com listas esperadas cegas e escritas por revisores independentes e oito réplicas por tarefa e condição, benefício medido se a cobertura média da condição assistida superar a da não assistida nas cinco tarefas e um teste de permutação unilateral, estratificado por tarefa, der p < 0,05; nenhum benefício mensurável se não a superar em três ou mais; inconclusivo nos demais casos; incompleto se o orçamento interromper a coleta. O protocolo está redigido e ainda não foi depositado.
 
 **Palavras-chave:** agentes de código llm; pre-mortem; modos de falha
 multiagente; claude code; protocolos operacionais; relato de experiência
@@ -1033,8 +976,3 @@ He writes in Portuguese, English, Spanish, and Italian.
 
 **Identifiers** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes: [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
 **Contact** · c.ulisses@gmail.com · https://ulissesflores.com
-
----
-
-© 2026 Carlos Ulisses Flores · Codex Hash Research Laboratory · São Paulo, Brazil
-Paper text licensed under CC BY 4.0 · Companion software licensed under MIT

@@ -91,27 +91,82 @@ def _clean(ax) -> None:
     ax.set_axisbelow(True)
 
 
-def fig1(results: dict) -> None:
+# Figure text per edition language; English is the canonical figure, the others
+# are written next to it as <name>.<lang>.png/svg for the translated papers.
+LABELS = {
+    "en": {
+        "may": "May 2026 · locked phrase detector\nCC 2.1.143 · Opus 4.7",
+        "jul_detector": "Jul 2026 · locked phrase detector",
+        "jul_core": "Jul 2026 · unambiguous declines only",
+        "jul_codebook": "Jul 2026 · codebook majority",
+        "jul_author": "Jul 2026 · author label\nCC 2.1.200 · Fable 5 (+ Opus 4.8 on safety)",
+        "x1": "% of 50 refusal-provoking prompts counted as exit 0 on a decline,"
+        " by the reading named at left (95% Wilson CI)",
+        "x2": "expected list scored against",
+        "y2": "author-constructed GREEN fixture of task",
+    },
+    "pt-BR": {
+        "may": "Mai 2026 · detector de frases travado\nCC 2.1.143 · Opus 4.7",
+        "jul_detector": "Jul 2026 · detector de frases travado",
+        "jul_core": "Jul 2026 · só recusas inequívocas",
+        "jul_codebook": "Jul 2026 · maioria do codebook",
+        "jul_author": "Jul 2026 · rótulo do autor\nCC 2.1.200 · Fable 5 (+ Opus 4.8 em segurança)",
+        "x1": "% dos 50 prompts que saem com 0 numa recusa,"
+        " pela leitura indicada à esquerda (IC de Wilson 95%)",
+        "x2": "lista esperada usada na pontuação",
+        "y2": "fixture GREEN escrito pelo autor, da tarefa",
+    },
+    "es": {
+        "may": "May 2026 · detector de frases bloqueado\nCC 2.1.143 · Opus 4.7",
+        "jul_detector": "Jul 2026 · detector de frases bloqueado",
+        "jul_core": "Jul 2026 · solo rechazos inequívocos",
+        "jul_codebook": "Jul 2026 · mayoría del codebook",
+        "jul_author": "Jul 2026 · etiqueta del autor\n"
+        "CC 2.1.200 · Fable 5 (+ Opus 4.8 en seguridad)",
+        "x1": "% de los 50 prompts que salen con 0 en un rechazo,"
+        " según la lectura indicada a la izquierda (IC de Wilson 95%)",
+        "x2": "lista esperada usada para puntuar",
+        "y2": "fixture GREEN escrito por el autor, de la tarea",
+    },
+    "it": {
+        "may": "Mag 2026 · rilevatore di frasi bloccato\nCC 2.1.143 · Opus 4.7",
+        "jul_detector": "Lug 2026 · rilevatore di frasi bloccato",
+        "jul_core": "Lug 2026 · solo rifiuti inequivocabili",
+        "jul_codebook": "Lug 2026 · maggioranza del codebook",
+        "jul_author": "Lug 2026 · etichetta dell'autore\n"
+        "CC 2.1.200 · Fable 5 (+ Opus 4.8 sulla sicurezza)",
+        "x1": "% dei 50 prompt che escono con 0 su un rifiuto,"
+        " secondo la lettura indicata a sinistra (IC di Wilson 95%)",
+        "x2": "lista attesa usata per il punteggio",
+        "y2": "fixture GREEN scritta dall'autore, del compito",
+    },
+}
+
+
+def fig1(results: dict, lang: str = "en") -> None:
     """Dot-and-interval plot of the silent-refusal readings.
 
     Parameters
     ----------
     results : dict
         Contents of ``output/results.json``.
+    lang : str
+        Edition language, a key of ``LABELS``.
     """
+    t = LABELS[lang]
     jul = results["iron_law_11"]["july_2026"]
     may = results["iron_law_11"]["may_2026"]
     rows = [
         (
-            "May 2026 · locked phrase detector\nCC 2.1.143 · Opus 4.7",
+            t["may"],
             may["detector_silent_refusals"],
             ORANGE,
         ),
-        ("Jul 2026 · locked phrase detector", jul["detector_silent_refusals"], BLUE),
-        ("Jul 2026 · unambiguous declines only", jul["core_silent_refusals"], BLUE),
-        ("Jul 2026 · codebook majority", jul["codebook_silent_refusals"], BLUE),
+        (t["jul_detector"], jul["detector_silent_refusals"], BLUE),
+        (t["jul_core"], jul["core_silent_refusals"], BLUE),
+        (t["jul_codebook"], jul["codebook_silent_refusals"], BLUE),
         (
-            "Jul 2026 · author label\nCC 2.1.200 · Fable 5 (+ Opus 4.8 on safety)",
+            t["jul_author"],
             jul["author_silent_refusals"],
             BLUE,
         ),
@@ -140,22 +195,22 @@ def fig1(results: dict) -> None:
         )
     ax.set_yticks(range(len(rows)), [r[0] for r in rows], fontsize=8.5)
     ax.set_xlim(0, 100)
-    ax.set_xlabel(
-        "% of 50 refusal-provoking prompts counted as exit 0 on a decline,"
-        " by the reading named at left (95% Wilson CI)"
-    )
+    ax.set_xlabel(t["x1"])
     _clean(ax)
-    _save(fig, "fig1_silent_refusal_readings")
+    _save(fig, "fig1_silent_refusal_readings" + ("" if lang == "en" else f".{lang}"))
 
 
-def fig2(results: dict) -> None:
+def fig2(results: dict, lang: str = "en") -> None:
     """Heatmap of the 5x5 adjudicator check on the constructed fixtures.
 
     Parameters
     ----------
     results : dict
         Contents of ``output/results.json``.
+    lang : str
+        Edition language, a key of ``LABELS``.
     """
+    t = LABELS[lang]
     bench = results["adjudicator_fixture_check_2026_05"]
     ids = bench["eval_ids"]
     m = [[bench["permutation_matrix"][i][j] * 100 for j in ids] for i in ids]
@@ -177,19 +232,20 @@ def fig2(results: dict) -> None:
             )
     ax.set_xticks(range(len(ids)), ids)
     ax.set_yticks(range(len(ids)), ids)
-    ax.set_xlabel("expected list scored against")
-    ax.set_ylabel("author-constructed GREEN fixture of task")
+    ax.set_xlabel(t["x2"])
+    ax.set_ylabel(t["y2"])
     for side in ax.spines.values():
         side.set_visible(False)
-    _save(fig, "fig2_adjudicator_fixture_check")
+    _save(fig, "fig2_adjudicator_fixture_check" + ("" if lang == "en" else f".{lang}"))
 
 
 def main() -> None:
     """Render all figures from ``output/results.json``."""
     results = json.loads(RESULTS.read_text(encoding="utf-8"))
-    fig1(results)
-    fig2(results)
-    print(f"figures -> {FIGDIR.relative_to(ROOT)} (2 x PNG+SVG)")
+    for lang in LABELS:
+        fig1(results, lang)
+        fig2(results, lang)
+    print(f"figures -> {FIGDIR.relative_to(ROOT)} (2 x PNG+SVG, plus pt-BR, es, it editions)")
 
 
 if __name__ == "__main__":

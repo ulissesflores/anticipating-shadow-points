@@ -17,7 +17,7 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 ## Riassunto
 
-I team di sviluppo software delegano sempre più spesso il lavoro ingegneristico di routine ad assistenti di programmazione basati su LLM. Quando l'assistente produce codice *localmente corretto* che omette modi di guasto che un ingegnere senior farebbe emergere in un pre-mortem — la policy di sicurezza a livello di riga che richiede un aggiornamento per una nuova colonna, il rate limit dell'API esterna, il ritardo di replica durante una migrazione lunga — la produzione si rompe in modi costosi da diagnosticare. Chiamiamo questi elementi mancanti *shadow point*. Questo resoconto di esperienza descrive Anticipating Shadow Points (ASP), un protocollo di pianificazione in 13 fasi distribuito come skill di Claude Code che integra il pre-mortem di Klein (2007) con la tassonomia dei fallimenti multi-agente di Cemri et al. (2025), separa la pianificazione dalla validazione tramite isolamento dei prompt, sulla base della letteratura sui limiti dell'autocorrezione (Huang et al., 2024; Tyen et al., 2024), e affida l'esecuzione a un sottoprocesso figlio con un contratto basato su file. Documentiamo il progetto, il rilascio operativo come plugin open source e osservazioni preliminari da cinque valutazioni ingegneristiche (un solo modello; GREEN eseguito su tutti e cinque i compiti, RED su tre, letti dall'autore senza procedura in cieco). Le trascrizioni grezze di quelle esecuzioni non sono state conservate, perciò le osservazioni sono riportate, non verificabili. Con la skill è distribuito un giudicatore deterministico con provenienza crittografica. I suoi punteggi su fixture di test costruite dall'autore mettono alla prova lo strumento — mostrano specificità, non recall — e nient'altro, perciò non riportiamo alcun effetto misurato di ASP. Stabiliamo in anticipo il risultato che ne mostrerebbe uno: in un benchmark in modalità reale, con elenchi attesi scritti in modo indipendente e in cieco e otto repliche per compito e condizione, ASP mostra un beneficio misurato se la copertura media della condizione assistita supera quella della non assistita su tutti e cinque i compiti e un test di permutazione unilaterale sulla differenza media per compito, stratificato per compito, dà p < 0,05; nessun beneficio misurabile se non la supera su tre o più; inconcludente negli altri casi; e incompleto se il budget interrompe prima la raccolta. Il protocollo è redatto e non ancora depositato. Un risultato empirico separato sulla semantica del codice di uscita di `claude -p` nel rifiuto garbato dell'agente è caratterizzato in un articolo complementare.
+Gli assistenti di programmazione basati su LLM producono spesso codice *localmente corretto* che omette modi di fallimento che un ingegnere esperto solleverebbe in un pre-mortem — una policy di sicurezza a livello di riga, il limite di frequenza di un'API esterna, il ritardo di replica durante una migrazione — e la produzione si rompe poi in modi costosi da diagnosticare. Chiamiamo *shadow point* questi elementi mancanti. Questo resoconto di esperienza descrive Anticipating Shadow Points (ASP), un protocollo di pianificazione in 13 fasi distribuito come skill di Claude Code che integra il pre-mortem di Klein (2007) con la tassonomia dei fallimenti multi-agente di Cemri et al. (2025), controlla il piano con un validatore che non condivide il contesto del pianificatore, seguendo la letteratura sui limiti dell'autocorrezione (Huang et al., 2024; Tyen et al., 2024), e affida l'esecuzione a un sottoprocesso figlio con un contratto su file. Documentiamo il progetto, il suo rilascio come plugin open source e osservazioni preliminari da cinque valutazioni di ingegneria, lette dall'autore senza cecità e senza trascrizioni conservate. Un giudicatore deterministico accompagna la skill; i suoi punteggi su fixture scritte dall'autore esercitano lo strumento e nient'altro, perciò non riportiamo alcun effetto misurato di ASP. Fissiamo in anticipo il risultato che lo mostrerebbe: in un benchmark in modalità reale, con liste attese cieche scritte da revisori indipendenti e otto repliche per compito e condizione, un beneficio misurato se la copertura media della condizione assistita supera quella non assistita su tutti e cinque i compiti e un test di permutazione unilaterale, stratificato per compito, dà p < 0,05; nessun beneficio misurabile se non la supera su tre o più; inconcludente negli altri casi; incompleto se il budget interrompe la raccolta. Il protocollo è redatto e non ancora depositato.
 
 **Parole chiave:** agenti di programmazione llm; pre-mortem; modi di guasto multi-agente; claude code; protocolli operativi; resoconto di esperienza
 
@@ -135,25 +135,25 @@ ASP separa tre ruoli di agente con passaggi esclusivamente tramite artefatti (Fi
 
 ```
 +----------------------------------------------------+
-|                  ASP parent process                |
+|              processo padre di ASP                 |
 |                                                    |
-|  Phases 0a, 1, 0b, 2, 3, 4   -> PLANNER role       |
-|                ↓ artifacts only                    |
-|  Phase 5: validator subagent <- fresh prompt       |
+|  Fasi 0a, 1, 0b, 2, 3, 4   -> ruolo PIANIFICATORE  |
+|                ↓ solo artefatti                    |
+|  Fase 5: subagente validatore <- prompt nuovo      |
 |                ↓ APPROVE                           |
-|  Phase 7: user approval                            |
+|  Fase 7: approvazione dell'utente                  |
 |                ↓                                   |
-|  Phase 8: emit micro-TODO + Goal Spec              |
-|                ↓ file-based contract               |
-|     ----- process boundary -----                   |
+|  Fase 8: emette micro-TODO + Goal Spec             |
+|                ↓ contratto su file                 |
+|     ----- confine del processo -----               |
 |                ↓                                   |
-+----- claude -p /goal child subprocess --------+    |
-|  Phase 9: worker + evaluator                  |    |
-|  ASP_IN_GOAL=1 (Iron Law 9: no re-entry)      |    |
++----- sottoprocesso figlio claude -p /goal ----+    |
+|  Fase 9: worker + valutatore                  |    |
+|  ASP_IN_GOAL=1 (Iron Law 9: niente rientro)   |    |
 |  --output-format json (Iron Law 12)           |    |
 +-----------------------------------------------+    |
                 ↓ exec.json                          |
-|  Phases 10, 11 back in parent                      |
+|  Fasi 10, 11 di nuovo nel padre                    |
 +----------------------------------------------------+
 ```
 
@@ -247,7 +247,7 @@ Il pacchetto `benchmark/` valuta un piano rispetto a un elenco atteso con un mat
 
 La proprietà utile che l'esecuzione mock stabilisce è la **discriminazione**: valutare ciascuna fixture GREEN rispetto all'elenco atteso di un compito *diverso* abbassa la media dall'80% allo 0,5% (la cella fuori compito più alta 10%; Figura 2). È un'evidenza più debole di quanto sembri: l'unica corrispondenza fuori compito è il nome generico di una sola parola "Alerting", e le altre celle sono zero perché il livello 1 richiede che un intero nome atteso compaia alla lettera. Il matcher è inoltre più severo dei file di valutazione, che dicono a un valutatore umano di accettare le parafrasi. Il recall è una questione a parte, e le fixture mostrano un falso negativo: la fixture RED di E2 menziona un rate limit, i retry e il logging e ottiene comunque 0/10: la sua migliore sovrapposizione di finestra con il punto atteso "Rate-limit backoff" (il suo nome e la sua descrizione) è un Jaccard di 0,11, sotto la soglia di 0,30, e il matcher non fa stemming ("logging" non corrisponde a "logs"). Le parafrasi con bassa sovrapposizione lessicale sfuggono. La rivalutazione ha inoltre portato alla luce un difetto, corretto nella v2.0: la finestra scorrevole saltava gli ultimi token di un testo la cui lunghezza non cadeva sul passo; rivalutare ogni fixture con la correzione non cambia alcun valore di copertura, benché la migliore sovrapposizione di tre punti non corrispondenti salga leggermente (E2 RED "Observability / logs" da 0,00 a 0,02), restando ben al di sotto della soglia. Il livello 3 ha anche un tetto aritmetico: Jaccard divide per l'unione, e una finestra di 40 token delle fixture contiene da 27 a 40 parole di contenuto distinte (mediana 36); in qualsiasi finestra con 34 o più, un punto atteso con dieci o meno token distinti non può raggiungere 0,30 nemmeno se il piano li ripete tutti, e 19 dei 50 punti attesi sono così brevi. Il protocollo in modalità reale cambia perciò il livello 3 prima del deposito (`PREREGISTRATION.md`). Il matcher non è ancora stato applicato ad alcuna trascrizione reale. Il protocollo in modalità reale, con elenchi attesi riscritti in cieco da ingegneri indipendenti, è specificato nel `PREREGISTRATION.md` del repository e non è stato eseguito. La sua regola decisionale è fissata in anticipo: con otto repliche per compito e condizione (80 esecuzioni), un beneficio è riportato solo se la copertura media della condizione assistita supera quella della non assistita su tutti e cinque i compiti e un test di permutazione unilaterale, stratificato per compito, sulla differenza media per compito (10 000 riassegnazioni delle etichette, seme `asp-bench-v1`) dà p < 0,05; nessun beneficio misurabile se non lo fa su tre o più; inconcludente altrimenti; incompleto se il budget interrompe la raccolta. La copertura sarà riportata per livello di matcher, poiché il livello 1 premia un piano che riusa alla lettera i nomi attesi.
 
-![Figura 2. Verifica dello strumento: ogni fixture GREEN costruita dall'autore valutata rispetto all'elenco atteso di ogni compito. Non è un effetto di ASP.](../output/figures/fig2_adjudicator_fixture_check.png)
+![Figura 2. Verifica dello strumento: ogni fixture GREEN costruita dall'autore valutata rispetto all'elenco atteso di ogni compito. Non è un effetto di ASP.](../output/figures/fig2_adjudicator_fixture_check.it.png)
 
 Quale componente conterebbe di più, se ASP ha un effetto, è discusso come ipotesi nella Sezione 6.
 
@@ -438,8 +438,3 @@ Scrive in portoghese, inglese, spagnolo e italiano.
 
 **Identificatori** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes: [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
 **Contatto** · c.ulisses@gmail.com · https://ulissesflores.com
-
----
-
-© 2026 Carlos Ulisses Flores · Codex Hash Research Laboratory · San Paolo, Brasile
-Testo del paper concesso in licenza CC BY 4.0 · Software complementare concesso in licenza MIT
