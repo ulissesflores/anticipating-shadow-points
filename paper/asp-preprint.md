@@ -12,7 +12,6 @@
 
 **Author** · Carlos Ulisses Flores
 CTO & Chief Researcher · Codex Hash Research Laboratory · São Paulo, Brazil
-MSc Program in Artificial Intelligence (in progress) · American Global Tech University
 ORCID: https://orcid.org/0000-0002-6034-7765 · Lattes: http://lattes.cnpq.br/6905246706890561
 c.ulisses@gmail.com · https://ulissesflores.com
 
@@ -942,9 +941,7 @@ reported in the companion whitepaper grew out of using Anthropic's
 `claude -p` runner as an autonomous execution kernel and watching it
 return exit code 0 on a graceful agent refusal.
 
-He is an MSc candidate in Artificial Intelligence at American Global
-Tech University and writes in Portuguese, English, Spanish, and
-Italian.
+He writes in Portuguese, English, Spanish, and Italian.
 
 **Identifiers** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes: [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
 **Contact** · c.ulisses@gmail.com · https://ulissesflores.com

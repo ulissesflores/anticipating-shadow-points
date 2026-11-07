@@ -209,7 +209,7 @@ make_provenance.py     build or --verify the SHA-256 chain
 
 ## מחבר
 
-**Carlos Ulisses Flores** — CTO וחוקר ראשי, Codex Hash Research Laboratory, סאו פאולו, ברזיל · תואר שני (MSc) בבינה מלאכותית (בתהליך), American Global Tech University.
+**Carlos Ulisses Flores** — CTO וחוקר ראשי, Codex Hash Research Laboratory, סאו פאולו, ברזיל.
 
 [![ORCID](https://img.shields.io/badge/ORCID-0000--0002--6034--7765-a6ce39.svg)](https://orcid.org/0000-0002-6034-7765)
 [![Website](https://img.shields.io/badge/web-ulissesflores.com-black.svg)](https://ulissesflores.com)

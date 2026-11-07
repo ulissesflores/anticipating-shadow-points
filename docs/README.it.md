@@ -189,7 +189,7 @@ Ulteriori letture: [architettura e storia del design](ARCHITECTURE.md) · [la sk
 
 ## Autore
 
-**Carlos Ulisses Flores** — CTO & Chief Researcher, Codex Hash Research Laboratory, São Paulo, Brasile · Master in Intelligenza Artificiale (in corso), American Global Tech University.
+**Carlos Ulisses Flores** — CTO & Chief Researcher, Codex Hash Research Laboratory, São Paulo, Brasile.
 
 [![ORCID](https://img.shields.io/badge/ORCID-0000--0002--6034--7765-a6ce39.svg)](https://orcid.org/0000-0002-6034-7765)
 [![Website](https://img.shields.io/badge/web-ulissesflores.com-black.svg)](https://ulissesflores.com)
