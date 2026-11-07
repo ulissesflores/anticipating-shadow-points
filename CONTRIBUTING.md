@@ -117,59 +117,17 @@ brew install pandoc tectonic
 For Linux, install both via your distribution's package manager (or
 download tectonic's static binary from <https://tectonic-typesetting.github.io/>).
 
-### Inline build command
-
-The PDFs were built with the following invocation, applied to each
-`paper/*.md` source:
+### Build command
 
 ```bash
-cd paper
-
-# Write the LaTeX header that maps Unicode → math-mode (keeps the .md
-# source human-readable while ensuring portable PDF rendering with
-# tectonic's default Latin Modern fonts):
-cat > /tmp/asp-pdf-header.tex <<'HEADER_EOF'
-\usepackage{newunicodechar}
-\newunicodechar{≥}{\ensuremath{\geq}}
-\newunicodechar{≤}{\ensuremath{\leq}}
-\newunicodechar{≈}{\ensuremath{\approx}}
-\newunicodechar{≠}{\ensuremath{\neq}}
-\newunicodechar{κ}{\ensuremath{\kappa}}
-\newunicodechar{α}{\ensuremath{\alpha}}
-\newunicodechar{β}{\ensuremath{\beta}}
-\newunicodechar{Δ}{\ensuremath{\Delta}}
-\newunicodechar{σ}{\ensuremath{\sigma}}
-\newunicodechar{·}{\ensuremath{\cdot}}
-\newunicodechar{×}{\ensuremath{\times}}
-\newunicodechar{→}{\ensuremath{\to}}
-\newunicodechar{←}{\ensuremath{\leftarrow}}
-\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
-\newunicodechar{∈}{\ensuremath{\in}}
-\newunicodechar{"}{``}
-\newunicodechar{"}{''}
-\newunicodechar{'}{`}
-\newunicodechar{'}{'}
-HEADER_EOF
-
-# Build each whitepaper:
-for SRC in asp-preprint.md iron-law-11.md; do
-  pandoc "$SRC" \
-    --pdf-engine=tectonic \
-    --include-in-header=/tmp/asp-pdf-header.tex \
-    --variable=geometry:margin=1in \
-    --variable=fontsize:11pt \
-    --variable=documentclass:article \
-    --variable=linkcolor:NavyBlue \
-    --variable=urlcolor:NavyBlue \
-    --variable=colorlinks:true \
-    --highlight-style=tango \
-    -o "${SRC%.md}.pdf"
-done
-
-rm /tmp/asp-pdf-header.tex
+./paper/build.sh
 ```
 
-That's it — two files are produced: `asp-preprint.pdf` and `iron-law-11.pdf`.
+The script runs pandoc with tectonic on both sources, using
+`paper/pdf-header.tex` for the Unicode mappings and reading the figures from
+`output/figures/` (regenerate them first with `python run_all.py`). An earlier
+inline version of this recipe mapped straight ASCII quotes instead of curly
+ones, which `newunicodechar` rejects; the script is the maintained copy.
 
 ### Why this build is portable
 
