@@ -13,11 +13,14 @@ abstract: >-
   which motivate a prompt-isolated validator stage. Distributed as a Claude
   Code plugin with three install paths. Two whitepapers in the companion
   series document the system and an empirical characterisation of `claude -p`
-  exit-code semantics under graceful refusal (a measured, conditional
-  silent-exit rate of roughly 40% over an adversarial N=50 suite on Claude Code
-  2.1.200 / Opus 4.8; a dated, single-rater snapshot against a non-deterministic
-  target, not a stable constant). Multilingual docs (EN/ES/PT/IT/HE). MIT
-  (software) + CC BY 4.0 (whitepapers).
+  exit-code semantics under graceful refusal: over an adversarial N=50 suite on
+  Claude Code 2.1.200 (session model Fable 5; the safety prompts were answered
+  by Opus 4.8), 12-20 of 50 declines exited 0 (24-40% depending on how a
+  decline is counted; 18% under the locked phrase detector). A dated,
+  single-rater snapshot against a non-deterministic target, not a stable
+  constant. Every number is re-derived by run_all.py and sealed under a SHA-256
+  chain hash. Multilingual docs (EN/PT-BR/ES/IT/HE). MIT (software) + CC BY 4.0
+  (papers, figures, data).
 type: software
 authors:
   - family-names: Flores
@@ -42,6 +45,12 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.20276855"
     description: "Versioned DOI (Zenodo) for v1.0.1 — embeds DOI inline and ships rebuilt PDFs."
+  - type: doi
+    value: "10.5281/zenodo.20276900"
+    description: "Versioned DOI (Zenodo) for v1.0.2."
+  - type: doi
+    value: "10.5281/zenodo.20277015"
+    description: "Versioned DOI (Zenodo) for v1.0.3. Superseded: still carries the withdrawn 'pre-registered' framing and the 60% figure."
   - type: url
     value: "https://github.com/ulissesflores/anticipating-shadow-points"
     description: "Software source repository"
@@ -55,8 +64,8 @@ identifiers:
 repository-code: "https://github.com/ulissesflores/anticipating-shadow-points"
 url: "https://ulissesflores.github.io/anticipating-shadow-points/"
 license: MIT
-version: 1.0.3
-date-released: 2026-05-18
+version: 2.0.0
+date-released: 2026-11-07
 keywords:
   - claude-code
   - agentic-workflow
@@ -68,6 +77,8 @@ keywords:
   - reflexion
   - claude-p-goal
   - multi-agent
+  - reproducibility
+  - exit-codes
 preferred-citation:
   type: software
   title: "ASP — Anticipating Shadow Points"

@@ -1,0 +1,19 @@
+ASP — Anticipating Shadow Points
+Copyright (c) 2026 Carlos Ulisses Flores · Codex Hash Research Laboratory
+
+This repository is dual-licensed by content type.
+
+Software — MIT (LICENSE, LICENSES/MIT.txt)
+  skills/, commands/, scripts/, analysis/, benchmark/, tests/, run_all.py,
+  make_provenance.py, .claude-plugin/, .github/, assets/icon.svg, assets/demo/*.tape
+
+Papers, figures and prose — CC BY 4.0 (LICENSES/CC-BY-4.0.txt)
+  paper/, output/figures/, docs/, assets/demo/*.gif
+
+Data — CC BY 4.0
+  data/, output/results.json, tests/iron-law-11/runs/published/,
+  benchmark/runs/published/. The model replies inside these files are outputs of
+  Anthropic models, reproduced for research and verification.
+
+ASP integrates patterns from obra/superpowers (MIT) and aligns with the
+agentskills.io open standard.

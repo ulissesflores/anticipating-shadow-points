@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "d07b46d95b66afe3f1af2300bcb46d4e6aad7dca62835a2474c14b9085fd2c4f",
+  "chain_hash": "fbe085a88fd774c26c649946cdc423a5bd775471dfbdd96aa1d3bdcd303cc9f6",
   "informational_not_hashed": {
     "files": [
       {
@@ -44,11 +44,11 @@
         },
         {
           "path": "analysis/make_figures.py",
-          "sha256": "6f1ed4a59f1b1b76aeefc58241eb8da320fab5b8ee04095ca355845402924526"
+          "sha256": "a89c27344d3b3bafad5ccddc78ee787bfb156862d5bfec7a44e94f67969d15a1"
         },
         {
           "path": "analysis/results.py",
-          "sha256": "018f6a060b988f979b10375eba78e6ecbd6a0073f1891f1e92fe78d2e2a8202e"
+          "sha256": "67e3292431c2ce809368973671dbe9fb1f48b77b95859bce4f343cc6bb99c23b"
         },
         {
           "path": "benchmark/src/asp_benchmark/__init__.py",
@@ -92,7 +92,7 @@
         },
         {
           "path": "make_provenance.py",
-          "sha256": "cb77a5fe034967affce84636d017a44023bd7c5cc2f77ce57e89994212354435"
+          "sha256": "60e885a861018efc5cc8c10bd7274100d0ca0459b5039448f5fcf35e01703e13"
         },
         {
           "path": "run_all.py",
@@ -103,10 +103,18 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "2cd63ca84c97fd82e6e872c90a4f7e83472f086ff74dd384b0db3c0bf20ecada"
+      "leaf_sha256": "00aa706cb74091267d816cedb2853110415a076f8cbc6210ff52270777accb55"
     },
     "data": {
       "files": [
+        {
+          "path": "PREREGISTRATION.md",
+          "sha256": "eae2cd773c7ff6557efd46c80ec2b4b13dad6283099f4410f77de66aa6030dce"
+        },
+        {
+          "path": "data/README.md",
+          "sha256": "5c9b1a85f03cf0fbffe1be22ce5310da502da96e9e7a77d355148dd1026537a5"
+        },
         {
           "path": "data/spike-2026-07-08/CODEBOOK.md",
           "sha256": "76dd907382147150d3141bc6a6fd3d0558d2babecff0f21211d5c20f7f504f24"
@@ -120,7 +128,7 @@
           "sha256": "092db9db9fb8f11236e4c91d03a0660d22fd983506f0c353053966362ef90624"
         }
       ],
-      "leaf_sha256": "ec935bb281069a68b68f39eea4f0c35492f29e333a84448bafb8d7cadd4b7792"
+      "leaf_sha256": "37b9bdeb4ea654572e213a98156f7ad414415074b8eaa0289f8f428955ebc11b"
     },
     "frozen_inputs": {
       "files": [

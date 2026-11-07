@@ -47,7 +47,7 @@ GROUPS: dict[str, list[str]] = {
         "benchmark/runs/published/**/*",
         "skills/anticipating-shadow-points/evals/*.md",
     ],
-    "data": ["data/**/*"],
+    "data": ["data/**/*", "PREREGISTRATION.md"],
     "results": ["output/results.json"],
 }
 INFORMATIONAL = ["output/figures/*", "requirements.lock"]

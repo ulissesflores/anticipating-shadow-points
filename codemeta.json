@@ -1,0 +1,30 @@
+{
+  "@context": "https://w3id.org/codemeta/3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "ASP — Anticipating Shadow Points",
+  "description": "A Claude Code plugin that runs a pre-mortem-first planning protocol for non-trivial engineering tasks, with a replication layer that re-derives every number in its two companion papers from committed data under a SHA-256 provenance seal.",
+  "version": "2.0.0",
+  "license": "https://spdx.org/licenses/MIT",
+  "codeRepository": "https://github.com/ulissesflores/anticipating-shadow-points",
+  "url": "https://ulissesflores.github.io/anticipating-shadow-points/",
+  "identifier": "https://doi.org/10.5281/zenodo.20276631",
+  "programmingLanguage": ["Markdown", "Bash", "Python"],
+  "runtimePlatform": "Claude Code",
+  "keywords": ["claude-code", "pre-mortem", "agentic-workflow", "MAST", "reproducibility", "exit codes", "graceful refusal"],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-6034-7765",
+      "givenName": "Carlos Ulisses",
+      "familyName": "Flores",
+      "email": "c.ulisses@gmail.com",
+      "affiliation": {"@type": "Organization", "name": "Codex Hash Research Laboratory"}
+    }
+  ],
+  "relatedLink": [
+    "https://doi.org/10.5281/zenodo.20276631",
+    "https://ulissesflores.com"
+  ],
+  "developmentStatus": "active",
+  "softwareRequirements": ["Claude Code", "Python >= 3.11 (replication layer only)", "matplotlib >= 3.8"]
+}

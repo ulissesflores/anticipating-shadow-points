@@ -7,6 +7,41 @@ on:
     branches: [main]
 
 jobs:
+  provenance:
+    name: Verify seal, then replicate (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: 1. Verify the committed SHA-256 seal (stdlib only, before installing anything)
+        run: python make_provenance.py --verify
+      - name: Install pinned requirements
+        run: pip install -r requirements.txt
+      - name: 2. Replicate end to end (results -> figures -> tests -> seal -> verify)
+        run: python run_all.py
+      - name: 3. Derived results must equal the committed ones
+        run: git diff --exit-code output/results.json
+      - name: Benchmark package tests
+        run: PYTHONPATH=benchmark/src python -m pytest -q benchmark/tests
+
+  lint-python:
+    name: Python lint (ruff, docstring coverage 100%)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff interrogate
+      - run: ruff format --check
+      - run: ruff check
+      - run: interrogate -c pyproject.toml analysis tests/conftest.py tests/test_*.py run_all.py make_provenance.py
+
   yaml-lint:
     name: YAML lint (frontmatters)
     runs-on: ubuntu-latest
