@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "cff4904f9f0fa3152b02f84bdbc2bd4733d90f05dfa295b23c275f818baf14d9",
+  "chain_hash": "7a47b6b2aea6f437fe73366900419584e89df6a4d0954a5915be517a83513a4a",
   "informational_not_hashed": {
     "files": [
       {
@@ -21,7 +21,7 @@
       },
       {
         "path": "requirements.lock",
-        "sha256": "0c3033d3926f43fa372ac98890ce84c4b6b12ec4a48768903b0a4f171710516a"
+        "sha256": "5c8cf1fcf451969e3dee5cfd605c83588285eb7569db50599eb5c81b96eb68fe"
       }
     ],
     "platform": "macOS-26.7.2-arm64-arm-64bit",
@@ -1775,6 +1775,10 @@
           "sha256": "99c8d918506a42820c84174e4b786f13a46fda0cc958e5a62e3fb214ade42ce4"
         },
         {
+          "path": "tests/test_metadata.py",
+          "sha256": "340c1c41d9299ef8ca02c9d2f9697b084f8d3e5b1eba7428224bdb2058f788ad"
+        },
+        {
           "path": "tests/test_paper_numbers.py",
           "sha256": "a689f86ac326b29767827eb80a3b3141295e99aa75c79e5f8131577c18bfc234"
         },
@@ -1787,7 +1791,7 @@
           "sha256": "97cd085162d0254e114314cb3c69b8bb149be4bf2d2b4138573f2844b8ea56d8"
         }
       ],
-      "leaf_sha256": "757e3a4470b9b90a54f719e5dff06d2f2a1e0b17bd8c85d8840c1f33e0315a59"
+      "leaf_sha256": "5785f19404a0e9b9929e8273a890082204a0d69c139f35a707e6598762cec0ce"
     }
   },
   "schema": 1

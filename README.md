@@ -10,7 +10,7 @@
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-49_passing-brightgreen.svg)](tests/)
+[![tests](https://img.shields.io/badge/tests-51_passing-brightgreen.svg)](tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](output/hash-chain.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#install)
 
@@ -76,9 +76,9 @@ Expected output:
 == results: analysis/results.py
 results -> output/results.json | July author 20/50, codebook 19/50, detector 9/50
 == figures: analysis/make_figures.py
-figures -> output/figures (3 x PNG+SVG)
+figures -> output/figures (2 x PNG+SVG)
 == tests: -m pytest -q tests
-.............                                                            [100%]
+........................                                                 [100%]
 == provenance: make_provenance.py
 provenance written: chain_hash <64 hex characters>
 == verify: make_provenance.py --verify

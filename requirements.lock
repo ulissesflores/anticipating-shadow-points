@@ -1,3 +1,6 @@
+# Verbatim pip freeze of the environment that produced the committed seal.
+# Python 3.12.12 on Darwin arm64, 2026-11-07. Informational: not hashed into chain_hash.
+# Install the runtime from requirements.txt; use this file only to match versions.
 contourpy==1.4.0
 cycler==0.12.1
 fonttools==4.68.0

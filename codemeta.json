@@ -4,6 +4,7 @@
   "name": "ASP — Anticipating Shadow Points",
   "description": "A Claude Code plugin that runs a pre-mortem-first planning protocol for non-trivial engineering tasks, with a replication layer that re-derives every measured number in its two companion papers from committed data under a SHA-256 provenance seal.",
   "version": "2.0.0",
+  "dateModified": "2026-11-07",
   "license": "https://spdx.org/licenses/MIT",
   "codeRepository": "https://github.com/ulissesflores/anticipating-shadow-points",
   "url": "https://ulissesflores.github.io/anticipating-shadow-points/",
@@ -18,7 +19,8 @@
       "givenName": "Carlos Ulisses",
       "familyName": "Flores",
       "email": "c.ulisses@gmail.com",
-      "affiliation": {"@type": "Organization", "name": "Codex Hash Research Laboratory"}
+      "affiliation": {"@type": "Organization", "name": "Codex Hash Research Laboratory"},
+      "sameAs": "http://lattes.cnpq.br/6905246706890561"
     }
   ],
   "relatedLink": [
