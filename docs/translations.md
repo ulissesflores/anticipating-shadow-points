@@ -8,7 +8,7 @@ permalink: /translations/
 
 # Translations
 
-ASP documentation is available in five languages. The English version is the canonical source; translations are kept structurally parallel but may lag minor updates by a few hours/days.
+ASP documentation is available in five languages. The English README is the canonical source; the four translations were regenerated from the English README of v2.0.0 and carry the same claims, no stronger and no weaker.
 
 | Language | Author / Reviewer | Status |
 |---|---|---|
