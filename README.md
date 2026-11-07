@@ -1,321 +1,222 @@
+<div align="center">
+
+<img src="assets/icon.svg" width="96" alt="ASP icon: a low amber sun casting a long shadow over a horizon">
+
 # ASP — Anticipating Shadow Points
 
-[![Version](https://img.shields.io/github/v/release/ulissesflores/anticipating-shadow-points?sort=semver&color=blue)](https://github.com/ulissesflores/anticipating-shadow-points/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Claude Code 2.1.139+](https://img.shields.io/badge/Claude%20Code-2.1.139%2B-blue.svg)](https://code.claude.com)
-[![Docs](https://img.shields.io/badge/docs-online-blue.svg)](https://ulissesflores.github.io/anticipating-shadow-points/)
-[![Citation](https://img.shields.io/badge/cite-CITATION.cff-purple.svg)](CITATION.cff)
-[![Code of Conduct](https://img.shields.io/badge/contributor%20covenant-2.1-green.svg)](CODE_OF_CONDUCT.md)
-[![Plugin Marketplace](https://img.shields.io/badge/plugin-marketplace--ready-brightgreen.svg)](#install)
+**A Claude Code plugin that makes the agent write the post-mortem before it writes the code, and a replication layer that re-derives every number we publish about it.**
 
-## Ship ambitious work without missing the obvious.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
+[![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
+[![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](LICENSES/CC-BY-4.0.txt)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
+[![tests](https://img.shields.io/badge/tests-40_passing-brightgreen.svg)](tests/)
+[![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](output/hash-chain.md)
+[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#install)
 
-ASP is a Claude Code skill that surfaces the failure modes a senior engineer would catch in a pre-mortem — *before* any code is written — through a forced MAST-14 pre-mortem, a prompt-isolated independent validator, and a `claude -p /goal` subprocess executor.
+English (this file) · [Português (BR)](docs/README.pt.md) · [Español](docs/README.es.md) · [Italiano](docs/README.it.md) · [עברית](docs/README.he.md)
 
-🇬🇧 English (this file) · [🇪🇸 Español](docs/README.es.md) · [🇧🇷 Português](docs/README.pt.md) · [🇮🇹 Italiano](docs/README.it.md) · [🇮🇱 עברית](docs/README.he.md)
+</div>
 
----
+> [!IMPORTANT]
+> **Finding (Iron Law 11).** `claude -p` returns exit code 0 when the agent gracefully declines the task, with no machine-readable refusal flag in the JSON envelope. On a fixed suite of 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), **24 of 50 exited 0, every one with `stop_reason: end_turn`**, and **12 to 20 of those were declines**: 24% to 40% of the suite, depending on how a decline is counted. A shell wrapper that trusts `$?` reads all of them as success.
+>
+> **Observation (ASP benchmark, May 2026).** With ASP loaded, a deterministic matcher found 80% of the author's expected failure modes in the agent's plans, against 4% without it, over 5 tasks with one transcript each. That number is descriptive and partly circular; see [what is and isn't claimed](#what-is-and-isnt-claimed).
 
-## Evidence — preliminary
+Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp-preprint.md) ([PDF](paper/asp-preprint.pdf)) · [*Graceful refusals as unsignalled failures*](paper/iron-law-11.md) ([PDF](paper/iron-law-11.pdf)). Both are technical reports, not peer-reviewed.
 
-<table>
-<tr>
-<td align="center" width="33%">
-<h1>preliminary</h1>
-5 tasks × 2 conditions, one dispatch each,<br>single model, author-adjudicated<br>(deterministic adjudicator readings in <a href="benchmark/">benchmark/</a>, §5)
-</td>
-<td align="center" width="33%">
-<h1>12</h1>
-runtime invariants ("Iron Laws")<br>enforced by the skill
-</td>
-<td align="center" width="33%">
-<h1>5</h1>
-structured evals<br>across real domains
-</td>
-</tr>
-</table>
+## What this contributes
 
-> The evaluation is deliberately small: **5 tasks, two conditions, one dispatch each, a single model, author-adjudicated.** A deterministic adjudicator shipped in [`benchmark/`](benchmark/) — which anyone can re-run — re-scores the *same transcripts* under an author-defined criterion; its readings are reported descriptively in the whitepaper (§5), not as a coverage estimate against external ground truth. The sample size and non-blind adjudication are stated limitations (§7).
+1. **A planning protocol you can install.** Thirteen phases: research, a Klein pre-mortem forced through the 14 MAST multi-agent failure modes, an independent validator subagent, a contract of tasks with acceptance tests, and a sign-off of deliverables. Twelve "Iron Laws" keep the agent from skipping steps.
+2. **A measured failure in a common harness pattern.** `claude -p` exits 0 on a graceful decline. The measurement, its four readings and a defensive parsing recipe are in [`paper/iron-law-11.md`](paper/iron-law-11.md); the recipe is built into the skill's execution phase.
+3. **Every published number as a test.** `python run_all.py` re-derives the numbers from committed transcripts, asserts each one, and seals code, tests, data and results under one SHA-256 chain hash.
 
-### Same task, two outcomes
+## At a glance
 
-Real subagent dispatches from the 2026-05-17 RED/GREEN baseline. Task: *"Add a NOT NULL column `tier` (default 'free') to `user_profiles`. Table has 1M rows in production."*
+| | |
+|---|---|
+| What it is | Claude Code plugin (skill + `/asp` command), plus a Python replication layer |
+| Install | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` |
+| Runtime needs | Claude Code, `bash`, `jq` |
+| Replication needs | Python 3.11+, `matplotlib`, `pytest`; no model calls, about 10 seconds |
+| Evidence | 2 × 50 `claude -p` transcripts (May and July 2026), 10 benchmark transcripts (May 2026) |
+| Permissions | The skill never sets a permission mode; the child session it spawns runs under your own settings |
 
-<table>
-<tr>
-<td width="50%" valign="top">
+## See it
 
-**❌ Without ASP — baseline agent**
+| Replicate every number offline | The failure, from recorded evidence | What ASP changes in a plan |
+|---|---|---|
+| ![run_all.py re-derives the results, runs the tests and verifies the SHA-256 seal](assets/demo/replicate.gif) | ![A recorded July 2026 trial: the agent refuses, exit code is 0, stop_reason is end_turn](assets/demo/exit-code.gif) | ![The same migration task planned without and with ASP, from the committed May 2026 transcripts](assets/demo/asp-plan.gif) |
 
-```sql
-ALTER TABLE user_profiles
-  ADD COLUMN tier text
-  NOT NULL DEFAULT 'free';
+All three are replays of committed files, scripted with [vhs](https://github.com/charmbracelet/vhs) in [`assets/demo/`](assets/demo/). None calls a model.
 
-CREATE INDEX CONCURRENTLY
-  idx_user_profiles_tier
-  ON user_profiles (tier);
-```
+## Quick start
 
-*~60% coverage.* Misses: replica lag, app deploy ordering, monitoring spike, trigger interaction, foreign key cascade.
-
-</td>
-<td width="50%" valign="top">
-
-**✅ With ASP — same agent, same task**
-
-```text
-Pre-mortem (30 days out):
- 1. Full table rewrite locks
- 2. RLS policy not updated
- 3. Stale TS client types
- 4. Service-role bypass risk
- 5. Replica lag during DDL
- 6. App deploy ordering
- 7. Monitoring spike
- 8. Backup window collision
- 9. Index INVALID state
-10. WAL/disk pressure
-11. CDC realtime flood
-12. Rollback impossible
-13. CPU credit exhaustion
-14. Audit trail missing
-15. Time-zone in cron logic
-```
-
-*100% coverage.* Each surfaces a mitigation before any SQL runs.
-
-</td>
-</tr>
-</table>
-
-*Built on established methodology · [Klein pre-mortem](https://hbr.org/2007/09/performing-a-project-premortem) · [Berkeley MAST 14-mode](https://arxiv.org/abs/2503.13657) · [Plan-and-Act](https://arxiv.org/abs/2503.09572) · Reflexion · preliminary evaluation (5 tasks), 2026-05-17 (see whitepaper §7 for limitations)*
-
----
-
-## What ASP does
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### 🎯 Pre-mortem before code
-
-"Imagine the failure. Now describe why." Prospective hindsight — Mitchell, Russo & Pennington (1989) showed it generates ~30% more reasons than imagining the same event as merely possible; Klein (2007, HBR) operationalized it as the pre-mortem. ASP runs it on every non-trivial task.
-
-</td>
-<td width="50%" valign="top">
-
-### 🔍 MAST 14-mode checklist
-
-Berkeley's failure taxonomy forces coverage of less-obvious categories — time/timezone, observability, op-ex, contract drift — that free-form pre-mortem clusters away from.
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 🛡️ Independent validator
-
-A fresh-prompt subagent audits the plan before execution. Self-critique fails on high-confidence hallucinations; prompt isolation breaks that collusion. **Iron Law 2**.
-
-</td>
-<td width="50%" valign="top">
-
-### ⚡ `claude -p /goal` kernel
-
-Spawns Anthropic's official worker/evaluator kernel as a subprocess. Empirically validated 2026-05-17. **Iron Law 11**: never trust `$?` — parse JSON.
-
-</td>
-</tr>
-</table>
-
----
-
-## See it run
-
-```text
-$ /asp Add a NOT NULL column `tier` to user_profiles. 1M rows.
-
-Phase 1 — Parallel research (codebase + web + recall.py)          ✓
-Phase 2 — Shadow-point detection (Klein + MAST 14-mode)            ✓ 14 found
-Phase 4 — Macro plan + Deliverables Register (D01..D08)            ✓
-Phase 5 — Independent validator (separate-prompt subagent)         APPROVE
-Phase 7 — Awaiting user approval of charter + plan + deliverables  ✓
-Phase 8 — Micro-TODO contract emitted: 23 tasks (PRE/ACT/POST/ACC/FAL)
-Phase 9 — claude -p /goal autonomous execution                     → running
-
-Goal Spec: All 23 tasks completed with ACCEPTANCE-TEST evidence;
-           all 8 deliverables marked `aceito`; 12 Iron Laws respected.
-Hard stops: turn > 80 · elapsed > 30min · 3 consecutive falsifications.
-```
-
-Every step is auditable. Every task has a verifiable acceptance test. Nothing ships without fresh evidence.
-
----
-
-## Install
-
-### Path A — Plugin marketplace (recommended, Claude Code 2.1+)
+### Use the plugin
 
 ```bash
 claude plugin marketplace add ulissesflores/anticipating-shadow-points
 claude plugin install anticipating-shadow-points@anticipating-shadow-points
 ```
 
-Invoke: `/anticipating-shadow-points:asp <task>` in any Claude Code session.
+Then, in any Claude Code session: `/anticipating-shadow-points:asp <your task>`. Depth flags: `--quick` (no validator, no autonomous execution), `--standard` (default), `--paranoid`.
 
-<details>
-<summary><b>Other install paths</b> — dev mode and standalone script</summary>
-
-### Path B — Local plugin dev mode (`--plugin-dir`)
-
-For testing/development without installing permanently:
+### Replicate the papers
 
 ```bash
-git clone https://github.com/ulissesflores/anticipating-shadow-points.git ~/Developer/ASP
-claude --plugin-dir ~/Developer/ASP
+git clone https://github.com/ulissesflores/anticipating-shadow-points
+cd anticipating-shadow-points
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python run_all.py
 ```
 
-Loaded only for that session. Invoke: `/anticipating-shadow-points:asp <task>`.
+Expected output:
 
-### Path C — Standalone `install.sh` (legacy, full control)
+```text
+== results: analysis/results.py
+results -> output/results.json | July author 20/50, codebook 19/50, detector 9/50
+== figures: analysis/make_figures.py
+figures -> output/figures (3 x PNG+SVG)
+== tests: -m pytest -q tests
+.............                                                            [100%]
+== provenance: make_provenance.py
+provenance written: chain_hash <64 hex characters>
+== verify: make_provenance.py --verify
+provenance verified: chain_hash <the same 64 hex characters>
+run_all OK: results reproduced, tests passed, provenance verified
+```
 
-For users who want bare `/asp` invocation (no plugin namespace) or want to inspect/modify before install:
+## Results
+
+### Iron Law 11: `claude -p` exit code on a graceful decline
+
+| Snapshot | CLI | Model that answered | Exit 0 | Declines with exit 0 | Reading |
+|---|---|---|---|---|---|
+| 2026-05-18 | 2.1.143 | Opus 4.7 | 36/50 | **30/50 (60%)** | locked phrase detector |
+| 2026-07-08 | 2.1.200 | Fable 5 (34), Opus 4.8 (16, incl. all 12 safety prompts) | 24/50 | **9/50 (18%)** | same locked phrase detector |
+| | | | | **12/50 (24%)** | unambiguous declines only |
+| | | | | **19/50 (38%)** | majority of 5 blind raters, codebook |
+| | | | | **20/50 (40%)** | author's label |
+
+![Silent-refusal readings with 95% Wilson intervals](output/figures/fig1_silent_refusal_readings.png)
+
+The May and July runs differ in model and CLI, so the drop from 60% to 18% under the same detector is a change of target, not a trend. In July, every one of the 24 exit-0 trials carried `stop_reason: end_turn`; the only `stop_reason: refusal` was a server-side block, and it exited 1.
+
+### ASP benchmark: deterministic match against the expected failure modes
+
+| Evaluation | RED (no ASP) | GREEN (ASP) |
+|---|---|---|
+| E1 schema migration, 1M rows | 20% | 90% |
+| E2 edge deploy, rate-limited API | 0% | 60% |
+| E3 shared-util refactor, 30+ files | 0% | 80% |
+| E4 RLS policy change | 0% | 100% |
+| E5 cron job vs disabled service | 0% | 70% |
+| **Mean** | **4%** | **80%** |
+
+Negative control: scoring each GREEN transcript against a different task's expected list drops the mean to **0.5%** (largest cell 10%), so the matcher is not rewarding generic engineering vocabulary.
+
+| ![RED vs GREEN per evaluation](output/figures/fig3_red_green.png) | ![Label-permutation control](output/figures/fig2_permutation_control.png) |
+|---|---|
+
+## What is and isn't claimed
+
+| | |
+|---|---|
+| **Claimed** | `claude -p` exited 0 with `stop_reason: end_turn` on graceful declines in two dated snapshots; the counts above follow deterministically from the committed transcripts; with ASP loaded, one model's plans matched more of the author's expected failure modes, and the matcher discriminates between tasks |
+| **Not claimed** | A base rate of silent failure in real agent traffic (the suite was built to provoke declines); that the 60% to 18% drop is a trend; that ASP improves real-world outcomes; that 80% is coverage against external ground truth (the author wrote the expected lists and the vocabulary the GREEN prompt injects); any inferential statistic on the benchmark (one transcript per cell) |
+| **Frozen** | The transcripts. The models that produced them are not pinned and cannot be re-queried; re-running the prompts gives a new snapshot, not a replication |
+| **Corrected in this version** | Earlier text attributed the July run to "Opus 4.8"; the envelopes show Fable 5 as session model, with Opus 4.8 answering 16 trials. Earlier text compared May's detector count (60%) with July's manual count (40%); the like-for-like comparison is 60% vs 18%. The "pre-registered" label on the May run was withdrawn in July 2026 |
+
+Full method and limits: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). The next measurement is planned in [`PREREGISTRATION.md`](PREREGISTRATION.md) (draft, not yet deposited).
+
+## Integrity
+
+`output/hash-chain.md` holds one SHA-256 `chain_hash` over five leaves: code, tests, frozen inputs, data and derived results. To check that nothing changed since it was sealed:
 
 ```bash
-git clone https://github.com/ulissesflores/anticipating-shadow-points.git ~/Developer/ASP
-cd ~/Developer/ASP
-./scripts/verify.sh --pre-install
-./scripts/install.sh
+python3 make_provenance.py --verify
 ```
 
-Invoke: `/asp <task>` (no namespace). Uninstall: `./scripts/uninstall.sh`.
+It needs only the standard library. CI runs it before installing anything, then runs `run_all.py` on Python 3.11 and 3.12.
+
+## Install
+
+| Path | Command | Invoke |
+|---|---|---|
+| Plugin marketplace (recommended) | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` then `claude plugin install anticipating-shadow-points@anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
+| Session only, from a clone | `claude --plugin-dir /path/to/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
+| Standalone script | `./scripts/verify.sh --pre-install && ./scripts/install.sh` | `/asp` |
+
+<details>
+<summary><b>Troubleshooting</b></summary>
+
+- **`claude plugin install` fails with SSH permission denied.** Your git rewrites GitHub URLs to SSH and you have no key registered. One-time fix: `git config --global url."https://github.com/".insteadOf "git@github.com:"`.
+- **`/asp` works but `/anticipating-shadow-points:asp` does not, or the reverse.** They come from different install paths (standalone vs plugin) and can coexist.
+- **The plugin name appears twice (`name@marketplace`).** The repository is its own marketplace, so both halves are the same string.
+- **The autonomous phase stops on a permission denial.** By design. ASP passes no permission flag to the `claude -p` child; anything your settings do not already allow is denied in non-interactive mode, and the skill reports it instead of retrying with more permission.
 
 </details>
 
-**Requirements**: Claude Code 2.1.139+ · `bash` · `jq` · *(optional)* `~/.agent/` agentic-stack for `recall.py` lessons retrieval (silently skipped if absent).
+### When to reach for ASP
 
----
+Use it for migrations, deploys with external dependencies, refactors across many files, changes to access policy, architecture decisions and root-cause investigations. Skip it for typo fixes, one-line edits and read-only questions.
 
-## When to reach for ASP
+## Layout
 
-<table>
-<tr>
-<th align="left" width="50%">✅ Use ASP for</th>
-<th align="left" width="50%">❌ Skip ASP for</th>
-</tr>
-<tr>
-<td valign="top">
-
-- Features touching data or shared state
-- Migrations (schema, dependency, API)
-- Refactors across many files
-- Deploys with external dependencies
-- Architecture decisions
-- Root-cause debug investigations
-
-</td>
-<td valign="top">
-
-- Typo fixes
-- Single-line edits
-- Read-only questions ("what does X do?")
-- Tasks you can finish in under 5 minutes
-
-</td>
-</tr>
-</table>
-
----
-
-## Troubleshooting
-
-<details>
-<summary><b><code>claude plugin install</code> fails with SSH permission denied</b></summary>
-
-If you see `git@github.com: Permission denied (publickey)` during `claude plugin install`, your git is configured to use SSH but you don't have an SSH key registered with GitHub. The `marketplace add` step has automatic HTTPS fallback, but `install` does not (as of Claude Code 2.1.143).
-
-One-time workaround:
-
-```bash
-git config --global url."https://github.com/".insteadOf "git@github.com:"
+```text
+.claude-plugin/        plugin and marketplace manifests
+skills/                the ASP skill: protocol, Iron Laws, templates, 5 evals
+commands/              /asp command
+paper/                 the two papers (Markdown source + PDF)
+analysis/              derivation of every published number, figures, redacted extractor
+data/                  July 2026 redacted extract, labels, codebook
+tests/                 paper-number and determinism tests; iron-law-11/ holds the May 2026 run
+benchmark/             RED/GREEN benchmark package and its committed May 2026 run
+output/                results.json, hash-chain.md, provenance.json, figures/
+assets/                icon, demo GIFs and their vhs scripts
+docs/                  architecture notes and translations
+run_all.py             single entry point: results -> figures -> tests -> seal -> verify
+make_provenance.py     build or --verify the SHA-256 chain
 ```
 
-Then retry `claude plugin install`.
-
-</details>
-
-<details>
-<summary><b><code>/asp</code> works but <code>/anticipating-shadow-points:asp</code> doesn't (or vice versa)</b></summary>
-
-The two invocations come from different install paths and don't conflict:
-
-- `/asp` works after Path C (`install.sh`) — installs without plugin namespace.
-- `/anticipating-shadow-points:asp` works after Path A or Path B — plugin-namespaced.
-
-Both can coexist.
-
-</details>
-
-<details>
-<summary><b>Plugin name shows up twice (<code>name@marketplace</code>)</b></summary>
-
-`anticipating-shadow-points@anticipating-shadow-points` is correct — it's `<plugin-name>@<marketplace-name>`, both happen to be the same string because the repo self-hosts its marketplace. The doubled-up appearance is visual only.
-
-</details>
-
----
-
-## Whitepapers
-
-Both whitepapers are published under **Codex Hash Research Laboratory Whitepaper Series · 2026** with permanent Zenodo concept DOI [10.5281/zenodo.20276631](https://doi.org/10.5281/zenodo.20276631) — always resolves to the latest version.
-
-| # | Title | PDF | Markdown source |
-|---|---|---|---|
-| 1 | *ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report* | [`paper/asp-preprint.pdf`](paper/asp-preprint.pdf) | [`paper/asp-preprint.md`](paper/asp-preprint.md) |
-| 2 | *Graceful Refusals as Unsignalled Failures: Characterising `claude -p` Exit-Code Semantics on Agent Declines* | [`paper/iron-law-11.pdf`](paper/iron-law-11.pdf) *(PDF stale — pending rebuild from v2.0 source)* | [`paper/iron-law-11.md`](paper/iron-law-11.md) |
-
-The Markdown sources are canonical; the PDFs are the published artefacts. Both are also attached to the [GitHub Release v1.0.0](https://github.com/ulissesflores/anticipating-shadow-points/releases/tag/v1.0.0) and archived under the Zenodo DOI for permanent citation. To rebuild the PDFs from source, see [CONTRIBUTING.md § Rebuilding the whitepaper PDFs](CONTRIBUTING.md#rebuilding-the-whitepaper-pdfs).
-
----
-
-## Deeper reading
-
-- **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** — 10-part SOTA design document: academic background, v1→v5 architectural journey, empirical discoveries (including the exit-code / graceful-refusal finding), derivation of all 12 Iron Laws, open questions.
-- **[5 structured evals](skills/anticipating-shadow-points/evals/)** — domain-specific shadow-point tests covering Supabase migration, edge function deploy, util refactor, RLS policy change, cron skill conflict.
-- **[12 Iron Laws](skills/anticipating-shadow-points/SKILL.md)** — non-negotiable runtime discipline.
-
----
-
-## Community
-
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** — how to contribute (code, docs, evals, translations).
-- **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** — Contributor Covenant 2.1.
-- **[SECURITY.md](SECURITY.md)** — vulnerability disclosure policy.
-- **[CHANGELOG.md](CHANGELOG.md)** — release history.
-- **[AGENTS.md](AGENTS.md)** — rules for AI agents editing this repository.
-
-Native-speaker review of ES/IT/HE translations welcomed via PR.
-
----
+Further reading: [architecture and design history](docs/ARCHITECTURE.md) · [the skill and its 12 Iron Laws](skills/anticipating-shadow-points/SKILL.md) · [the 5 evaluations](skills/anticipating-shadow-points/evals/) · [contributing](CONTRIBUTING.md) · [security policy](SECURITY.md) · [changelog](CHANGELOG.md) · [roadmap](ROADMAP.md).
 
 ## Author
 
-**[Carlos Ulisses Flores](https://ulissesflores.com)** — CTO & Chief Researcher at Codex Hash Research Laboratory · MSc AI candidate, American Global Tech University · São Paulo, Brazil · [ORCID `0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · [Lattes `6905246706890561`](http://lattes.cnpq.br/6905246706890561) · [@ulissesflores on GitHub](https://github.com/ulissesflores)
+**Carlos Ulisses Flores** — CTO & Chief Researcher, Codex Hash Research Laboratory, São Paulo, Brazil · MSc in Artificial Intelligence (in progress), American Global Tech University.
 
-Domain focus: Quantitative Finance & Web3 · Hardware & IoT · AI & Data Science. The multilingual docs reflect the maintainer's working languages — Portuguese (native), English/Spanish (fluent), Italian (conversational), Hebrew (academic reading).
+[![ORCID](https://img.shields.io/badge/ORCID-0000--0002--6034--7765-a6ce39.svg)](https://orcid.org/0000-0002-6034-7765)
+[![Website](https://img.shields.io/badge/web-ulissesflores.com-black.svg)](https://ulissesflores.com)
+[![Lattes](https://img.shields.io/badge/Lattes-6905246706890561-blue.svg)](http://lattes.cnpq.br/6905246706890561)
 
-Research synthesis, initial drafting, and verification scripts produced in collaboration with Claude (Anthropic, Opus 4.7) under explicit human-in-the-loop direction. See [AUTHORS](AUTHORS) and [ARCHITECTURE.md](docs/ARCHITECTURE.md) Parts 5–6 for the contribution model.
+Research synthesis, drafting and verification scripts were produced with Claude (Anthropic) under the author's direction; every number in the papers is derived by code in this repository. See [`AUTHORS`](AUTHORS).
 
----
+## Citation
 
-## Cite this work
+Cite the **concept DOI** to point at ASP in general; it always resolves to the latest version. Cite a **version DOI** to pin the exact files you used. The v2.0.0 version DOI is minted at release and will be listed here and in [`CITATION.cff`](CITATION.cff).
 
-If you use ASP in published work, an evaluation, or a production deployment, please cite via [CITATION.cff](CITATION.cff) — GitHub's "Cite this repository" button uses this file automatically. The four methodological references (Klein, MAST, Plan-and-Act, Reflexion) are listed there and should be cited alongside ASP when discussing the methodology.
+```bibtex
+@software{flores_asp_2026,
+  author    = {Flores, Carlos Ulisses},
+  title     = {{ASP — Anticipating Shadow Points}},
+  year      = {2026},
+  version   = {2.0.0},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.20276631},
+  url       = {https://doi.org/10.5281/zenodo.20276631}
+}
+```
 
----
+GitHub's "Cite this repository" button reads [`CITATION.cff`](CITATION.cff), which also lists the methodological references to cite alongside ASP.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Acknowledgements: ASP integrates patterns from [obra/superpowers](https://github.com/obra/superpowers) and aligns with the [agentskills.io](https://agentskills.io) open standard.
+Code under [MIT](LICENSE). Papers, figures, data and prose under [CC BY 4.0](LICENSES/CC-BY-4.0.txt). The file-by-file map is in [`NOTICE`](NOTICE).
+
+## Anchor references
+
+- Klein, G. (2007). Performing a project premortem. *Harvard Business Review*, 85(9), 18–19.
+- Mitchell, D. J., Russo, J. E., & Pennington, N. (1989). Back to the future: Temporal perspective in the explanation of events. *Journal of Behavioral Decision Making*, 2(1), 25–38. https://doi.org/10.1002/bdm.3960020103
+- Cemri, M., et al. (2025). *Why do multi-agent LLM systems fail?* arXiv:2503.13657. https://arxiv.org/abs/2503.13657
+- Avizienis, A., Laprie, J.-C., Randell, B., & Landwehr, C. (2004). Basic concepts and taxonomy of dependable and secure computing. *IEEE TDSC*, 1(1), 11–33. https://doi.org/10.1109/TDSC.2004.2
+- Huang, J., et al. (2024). Large language models cannot self-correct reasoning yet. *ICLR 2024*. https://arxiv.org/abs/2310.01798
