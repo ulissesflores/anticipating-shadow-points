@@ -15,6 +15,9 @@
       "E5": 0.7
     },
     "green_mean": 0.8,
+    "matches_by_layer": {
+      "exact_name": 42
+    },
     "permutation_diagonal_mean": 0.8,
     "permutation_matrix": {
       "E1": {
@@ -63,6 +66,22 @@
       "E5": 0.0
     },
     "red_mean": 0.04,
+    "rescored_coverage": {
+      "GREEN": {
+        "E1": 0.9,
+        "E2": 0.6,
+        "E3": 0.8,
+        "E4": 1.0,
+        "E5": 0.7
+      },
+      "RED": {
+        "E1": 0.2,
+        "E2": 0.0,
+        "E3": 0.0,
+        "E4": 0.0,
+        "E5": 0.0
+      }
+    },
     "run_mode": "mock",
     "texts_are": "author-constructed fixtures (benchmark/tests/fixtures/mock_runs), not model outputs"
   },

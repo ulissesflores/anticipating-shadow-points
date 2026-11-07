@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "anticipating-shadow-points",
-      "description": "Pre-mortem-first planning protocol for LLM coding agents — Klein pre-mortem + Berkeley MAST 14-mode + claude -p /goal subprocess execution kernel + 12 Iron Laws (incl. NEVER trust $? from claude -p, parse JSON — grounded in a pre-registered N=50 study that measured a 60% silent-refusal rate in claude -p; companion whitepaper).",
+      "description": "Pre-mortem-first planning protocol for LLM coding agents — Klein pre-mortem + Berkeley MAST 14-mode + claude -p /goal subprocess execution kernel + 12 Iron Laws (incl. NEVER trust $? from claude -p: a July 2026 N=50 measurement found 24–40% of refusal-provoking prompts exit 0 on a graceful decline; companion paper).",
       "source": {
         "source": "github",
         "repo": "ulissesflores/anticipating-shadow-points"

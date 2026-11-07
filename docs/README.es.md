@@ -117,7 +117,7 @@ Las ejecuciones de mayo y julio difieren en modelo y CLI, de modo que la caída 
 
 | Evidencia | Qué es | Qué respalda |
 |---|---|---|
-| Lectura del autor de 10 planes de subagentes, 2026-05-17 ([resumen](../tests/evals-summary.md)) | Juicio no ciego contra listas escritas por el autor; RED cerca del 47%, GREEN cerca del 100%; transcripciones no conservadas | Una observación, no una medición |
+| Lectura del autor de 8 planes de subagentes (5 GREEN, 3 RED), 2026-05-17 ([resumen](../tests/evals-summary.md)) | Juicio no ciego contra listas escritas por el autor; RED cerca del 47%, GREEN cerca del 100%; transcripciones no conservadas | Una observación, no una medición |
 | Ejecución de benchmark simulado (mock), 2026-05-18 | El matcher determinista puntuando fixtures que el autor escribió para ejercitarlo: RED 4%, GREEN 80% | Nada sobre ASP. Muestra que el matcher discrimina entre tareas: 80% sobre la lista propia de un fixture, 0,5% sobre las listas de otras tareas |
 
 ![Verificación del instrumento sobre los fixtures construidos](../output/figures/fig2_adjudicator_fixture_check.png)

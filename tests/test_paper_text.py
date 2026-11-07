@@ -91,3 +91,18 @@ def test_iron_law_11_quotes_outcome_information(results):
         for channel in ("exit_code", "exit_code_and_stop_reason"):
             block = info[labels][channel]
             assert f"{block['bits']:.2f} ({round(block['share'] * 100)}%)" in note
+
+
+def test_preprint_quotes_fixture_and_companion_numbers(results):
+    """The preprint's instrument-check and companion numbers match the data."""
+    paper = text("asp-preprint.md")
+    fx = results["adjudicator_fixture_check_2026_05"]
+    assert f"RED {round(fx['red_mean'] * 100)}% and GREEN {round(fx['green_mean'] * 100)}%" in paper
+    assert f"{fx['permutation_offdiagonal_mean'] * 100:.1f}% (largest off-task cell" in paper
+    assert f"cell {round(fx['permutation_offdiagonal_max'] * 100)}%" in paper
+    assert f"every one of the {fx['matches_by_layer']['exact_name']} matches" in paper
+    jul = results["iron_law_11"]["july_2026"]
+    for reading in ("author", "codebook", "detector"):
+        assert pct(jul[f"{reading}_silent_refusals"]) in paper
+    lo, hi = jul["author_silent_refusals"]["wilson95"]
+    assert f"{round(lo * 100)}–{round(hi * 100)}%" in paper

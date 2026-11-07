@@ -106,7 +106,7 @@ The May and July runs differ in model, CLI and reply language (11 of July's 20 d
 
 | Evidence | What it is | What it supports |
 |---|---|---|
-| Author's reading of 10 subagent plans, 2026-05-17 ([summary](tests/evals-summary.md)) | Non-blind judgement against lists the author wrote; RED near 47%, GREEN near 100%; transcripts not preserved | An observation, not a measurement |
+| Author's reading of 8 subagent plans (5 GREEN, 3 RED), 2026-05-17 ([summary](tests/evals-summary.md)) | Non-blind judgement against lists the author wrote; RED near 47%, GREEN near 100%; transcripts not preserved | An observation, not a measurement |
 | Mock benchmark run, 2026-05-18 | The deterministic matcher scoring fixtures the author wrote to exercise it: RED 4%, GREEN 80% | Nothing about ASP. It shows the matcher discriminates tasks: 80% on a fixture's own list, 0.5% on other tasks' lists |
 
 ![Instrument check on the constructed fixtures](output/figures/fig2_adjudicator_fixture_check.png)

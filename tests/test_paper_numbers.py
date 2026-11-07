@@ -133,3 +133,11 @@ def test_july_outcome_information(results):
     for block, share in ((author["delivered"], 22), (codebook["delivered"], 24)):
         assert round(block["exit_code"]["share"] * 100) == share
         assert block["exit_code"] == block["exit_code_and_stop_reason"]
+
+
+def test_fixture_check_rescored_and_layers(results):
+    """Re-scoring the fixtures reproduces the committed coverage; every match is layer 1."""
+    fx = results["adjudicator_fixture_check_2026_05"]
+    assert fx["rescored_coverage"]["RED"] == fx["red_coverage"]
+    assert fx["rescored_coverage"]["GREEN"] == fx["green_coverage"]
+    assert fx["matches_by_layer"] == {"exact_name": 42}

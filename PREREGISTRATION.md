@@ -80,7 +80,7 @@ Version 1.0 of the ASP paper reported a deterministic match of 80% (GREEN) versu
 
 | Item | Value |
 |---|---|
-| Tasks | E1–E5, unchanged INPUT statements |
+| Tasks | E1–E5, INPUT statements as committed, except that E5's INPUT gains a self-contained description of the project it refers to (it now assumes the author's local setup, which a clean-room run cannot see); the change is made and hash-sealed before deposit |
 | Conditions | RED (plan as a senior engineer, no skill) and GREEN (ASP loaded) |
 | Replicates | 8 dispatches per task × condition (80 in total), order randomised with seed `asp-bench-v1` |
 | Model | Pinned with `--model`, exact id recorded in the deposit amendment; same clean-room precondition as Protocol 1 |
@@ -89,7 +89,7 @@ Version 1.0 of the ASP paper reported a deterministic match of 80% (GREEN) versu
 
 ## Outcomes and analysis
 
-- **Primary.** Per task, the difference in mean match (GREEN minus RED) over the 8 replicates; across tasks, a paired sign test on the five per-task differences, and a permutation test over the 80 dispatches (10 000 relabellings, seed fixed).
+- **Primary.** Per task, the difference in mean match (GREEN minus RED) over the 8 replicates; across tasks, a paired sign test on the five per-task differences, and a permutation test over the 80 dispatches (10 000 relabellings, seed fixed), stratified by task: RED/GREEN labels are permuted only within each task's 16 dispatches, so a task effect cannot masquerade as a condition effect.
 - **Secondary.** The same with the author's original lists (to measure how much author authorship inflated the earlier observation); per-layer match counts; plan length as a covariate.
 - **Negative control.** Each GREEN plan scored against the other tasks' blind lists, as in the mock check.
 

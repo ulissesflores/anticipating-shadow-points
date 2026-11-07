@@ -24,6 +24,11 @@ EVALUATOR CRITERIA:
       5. NO DELIVERABLE `aceito` WITHOUT EVIDENCE MATCHED
       6. NO PROJECT CLOSE WITHOUT EXECUTION REPORT + MEMORY WRITE-BACK
       7. NO LOOP WITHOUT CAP
+      8. NO PHASE 9 EXECUTION WITHOUT EVALUATOR DISPATCH AT CHECKPOINTS
+      9. NO REENTRANT ASP INSIDE A `claude -p /goal` CHILD (ASP_IN_GOAL guard)
+      10. NO `claude -p /goal` SPAWN WITHOUT FILE-BASED CONTRACT
+      11. NEVER TRUST `$?` FROM `claude -p` FOR SEMANTIC SUCCESS/FAILURE
+      12. ALL `claude -p` INVOCATIONS USE `--output-format json` OR `stream-json`
 
 HARD STOP CONDITIONS:
   - turn count > <N>
@@ -41,7 +46,7 @@ GOAL: ASP skill at ~/.claude/skills/anticipating-shadow-points/ exists, loads vi
 EVALUATOR CRITERIA:
   - All 63 emitted TaskCreate items completed with ACCEPTANCE-TEST evidence in tests/
   - All 13 Deliverables (D01-D13) marked `aceito` (D13 may stay pending pending user inspection)
-  - 7 Iron Laws respected per task
+  - 12 Iron Laws respected per task
   - tests/criteria-final-checklist.md shows 16 OK
   - tests/advisor-final.md shows positive verdict
 

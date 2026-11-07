@@ -291,7 +291,8 @@ def adjudicator_fixture_check() -> dict:
     Returns
     -------
     dict
-        Run mode, per-eval coverage of the RED/GREEN fixtures, the 5x5
+        Run mode, per-eval coverage of the RED/GREEN fixtures (committed and
+        re-scored with the shipped matcher), matches per matcher layer, the 5x5
         GREEN-fixture x expected-list matrix and its summary.
     """
     sys.path.insert(0, str(ROOT / "benchmark" / "src"))
@@ -308,10 +309,28 @@ def adjudicator_fixture_check() -> dict:
             )["coverage"]
             for eid in ids
         }
-    green = {
-        eid: (BENCH_RUN / "outputs" / eid / "GREEN.text.txt").read_text(encoding="utf-8")
-        for eid in ids
+    texts = {
+        cond: {
+            eid: (BENCH_RUN / "outputs" / eid / f"{cond}.text.txt").read_text(encoding="utf-8")
+            for eid in ids
+        }
+        for cond in ("RED", "GREEN")
     }
+    green = texts["GREEN"]
+    # Re-score both conditions with the shipped matcher, so the committed adjudication
+    # files cannot drift from the code without the tests noticing.
+    rescored = {
+        cond: {eid: adjudicate(specs[eid], texts[cond][eid], cond, "check").coverage for eid in ids}
+        for cond in ("RED", "GREEN")
+    }
+    layers = Counter(
+        m["matched_via"]
+        for cond in ("RED", "GREEN")
+        for eid in ids
+        for m in json.loads(
+            (BENCH_RUN / "adjudication" / eid / f"{cond}.json").read_text(encoding="utf-8")
+        )["matched"]
+    )
     matrix = {
         i: {j: adjudicate(specs[j], green[i], "GREEN", "perm").coverage for j in ids} for i in ids
     }
@@ -325,8 +344,10 @@ def adjudicator_fixture_check() -> dict:
         "eval_ids": ids,
         "red_coverage": committed["RED"],
         "green_coverage": committed["GREEN"],
-        "red_mean": round(sum(committed["RED"].values()) / len(ids), 4),
-        "green_mean": round(sum(committed["GREEN"].values()) / len(ids), 4),
+        "rescored_coverage": rescored,
+        "matches_by_layer": dict(sorted(layers.items())),
+        "red_mean": round(sum(rescored["RED"].values()) / len(ids), 4),
+        "green_mean": round(sum(rescored["GREEN"].values()) / len(ids), 4),
         "permutation_matrix": matrix,
         "permutation_diagonal_mean": round(sum(diag) / len(diag), 4),
         "permutation_offdiagonal_mean": round(sum(off) / len(off), 4),
