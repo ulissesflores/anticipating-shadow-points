@@ -1,13 +1,3 @@
-```
-   ____          _             _   _           _     
-  / ___|___   __| | _____  __ | | | | __ _ ___| |__  
- | |   / _ \ / _` |/ _ \ \/ / | |_| |/ _` / __| '_ \ 
- | |__| (_) | (_| |  __/>  <  |  _  | (_| \__ \ | | |
-  \____\___/ \__,_|\___/_/\_\ |_| |_|\__,_|___/_| |_|
-
-  ~ Codex Hash Research Laboratory · Whitepaper Series · 2026
-```
-
 # ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report
 
 **Author** · Carlos Ulisses Flores
@@ -15,15 +5,13 @@ CTO & Chief Researcher · Codex Hash Research Laboratory · São Paulo, Brazil
 ORCID: https://orcid.org/0000-0002-6034-7765 · Lattes: http://lattes.cnpq.br/6905246706890561
 c.ulisses@gmail.com · https://ulissesflores.com
 
-**Whitepaper · Version 2.0 · 2026-11-07** *(first published 2026-05-18; revised 2026-07-09)*
+**Whitepaper · Version 2.1 · 2026-11** *(first published 2026-05-18)*
 **DOI** https://doi.org/10.5281/zenodo.20276631 *(concept · always resolves to latest version)*
 **Status** Independent technical whitepaper · not under peer review
 **License** Paper text, figures and data — CC BY 4.0 · Companion software — MIT
 **Replication** Every number in Sections 5.3–5.4 is re-derived by `python run_all.py` in the companion repository and asserted by a test; see Appendix B.
-**Companion repository** https://github.com/ulissesflores/anticipating-shadow-points
+**Companion repository** Flores, C. U. (2026a), https://github.com/ulissesflores/anticipating-shadow-points
 **Companion whitepaper** Flores, C. U. (2026b). *Graceful Refusals as Unsignalled Failures: Characterising `claude -p` Exit-Code Semantics on Agent Declines.* See `paper/iron-law-11.md`.
-
-> **Correction note (version 2.0, 2026-11).** Version 1.0 (Zenodo v1.0.0–v1.0.3) reported in Section 5.2 a deterministic match of 4% (RED) versus 80% (GREEN) as the adjudicator's reading of "ten candidate transcripts" produced by Claude Opus 4.7. That was wrong. The published benchmark run (`benchmark/runs/published/2026-05-18T00-27-43Z-b0a1bc7b`) is a **mock-mode** run: its manifest records `"mode": "mock"`, and every candidate text is a fixture the author wrote to exercise the adjudicator's matching layers, as the benchmark's own protocol states (`benchmark/PROTOCOL.md`, section 8: the fixtures "are NOT representative of true LLM outputs"). The 4% / 80% figures and the label-permutation control (80% to 0.5%) are therefore checks of the instrument on constructed text, not evidence about ASP. The only evidence about ASP's effect is the author's non-blind reading of the 2026-05-17 subagent dispatches, whose raw transcripts were not preserved. Section 5 is rewritten accordingly; the version 2.0 replication layer labels the data itself (`adjudicator_fixture_check_2026_05`, `run_mode: mock`).
 
 ---
 
@@ -47,11 +35,12 @@ engineering evaluations (single model; GREEN dispatched on all five tasks,
 RED on three; read by the author without blinding). The raw transcripts of those dispatches
 were not preserved, so the observations are reported, not verifiable. A
 deterministic adjudicator with cryptographic provenance ships with the skill.
-This version corrects an error of version 1.0, which presented the
-adjudicator's scores on author-constructed test fixtures as a reading of the
-model transcripts; those scores validate the instrument and nothing more. We
-therefore report **no measured effect** of ASP. A real-mode benchmark with independently authored, blind expected lists,
-drafted for pre-registration, is specified as the decisive follow-up. A separate empirical finding on `claude -p` exit-code semantics
+Its scores on author-constructed test fixtures validate the instrument and
+nothing more, so we report **no measured effect** of ASP. We state in advance
+the result that would show one: in a real-mode benchmark with independently
+authored, blind expected lists, ASP improves plan coverage if the assisted
+condition beats the unassisted one on all five tasks with a permutation
+p < 0.05, and shows no benefit if it fails to beat it on three or more. A separate empirical finding on `claude -p` exit-code semantics
 under graceful agent refusal is characterised in a companion paper.
 
 **Keywords:** llm coding agents; pre-mortem; multi-agent failure modes;
@@ -77,12 +66,13 @@ observações preliminares de cinco avaliações de engenharia (um modelo;
 GREEN nas cinco tarefas e RED em três, lidas pelo autor sem cegamento). As transcrições brutas dessas execuções
 não foram preservadas, então as observações são relatadas, não verificáveis.
 Um adjudicador determinístico com proveniência criptográfica acompanha a
-skill. Esta versão corrige um erro da versão 1.0, que apresentou as notas do
-adjudicador sobre fixtures de teste escritos pelo autor como se fossem a
-leitura das transcrições do modelo; essas notas validam o instrumento e nada
-mais. Por isso **não relatamos efeito medido** do ASP. Um benchmark em modo
-real, redigido para pré-registro, com listas esperadas escritas por revisores
-independentes e cegos, fica especificado como o próximo passo decisivo. Um achado
+skill. Suas notas sobre fixtures de teste escritos pelo autor validam o
+instrumento e nada mais, por isso **não relatamos efeito medido** do ASP.
+Fixamos de antemão o resultado que mostraria um: num benchmark em modo real,
+com listas esperadas escritas por revisores independentes e cegos, o ASP
+melhora a cobertura do plano se a condição assistida superar a não assistida
+nas cinco tarefas com p < 0,05 num teste de permutação, e não traz benefício
+se não a superar em três ou mais. Um achado
 empírico separado, sobre a semântica do código de saída do `claude -p` quando
 o agente recusa com educação, é caracterizado num artigo complementar.
 
@@ -100,7 +90,12 @@ coding assistants. When the assistant gets it right, the engineer's day
 is freed. When it gets it *subtly* wrong — by writing code that compiles,
 passes its tests, ships, but quietly omits a step a senior engineer
 would have flagged in advance — production breaks in ways that are
-expensive to debug.
+expensive to debug. Decision science has a technique for exactly that gap,
+the pre-mortem (Klein, 2007), and agent research now has a catalogue of how
+multi-agent LLM systems fail (Cemri et al., 2025). Our thesis is that the two
+belong together at runtime: before writing code, an agent should be made to
+run a pre-mortem against a fixed failure taxonomy, and its plan should be
+checked by a validator that cannot see the planner's reasoning.
 
 The dominant production failure mode of modern LLM coding agents, in our
 experience, is not *bad* code. It is *incomplete* code: the agent does
@@ -175,7 +170,7 @@ recent-work review short relative to typical agent-systems papers,
 because the contribution here is operational and the literature context
 is in service of that.
 
-### 2.1 Pre-mortem and prospective hindsight
+### 2.1. Pre-mortem and prospective hindsight
 
 The pre-mortem technique asks a team to imagine, before commitment, that
 a project has already failed catastrophically, and to enumerate causes.
@@ -185,11 +180,19 @@ explanations that are longer and more episodic; Klein (2007) summarises
 the effect as about a 30% gain in correctly identifying reasons for a future
 outcome.
 Klein (2007) operationalized the finding as the project-team "pre-mortem"
-and the technique has been standard in decision-science and
-project-management practice since. To our knowledge, it has not previously
-been integrated as runtime discipline in agentic LLM frameworks.
+and the technique has since spread through decision-science and
+project-management practice. Its experimental base is thin: we found no
+replication or meta-analysis of the pre-mortem effect in Crossref, arXiv or a
+general web search (November 2026), which is an absence in those indexes, not
+proof that none exists. Risk-assessment standards catalogue neighbouring
+techniques — scenario analysis and the structured what-if technique (SWIFT) —
+but the table of contents of IEC 31010:2019, Annex B, does not list the
+pre-mortem by name. The term *prospective hindsight* has also been reused
+for an unrelated reinforcement-learning signal (J. Zhang et al., 2026); we use
+it only in Mitchell et al.'s sense. We found no prior integration of the
+pre-mortem as runtime discipline for coding agents.
 
-### 2.2 Multi-agent failure modes (MAST)
+### 2.2. Multi-agent failure modes (MAST)
 
 LLM agents interleave reasoning and acting in a single loop (Yao et al.,
 2023), and are increasingly composed into multi-agent workflows whose
@@ -206,10 +209,19 @@ mode names verbatim and operationalizes each into a pre-mortem prompt
 plus mitigation in its companion skill files. Two concurrent works
 extend the taxonomy direction: Zhu et al. (2025) introduce AgentDebug
 and the AgentErrorTaxonomy (memory / reflection / planning / action /
-system-level), and Zhang et al. (2025), an ICML 2025 Spotlight, opens
-**automated failure attribution** with the Who&When dataset.
+system-level), and S. Zhang et al. (2025), an ICML 2025 Spotlight, opens
+**automated failure attribution** with the Who&When dataset. MAST is
+therefore one taxonomy among several: TRAIL formalises a taxonomy of agentic
+errors over 148 human-annotated traces (Deshpande et al., 2025), AgentRx
+annotates 170 failed trajectories with a critical step and a category from a
+grounded-theory taxonomy (Barke et al., 2026), and AgenTracer reports that
+current reasoning LLMs attribute failures in multi-agent traces with accuracy
+generally below 10% (G. Zhang et al., 2025). ASP uses MAST as a prompt
+library for anticipating failures, not as a classifier of observed ones, so
+the choice of taxonomy bounds what Phase 2 asks about rather than what it can
+detect.
 
-### 2.3 Self-correction limits and validator isolation
+### 2.3. Self-correction limits and validator isolation
 
 The strongest single argument for separating the validator from the
 planner is the convergent finding across three primary works that LLMs
@@ -231,9 +243,13 @@ that a validator sharing context with a planner inherits the planner's
 confidence calibration on shared content, including erroneous content
 the planner is confident about. ASP's design enforces strict prompt
 isolation between planner and validator (Iron Law 2 below) as the
-architectural counter-move.
+architectural counter-move. Kambhampati et al. (2024) reach the same
+conclusion for planning: auto-regressive LLMs cannot by themselves plan or
+self-verify, but can serve as approximate knowledge sources inside an
+"LLM-Modulo" loop with external verifiers — the role ASP assigns to the
+isolated validator and to the executable acceptance tests.
 
-### 2.4 Closest related work: PreFlect
+### 2.4. Closest related work: PreFlect
 
 The closest concurrent work is **PreFlect** (Wang et al., 2026), which
 similarly shifts the self-reflection paradigm from post-hoc correction
@@ -256,10 +272,11 @@ ASP differs from PreFlect along four axes:
 4. **An empirical CLI-level finding** characterising `claude -p` exit
    semantics under graceful refusal, motivating two of the Iron Laws;
    this is reported separately in Flores (2026b). The phenomenon itself is
-   documented by the vendor and in public issue reports; the residual
-   contribution there is a measured count, not a discovery.
+   documented by the vendor and in public issue reports (catalogued in
+   Flores, 2026b, §2); the contribution there is a measured count and a
+   proposed typed termination contract, not a discovery.
 
-### 2.5 Classical software and quality-engineering lineage
+### 2.5. Classical software and quality-engineering lineage
 
 The four threads above place ASP within the recent LLM-agents
 literature. A reviewer from software or quality engineering will,
@@ -269,7 +286,7 @@ concealing it would be both dishonest and weaker: what is new in ASP is
 not the disciplines but their transposition to a non-deterministic agent
 runtime and the mechanisms that enforce them there.
 
-**Design by Contract — and where ASP departs from it.** ASP's micro-TODO
+**Non-redundancy versus defensive re-verification: where ASP departs from Design by Contract.** ASP's micro-TODO
 schema (§3.4) is Design by Contract (Meyer, 1992) relocated from the
 routine boundary to the agent-task boundary. Meyer's contract assigns
 obligations across a caller/routine boundary: the caller must establish
@@ -305,7 +322,8 @@ supplies the *library* of failure modes; and the forced enumeration
 against that fixed library is closer, structurally, to HAZOP-style
 guideword prompting than to component-by-component FMEA. What ASP adds is
 the substrate — the "component" whose failure modes are enumerated is an
-LLM plan, elicited from the same model under an isolation constraint.
+LLM plan, and the enumeration is run by a validator that does not share the
+planner's context (§2.3).
 
 **Mistake-proofing.** A subset of the Iron Laws (§3.3) are poka-yoke
 (Shingo, 1986) at the protocol level: Iron Law 9's `ASP_IN_GOAL`
@@ -378,7 +396,7 @@ against the classical literature.
 
 ## 3. The ASP Protocol
 
-### 3.1 Overview
+### 3.1. Overview
 
 ASP is a 13-phase protocol that progresses from intake through delivery
 sign-off. Each phase emits a named artifact (Table 2). The principle
@@ -406,7 +424,7 @@ subprocess with a file-based contract (Phase 9).
 | 11 | Execution Report + memory | Closure artifact + memory write-back | Reflexion-style memory (Shinn et al., 2023) |
 | 12 | (Opt-in) public release | Plugin marketplace + GitHub release | Distribution layer |
 
-### 3.2 Architectural positioning
+### 3.2. Architectural positioning
 
 ASP separates three agent roles with explicit artifact-only handoffs
 (Figure 1):
@@ -441,7 +459,7 @@ that receives only artifacts, never the planner's transcript. The
 worker runs in a child `claude -p` subprocess with a file-based
 contract.
 
-### 3.3 Iron Laws
+### 3.3. Iron Laws
 
 We render twelve operational constraints as non-negotiable runtime
 invariants and call them Iron Laws (Table 3). Each is mapped to its
@@ -465,7 +483,7 @@ recommendation, or an empirical design decision.
 | 11 | Never trust `$?` from `claude -p` for semantic success/failure | Empirical observation, characterised in Flores (2026b) |
 | 12 | All `claude -p` invocations must use `--output-format json` or `stream-json` | Corollary of Iron Law 11 |
 
-### 3.4 The micro-TODO contract
+### 3.4. The micro-TODO contract
 
 At the boundary between planning and execution (Phase 8), ASP emits a
 contractual task list. Each task is created via the `TaskCreate` primitive
@@ -541,7 +559,7 @@ heterogeneous domains. This section separates three things that version
 the deterministic adjudicator shows about itself on constructed fixtures
 (5.3), and what has not been measured at all.
 
-### 5.1 The evaluation set
+### 5.1. The evaluation set
 
 **Table 4.** The five engineering evaluations.
 
@@ -559,7 +577,7 @@ competent practitioner would surface, and an ACCEPTANCE threshold
 (default 80%). The full text of each evaluation is in the companion
 repository.
 
-### 5.2 What was observed in real dispatches (author, non-blind)
+### 5.2. What was observed in real dispatches (author, non-blind)
 
 On 2026-05-17 the evaluations were dispatched to fresh subagents: GREEN
 (with the ASP discipline injected: pre-mortem framing, MAST 14-mode forced
@@ -585,7 +603,7 @@ GREEN prompt injects appearing in those lists. They are reported as
 observation, not measurement, and no number in this paragraph is asserted
 by the replication layer.
 
-### 5.3 What the deterministic adjudicator shows about itself
+### 5.3. What the deterministic adjudicator shows about itself
 
 The `benchmark/` package scores a plan against an expected list with a
 deterministic 4-layer matcher (exact name, synonym sidecar, Jaccard
@@ -612,7 +630,7 @@ blind by independent engineers, is specified in the repository's
 Which component would matter most, if ASP has an effect, is discussed as a
 hypothesis in Section 6.
 
-### 5.4 The `claude -p` exit-code finding
+### 5.4. The `claude -p` exit-code finding
 
 During a four-test battery against the `claude -p` non-interactive
 runner, we observed that the binary returns exit code 0 even when the
@@ -660,8 +678,9 @@ the Goal Spec text on stdin and returns a JSON result; the parent
 reconstructs state from that result and from the files on disk, so neither
 side depends on a transcript that may have been compressed or truncated.
 
-**Hard runtime constraints (Iron Laws) make a skill enforceable.** Skills
-that read as "guidelines" are routinely ignored under context pressure.
+**Hard runtime constraints (Iron Laws) make a skill enforceable.** In our
+experience, skills that read as "guidelines" are often skipped under context
+pressure.
 Skills that emit a checklist of non-negotiables — and whose templates
 *refuse to be filled in* without each box ticked — are, in our use, harder
 to skip. Compliance has not been measured.
@@ -693,7 +712,7 @@ the transcripts on these cases; it is *not* sufficient to estimate an
 effect size, establish causality, or support statistical inference, and
 no statistical test is reported. No formal
 ablation of components has been run (the qualitative attribution of
-load-bearing-ness to the MAST checklist in §5.3 and §6 is a hypothesis).
+load-bearing-ness to the MAST checklist in §6 is a hypothesis).
 The acceptance threshold of 80% is the author's choice and not derived
 from prior literature.
 
@@ -801,13 +820,19 @@ Anthropic. (2026b). *Agent Skills best practices* [Software documentation]. http
 
 Avizienis, A., Laprie, J.-C., Randell, B., & Landwehr, C. (2004). Basic concepts and taxonomy of dependable and secure computing. *IEEE Transactions on Dependable and Secure Computing*, *1*(1), 11–33. https://doi.org/10.1109/TDSC.2004.2
 
-Cemri, M., Pan, M. Z., Yang, S., Agrawal, L. A., Chopra, B., Tiwari, R., Keutzer, K., Parameswaran, A., Klein, D., Ramchandran, K., Zaharia, M., Gonzalez, J. E., & Stoica, I. (2025). *Why do multi-agent LLM systems fail?* arXiv. https://arxiv.org/abs/2503.13657
+Barke, S., Goyal, A., Khare, A., Singh, A., Nath, S., & Bansal, C. (2026). *AgentRx: Diagnosing AI agent failures from execution trajectories*. arXiv:2602.02475. https://arxiv.org/abs/2602.02475
+
+Cemri, M., Pan, M. Z., Yang, S., Agrawal, L. A., Chopra, B., Tiwari, R., Keutzer, K., Parameswaran, A., Klein, D., Ramchandran, K., Zaharia, M., Gonzalez, J. E., & Stoica, I. (2025). Why do multi-agent LLM systems fail? *Advances in Neural Information Processing Systems, 38*, 135676–135729. https://doi.org/10.52202/085713-4082
+
+Deshpande, D., Gangal, V., Mehta, H., Krishnan, J., Kannappan, A., & Qian, R. (2025). *TRAIL: Trace reasoning and agentic issue localization*. arXiv:2505.08638. https://arxiv.org/abs/2505.08638
 
 Du, Y., Li, S., Torralba, A., Tenenbaum, J. B., & Mordatch, I. (2024). *Improving factuality and reasoning in language models through multiagent debate*. ICML 2024. https://arxiv.org/abs/2305.14325
 
 Erdogan, L. E., Lee, N., Kim, S., Moon, S., Furuta, H., Anumanchipalli, G., Keutzer, K., & Gholami, A. (2025). *Plan-and-Act: Improving planning of agents for long-horizon tasks*. ICML 2025. https://arxiv.org/abs/2503.09572
 
-Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines*. See `paper/iron-law-11.md` in the companion repository.
+Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
+
+Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.2) [Technical note]. In Flores (2026a). https://doi.org/10.5281/zenodo.20276631
 
 Huang, J., Chen, X., Mishra, S., Zheng, H. S., Yu, A. W., Song, X., & Zhou, D. (2024). *Large language models cannot self-correct reasoning yet*. ICLR 2024. https://arxiv.org/abs/2310.01798
 
@@ -815,7 +840,11 @@ IEEE. (2017). *IEEE standard for system, software, and hardware verification and
 
 International Electrotechnical Commission. (2018). *Failure modes and effects analysis (FMEA and FMECA)* (IEC 60812:2018). https://webstore.iec.ch/en/publication/26359
 
+International Electrotechnical Commission. (2019). *Risk management — Risk assessment techniques* (IEC 31010:2019, Edition 2.0). https://webstore.iec.ch/en/publication/59809
+
 Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., & Narasimhan, K. (2024). *SWE-bench: Can language models resolve real-world GitHub issues?* ICLR 2024. https://arxiv.org/abs/2310.06770
+
+Kambhampati, S., Valmeekam, K., Guan, L., Verma, M., Stechly, K., Bhambri, S., Saldyt, L., & Murthy, A. (2024). *LLMs can't plan, but can help planning in LLM-Modulo frameworks*. ICML 2024 (position paper). https://arxiv.org/abs/2402.01817
 
 Kamoi, R., Zhang, Y., Zhang, N., Han, J., & Zhang, R. (2024). When can LLMs actually correct their own mistakes? A critical survey of self-correction of LLMs. *Transactions of the Association for Computational Linguistics*. https://arxiv.org/abs/2406.01297
 
@@ -845,6 +874,10 @@ Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023)
 
 Yuan, D., Luo, Y., Zhuang, X., Rodrigues, G. R., Zhao, X., Zhang, Y., Jain, P. U., & Stumm, M. (2014). Simple testing can prevent most critical failures: An analysis of production failures in distributed data-intensive systems. In *Proceedings of the 11th USENIX Symposium on Operating Systems Design and Implementation (OSDI '14)* (pp. 249–265). USENIX Association. https://www.usenix.org/conference/osdi14/technical-sessions/presentation/yuan
 
+Zhang, G., Wang, J., Chen, J., Zhou, W., Wang, K., & Yan, S. (2025). *AgenTracer: Who is inducing failure in the LLM agentic systems?* arXiv:2509.03312. https://arxiv.org/abs/2509.03312
+
+Zhang, J., Peng, X., Chen, Q., Li, Y., Hayashi, H., & Wu, C.-S. (2026). *Prospective hindsight: Self-calibrating reinforcement learning via prediction-reality gaps*. arXiv:2610.02740. https://arxiv.org/abs/2610.02740
+
 Zhang, S., Yin, M., Zhang, J., Liu, J., Han, Z., Zhang, J., Li, B., Wang, C., Wang, H., Chen, Y., & Wu, Q. (2025). *Which agent causes task failures and when? On automated failure attribution of LLM multi-agent systems*. ICML 2025 Spotlight. https://arxiv.org/abs/2505.00212
 
 Zheng, L., Chiang, W.-L., Sheng, Y., Zhuang, S., Wu, Z., Zhuang, Y., Lin, Z., Li, Z., Li, D., Xing, E. P., Zhang, H., Gonzalez, J. E., & Stoica, I. (2023). *Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena*. NeurIPS 2023 D&B. https://arxiv.org/abs/2306.05685
@@ -855,7 +888,7 @@ Zhu, K., Liu, Z., Li, B., Tian, M., Yang, Y., Zhang, J., Han, P., Xie, Q., Cui, 
 
 ## Appendix A — Citation verification status
 
-Every claim in the body cites at most a primary source. The table below
+Every claim in the body cites a primary source where one exists. The table below
 records the verification status of each cited reference at the time of
 preprint submission. The tag scheme is the author's own and is provided
 to make verification trivial for a reviewer; tags do not appear in the
@@ -870,9 +903,11 @@ body for readability.
 
 The references present in version 1.0 were verified by direct URL fetch on
 2026-05-17; references added in the July 2026 revision (Flores, 2026b; the
-classical-lineage entries of Section 2.5) were checked when added, and
-version 2.0 (2026-11) corrected two venue lines (Tyen et al., 2024;
-Yao et al., 2023). The MAST 14-mode names are quoted verbatim from
+classical-lineage entries of Section 2.5) were checked when added; and the
+entries added in November 2026 (Barke et al., 2026; Deshpande et al., 2025;
+Kambhampati et al., 2024; G. Zhang et al., 2025; J. Zhang et al., 2026) were
+checked against their arXiv records, and Cemri et al. (2025) against its
+NeurIPS proceedings record. The MAST 14-mode names are quoted verbatim from
 Cemri et al. (2025) and listed in the companion skill file
 `skills/anticipating-shadow-points/mast-checklist.md`. Mitchell et al.
 (1989) is the primary study of prospective hindsight; the ≈30% figure is
@@ -919,6 +954,9 @@ the discrimination matrix, regenerates Figure 2, asserts each number
 `mock`) and verifies a single SHA-256 chain hash over code, tests, frozen
 inputs, data and results (`output/hash-chain.md`). The author's observations
 in Section 5.2 cannot be reproduced: their transcripts were not preserved.
+This version supersedes version 1.0 (https://doi.org/10.5281/zenodo.20277015),
+which presented the adjudicator's scores on these fixtures as a reading of
+model transcripts.
 
 **Collecting real evidence (costs model calls).** Install the benchmark
 package and run `asp-benchmark run --mode real --model <model>` followed by
