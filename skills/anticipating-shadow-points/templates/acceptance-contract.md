@@ -25,7 +25,7 @@
 ## User acknowledgement
 
 - [ ] User explicitly acknowledged this contract on YYYY-MM-DD HH:MM
-- [ ] User selected execution mode: manual-supervised / autonomous-via-/goal / autonomous-with-bypassPermissions
+- [ ] User selected execution mode: manual-supervised / autonomous-via-/goal (the child runs under the user's own permission settings; ASP does not change them)
 - [ ] User selected depth: --quick / --standard / --paranoid
 - [ ] User explicitly opted in or out of Phase 12 public release
 

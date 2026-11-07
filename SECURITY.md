@@ -31,7 +31,7 @@ Please include:
 
 ASP is a Claude Code skill. Realistic threat surfaces:
 
-1. **`claude -p` subprocess spawn** (`skills/anticipating-shadow-points/claude-p-goal-runner.md`). The runner uses `--permission-mode bypassPermissions` and processes user-supplied Goal Specs. A maliciously crafted Goal Spec could cause the child Claude session to execute unintended actions (file write, network, code execution). Mitigations are listed in Iron Laws 9 and 10 (file-based contract, `ASP_IN_GOAL` reentrancy guard).
+1. **`claude -p` subprocess spawn** (`skills/anticipating-shadow-points/claude-p-goal-runner.md`). Since v1.0.4 the runner passes no permission flag: the child session runs under the user's own Claude Code permission settings, and ASP never grants, widens or bypasses them (earlier versions passed `--permission-mode bypassPermissions`; that was removed). The runner still processes user-supplied Goal Specs, so a maliciously crafted Goal Spec could steer the child toward unintended actions within whatever the user's settings allow. Mitigations are listed in Iron Laws 9 and 10 (file-based contract, `ASP_IN_GOAL` reentrancy guard).
 2. **`recall.py` integration** (Phase 1). If a malicious `~/.agent/` is present, recall output is included in the planning context. Treat the agentic-stack as a trust boundary.
 3. **Markdown template injection**. Templates use `{{placeholder}}` patterns rendered into text. They are not executed; no SSTI risk in normal usage.
 4. **Install scripts** (`scripts/install.sh`, `uninstall.sh`). These run with the user's permissions and write to `~/.claude/`. Review the source before running in untrusted environments.

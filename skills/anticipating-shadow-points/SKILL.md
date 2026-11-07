@@ -161,7 +161,7 @@ HARD STOP CONDITIONS:
 See `claude-p-goal-runner.md` for the full spawn pattern. High-level flow:
 
 1. Phase 8 renders the Goal Spec to `~/Developer/ASP/runtime/<session-id>/goal-spec.md` and seeds `state.json`.
-2. Parent emits a Bash spawn script that runs `claude -p --permission-mode bypassPermissions --output-format json --max-budget-usd $BUDGET --max-turns $MAX_TURNS` with `/goal "..."` piped via stdin, **in background** (`run_in_background: true`).
+2. Parent emits a Bash spawn script that runs `claude -p --output-format json --max-budget-usd $BUDGET --max-turns $MAX_TURNS` with `/goal "..."` piped via stdin, **in background** (`run_in_background: true`). The script passes **no permission flag**: the child inherits the user's own Claude Code permission settings, and ASP never grants, widens or bypasses them. Actions the user has not pre-allowed are denied in `-p` mode; if the child stalls on a denial, report it to the user and let them decide how to proceed.
 3. `Monitor` tool watches for child exit; parent stays idle until notified.
 4. Post-exit, parent parses `exec.json` via `jq` — extracts `is_error`, `terminal_reason`, `total_cost_usd`, `num_turns`, `result`. **Never trusts `$?`** (Iron Law 11).
 5. Parent reconciles task statuses and updates Deliverables Register based on the child's reported work.

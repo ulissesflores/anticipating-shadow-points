@@ -23,6 +23,8 @@ Analytical reasoning + Anthropic docs review (Claude Code 2.1.139 release notes)
 echo '/goal "..."' | claude -p --permission-mode bypassPermissions --output-format json
 ```
 
+(Historical command from the 2026-05-17 probe. Since v1.0.4 the shipped runner omits the permission flag; the child runs under the user's own permission settings.)
+
 This spawns a child Claude Code session that DOES parse and execute `/goal`. The skill can therefore use `/goal` as the primary Phase 9 execution kernel by spawning subprocesses, not by emitting text in its own session.
 
 The original FAIL still stands for "emit `/goal` and have current session execute it" — that path remains impossible. But the subprocess path is fully functional.

@@ -223,6 +223,9 @@ This was the **most consequential intervention** in the whole project. The agent
    - **C**: `$?` on impossible goal → ⚠️ **CRITICAL FINDING**: Claude refuses gracefully but returns exit 0
    - **D**: stream-json → ✅ 13 NDJSON events emitted
 
+> [!NOTE]
+> Historical record of the 2026-05-17 battery. Since v1.0.4 the shipped runner no longer passes `--permission-mode bypassPermissions`: the child runs under the user's own permission settings, and ASP never grants or widens them.
+
 **Design change (v5)**:
 - `claude -p /goal` subprocess becomes the **primary** Phase 9 kernel.
 - Native in-session kernel (v4) becomes the **fallback** for short tasks or when `claude` is unavailable.
@@ -350,7 +353,7 @@ The user's standard is multi-language docs (EN/ES/PT/IT/HE). Most skill repos sh
 
 User: *"1 - aceito formalmente o contrato acima; 2- nao faremos release publico sem minha inspeção completa, tudo deve estar pronto pra isso; execucao autonomous com bypassPermissions"*.
 
-This formal acceptance unblocked V1-V12. The "no public release without inspection" directive kept D13 in `planejado` until the explicit `ok aprovado` later. The autonomous-with-bypassPermissions mode let the agent move without prompting on every step.
+This formal acceptance unblocked V1-V12. The "no public release without inspection" directive kept D13 in `planejado` until the explicit `ok aprovado` later. The autonomous-with-bypassPermissions mode let the agent move without prompting on every step. (That was the operator's own session setting during development; the shipped plugin does not set or recommend it, and since v1.0.4 no ASP file passes a permission flag.)
 
 ### 5.5 Proposed `claude -p` to invoke `/goal` (the single most consequential moment)
 

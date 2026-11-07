@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install yq
-        run: sudo snap install yq || (curl -sSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq)
+      - name: Ensure yq (preinstalled on GitHub runners; snap as fallback, no download-and-run)
+        run: command -v yq || sudo snap install yq
       - name: Validate SKILL.md frontmatter
         run: |
           SKILL_FILE=skills/anticipating-shadow-points/SKILL.md

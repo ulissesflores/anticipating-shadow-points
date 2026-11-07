@@ -42,6 +42,35 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 - Formal ablation: with/without MAST checklist, with/without validator
   prompt isolation.
 
+## [1.0.4] — 2026-11-07 (plugin manifest version; no GitHub release, no new DOI)
+
+### Security
+- **The plugin no longer sets any permission mode.** The Phase 9 runner
+  (`skills/anticipating-shadow-points/claude-p-goal-runner.md`) and
+  `SKILL.md` used to spawn the child session with
+  `--permission-mode bypassPermissions`. The flag is removed: the child now
+  runs under the user's own Claude Code permission settings, and ASP never
+  grants, widens or bypasses them. Actions the user has not pre-allowed are
+  denied in `-p` mode; the runner records the denial count from `exec.json`
+  and tells the user instead of retrying with wider permissions. The
+  acceptance-contract template no longer offers a bypass execution mode.
+  Reason: the Claude plugin directory review (2026-10-05) correctly flagged
+  that a plugin must not approve its own actions or weaken the user's
+  permission prompts.
+
+### Added
+- Plugin icon (`assets/icon.svg`), referenced from `plugin.json`.
+
+### Changed
+- CI no longer downloads and runs a `yq` binary from a `latest` URL; it uses
+  the runner's preinstalled `yq`, with `snap` as fallback.
+- Historical probe reports and `docs/ARCHITECTURE.md` keep their original
+  2026-05-17 commands, with a note that the shipped runner no longer uses
+  the bypass flag. `SECURITY.md` threat model updated to match.
+- The 2026-07-09 corrections under [Unreleased] are part of this commit's
+  tree but are not yet in any Zenodo version; the latest DOI version
+  (v1.0.3) still carries the superseded wording.
+
 ## [1.0.3] — 2026-05-18
 
 ### Changed — Canonical author name + ORCID + Lattes

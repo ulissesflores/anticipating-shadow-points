@@ -48,8 +48,11 @@ INPUT_FILE="$RUNTIME_DIR/.stdin"
   printf '"\n'
 } > "$INPUT_FILE"
 
+# No permission flag on purpose: the child runs under the user's own
+# Claude Code permission settings. ASP never chooses or widens them.
+# In -p mode an action the user has not pre-allowed is denied, not prompted;
+# the parent detects that from exec.json (see section 4).
 ASP_IN_GOAL=1 claude -p \
-    --permission-mode bypassPermissions \
     --output-format "$OUTPUT_FORMAT" \
     --max-budget-usd "$BUDGET" \
     --max-turns "$MAX_TURNS" \
@@ -121,14 +124,19 @@ STOP="$(echo "$RESULT" | jq -r '.terminal_reason // .stop_reason // "unknown"')"
 COST="$(echo "$RESULT" | jq -r '.total_cost_usd // 0')"
 NUM_TURNS="$(echo "$RESULT" | jq -r '.num_turns // 0')"
 FINAL_TEXT="$(echo "$RESULT" | jq -r '.result // ""')"
+# Actions the user's permission settings did not allow are denied in -p mode.
+# Surface them to the user; never re-run with a wider permission mode on their behalf.
+DENIALS="$(echo "$RESULT" | jq -r '(.permission_denials // []) | length')"
 
 # Persist back to state.json
 jq --arg s "$STOP" \
    --arg c "$COST" \
    --arg t "$NUM_TURNS" \
    --arg f "$FINAL_TEXT" \
+   --arg d "$DENIALS" \
    --argjson e "$IS_ERR" \
    '.status = "completed" |
+    .permission_denials = ($d | tonumber) |
     .terminal_reason = $s |
     .cost_usd_acc = ($c | tonumber) |
     .num_turns = ($t | tonumber) |

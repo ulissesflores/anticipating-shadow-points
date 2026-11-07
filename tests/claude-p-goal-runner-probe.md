@@ -2,6 +2,9 @@
 
 > Pre-flight probe for Phase 9 v5 primary execution kernel. Documents empirical evidence that `/goal` is invocable via `claude -p` subprocess, including critical findings that shape the runner design.
 
+> [!NOTE]
+> Historical record (2026-05-17, Claude Code 2.1.143). Test 2 and Test A ran with `--permission-mode bypassPermissions` in the operator's sandbox. Since v1.0.4 the shipped runner passes no permission flag: the child runs under the user's own permission settings.
+
 ## Probe metadata
 
 - **Date**: 2026-05-17
