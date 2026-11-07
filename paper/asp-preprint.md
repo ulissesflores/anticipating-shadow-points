@@ -74,7 +74,7 @@ pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al.
 literatura sobre os limites da autocorreção (Huang et al., 2024; Tyen et al.,
 2024), e entrega a execução a um subprocesso filho com contrato em arquivo.
 Documentamos o desenho, a implantação como plugin de código aberto e
-observações preliminares de cinco avaliações de engenharia (um modelo; uma
+observações preliminares de cinco avaliações de engenharia (um modelo;
 GREEN nas cinco tarefas e RED em três, lidas pelo autor sem cegamento). As transcrições brutas dessas execuções
 não foram preservadas, então as observações são relatadas, não verificáveis.
 Um adjudicador determinístico com proveniência criptográfica acompanha a
@@ -116,14 +116,13 @@ Two streams of literature converge on this gap. The first, in
 decision science, is the **pre-mortem**: a structured exercise in which
 a team imagines a project has already failed and enumerates causes before
 acting. The technique was operationalized for project teams by Klein
-(2007) and grounded in the earlier empirical finding of Mitchell, Russo
-and Pennington (1989), who demonstrated that imagining an event as
-already-occurred (certainty) generates approximately 30% more reasons
-than imagining the same event as merely possible. The second, in agent
+(2007) and grounded in the earlier empirical work of Mitchell, Russo and
+Pennington (1989) on prospective hindsight; Klein (2007) summarises it as
+raising the ability to identify reasons for a future outcome by about 30%. The second, in agent
 research, is the recent characterization of multi-agent failure modes by
-Cemri et al. (2025), who derived a 14-mode taxonomy from 1,600+ annotated traces
-(inter-annotator agreement κ=0.88 on the 150 seed traces) of multi-agent
-LLM systems. Neither stream has been integrated as a **runtime discipline**
+Cemri et al. (2025), who derived a 14-mode taxonomy from 150 seed traces
+of multi-agent LLM systems (inter-annotator agreement κ=0.88) and released
+a corpus of 1,600+ annotated traces. Neither stream has been integrated as a **runtime discipline**
 that a coding agent can be made to follow on every non-trivial task.
 
 This paper reports on **Anticipating Shadow Points (ASP)**, a 13-phase
@@ -183,8 +182,9 @@ The pre-mortem technique asks a team to imagine, before commitment, that
 a project has already failed catastrophically, and to enumerate causes.
 The empirical basis is Mitchell, Russo and Pennington (1989), who showed
 that imagining a future event as certain (rather than uncertain) yields
-explanations that are longer, more episodic, and more numerous —
-specifically, approximately 30% more reasons than the uncertain framing.
+explanations that are longer and more episodic; Klein (2007) summarises
+the effect as about a 30% gain in correctly identifying reasons for a future
+outcome.
 Klein (2007) operationalized the finding as the project-team "pre-mortem"
 and the technique has been standard in decision-science and
 project-management practice since. To our knowledge, it has not previously
@@ -610,12 +610,8 @@ blind by independent engineers, is specified in the repository's
 
 ![Figure 2. Instrument check: each author-constructed GREEN fixture scored against every task's expected list. Not an effect of ASP.](../output/figures/fig2_adjudicator_fixture_check.png)
 
-The component that *appears* most load-bearing, on qualitative inspection,
-is the MAST 14-mode forced enumeration: free-form pre-mortem alone clustered
-on obvious risk categories (data, integration) and underweighted
-less-salient categories (time/timezone, observability, operational
-excellence, contract drift). This is a hypothesis, not a formal ablation
-(Section 8).
+Which component would matter most, if ASP has an effect, is discussed as a
+hypothesis in Section 6.
 
 ### 5.4 The `claude -p` exit-code finding
 
@@ -632,7 +628,7 @@ skill.
 This finding is observationally significant for any toolchain that wraps
 `claude -p` in a shell pipeline. Because the observation was from a
 single refusal scenario in our own battery, we **characterise it
-independently** in the companion paper Flores (2026b), which reports an N=50 measurement across four categories of refusal-provoking prompt (impossible-in-one-turn, capability, safety, ambiguity) on Claude Code 2.1.200 in July 2026. The session model was Fable 5; Opus 4.8 answered 16 of the 50 prompts, including all 12 safety prompts, after an automatic hand-off. Twenty-four trials exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were graceful declines: 24% to 40% of the suite depending on how a decline is counted (40%, 95% Wilson CI 28–54%, under the author's label; 38% under a blind five-rater codebook majority; with an 18% floor from an English-only phrase detector). A human second rater and a pre-registered third snapshot are the open follow-ups.
+independently** in the companion paper Flores (2026b), which reports an N=50 measurement across four categories of refusal-provoking prompt (impossible-in-one-turn, capability, safety, ambiguity) on Claude Code 2.1.200 in July 2026. The session model was Fable 5; Opus 4.8 answered 16 of the 50 prompts, including all 12 safety prompts, after an automatic hand-off. Twenty-four trials exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were graceful declines: 24% to 40% of the suite depending on how a decline is counted (40%, 95% Wilson CI 28–54%, under the author's label; 38% under a blind five-rater codebook majority; with an 18% floor from an English-only phrase detector). An earlier snapshot (May 2026, Claude Code 2.1.143, Opus 4.7) read 60% under the same detector, on a different model and reply language. A human second rater and a third snapshot under a drafted pre-registration are the open follow-ups.
 
 ---
 
@@ -643,7 +639,10 @@ measured (Section 5); each is stated as a hypothesis with the observation
 that motivated it.
 
 **Hypothesis: a forced taxonomy surfaces more than free-form pre-mortem.**
-No dispatch tested free-form pre-mortem as a condition (RED had no framework
+In the author's drafts, free-form pre-mortem clustered on obvious risk
+categories (data, integration) and underweighted less-salient ones
+(time/timezone, observability, operational excellence, contract drift). No
+dispatch tested free-form pre-mortem as a condition (RED had no framework
 at all), so this rests on the author's reading of drafts. The
 free-form prompt ("imagine the task has failed in 30 days; list 10+
 causes") is necessary but not sufficient. The MAST 14-mode interrogation
@@ -690,7 +689,7 @@ expected lists themselves are biased toward what ASP surfaces. **Blind
 re-authoring by independent reviewers is the strongest follow-up.**
 
 **Internal validity.** With one dispatch per cell, GREEN on five tasks and
-RED on three, the evaluation documents only that the protocol can change
+RED on three, the evaluation at most suggests that the protocol can change
 the transcripts on these cases; it is *not* sufficient to estimate an
 effect size, establish causality, or support statistical inference, and
 no statistical test is reported. No formal
@@ -725,8 +724,9 @@ one-to-one. The highest-priority follow-ups, in order, are:
    inter-adjudicator agreement; re-measure coverage.
 2. **Formal ablation** of the load-bearing hypothesis: MAST checklist
    on/off (testing the hypothesis of §6), validator prompt isolation on/off, Phase 0a
-   intake on/off. Sample sizes are to be set by a power analysis in the
-   pre-registration; Protocol 2 starts with 8 replicates per cell.
+   intake on/off. No ablation protocol exists yet; Protocol 2 of
+   `PREREGISTRATION.md` covers only RED vs GREEN, at 8 replicates per cell
+   with a fixed budget rather than a power analysis.
 3. **A human second rater and a third `claude -p` snapshot** for the
    companion finding (Flores, 2026b, §7), the latter under Protocol 1 of
    `PREREGISTRATION.md`.
@@ -757,9 +757,9 @@ integrating Mitchell, Russo and Pennington's (1989) prospective hindsight
 finding, Klein's (2007) pre-mortem operationalisation, and Cemri et al.'s
 (2025) MAST 14-mode failure taxonomy as runtime discipline under a
 contract of twelve Iron Laws. The skill ships open source with three
-install paths. On five preliminary engineering evaluations the author observed, without
-blinding and on transcripts that were not preserved, that the assisted plans
-covered more of the expected failure modes; no effect has been measured.
+install paths. On the three tasks run in both conditions the author observed,
+without blinding and on transcripts that were not preserved, that the
+assisted plans covered more of the expected failure modes; no effect has been measured.
 The deterministic adjudicator shipped with the skill has been validated only
 on constructed fixtures, where it discriminates task-specific vocabulary; a
 real-mode run with independently authored lists, drafted for
@@ -870,14 +870,15 @@ body for readability.
 | **[O]** | Author's operationalisation; not present verbatim in any cited paper. |
 
 The references present in version 1.0 were verified by direct URL fetch on
-2026-05-17; references added in version 2.0 (Flores, 2026b; the
-classical-lineage entries of Section 2.5 added in July 2026) were checked
-when added, and version 2.0 corrected two venue lines (Tyen et al., 2024;
+2026-05-17; references added in the July 2026 revision (Flores, 2026b; the
+classical-lineage entries of Section 2.5) were checked when added, and
+version 2.0 (2026-11) corrected two venue lines (Tyen et al., 2024;
 Yao et al., 2023). The MAST 14-mode names are quoted verbatim from
 Cemri et al. (2025) and listed in the companion skill file
 `skills/anticipating-shadow-points/mast-checklist.md`. Mitchell et al.
-(1989) is the primary source for the ≈30% effect of prospective
-hindsight; Klein (2007) is the operational recipe.
+(1989) is the primary study of prospective hindsight; the ≈30% figure is
+Klein's (2007) summary of it, which we could not re-derive from the 1989
+paper, and Klein (2007) is also the operational recipe.
 
 The eight references introduced in §2.5 (Avizienis et al., 2004;
 International Electrotechnical Commission [IEC 60812:2018], 2018; IEEE
@@ -911,7 +912,7 @@ benchmark package in `benchmark/` provides:
   byte-level drift;
 - 27 unit tests pinning the determinism contract.
 
-**Reproducing every number in Section 5 (no model calls).** From a clone
+**Reproducing every number in Sections 5.3–5.4 (no model calls).** From a clone
 of the repository, `python run_all.py` re-scores the author-constructed
 fixtures of the mock benchmark run with the shipped adjudicator, recomputes
 the discrimination matrix, regenerates Figure 2, asserts each number
@@ -953,6 +954,6 @@ Italian.
 © 2026 Carlos Ulisses Flores · Codex Hash Research Laboratory · São Paulo, Brazil
 Paper text licensed under CC BY 4.0 · Companion software licensed under MIT
 
-*End of whitepaper. References: 28 primary entries (spanning 1980–2026)
-+ 3 documentation entries. Word count: approximately 5,500 words
+*End of whitepaper. References: 28 entries (26 primary sources and 2
+Anthropic documentation pages, spanning 1980–2026). Word count: approximately 5,500 words
 excluding tables, code blocks, and appendices.*

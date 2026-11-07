@@ -233,7 +233,7 @@ attribution is a hypothesis; a real-mode benchmark and a formal ablation
 
 - **Mitchell, Russo & Pennington (1989)** — *Back to the Future: Temporal
   Perspective in the Explanation of Events*, J. Behavioral Decision Making
-  2(1), 25–38. Empirical source for the ~30% effect of prospective hindsight.
+  2(1), 25–38. Primary study of prospective hindsight; the ~30% figure is Klein's (2007) summary of it.
 - **Klein (2007)** — *Performing a Project Premortem*, Harvard Business
   Review 85(9). Operational recipe building on Mitchell et al. 1989.
 - **Cemri et al. (2025)** — *Why Do Multi-Agent LLM Systems Fail?* MAST
