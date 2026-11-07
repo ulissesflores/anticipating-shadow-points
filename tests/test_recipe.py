@@ -99,10 +99,23 @@ def test_recipe_on_july_extract(tmp_path):
         ({"type": "result", "stop_reason": "end_turn", "result": "Done."}, 0, 0),
         ({"type": "result", "stop_reason": "end_turn", "result": "ok"}, 2, 1),
         ({"type": "result", "stop_reason": "pause_turn", "result": "..."}, 0, 6),
+        (
+            [
+                {"type": "system", "subtype": "init"},
+                {"type": "result", "stop_reason": "end_turn", "result": "I won't do this."},
+            ],
+            0,
+            2,
+        ),
+        (
+            [{"type": "system"}, {"type": "result", "terminal_reason": "max_turns"}],
+            1,
+            3,
+        ),
     ],
 )
 def test_recipe_edge_cases(tmp_path, envelope, rc, expected):
-    """No result event fails, a clean delivery passes, other exits and stop reasons fail."""
+    """No result event fails, a delivery passes, arrays are read, other exits and reasons fail."""
     script = tmp_path / "recipe.sh"
     script.write_text(recipe(), encoding="utf-8")
     (tmp_path / "out.json").write_text(json.dumps(envelope), encoding="utf-8")

@@ -50,6 +50,6 @@ The skill's load-bearing component (confirmed via REFACTOR analysis K8) is the *
 
 ## Conclusion
 
-All 5 evals pass with ≥80% coverage. The skill's GREEN behavior is reproducibly better than RED baseline. Iron Law compliance verified. recall.py integration verified empirically (L5).
+All 5 evals pass with ≥80% coverage. The skill's GREEN behavior is reproducibly better than RED baseline [withdrawn in v2.0; see the note at the top]. Iron Law compliance verified. recall.py integration verified empirically (L5).
 
 Phase L complete. Ready for Phase M (demo renderings) and Phase N (install + smoke).

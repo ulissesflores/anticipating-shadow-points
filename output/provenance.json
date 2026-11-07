@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "ff2e79176e62451fd30f880467661b29edd2a22441638e0210143b0468d4d5bc",
+  "chain_hash": "e6505b659eaddf507cfe00d8a4637c4403db9ccdb94e2bb0dad4614c4686845e",
   "informational_not_hashed": {
     "files": [
       {
@@ -40,7 +40,7 @@
         },
         {
           "path": "analysis/results.py",
-          "sha256": "44f1fbb9c5ca00febf4c7167f4be0ac887cbd1f60c70cf04f5bbedd63fcabeb0"
+          "sha256": "e7f39d0cdde106e92cf98f614c7b3504b167d4d07983217bf1eea538cd7c5794"
         },
         {
           "path": "benchmark/src/asp_benchmark/__init__.py",
@@ -95,13 +95,13 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "138feec1aa531c49cbb5fbd2fcbd6f853c454b39cda56d601b01ab0adb70ac7b"
+      "leaf_sha256": "9519c625f1c309d5b84380663f6985f63c28f240eaed9e842795bf90b01fa542"
     },
     "data": {
       "files": [
         {
           "path": "PREREGISTRATION.md",
-          "sha256": "58f11d5098aeace9a88bc1230b65c21319e9d1d2a079c744b13f200a51faf4b1"
+          "sha256": "dde773716e9a3627b7284a19611bb781bbdf91d825744ef93c0119aa011353ae"
         },
         {
           "path": "data/README.md",
@@ -124,7 +124,7 @@
           "sha256": "092db9db9fb8f11236e4c91d03a0660d22fd983506f0c353053966362ef90624"
         }
       ],
-      "leaf_sha256": "4673fee6ba24a61f2f6026d7ee6e9e088d6a30afe7ba6ba8119185ac739015a4"
+      "leaf_sha256": "f60b5954e090270ffac916998f419365c71abfb468001b8ea444f6af98d81e37"
     },
     "frozen_inputs": {
       "files": [
@@ -1784,14 +1784,14 @@
         },
         {
           "path": "tests/test_paper_text.py",
-          "sha256": "3554a66d94e9fbc392c59c87dd6fb30dfc422cb97e99d97aa804b49a431c873b"
+          "sha256": "04472353b7ea9f4fcdabf9a2c6e85db39b5607c8f0c728ae641fc2b40c224a2c"
         },
         {
           "path": "tests/test_recipe.py",
-          "sha256": "0f142c44ad80f57d609fa5554af2b01e43016e37852ccd4e54fac73a3f78546f"
+          "sha256": "fe7f92c4cf10fa729f830599a8e84dbe3bc4e700fe83c72ea61470310fa75a16"
         }
       ],
-      "leaf_sha256": "c56d327f0f5cdacba254738f50564aabb64d03c9db2c4fe12658735bb7e61d2a"
+      "leaf_sha256": "c7a80a43572339c4868bd03e3a6ae3a7693613d04649205d0e39a0fc36b628f5"
     }
   },
   "schema": 1

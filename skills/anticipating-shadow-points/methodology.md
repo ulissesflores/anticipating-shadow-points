@@ -67,7 +67,7 @@ ASP's pre-mortem prompts per mode are the author's operationalization.
 this mode apply to my task? Specifically how?"
 
 `mast-checklist.md` has the verbatim Cemri et al. (2025) definition for
-each mode plus a per-mode pre-mortem prompt (ASP author's [O]) and a
+each mode plus a per-mode pre-mortem prompt (the ASP author's operationalisation) and a
 default mitigation that maps to one of the Iron Laws.
 
 **Note**: Earlier drafts of this document used invented mode names. The

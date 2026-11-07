@@ -15,10 +15,11 @@ abstract: >-
   series document the system and an empirical characterisation of `claude -p`
   exit-code semantics under graceful refusal: over an adversarial N=50 suite on
   Claude Code 2.1.200 (session model Fable 5; the safety prompts were answered
-  by Opus 4.8), 12-20 of 50 declines exited 0 (24-40% depending on how a
-  decline is counted; 18% under the locked phrase detector). A dated,
+  by Opus 4.8), 24 of 50 trials exited 0 and 12 to 20 of those were
+  declines (24-40% of the suite depending on how a decline is counted; 18%
+  under the locked phrase detector). A dated,
   single-rater snapshot against a non-deterministic target, not a stable
-  constant. Every measured number is re-derived by run_all.py and sealed under a SHA-256
+  constant. Every number computed from the data is re-derived by run_all.py and sealed under a SHA-256
   chain hash. Multilingual docs (EN/PT-BR/ES/IT/HE). MIT (software) + CC BY 4.0
   (papers, figures, data).
 type: software

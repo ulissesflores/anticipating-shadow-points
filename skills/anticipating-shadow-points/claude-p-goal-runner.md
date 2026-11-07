@@ -117,7 +117,7 @@ For long-running goals (>10 min), parent can opt to `tail -f exec.json` via Moni
 
 ```bash
 # Pre-condition: exec.json exists and child has exited (verified via Monitor)
-# The result event: a single object by default, the last "result" event of an array with --verbose.
+# The result event: a single object or the last "result" event of an array (it varies by CLI version).
 RESULT="$(jq -c 'if type=="array" then (map(select(.type=="result")) | last) else . end' "$RUNTIME_DIR/exec.json")"
 
 # CRITICAL: do NOT use $? to determine semantic success.
@@ -135,9 +135,11 @@ DENIALS="$(echo "$RESULT" | jq -r '(.permission_denials // []) | length')"
 DECLINED=false
 grep -qiE "i (can't|cannot|won't|am unable)|não (vou|posso|dá)" <<<"$FINAL_TEXT" && DECLINED=true
 # The status a reader of state.json sees: never "completed" for an error, a refusal, a cap or a likely decline.
+# Caps carry is_error: true too, so test refusals and caps before the generic error case.
 case "$IS_ERR:$STOP:$DECLINED" in
-  true:*|*:refusal:*|*:error:*) STATUS=failed ;;
+  *:refusal:*) STATUS=failed ;;
   *:max_turns*|*:max_budget*|*:true) STATUS=halted ;;
+  true:*|*:error:*) STATUS=failed ;;
   *) STATUS=completed ;;
 esac
 

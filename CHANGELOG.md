@@ -85,8 +85,8 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   and README.
 
 ### Planned
-- Notify Anthropic regarding the silent-refusal finding (per Paper 2
-  §10.5–10.8); propose `--exit-on-refusal` flag or `semantic_success`
+- Notify Anthropic regarding the silent-refusal finding (per the Iron Law 11 note's
+  §3.1 decision rule); propose `--exit-on-refusal` flag or `semantic_success`
   JSON field.
 - Replicate Paper 2 protocol under Claude Sonnet 4.6 and one open-weight
   model to test cross-model transfer.

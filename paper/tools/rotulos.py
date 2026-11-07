@@ -4,7 +4,7 @@
 Edição inglesa (`en`) reproduz byte a byte os literais que o exportador tinha antes desta tabela; as outras três
 (`pt-BR`, `es`, `it`) são as edições traduzidas. A edição traduzida leva o resumo no idioma dela e o Abstract em
 inglês (espelho literal do `paper/<nome>.md`); a camada i18n do canon
-(/Users/ulissesflores/Developer/research-lab/metodo/templates/codex-hash-canon.json) fixa a ordem e as quebras de
+(research-lab `metodo/templates/codex-hash-canon.json`, the Codex Hash house norm) fixa a ordem e as quebras de
 página: pt-BR = 4 (Resumo, Abstract, 1., Referências), es/it = 3 (resumo local, 1., Referências; o Abstract vem logo
 depois do resumo local, sem quebra, como o Resumo na edição inglesa).
 

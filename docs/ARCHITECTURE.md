@@ -292,7 +292,7 @@ The empirical test battery is the most important contribution of this project. I
 
 **Exit code**: **`0`**.
 **JSON `is_error`**: `false`.
-**JSON `terminal_reason`**: `end_turn`.
+**JSON `terminal_reason`**: `completed` (with `stop_reason: end_turn`).
 
 **This is the finding**. The CLI binary exited successfully even though the agent semantically refused the task. **Naive scripts that do `claude -p ... || handle_error` will misroute in production.**
 
@@ -300,20 +300,7 @@ The empirical test battery is the most important contribution of this project. I
 - Iron Law 11: NEVER trust `$?` from `claude -p` for semantic success/failure. Parse `is_error` + `terminal_reason` + `stop_reason` from JSON output.
 - Iron Law 12: ALL `claude -p` invocations MUST use `--output-format json` or `--output-format stream-json`. Plain text breaks Iron Law 11.
 
-**Recipe** (canonical, documented in `skill/claude-p-goal-runner.md`):
-
-```bash
-RESULT="$(cat exec.json)"
-IS_ERR="$(echo "$RESULT" | jq -r '.is_error // false')"
-STOP="$(echo "$RESULT" | jq -r '.terminal_reason // .stop_reason // "unknown"')"
-COST="$(echo "$RESULT" | jq -r '.total_cost_usd // 0')"
-case "$STOP" in
-  "end_turn"|"completed") echo "child completed normally" ;;
-  "max_turns_exceeded")   echo "child hit turn cap" ;;
-  "max_budget_exceeded")  echo "child hit budget cap" ;;
-  *) echo "unexpected: $STOP" ;;
-esac
-```
+**Recipe.** The May 2026 recipe that stood here read `terminal_reason` first and so routed a refusal as success. The current recipe, which reads `stop_reason: refusal` and caps before `terminal_reason: completed` and handles an event array, is `paper/iron-law-11.md` §6, tested on 50 envelopes by `tests/test_recipe.py`, and is mirrored in `skills/anticipating-shadow-points/claude-p-goal-runner.md` §4.
 
 ### 4.4 Test D — stream-json events
 
@@ -439,9 +426,9 @@ Each Iron Law maps to either a paper, a finding, or an incident in this project'
 | # | Law | Derived From |
 |---|---|---|
 | 1 | NO IMPLEMENTATION WITHOUT SHADOW-POINT PASS FIRST | Klein pre-mortem + MAST + ASP's core thesis |
-| 2 | NO PLAN APPROVAL WITHOUT INDEPENDENT VALIDATOR PASS (separate prompt) | Huang+24 (ICLR) + Tyen+24 (localization) + Zheng+23 (self-enhancement bias) |
+| 2 | NO PLAN APPROVAL WITHOUT INDEPENDENT VALIDATOR PASS (separate prompt) | Huang+24 (ICLR) + Tyen+24 (localization) + Zheng+23 (self-enhancement bias); mitigates MAST FM-3.3 |
 | 3 | NO MICRO-TODO WITHOUT MACRO PLAN + CHARTER + DELIVERABLES APPROVED BY USER | Anthropic Plan-Validate-Execute (verifiable intermediate outputs) |
-| 4 | NO STEP COMPLETION WITHOUT FRESH ACCEPTANCE-TEST EVIDENCE | MAST FM-3.2 (no or incomplete verification) + verification-before-completion skill |
+| 4 | NO STEP COMPLETION WITHOUT FRESH ACCEPTANCE-TEST EVIDENCE | MAST FM-3.1 + FM-3.2 + FM-2.6 + verification-before-completion skill |
 | 5 | NO DELIVERABLE `aceito` WITHOUT EVIDENCE FILE/OUTPUT MATCHED | MAST FM-3.1 (premature termination) |
 | 6 | NO PROJECT CLOSE WITHOUT EXECUTION REPORT + MEMORY WRITE-BACK | User's CLAUDE.md mandate (memory_reflect/learn) + Anthropic best-practice on closing artifacts |
 | 7 | NO LOOP WITHOUT CAP | MAST FM-1.5 (unaware of termination conditions) — concrete: cap=3 rounds validator |
@@ -481,7 +468,7 @@ Combining all three in a single skill, with concrete artifacts (project-charter,
 
 ### 8.6 Empirical TDD-for-skills with RED-GREEN-REFACTOR baseline + 5 evals
 
-The `tests/baseline-pressure-tests.md` artifact captures the RED phase with subagent IDs and verbatim violations. The GREEN phase re-runs were read by the author on the chosen tasks; their transcripts were not preserved. The shipped deterministic adjudicator has only been run on author-written fixtures (a mock run), which exercises the instrument but measures nothing about ASP (whitepaper v2.1, §5.3). The 5 evals provide a reusable measurement framework. The evaluation is preliminary — five tasks, one dispatch per condition, single model, non-blind author-adjudication — and is stated as such in the whitepaper's threats-to-validity section; it is an observation, not a measured direction or effect size.
+The `tests/baseline-pressure-tests.md` artifact captures the RED phase with subagent IDs and verbatim violations. The GREEN phase re-runs were read by the author on the chosen tasks; their transcripts were not preserved. The shipped deterministic adjudicator has only been run on author-written fixtures (a mock run), which exercises the instrument but measures nothing about ASP (whitepaper v2.1, §5.3). The 5 evals provide a reusable measurement framework. The evaluation is preliminary — five tasks for GREEN and three for RED, one dispatch per condition, single model, non-blind author-adjudication — and is stated as such in the whitepaper's threats-to-validity section; it is an observation, not a measured direction or effect size.
 
 ### 8.7 Triple-distribution: plugin marketplace + `--plugin-dir` dev mode + standalone install.sh (v0.2.0)
 

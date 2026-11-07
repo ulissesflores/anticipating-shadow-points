@@ -70,7 +70,7 @@ A new run produces a new dated snapshot. Report it next to the old one; never re
 - **The July 2026 prompts were not captured in the envelope.** Trials carry the same scenario ids as the locked suite in `tests/iron-law-11/scenarios/`; the text sent is inferred from the id, not recorded.
 - **The benchmark has no model evidence.** Its one published run is a mock run: the RED and GREEN texts are fixtures written to exercise the matcher (`benchmark/PROTOCOL.md`, section 8). The author's May 2026 reading of real subagent plans survives only as a summary in `tests/evals-summary.md`; those transcripts were not preserved.
 - **The frozen May 2026 runs keep machine-local paths.** `tests/iron-law-11/runs/published/` and `benchmark/runs/published/` were published unredacted in v1.0.x and are sealed: their envelopes carry the author's home-folder path, the plugin cache path and the list of installed skills. They are left byte-identical, because editing them would break the seal and the published DOI copies; only the July 2026 data, published for the first time in v2.0.0, is redacted.
-- **Environment contamination.** The July 2026 run executed inside the author's own Claude Code setup, with his global instructions loaded; two replies refer to that setup. The May 2026 run executed in the repository's test folder with the plugin installed. Neither is a clean-room environment.
+- **Environment contamination.** The July 2026 run executed inside the author's own Claude Code setup, with his global instructions loaded; nine of the 24 exit-0 replies refer to that setup (`paper/iron-law-11.md` §3.3). The May 2026 run executed in the repository's test folder with the plugin installed. Neither is a clean-room environment.
 
 ## Determinism
 

@@ -128,3 +128,16 @@ def test_iron_law_11_quotes_secondary_counts(results):
     cm = results["iron_law_11"]["may_2026"]["lock_file_confusion"]
     assert f"{cm['false_alarm']} false alarms are {cm['false_alarm_turn_cap']} turn-cap" in note
     assert f"precision {cm['precision']:.2f}, recall {cm['recall']:.2f}" in note
+
+
+def test_iron_law_11_quotes_shares_and_conditional_rates(results):
+    """Binary bits, May's Wilson interval and the decline share among exit-0 trials match."""
+    note = text("iron-law-11.md")
+    jul = results["iron_law_11"]["july_2026"]
+    d = jul["outcome_information"]["author"]["delivered"]
+    assert f"{d['exit_code']['bits']:.2f} of {d['entropy_bits']:.2f} bits" in note
+    lo, hi = results["iron_law_11"]["may_2026"]["detector_silent_refusals"]["wilson95"]
+    assert f"{round(lo * 100)}–{round(hi * 100)}%" in note
+    for key in ("author", "codebook", "core"):
+        k, n = map(int, jul["declines_given_exit0"][key].split("/"))
+        assert f"({round(100 * k / n)}%)" in note

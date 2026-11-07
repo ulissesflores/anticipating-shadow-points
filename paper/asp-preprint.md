@@ -40,9 +40,10 @@ they show specificity, not recall — and nothing more, so we report no measured
 the result that would show one: in a real-mode benchmark with independently
 authored, blind expected lists and eight replicates per task and condition,
 ASP shows a measured benefit if the assisted condition's mean coverage beats
-the unassisted one on all five tasks with a permutation p < 0.05
-(stratified by task), no measurable benefit if it fails to beat it on three or more, and an
-inconclusive result otherwise. The protocol is drafted and not yet deposited. A separate empirical finding on `claude -p` exit-code semantics
+the unassisted one on all five tasks and a one-sided permutation test on
+the mean per-task difference, stratified by task, gives p < 0.05; no
+measurable benefit if it fails to beat it on three or more; inconclusive
+otherwise; and incomplete if the budget stops collection early. The protocol is drafted and not yet deposited. A separate empirical finding on `claude -p` exit-code semantics
 under graceful agent refusal is characterised in a companion paper.
 
 **Keywords:** llm coding agents; pre-mortem; multi-agent failure modes;
@@ -73,9 +74,11 @@ instrumento — mostram especificidade, não sensibilidade — e nada mais, por 
 Fixamos de antemão o resultado que mostraria um: num benchmark em modo real,
 com listas esperadas escritas por revisores independentes e cegos e oito
 réplicas por tarefa e condição, o ASP mostra benefício medido se a cobertura
-média da condição assistida superar a da não assistida nas cinco tarefas com
-p < 0,05 num teste de permutação estratificado por tarefa, nenhum benefício mensurável se
-não a superar em três ou mais, e resultado inconclusivo nos demais casos. O
+média da condição assistida superar a da não assistida nas cinco tarefas e
+um teste de permutação unilateral sobre a diferença média por tarefa,
+estratificado por tarefa, der p < 0,05; nenhum benefício mensurável se não a
+superar em três ou mais; inconclusivo nos demais casos; e incompleto se o
+orçamento interromper a coleta. O
 protocolo está redigido e ainda não foi depositado. Um achado
 empírico separado, sobre a semântica do código de saída do `claude -p` quando
 o agente recusa com educação, é caracterizado num artigo complementar.
@@ -131,12 +134,12 @@ validation under strict prompt isolation, and hands execution to a
 child subprocess with a file-based contract. We deployed the skill,
 distributed it through three install paths (plugin marketplace, dev mode,
 standalone script), ran it through five engineering evaluations, and
-report what we learned. The evaluation is preliminary and, as corrected in
+report the design and what the evaluations can and cannot show. The evaluation is preliminary and, as corrected in
 this version, unmeasured: GREEN on five tasks and RED on three, one dispatch
 each, a single
 model, read by the author without blinding, with the raw transcripts not
-preserved. We report it as qualitative observation about which design
-choices appear load-bearing, not as an effect.
+preserved. We report it as qualitative observation; the five design choices
+we treat as hypotheses are in Section 6.
 
 ### 1.1. Contributions
 
@@ -152,7 +155,7 @@ This experience report contributes:
    prompt-level instructions the agent is told to follow.
 3. **Preliminary, qualitative observations** from five engineering
    evaluations, and a deterministic adjudicator with cryptographic
-   provenance, validated on constructed fixtures and ready to score real
+   provenance, exercised on constructed fixtures and ready to score real
    transcripts without trusting the author's adjudication (the expected
    lists are still the author's, and the optional synonym sidecar is not
    provided for any task).
@@ -335,10 +338,11 @@ LLM plan, and the enumeration is run by a validator that does not share the
 planner's context (§2.3).
 
 **Mistake-proofing.** A subset of the Iron Laws (§3.3) are poka-yoke
-(Shingo, 1986) at the protocol level: Iron Law 9's `ASP_IN_GOAL`
-env-guard blocks reentrant recursion by default, and Iron Laws 10 and 12
-make a file-based contract and JSON output mandatory rather than optional.
-We claim no more than a subset. These are runtime guards, not the
+(Shingo, 1986) at the protocol level: the runner template in
+`claude-p-goal-runner.md` sets `ASP_IN_GOAL` for the child and always passes
+`--output-format json` (Iron Laws 9 and 12); Iron Law 10's file-based
+contract is an instruction. These checks live in a Bash template the agent
+is told to run, not in a hook outside the agent's control, and they are not the
 physical impossibility of true poka-yoke — an environment flag can be
 unset or fail to propagate — and the remaining laws are honestly
 procedural gates (Iron Laws 1, 2, 4, 5) or verification rules that still
@@ -425,7 +429,7 @@ subprocess with a file-based contract (Phase 9).
 | 3 | Project Charter | Filled charter | Durable artifact-based handoff |
 | 4 | Macro plan + register | Macro plan + deliverables D01–D*n* | Plan-and-Act (Erdogan et al., 2025) |
 | 5 | Independent validator | APPROVE / REVISE | Huang et al. (2024) + Tyen et al. (2024) + Zheng et al. (2023) |
-| 6 | Internal loop (cap=3) | Final-revision plan | Bounded iteration; FM-1.5 / FM-3.1 |
+| 6 | Internal loop (cap=3) | Final-revision plan | Bounded iteration; FM-1.5 |
 | 7 | User approval | Go / no-go | Human-in-the-loop gate |
 | 8 | Micro-TODO + Goal Spec | `TaskCreate` per step + Goal Spec | Executor handoff |
 | 9 | Execution via `/goal` subprocess | Tasks marked completed with evidence | Process-level isolation; see Flores (2026c) |
@@ -614,8 +618,9 @@ the absence of the protocol.
 Under that non-blind reading, the three RED plans covered roughly 30–60% of
 their expected lists (mean near 47%, counting partial mentions as covered)
 and the GREEN plans covered all or nearly all of theirs. The committed
-summaries predate this correction and still conclude that ASP is
-"reproducibly better"; that conclusion is not supported. These figures are an author's judgement on unpreserved text, scored
+summaries, written in May 2026, conclude that ASP is "reproducibly better";
+a note added above them in version 2.0 withdraws that conclusion, which is
+not supported. These figures are an author's judgement on unpreserved text, scored
 against lists the same author wrote, with the MAST vocabulary that the
 GREEN prompt injects appearing in those lists. They are reported as
 observation, not measurement, and no number in this paragraph is asserted
@@ -641,21 +646,32 @@ the mean from 80% to 0.5% (largest off-task cell 10%; Figure 2). That is
 weaker evidence than it looks: the one off-task hit is the generic one-word
 name "Alerting", and the other cells are zero because layer 1 requires a
 whole expected name to appear verbatim. The matcher is also stricter than
-the evaluation files, which tell a human evaluator to accept paraphrases. That shows specificity, not recall: the E2 RED fixture mentions a rate
+the evaluation files, which tell a human evaluator to accept paraphrases. Recall is a separate matter, and the fixtures show a false negative: the E2 RED fixture mentions a rate
 limit, retries and logging and still scores 0/10: its best window overlap
-with "Rate-limit backoff" is a Jaccard of 0.11, below the 0.30 threshold, and
+with the expected point "Rate-limit backoff" (its name and description) is a Jaccard of 0.11, below the 0.30 threshold, and
 the matcher does no stemming ("logging" does not match "logs"). Paraphrase
 with low lexical overlap is missed. Re-scoring also exposed a defect, fixed in
 v2.0: the sliding window skipped the last few tokens of a text whose length
 did not land on the stride; re-scoring every fixture with the fix changes no
-coverage value. The matcher has not yet been
+coverage value, though the best overlap of three unmatched points rises
+slightly (E2 RED "Observability / logs" from 0.00 to 0.02), still far below
+the threshold. Layer 3 also has an arithmetic ceiling: Jaccard divides by
+the union, and a 40-token window of the fixtures holds 27 to 40 distinct
+content words (median 36); in any window with 34 or more, an expected point
+with ten or fewer distinct tokens cannot reach 0.30 even if the plan repeats
+all of them, and 19 of the 50 expected points are that short. The real-mode protocol therefore changes layer 3 before
+deposit (`PREREGISTRATION.md`). The matcher has not yet been
 applied to any real transcript. The real-mode protocol, with expected lists re-authored
 blind by independent engineers, is specified in the repository's
 `PREREGISTRATION.md` and has not been run. Its decision rule is fixed in
 advance: with eight replicates per task and condition (80 dispatches), a
 benefit is reported only if the assisted condition's mean coverage beats the
-unassisted one on all five tasks with a permutation p < 0.05; no measurable
-benefit if it fails to on three or more; inconclusive otherwise.
+unassisted one on all five tasks and a one-sided, task-stratified permutation
+test on the mean per-task difference (10 000 relabellings, seed
+`asp-bench-v1`) gives p < 0.05; no measurable benefit if it fails to on three
+or more; inconclusive otherwise; incomplete if the budget stops collection.
+Coverage will be reported per matcher layer, since layer 1 rewards a plan
+that reuses the expected names verbatim.
 
 ![Figure 2. Instrument check: each author-constructed GREEN fixture scored against every task's expected list. Not an effect of ASP.](../output/figures/fig2_adjudicator_fixture_check.png)
 
@@ -679,7 +695,7 @@ paper tests.
 This finding is observationally significant for any toolchain that wraps
 `claude -p` in a shell pipeline. Because the observation was from a
 single refusal scenario in our own battery, we **characterise it
-independently** in the companion paper Flores (2026c), which reports an N=50 measurement across four categories of refusal-provoking prompt (impossible-in-one-turn, capability, safety, ambiguity) on Claude Code 2.1.200 in July 2026. The session model was Fable 5; Opus 4.8 answered 16 of the 50 prompts, including all 12 safety prompts — consistent with an automatic fallback hand-off, although the envelopes record which model answered, not why. Twenty-four trials exited 0, all with `stop_reason: end_turn`. The companion paper counts the declines among them four ways: 20 (40%, 95% Wilson CI 28–54%) under the author's non-blind label; 19 (38%) under the majority of a codebook, written after the author had read the replies, and applied by five LLM raters, four of which returned identical labels; 12 (24%) counting only the safety and destructive-command refusals and excluding the eight reasoned declines of impossible-in-one-turn tasks; and 9 (18%) under the locked English-only phrase detector, which misses the replies written in Portuguese. An earlier snapshot (May 2026, Claude Code 2.1.143, Opus 4.7) read 60% under the same detector, on a different model and reply language. A human second rater and a third snapshot under a drafted pre-registration are the open follow-ups.
+independently** in the companion paper Flores (2026c), which reports an N=50 measurement across four categories of refusal-provoking prompt (impossible-in-one-turn, capability, safety, ambiguity) on Claude Code 2.1.200 in July 2026. The session model was Fable 5; Opus 4.8 answered 16 of the 50 prompts, including all 12 safety prompts — consistent with an automatic fallback hand-off, although the envelopes record which model answered, not why. Twenty-four trials exited 0, all with `stop_reason: end_turn`. The companion paper counts the declines among them four ways: 20 (40%, 95% Wilson CI 28–54%) under the author's non-blind label; 19 (38%) under the majority of a codebook, written after the author had read the replies, and applied by five LLM raters, four of which returned identical labels, all of the lineage of the model under test, so the majority is a codebook check, not an inter-rater agreement estimate; 12 (24%) counting only the safety and destructive-command refusals and excluding the eight reasoned declines of impossible-in-one-turn tasks; and 9 (18%) under the locked English-only phrase detector, which misses the replies written in Portuguese. An earlier snapshot (May 2026, Claude Code 2.1.143, Opus 4.7) read 60% under the same detector, on a different model and reply language. A human second rater and a third snapshot under a drafted pre-registration are the open follow-ups.
 
 ---
 
@@ -782,7 +798,7 @@ one-to-one. The highest-priority follow-ups, in order, are:
    `PREREGISTRATION.md` covers only RED vs GREEN, at 8 replicates per cell
    with a fixed budget rather than a power analysis.
 3. **A human second rater and a third `claude -p` snapshot** for the
-   companion finding (Flores, 2026c, §7), the latter under Protocol 1 of
+   companion finding (Flores, 2026c, §8), the latter under Protocol 1 of
    `PREREGISTRATION.md`.
 4. **Cross-model evaluation.** Re-run on Claude Sonnet, GPT-5, Gemini
    2.5, and an open-weight model.
@@ -814,7 +830,7 @@ contract of twelve Iron Laws. The skill ships open source with three
 install paths. On the three tasks run in both conditions the author observed,
 without blinding and on transcripts that were not preserved, that the
 assisted plans covered more of the expected failure modes; no effect has been measured.
-The deterministic adjudicator shipped with the skill has been validated only
+The deterministic adjudicator shipped with the skill has been exercised only
 on constructed fixtures, where it separates whole expected names but has no
 measured recall; a
 real-mode run with independently authored lists, drafted for
@@ -972,7 +988,7 @@ benchmark package in `benchmark/` provides:
   adjudication hashed into a Merkle-style chain);
 - a `verify` subcommand that re-walks a run directory and reports any
   byte-level drift;
-- 27 unit tests pinning the determinism contract.
+- 31 unit tests pinning the determinism contract and the reply parser.
 
 **Reproducing every number in Sections 5.3–5.4 (no model calls).** From a clone
 of the repository, `python run_all.py` re-scores the author-constructed
@@ -989,7 +1005,10 @@ model transcripts.
 **Collecting real evidence (costs model calls).** Install the benchmark
 package and run `asp-benchmark run --mode real --model <model>` followed by
 `asp-benchmark verify <run-id>`. This has not been done for any published
-number; the protocol to do it properly is in `PREREGISTRATION.md`. The protocol is specified
+number, and today's command is not yet Protocol 2: it sends a single-turn
+template rather than the shipped skill, runs one replicate per task in a
+fixed order and passes no clean-room flags. `PREREGISTRATION.md` lists the
+changes the runner and the matcher need before any dispatch. The protocol is specified
 independently of the Python implementation in `benchmark/PROTOCOL.md` so it
 can be re-implemented in another language.
 

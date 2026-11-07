@@ -9,7 +9,7 @@ Inputs are all in the repository and never change:
 * ``benchmark/runs/published/2026-05-18T00-27-43Z-b0a1bc7b`` -- a MOCK-mode run of
   the benchmark package: its RED/GREEN texts are fixtures the author wrote to
   exercise the adjudicator (``benchmark/PROTOCOL.md`` section 8), not model
-  outputs. It validates the instrument; it says nothing about ASP's effect.
+  outputs. It exercises the instrument; it says nothing about ASP's effect.
 
 The derivation is deterministic: no network, no model calls, no randomness.
 Output: ``output/results.json`` (canonical JSON, sorted keys).

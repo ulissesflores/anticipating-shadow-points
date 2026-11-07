@@ -49,7 +49,7 @@ execute. Where in the protocol could it slip into running code instead?"
 **Symptoms**: Validator starts proposing implementations. Worker subagent
 re-plans mid-execution.
 
-**Default mitigation**: Iron Law 8 (Plan-Validate-Execute separation);
+**Default mitigation**: Iron Law 3 (macro plan, charter and deliverables approved before the micro-TODO) and Iron Law 8 (evaluator dispatch at checkpoints);
 Phase-5 validator prompt explicitly restricts validator to verdict-only.
 
 ---
@@ -151,7 +151,7 @@ valuable. What tangent is tempting enough to derail focus?"
 **Symptoms**: Refactoring during a bug fix. Adding features during a
 refactor.
 
-**Default mitigation**: Iron Law 8 (Plan-Validate-Execute); micro-TODO
+**Default mitigation**: Iron Law 3 (plan approved before execution); micro-TODO
 list is the authoritative scope; Phase 10 sign-off is per declared
 deliverable only.
 

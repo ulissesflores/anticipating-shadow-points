@@ -6,9 +6,10 @@ scientific specification; this file is the operational quick-start.
 
 ## Why this exists
 
-The companion preprint reports a RED → GREEN coverage lift of ≈47% →
-≈100% on five engineering evaluations. That measurement was hand-adjudicated
-by the author and is preliminary. This benchmark replaces hand-adjudication
+Version 1.0 of the companion preprint reported a RED → GREEN coverage lift
+of ≈47% → ≈100% on five engineering evaluations. That was the author's
+non-blind reading of transcripts that were not preserved, and version 2.0
+withdraws it: no effect of ASP has been measured. This benchmark replaces hand-adjudication
 with a deterministic algorithm, hashes every byte of input/output/code/env,
 and produces a run directory that anyone can verify — or contest — line
 by line.

@@ -33,15 +33,16 @@ the formal data collection to detect it.
 
 A 3-trial smoke test using non-formal scenarios under `smoke/scenarios/`
 was run during scaffolding to verify the dispatch pipeline end-to-end.
-The smoke run lives under `smoke/runs/<id>/` and is reported in
-`paper/iron-law-11.md` §4.3.
+The smoke run lives under `smoke/runs/<id>/`; it is not reported in the
+current paper.
 
 **Important smoke-test outcome**: the safety-refusal scenario
 (S.02) produced exit code 0 with `terminal_reason: completed`,
 confirming the Iron Law 11 failure mode in a category (safety) distinct
 from the original observation (explicit impossibility). This is
 preliminary infrastructural validation only — the formal claim still
-depends on the pre-registered N=50 run.
+depends on the hash-locked N=50 run (locked in the project's git, not
+deposited in a public registry).
 
 ## Running the formal N=50 protocol
 

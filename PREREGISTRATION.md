@@ -21,7 +21,7 @@ The two earlier runs are frozen evidence, not pre-registered studies (see the sc
 
 ## Hypotheses
 
-- **H1.** Under the pinned model and `--max-turns 1`, the share of the 50 prompts that end with exit code 0 **and** a reply the locked detector flags as a refusal is at least 5%.
+- **H1.** Under the pinned model and `--max-turns 1`, the share of the 50 prompts that end with exit code 0 **and** a reply the blind two-rater codebook labels a decline (the primary `k` below) is at least 5%.
 - **H2.** Every exit-0 decline carries `stop_reason: end_turn` (no machine-readable refusal flag in the envelope).
 - **H3.** Raising the cap from 1 to 5 turns changes the exit-0 decline count (two-sided; we do not predict the direction).
 
@@ -58,7 +58,7 @@ One smoke trial with a neutral prompt must show, in its `system/init` event: no 
 | `k / 50 < 5%` | Iron Law 11 is downgraded in the skill from mandatory to advisory, and the paper reports the falsification |
 | `5% <= k / 50 <= 25%` | Iron Law 11 stays; the paper reports the rate as a defensive recommendation |
 | `k / 50 > 25%` | Iron Law 11 stays mandatory; the result is reported to Anthropic through the public issue tracker |
-| Any exit-0 decline with a non-`end_turn` stop reason | H2 is falsified for that version; the paper's section 4 is rewritten accordingly |
+| Any exit-0 decline with a non-`end_turn` stop reason | H2 is falsified for that version; `paper/iron-law-11.md` §4 is rewritten accordingly |
 
 ## What is sealed and where
 
@@ -74,14 +74,14 @@ Version 1.0 of the ASP paper reported a deterministic match of 80% (GREEN) versu
 
 1. **Blind expected lists.** Two or more engineers who have not read ASP's skill files each write, independently, the failure modes a senior engineer should surface for each of the five tasks in `skills/anticipating-shadow-points/evals/`, seeing only the INPUT statement. Their lists, and the merge rule below, are committed and hash-sealed before the first dispatch. Merge rule: an item enters the reference list if at least two reviewers name it (or, with exactly two reviewers, if either names it and the other agrees on reading it).
 2. **No vocabulary leak.** The GREEN condition loads the skill as shipped (`skills/anticipating-shadow-points/SKILL.md` and its companion files) as the system prompt; the reviewers never see it.
-4. **Runner ready.** `benchmark/src/asp_benchmark/runner.py` today sends a single-turn template, runs one replicate per task in fixed order and has no clean-room flags. Before deposit it gains: loading the shipped skill for GREEN, `--replicates 8`, a seeded order (`asp-bench-v1`), the clean-room flags of Protocol 1, and the analysis below; the change is committed and sealed before deposit.
-3. **Preserved output.** Every dispatch writes its full JSON envelope to the run directory, which the benchmark package hashes into its manifest.
+3. **Runner and matcher ready.** `benchmark/src/asp_benchmark/runner.py` today sends a single-turn template, runs one replicate per task in fixed order and has no clean-room flags. Before deposit it gains: loading the shipped skill for GREEN, `--replicates 8`, a seeded order (`asp-bench-v1`), the clean-room flags of Protocol 1, and the analysis below; and the matcher's layer 3 replaces window Jaccard, which cannot reach the 0.30 threshold for expected points with ten or fewer distinct tokens in most windows, by token recall of the expected point within the window (|E ∩ W| / |E|) at a threshold fixed in the deposit amendment; coverage is reported per layer. These changes are committed and sealed before deposit.
+4. **Preserved output.** Every dispatch writes its full JSON envelope to the run directory, which the benchmark package hashes into its manifest.
 
 ## Design
 
 | Item | Value |
 |---|---|
-| Tasks | E1–E5, INPUT statements as committed. E5 tests whether the agent consults project memory (its points 1 and 8 come from it), so its INPUT is left unchanged and its run directory instead ships a fixture memory folder with the relevant project history, which an agent finds only by looking; RED and GREEN get the same folder. The fixture is committed and sealed before deposit |
+| Tasks | E1–E5, INPUT statements as committed. E5 tests whether the agent consults project memory (its points 1 and 8 come from it), so its INPUT is left unchanged and its workspace instead ships a fixture memory folder at `.agent/memory/` with the relevant project history, which an agent finds only by looking; RED and GREEN get the same folder, and Phase 1 of the skill is extended to look for `.agent/` in the working directory as well as in the home folder. The fixture does not exist yet; it is written, committed and sealed before deposit |
 | Conditions | RED (plan as a senior engineer, no skill) and GREEN (ASP loaded) |
 | Replicates | 8 dispatches per task × condition (80 in total), order randomised with seed `asp-bench-v1` |
 | Model | Pinned with `--model`, exact id recorded in the deposit amendment; same clean-room precondition as Protocol 1 |

@@ -10,7 +10,7 @@ Stated honestly: what the next versions add, and what they still will not prove.
 - Demo recordings and figures as code; translations regenerated from the revised English.
 - Runner no longer sets a permission mode (shipped in 1.0.4).
 
-## Next: two pre-registered experiments
+## Next: two experiments, drafted and not yet deposited
 
 Both are specified in [`PREREGISTRATION.md`](PREREGISTRATION.md) and run only after the document is deposited with a public timestamp:
 
