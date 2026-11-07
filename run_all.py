@@ -1,13 +1,15 @@
 """Single entry point: results -> figures -> tests -> provenance -> verify.
 
 ``python run_all.py`` re-derives every published number from committed data,
-regenerates the figures, runs the test suite (which asserts each number the
-papers cite), rebuilds the hash seal and verifies it. It makes no network or
+regenerates the figures, runs both test suites (``tests/``, which asserts each
+number the papers compute, and ``benchmark/tests/``), rebuilds the hash seal and
+verifies it. It makes no network or
 model calls. Exit code 0 means the whole chain held.
 """
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -18,6 +20,10 @@ STEPS = [
     ("results", [sys.executable, "analysis/results.py"]),
     ("figures", [sys.executable, "analysis/make_figures.py"]),
     ("tests", [sys.executable, "-m", "pytest", "-q", "tests"]),
+    (
+        "benchmark tests",
+        [sys.executable, "-m", "pytest", "-q", "-c", "benchmark/pyproject.toml", "benchmark/tests"],
+    ),
     ("provenance", [sys.executable, "make_provenance.py"]),
     ("verify", [sys.executable, "make_provenance.py", "--verify"]),
 ]
@@ -33,7 +39,8 @@ def main() -> int:
     """
     for name, cmd in STEPS:
         print(f"== {name}: {' '.join(cmd[1:])}", flush=True)
-        code = subprocess.call(cmd, cwd=ROOT)
+        env = {**os.environ, "PYTHONPATH": str(ROOT / "benchmark" / "src")}
+        code = subprocess.call(cmd, cwd=ROOT, env=env)
         if code != 0:
             print(f"run_all FAILED at step '{name}' (exit {code})")
             return code

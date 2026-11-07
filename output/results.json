@@ -8,6 +8,8 @@
       "E4",
       "E5"
     ],
+    "expected_points": 50,
+    "expected_points_at_most_10_tokens": 19,
     "green_coverage": {
       "E1": 0.9,
       "E2": 0.6,
@@ -16,6 +18,11 @@
       "E5": 0.7
     },
     "green_mean": 0.8,
+    "layer3_window_distinct_words": {
+      "max": 40,
+      "median": 36,
+      "min": 27
+    },
     "matches_by_layer": {
       "exact_name": 42
     },
@@ -84,6 +91,20 @@
       }
     },
     "run_mode": "mock",
+    "tail_fix_moved_best_jaccard": {
+      "RED/E2/Observability / logs": [
+        0.0,
+        0.0217
+      ],
+      "RED/E3/Build / CI cache": [
+        0.0,
+        0.0222
+      ],
+      "RED/E3/Type changes": [
+        0.0455,
+        0.093
+      ]
+    },
     "texts_are": "author-constructed fixtures (benchmark/tests/fixtures/mock_runs), not model outputs"
   },
   "iron_law_11": {

@@ -141,3 +141,30 @@ def test_iron_law_11_quotes_shares_and_conditional_rates(results):
     for key in ("author", "codebook", "core"):
         k, n = map(int, jul["declines_given_exit0"][key].split("/"))
         assert f"({round(100 * k / n)}%)" in note
+
+
+def test_iron_law_11_quotes_one_decimal_shares(results):
+    """The residual and binary shares appear with one decimal, as derived."""
+    note = text("iron-law-11.md")
+    info = results["iron_law_11"]["july_2026"]["outcome_information"]
+    residual = 100 * (1 - info["author"]["exit_code_and_stop_reason"]["share"])
+    assert f"residual {residual:.1f}% of the outcome" in note
+    for labels in ("author", "codebook"):
+        share = 100 * info[labels]["delivered"]["exit_code"]["share"]
+        assert f"{share:.1f}%" in note
+
+
+def test_preprint_quotes_layer3_numbers(results):
+    """The tail-fix, window-size and short-point numbers of Section 5.3 match the data."""
+    paper = " ".join(text("asp-preprint.md").split())
+    fx = results["adjudicator_fixture_check_2026_05"]
+    moved = fx["tail_fix_moved_best_jaccard"]
+    assert {3: "three"}[len(moved)] + " unmatched points" in paper
+    before, after = moved["RED/E2/Observability / logs"]
+    assert f"from {before:.2f} to {after:.2f}" in paper
+    w = fx["layer3_window_distinct_words"]
+    assert f"{w['min']} to {w['max']} distinct content words (median {w['median']})" in paper
+    n, short = fx["expected_points"], fx["expected_points_at_most_10_tokens"]
+    assert f"{short} of the {n} expected points" in paper
+    core = results["iron_law_11"]["july_2026"]["core_silent_refusals"]
+    assert f"{core['k']} ({pct(core)})" in paper

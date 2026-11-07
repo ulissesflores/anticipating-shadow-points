@@ -351,7 +351,13 @@ def adjudicator_fixture_check() -> dict:
         GREEN-fixture x expected-list matrix and its summary.
     """
     sys.path.insert(0, str(ROOT / "benchmark" / "src"))
-    from asp_benchmark.adjudicator import adjudicate
+    from asp_benchmark.adjudicator import (
+        WINDOW_STRIDE,
+        WINDOW_TOKENS,
+        _sliding_windows,
+        _tokenize,
+        adjudicate,
+    )
     from asp_benchmark.eval_parser import parse_evals_dir
 
     specs = {s.eval_id: s for s in parse_evals_dir(EVALS)}
@@ -378,20 +384,41 @@ def adjudicator_fixture_check() -> dict:
         cond: {eid: adjudicate(specs[eid], texts[cond][eid], cond, "check").coverage for eid in ids}
         for cond in ("RED", "GREEN")
     }
-    e2_red = json.loads(
-        (BENCH_RUN / "adjudication" / "E2" / "RED.json").read_text(encoding="utf-8")
-    )
-    rate_limit_jaccard = next(
-        u["best_jaccard"] for u in e2_red["unmatched"] if u["name"] == "Rate-limit backoff"
-    )
-    layers = Counter(
-        m["matched_via"]
+    results = {
+        (cond, eid): adjudicate(specs[eid], texts[cond][eid], cond, "check")
         for cond in ("RED", "GREEN")
         for eid in ids
-        for m in json.loads(
+    }
+    layers = Counter(m.matched_via for r in results.values() for m in r.matched)
+    e2_red = {u.name: u.best_jaccard for u in results[("RED", "E2")].unmatched}
+    rate_limit_jaccard = e2_red["Rate-limit backoff"]
+    # Unmatched points whose best overlap moved when the tail-window fix landed.
+    frozen_best = {
+        (cond, eid, u["name"]): u["best_jaccard"]
+        for cond in ("RED", "GREEN")
+        for eid in ids
+        for u in json.loads(
             (BENCH_RUN / "adjudication" / eid / f"{cond}.json").read_text(encoding="utf-8")
-        )["matched"]
+        )["unmatched"]
+    }
+    moved = {
+        f"{cond}/{eid}/{u.name}": [frozen_best[(cond, eid, u.name)], u.best_jaccard]
+        for (cond, eid), r in results.items()
+        for u in r.unmatched
+        if round(u.best_jaccard, 4) != round(frozen_best[(cond, eid, u.name)], 4)
+    }
+    # Layer-3 ceiling: distinct content words per 40-token window of the fixtures,
+    # and expected points too short to reach the threshold in a window of 34+ words.
+    window_sizes = sorted(
+        len(w)
+        for cond in ("RED", "GREEN")
+        for eid in ids
+        if len(tokens := _tokenize(texts[cond][eid])) >= WINDOW_TOKENS
+        for w in _sliding_windows(tokens, WINDOW_TOKENS, WINDOW_STRIDE)
     )
+    point_sizes = [
+        len(set(_tokenize(p.text_for_matching))) for s in specs.values() for p in s.expected
+    ]
     matrix = {
         i: {j: adjudicate(specs[j], green[i], "GREEN", "perm").coverage for j in ids} for i in ids
     }
@@ -408,6 +435,14 @@ def adjudicator_fixture_check() -> dict:
         "rescored_coverage": rescored,
         "matches_by_layer": dict(sorted(layers.items())),
         "e2_red_rate_limit_best_jaccard": round(rate_limit_jaccard, 2),
+        "tail_fix_moved_best_jaccard": moved,
+        "layer3_window_distinct_words": {
+            "min": window_sizes[0],
+            "max": window_sizes[-1],
+            "median": window_sizes[len(window_sizes) // 2],
+        },
+        "expected_points": len(point_sizes),
+        "expected_points_at_most_10_tokens": sum(k <= 10 for k in point_sizes),
         "red_mean": round(sum(rescored["RED"].values()) / len(ids), 4),
         "green_mean": round(sum(rescored["GREEN"].values()) / len(ids), 4),
         "permutation_matrix": matrix,

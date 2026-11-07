@@ -6,10 +6,10 @@ ORCID: https://orcid.org/0000-0002-6034-7765 · Lattes: http://lattes.cnpq.br/69
 c.ulisses@gmail.com · https://ulissesflores.com
 
 **Whitepaper · Version 2.1 · 2026-11** *(first published 2026-05-18)*
-**DOI** https://doi.org/10.5281/zenodo.20276631 *(concept · always resolves to latest version)*
+**DOI** https://doi.org/10.5281/zenodo.20276631 *(concept · resolves to the latest deposited version)*
 **Status** Independent technical whitepaper · not under peer review
 **License** Paper text, figures and data — CC BY 4.0 · Companion software — MIT
-**Replication** Every number in Sections 5.3–5.4 is re-derived by `python run_all.py` in the companion repository and asserted by a test; see Appendix B.
+**Replication** Every number Sections 5.3–5.4 compute from the repository's data and fixtures is re-derived by `python run_all.py` in the companion repository and asserted by a test; see Appendix B.
 **Companion repository** Flores, C. U. (2026a), https://github.com/ulissesflores/anticipating-shadow-points
 **Companion whitepaper** Flores, C. U. (2026c). *Graceful Refusals as Unsignalled Failures: Characterising `claude -p` Exit-Code Semantics on Agent Declines.* See `paper/iron-law-11.md`.
 
@@ -150,9 +150,10 @@ This experience report contributes:
    implementation begins before shadow points have been surfaced.
 2. **Twelve operational constraints we call "Iron Laws"**, each tied to a
    primary literature source or to a documented design decision. Two have an
-   executable guard (Iron Law 9's environment check and Iron Law 12's
-   mandatory JSON output in the runner script); the other ten are
-   prompt-level instructions the agent is told to follow.
+   shell-level check in the runner template the agent is told to run (Iron
+   Law 12's mandatory JSON output, and Iron Law 9's `ASP_IN_GOAL` flag set for
+   the child, whose check at entry is a Bash snippet the skill tells the agent
+   to run); the other ten are prompt-level instructions.
 3. **Preliminary, qualitative observations** from five engineering
    evaluations, and a deterministic adjudicator with cryptographic
    provenance, exercised on constructed fixtures and ready to score real
@@ -475,9 +476,10 @@ contract.
 ### 3.3. Iron Laws
 
 We state twelve operational constraints and call them Iron Laws (Table 3).
-Iron Laws 9 and 12 are guarded by executable checks in the runner script;
-the others are rules the skill instructs the agent to follow, and their
-compliance has not been measured. Each is mapped to its
+Iron Laws 9 and 12 have shell-level checks in the runner template and the
+entry snippet the agent is told to run; the others are rules the skill
+instructs the agent to follow. Compliance with either kind has not been
+measured. Each is mapped to its
 derivation: a primary literature source, a documented Anthropic
 recommendation, or an empirical design decision.
 
@@ -634,8 +636,9 @@ sliding window, unmatched). On the published run every one of the 42 matches
 comes from the first layer (exact name); no synonym sidecar exists for any
 task, and the Jaccard layer never fires. Its one published run is a **mock-mode** run:
 the RED and GREEN texts are fixtures the author wrote to exercise the
-pipeline end to end (`benchmark/tests/fixtures/mock_runs/`); layers 2 and 3 are
-exercised only by the unit tests, deliberately weaker
+pipeline end to end (`benchmark/tests/fixtures/mock_runs/`); on them layers 2
+and 3 never produce a match (layer 3's overlaps are computed and stay below the
+threshold), and only the unit tests exercise a match through those layers, deliberately weaker
 for RED and deliberately aligned with the expected list for GREEN. On those
 fixtures the matcher scores RED 4% and GREEN 80% on average — a statement
 about how the fixtures were written, not about ASP.
@@ -699,7 +702,7 @@ independently** in the companion paper Flores (2026c), which reports an N=50 mea
 
 ---
 
-## 6. Lessons Learned
+## 6. Design Hypotheses
 
 We highlight five design choices we believe are load-bearing. The first four
 are hypotheses about ASP that no data here measures, each stated with the
@@ -990,7 +993,7 @@ benchmark package in `benchmark/` provides:
   byte-level drift;
 - 31 unit tests pinning the determinism contract and the reply parser.
 
-**Reproducing every number in Sections 5.3–5.4 (no model calls).** From a clone
+**Reproducing the computed numbers of Sections 5.3–5.4 (no model calls).** From a clone
 of the repository, `python run_all.py` re-scores the author-constructed
 fixtures of the mock benchmark run with the shipped adjudicator, recomputes
 the discrimination matrix, regenerates Figure 2, asserts each number

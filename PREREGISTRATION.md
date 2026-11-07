@@ -72,20 +72,20 @@ Version 1.0 of the ASP paper reported a deterministic match of 80% (GREEN) versu
 
 ## Preconditions (before any dispatch)
 
-1. **Blind expected lists.** Two or more engineers who have not read ASP's skill files each write, independently, the failure modes a senior engineer should surface for each of the five tasks in `skills/anticipating-shadow-points/evals/`, seeing only the INPUT statement. Their lists, and the merge rule below, are committed and hash-sealed before the first dispatch. Merge rule: an item enters the reference list if at least two reviewers name it (or, with exactly two reviewers, if either names it and the other agrees on reading it).
+1. **Blind expected lists.** Two or more engineers who have not read ASP's skill files each write, independently, the failure modes a senior engineer should surface for each of the five tasks in `skills/anticipating-shadow-points/evals/`, seeing the INPUT statement and the same task workspace the agent gets (for E5, the fixture memory folder below), but never ASP's skill files. Their lists, and the merge rule below, are committed and hash-sealed before the first dispatch. Merge rule: an item enters the reference list if at least two reviewers name it (or, with exactly two reviewers, if either names it and the other agrees on reading it).
 2. **No vocabulary leak.** The GREEN condition loads the skill as shipped (`skills/anticipating-shadow-points/SKILL.md` and its companion files) as the system prompt; the reviewers never see it.
-3. **Runner and matcher ready.** `benchmark/src/asp_benchmark/runner.py` today sends a single-turn template, runs one replicate per task in fixed order and has no clean-room flags. Before deposit it gains: loading the shipped skill for GREEN, `--replicates 8`, a seeded order (`asp-bench-v1`), the clean-room flags of Protocol 1, and the analysis below; and the matcher's layer 3 replaces window Jaccard, which cannot reach the 0.30 threshold for expected points with ten or fewer distinct tokens in most windows, by token recall of the expected point within the window (|E ∩ W| / |E|) at a threshold fixed in the deposit amendment; coverage is reported per layer. These changes are committed and sealed before deposit.
+3. **Runner and matcher ready.** `benchmark/src/asp_benchmark/runner.py` today sends a single-turn template, runs one replicate per task in fixed order and has no clean-room flags. Before deposit it gains: loading the shipped skill for GREEN, `--replicates 8`, a seeded order (`asp-bench-v1`), the clean-room flags of Protocol 1, and the analysis below; and the matcher's layer 3 replaces window Jaccard, which cannot reach the 0.30 threshold for expected points with ten or fewer distinct tokens in most windows, by token recall of the expected point within the window (|E ∩ W| / |E|) at a threshold fixed before the blind lists arrive, as the lowest value at which no author-written GREEN fixture matches another task's expected list, with at least three shared distinct tokens; coverage is reported per layer. These changes are committed and sealed before deposit.
 4. **Preserved output.** Every dispatch writes its full JSON envelope to the run directory, which the benchmark package hashes into its manifest.
 
 ## Design
 
 | Item | Value |
 |---|---|
-| Tasks | E1–E5, INPUT statements as committed. E5 tests whether the agent consults project memory (its points 1 and 8 come from it), so its INPUT is left unchanged and its workspace instead ships a fixture memory folder at `.agent/memory/` with the relevant project history, which an agent finds only by looking; RED and GREEN get the same folder, and Phase 1 of the skill is extended to look for `.agent/` in the working directory as well as in the home folder. The fixture does not exist yet; it is written, committed and sealed before deposit |
+| Tasks | E1–E5, INPUT statements as committed. E5 tests whether the agent consults project memory (its points 1 and 8 come from it), so its INPUT is left unchanged and its workspace instead ships a fixture memory folder at `.agent/memory/` with the relevant project history, which an agent finds only by looking; RED and GREEN get the same folder, and Phase 1 of the skill will be extended to read `.agent/memory/*.md` in the working directory when `recall.py` is absent. Neither the fixture nor that extension exists yet; both are written, committed and sealed before deposit |
 | Conditions | RED (plan as a senior engineer, no skill) and GREEN (ASP loaded) |
 | Replicates | 8 dispatches per task × condition (80 in total), order randomised with seed `asp-bench-v1` |
 | Model | Pinned with `--model`, exact id recorded in the deposit amendment; same clean-room precondition as Protocol 1 |
-| Scoring | The shipped deterministic matcher (`benchmark/src/asp_benchmark/adjudicator.py`), unchanged since commit of this document, against the blind reference lists |
+| Scoring | The shipped deterministic matcher (`benchmark/src/asp_benchmark/adjudicator.py`) with the layer-3 change of precondition 3, frozen and sealed at deposit and unchanged afterwards, against the blind reference lists |
 | Budget | Stop at 80 dispatches or USD 60 reported cost, whichever comes first |
 
 ## Outcomes and analysis
@@ -99,6 +99,7 @@ Version 1.0 of the ASP paper reported a deterministic match of 80% (GREEN) versu
 
 | Result | What the repository does |
 |---|---|
+| Fewer than 5 tasks reach 8 replicates per condition (budget stop) | Labelled incomplete; the completed tasks are reported descriptively and no row below applies |
 | GREEN − RED ≤ 0 on 3 or more tasks | The paper states that ASP showed no measurable benefit under this protocol |
 | GREEN − RED > 0 on all 5 tasks and permutation p < 0.05 | The paper reports a measured benefit, scoped to this model, these tasks and these lists |
 | Anything in between | Reported as inconclusive, with the per-task table |
