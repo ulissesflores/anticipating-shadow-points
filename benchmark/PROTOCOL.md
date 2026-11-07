@@ -171,9 +171,11 @@ byte the author claimed.
   near-coincidental token overlaps in long candidate texts. The
   per-eval synonym sidecar partially compensates but does not
   eliminate the underlying issue.
-- The mock fixtures embedded in the benchmark are constructed to
-  exercise the *adjudicator's* layered match (exact / synonym /
-  Jaccard / unmatched). They are NOT representative of true LLM
+- The mock fixtures embedded in the benchmark were constructed
+  to test the *adjudicator*, but in the published run all 42 matches
+  are layer 1 (exact name); layers 2 (synonym) and 3 (Jaccard) only
+  produce matches in the unit tests (`benchmark/tests/test_adjudicator.py`),
+  not in the published run. The fixtures are NOT representative of true LLM
   outputs from `claude -p`; only real-mode runs produce evidence
   about ASP's effect on real LLM behavior.
 - Adjudication is fundamentally a string-matching procedure. A model

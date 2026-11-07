@@ -17,7 +17,7 @@ nav_order: 3
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](../LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](../LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](../pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-71_passing-brightgreen.svg)](../tests/)
+[![tests](https://img.shields.io/badge/tests-75_passing-brightgreen.svg)](../tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](../output/hash-chain.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#installazione)
 
@@ -32,7 +32,7 @@ nav_order: 3
 > [!IMPORTANT]
 > **Risultato (Iron Law 11).** `claude -p` restituisce exit code 0 quando l'agente rifiuta con garbo il compito, senza alcun flag di rifiuto leggibile da macchina nell'envelope JSON. Su una suite fissa di 50 prompt pensati per provocare rifiuti (Claude Code 2.1.200, luglio 2026), **24 su 50 sono terminati con exit 0, tutti con `stop_reason: end_turn`**, e **da 12 a 20 di questi erano rifiuti**: dal 24% al 40% della suite, a seconda di come si conta un rifiuto. Un wrapper di shell che si fida di `$?` li legge tutti come successi.
 >
-> **Non ancora misurato: se ASP migliora i piani.** L'autore lo ha osservato senza procedura in cieco su cinque compiti a maggio 2026, e quelle trascrizioni non sono state conservate. La cifra «80% contro 4%» delle versioni precedenti derivava dal punteggio di fixture scritte dall'autore per testare il matcher, non da output di modelli; è ritirata come evidenza. Un benchmark reale e pre-registrato è [pianificato](../PREREGISTRATION.md).
+> **Non ancora misurato: se ASP migliora i piani.** L'autore lo ha osservato senza procedura in cieco su cinque compiti a maggio 2026, e quelle trascrizioni non sono state conservate. La cifra «80% contro 4%» delle versioni precedenti derivava dal punteggio di fixture scritte dall'autore per testare il matcher, non da output di modelli; è ritirata come evidenza. Un benchmark reale è pianificato, pre-specificato in [`PREREGISTRATION.md`](../PREREGISTRATION.md), non ancora depositato.
 
 Paper: [*ASP: an operational pre-mortem skill for LLM coding agents*](../paper/asp-preprint.md) · [*Graceful refusals as unsignalled failures*](../paper/iron-law-11.md). Entrambi sono rapporti tecnici, non sottoposti a peer review. Le edizioni PDF e DOCX (en, pt-BR, es, it) arrivano in `docs/paper/` con la versione 2.0.0.
 
@@ -89,7 +89,10 @@ results -> output/results.json | July author 20/50, codebook 19/50, detector 9/5
 == figures: analysis/make_figures.py
 figures -> output/figures (2 x PNG+SVG)
 == tests: -m pytest -q tests
-........................................                                 [100%]
+............................................                             [100%]
+== benchmark tests: -m pytest -q -o addopts= -c benchmark/pyproject.toml benchmark/tests
+...............................                                          [100%]
+31 passed in <seconds>s
 == provenance: make_provenance.py
 provenance written: chain_hash <64 hex characters>
 == verify: make_provenance.py --verify

@@ -10,7 +10,7 @@
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-71_passing-brightgreen.svg)](tests/)
+[![tests](https://img.shields.io/badge/tests-75_passing-brightgreen.svg)](tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](output/hash-chain.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#install)
 
@@ -21,7 +21,7 @@ English (this file) · [Português (BR)](docs/README.pt.md) · [Español](docs/R
 > [!IMPORTANT]
 > **Finding (Iron Law 11).** `claude -p` returns exit code 0 when the agent gracefully declines the task, with no machine-readable refusal flag in the JSON envelope. On a fixed suite of 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), **24 of 50 exited 0, every one with `stop_reason: end_turn`**, and **12 to 20 of those were declines**: 24% to 40% of the suite, depending on how a decline is counted. A shell wrapper that trusts `$?` reads all of them as success.
 >
-> **Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. The "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs; it is withdrawn as evidence. A real, pre-registered benchmark is [planned](PREREGISTRATION.md).
+> **Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. The "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs; it is withdrawn as evidence. A real benchmark is planned, pre-specified in [`PREREGISTRATION.md`](PREREGISTRATION.md), not yet deposited.
 
 Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp-preprint.md) · [*Graceful refusals as unsignalled failures*](paper/iron-law-11.md). Both are technical reports, not peer-reviewed. PDF and DOCX editions (en, pt-BR, es, it) ship in `docs/paper/` with the v2.0.0 release.
 
@@ -78,7 +78,10 @@ results -> output/results.json | July author 20/50, codebook 19/50, detector 9/5
 == figures: analysis/make_figures.py
 figures -> output/figures (2 x PNG+SVG)
 == tests: -m pytest -q tests
-........................................                                 [100%]
+............................................                             [100%]
+== benchmark tests: -m pytest -q -o addopts= -c benchmark/pyproject.toml benchmark/tests
+...............................                                          [100%]
+31 passed in <seconds>s
 == provenance: make_provenance.py
 provenance written: chain_hash <64 hex characters>
 == verify: make_provenance.py --verify

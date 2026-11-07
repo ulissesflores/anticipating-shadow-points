@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "2331403e25101adf38fb371ec00c5a9c276af3d80c17c85af957ffcb147fab04",
+  "chain_hash": "9bf528458d5fb79892ef5a65cd9027657ba38dcbd52ec9b26c9e3911e874d090",
   "informational_not_hashed": {
     "files": [
       {
@@ -88,14 +88,14 @@
         },
         {
           "path": "run_all.py",
-          "sha256": "3e3317d307f7eccabd56fd058199a37065231d81c3cf793a95049989a772ba11"
+          "sha256": "8d5541c0e691d4df48c7f67d54ad46573c25343ecc8ba482d0cac7a4f5c71c3a"
         },
         {
           "path": "tests/iron-law-11/scripts/analyze.py",
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "0688e6153afd9d7f1896942fcc81fceb786095a90c65dce55f313f53bec27f60"
+      "leaf_sha256": "dabea799b963fe151a17e8c1c0352772697b12bd486fcf6366fce6c1e548286d"
     },
     "data": {
       "files": [

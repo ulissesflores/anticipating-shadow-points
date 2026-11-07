@@ -102,6 +102,10 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## [1.0.4] — 2026-11-07 (plugin manifest version; no GitHub release, no new DOI)
 
+> 1.0.4 was the intermediate version of the plugin manifest on this branch,
+> before the bump to 2.0.0 (see above). It has no GitHub release and no DOI of
+> its own.
+
 ### Security
 - **The plugin no longer sets any permission mode.** The Phase 9 runner
   (`skills/anticipating-shadow-points/claude-p-goal-runner.md`) and

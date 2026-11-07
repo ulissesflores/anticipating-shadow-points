@@ -25,9 +25,9 @@
 
 ## Highlight findings
 
-### L5 — recall.py integration validated empirically
+### L5 — recall.py integration validated empirically [withdrawn in v2.0: author's non-blind reading, transcripts not preserved; see the note at the top]
 
-The L5 subagent **actually executed** `python3 ~/.agent/tools/recall.py` and surfaced the existing `project_atlas_sync_bug.md` auto-memory page. Then it **refused to implement** the cron entry because doing so would re-trigger the 2026-05-08 JVM-spawn incident. This validates:
+The L5 subagent **actually executed** `python3 ~/.agent/tools/recall.py` and surfaced the existing `project_atlas_sync_bug.md` auto-memory page. Then it **refused to implement** the cron entry because doing so would re-trigger the 2026-05-08 JVM-spawn incident. This validates [withdrawn in v2.0: author's non-blind reading, transcripts not preserved; see the note at the top]:
 
 1. The recall.py integration in Phase 1 is functional when `~/.agent/` exists.
 2. ASP discipline correctly applies the "stop if surfaced lesson would be violated" clause from CLAUDE.md.
@@ -46,10 +46,10 @@ The L4 subagent identified that the literal reading of the task ("users read row
 | Edge function | 30% | 100% | +70 pp |
 | **Average** | **47%** | **100%** | **+53 pp** |
 
-The skill's load-bearing component (confirmed via REFACTOR analysis K8) is the **MAST 14-mode forced categorization pass**. Free-form pre-mortem alone clusters on obvious categories; MAST forces less-intuitive coverage (time/tz, observability, op-ex, contract drift).
+The skill's load-bearing component (confirmed via REFACTOR analysis K8 [withdrawn in v2.0: author's non-blind reading, transcripts not preserved; see the note at the top]) is the **MAST 14-mode forced categorization pass**. Free-form pre-mortem alone clusters on obvious categories; MAST forces less-intuitive coverage (time/tz, observability, op-ex, contract drift).
 
 ## Conclusion
 
-All 5 evals pass with ≥80% coverage. The skill's GREEN behavior is reproducibly better than RED baseline [withdrawn in v2.0; see the note at the top]. Iron Law compliance verified. recall.py integration verified empirically (L5).
+All 5 evals pass with ≥80% coverage. The skill's GREEN behavior is reproducibly better than RED baseline [withdrawn in v2.0; see the note at the top]. Iron Law compliance verified [withdrawn in v2.0: author's non-blind reading, transcripts not preserved; see the note at the top]. recall.py integration verified empirically (L5) [withdrawn in v2.0: author's non-blind reading, transcripts not preserved; see the note at the top].
 
 Phase L complete. Ready for Phase M (demo renderings) and Phase N (install + smoke).

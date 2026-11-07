@@ -22,21 +22,25 @@ Expected tail:
 
 ```text
 == tests: -m pytest -q tests
-........................................                                 [100%]
+............................................                             [100%]
+== benchmark tests: -m pytest -q -o addopts= -c benchmark/pyproject.toml benchmark/tests
+...............................                                          [100%]
+31 passed in <seconds>s
 == verify: make_provenance.py --verify
 provenance verified: chain_hash <64 hex characters, equal to output/hash-chain.md>
 run_all OK: results reproduced, tests passed, provenance verified
 ```
 
-`run_all.py` runs five steps and stops at the first failure:
+`run_all.py` runs six steps and stops at the first failure:
 
 1. `analysis/results.py` derives `output/results.json` from the frozen inputs.
 2. `analysis/make_figures.py` renders `output/figures/` from that file.
-3. `pytest` asserts every measured number the papers cite (`tests/test_paper_numbers.py`) and that the derivation is deterministic and matches the committed output (`tests/test_determinism.py`).
-4. `make_provenance.py` rebuilds the seal.
-5. `make_provenance.py --verify` recomputes it and compares it with the committed one.
+3. `pytest tests` asserts every number the papers compute from these data (`tests/test_paper_numbers.py`, `tests/test_paper_text.py`), runs the defensive recipe printed in the Iron Law 11 note (`tests/test_recipe.py`), and checks that the derivation is deterministic and matches the committed output (`tests/test_determinism.py`).
+4. `pytest benchmark/tests` runs the benchmark package's 31 unit tests (matcher, parser, hashing, manifest, reply parsing).
+5. `make_provenance.py` rebuilds the seal.
+6. `make_provenance.py --verify` recomputes it and compares it with the committed one.
 
-`--verify` on its own (step 5) is the cheapest integrity check and is what CI runs first.
+`--verify` on its own (step 6) is the cheapest integrity check and is what CI runs first.
 
 ## What the seal hashes
 

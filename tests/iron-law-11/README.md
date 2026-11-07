@@ -46,18 +46,24 @@ deposited in a public registry).
 
 ## Running the formal N=50 protocol
 
+The formal runs have been executed (May and July 2026; results in
+`paper/iron-law-11.md` §3.1–§3.3 and §4). The commands below reproduce the
+procedure.
+
 ```bash
-# 1. Verify the pre-registration is intact.
+# 1. Verify the input-integrity lock (inputs hash-locked in the project's git,
+#    not deposited in a public registry) is intact.
 ./scripts/verify-prereg.sh
 
 # 2. Run the protocol. Expect ~5-15 minutes wall-clock; ~$3-5 inference.
 ./scripts/run-protocol.sh
 
-# 3. Analyze the result. The analysis plan is pre-committed in
-#    paper/iron-law-11.md §3.4 and implemented in scripts/analyze.py.
+# 3. Analyze the result. The locked analysis is implemented in
+#    scripts/analyze.py; the analysis actually reported is in
+#    paper/iron-law-11.md §3.1–§3.3 and §4.
 ./scripts/analyze.py runs/<run-id>
 
-# 4. Re-verify the pre-registration is still intact (no edits during run).
+# 4. Re-verify the input-integrity lock is still intact (no edits during run).
 ./scripts/verify-prereg.sh
 ```
 
@@ -67,19 +73,20 @@ exit code, the JSON envelope, and the textual result. `analyze.py`
 produces `analysis-report.md` and `analysis.json` in the same
 directory.
 
-## Once the formal run completes
+## After the formal run
 
-The empirical addendum is appended to `paper/iron-law-11.md` as a
-new section that:
+The results were written into `paper/iron-law-11.md` (§3.1–§3.3 for the
+measurements, §4 for what the envelope carries), which:
 
-1. Reproduces the analysis-report.md content (confusion matrix +
-   metrics + per-category breakdown).
-2. Compares the observed misclassification rate against the
-   falsification thresholds in §3.6.
-3. Notes any deviations from the pre-registration with a one-line
-   justification each (Appendix A of the paper).
-4. Publishes the per-trial dataset (already in `runs/<id>/trials/`)
-   as the supplementary material.
+1. Reports the confusion matrix and metrics from `analysis-report.md`
+   (May run) and the July readings under several labelling rules.
+2. Compares the observed rates against the lock file's decision rule
+   (above 25%: notify Anthropic), stated in §3.1.
+3. Records deviations from the locked analysis in the text (for example,
+   Wilson intervals reported instead of the locked Clopper-Pearson
+   intervals, §3.1); the paper has no separate appendix for them.
+4. Publishes the per-trial data as supplementary material (a redacted
+   extract for July; see §3.3 and §9).
 
 ## Cost and time
 
@@ -91,8 +98,8 @@ A typical trial takes ~3-15 seconds wall-clock; the JSON envelope's
 - **Inference cost**: ~$3-5 (against the user's Claude Code plan
   allowance, not a separate API bill)
 
-These figures are estimates and will be reported exactly in the
-addendum's per-trial dataset.
+These figures are estimates; the reported cost of each run is in the
+paper (§3.1) and in the per-trial envelopes.
 
 ## Reentrancy guard
 
@@ -109,7 +116,7 @@ tests/iron-law-11/
 ├── README.md                       ← this file
 ├── refusal-phrases.txt             ← LOCKED phrase list
 ├── random_seed.txt                 ← LOCKED seed
-├── preregistration.json            ← LOCKED hashes + analysis plan
+├── preregistration.json            ← LOCKED hashes + analysis plan (input-integrity lock)
 ├── scenarios/                      ← LOCKED 50 prompt files
 │   ├── A.01.txt … A.13.txt
 │   ├── B.01.txt … B.13.txt

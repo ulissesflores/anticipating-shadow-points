@@ -159,7 +159,7 @@ not at Phase 5.
 - Replaces hand-rolled validator-loop in execution phase.
 - Officially separates worker from evaluator (matches Plan-and-Act principle).
 - Provides cost/time tracking we'd otherwise build manually.
-- Documented hard-stop conditions prevent infinite loops (MAST mode 10).
+- Documented hard-stop conditions prevent infinite loops (MAST FM-1.5, unaware of termination conditions).
 
 **ASP application** — Phase 9 entry point:
 

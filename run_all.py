@@ -22,7 +22,17 @@ STEPS = [
     ("tests", [sys.executable, "-m", "pytest", "-q", "tests"]),
     (
         "benchmark tests",
-        [sys.executable, "-m", "pytest", "-q", "-c", "benchmark/pyproject.toml", "benchmark/tests"],
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            "-q",
+            "-o",
+            "addopts=",
+            "-c",
+            "benchmark/pyproject.toml",
+            "benchmark/tests",
+        ],
     ),
     ("provenance", [sys.executable, "make_provenance.py"]),
     ("verify", [sys.executable, "make_provenance.py", "--verify"]),

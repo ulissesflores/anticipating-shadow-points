@@ -33,8 +33,10 @@ interpreted it differently. Which constraints are we silently dropping?"
 on what was actually requested.
 
 **Default mitigation**: Phase 0a question forcing constraint enumeration;
-explicit out-of-scope list in Charter. Iron Law 1 prevents Phase 4 emission
-without a charter that names the constraints.
+explicit out-of-scope list in Charter. Iron Law 3 (no micro-TODO without a
+macro plan, charter and deliverables approved by the user) prevents Phase 8
+emission without a charter that names the constraints. (Iron Law 1 is a
+different rule: no implementation without a shadow-point pass first.)
 
 ---
 

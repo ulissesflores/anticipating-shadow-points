@@ -17,7 +17,7 @@ nav_order: 2
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](../LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](../LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](../pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-71_passing-brightgreen.svg)](../tests/)
+[![tests](https://img.shields.io/badge/tests-75_passing-brightgreen.svg)](../tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](../output/hash-chain.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#install)
 
@@ -30,7 +30,7 @@ nav_order: 2
 > [!IMPORTANT]
 > **Achado (Iron Law 11).** O `claude -p` retorna exit code 0 quando o agente recusa a tarefa de forma cortês, sem nenhum sinalizador de recusa legível por máquina no envelope JSON. Em uma suíte fixa de 50 prompts que provocam recusa (Claude Code 2.1.200, julho de 2026), **24 de 50 terminaram com exit 0, todas com `stop_reason: end_turn`**, e **12 a 20 delas foram recusas**: 24% a 40% da suíte, dependendo de como uma recusa é contada. Um wrapper de shell que confia em `$?` lê todas como sucesso.
 >
-> **Ainda não medido: se o ASP melhora os planos.** O autor observou sem cegamento em cinco tarefas em maio de 2026, e essas transcrições não foram preservadas. O número "80% vs 4%" das versões anteriores veio da pontuação de fixtures que o autor escreveu para testar o matcher, não de saídas de modelo; ele está retirado como evidência. Um benchmark real, pré-registrado, está [planejado](../PREREGISTRATION.md).
+> **Ainda não medido: se o ASP melhora os planos.** O autor observou sem cegamento em cinco tarefas em maio de 2026, e essas transcrições não foram preservadas. O número "80% vs 4%" das versões anteriores veio da pontuação de fixtures que o autor escreveu para testar o matcher, não de saídas de modelo; ele está retirado como evidência. Um benchmark real está planejado, pré-especificado em [`PREREGISTRATION.md`](../PREREGISTRATION.md), ainda não depositado.
 
 Artigos: [*ASP: an operational pre-mortem skill for LLM coding agents*](../paper/asp-preprint.md) · [*Graceful refusals as unsignalled failures*](../paper/iron-law-11.md). Ambos são relatórios técnicos, não revisados por pares. As edições em PDF e DOCX (en, pt-BR, es, it) entram em `docs/paper/` com a versão 2.0.0.
 
@@ -87,7 +87,10 @@ results -> output/results.json | July author 20/50, codebook 19/50, detector 9/5
 == figures: analysis/make_figures.py
 figures -> output/figures (2 x PNG+SVG)
 == tests: -m pytest -q tests
-........................................                                 [100%]
+............................................                             [100%]
+== benchmark tests: -m pytest -q -o addopts= -c benchmark/pyproject.toml benchmark/tests
+...............................                                          [100%]
+31 passed in <seconds>s
 == provenance: make_provenance.py
 provenance written: chain_hash <64 hex characters>
 == verify: make_provenance.py --verify

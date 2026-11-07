@@ -190,7 +190,7 @@ if [[ -n "${ASP_IN_GOAL:-}" ]]; then
 fi
 ```
 
-This prevents infinite recursive Claude session spawn (MAST mode 10).
+This prevents infinite recursive Claude session spawn (MAST FM-1.5, unaware of termination conditions).
 
 ## 7. `--paranoid` mode: stream-json + Monitor
 

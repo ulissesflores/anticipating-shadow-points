@@ -87,6 +87,18 @@ On **first real run** of this skill, before relying on `/goal` in Phase 9, verif
 | `--paranoid` | + `advisor()` + 2 validators + 3 rounds + strict `/goal` evaluator | 6x+ |
 | `--no-goal` | Anything above, but skip `/goal` (fallback to `executing-plans` skill) | -1x |
 
+## Phase 0a — Entry check (Iron Law 9)
+
+Before asking any Phase 0a question, run this check with the Bash tool. If it prints `REFUSE`, stop: do not continue the skill, and tell the user why.
+
+```bash
+if [[ -n "${ASP_IN_GOAL:-}" ]]; then
+  echo "REFUSE: ASP cannot re-enter itself inside a /goal child session."
+  echo "Iron Law 9 violation prevented."
+  exit 1
+fi
+```
+
 ## Phase 1 — Parallel research (three subagents in one message)
 
 | Subagent | Tool | Focus |
@@ -218,8 +230,10 @@ non-blind reading of the May 2026 subagent plans, whose transcripts were not
 preserved; no measurement supports it yet. (The deterministic adjudicator's
 published run is a mock run over author-written fixtures and says nothing
 about this; see the correction note in `paper/asp-preprint.md` v2.0.) **This
-attribution is a hypothesis; a real-mode benchmark and a formal ablation
-(with vs without the MAST checklist) are specified in `PREREGISTRATION.md`.**
+attribution is a hypothesis. A real-mode RED-versus-GREEN benchmark is
+specified in `PREREGISTRATION.md` (Protocol 2), but that protocol does not
+isolate the MAST checklist: a with-versus-without-MAST ablation has no
+protocol yet.**
 
 ## Cross-references
 

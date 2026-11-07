@@ -164,7 +164,7 @@ Subagent covered:
 1. **"Optimization X applies, so we're fine"** — competent agents jump to clever optimizations and skip the full failure-mode audit. **Counter**: Iron Law 1 — even when an obvious optimization exists, run the MAST 14-mode pass.
 2. **"Single PR is simpler"** — agents default to monolithic PRs without analyzing review burden / rollback granularity. **Counter**: Phase 4 deliverables register must enumerate per-deliverable acceptance, forcing the question.
 3. **"Manual smoke test is enough"** — competent baseline includes a manual check but skips falsification tests. **Counter**: Iron Law 4 + ACCEPTANCE/FALSIFICATION schema rejects manual-only verification.
-4. **"Things appear automatically — verify consumers"** without enumerating consumers — vague verification. **Counter**: Phase 2 mode 14 (Evidence loss) forces concrete evidence artifacts.
+4. **"Things appear automatically — verify consumers"** without enumerating consumers — vague verification. **Counter**: Phase 2 mode 14 (Evidence loss) [pre-2026-05-17 draft name; MAST's 14th mode is FM-3.3 Incorrect verification] forces concrete evidence artifacts.
 
 ## Next step
 
