@@ -7,6 +7,52 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.0] — unreleased (branch `v2`; version DOI minted at release)
+
+### Corrected
+- **The benchmark run is withdrawn as evidence of ASP's effect.** The one
+  published run (`benchmark/runs/published/2026-05-18T00-27-43Z-b0a1bc7b`) is
+  a mock-mode run over fixtures the author wrote to exercise the adjudicator
+  (`benchmark/PROTOCOL.md` section 8). Paper 1 v1.0 reported its RED 4% /
+  GREEN 80% as a reading of ten model transcripts; v2.0 reports it as an
+  instrument check and states that no ASP effect has been measured.
+- **Model attribution of the July 2026 run.** It was reported as "Opus 4.8".
+  The envelopes record Fable 5 as session model for all 50 trials, with
+  Opus 4.8 answering 16 (all 12 safety prompts).
+- **May vs July comparison.** v2.0 of Paper 2 compared a detector count (60%)
+  with a manual count (40%). Like for like, under the same locked detector,
+  it is 60% vs 18%. The codebook-majority reading (38%) is added.
+- **Invented reference title.** Paper 2 cited `anthropics/claude-code` #15685
+  under a title it never had; the real title is now used. The title of
+  `paperclipai/paperclip` #1117 was paraphrased and is now exact.
+- **README coverage claims** ("~60%" / "100% coverage") and the illustrative
+  "See it run" transcript are removed: they did not match committed evidence.
+
+### Added
+- Replication layer: `run_all.py` (results -> figures -> tests -> seal ->
+  verify), `make_provenance.py` (one SHA-256 `chain_hash` over code, tests,
+  frozen inputs, data and results, reusing the benchmark's hasher),
+  `analysis/`, `tests/test_paper_numbers.py`, `tests/test_determinism.py`.
+- `data/spike-2026-07-08/`: redacted extract of the July 2026 run with the
+  SHA-256 of each raw envelope, labels and codebook.
+- `PREREGISTRATION.md` (draft, not deposited): Protocol 1, third `claude -p`
+  snapshot; Protocol 2, the first real-mode ASP benchmark with blind,
+  independently authored expected lists.
+- `REPRODUCIBILITY.md` (two seals), `ROADMAP.md`, `codemeta.json`,
+  `.zenodo.json`, `LICENSES/`, `NOTICE`, `pyproject.toml`,
+  `requirements.{txt,lock}`, `paper/build.sh`.
+- Figures as code (`analysis/make_figures.py`) and demo recordings scripted
+  with vhs (`assets/demo/*.tape`), replaying committed evidence only.
+- Both papers: Resumo in Portuguese, correction notes, data availability.
+- CI: seal verification before install, full replication on Python 3.11 and
+  3.12, ruff and 100% docstring coverage.
+
+### Changed
+- README rebuilt on the house publication skeleton; landing page aligned.
+- Licensing made explicit: MIT for code, CC BY 4.0 for papers, figures and
+  data.
+- `AGENTS.md` removed from the public tree.
+
 ### Corrected (2026-07-09) — honesty pass across the claim surface
 - **"Pre-registration" framing withdrawn** for the Iron Law 11 protocol. The
   inputs were committed and hash-locked in the project's own git before the
