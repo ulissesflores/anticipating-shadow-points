@@ -21,7 +21,7 @@ English (this file) · [Português (BR)](docs/README.pt.md) · [Español](docs/R
 > [!IMPORTANT]
 > **Finding (Iron Law 11).** `claude -p` returns exit code 0 when the agent gracefully declines the task, with no machine-readable refusal flag in the JSON envelope. On a fixed suite of 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), **24 of 50 exited 0, every one with `stop_reason: end_turn`**, and **12 to 20 of those were declines**: 24% to 40% of the suite, depending on how a decline is counted. A shell wrapper that trusts `$?` reads all of them as success.
 >
-> **Observation (ASP benchmark, May 2026).** With ASP loaded, a deterministic matcher found 80% of the author's expected failure modes in the agent's plans, against 4% without it, over 5 tasks with one transcript each. That number is descriptive and partly circular; see [what is and isn't claimed](#what-is-and-isnt-claimed).
+> **Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. The "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs; it is withdrawn as evidence. A real, pre-registered benchmark is [planned](PREREGISTRATION.md).
 
 Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp-preprint.md) ([PDF](paper/asp-preprint.pdf)) · [*Graceful refusals as unsignalled failures*](paper/iron-law-11.md) ([PDF](paper/iron-law-11.pdf)). Both are technical reports, not peer-reviewed.
 
@@ -29,7 +29,7 @@ Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp
 
 1. **A planning protocol you can install.** Thirteen phases: research, a Klein pre-mortem forced through the 14 MAST multi-agent failure modes, an independent validator subagent, a contract of tasks with acceptance tests, and a sign-off of deliverables. Twelve "Iron Laws" keep the agent from skipping steps.
 2. **A measured failure in a common harness pattern.** `claude -p` exits 0 on a graceful decline. The measurement, its four readings and a defensive parsing recipe are in [`paper/iron-law-11.md`](paper/iron-law-11.md); the recipe is built into the skill's execution phase.
-3. **Every published number as a test.** `python run_all.py` re-derives the numbers from committed transcripts, asserts each one, and seals code, tests, data and results under one SHA-256 chain hash.
+3. **Every published number as a test.** `python run_all.py` re-derives the numbers from committed data, asserts each one, and seals code, tests, data and results under one SHA-256 chain hash.
 
 ## At a glance
 
@@ -39,16 +39,16 @@ Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp
 | Install | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` |
 | Runtime needs | Claude Code, `bash`, `jq` |
 | Replication needs | Python 3.11+, `matplotlib`, `pytest`; no model calls, about 10 seconds |
-| Evidence | 2 × 50 `claude -p` transcripts (May and July 2026), 10 benchmark transcripts (May 2026) |
+| Evidence | 2 × 50 `claude -p` transcripts (May and July 2026); no preserved transcripts yet for the ASP effect |
 | Permissions | The skill never sets a permission mode; the child session it spawns runs under your own settings |
 
 ## See it
 
-| Replicate every number offline | The failure, from recorded evidence | What ASP changes in a plan |
-|---|---|---|
-| ![run_all.py re-derives the results, runs the tests and verifies the SHA-256 seal](assets/demo/replicate.gif) | ![A recorded July 2026 trial: the agent refuses, exit code is 0, stop_reason is end_turn](assets/demo/exit-code.gif) | ![The same migration task planned without and with ASP, from the committed May 2026 transcripts](assets/demo/asp-plan.gif) |
+| Replicate every number offline | The failure, from recorded evidence |
+|---|---|
+| ![run_all.py re-derives the results, runs the tests and verifies the SHA-256 seal](assets/demo/replicate.gif) | ![A recorded July 2026 trial: the agent refuses, exit code is 0, stop_reason is end_turn](assets/demo/exit-code.gif) |
 
-All three are replays of committed files, scripted with [vhs](https://github.com/charmbracelet/vhs) in [`assets/demo/`](assets/demo/). None calls a model.
+Both are replays of committed files, scripted with [vhs](https://github.com/charmbracelet/vhs) in [`assets/demo/`](assets/demo/). None calls a model.
 
 ## Quick start
 
@@ -102,30 +102,23 @@ run_all OK: results reproduced, tests passed, provenance verified
 
 The May and July runs differ in model and CLI, so the drop from 60% to 18% under the same detector is a change of target, not a trend. In July, every one of the 24 exit-0 trials carried `stop_reason: end_turn`; the only `stop_reason: refusal` was a server-side block, and it exited 1.
 
-### ASP benchmark: deterministic match against the expected failure modes
+### ASP effect on plans: not measured yet
 
-| Evaluation | RED (no ASP) | GREEN (ASP) |
+| Evidence | What it is | What it supports |
 |---|---|---|
-| E1 schema migration, 1M rows | 20% | 90% |
-| E2 edge deploy, rate-limited API | 0% | 60% |
-| E3 shared-util refactor, 30+ files | 0% | 80% |
-| E4 RLS policy change | 0% | 100% |
-| E5 cron job vs disabled service | 0% | 70% |
-| **Mean** | **4%** | **80%** |
+| Author's reading of 10 subagent plans, 2026-05-17 ([summary](tests/evals-summary.md)) | Non-blind judgement against lists the author wrote; RED near 47%, GREEN near 100%; transcripts not preserved | An observation, not a measurement |
+| Mock benchmark run, 2026-05-18 | The deterministic matcher scoring fixtures the author wrote to exercise it: RED 4%, GREEN 80% | Nothing about ASP. It shows the matcher discriminates tasks: 80% on a fixture's own list, 0.5% on other tasks' lists |
 
-Negative control: scoring each GREEN transcript against a different task's expected list drops the mean to **0.5%** (largest cell 10%), so the matcher is not rewarding generic engineering vocabulary.
-
-| ![RED vs GREEN per evaluation](output/figures/fig3_red_green.png) | ![Label-permutation control](output/figures/fig2_permutation_control.png) |
-|---|---|
+![Instrument check on the constructed fixtures](output/figures/fig2_adjudicator_fixture_check.png)
 
 ## What is and isn't claimed
 
 | | |
 |---|---|
-| **Claimed** | `claude -p` exited 0 with `stop_reason: end_turn` on graceful declines in two dated snapshots; the counts above follow deterministically from the committed transcripts; with ASP loaded, one model's plans matched more of the author's expected failure modes, and the matcher discriminates between tasks |
-| **Not claimed** | A base rate of silent failure in real agent traffic (the suite was built to provoke declines); that the 60% to 18% drop is a trend; that ASP improves real-world outcomes; that 80% is coverage against external ground truth (the author wrote the expected lists and the vocabulary the GREEN prompt injects); any inferential statistic on the benchmark (one transcript per cell) |
+| **Claimed** | `claude -p` exited 0 with `stop_reason: end_turn` on graceful declines in two dated snapshots; the counts above follow deterministically from the committed transcripts; the shipped matcher discriminates between tasks on constructed fixtures |
+| **Not claimed** | A base rate of silent failure in real agent traffic (the suite was built to provoke declines); that the 60% to 18% drop is a trend; that ASP improves plans or real-world outcomes (not measured on preserved model output); that the 80%/4% fixture scores say anything about ASP |
 | **Frozen** | The transcripts. The models that produced them are not pinned and cannot be re-queried; re-running the prompts gives a new snapshot, not a replication |
-| **Corrected in this version** | Earlier text attributed the July run to "Opus 4.8"; the envelopes show Fable 5 as session model, with Opus 4.8 answering 16 trials. Earlier text compared May's detector count (60%) with July's manual count (40%); the like-for-like comparison is 60% vs 18%. The "pre-registered" label on the May run was withdrawn in July 2026 |
+| **Corrected in this version** | Earlier text attributed the July run to "Opus 4.8"; the envelopes show Fable 5 as session model, with Opus 4.8 answering 16 trials. Earlier text compared May's detector count (60%) with July's manual count (40%); the like-for-like comparison is 60% vs 18%. Earlier versions presented the matcher's scores on author-written fixtures (80% vs 4%) as a reading of ten model transcripts; the run is a mock run, and the claim is withdrawn. A reference title for GitHub issue #15685 had been invented and is now the real one. The "pre-registered" label on the May run was withdrawn in July 2026 |
 
 Full method and limits: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). The next measurement is planned in [`PREREGISTRATION.md`](PREREGISTRATION.md) (draft, not yet deposited).
 

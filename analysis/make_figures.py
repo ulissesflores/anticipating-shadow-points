@@ -8,14 +8,13 @@ fig1_silent_refusal_readings
     (codebook majority) <= 40% (author label). The May 2026 detector reading
     (60%) is shown separately because it used a different model and CLI.
     Supports ``paper/iron-law-11.md`` section 3.
-fig2_permutation_control
-    Scoring each GREEN transcript against another task's expected list drops
-    the deterministic match from 80% (diagonal) to 0.5% mean (max 10%), so the
-    matcher discriminates task-specific content. Supports
-    ``paper/asp-preprint.md`` section 5.2 (negative control).
-fig3_red_green
-    Per-evaluation deterministic match, RED vs GREEN (means 4% vs 80%), under
-    an author-defined criterion. Supports ``paper/asp-preprint.md`` section 5.2.
+fig2_adjudicator_fixture_check
+    Instrument check, not an effect of ASP: on the author-constructed GREEN
+    fixtures of the mock benchmark run, the deterministic matcher scores 80%
+    against each task's own expected list and 0.5% mean (max 10%) against the
+    other tasks' lists, so it discriminates task-specific vocabulary. Supports
+    ``paper/asp-preprint.md`` section 5.2. (A RED-vs-GREEN bar chart of the same
+    fixtures was dropped in v2.0: it reads as an ASP effect, which it is not.)
 
 Inputs come only from ``output/results.json``. Outputs: PNG + SVG in
 ``output/figures/``. Figures are informational in the provenance seal (not
@@ -152,14 +151,14 @@ def fig1(results: dict) -> None:
 
 
 def fig2(results: dict) -> None:
-    """Heatmap of the 5x5 label-permutation control.
+    """Heatmap of the 5x5 adjudicator check on the constructed fixtures.
 
     Parameters
     ----------
     results : dict
         Contents of ``output/results.json``.
     """
-    bench = results["benchmark_2026_05"]
+    bench = results["adjudicator_fixture_check_2026_05"]
     ids = bench["eval_ids"]
     m = [[bench["permutation_matrix"][i][j] * 100 for j in ids] for i in ids]
     from matplotlib.colors import LinearSegmentedColormap
@@ -181,84 +180,19 @@ def fig2(results: dict) -> None:
     ax.set_xticks(range(len(ids)), ids)
     ax.set_yticks(range(len(ids)), ids)
     ax.set_xlabel("expected list scored against")
-    ax.set_ylabel("GREEN transcript of task")
+    ax.set_ylabel("author-constructed GREEN fixture of task")
     for side in ax.spines.values():
         side.set_visible(False)
     diag = bench["permutation_diagonal_mean"] * 100
     off = bench["permutation_offdiagonal_mean"] * 100
     off_max = bench["permutation_offdiagonal_max"] * 100
     ax.set_title(
-        f"Own list {diag:.0f}% · other task's list {off:.1f}% (max {off_max:.0f}%)",
+        f"Instrument check on constructed fixtures\nown list {diag:.0f}% · "
+        f"other task's list {off:.1f}% (max {off_max:.0f}%)",
         fontsize=10,
         loc="left",
     )
-    _save(fig, "fig2_permutation_control")
-
-
-def fig3(results: dict) -> None:
-    """Plot RED vs GREEN deterministic match per evaluation as grouped bars.
-
-    Parameters
-    ----------
-    results : dict
-        Contents of ``output/results.json``.
-    """
-    bench = results["benchmark_2026_05"]
-    ids = bench["eval_ids"]
-    names = {
-        "E1": "E1 schema migration",
-        "E2": "E2 edge deploy",
-        "E3": "E3 shared-util refactor",
-        "E4": "E4 RLS policy",
-        "E5": "E5 cron conflict",
-    }
-    fig, ax = plt.subplots(figsize=(7.0, 3.4))
-    h = 0.36
-    for k, eid in enumerate(ids):
-        y = len(ids) - 1 - k
-        for off, cond, color in ((h / 2 + 0.01, "red", ORANGE), (-h / 2 - 0.01, "green", BLUE)):
-            val = bench[f"{cond}_coverage"][eid] * 100
-            ax.barh(y + off, max(val, 0.6), height=h, color=color)
-            ax.annotate(
-                f"{val:.0f}%",
-                (max(val, 0.6), y + off),
-                xytext=(4, 0),
-                textcoords="offset points",
-                va="center",
-                fontsize=8.5,
-                color=INK,
-            )
-    ax.set_yticks(range(len(ids)), [names[e] for e in reversed(ids)], fontsize=9)
-    ax.set_xlim(0, 110)
-    ax.set_xlabel("deterministic match vs the author's expected list (%)")
-    ax.legend(
-        handles=[
-            plt.Rectangle(
-                (0, 0),
-                1,
-                1,
-                color=ORANGE,
-                label=f"RED, no ASP (mean {bench['red_mean'] * 100:.0f}%)",
-            ),
-            plt.Rectangle(
-                (0, 0),
-                1,
-                1,
-                color=BLUE,
-                label=f"GREEN, ASP loaded (mean {bench['green_mean'] * 100:.0f}%)",
-            ),
-        ],
-        frameon=False,
-        loc="lower left",
-        bbox_to_anchor=(0, 1.0),
-        ncol=2,
-        fontsize=8.5,
-    )
-    ax.set_title(
-        "One transcript per cell: descriptive, not inferential", fontsize=10, loc="left", pad=24
-    )
-    _clean(ax)
-    _save(fig, "fig3_red_green")
+    _save(fig, "fig2_adjudicator_fixture_check")
 
 
 def main() -> None:
@@ -266,8 +200,7 @@ def main() -> None:
     results = json.loads(RESULTS.read_text(encoding="utf-8"))
     fig1(results)
     fig2(results)
-    fig3(results)
-    print(f"figures -> {FIGDIR.relative_to(ROOT)} (3 x PNG+SVG)")
+    print(f"figures -> {FIGDIR.relative_to(ROOT)} (2 x PNG+SVG)")
 
 
 if __name__ == "__main__":

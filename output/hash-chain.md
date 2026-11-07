@@ -1,16 +1,16 @@
 # Hash chain
 
-**chain_hash** `fbe085a88fd774c26c649946cdc423a5bd775471dfbdd96aa1d3bdcd303cc9f6`
+**chain_hash** `cf675fb2ee655d86acd20cf32097af35fbdde1f6c5fb629e13a00733a2aec67e`
 
 Recompute with `python make_provenance.py --verify`.
 
 | Leaf | Files | leaf_sha256 |
 |---|---|---|
-| code | 16 | `00aa706cb74091267d816cedb2853110415a076f8cbc6210ff52270777accb55` |
-| tests | 3 | `66059b0009927fed58a207cb0e344fa9b368e62da9d5179d993fb967b023394d` |
-| frozen_inputs | 406 | `2568fc6f5ce05714b16ba8dea0ee41ceba5c66c5f6963e28c9ad9f738e81e2ae` |
-| data | 5 | `37b9bdeb4ea654572e213a98156f7ad414415074b8eaa0289f8f428955ebc11b` |
-| results | 1 | `3b7f6cdcedf4986829b75b968813d1596402fd19f388ce46c338077436f5f633` |
+| code | 16 | `63b4ea30f37aee582b7d3fb740a1c98652e7c8d2212167e44a9064dae0a3bb6e` |
+| tests | 3 | `1efa2aeae1abf8b039496c9bbb6761aa4fc8c39562ab0737f63bd8a0aa1a91fe` |
+| frozen_inputs | 406 | `b032c33808a942254a34d27016e2e43c3d58b7ea34f2b10e25c43474d67a407b` |
+| data | 5 | `27bf9968f178a57784b4e6c59a33936437eecebb20284740617d3b0f6c1b0d42` |
+| results | 1 | `a140b529264725c55b60c46f6363039d7a76d1d376dfba61ac736150221a1576` |
 
 ## Informational (NOT hashed)
 
@@ -18,8 +18,6 @@ Figures, the lockfile and the platform vary by machine and are listed for audit 
 
 - `output/figures/fig1_silent_refusal_readings.png` `e0395d52fa497986…`
 - `output/figures/fig1_silent_refusal_readings.svg` `1eafa1af1c9a16e2…`
-- `output/figures/fig2_permutation_control.png` `4628cfc060ffc323…`
-- `output/figures/fig2_permutation_control.svg` `23c1e546c2dba7a8…`
-- `output/figures/fig3_red_green.png` `d5b6e29ab3a27d3c…`
-- `output/figures/fig3_red_green.svg` `3aaaaa0c39c3614b…`
+- `output/figures/fig2_adjudicator_fixture_check.png` `30955d2cbcd98dc6…`
+- `output/figures/fig2_adjudicator_fixture_check.svg` `acf2bf2e5b063be7…`
 - `requirements.lock` `0c3033d3926f43fa…`

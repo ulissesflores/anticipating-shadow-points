@@ -2,7 +2,8 @@
 
 If code or data drift, these fail before a paper can quote a stale figure.
 Sources: ``paper/iron-law-11.md`` sections 3-4 and ``paper/asp-preprint.md``
-section 5.
+section 5 (where the benchmark figures are an instrument check on constructed
+fixtures, not a measurement of ASP).
 """
 
 from __future__ import annotations
@@ -83,18 +84,25 @@ def test_july_class_counts(results):
     }
 
 
-def test_benchmark_red_green(results):
-    """Deterministic benchmark: RED mean 4%, GREEN mean 80%."""
-    bench = results["benchmark_2026_05"]
+def test_fixture_check_is_labelled_mock(results):
+    """The published benchmark run is a mock run over constructed fixtures."""
+    check = results["adjudicator_fixture_check_2026_05"]
+    assert check["run_mode"] == "mock"
+    assert "not model outputs" in check["texts_are"]
+
+
+def test_fixture_check_red_green(results):
+    """Adjudicator on the constructed fixtures: RED mean 4%, GREEN mean 80%."""
+    bench = results["adjudicator_fixture_check_2026_05"]
     assert bench["green_coverage"] == {"E1": 0.9, "E2": 0.6, "E3": 0.8, "E4": 1.0, "E5": 0.7}
     assert bench["red_coverage"] == {"E1": 0.2, "E2": 0.0, "E3": 0.0, "E4": 0.0, "E5": 0.0}
     assert bench["red_mean"] == 0.04
     assert bench["green_mean"] == 0.8
 
 
-def test_permutation_control(results):
-    """Shuffled expected lists: diagonal 80%, off-diagonal mean 0.5%, max 10%."""
-    bench = results["benchmark_2026_05"]
+def test_fixture_permutation(results):
+    """Fixtures vs shuffled expected lists: diagonal 80%, off-diagonal 0.5%, max 10%."""
+    bench = results["adjudicator_fixture_check_2026_05"]
     assert bench["permutation_diagonal_mean"] == 0.8
     assert bench["permutation_offdiagonal_mean"] == 0.005
     assert bench["permutation_offdiagonal_max"] == 0.1

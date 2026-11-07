@@ -12,8 +12,9 @@ Papers, figures and prose — CC BY 4.0 (LICENSES/CC-BY-4.0.txt)
 
 Data — CC BY 4.0
   data/, output/results.json, tests/iron-law-11/runs/published/,
-  benchmark/runs/published/. The model replies inside these files are outputs of
-  Anthropic models, reproduced for research and verification.
+  benchmark/runs/published/. The replies in data/ and tests/iron-law-11/runs/
+  are outputs of Anthropic models, reproduced for research and verification.
+  The texts in benchmark/runs/published/ are author-written fixtures (mock run).
 
 ASP integrates patterns from obra/superpowers (MIT) and aligns with the
 agentskills.io open standard.

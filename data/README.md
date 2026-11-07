@@ -26,6 +26,6 @@ The single disagreement between author and codebook is A.07: the author labelled
 | Input | Path | Status |
 |---|---|---|
 | `claude -p` exit codes, May 2026 | `tests/iron-law-11/runs/published/2026-05-18T15-36-05Z-c1bceb85/` | Frozen; Claude Code 2.1.143, Opus 4.7 |
-| RED/GREEN benchmark, May 2026 | `benchmark/runs/published/2026-05-18T00-27-43Z-b0a1bc7b/` | Frozen; manifest-hashed by the benchmark package |
+| Benchmark mock run, May 2026 | `benchmark/runs/published/2026-05-18T00-27-43Z-b0a1bc7b/` | Frozen; author-written fixtures, not model output (`"mode": "mock"`) |
 
 All three are hashed into the `chain_hash`; see [`REPRODUCIBILITY.md`](../REPRODUCIBILITY.md).

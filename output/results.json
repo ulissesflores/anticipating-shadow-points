@@ -1,5 +1,5 @@
 {
-  "benchmark_2026_05": {
+  "adjudicator_fixture_check_2026_05": {
     "eval_ids": [
       "E1",
       "E2",
@@ -62,7 +62,9 @@
       "E4": 0.0,
       "E5": 0.0
     },
-    "red_mean": 0.04
+    "red_mean": 0.04,
+    "run_mode": "mock",
+    "texts_are": "author-constructed fixtures (benchmark/tests/fixtures/mock_runs), not model outputs"
   },
   "iron_law_11": {
     "july_2026": {

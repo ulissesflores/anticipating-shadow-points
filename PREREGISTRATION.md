@@ -1,4 +1,8 @@
-# Pre-registration — `claude -p` exit codes on graceful declines, third snapshot
+# Pre-registration — two experiments
+
+Protocol 1 is a third `claude -p` exit-code snapshot. Protocol 2 is the first real measurement of ASP's effect on plans.
+
+# Protocol 1 — `claude -p` exit codes on graceful declines, third snapshot
 
 > [!IMPORTANT]
 > **Status: DRAFT. Not yet deposited. No data collected.**
@@ -59,6 +63,43 @@ One smoke trial with a neutral prompt must show, in its `system/init` event: no 
 ## What is sealed and where
 
 The data and the analysis follow the house pattern: raw envelopes kept outside git, a redacted `data/il11-v3-<date>/trials.jsonl` extract with the SHA-256 of each raw file, derivation in `analysis/results.py`, an assertion per published number in `tests/test_paper_numbers.py`, and a new `chain_hash`.
+
+# Protocol 2 — ASP's effect on plans, first real-mode benchmark
+
+## Why
+
+Version 1.0 of the ASP paper reported a deterministic match of 80% (GREEN) versus 4% (RED). That run was a mock run over fixtures the author wrote; it measured nothing about ASP. The only real evidence is a non-blind author reading of plans whose transcripts were not kept. This protocol produces the first real, preserved measurement.
+
+## Preconditions (before any dispatch)
+
+1. **Blind expected lists.** Two or more engineers who have not read ASP's skill files each write, independently, the failure modes a senior engineer should surface for each of the five tasks in `skills/anticipating-shadow-points/evals/`, seeing only the INPUT statement. Their lists, and the merge rule below, are committed and hash-sealed before the first dispatch. Merge rule: an item enters the reference list if at least two reviewers name it (or, with exactly two reviewers, if either names it and the other agrees on reading it).
+2. **No vocabulary leak.** The GREEN prompt is the skill as shipped; the reviewers never see it.
+3. **Preserved output.** Every dispatch writes its full JSON envelope to the run directory, which the benchmark package hashes into its manifest.
+
+## Design
+
+| Item | Value |
+|---|---|
+| Tasks | E1–E5, unchanged INPUT statements |
+| Conditions | RED (plan as a senior engineer, no skill) and GREEN (ASP loaded) |
+| Replicates | 8 dispatches per task × condition (80 in total), order randomised with seed `asp-bench-v1` |
+| Model | Pinned with `--model`, exact id recorded in the deposit amendment; same clean-room precondition as Protocol 1 |
+| Scoring | The shipped deterministic matcher (`benchmark/src/asp_benchmark/adjudicator.py`), unchanged since commit of this document, against the blind reference lists |
+| Budget | Stop at 80 dispatches or USD 60 reported cost, whichever comes first |
+
+## Outcomes and analysis
+
+- **Primary.** Per task, the difference in mean match (GREEN minus RED) over the 8 replicates; across tasks, a paired sign test on the five per-task differences, and a permutation test over the 80 dispatches (10 000 relabellings, seed fixed).
+- **Secondary.** The same with the author's original lists (to measure how much author authorship inflated the earlier observation); per-layer match counts; plan length as a covariate.
+- **Negative control.** Each GREEN plan scored against the other tasks' blind lists, as in the mock check.
+
+## Decision rules
+
+| Result | What the repository does |
+|---|---|
+| GREEN − RED ≤ 0 on 3 or more tasks | The paper states that ASP showed no measurable benefit under this protocol |
+| GREEN − RED > 0 on all 5 tasks and permutation p < 0.05 | The paper reports a measured benefit, scoped to this model, these tasks and these lists |
+| Anything in between | Reported as inconclusive, with the per-task table |
 
 ## Amendments
 

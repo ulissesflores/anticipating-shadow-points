@@ -16,12 +16,15 @@ MSc Program in Artificial Intelligence (in progress) · American Global Tech Uni
 ORCID: https://orcid.org/0000-0002-6034-7765 · Lattes: http://lattes.cnpq.br/6905246706890561
 c.ulisses@gmail.com · https://ulissesflores.com
 
-**Whitepaper · Version 1.0 · 2026-05-18, revised 2026-07-09**
+**Whitepaper · Version 2.0 · 2026-11-07** *(first published 2026-05-18; revised 2026-07-09)*
 **DOI** https://doi.org/10.5281/zenodo.20276631 *(concept · always resolves to latest version)*
 **Status** Independent technical whitepaper · not under peer review
-**License** Paper text — CC BY 4.0 · Companion software — MIT
+**License** Paper text, figures and data — CC BY 4.0 · Companion software — MIT
+**Replication** Every number in Section 5 is re-derived by `python run_all.py` in the companion repository and asserted by a test; see Appendix B.
 **Companion repository** https://github.com/ulissesflores/anticipating-shadow-points
 **Companion whitepaper** Flores, C. U. (2026b). *Graceful Refusals as Unsignalled Failures: Characterising `claude -p` Exit-Code Semantics on Agent Declines.* See `paper/iron-law-11.md`.
+
+> **Correction note (version 2.0, 2026-11).** Version 1.0 (Zenodo v1.0.0–v1.0.3) reported in Section 5.2 a deterministic match of 4% (RED) versus 80% (GREEN) as the adjudicator's reading of "ten candidate transcripts" produced by Claude Opus 4.7. That was wrong. The published benchmark run (`benchmark/runs/published/2026-05-18T00-27-43Z-b0a1bc7b`) is a **mock-mode** run: its manifest records `"mode": "mock"`, and every candidate text is a fixture the author wrote to exercise the adjudicator's matching layers, as the benchmark's own protocol states (`benchmark/PROTOCOL.md`, section 8: the fixtures "are NOT representative of true LLM outputs"). The 4% / 80% figures and the label-permutation control (80% to 0.5%) are therefore checks of the instrument on constructed text, not evidence about ASP. The only evidence about ASP's effect is the author's non-blind reading of the 2026-05-17 subagent dispatches, whose raw transcripts were not preserved. Section 5 is rewritten accordingly; the version 2.0 replication layer labels the data itself (`adjudicator_fixture_check_2026_05`, `run_mode: mock`).
 
 ---
 
@@ -41,20 +44,52 @@ prompt isolation grounded in the self-correction-limit literature (Huang
 et al., 2024; Tyen et al., 2024), and hands execution to a child subprocess
 with a file-based contract. We document the design, the operational
 deployment as an open-source plugin, and preliminary observations from five
-engineering evaluations (single model; one dispatch per task per condition).
-A deterministic adjudicator with cryptographic provenance ships alongside the
-skill so any reviewer can re-run it on the committed transcripts; its readings
-are reported descriptively in Section 5, under an author-defined criterion —
-the same researcher authored the expected-shadow-point lists and the MAST
-vocabulary the ASP condition injects — and do not constitute a coverage
-estimate against an external ground truth. With one observation per
-task-condition cell across five tasks, we report direction, not an estimable
-effect size; independent blind re-authoring of the expected lists is the
-decisive follow-up. A separate empirical finding on `claude -p` exit-code semantics
+engineering evaluations (single model; one dispatch per task per condition,
+read by the author without blinding). The raw transcripts of those dispatches
+were not preserved, so the observations are reported, not verifiable. A
+deterministic adjudicator with cryptographic provenance ships with the skill.
+This version corrects an error of version 1.0, which presented the
+adjudicator's scores on author-constructed test fixtures as a reading of the
+model transcripts; those scores validate the instrument and nothing more. We
+therefore report **no measured effect** of ASP. A pre-registered real-mode
+benchmark with independently authored, blind expected lists is specified as
+the decisive follow-up. A separate empirical finding on `claude -p` exit-code semantics
 under graceful agent refusal is characterised in a companion paper.
 
-**Keywords:** LLM coding agents · pre-mortem · multi-agent failure modes ·
-Claude Code · operational protocols · experience report
+**Keywords:** llm coding agents; pre-mortem; multi-agent failure modes;
+claude code; operational protocols; experience report
+
+## Resumo
+
+Equipes de software delegam cada vez mais trabalho de engenharia rotineiro a
+assistentes de código baseados em LLM. Quando o assistente produz código
+*localmente correto* que omite modos de falha que um engenheiro sênior
+levantaria num pre-mortem — a política de segurança por linha que precisa
+mudar por causa de uma coluna nova, o limite de taxa da API externa, o atraso
+de réplica durante uma migração longa —, a produção quebra de formas caras de
+depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de
+experiência descreve o **Anticipating Shadow Points (ASP)**, um protocolo de
+planejamento em 13 fases distribuído como skill do Claude Code, que integra o
+pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al.
+(2025), separa planejamento de validação sob isolamento de prompt, apoiado na
+literatura sobre os limites da autocorreção (Huang et al., 2024; Tyen et al.,
+2024), e entrega a execução a um subprocesso filho com contrato em arquivo.
+Documentamos o desenho, a implantação como plugin de código aberto e
+observações preliminares de cinco avaliações de engenharia (um modelo; uma
+execução por tarefa e condição, lidas pelo autor sem cegamento). As transcrições brutas dessas execuções
+não foram preservadas, então as observações são relatadas, não verificáveis.
+Um adjudicador determinístico com proveniência criptográfica acompanha a
+skill. Esta versão corrige um erro da versão 1.0, que apresentou as notas do
+adjudicador sobre fixtures de teste escritos pelo autor como se fossem a
+leitura das transcrições do modelo; essas notas validam o instrumento e nada
+mais. Por isso **não relatamos efeito medido** do ASP. Um benchmark em modo
+real, pré-registrado, com listas esperadas escritas por revisores
+independentes e cegos, fica especificado como o próximo passo decisivo. Um achado
+empírico separado, sobre a semântica do código de saída do `claude -p` quando
+o agente recusa com educação, é caracterizado num artigo complementar.
+
+**Palavras-chave:** agentes de código llm; pre-mortem; modos de falha
+multiagente; claude code; protocolos operacionais; relato de experiência
 
 ---
 
@@ -99,12 +134,11 @@ validation under strict prompt isolation, and hands execution to a
 child subprocess with a file-based contract. We deployed the skill,
 distributed it through three install paths (plugin marketplace, dev mode,
 standalone script), ran it through five engineering evaluations, and
-report what we learned. The evaluation is honestly preliminary in scale
-(one dispatch per task per condition across five tasks, single underlying
-model, author-adjudicated) and we make no claim that the observed effect
-generalizes beyond the chosen tasks; we report it because the *direction*
-and the *magnitude* are informative about which design choices appear
-to be load-bearing.
+report what we learned. The evaluation is preliminary and, as corrected in
+this version, unmeasured: one dispatch per task per condition, a single
+model, read by the author without blinding, with the raw transcripts not
+preserved. We report it as qualitative observation about which design
+choices appear load-bearing, not as an effect.
 
 ### Contributions
 
@@ -116,10 +150,10 @@ This experience report contributes:
 2. **Twelve operational constraints we call "Iron Laws"** that render
    the protocol enforceable at runtime, each tied to a primary literature
    source or to a documented design decision.
-3. **Preliminary observations** from five engineering evaluations,
-   alongside a deterministic adjudicator with committed evidence so any
-   reviewer can re-adjudicate the recorded transcripts without trusting
-   the author.
+3. **Preliminary, qualitative observations** from five engineering
+   evaluations, and a deterministic adjudicator with cryptographic
+   provenance, validated on constructed fixtures and ready to score real
+   transcripts without trusting the author.
 4. **A separate empirical finding** on `claude -p` exit-code semantics
    under graceful agent refusal, characterised in the companion paper
    Flores (2026b). The finding motivated two of
@@ -471,6 +505,19 @@ install paths, each appropriate for a different audience:
 The plugin uses Anthropic's official `.claude-plugin/plugin.json` manifest
 format (Claude Code 2.1+), and the repository doubles as a self-host
 marketplace via `.claude-plugin/marketplace.json` at the repository root.
+
+**Permissions.** Since plugin version 1.0.4 the Phase 9 runner spawns the
+`claude -p` child with **no permission flag**: the child runs under the
+user's own Claude Code permission settings, and the skill never grants,
+widens or bypasses them. Earlier versions passed
+`--permission-mode bypassPermissions`; that was removed after the Claude
+plugin directory declined the listing because a plugin must not grant itself
+permissions. In non-interactive mode an action the user has not pre-allowed
+is denied rather than prompted; the parent reads the `permission_denials`
+field of the child's JSON result and reports any denial to the user instead
+of retrying with wider permission. This makes autonomous execution strictly
+weaker than in the May 2026 deployment, and safer: the skill can only do
+what the operator already allowed.
 The skill itself is implemented as a Markdown-based skill following the
 Anthropic Agent Skills best-practices document, with companion files for
 the MAST checklist, per-mode pre-mortem prompts, and the seven
@@ -480,18 +527,18 @@ Documentation is published as a GitHub Pages site, with translations of
 the README into Spanish, Portuguese, Italian, and Hebrew; the latter
 three are AI-assisted and pending native-speaker review. The full
 source — skill files, plugin manifests, documentation, test artefacts,
-benchmark code — is MIT-licensed; the paper text is CC BY 4.0.
+benchmark code — is MIT-licensed; the paper text, figures and data are
+CC BY 4.0.
 
 ---
 
 ## 5. Preliminary Observations
 
 We ran ASP through five structured engineering evaluations spanning
-heterogeneous domains. The evaluation is honestly preliminary; we report
-it because the *direction* and *magnitude* of the observed effect are
-informative about which design choices appear load-bearing, and because
-the deterministic adjudicator we ship lets any reviewer reproduce the
-scores without trusting the author.
+heterogeneous domains. This section separates three things that version
+1.0 blurred: what the author observed in real model dispatches (5.2), what
+the deterministic adjudicator shows about itself on constructed fixtures
+(5.3), and what has not been measured at all.
 
 ### 5.1 The evaluation set
 
@@ -511,60 +558,50 @@ competent practitioner would surface, and an ACCEPTANCE threshold
 (default 80%). The full text of each evaluation is in the companion
 repository.
 
-### 5.2 Procedure and observations
+### 5.2 What was observed in real dispatches (author, non-blind)
 
-For each evaluation we ran two conditions, RED (without ASP) and GREEN
-(with ASP loaded), both using Claude Opus 4.7 and the same subagent
-dispatch substrate. RED prompts asked the agent to plan as a senior
-engineer would without invoking any framework; GREEN prompts injected the
-ASP discipline (pre-mortem framing, MAST 14-mode forced enumeration,
-mitigation requirement) before requesting the plan. One dispatch per condition was issued for each of the five evaluations —
-ten candidate transcripts in total, one observation per task-condition
-cell — all committed to the companion `benchmark/` package.
+On 2026-05-17 each evaluation was dispatched to a fresh subagent twice,
+RED (asked to plan as a senior engineer would, without any framework) and
+GREEN (with the ASP discipline injected: pre-mortem framing, MAST 14-mode
+forced enumeration, mitigation requirement), on the session model of the
+time (Claude Opus 4.7; the model was not recorded per dispatch), one
+dispatch per condition. The subagents inherited the author's global agent
+instructions, so the RED condition was a competent baseline, not a naive
+one. The author read each plan against the expected list and recorded a
+coverage judgement; the summaries, with the subagent identifiers, are
+committed in `tests/baseline-pressure-tests.md` and
+`tests/evals-summary.md`. The raw transcripts were not committed and are no
+longer available.
 
-Two adjudications were applied to the *same* transcripts. Under the
-deterministic 4-layer matcher (exact / synonym sidecar / Jaccard
-sliding-window / unmatched), shipped as the `benchmark/` package, the
-match rate against the expected-shadow-point lists was:
+Under that non-blind reading, RED plans covered roughly 30–60% of each
+expected list (mean near 47%) and GREEN plans covered all or nearly all of
+it. These figures are an author's judgement on unpreserved text, scored
+against lists the same author wrote, with the MAST vocabulary that the
+GREEN prompt injects appearing in those lists. They are reported as
+observation, not measurement, and no number in this paragraph is asserted
+by the replication layer.
 
-| Evaluation | Expected points | RED match (deterministic) | GREEN match (deterministic) |
-|---|---|---|---|
-| E1 | 10 | 2/10 (20%) | 9/10 (90%) |
-| E2 | 10 | 0/10 (0%) | 6/10 (60%) |
-| E3 | 10 | 0/10 (0%) | 8/10 (80%) |
-| E4 | 10 | 0/10 (0%) | 10/10 (100%) |
-| E5 | 10 | 0/10 (0%) | 7/10 (70%) |
-| **Mean** | — | **≈4%** | **≈80%** |
+### 5.3 What the deterministic adjudicator shows about itself
 
-A more tolerant, non-blind author-adjudication of the same transcripts read
-higher — a RED mean near 47% (E1 ~60%, E2 ~30%, E3 ~50%, E4 ~50%, E5 ~45%)
-and a GREEN mean near complete — because it accepted paraphrase the lexical
-matcher rejects (a candidate that says "exponential backoff with jitter"
-does not match an expected point named "Backoff strategy" absent a synonym
-entry).
+The `benchmark/` package scores a plan against an expected list with a
+deterministic 4-layer matcher (exact name, synonym sidecar, Jaccard
+sliding window, unmatched). Its one published run is a **mock-mode** run:
+the RED and GREEN texts are fixtures the author wrote to exercise each
+matching layer (`benchmark/tests/fixtures/mock_runs/`), deliberately weaker
+for RED and deliberately aligned with the expected list for GREEN. On those
+fixtures the matcher scores RED 4% and GREEN 80% on average — a statement
+about how the fixtures were written, not about ASP.
 
-Three cautions bound every number above. First, the deterministic figure is
-a **match rate under an author-defined criterion**, not coverage against
-external ground truth: the same researcher authored the expected lists, the
-MAST vocabulary the GREEN condition injects, and the synonym sidecar that
-sets the matcher's recall — none independently audited. Second, the RED
-column is 0% in four of five evaluations, which reflects the lexical matcher
-assigning near-zero to free-form text — an instrument property, not evidence
-that the un-assisted plans surfaced nothing. Third, with one observation per
-cell the per-condition means are descriptive, not inferential. For these
-reasons the deterministic number is **not** presented as a floor on real
-coverage; the decisive follow-up is blind re-authoring of the expected lists
-by independent reviewers (Section 8).
+The useful property the mock run does establish is **discrimination**:
+scoring each GREEN fixture against a *different* task's expected list drops
+the mean from 80% to 0.5% (largest off-task cell 10%; Figure 2), so the
+matcher keys on task-specific vocabulary rather than generic engineering
+words. That makes it fit to score real transcripts; it has not yet been
+applied to any. The real-mode protocol, with expected lists re-authored
+blind by independent engineers, is specified in the repository's
+`PREREGISTRATION.md` and has not been run.
 
-As a negative control against the concern that this match rate merely rewards
-generic engineering vocabulary, the expected lists were permuted across the
-five tasks and the same adjudicator re-run: scoring each ASP-condition
-transcript against a *different* task's expected list collapsed the mean match
-from 80% to 0.5% (largest single off-task cell 10%). The matcher therefore
-discriminates task-specific content rather than crediting boilerplate. This
-addresses the *between-task* tautology only; it does not neutralise the
-*within-task* circularity above, since the same author wrote both the injected
-vocabulary and the expected list.
+![Figure 2. Instrument check: each author-constructed GREEN fixture scored against every task's expected list. Not an effect of ASP.](../output/figures/fig2_adjudicator_fixture_check.png)
 
 The component that *appears* most load-bearing, on qualitative inspection,
 is the MAST 14-mode forced enumeration: free-form pre-mortem alone clustered
@@ -573,7 +610,7 @@ less-salient categories (time/timezone, observability, operational
 excellence, contract drift). This is a hypothesis, not a formal ablation
 (Section 8).
 
-### 5.3 The `claude -p` exit-code finding
+### 5.4 The `claude -p` exit-code finding
 
 During a four-test battery against the `claude -p` non-interactive
 runner, we observed that the binary returns exit code 0 even when the
@@ -588,14 +625,7 @@ skill.
 This finding is observationally significant for any toolchain that wraps
 `claude -p` in a shell pipeline. Because the observation was from a
 single refusal scenario in our own battery, we **characterise it
-independently** in the companion paper Flores (2026b),
-which reports an N=50 measurement across four categories of
-refusal-provoking prompt (impossible-in-one-turn, capability, safety,
-ambiguity) on Claude Code 2.1.200 / Opus 4.8: a conditional silent-exit
-rate of approximately 40% (95% Wilson CI ≈ 28–54%), narrowing to a ≈24%
-core once principled-impossibility declines are excluded, on a single-rater
-snapshot. A blind, multi-rater replication with Cohen's κ remains the open
-follow-up.
+independently** in the companion paper Flores (2026b), which reports an N=50 measurement across four categories of refusal-provoking prompt (impossible-in-one-turn, capability, safety, ambiguity) on Claude Code 2.1.200 in July 2026. The session model was Fable 5; Opus 4.8 answered 16 of the 50 prompts, including all 12 safety prompts, after an automatic hand-off. Twenty-four trials exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were graceful declines: 24% to 40% of the suite depending on how a decline is counted (40%, 95% Wilson CI 28–54%, under the author's label; 38% under a blind five-rater codebook majority; 18% under the automated phrase detector). A human second rater and a pre-registered third snapshot are the open follow-ups.
 
 ---
 
@@ -640,9 +670,9 @@ empirical software-engineering reports.
 **Construct validity.** The same researcher who designed the protocol
 authored the expected-shadow-points lists *and* hand-adjudicated coverage.
 Even with a written rubric, this is the single largest threat to the
-observed effect's interpretability. The deterministic adjudicator we ship partially
-mitigates this by allowing any reviewer to re-adjudicate the recorded
-transcripts; it does not address the prior question of whether the
+observed effect's interpretability. The deterministic adjudicator we ship would
+mitigate this once applied to real, preserved transcripts; in this version
+it has only been run on constructed fixtures (§5.3), and it does not address the prior question of whether the
 expected lists themselves are biased toward what ASP surfaces. **Blind
 re-authoring by independent reviewers is the strongest follow-up.**
 
@@ -656,7 +686,7 @@ load-bearing-ness to the MAST checklist in §5.2 is a hypothesis).
 The acceptance threshold of 80% is the author's choice and not derived
 from prior literature.
 
-**External validity.** Single underlying model (Claude Opus 4.7),
+**External validity.** Single underlying model (Claude Opus 4.7, presumed from the session; not recorded per dispatch),
 single environment (macOS 14.5, Claude Code 2.1.143), five engineering
 tasks drawn from the author's domain experience. We make no claim of
 generalisation beyond these conditions.
@@ -675,8 +705,8 @@ The limitations of this experience report match the threats above
 one-to-one. The highest-priority follow-ups, in order, are:
 
 1. **Blind re-authoring** of the expected-shadow-point lists by 2+
-   independent reviewers with no exposure to ASP, plus blind
-   adjudication of the recorded transcripts. Compute Cohen's κ for
+   independent reviewers with no exposure to ASP, then a real-mode run
+   whose transcripts are preserved and hash-sealed, adjudicated blind. Compute Cohen's κ for
    inter-adjudicator agreement; re-measure coverage.
 2. **Formal ablation** of the load-bearing hypothesis: MAST checklist
    on/off (testing §5.2), validator prompt isolation on/off, Phase 0a
@@ -712,16 +742,13 @@ integrating Mitchell, Russo and Pennington's (1989) prospective hindsight
 finding, Klein's (2007) pre-mortem operationalisation, and Cemri et al.'s
 (2025) MAST 14-mode failure taxonomy as runtime discipline under a
 contract of twelve Iron Laws. The skill ships open source with three
-install paths. On five preliminary engineering evaluations, a shipped
-deterministic adjudicator scores the committed transcripts under an
-author-defined criterion; the readings are reported descriptively in
-Section 5, not as an estimable effect on real coverage. Because the same
-researcher authored the expected lists and the MAST vocabulary the assisted
-condition injects, with one observation per cell and a single model, the
-evaluation is preliminary rather than robust, pending blind re-authoring. The
-deterministic adjudicator shipped alongside the skill allows any
-reviewer to re-adjudicate the recorded transcripts without trusting the
-author.
+install paths. On five preliminary engineering evaluations the author observed, without
+blinding and on transcripts that were not preserved, that the assisted plans
+covered more of the expected failure modes; no effect has been measured.
+The deterministic adjudicator shipped with the skill has been validated only
+on constructed fixtures, where it discriminates task-specific vocabulary; a
+pre-registered real-mode run with independently authored lists is the
+decisive next step.
 
 We additionally observed that `claude -p` returns exit code 0 even when
 the agent gracefully refuses the requested goal — a quietly load-bearing
@@ -867,12 +894,21 @@ benchmark package in `benchmark/` provides:
   byte-level drift;
 - 27 unit tests pinning the determinism contract.
 
-A reviewer can reproduce the adjudication scores by cloning the
-repository, installing the benchmark package, and running
-`asp-benchmark run --mode real --model claude-opus-4-7` followed by
-`asp-benchmark verify <run-id>`. The protocol is specified independently
-of the Python implementation in `benchmark/PROTOCOL.md` so it can be
-re-implemented in another language.
+**Reproducing every number in Section 5 (no model calls).** From a clone
+of the repository, `python run_all.py` re-scores the author-constructed
+fixtures of the mock benchmark run with the shipped adjudicator, recomputes
+the discrimination matrix, regenerates Figure 2, asserts each number
+(`tests/test_paper_numbers.py`, which also asserts that the run is labelled
+`mock`) and verifies a single SHA-256 chain hash over code, tests, frozen
+inputs, data and results (`output/hash-chain.md`). The author's observations
+in Section 5.2 cannot be reproduced: their transcripts were not preserved.
+
+**Collecting real evidence (costs model calls).** Install the benchmark
+package and run `asp-benchmark run --mode real --model <model>` followed by
+`asp-benchmark verify <run-id>`. This has not been done for any published
+number; the protocol to do it properly is in `PREREGISTRATION.md`. The protocol is specified
+independently of the Python implementation in `benchmark/PROTOCOL.md` so it
+can be re-implemented in another language.
 
 ---
 

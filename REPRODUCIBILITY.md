@@ -5,7 +5,7 @@ This repository makes two different promises. They are kept apart on purpose, be
 | Seal | What it covers | Can you re-run it? | How you check it |
 |---|---|---|---|
 | **Seal 1: reproducible derivation** | Every number the papers cite, every figure, every test | Yes, offline, in seconds | `python run_all.py` |
-| **Seal 2: frozen evidence** | The model transcripts the numbers are derived from | No. The target is a non-deterministic, server-side model that has since changed | `python make_provenance.py --verify` proves the bytes are the ones the numbers came from |
+| **Seal 2: frozen evidence** | The `claude -p` transcripts and the benchmark fixtures the numbers are derived from | No. The target is a non-deterministic, server-side model that has since changed | `python make_provenance.py --verify` proves the bytes are the ones the numbers came from |
 
 Seal 1 says "given these transcripts, the numbers follow". Seal 2 says "these are the transcripts, unaltered since they were sealed". Neither says that running the same prompts today would give the same transcripts. It would not, and the papers say so.
 
@@ -46,7 +46,7 @@ One SHA-256 `chain_hash` over five ordered leaves. Each leaf is the hash of its 
 |---|---|
 | `code` | `run_all.py`, `make_provenance.py`, `analysis/*.py`, `benchmark/src/asp_benchmark/*.py`, the locked `tests/iron-law-11/scripts/analyze.py` |
 | `tests` | `tests/conftest.py`, `tests/test_*.py` |
-| `frozen_inputs` | the May 2026 `claude -p` run, the May 2026 benchmark run, the 50 locked scenarios, the locked refusal-phrase list and seed, the five evaluation specs |
+| `frozen_inputs` | the May 2026 `claude -p` run, the mock benchmark run (author-written fixtures), the 50 locked scenarios, the locked refusal-phrase list and seed, the five evaluation specs |
 | `data` | `data/**` (the redacted July 2026 extract, its labels and codebook) |
 | `results` | `output/results.json` |
 
@@ -59,7 +59,7 @@ The collection scripts are kept so the method is inspectable and a new snapshot 
 | Experiment | Script | Note |
 |---|---|---|
 | `claude -p` exit codes (May 2026) | `tests/iron-law-11/scripts/run-protocol.sh` | 50 prompts, `--max-turns 1`, about USD 5 at API prices |
-| RED/GREEN benchmark (May 2026) | `python -m asp_benchmark` in `benchmark/` | 10 transcripts |
+| RED/GREEN benchmark | `python -m asp_benchmark run --mode real` in `benchmark/` | Never run for a published number; the published run is `--mode mock` over author-written fixtures |
 
 A new run produces a new dated snapshot. Report it next to the old one; never replace the old one. New experiments follow [`PREREGISTRATION.md`](PREREGISTRATION.md): the protocol is frozen and publicly timestamped before the first trial.
 
@@ -68,6 +68,7 @@ A new run produces a new dated snapshot. Report it next to the old one; never re
 - **The model is not pinned.** `claude -p` resolves a model server-side; the same CLI version can answer with a different model later, and the July 2026 run shows the session model handing safety prompts to another model mid-suite (Fable 5 to Opus 4.8). The transcripts are the evidence; the model that produced them is not available to re-query.
 - **The July 2026 raw envelopes are private.** The CLI's `system/init` event records machine-local state (working directory, memory paths, installed plugins and MCP servers). The public file `data/spike-2026-07-08/trials.jsonl` keeps the fields the analysis uses, replaces one e-mail address and one local path with markers, and records the SHA-256 of each raw file so the extract can be tied to the originals on request.
 - **The July 2026 prompts were not captured in the envelope.** Trials carry the same scenario ids as the locked suite in `tests/iron-law-11/scenarios/`; the text sent is inferred from the id, not recorded.
+- **The benchmark has no model evidence.** Its one published run is a mock run: the RED and GREEN texts are fixtures written to exercise the matcher (`benchmark/PROTOCOL.md`, section 8). The author's May 2026 reading of real subagent plans survives only as a summary in `tests/evals-summary.md`; those transcripts were not preserved.
 - **Environment contamination.** The July 2026 run executed inside the author's own Claude Code setup, with his global instructions loaded; two replies refer to that setup. The May 2026 run executed in the repository's test folder with the plugin installed. Neither is a clean-room environment.
 
 ## Determinism

@@ -10,15 +10,18 @@ Stated honestly: what the next versions add, and what they still will not prove.
 - Demo recordings and figures as code; translations regenerated from the revised English.
 - Runner no longer sets a permission mode (shipped in 1.0.4).
 
-## Next: third `claude -p` snapshot
+## Next: two pre-registered experiments
 
-Run the protocol in [`PREREGISTRATION.md`](PREREGISTRATION.md) after it is deposited: pinned model, two turn caps, clean-room precondition, deterministic primary outcome.
+Both are specified in [`PREREGISTRATION.md`](PREREGISTRATION.md) and run only after the document is deposited with a public timestamp:
+
+1. A third `claude -p` snapshot: pinned model, two turn caps, clean-room precondition, deterministic primary outcome.
+2. The first real ASP benchmark: real-mode RED/GREEN runs with preserved, hash-sealed transcripts, scored by the shipped matcher against expected lists written blind by independent engineers.
 
 ## Open, and not claimed until done
 
 | Item | Why it matters | Blocker |
 |---|---|---|
-| Blind re-authoring of the five benchmark expected lists by independent engineers | The 80% GREEN match is against lists the author wrote; only independent lists remove the within-task circularity | Needs two or more outside reviewers |
+| Blind re-authoring of the five benchmark expected lists by independent engineers | No preserved model output yet measures ASP; and lists written by the author would make any measurement circular | Needs two or more outside reviewers |
 | MAST ablation with a blind placebo prompt | Tests whether the 14-mode enumeration, not prompt length or framing, drives the GREEN effect | Needs the blind lists above first |
 | Human second rater on the July 2026 labels | The 40% rests on one non-blind rater; an LLM panel agreed but shares lineage with the model under test | Needs one outside human rater |
 | Colab notebook | Zero-setup Track 1 verification in the browser | None; planned for v2.1 |

@@ -1,5 +1,8 @@
 # Published runs
 
+> [!WARNING]
+> The one run here, `2026-05-18T00-27-43Z-b0a1bc7b`, is a **mock-mode** run (`"mode": "mock"` in its manifest). Its RED and GREEN texts are fixtures written to exercise the adjudicator, not model outputs, so its scores say nothing about ASP. Version 1.0 of the ASP paper misreported it as model evidence; version 2.0 corrects that. No real-mode run has been published.
+
 Runs committed to this directory are intended as **public evidence**.
 Each is a complete reproducible artefact: input prompts, candidate
 outputs, adjudication, environment fingerprint, code inventory, and a

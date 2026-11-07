@@ -6,8 +6,10 @@ Inputs are all in the repository and never change:
   May 2026 `claude -p` run (frozen evidence, hash-locked inputs).
 * ``data/spike-2026-07-08/`` -- the redacted July 2026 re-measurement and the
   author/codebook labels.
-* ``benchmark/runs/published/2026-05-18T00-27-43Z-b0a1bc7b`` -- the committed
-  RED/GREEN benchmark transcripts and their deterministic adjudication.
+* ``benchmark/runs/published/2026-05-18T00-27-43Z-b0a1bc7b`` -- a MOCK-mode run of
+  the benchmark package: its RED/GREEN texts are fixtures the author wrote to
+  exercise the adjudicator (``benchmark/PROTOCOL.md`` section 8), not model
+  outputs. It validates the instrument; it says nothing about ASP's effect.
 
 The derivation is deterministic: no network, no model calls, no randomness.
 Output: ``output/results.json`` (canonical JSON, sorted keys).
@@ -186,14 +188,19 @@ def july_2026(analyze, phrases: list[str]) -> dict:
     }
 
 
-def benchmark() -> dict:
-    """Recompute the RED/GREEN benchmark and its label-permutation control.
+def adjudicator_fixture_check() -> dict:
+    """Recompute the adjudicator check on the author-constructed fixtures.
+
+    The published benchmark run is a mock run: every ``outputs/*/*.response.json``
+    points at a fixture under ``benchmark/tests/fixtures/mock_runs/``. The
+    numbers below therefore describe the matcher on text written to exercise
+    it, and must never be quoted as an effect of ASP on a model.
 
     Returns
     -------
     dict
-        Committed per-eval coverage, the 5x5 GREEN-output x expected-list
-        matrix recomputed with the shipped adjudicator, and its summary.
+        Run mode, per-eval coverage of the RED/GREEN fixtures, the 5x5
+        GREEN-fixture x expected-list matrix and its summary.
     """
     sys.path.insert(0, str(ROOT / "benchmark" / "src"))
     from asp_benchmark.adjudicator import adjudicate
@@ -218,7 +225,11 @@ def benchmark() -> dict:
     }
     diag = [matrix[i][i] for i in ids]
     off = [matrix[i][j] for i in ids for j in ids if i != j]
+    manifest = json.loads((BENCH_RUN / "manifest.json").read_text(encoding="utf-8"))
     return {
+        "run_mode": manifest["mode"],
+        "texts_are": "author-constructed fixtures (benchmark/tests/fixtures/mock_runs), "
+        "not model outputs",
         "eval_ids": ids,
         "red_coverage": committed["RED"],
         "green_coverage": committed["GREEN"],
@@ -247,7 +258,7 @@ def compute() -> dict:
             "may_2026": may_2026(analyze, phrases),
             "july_2026": july_2026(analyze, phrases),
         },
-        "benchmark_2026_05": benchmark(),
+        "adjudicator_fixture_check_2026_05": adjudicator_fixture_check(),
     }
 
 
