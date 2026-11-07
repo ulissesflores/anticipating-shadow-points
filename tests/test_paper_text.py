@@ -81,3 +81,13 @@ def test_preprint_labels_the_benchmark_as_mock():
 def test_no_invented_issue_title():
     """The withdrawn title for anthropics/claude-code #15685 is gone."""
     assert "Exit code 0 when the agent refused to work" not in text("iron-law-11.md")
+
+
+def test_iron_law_11_quotes_outcome_information(results):
+    """Table 3 quotes the information shares the data give."""
+    note = text("iron-law-11.md")
+    info = results["iron_law_11"]["july_2026"]["outcome_information"]
+    for labels in ("author", "codebook"):
+        for channel in ("exit_code", "exit_code_and_stop_reason"):
+            block = info[labels][channel]
+            assert f"{block['bits']:.2f} ({round(block['share'] * 100)}%)" in note

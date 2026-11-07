@@ -141,6 +141,42 @@
       },
       "exit1": 26,
       "n": 50,
+      "outcome_information": {
+        "author": {
+          "entropy_bits": 1.4332,
+          "exit_code": {
+            "bits": 0.9988,
+            "share": 0.697
+          },
+          "exit_code_and_stop_reason": {
+            "bits": 1.1211,
+            "share": 0.7823
+          },
+          "outcomes": {
+            "blocked": 1,
+            "cut": 25,
+            "declined": 20,
+            "done": 4
+          }
+        },
+        "codebook": {
+          "entropy_bits": 1.4755,
+          "exit_code": {
+            "bits": 0.9988,
+            "share": 0.6769
+          },
+          "exit_code_and_stop_reason": {
+            "bits": 1.1211,
+            "share": 0.7598
+          },
+          "outcomes": {
+            "blocked": 1,
+            "cut": 25,
+            "declined": 19,
+            "done": 5
+          }
+        }
+      },
       "permission_mode": [
         "auto"
       ],

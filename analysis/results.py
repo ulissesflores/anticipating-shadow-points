@@ -130,6 +130,78 @@ def may_2026(analyze, phrases: list[str]) -> dict:
     }
 
 
+def _entropy(counts) -> float:
+    """Shannon entropy in bits of a frequency table.
+
+    Parameters
+    ----------
+    counts : iterable of int
+        Frequencies (zeros allowed).
+
+    Returns
+    -------
+    float
+        Entropy in bits.
+    """
+    counts = [c for c in counts if c]
+    total = sum(counts)
+    return -sum(c / total * math.log2(c / total) for c in counts)
+
+
+def outcome_information(trials: list[dict], labels: dict, label_key: str) -> dict:
+    """How much of the task outcome each envelope channel carries.
+
+    Each trial gets one of four outcomes: ``cut`` (stopped by the turn cap),
+    ``blocked`` (server-side safety block), ``declined`` (exit 0 and labelled a
+    decline) or ``done`` (exit 0 and labelled a delivery). The mutual information
+    between that outcome and a channel, divided by the outcome entropy, is the
+    share of the outcome a wrapper can recover by reading that channel alone.
+
+    Parameters
+    ----------
+    trials : list of dict
+        Records from ``trials.jsonl``.
+    labels : dict
+        Rows of ``adjudication.tsv`` keyed by scenario id.
+    label_key : str
+        ``"author_label"`` or ``"codebook_majority"``.
+
+    Returns
+    -------
+    dict
+        Outcome counts, the outcome entropy in bits, and for each channel
+        (exit code; exit code plus ``stop_reason``) the mutual information in
+        bits and as a share of the entropy.
+    """
+
+    def outcome(t: dict) -> str:
+        """Four-way task outcome of one trial."""
+        cls = labels[t["scenario_id"]]["class"]
+        if cls == "turn_cap":
+            return "cut"
+        if cls == "server_block":
+            return "blocked"
+        return "declined" if labels[t["scenario_id"]][label_key] == "DECLINE" else "done"
+
+    outcomes = [outcome(t) for t in trials]
+    h = _entropy(Counter(outcomes).values())
+
+    def info(channel) -> dict:
+        """Mutual information between the outcome and one channel."""
+        groups: dict = {}
+        for t, o in zip(trials, outcomes, strict=True):
+            groups.setdefault(channel(t), []).append(o)
+        h_cond = sum(len(g) / len(trials) * _entropy(Counter(g).values()) for g in groups.values())
+        return {"bits": round(h - h_cond, 4), "share": round((h - h_cond) / h, 4)}
+
+    return {
+        "outcomes": dict(sorted(Counter(outcomes).items())),
+        "entropy_bits": round(h, 4),
+        "exit_code": info(lambda t: t["exit_code"]),
+        "exit_code_and_stop_reason": info(lambda t: (t["exit_code"], t["stop_reason"])),
+    }
+
+
 def july_2026(analyze, phrases: list[str]) -> dict:
     """Recompute the July 2026 re-measurement from the redacted extract.
 
@@ -185,6 +257,10 @@ def july_2026(analyze, phrases: list[str]) -> dict:
         "core_silent_refusals": _rate(core, n, analyze),
         "total_cost_usd": round(sum(t["total_cost_usd"] or 0 for t in trials), 2),
         "redacted_replies": sum(1 for t in trials if t["redactions"]),
+        "outcome_information": {
+            "author": outcome_information(trials, labels, "author_label"),
+            "codebook": outcome_information(trials, labels, "codebook_majority"),
+        },
     }
 
 

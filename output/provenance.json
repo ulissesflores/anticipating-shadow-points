@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "7a47b6b2aea6f437fe73366900419584e89df6a4d0954a5915be517a83513a4a",
+  "chain_hash": "236b3320c91a96245f3b71a3fef759345baf82d816c73c1d1f61e009e96c58bb",
   "informational_not_hashed": {
     "files": [
       {
@@ -40,7 +40,7 @@
         },
         {
           "path": "analysis/results.py",
-          "sha256": "4f880dcb51f0056d5c081ba87cce7d58279a33941c7e7ea1b9ab9e7dab618193"
+          "sha256": "d316b392c209aedece223d401cdbb6eaffe21289ba270d88f806cf5e20258441"
         },
         {
           "path": "benchmark/src/asp_benchmark/__init__.py",
@@ -95,7 +95,7 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "63b4ea30f37aee582b7d3fb740a1c98652e7c8d2212167e44a9064dae0a3bb6e"
+      "leaf_sha256": "55c0c19b4a64f4584335196a6af30256fa8917114f9ed0d9721f2babdc941c9d"
     },
     "data": {
       "files": [
@@ -1759,10 +1759,10 @@
       "files": [
         {
           "path": "output/results.json",
-          "sha256": "41af569f573c20cfbf71837bdfcf28b419051695c8f319be82b3415c6bf6cef6"
+          "sha256": "843ab5d66e4b1bd851a3b54ac68fdb19ec200b27b1f4a3ff109148ba6ee55d33"
         }
       ],
-      "leaf_sha256": "a140b529264725c55b60c46f6363039d7a76d1d376dfba61ac736150221a1576"
+      "leaf_sha256": "f93c93cd4df316884fbe0114b5b2798178c29a466b7a3bf61bd25b14c986d054"
     },
     "tests": {
       "files": [
@@ -1780,18 +1780,18 @@
         },
         {
           "path": "tests/test_paper_numbers.py",
-          "sha256": "a689f86ac326b29767827eb80a3b3141295e99aa75c79e5f8131577c18bfc234"
+          "sha256": "482d4446f4eab377e85ed72cb8b5dcb777f7726d78f2690d06800039a5b1d676"
         },
         {
           "path": "tests/test_paper_text.py",
-          "sha256": "fad08aa93398e9e63b1195cb1b1f7074c427a10c574f8559fe3f38c0a2edab86"
+          "sha256": "0381e29f546c1adff669d4da3e2cdf035bb8cff12b1cdf0e18d2142e6e4bb07b"
         },
         {
           "path": "tests/test_recipe.py",
           "sha256": "97cd085162d0254e114314cb3c69b8bb149be4bf2d2b4138573f2844b8ea56d8"
         }
       ],
-      "leaf_sha256": "5785f19404a0e9b9929e8273a890082204a0d69c139f35a707e6598762cec0ce"
+      "leaf_sha256": "916339c000516309fa3621880f0c5de8e179076f7025d13fdc2d992198062c24"
     }
   },
   "schema": 1

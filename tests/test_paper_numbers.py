@@ -113,3 +113,19 @@ def test_fixture_permutation(results):
     assert bench["permutation_diagonal_mean"] == 0.8
     assert bench["permutation_offdiagonal_mean"] == 0.005
     assert bench["permutation_offdiagonal_max"] == 0.1
+
+
+def test_july_outcome_information(results):
+    """Share of the four-way outcome carried by the exit code and by exit + stop_reason."""
+    info = results["iron_law_11"]["july_2026"]["outcome_information"]
+    author, codebook = info["author"], info["codebook"]
+    assert author["outcomes"] == {"blocked": 1, "cut": 25, "declined": 20, "done": 4}
+    assert codebook["outcomes"] == {"blocked": 1, "cut": 25, "declined": 19, "done": 5}
+    assert round(author["entropy_bits"], 2) == 1.43
+    assert round(author["exit_code"]["bits"], 2) == 1.00
+    assert round(author["exit_code"]["share"] * 100) == 70
+    assert round(author["exit_code_and_stop_reason"]["bits"], 2) == 1.12
+    assert round(author["exit_code_and_stop_reason"]["share"] * 100) == 78
+    assert round(codebook["exit_code"]["share"] * 100) == 68
+    assert round(codebook["exit_code_and_stop_reason"]["share"] * 100) == 76
+    assert round(codebook["entropy_bits"], 2) == 1.48
