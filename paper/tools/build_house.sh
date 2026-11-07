@@ -3,6 +3,7 @@
 #   fonte.md -> export_house.py -> DOCX -> PDF EXPORTED BY MICROSOFT WORD (AppleScript) -> crivo_docx.py
 #
 #   paper/tools/build_house.sh --src build/<nome>/fonte.md --out build/<nome> --nome <nome> [--fig-cm auto|14]
+#                              [--lang en|pt-BR|es|it]     (edition language: labels, Word proofing language, breaks)
 #
 # Needs pandoc, qpdf, poppler (pdffonts/pdfinfo/pdftoppm), Microsoft Word and /usr/bin/python3 (lxml, Pillow, PyMuPDF).
 # Word is NOT quit if it already had documents open; only the exported document is closed.
@@ -11,14 +12,15 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"          # paper/
 PY="${PYTHON_HOUSE:-/usr/bin/python3}"
-SRC=""; OUT=""; NOME=""; FIG="auto"
+SRC=""; OUT=""; NOME=""; FIG="auto"; LANG_ED="en"
 while [ $# -gt 0 ]; do
   case "$1" in
     --src) SRC="$(cd "$(dirname "$2")" && pwd)/$(basename "$2")"; shift 2;;
     --out) mkdir -p "$2"; OUT="$(cd "$2" && pwd)"; shift 2;;
     --nome) NOME="$2"; shift 2;;
     --fig-cm) FIG="$2"; shift 2;;
-    *) echo "usage: $0 --src md --out dir --nome base [--fig-cm auto|N]"; exit 64;;
+    --lang) LANG_ED="$2"; shift 2;;
+    *) echo "usage: $0 --src md --out dir --nome base [--fig-cm auto|N] [--lang en|pt-BR|es|it]"; exit 64;;
   esac
 done
 [ -n "$SRC" ] && [ -n "$OUT" ] && [ -n "$NOME" ] || { echo "usage: $0 --src md --out dir --nome base"; exit 64; }
@@ -64,7 +66,7 @@ APPLESCRIPT
 
 for PX in "${PXS[@]}"; do
   echo "== exporting DOCX (images ${PX}px)"
-  "$PY" "$ROOT/tools/export_house.py" --src "$SRC" --work "$OUT/work" --out "$DOCX" --fig-cm "$FIG" --img-px "$PX"
+  "$PY" "$ROOT/tools/export_house.py" --src "$SRC" --work "$OUT/work" --out "$DOCX" --fig-cm "$FIG" --img-px "$PX" --lang "$LANG_ED"
   echo "== Word -> PDF"
   word_pdf "$DOCX" "$PDF"
   [ -s "$PDF" ] || { echo "[FAIL] Word did not produce $PDF"; exit 70; }
@@ -77,7 +79,7 @@ done
 qpdf --check "$PDF" >/dev/null && echo "[OK] qpdf --check"
 echo "== crivo"
 set +e
-"$PY" "$ROOT/tools/crivo_docx.py" "$DOCX" --pdf "$PDF" --render "$OUT/render"
+"$PY" "$ROOT/tools/crivo_docx.py" "$DOCX" --pdf "$PDF" --render "$OUT/render" --lang "$LANG_ED"
 RC=$?
 set -e
 mkdir -p "$OUT/render"

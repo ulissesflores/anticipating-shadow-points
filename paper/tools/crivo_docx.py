@@ -41,6 +41,7 @@ from lxml import etree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import export_house as X  # noqa: E402  (mesmas constantes que o exportador)
+import rotulos  # noqa: E402  (rotulos por idioma da edicao; --lang escolhe, en = literais originais)
 
 W, WP, A = X.W, X.WP, X.A
 w = X.w
@@ -52,6 +53,16 @@ INFO: list[str] = []
 
 def v(cat: str, cod: str, msg: str) -> None:
     V.append((cat, cod, msg))
+
+
+def rx_apendice() -> "re.Pattern[str]":
+    return re.compile(rf"^{re.escape(X.LB['appendix'])} [A-Z] —")
+
+
+def rx_rotulo(escolha: str) -> str:
+    """Padrao de 'Table N' / 'Figure N' (ou Tabela/Figura...) no idioma da edicao."""
+    nomes = {"tf": f"{X.LB['table']}|{X.LB['figure']}", "t": X.LB["table"], "f": X.LB["figure"]}
+    return "(" + "|".join(re.escape(x) for x in nomes[escolha].split("|")) + ")"
 
 
 def limpa(t: str) -> str:
@@ -224,17 +235,17 @@ def crivo_docx(docx: Path, fig_cm: float) -> dict:
             t = texto(el).strip()
             if sid == "Heading1":
                 atual_h1 = t
-                em_refs = t.startswith("References")
+                em_refs = t.startswith(X.LB["refs"])
                 quebra = est.ppr_bool(el, "pageBreakBefore") or el.find(f".//{w('br')}[@{w('type')}='page']") is not None
-                if (X.quebra_direta(t) or re.match(r"^Appendix [A-Z] —", t)) and not quebra:
+                if (X.quebra_direta(t) or rx_apendice().match(t)) and not quebra:
                     v("FORMA", "F07", f"titulo sem quebra de pagina antes: {t[:50]!r}")
                 ctx["titulos"].append(t)
-            elif re.match(r"^Appendix [A-Z] —", t):
+            elif rx_apendice().match(t):
                 v("FORMA", "F07", f"apendice fora de Heading1: {t[:50]!r}")
             if sid == "Lista" or el.find(f"{w('pPr')}/{w('numPr')}") is not None:
                 if sid != "Lista":
                     v("FORMA", "F12", f"item de lista com estilo {sid!r} (esperado Lista): {t[:40]!r}")
-                if atual_h1 in ("Resumo", "Abstract"):
+                if atual_h1 in rotulos.TODOS_RESUMOS:
                     v("CONTEUDO", "C06", f"bullet dentro de {atual_h1}: {t[:60]!r}")
             if em_refs and sid not in ("Heading1",):
                 if sid != "Bibliography":
@@ -363,9 +374,9 @@ def crivo_pdf(pdf: Path, docx_ctx: dict, render: Path | None) -> None:
         txt = pg.get_text("text").strip()
         if not txt and not pg.get_images():
             v("FORMA", "P05", f"pagina {n} em branco")
-        if re.search(r"^(Table|Figure) [A-Z]?\d+\s*$", txt, re.M):
+        if re.search(rf"^{rx_rotulo('tf')} [A-Z]?\d+\s*$", txt, re.M):
             paginas_render.add(n)
-        if re.search(r"^Appendix [A-Z] —", txt, re.M):
+        if re.search(rf"^{re.escape(X.LB['appendix'])} [A-Z] —", txt, re.M):
             paginas_render.update({n, n + 1})
         # figura dentro da area util e com rotulo na mesma pagina
         mx = X.CFG["margem_twips"] / 20
@@ -373,15 +384,15 @@ def crivo_pdf(pdf: Path, docx_ctx: dict, render: Path | None) -> None:
             x0, y0, x1, y1 = im["bbox"]
             if x0 < mx - 2 or x1 > pg.rect.width - mx + 2 or y0 < mx - 2 or y1 > pg.rect.height - mx + 2:
                 v("FORMA", "P04", f"pagina {n}: figura fora da area util ({[round(c) for c in im['bbox']]})")
-            if n > 1 and not re.search(r"^Figure [A-Z]?\d+\s*$", txt, re.M):   # p. 1 = logo da capa
-                v("FORMA", "P04", f"pagina {n}: figura sem rotulo 'Figure N' na mesma pagina")
+            if n > 1 and not re.search(rf"^{rx_rotulo('f')} [A-Z]?\d+\s*$", txt, re.M):   # p. 1 = logo da capa
+                v("FORMA", "P04", f"pagina {n}: figura sem rotulo '{X.LB['figure']} N' na mesma pagina")
             paginas_render.add(n)
     # orfas: para cada tabela com rotulo, em que pagina cai a 1a celula de cada linha de dados
     # (a busca comeca na pagina do rotulo "Tabela N", que e ancora unica; texto normalizado)
     paginas_texto = [re.sub(r"\s+", " ", pg.get_text("text")) for pg in d]
     ancora: dict[str, int] = {}
     for n, pg in enumerate(d):
-        for m in re.finditer(r"^(Table [A-Z]?\d+)\s*$", pg.get_text("text"), re.M):
+        for m in re.finditer(rf"^({re.escape(X.LB['table'])} [A-Z]?\d+)\s*$", pg.get_text("text"), re.M):
             ancora.setdefault(m.group(1), n)
     nao_verif, verificadas = [], 0
     for idx, tbl in docx_ctx["tabelas"]:
@@ -484,8 +495,10 @@ def main() -> int:
     ap.add_argument("docx")
     ap.add_argument("--pdf")
     ap.add_argument("--render", help="pasta onde gravar a lista de paginas a ler (e onde render sera feito)")
+    ap.add_argument("--lang", default="en", choices=rotulos.IDIOMAS, help="idioma da edicao (rotulos e quebras)")
     ap.add_argument("--fig-cm", type=float, help="largura esperada das figuras (padrao: a gravada no .meta.json)")
     a = ap.parse_args()
+    X.definir_idioma(a.lang)
     docx = Path(a.docx)
     meta = docx.with_suffix(".meta.json")
     fig_cm = a.fig_cm or (json.loads(meta.read_text())["fig_largura_cm"] if meta.exists() else X.CFG["fig_largura_cm"])

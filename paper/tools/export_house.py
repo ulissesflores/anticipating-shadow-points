@@ -34,6 +34,9 @@ from pathlib import Path
 from lxml import etree
 from PIL import Image, ImageFont
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import rotulos  # noqa: E402  (rótulos por idioma da edição; `en` = literais originais)
+
 # --------------------------------------------------------------------------- #
 # 0. constantes de forma (UM lugar) — o crivo importa estas mesmas             #
 # --------------------------------------------------------------------------- #
@@ -96,8 +99,11 @@ CODE_PT_MAX, CODE_PT_MIN = 10, 7.5       # tamanho do bloco: o maior que deixa a
 
 
 def quebra_direta(t: str) -> bool:
-    """canon en: exatamente 3 pageBreakBefore = Abstract, 1. (primeira secao numerada) e References."""
-    return t == "Abstract" or t.startswith("References") or re.match(r"^1\. ", t) is not None
+    """canon en: exatamente 3 pageBreakBefore = Abstract, 1. (primeira secao numerada) e References.
+    Edicao traduzida: LB["breaks"] (pt-BR 4: Resumo, Abstract, 1., Referencias; es/it 3: resumo local, 1., refs)."""
+    b = LB["breaks"]
+    return (("abstract" in b and t == "Abstract") or ("resumo" in b and t == LB["resumo"])
+            or ("refs" in b and t.startswith(LB["refs"])) or ("intro" in b and re.match(r"^1\. ", t) is not None))
 
 
 def w(tag: str) -> str:
@@ -162,9 +168,23 @@ def linhas_de(texto: str, pt: float, largura_cm: float, estilo: str = "r") -> in
 # --------------------------------------------------------------------------- #
 MESES = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
          "October", "November", "December"]
-RE_NOTA = re.compile(r"^(\*Note\.?\*|Note\.|Source:|\*Source)")
-RE_CAP = re.compile(r"^\*\*(Table|Figure) ((?:[A-Z]\d+)|\d+)\.\*\*[ \t]+(.+)$")     # **Table 1.** titulo
-RE_FIG_IMG = re.compile(r"^!\[Figure (\d+)\. (.+)\]\(([^)\s]+\.png)\)\s*$")        # ![Figure 1. legenda](caminho)
+LB: dict = rotulos.get("en")      # rotulos da edicao (definir_idioma); o crivo le X.LB
+RE_NOTA = RE_CAP = RE_FIG_IMG = None
+
+
+def definir_idioma(lang: str) -> None:
+    """Escolhe os rotulos estruturais da edicao (en = literais originais) e recompila as expressoes de captura."""
+    global LB, RE_NOTA, RE_CAP, RE_FIG_IMG
+    LB = rotulos.get(lang)
+    nota = re.escape(LB["note"].rstrip("."))
+    fonte = re.escape(LB["source"])
+    RE_NOTA = re.compile(rf"^(\*{nota}\.?\*|{nota}\.|{fonte}:|\*{fonte})")
+    t, f = re.escape(LB["table"]), re.escape(LB["figure"])
+    RE_CAP = re.compile(rf"^\*\*({t}|{f}) ((?:[A-Z]\d+)|\d+)\.\*\*[ \t]+(.+)$")      # **Table 1.** titulo
+    RE_FIG_IMG = re.compile(rf"^!\[{f} (\d+)\. (.+)\]\(([^)\s]+\.png)\)\s*$")       # ![Figure 1. legenda](caminho)
+
+
+definir_idioma("en")
 
 
 def front_matter(texto: str) -> tuple[dict[str, str], str]:
@@ -219,7 +239,7 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
     titulo = meta.get("title", (h1.group(1) if h1 else "")).strip()
     sub_t = meta.get("subtitle", "").strip()
     ano, mes, dia = (meta.get("date", "").split("-") + ["", "", ""])[:3]
-    data_txt = f"{MESES[int(mes) - 1]} {int(dia)}, {ano}" if ano else ""
+    data_txt = LB["date_fmt"].format(mes=LB["months"][int(mes) - 1], dia=int(dia), ano=ano) if ano else ""
     espaco = lambda tw: f"```{{=openxml}}\n<w:p><w:pPr><w:spacing w:after=\"{tw}\"/></w:pPr></w:p>\n```\n"
     rosto = [divs("FigureImage", f"![{LOGO_ALT}](fig-embed/{LOGO.name})"), espaco(1100), divs("CoverTitle", titulo)]
     if sub_t:
@@ -230,7 +250,7 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
     if meta.get("orcid"):
         rosto.append(divs("CoverSmall", f"ORCID: {meta['orcid']}"))
     if data_txt:
-        rosto += [espaco(1400), divs("CoverInfo", f"Date: {data_txt}")]
+        rosto += [espaco(1400), divs("CoverInfo", f"{LB['date']}: {data_txt}")]
     corpo = texto[corte:]
 
     rel["quebras_manuais"] = corpo.count("<!-- quebra-de-pagina -->")
@@ -253,7 +273,7 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
     while i < n:
         ln = linhas[i]
         if ln.startswith("## "):
-            em_refs = ln.strip().startswith("## References")
+            em_refs = ln.strip().startswith("## " + LB["refs"])
             saida.append(ln)
             i += 1
             continue
@@ -268,7 +288,7 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
                 k += 1
             m_cap = RE_CAP.match(linhas[k]) if k < n else None
             rel["blocos_codigo"] += 1
-            if m_cap and m_cap.group(1) == "Figure":
+            if m_cap and m_cap.group(1) == LB["figure"]:
                 tipo, num = m_cap.group(1), m_cap.group(2)
                 legenda, prox = legenda_completa(k, m_cap.group(3))
                 titulo_e, nota_e = split_legenda(legenda)
@@ -277,7 +297,7 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
                 saida += [divs("CaptionLabel", f"{tipo} {num}"), divs("CaptionText", titulo_e), ""]
                 saida += bloco + [""]
                 if nota_e:
-                    saida.append(divs("TableNote", f"*Note.* {nota_e.rstrip('.')}."))
+                    saida.append(divs("TableNote", f"*{LB['note']}* {nota_e.rstrip('.')}."))
                 else:
                     rel["sem_nota"].append(f"{tipo} {num}")
                 rel["figuras_codigo"] += 1
@@ -306,13 +326,13 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
             continue
         # --- rotulo + titulo de tabela: `**Table N.** titulo` + tabela + `*Note.*` opcional ---------------
         m_cap = RE_CAP.match(ln)
-        if m_cap and m_cap.group(1) == "Table":
+        if m_cap and m_cap.group(1) == LB["table"]:
             num = m_cap.group(2)
             legenda, j = legenda_completa(i, m_cap.group(3))
             titulo_e, nota_e = split_legenda(legenda)
             if nota_e:
                 rel["legendas_divididas"] += 1
-            saida += [divs("CaptionLabel", f"Table {num}"), divs("CaptionText", escapa_travessao(titulo_e)), ""]
+            saida += [divs("CaptionLabel", f"{LB['table']} {num}"), divs("CaptionText", escapa_travessao(titulo_e)), ""]
             while j < n and not linhas[j].strip():
                 j += 1
             while j < n and linhas[j].startswith("|"):
@@ -323,12 +343,12 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
             while k < n and not linhas[k].strip():
                 k += 1
             if nota_e:
-                saida.append(divs("TableNote", f"*Note.* {escapa_travessao(nota_e.rstrip('.'))}."))
+                saida.append(divs("TableNote", f"*{LB['note']}* {escapa_travessao(nota_e.rstrip('.'))}."))
             if k < n and RE_NOTA.match(linhas[k]):
                 saida.append(divs("TableNote", escapa_travessao(linhas[k].strip())))
                 j = k + 1
             elif not nota_e:
-                rel["sem_nota"].append(f"Table {num}")
+                rel["sem_nota"].append(f"{LB['table']} {num}")
             i = j
             continue
         # --- figura-imagem: `![Figure N. legenda](caminho)` ------------------------------------------------
@@ -339,19 +359,19 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
             if nota_f:
                 rel["legendas_divididas"] += 1
             figuras.append({"num": int(num), "arquivo": caminho, "titulo": titulo_f, "nota": nota_f})
-            saida += [divs("CaptionLabel", f"Figure {num}"), divs("CaptionText", escapa_travessao(titulo_f)),
-                      divs("FigureImage", f"![Figure {num}](fig-embed/{Path(caminho).name})")]
+            saida += [divs("CaptionLabel", f"{LB['figure']} {num}"), divs("CaptionText", escapa_travessao(titulo_f)),
+                      divs("FigureImage", f"![{LB['figure']} {num}](fig-embed/{Path(caminho).name})")]
             j = i + 1
             while j < n and not linhas[j].strip():
                 j += 1
             if nota_f:
-                saida.append(divs("TableNote", f"*Note.* {escapa_travessao(nota_f.rstrip('.'))}."))
+                saida.append(divs("TableNote", f"*{LB['note']}* {escapa_travessao(nota_f.rstrip('.'))}."))
             if j < n and RE_NOTA.match(linhas[j]):
                 saida.append(divs("TableNote", linhas[j].strip()))
                 i = j + 1
                 continue
             if not nota_f:
-                rel["sem_nota"].append(f"Figure {num}")
+                rel["sem_nota"].append(f"{LB['figure']} {num}")
             i += 1
             continue
         saida.append(escapa_travessao(ln))
@@ -547,7 +567,7 @@ def sanear_estilos(raiz: etree._Element) -> None:
     rpr.append(rfonts())
     sub(rpr, "sz", val=CFG["pt"] * 2)
     sub(rpr, "szCs", val=CFG["pt"] * 2)
-    sub(rpr, "lang", val="en-US", eastAsia="en-US", bidi="ar-SA")
+    sub(rpr, "lang", val=LB["code"], eastAsia=LB["code"], bidi="ar-SA")
     pd = sub(dd, "pPrDefault")
     sub(pd, "pPr")
     raiz.insert(0, dd)
@@ -803,9 +823,9 @@ def formatar_corpo(doc: etree._Element, media: dict[str, Path], fig_cm: float, r
         if sid in ("Heading1", "Heading2"):
             atual = texto_de(el).strip() if sid == "Heading1" else atual
             continue
-        if sid == "Normal" and atual in ("Resumo", "Abstract"):
+        if sid == "Normal" and atual in rotulos.TODOS_RESUMOS:
             t = texto_de(el).strip()
-            if not t.startswith(("Palavras-chave", "Keywords")):
+            if not t.startswith(rotulos.TODOS_KEYWORDS):
                 ind = get_or_add(pxml(el), "ind")
                 ind.set(w("firstLine"), "0")
         if sid == "Normal" and el.find(f".//{w('drawing')}") is not None:   # imagem solta: sem recuo
@@ -910,7 +930,7 @@ def quebras_de_pagina(corpo: etree._Element) -> None:
         t = texto_de(p).strip()
         if quebra_direta(t):
             sub(pxml(p), "pageBreakBefore")
-        elif re.match(r"^Appendix [A-Z] —", t):
+        elif re.match(rf"^{re.escape(LB['appendix'])} [A-Z] —", t):
             r = mk("r")
             sub(r, "br", type="page")
             pxml(p).addnext(r)
@@ -1222,7 +1242,7 @@ def listas_em_texto(corpo: etree._Element, nm: etree._Element) -> int:
                for a in nm.findall(w("abstractNum")) for lv in a.findall(w("lvl"))}
     depois, conta, n = False, {}, 0
     for p in corpo.iter(w("p")):
-        if estilo_de(p) == "Heading1" and texto_de(p).strip().startswith("References"):
+        if estilo_de(p) == "Heading1" and texto_de(p).strip().startswith(LB["refs"]):
             depois = True
         npr = p.find(f"{w('pPr')}/{w('numPr')}")
         if not depois or npr is None:
@@ -1306,7 +1326,7 @@ def escrever_pacote(raw: Path, out: Path, titulo: str, autor: str, fig_cm: float
     # configuracao: modo de compatibilidade moderno e idioma de revisao
     se = parse(partes["word/settings.xml"])
     for t in se.findall(w("themeFontLang")):
-        t.set(w("val"), "en-US")
+        t.set(w("val"), LB["code"])
     if se.find(w("compat")) is None:
         c = mk("compat")
         sub(c, "compatSetting", name="compatibilityMode", uri="http://schemas.microsoft.com/office/word", val=15)
@@ -1356,8 +1376,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--fig-cm", default="auto", help="largura unica das figuras em cm, ou 'auto' (ver docstring)")
     ap.add_argument("--img-px", type=int, default=CFG["img_px"])
     ap.add_argument("--img-cores", type=int, default=CFG["img_cores"])
+    ap.add_argument("--lang", default="en", choices=rotulos.IDIOMAS,
+                    help="idioma da edicao: rotulos estruturais, idioma de revisao do Word e quebras de pagina")
     ap.add_argument("--forcar-paisagem", default="", help="ex.: 'Tabela 19' (teste do caminho paisagem)")
     a = ap.parse_args(argv)
+    definir_idioma(a.lang)
     src, work, out = Path(a.src).resolve(), Path(a.work).resolve(), Path(a.out).resolve()
     work.mkdir(parents=True, exist_ok=True)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -1371,7 +1394,7 @@ def main(argv: list[str] | None = None) -> int:
 
     raw = work / "raw-pandoc.docx"
     subprocess.run(["pandoc", str(export_md), "-f", "markdown-tex_math_dollars-implicit_figures",
-                    "--shift-heading-level-by=-1", "--syntax-highlighting=none", "-M", "lang=en-US",
+                    "--shift-heading-level-by=-1", "--syntax-highlighting=none", "-M", f"lang={LB['code']}",
                     f"--resource-path={work}",
                     "-o", str(raw)], check=True)
     inf = escrever_pacote(raw, out, ctx["titulo"], ctx["meta"].get("author", ""), fig_cm, rel, a.forcar_paisagem)
