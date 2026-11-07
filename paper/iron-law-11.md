@@ -145,7 +145,8 @@ claude -p --output-format json --model "$MODEL" --max-turns "$N" \
 RC=$?
 # 2. Locate the result event (an object or an array of events, by CLI version).
 RESULT='if type=="array" then (map(select(.type=="result")) | last) else . end'
-jq -e "$RESULT | type == \"object\" and (.type == \"result\" or has(\"result\"))" out.json >/dev/null 2>&1 \
+IS_RESULT='type == "object" and (.type == "result" or has("result"))'
+jq -e "$RESULT | $IS_RESULT" out.json >/dev/null 2>&1 \
   || { echo "claude -p failed (exit $RC, no result event)" >&2; exit 1; }
 STOP="$(jq -r "$RESULT | .stop_reason // \"\"" out.json)"
 TERM="$(jq -r "$RESULT | .terminal_reason // \"\"" out.json)"
