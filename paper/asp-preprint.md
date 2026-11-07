@@ -23,8 +23,8 @@ failure modes a senior engineer would surface in a pre-mortem — the row-level
 security policy that needs an update for a new column, the rate limit on the
 external API, the replica lag during a long migration — production breaks
 in ways that are expensive to debug. We call these missing items
-*shadow points*. This experience report describes **Anticipating Shadow
-Points (ASP)**, a 13-phase planning protocol shipped as a Claude Code skill
+*shadow points*. This experience report describes Anticipating Shadow
+Points (ASP), a 13-phase planning protocol shipped as a Claude Code skill
 that integrates Klein's (2007) pre-mortem with the multi-agent failure
 taxonomy of Cemri et al. (2025), separates planning from validation under
 prompt isolation grounded in the self-correction-limit literature (Huang
@@ -36,7 +36,7 @@ RED on three; read by the author without blinding). The raw transcripts of those
 were not preserved, so the observations are reported, not verifiable. A
 deterministic adjudicator with cryptographic provenance ships with the skill.
 Its scores on author-constructed test fixtures validate the instrument and
-nothing more, so we report **no measured effect** of ASP. We state in advance
+nothing more, so we report no measured effect of ASP. We state in advance
 the result that would show one: in a real-mode benchmark with independently
 authored, blind expected lists and eight replicates per task and condition,
 ASP shows a measured benefit if the assisted condition's mean coverage beats
@@ -57,7 +57,7 @@ levantaria num pre-mortem — a política de segurança por linha que precisa
 mudar por causa de uma coluna nova, o limite de taxa da API externa, o atraso
 de réplica durante uma migração longa —, a produção quebra de formas caras de
 depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de
-experiência descreve o **Anticipating Shadow Points (ASP)**, um protocolo de
+experiência descreve o Anticipating Shadow Points (ASP), um protocolo de
 planejamento em 13 fases distribuído como skill do Claude Code, que integra o
 pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al.
 (2025), separa planejamento de validação sob isolamento de prompt, apoiado na
@@ -69,7 +69,7 @@ GREEN nas cinco tarefas e RED em três, lidas pelo autor sem cegamento). As tran
 não foram preservadas, então as observações são relatadas, não verificáveis.
 Um adjudicador determinístico com proveniência criptográfica acompanha a
 skill. Suas notas sobre fixtures de teste escritos pelo autor validam o
-instrumento e nada mais, por isso **não relatamos efeito medido** do ASP.
+instrumento e nada mais, por isso não relatamos efeito medido do ASP.
 Fixamos de antemão o resultado que mostraria um: num benchmark em modo real,
 com listas esperadas escritas por revisores independentes e cegos, o ASP
 com oito réplicas por tarefa e condição, o ASP mostra benefício medido se a
