@@ -880,6 +880,7 @@ def formatar_corpo(doc: etree._Element, media: dict[str, Path], fig_cm: float, r
                     for el in rpr.findall(w(tag)) if rpr is not None else []:
                         rpr.remove(el)
     quebras_de_pagina(corpo)
+    resumo_inteiro(corpo)
     for cb in corpo.iter(w("p")):                    # frase que apresenta o bloco de codigo fica com ele
         if estilo_de(cb) == "CodeBlock" and cb.getprevious() is not None and cb.getprevious().tag == w("p"):
             ant = cb.getprevious()
@@ -919,6 +920,29 @@ def espaco_sem_nota(corpo: etree._Element) -> int:
             ordenar(pxml(nxt), ORD_PPR)
             n += 1
     return n
+
+
+def resumo_inteiro(corpo: etree._Element) -> None:
+    """Resumo sem quebra propria (o segundo da edicao) desce inteiro: titulo, texto e palavras-chave na mesma pagina.
+
+    A norma fixa o numero de pageBreakBefore, entao o bloco usa keepNext/keepLines em vez de quebra explicita.
+    """
+    titulos = {"Abstract", "Resumo", "Resumen", "Riassunto"}
+    for p in corpo.iter(w("p")):
+        if estilo_de(p) != "Heading1" or texto_de(p).strip() not in titulos:
+            continue
+        if pxml(p).find(w("pageBreakBefore")) is not None:
+            continue
+        bloco = [p]
+        nxt = p.getnext()
+        while nxt is not None and nxt.tag == w("p") and estilo_de(nxt) != "Heading1":
+            bloco.append(nxt)
+            nxt = nxt.getnext()
+        for i, par in enumerate(bloco):
+            if i < len(bloco) - 1:
+                get_or_add(pxml(par), "keepNext")
+            get_or_add(pxml(par), "keepLines")
+            ordenar(pxml(par), ORD_PPR)
 
 
 def quebras_de_pagina(corpo: etree._Element) -> None:
