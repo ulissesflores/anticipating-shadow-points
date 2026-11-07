@@ -26,7 +26,7 @@ ASP is a Claude Code skill that surfaces the failure modes a senior engineer wou
 
 ## Evidence — what is measured, and what is not
 
-**Measured (Iron Law 11).** `claude -p` exits 0 when the agent gracefully declines. On 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), 24 exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were declines: 24% to 40% of the suite depending on how a decline is counted. Every number is re-derived from committed data by `python run_all.py` and sealed under a SHA-256 chain hash. [Paper](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/iron-law-11.md).
+**Measured (Iron Law 11).** `claude -p` exits 0 when the agent gracefully declines. On 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), 24 exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were declines: 24% to 40% of the suite depending on how a decline is counted. Every number computed from the data is re-derived from committed files by `python run_all.py` and sealed under a SHA-256 chain hash. [Paper](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/iron-law-11.md).
 
 ![A recorded July 2026 trial: the agent refuses, exit code is 0, stop_reason is end_turn](assets/demo/exit-code.gif)
 

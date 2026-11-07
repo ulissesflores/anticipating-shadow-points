@@ -22,7 +22,7 @@ Expected tail:
 
 ```text
 == tests: -m pytest -q tests
-........................                                                 [100%]
+........................................                                 [100%]
 == verify: make_provenance.py --verify
 provenance verified: chain_hash <64 hex characters, equal to output/hash-chain.md>
 run_all OK: results reproduced, tests passed, provenance verified
