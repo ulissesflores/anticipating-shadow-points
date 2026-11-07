@@ -46,6 +46,13 @@ def test_july_split_and_signal(results):
     assert jul["stop_reasons"] == {"end_turn": 24, "refusal": 1, "tool_use": 25}
 
 
+def test_secondary_counts(results):
+    """May exit 0 = 36; July reported cost USD 10.24; two replies redacted."""
+    assert results["iron_law_11"]["may_2026"]["exit0"] == 36
+    assert results["iron_law_11"]["july_2026"]["total_cost_usd"] == 10.24
+    assert results["iron_law_11"]["july_2026"]["redacted_replies"] == 2
+
+
 def test_july_model_mix(results):
     """July 2026 ran on Fable 5; all safety prompts were answered by Opus 4.8."""
     jul = il11(results, "july_2026")

@@ -100,7 +100,7 @@ run_all OK: results reproduced, tests passed, provenance verified
 
 ![Silent-refusal readings with 95% Wilson intervals](output/figures/fig1_silent_refusal_readings.png)
 
-The May and July runs differ in model and CLI, so the drop from 60% to 18% under the same detector is a change of target, not a trend. In July, every one of the 24 exit-0 trials carried `stop_reason: end_turn`; the only `stop_reason: refusal` was a server-side block, and it exited 1.
+The May and July runs differ in model, CLI and reply language (11 of July's 20 declines are in Portuguese, which the English-only detector cannot see), so the drop from 60% to 18% under the same detector is not a trend. In July, every one of the 24 exit-0 trials carried `stop_reason: end_turn`; the only `stop_reason: refusal` was a server-side block, and it exited 1.
 
 ### ASP effect on plans: not measured yet
 
@@ -118,7 +118,7 @@ The May and July runs differ in model and CLI, so the drop from 60% to 18% under
 | **Claimed** | `claude -p` exited 0 with `stop_reason: end_turn` on graceful declines in two dated snapshots; the counts above follow deterministically from the committed transcripts; the shipped matcher discriminates between tasks on constructed fixtures |
 | **Not claimed** | A base rate of silent failure in real agent traffic (the suite was built to provoke declines); that the 60% to 18% drop is a trend; that ASP improves plans or real-world outcomes (not measured on preserved model output); that the 80%/4% fixture scores say anything about ASP |
 | **Frozen** | The transcripts. The models that produced them are not pinned and cannot be re-queried; re-running the prompts gives a new snapshot, not a replication |
-| **Corrected in this version** | Earlier text attributed the July run to "Opus 4.8"; the envelopes show Fable 5 as session model, with Opus 4.8 answering 16 trials. Earlier text compared May's detector count (60%) with July's manual count (40%); the like-for-like comparison is 60% vs 18%. Earlier versions presented the matcher's scores on author-written fixtures (80% vs 4%) as a reading of ten model transcripts; the run is a mock run, and the claim is withdrawn. A reference title for GitHub issue #15685 had been invented and is now the real one. The "pre-registered" label on the May run was withdrawn in July 2026 |
+| **Corrected in this version** | Earlier text attributed the July run to "Opus 4.8"; the envelopes show Fable 5 as session model, with Opus 4.8 answering 16 trials. Earlier text compared May's detector count (60%) with July's manual count (40%); under the same detector it is 60% vs 18%, still not like for like because the detector is English-only and July replied partly in Portuguese. Earlier versions presented the matcher's scores on author-written fixtures (80% vs 4%) as a reading of ten model transcripts; the run is a mock run, and the claim is withdrawn. A reference title for GitHub issue #15685 had been invented and is now the real one. The "pre-registered" label on the May run was withdrawn in July 2026 |
 
 Full method and limits: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). The next measurement is planned in [`PREREGISTRATION.md`](PREREGISTRATION.md) (draft, not yet deposited).
 

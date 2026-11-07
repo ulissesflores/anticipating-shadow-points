@@ -20,11 +20,18 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   The envelopes record Fable 5 as session model for all 50 trials, with
   Opus 4.8 answering 16 (all 12 safety prompts).
 - **May vs July comparison.** v2.0 of Paper 2 compared a detector count (60%)
-  with a manual count (40%). Like for like, under the same locked detector,
-  it is 60% vs 18%. The codebook-majority reading (38%) is added.
+  with a manual count (40%). Under the same locked detector it is 60% vs
+  18%, still not like for like: the detector is English-only and 11 of
+  July's 20 declines are in Portuguese. The codebook-majority reading (38%) is added.
 - **Invented reference title.** Paper 2 cited `anthropics/claude-code` #15685
   under a title it never had; the real title is now used. The title of
   `paperclipai/paperclip` #1117 was paraphrased and is now exact.
+- **Paper 2 defensive recipe** routed the server-side block (exit 1,
+  `stop_reason: refusal`, `terminal_reason: completed`) to success, because it
+  read `terminal_reason` first and ignored `$?`. Fixed, and now executed by
+  `tests/test_recipe.py` against the July extract.
+- **Invented author.** A draft of this release cited issue #103087 under a
+  wrong author; corrected before publication (`hlp-ishida`).
 - **README coverage claims** ("~60%" / "100% coverage") and the illustrative
   "See it run" transcript are removed: they did not match committed evidence.
 
