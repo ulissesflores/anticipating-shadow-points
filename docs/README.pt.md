@@ -11,7 +11,7 @@ nav_order: 2
 
 # ASP — Anticipating Shadow Points
 
-**Um plugin do Claude Code que faz o agente escrever o post-mortem antes de escrever o código, e uma camada de replicação que re-deriva cada número que publicamos sobre ele.**
+**Um plugin do Claude Code que faz o agente escrever o post-mortem antes de escrever o código, e uma camada de replicação que re-deriva cada número medido que publicamos sobre ele.**
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](../LICENSE)
@@ -193,7 +193,7 @@ Leitura adicional: [arquitetura e histórico de design](ARCHITECTURE.md) · [a s
 [![Website](https://img.shields.io/badge/web-ulissesflores.com-black.svg)](https://ulissesflores.com)
 [![Lattes](https://img.shields.io/badge/Lattes-6905246706890561-blue.svg)](http://lattes.cnpq.br/6905246706890561)
 
-A síntese de pesquisa, a redação e os scripts de verificação foram produzidos com o Claude (Anthropic) sob a direção do autor; cada número nos artigos é derivado por código neste repositório. Veja [`AUTHORS`](../AUTHORS).
+A síntese de pesquisa, a redação e os scripts de verificação foram produzidos com o Claude (Anthropic) sob a direção do autor; cada número medido nos artigos é derivado por código neste repositório. Veja [`AUTHORS`](../AUTHORS).
 
 ## Citação
 

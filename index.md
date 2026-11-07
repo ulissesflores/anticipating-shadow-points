@@ -2,7 +2,7 @@
 title: Home
 layout: default
 nav_order: 1
-description: "ASP — Anticipating Shadow Points. A Claude Code plugin that runs a pre-mortem before code is written, plus a replication layer that re-derives every number in its two papers under a SHA-256 seal."
+description: "ASP — Anticipating Shadow Points. A Claude Code plugin that runs a pre-mortem before code is written, plus a replication layer that re-derives every measured number in its two papers under a SHA-256 seal."
 permalink: /
 ---
 

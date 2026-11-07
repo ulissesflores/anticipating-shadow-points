@@ -4,7 +4,7 @@ This repository makes two different promises. They are kept apart on purpose, be
 
 | Seal | What it covers | Can you re-run it? | How you check it |
 |---|---|---|---|
-| **Seal 1: reproducible derivation** | Every number the papers cite, every figure, every test | Yes, offline, in seconds | `python run_all.py` |
+| **Seal 1: reproducible derivation** | Every measured number the papers cite, every figure, every test | Yes, offline, in seconds | `python run_all.py` |
 | **Seal 2: frozen evidence** | The `claude -p` transcripts and the benchmark fixtures the numbers are derived from | No. The target is a non-deterministic, server-side model that has since changed | `python make_provenance.py --verify` proves the bytes are the ones the numbers came from |
 
 Seal 1 says "given these transcripts, the numbers follow". Seal 2 says "these are the transcripts, unaltered since they were sealed". Neither says that running the same prompts today would give the same transcripts. It would not, and the papers say so.
@@ -32,7 +32,7 @@ run_all OK: results reproduced, tests passed, provenance verified
 
 1. `analysis/results.py` derives `output/results.json` from the frozen inputs.
 2. `analysis/make_figures.py` renders `output/figures/` from that file.
-3. `pytest` asserts every number the papers cite (`tests/test_paper_numbers.py`) and that the derivation is deterministic and matches the committed output (`tests/test_determinism.py`).
+3. `pytest` asserts every measured number the papers cite (`tests/test_paper_numbers.py`) and that the derivation is deterministic and matches the committed output (`tests/test_determinism.py`).
 4. `make_provenance.py` rebuilds the seal.
 5. `make_provenance.py --verify` recomputes it and compares it with the committed one.
 

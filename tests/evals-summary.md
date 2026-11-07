@@ -1,5 +1,8 @@
 # Evals Summary — L1..L5 results
 
+> [!NOTE]
+> Historical record (2026-05-17). These coverage figures are the author's non-blind reading of subagent plans whose transcripts were not preserved; RED ran only on L1–L3. The conclusion that ASP is "reproducibly better" is withdrawn in v2.0 of the ASP preprint (see its correction note): no ASP effect has been measured.
+
 > Phase L (eval execution). Compares ASP-discipline subagent outputs vs. expected shadow-point lists per eval.
 
 ## Methodology

@@ -14,7 +14,7 @@ ASP documentation is available in five languages. The English README is the cano
 |---|---|---|
 | 🇬🇧 [English](../) | Native | Canonical source |
 | 🇪🇸 [Español](README.es) | AI-assisted | Native review welcomed via PR |
-| 🇧🇷 [Português](README.pt) | Native (Brazilian) | Author-reviewed |
+| 🇧🇷 [Português](README.pt) | Machine-assisted (v2.0.0) | Author review pending |
 | 🇮🇹 [Italiano](README.it) | AI-assisted | Native review welcomed via PR |
 | 🇮🇱 [עברית](README.he) | AI-assisted (RTL marked) | Native review welcomed via PR |
 

@@ -3,7 +3,7 @@
   "upload_type": "software",
   "access_right": "closed",
   "notes": "No DOI without operator's explicit authorization. Flip access_right to open only in the release commit that precedes v2.0.0-rc1.",
-  "description": "A Claude Code plugin that runs a pre-mortem-first planning protocol for non-trivial engineering tasks, plus a replication layer: every number in the two companion papers is re-derived from committed data by run_all.py, asserted by pytest and sealed under one SHA-256 chain hash.",
+  "description": "A Claude Code plugin that runs a pre-mortem-first planning protocol for non-trivial engineering tasks, plus a replication layer: every measured number in the two companion papers is re-derived from committed data by run_all.py, asserted by pytest and sealed under one SHA-256 chain hash.",
   "creators": [
     {
       "name": "Flores, Carlos Ulisses",

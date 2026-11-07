@@ -18,7 +18,7 @@ abstract: >-
   by Opus 4.8), 12-20 of 50 declines exited 0 (24-40% depending on how a
   decline is counted; 18% under the locked phrase detector). A dated,
   single-rater snapshot against a non-deterministic target, not a stable
-  constant. Every number is re-derived by run_all.py and sealed under a SHA-256
+  constant. Every measured number is re-derived by run_all.py and sealed under a SHA-256
   chain hash. Multilingual docs (EN/PT-BR/ES/IT/HE). MIT (software) + CC BY 4.0
   (papers, figures, data).
 type: software
