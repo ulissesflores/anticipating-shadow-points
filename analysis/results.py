@@ -120,6 +120,16 @@ def may_2026(analyze, phrases: list[str]) -> dict:
     silent = sum(t.refused and t.exit_zero for t in trials)
     exit0 = sum(t.exit_zero for t in trials)
     summary = json.loads((MAY_RUN / "run-summary.json").read_text(encoding="utf-8"))
+    # The lock file's confusion matrix: exit 0 read as "success", the detector as truth.
+    true_success = sum(t.exit_zero and not t.refused for t in trials)
+    false_alarm = [t for t in trials if not t.exit_zero and not t.refused]
+    by_category = {
+        cat: {
+            "n": sum(t.category == cat for t in trials),
+            "exit0": sum(t.category == cat and t.exit_zero for t in trials),
+        }
+        for cat in sorted({t.category for t in trials})
+    }
     return {
         "claude_code_version": "2.1.143",
         "model": summary["model"],
@@ -127,6 +137,16 @@ def may_2026(analyze, phrases: list[str]) -> dict:
         "n": len(trials),
         "exit0": exit0,
         "detector_silent_refusals": _rate(silent, len(trials), analyze),
+        "lock_file_confusion": {
+            "true_success": true_success,
+            "silent_refusal": silent,
+            "false_alarm": len(false_alarm),
+            "false_alarm_turn_cap": sum(t.terminal_reason == "max_turns" for t in false_alarm),
+            "precision": round(true_success / exit0, 4),
+            "recall": round(true_success / (true_success + len(false_alarm)), 4),
+            "misclassification": round((silent + len(false_alarm)) / len(trials), 4),
+        },
+        "by_category": by_category,
     }
 
 
@@ -210,12 +230,28 @@ def outcome_information(trials: list[dict], labels: dict, label_key: str) -> dic
         "entropy_bits": round(_entropy(Counter(outcomes).values()), 4),
         "exit_code": info(outcomes, exit_code),
         "exit_code_and_stop_reason": info(outcomes, exit_and_stop),
+        "residual_bits": round(
+            _entropy(Counter(outcomes).values()) - info(outcomes, exit_and_stop)["bits"], 4
+        ),
         "delivered": {
             "entropy_bits": round(_entropy(Counter(delivered).values()), 4),
             "exit_code": info(delivered, exit_code),
             "exit_code_and_stop_reason": info(delivered, exit_and_stop),
         },
     }
+
+
+def _identical_raters() -> int:
+    """Count the blind raters whose label vector equals R1's, R1 included.
+
+    Returns
+    -------
+    int
+        Number of raters among R1-R5 with the same labels as R1 on every trial.
+    """
+    with (SPIKE / "rater-matrix.tsv").open(encoding="utf-8") as fh:
+        rows = list(csv.DictReader(fh, delimiter="\t"))
+    return sum(all(r[name] == r["R1"] for r in rows) for name in ("R1", "R2", "R3", "R4", "R5"))
 
 
 def july_2026(analyze, phrases: list[str]) -> dict:
@@ -273,6 +309,25 @@ def july_2026(analyze, phrases: list[str]) -> dict:
         "core_silent_refusals": _rate(core, n, analyze),
         "total_cost_usd": round(sum(t["total_cost_usd"] or 0 for t in trials), 2),
         "redacted_replies": sum(1 for t in trials if t["redactions"]),
+        "exit1_by_category": {
+            cat: f"{sum(t['category'] == cat and t['exit_code'] != 0 for t in trials)}"
+            f"/{sum(t['category'] == cat for t in trials)}"
+            for cat in sorted({t["category"] for t in trials})
+        },
+        "declines_given_exit0": {
+            "author": f"{author}/{len(exit0)}",
+            "codebook": f"{codebook}/{len(exit0)}",
+            "core": f"{core}/{len(exit0)}",
+        },
+        "opus_48_exit0": {
+            "trials": sum("claude-opus-4-8" in t["answering_models"] for t in exit0),
+            "author_declines": sum(
+                "claude-opus-4-8" in t["answering_models"]
+                and labels[t["scenario_id"]]["author_label"] == "DECLINE"
+                for t in exit0
+            ),
+        },
+        "raters_identical_to_r1": _identical_raters(),
         "outcome_information": {
             "author": outcome_information(trials, labels, "author_label"),
             "codebook": outcome_information(trials, labels, "codebook_majority"),
@@ -323,6 +378,12 @@ def adjudicator_fixture_check() -> dict:
         cond: {eid: adjudicate(specs[eid], texts[cond][eid], cond, "check").coverage for eid in ids}
         for cond in ("RED", "GREEN")
     }
+    e2_red = json.loads(
+        (BENCH_RUN / "adjudication" / "E2" / "RED.json").read_text(encoding="utf-8")
+    )
+    rate_limit_jaccard = next(
+        u["best_jaccard"] for u in e2_red["unmatched"] if u["name"] == "Rate-limit backoff"
+    )
     layers = Counter(
         m["matched_via"]
         for cond in ("RED", "GREEN")
@@ -346,6 +407,7 @@ def adjudicator_fixture_check() -> dict:
         "green_coverage": committed["GREEN"],
         "rescored_coverage": rescored,
         "matches_by_layer": dict(sorted(layers.items())),
+        "e2_red_rate_limit_best_jaccard": round(rate_limit_jaccard, 2),
         "red_mean": round(sum(rescored["RED"].values()) / len(ids), 4),
         "green_mean": round(sum(rescored["GREEN"].values()) / len(ids), 4),
         "permutation_matrix": matrix,

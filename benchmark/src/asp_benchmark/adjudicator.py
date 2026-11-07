@@ -92,10 +92,15 @@ def _sliding_windows(tokens: list[str], size: int, stride: int) -> list[set[str]
     set (for Jaccard); duplicate tokens within a window collapse."""
     if len(tokens) <= size:
         return [set(tokens)]
-    return [
+    windows = [
         set(tokens[i : i + size])
         for i in range(0, len(tokens) - size + 1, stride)
     ]
+    # Anchor a last window on the tail, so no token is left out when the
+    # length does not land on the stride (up to stride - 1 tokens were lost).
+    if (len(tokens) - size) % stride:
+        windows.append(set(tokens[-size:]))
+    return windows
 
 
 @dataclass(frozen=True)

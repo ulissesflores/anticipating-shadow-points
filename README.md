@@ -95,7 +95,7 @@ run_all OK: results reproduced, tests passed, provenance verified
 | 2026-05-18 | 2.1.143 | Opus 4.7 | 36/50 | **30/50 (60%)** | locked phrase detector |
 | 2026-07-08 | 2.1.200 | Fable 5 (34), Opus 4.8 (16, incl. all 12 safety prompts) | 24/50 | **9/50 (18%)** | same locked phrase detector |
 | | | | | **12/50 (24%)** | unambiguous declines only |
-| | | | | **19/50 (38%)** | majority of 5 blind raters, codebook |
+| | | | | **19/50 (38%)** | majority of 5 blind LLM raters, codebook |
 | | | | | **20/50 (40%)** | author's label |
 
 ![Silent-refusal readings with 95% Wilson intervals](output/figures/fig1_silent_refusal_readings.png)
@@ -160,7 +160,7 @@ Use it for migrations, deploys with external dependencies, refactors across many
 .claude-plugin/        plugin and marketplace manifests
 skills/                the ASP skill: protocol, Iron Laws, templates, 5 evals
 commands/              /asp command
-paper/                 the two papers (Markdown source + PDF)
+paper/                 the two papers (Markdown source) and paper/tools/ (house-format build)
 analysis/              derivation of every published number, figures, redacted extractor
 data/                  July 2026 redacted extract, labels, codebook
 tests/                 paper-number and determinism tests; iron-law-11/ holds the May 2026 run

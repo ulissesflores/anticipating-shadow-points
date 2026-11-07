@@ -439,7 +439,7 @@ Each Iron Law maps to either a paper, a finding, or an incident in this project'
 | # | Law | Derived From |
 |---|---|---|
 | 1 | NO IMPLEMENTATION WITHOUT SHADOW-POINT PASS FIRST | Klein pre-mortem + MAST + ASP's core thesis |
-| 2 | NO PLAN APPROVAL WITHOUT INDEPENDENT VALIDATOR PASS (separate prompt) | Huang+24 (ICLR) + Tyen+24 (localization) + Zheng+23 (self-enhancement bias) + Du+24 (debate) |
+| 2 | NO PLAN APPROVAL WITHOUT INDEPENDENT VALIDATOR PASS (separate prompt) | Huang+24 (ICLR) + Tyen+24 (localization) + Zheng+23 (self-enhancement bias) |
 | 3 | NO MICRO-TODO WITHOUT MACRO PLAN + CHARTER + DELIVERABLES APPROVED BY USER | Anthropic Plan-Validate-Execute (verifiable intermediate outputs) |
 | 4 | NO STEP COMPLETION WITHOUT FRESH ACCEPTANCE-TEST EVIDENCE | MAST FM-3.2 (no or incomplete verification) + verification-before-completion skill |
 | 5 | NO DELIVERABLE `aceito` WITHOUT EVIDENCE FILE/OUTPUT MATCHED | MAST FM-3.1 (premature termination) |
@@ -481,7 +481,7 @@ Combining all three in a single skill, with concrete artifacts (project-charter,
 
 ### 8.6 Empirical TDD-for-skills with RED-GREEN-REFACTOR baseline + 5 evals
 
-The `tests/baseline-pressure-tests.md` artifact captures the RED phase with subagent IDs and verbatim violations. The GREEN phase re-runs were read by the author on the chosen tasks; their transcripts were not preserved. The shipped deterministic adjudicator has only been run on author-written fixtures (a mock run), which validates the instrument but measures nothing about ASP (whitepaper v2.0, §5.3). The 5 evals provide a reusable measurement framework. The evaluation is preliminary — five tasks, one dispatch per condition, single model, non-blind author-adjudication — and is stated as such in the whitepaper's threats-to-validity section; it shows direction, not an estimable effect size.
+The `tests/baseline-pressure-tests.md` artifact captures the RED phase with subagent IDs and verbatim violations. The GREEN phase re-runs were read by the author on the chosen tasks; their transcripts were not preserved. The shipped deterministic adjudicator has only been run on author-written fixtures (a mock run), which exercises the instrument but measures nothing about ASP (whitepaper v2.1, §5.3). The 5 evals provide a reusable measurement framework. The evaluation is preliminary — five tasks, one dispatch per condition, single model, non-blind author-adjudication — and is stated as such in the whitepaper's threats-to-validity section; it is an observation, not a measured direction or effect size.
 
 ### 8.7 Triple-distribution: plugin marketplace + `--plugin-dir` dev mode + standalone install.sh (v0.2.0)
 
@@ -546,7 +546,6 @@ The runner captures `total_cost_usd` per spawn but does not aggregate across mul
 - Madaan et al. (2023). *Self-Refine.* NeurIPS — arxiv [2303.17651](https://arxiv.org/abs/2303.17651).
 - Wu et al. (2023). *AutoGen.* — arxiv [2308.08155](https://arxiv.org/abs/2308.08155).
 - Bai et al. (2022). *Constitutional AI.* — arxiv [2212.08073](https://arxiv.org/abs/2212.08073).
-- Du et al. (2024). *Multiagent Debate.* ICML — arxiv [2305.14325](https://arxiv.org/abs/2305.14325).
 - Zheng et al. (2023). *LLM-as-a-Judge.* NeurIPS D&B — arxiv [2306.05685](https://arxiv.org/abs/2306.05685).
 - Huang et al. (2024). *LLMs Cannot Self-Correct Reasoning Yet.* ICLR — arxiv [2310.01798](https://arxiv.org/abs/2310.01798).
 - Kamoi et al. (2024). *When Can LLMs Actually Correct Their Own Mistakes?* TACL — arxiv [2406.01297](https://arxiv.org/abs/2406.01297).
@@ -592,9 +591,9 @@ at v1.0.0+.
 
 - `tests/claude-p-goal-runner-probe.md` — 2026-05-17 empirical battery surfacing the exit-code finding; cited in Whitepaper 2 §1.
 - `tests/goal-invocability-probe.md` — `/goal` invocability empirical test; cited in Whitepaper 1.
-- `tests/baseline-pressure-tests.md` — RED-phase baseline evidence (5 tasks); cited in Whitepaper 1 §5.
+- `tests/baseline-pressure-tests.md` — RED-phase baseline evidence (3 tasks); cited in Whitepaper 1 §5.
 - `tests/evals-summary.md` — hand-adjudication summary; cited in Whitepaper 1 §5.
-- `tests/iron-law-11/` — full pre-registered protocol scaffolding (50 scenarios, scripts, frozen per-trial dataset under `runs/published/`); the canonical empirical artefact for Whitepaper 2.
+- `tests/iron-law-11/` — locked protocol scaffolding (hash-locked, not pre-registered in a public registry; 50 scenarios, scripts, frozen per-trial dataset under `runs/published/`); the canonical empirical artefact for Whitepaper 2.
 
 (Files removed in v1.0.0 cleanup: `advisor-final.md`, `criteria-final-checklist.md`, `demo-charter.md`, `demo-deliverables.md`, `demo-execution-report.md`, `execution-report-FINAL.md`, `execution-report-v5-FINAL.md`, `smoke-test-output.md`. Recoverable from git history if ever needed.)
 

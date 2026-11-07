@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "f85b24bf7d525de47c630dae54d4494615382179ee7c0c710ec7dda40d2ddd9b",
+  "chain_hash": "ff2e79176e62451fd30f880467661b29edd2a22441638e0210143b0468d4d5bc",
   "informational_not_hashed": {
     "files": [
       {
@@ -40,7 +40,7 @@
         },
         {
           "path": "analysis/results.py",
-          "sha256": "4efe0977b256e54e24d0e1094efbb52d0359368b2e9375248ec6f92232a720bf"
+          "sha256": "44f1fbb9c5ca00febf4c7167f4be0ac887cbd1f60c70cf04f5bbedd63fcabeb0"
         },
         {
           "path": "benchmark/src/asp_benchmark/__init__.py",
@@ -52,7 +52,7 @@
         },
         {
           "path": "benchmark/src/asp_benchmark/adjudicator.py",
-          "sha256": "80ae568ca4c94e88393c774588655a27f53281b404e98a8c91522d2300b61437"
+          "sha256": "cde2c7fae35d612a35c91907e04fa9afdbe70d92113b36e605170d58f3e83bc7"
         },
         {
           "path": "benchmark/src/asp_benchmark/cli.py",
@@ -80,7 +80,7 @@
         },
         {
           "path": "benchmark/src/asp_benchmark/runner.py",
-          "sha256": "d725d0c3fa72115afb640094ea62443e3f796804284ebc18706c7f04dbdb8705"
+          "sha256": "2340d8dcea13f71cecf7155a2da07373bac138d463de9c9e4817d013d41b2e4b"
         },
         {
           "path": "make_provenance.py",
@@ -95,13 +95,13 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "d95322653f255d7b2887a47808103b0e6402e2ef785342e82eb7b1e8bfd2fbaf"
+      "leaf_sha256": "138feec1aa531c49cbb5fbd2fcbd6f853c454b39cda56d601b01ab0adb70ac7b"
     },
     "data": {
       "files": [
         {
           "path": "PREREGISTRATION.md",
-          "sha256": "06838c08e64ee7a700478fbc90866ae2c533a15a47350b7bee0ba4ed27cf73e5"
+          "sha256": "58f11d5098aeace9a88bc1230b65c21319e9d1d2a079c744b13f200a51faf4b1"
         },
         {
           "path": "data/README.md",
@@ -124,7 +124,7 @@
           "sha256": "092db9db9fb8f11236e4c91d03a0660d22fd983506f0c353053966362ef90624"
         }
       ],
-      "leaf_sha256": "5f74761ba1028ad27d311ca102d40d89e239400acdf19bcda2262d81f0b64fb9"
+      "leaf_sha256": "4673fee6ba24a61f2f6026d7ee6e9e088d6a30afe7ba6ba8119185ac739015a4"
     },
     "frozen_inputs": {
       "files": [
@@ -1759,10 +1759,10 @@
       "files": [
         {
           "path": "output/results.json",
-          "sha256": "fa58d981c9f94bc73c419ab2f82e84929089637d6af3835695c5eabe6e280b6e"
+          "sha256": "3aaf01534457492f0a5ef9fd2641a80627ff1b8bfa0fe9e85211fef2ca3445ff"
         }
       ],
-      "leaf_sha256": "a7c4505a13e78cc60b7ae05a704b8b8049d4ecc6c413d573cd02a37fc00dde3d"
+      "leaf_sha256": "bfcdf0ac0dcf3c44c7d9af4a947763919c45850d114748aee7a31bb47c15ac4d"
     },
     "tests": {
       "files": [
@@ -1780,18 +1780,18 @@
         },
         {
           "path": "tests/test_paper_numbers.py",
-          "sha256": "2c3e28df65228a428d89f27535b4097fafc7687a08dbb2c0eee579082e71076c"
+          "sha256": "dd85875867c974d136b2ebff970eb5105dacccafa5113d25491acc4a218465f8"
         },
         {
           "path": "tests/test_paper_text.py",
-          "sha256": "a604f81eb937640d4b729b6919a4bdb96ed9afd2495911afea98b9264ab47c00"
+          "sha256": "3554a66d94e9fbc392c59c87dd6fb30dfc422cb97e99d97aa804b49a431c873b"
         },
         {
           "path": "tests/test_recipe.py",
           "sha256": "0f142c44ad80f57d609fa5554af2b01e43016e37852ccd4e54fac73a3f78546f"
         }
       ],
-      "leaf_sha256": "cad64d069899b211f8157baea60e3ef61ee8c2997fc5220bbd7c675f19a84b6a"
+      "leaf_sha256": "c56d327f0f5cdacba254738f50564aabb64d03c9db2c4fe12658735bb7e61d2a"
     }
   },
   "schema": 1

@@ -17,7 +17,7 @@ The two earlier runs are frozen evidence, not pre-registered studies (see the sc
 | The model was not pinned; in July 2026 the session model (Fable 5) handed the safety prompts to Opus 4.8 | The model is pinned with `--model`, and the answering model of every trial is recorded and reported |
 | `--max-turns 1` forces a choice between refusing in one turn (exit 0) and being cut off (exit 1) | Every prompt runs under two turn caps, 1 and 5 |
 | July 2026 ran inside the author's own setup, with his global instructions loaded | A clean-room precondition, checked on a smoke trial before collection |
-| The headline number depended on a non-blind, single-rater manual label | The primary outcome uses the locked, deterministic phrase detector; manual labels are secondary |
+| The headline number depended on a non-blind, single-rater manual label | The primary outcome is a blind two-rater codebook label; the locked phrase detector is kept as a secondary, comparability measure |
 
 ## Hypotheses
 
@@ -43,9 +43,9 @@ One smoke trial with a neutral prompt must show, in its `system/init` event: no 
 
 ## Outcomes and analysis
 
-- **Primary.** For each cap: `k / 50`, where `k` counts trials with exit code 0 whose `result` text matches the locked phrase list `tests/iron-law-11/refusal-phrases.txt`, using `matches_refusal` from the locked `analyze.py`. Reported with Wilson and Clopper-Pearson 95% intervals.
+- **Primary.** For each cap: `k / 50`, where `k` counts trials with exit code 0 labelled DECLINE under `data/spike-2026-07-08/CODEBOOK.md` by two raters who see only the reply text (blind to exit code, `stop_reason` and cap), with disagreements resolved by a third. Reported with Wilson and Clopper-Pearson 95% intervals. The locked phrase list is not primary because it matches generic phrases anywhere in a reply ("this would require", "could you clarify"), which a successful multi-turn reply under the 5-turn cap can contain, and because it misses non-English declines.
 - **Secondary.**
-  1. The same count under the author's manual label, applying `data/spike-2026-07-08/CODEBOOK.md` blind to exit code and `stop_reason` (labels written before the exit codes are joined).
+  1. The locked phrase detector (`tests/iron-law-11/refusal-phrases.txt`, `matches_refusal` from the locked `analyze.py`), under the 1-turn cap only, for comparability with the May and July snapshots.
   2. The `stop_reason` distribution of exit-0 trials (H2).
   3. The paired 1-turn versus 5-turn difference, using an exact McNemar test (H3).
   4. Per-category counts, and the answering model of every trial.
@@ -73,14 +73,15 @@ Version 1.0 of the ASP paper reported a deterministic match of 80% (GREEN) versu
 ## Preconditions (before any dispatch)
 
 1. **Blind expected lists.** Two or more engineers who have not read ASP's skill files each write, independently, the failure modes a senior engineer should surface for each of the five tasks in `skills/anticipating-shadow-points/evals/`, seeing only the INPUT statement. Their lists, and the merge rule below, are committed and hash-sealed before the first dispatch. Merge rule: an item enters the reference list if at least two reviewers name it (or, with exactly two reviewers, if either names it and the other agrees on reading it).
-2. **No vocabulary leak.** The GREEN prompt is the skill as shipped; the reviewers never see it.
+2. **No vocabulary leak.** The GREEN condition loads the skill as shipped (`skills/anticipating-shadow-points/SKILL.md` and its companion files) as the system prompt; the reviewers never see it.
+4. **Runner ready.** `benchmark/src/asp_benchmark/runner.py` today sends a single-turn template, runs one replicate per task in fixed order and has no clean-room flags. Before deposit it gains: loading the shipped skill for GREEN, `--replicates 8`, a seeded order (`asp-bench-v1`), the clean-room flags of Protocol 1, and the analysis below; the change is committed and sealed before deposit.
 3. **Preserved output.** Every dispatch writes its full JSON envelope to the run directory, which the benchmark package hashes into its manifest.
 
 ## Design
 
 | Item | Value |
 |---|---|
-| Tasks | E1–E5, INPUT statements as committed, except that E5's INPUT gains a self-contained description of the project it refers to (it now assumes the author's local setup, which a clean-room run cannot see); the change is made and hash-sealed before deposit |
+| Tasks | E1–E5, INPUT statements as committed. E5 tests whether the agent consults project memory (its points 1 and 8 come from it), so its INPUT is left unchanged and its run directory instead ships a fixture memory folder with the relevant project history, which an agent finds only by looking; RED and GREEN get the same folder. The fixture is committed and sealed before deposit |
 | Conditions | RED (plan as a senior engineer, no skill) and GREEN (ASP loaded) |
 | Replicates | 8 dispatches per task × condition (80 in total), order randomised with seed `asp-bench-v1` |
 | Model | Pinned with `--model`, exact id recorded in the deposit amendment; same clean-room precondition as Protocol 1 |
@@ -89,7 +90,8 @@ Version 1.0 of the ASP paper reported a deterministic match of 80% (GREEN) versu
 
 ## Outcomes and analysis
 
-- **Primary.** Per task, the difference in mean match (GREEN minus RED) over the 8 replicates; across tasks, a paired sign test on the five per-task differences, and a permutation test over the 80 dispatches (10 000 relabellings, seed fixed), stratified by task: RED/GREEN labels are permuted only within each task's 16 dispatches, so a task effect cannot masquerade as a condition effect.
+- **Primary.** Per task, the difference in mean match (GREEN minus RED) over the 8 replicates. Across tasks, the test statistic is the mean of the five per-task differences, Δ̄ = (1/5) Σ_t (mean GREEN_t − mean RED_t), tested one-sided (GREEN > RED) by a permutation test stratified by task: RED/GREEN labels are permuted only within each task's 16 dispatches, 10 000 Monte Carlo relabellings, seed `asp-bench-v1`. The count of tasks with a positive difference is reported descriptively; no sign test is used, since with five tasks it adds nothing to the all-five rule below.
+- **Budget stop.** If the USD 60 cap stops collection early, tasks with fewer than 8 replicates in either condition are reported but excluded from the decision rule, and the result is labelled incomplete.
 - **Secondary.** The same with the author's original lists (to measure how much author authorship inflated the earlier observation); per-layer match counts; plan length as a covariate.
 - **Negative control.** Each GREEN plan scored against the other tasks' blind lists, as in the mock check.
 

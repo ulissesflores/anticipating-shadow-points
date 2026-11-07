@@ -106,3 +106,25 @@ def test_preprint_quotes_fixture_and_companion_numbers(results):
         assert pct(jul[f"{reading}_silent_refusals"]) in paper
     lo, hi = jul["author_silent_refusals"]["wilson95"]
     assert f"{round(lo * 100)}–{round(hi * 100)}%" in paper
+
+
+def test_preprint_quotes_overlap_and_rater_agreement(results):
+    """The 0.11 window overlap and the four identical raters appear as derived."""
+    paper = text("asp-preprint.md")
+    fx = results["adjudicator_fixture_check_2026_05"]
+    assert f"Jaccard of {fx['e2_red_rate_limit_best_jaccard']:.2f}" in paper
+    identical = results["iron_law_11"]["july_2026"]["raters_identical_to_r1"]
+    assert {4: "four"}[identical] + " of which returned identical labels" in paper
+
+
+def test_iron_law_11_quotes_secondary_counts(results):
+    """Conditional decline counts, Opus 4.8 exit-0 trials and May confusion appear as derived."""
+    note = text("iron-law-11.md")
+    jul = results["iron_law_11"]["july_2026"]
+    a, n = jul["declines_given_exit0"]["author"].split("/")
+    assert f"of the {n} trials that exit 0, {a} are declines" in note
+    o = jul["opus_48_exit0"]
+    assert f"Opus 4.8 on {o['trials']} exit-0 trials, {o['author_declines']} of which" in note
+    cm = results["iron_law_11"]["may_2026"]["lock_file_confusion"]
+    assert f"{cm['false_alarm']} false alarms are {cm['false_alarm_turn_cap']} turn-cap" in note
+    assert f"precision {cm['precision']:.2f}, recall {cm['recall']:.2f}" in note

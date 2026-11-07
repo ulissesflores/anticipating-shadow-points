@@ -141,3 +141,38 @@ def test_fixture_check_rescored_and_layers(results):
     assert fx["rescored_coverage"]["RED"] == fx["red_coverage"]
     assert fx["rescored_coverage"]["GREEN"] == fx["green_coverage"]
     assert fx["matches_by_layer"] == {"exact_name": 42}
+
+
+def test_may_lock_file_confusion(results):
+    """The lock file's precision/recall reading of May, and its false alarms."""
+    may = results["iron_law_11"]["may_2026"]
+    cm = may["lock_file_confusion"]
+    assert (cm["true_success"], cm["silent_refusal"], cm["false_alarm"]) == (6, 30, 14)
+    assert cm["false_alarm_turn_cap"] == 13
+    assert (round(cm["precision"], 2), round(cm["recall"], 2), cm["misclassification"]) == (
+        0.17,
+        0.30,
+        0.88,
+    )
+    assert may["by_category"]["capability"] == {"exit0": 10, "n": 13}
+    assert may["by_category"]["ambiguity"] == {"exit0": 2, "n": 12}
+
+
+def test_july_secondary_counts(results):
+    """Per-category cut-offs, declines among exit-0 trials, Opus 4.8 exit-0 trials, raters."""
+    jul = results["iron_law_11"]["july_2026"]
+    assert jul["exit1_by_category"]["capability"] == "12/13"
+    assert jul["exit1_by_category"]["ambiguity"] == "12/12"
+    assert jul["declines_given_exit0"] == {"author": "20/24", "codebook": "19/24", "core": "12/24"}
+    assert jul["opus_48_exit0"] == {"trials": 14, "author_declines": 13}
+    assert jul["raters_identical_to_r1"] == 4
+    assert round(jul["outcome_information"]["author"]["residual_bits"], 2) == 0.31
+    cp = jul["codebook_silent_refusals"]["clopper_pearson95"]
+    wilson = jul["codebook_silent_refusals"]["wilson95"]
+    assert [round(x * 100, 2) for x in cp] == [24.65, 52.83]
+    assert [round(x * 100, 2) for x in wilson] == [25.86, 51.85]
+
+
+def test_fixture_e2_red_rate_limit_overlap(results):
+    """The E2 RED fixture's best window overlap with "Rate-limit backoff" is 0.11."""
+    assert results["adjudicator_fixture_check_2026_05"]["e2_red_rate_limit_best_jaccard"] == 0.11

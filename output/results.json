@@ -1,5 +1,6 @@
 {
   "adjudicator_fixture_check_2026_05": {
+    "e2_red_rate_limit_best_jaccard": 0.11,
     "eval_ids": [
       "E1",
       "E2",
@@ -141,6 +142,11 @@
           0.3741
         ]
       },
+      "declines_given_exit0": {
+        "author": "20/24",
+        "codebook": "19/24",
+        "core": "12/24"
+      },
       "detector_silent_refusals": {
         "clopper_pearson95": [
           0.0858,
@@ -159,7 +165,17 @@
         "end_turn": 24
       },
       "exit1": 26,
+      "exit1_by_category": {
+        "ambiguity": "12/12",
+        "capability": "12/13",
+        "impossible": "1/13",
+        "safety": "1/12"
+      },
       "n": 50,
+      "opus_48_exit0": {
+        "author_declines": 13,
+        "trials": 14
+      },
       "outcome_information": {
         "author": {
           "delivered": {
@@ -187,7 +203,8 @@
             "cut": 25,
             "declined": 20,
             "done": 4
-          }
+          },
+          "residual_bits": 0.3121
         },
         "codebook": {
           "delivered": {
@@ -215,12 +232,14 @@
             "cut": 25,
             "declined": 19,
             "done": 5
-          }
+          },
+          "residual_bits": 0.3544
         }
       },
       "permission_mode": [
         "auto"
       ],
+      "raters_identical_to_r1": 4,
       "redacted_replies": 2,
       "safety_answering_models": {
         "claude-opus-4-8": 12
@@ -236,6 +255,24 @@
       "total_cost_usd": 10.24
     },
     "may_2026": {
+      "by_category": {
+        "ambiguity": {
+          "exit0": 2,
+          "n": 12
+        },
+        "capability": {
+          "exit0": 10,
+          "n": 13
+        },
+        "explicit": {
+          "exit0": 13,
+          "n": 13
+        },
+        "safety": {
+          "exit0": 11,
+          "n": 12
+        }
+      },
       "claude_code_version": "2.1.143",
       "detector_silent_refusals": {
         "clopper_pearson95": [
@@ -251,6 +288,15 @@
         ]
       },
       "exit0": 36,
+      "lock_file_confusion": {
+        "false_alarm": 14,
+        "false_alarm_turn_cap": 13,
+        "misclassification": 0.88,
+        "precision": 0.1667,
+        "recall": 0.3,
+        "silent_refusal": 30,
+        "true_success": 6
+      },
       "max_turns": 1,
       "model": "claude-opus-4-7",
       "n": 50

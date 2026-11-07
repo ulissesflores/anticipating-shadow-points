@@ -6,7 +6,7 @@ Stated honestly: what the next versions add, and what they still will not prove.
 
 - Replication layer: `run_all.py`, SHA-256 provenance, every paper number asserted by a test.
 - July 2026 `claude -p` re-measurement published as a redacted extract, with the corrected model attribution (Fable 5, safety prompts answered by Opus 4.8).
-- Both papers revised against the derived numbers and rebuilt as PDFs.
+- Both papers revised against the derived numbers, reviewed blind by models of other families, and built in the house format (PDF and DOCX enter the repository with the DOI release).
 - Demo recordings and figures as code; translations regenerated from the revised English.
 - Runner no longer sets a permission mode (shipped in 1.0.4).
 

@@ -84,8 +84,10 @@ Parent uses `run_in_background: true` when invoking this script via Bash, then `
   "completed_at": "<ISO 8601 | null>",
   "cost_usd_acc": <float>,
   "num_turns": <int>,
-  "terminal_reason": "<end_turn | max_turns_exceeded | max_budget_exceeded | refused | error | null>",
+  "terminal_reason": "<end_turn | max_turns | max_budget | refusal | error | null>",
   "is_error": <bool>,
+  "possible_decline": <bool>,
+  "permission_denials": <int>,
   "final_text": "<string>"
 }
 ```
@@ -132,6 +134,12 @@ DENIALS="$(echo "$RESULT" | jq -r '(.permission_denials // []) | length')"
 # A graceful decline exits 0 with end_turn; only the text shows it. Heuristic, so flag it, never trust it.
 DECLINED=false
 grep -qiE "i (can't|cannot|won't|am unable)|não (vou|posso|dá)" <<<"$FINAL_TEXT" && DECLINED=true
+# The status a reader of state.json sees: never "completed" for an error, a refusal, a cap or a likely decline.
+case "$IS_ERR:$STOP:$DECLINED" in
+  true:*|*:refusal:*|*:error:*) STATUS=failed ;;
+  *:max_turns*|*:max_budget*|*:true) STATUS=halted ;;
+  *) STATUS=completed ;;
+esac
 
 # Persist back to state.json
 jq --arg s "$STOP" \
@@ -141,7 +149,8 @@ jq --arg s "$STOP" \
    --arg d "$DENIALS" \
    --argjson e "$IS_ERR" \
    --argjson x "$DECLINED" \
-   '.status = "completed" |
+   --arg st "$STATUS" \
+   '.status = $st |
     .possible_decline = $x |
     .permission_denials = ($d | tonumber) |
     .terminal_reason = $s |

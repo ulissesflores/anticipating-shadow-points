@@ -121,3 +121,12 @@ def test_coverage_is_matched_over_total(tmp_path: Path):
     assert len(cov.matched) == 2
     assert len(cov.unmatched) == 2
     assert cov.coverage == 0.5
+
+
+def test_sliding_windows_cover_the_tail():
+    """The last window is anchored on the tail, so no token is dropped."""
+    from asp_benchmark.adjudicator import _sliding_windows
+
+    tokens = [f"t{i}" for i in range(68)]
+    windows = _sliding_windows(tokens, 40, 10)
+    assert set().union(*windows) == set(tokens)

@@ -237,7 +237,8 @@ attribution is a hypothesis; a real-mode benchmark and a formal ablation
 - **Klein (2007)** — *Performing a Project Premortem*, Harvard Business
   Review 85(9). Operational recipe building on Mitchell et al. 1989.
 - **Cemri et al. (2025)** — *Why Do Multi-Agent LLM Systems Fail?* MAST
-  14-mode taxonomy with κ=0.88 on 1,600+ traces. arxiv 2503.13657.
+  14-mode taxonomy derived from 150 seed traces (κ=0.88), with a corpus of
+  1,600+ annotated traces. NeurIPS 2025. arxiv 2503.13657.
 - **Erdogan et al. (2025)** — *Plan-and-Act*. ICML 2025. arxiv 2503.09572.
 - **Huang et al. (2024)** — *Large Language Models Cannot Self-Correct
   Reasoning Yet*. ICLR 2024. arxiv 2310.01798.
@@ -245,8 +246,6 @@ attribution is a hypothesis; a real-mode benchmark and a formal ablation
   Correct Them Given the Error Location*. arxiv 2311.08516.
 - **Zheng et al. (2023)** — *Judging LLM-as-a-Judge with MT-Bench and
   Chatbot Arena*. NeurIPS 2023 D&B. arxiv 2306.05685.
-- **Du et al. (2024)** — *Improving Factuality and Reasoning in Language
-  Models through Multiagent Debate*. ICML 2024. arxiv 2305.14325.
 - **Shinn et al. (2023)** — *Reflexion: Language Agents with Verbal
   Reinforcement Learning*. NeurIPS 2023. arxiv 2303.11366.
 - **Wang et al. (2026)** — *PreFlect: From Retrospective to Prospective
@@ -255,4 +254,4 @@ attribution is a hypothesis; a real-mode benchmark and a formal ablation
   platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.
 - **Claude Code `/goal`** — release 2.1.139, 2026-05-12.
 
-See `paper/asp-preprint.md` for full APA-formatted references (26 primary).
+See `paper/asp-preprint.md` for full APA-formatted references (35 entries).

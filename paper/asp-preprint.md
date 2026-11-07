@@ -11,7 +11,7 @@ c.ulisses@gmail.com · https://ulissesflores.com
 **License** Paper text, figures and data — CC BY 4.0 · Companion software — MIT
 **Replication** Every number in Sections 5.3–5.4 is re-derived by `python run_all.py` in the companion repository and asserted by a test; see Appendix B.
 **Companion repository** Flores, C. U. (2026a), https://github.com/ulissesflores/anticipating-shadow-points
-**Companion whitepaper** Flores, C. U. (2026b). *Graceful Refusals as Unsignalled Failures: Characterising `claude -p` Exit-Code Semantics on Agent Declines.* See `paper/iron-law-11.md`.
+**Companion whitepaper** Flores, C. U. (2026c). *Graceful Refusals as Unsignalled Failures: Characterising `claude -p` Exit-Code Semantics on Agent Declines.* See `paper/iron-law-11.md`.
 
 ---
 
@@ -35,13 +35,13 @@ engineering evaluations (single model; GREEN dispatched on all five tasks,
 RED on three; read by the author without blinding). The raw transcripts of those dispatches
 were not preserved, so the observations are reported, not verifiable. A
 deterministic adjudicator with cryptographic provenance ships with the skill.
-Its scores on author-constructed test fixtures validate the instrument and
-nothing more, so we report no measured effect of ASP. We state in advance
+Its scores on author-constructed test fixtures exercise the instrument —
+they show specificity, not recall — and nothing more, so we report no measured effect of ASP. We state in advance
 the result that would show one: in a real-mode benchmark with independently
 authored, blind expected lists and eight replicates per task and condition,
 ASP shows a measured benefit if the assisted condition's mean coverage beats
-the unassisted one on all five tasks with a permutation p < 0.05, no
-measurable benefit if it fails to beat it on three or more, and an
+the unassisted one on all five tasks with a permutation p < 0.05
+(stratified by task), no measurable benefit if it fails to beat it on three or more, and an
 inconclusive result otherwise. The protocol is drafted and not yet deposited. A separate empirical finding on `claude -p` exit-code semantics
 under graceful agent refusal is characterised in a companion paper.
 
@@ -68,13 +68,13 @@ observações preliminares de cinco avaliações de engenharia (um modelo;
 GREEN nas cinco tarefas e RED em três, lidas pelo autor sem cegamento). As transcrições brutas dessas execuções
 não foram preservadas, então as observações são relatadas, não verificáveis.
 Um adjudicador determinístico com proveniência criptográfica acompanha a
-skill. Suas notas sobre fixtures de teste escritos pelo autor validam o
-instrumento e nada mais, por isso não relatamos efeito medido do ASP.
+skill. Suas notas sobre fixtures de teste escritos pelo autor exercitam o
+instrumento — mostram especificidade, não sensibilidade — e nada mais, por isso não relatamos efeito medido do ASP.
 Fixamos de antemão o resultado que mostraria um: num benchmark em modo real,
-com listas esperadas escritas por revisores independentes e cegos, o ASP
-com oito réplicas por tarefa e condição, o ASP mostra benefício medido se a
-cobertura média da condição assistida superar a da não assistida nas cinco
-tarefas com p < 0,05 num teste de permutação, nenhum benefício mensurável se
+com listas esperadas escritas por revisores independentes e cegos e oito
+réplicas por tarefa e condição, o ASP mostra benefício medido se a cobertura
+média da condição assistida superar a da não assistida nas cinco tarefas com
+p < 0,05 num teste de permutação estratificado por tarefa, nenhum benefício mensurável se
 não a superar em três ou mais, e resultado inconclusivo nos demais casos. O
 protocolo está redigido e ainda não foi depositado. Um achado
 empírico separado, sobre a semântica do código de saída do `claude -p` quando
@@ -158,7 +158,7 @@ This experience report contributes:
    provided for any task).
 4. **A separate empirical finding** on `claude -p` exit-code semantics
    under graceful agent refusal, characterised in the companion paper
-   Flores (2026b). The finding motivated two of
+   Flores (2026c). The finding motivated two of
    the Iron Laws but warrants independent characterization at larger N.
 
 This is an **experience report** in the systems sense, not a benchmark
@@ -279,9 +279,9 @@ ASP differs from PreFlect along four axes:
    as a methodology rather than a constraint system.
 4. **An empirical CLI-level finding** characterising `claude -p` exit
    semantics under graceful refusal, motivating two of the Iron Laws;
-   this is reported separately in Flores (2026b). The phenomenon itself is
+   this is reported separately in Flores (2026c). The phenomenon itself is
    documented by the vendor and in public issue reports (catalogued in
-   Flores, 2026b, §2); the contribution there is a measured count and a
+   Flores, 2026c, §2); the contribution there is a measured count and a
    proposed typed termination contract, not a discovery.
 
 ### 2.5. Classical software and quality-engineering lineage
@@ -313,9 +313,10 @@ disconfirmation attempt rather than by a confirming check alone. This
 trade of Design by Contract's non-redundancy for defensive
 re-verification is the same trust-nothing ethos that produces the
 exit-code discipline of Iron Laws 11–12; it is a considered inversion of
-Meyer, not an oversight. ASP's always-hold Iron Laws, in turn, play the
-role of DbC's third contract element — the class invariant — rather than
-a per-task pre/post condition.
+Meyer, not an oversight. The Iron Laws, in turn, are stated as the
+analogue of DbC's third contract element — the class invariant — rather than
+as a per-task pre/post condition; ten of them are instructions the agent is
+told to keep, not checks that run.
 
 **Failure-mode enumeration.** Shadow-point detection (Phase 2) is a
 prospective failure-mode enumeration in the tradition of FMEA
@@ -344,8 +345,8 @@ procedural gates (Iron Laws 1, 2, 4, 5) or verification rules that still
 depend on the operator, of which Iron Law 11 ("never trust `$?`") is the
 clearest case: precisely the operator-vigilance dependence poka-yoke is
 defined against. The borrowing is the mistake-proofing *stance* applied
-to a subset of agent-runtime invariants, not a claim that ASP eliminates
-operator vigilance.
+to two shell-level checks in a runner script the agent is instructed to
+emit, not a claim that ASP eliminates operator vigilance.
 
 **Independent verification and validation.** ASP's prompt-isolated
 validator (Iron Law 2) transposes the defining move of Independent
@@ -361,7 +362,7 @@ IV&V's.
 11–12 has an exact name in the dependability taxonomy: an exit 0 on a
 graceful decline is an *unsignalled failure* (Avizienis et al., 2004),
 neither a crash nor a fail-silent stop. The term, its prior art, and the
-measurement are developed in the companion paper (Flores, 2026b); this
+measurement are developed in the companion paper (Flores, 2026c); this
 section imports only the vocabulary and does not re-open the novelty
 question here.
 
@@ -384,9 +385,9 @@ what ASP adds.
 | micro-TODO PRE/ACTION/POST + ACCEPTANCE-TEST | Design by Contract (Meyer, 1992) | a non-deterministic obligor whose postcondition is re-verified by external command, not assumed; not the contract idea |
 | micro-TODO FALSIFICATION-TEST | Popperian falsification (Popper, 1959/2002) | a disconfirmation step at the agent-task boundary; no Design-by-Contract analog |
 | Shadow-point detection (Phase 2) | FMEA-style enumeration (MIL-STD-1629A; IEC 60812:2018) + HAZOP guidewords, over the MAST library (Cemri et al., 2025) | enumeration of an LLM plan under isolation; no risk-priority scoring, no per-component decomposition |
-| Iron Laws 9 / 10 / 12 as structural guards | Poka-yoke (Shingo, 1986) | mistake-proofing of a subset of agent-runtime state; runtime guards, not physical impossibility |
+| Iron Laws 9 and 12 as shell-level checks | Poka-yoke (Shingo, 1986) | two checks in a runner script the agent is instructed to emit; not physical impossibility, and Iron Law 10 is an instruction |
 | Prompt-isolated validator (Iron Law 2) | IV&V (IEEE Std 1012-2016) | organisational independence recast as prompt isolation; not IV&V |
-| Never-trust-`$?` (Iron Laws 11–12) | Unsignalled failure (Avizienis et al., 2004); Yuan et al. (2014) | characterised in the companion paper (Flores, 2026b); not the failure class |
+| Never-trust-`$?` (Iron Laws 11–12) | Unsignalled failure (Avizienis et al., 2004); Yuan et al. (2014) | characterised in the companion paper (Flores, 2026c); not the failure class |
 
 Read together, the section makes a deliberately modest claim: ASP's
 machinery is an *integration* of established reliability and
@@ -427,7 +428,7 @@ subprocess with a file-based contract (Phase 9).
 | 6 | Internal loop (cap=3) | Final-revision plan | Bounded iteration; FM-1.5 / FM-3.1 |
 | 7 | User approval | Go / no-go | Human-in-the-loop gate |
 | 8 | Micro-TODO + Goal Spec | `TaskCreate` per step + Goal Spec | Executor handoff |
-| 9 | Execution via `/goal` subprocess | Tasks marked completed with evidence | Process-level isolation; see Flores (2026b) |
+| 9 | Execution via `/goal` subprocess | Tasks marked completed with evidence | Process-level isolation; see Flores (2026c) |
 | 10 | Per-deliverable sign-off | Each deliverable accepted or rejected | Acceptance contract |
 | 11 | Execution Report + memory | Closure artifact + memory write-back | Reflexion-style memory (Shinn et al., 2023) |
 | 12 | (Opt-in) public release | Plugin marketplace + GitHub release | Distribution layer |
@@ -481,16 +482,16 @@ recommendation, or an empirical design decision.
 | # | Law | Derivation |
 |---|---|---|
 | 1 | No implementation without shadow-point pass first | Klein (2007) + Cemri et al. (2025) |
-| 2 | No plan approval without independent validator pass (separate prompt) | Huang et al. (2024) + Tyen et al. (2024) + Zheng et al. (2023) |
+| 2 | No plan approval without independent validator pass (separate prompt) | Huang et al. (2024) + Tyen et al. (2024) + Zheng et al. (2023); mitigates FM-3.3 |
 | 3 | No micro-TODO without macro plan + charter + deliverables approved by user | Anthropic Skills: verifiable intermediate outputs |
-| 4 | No step completion without fresh acceptance-test evidence | Cemri et al. (2025) FC3 (FM-3.2) |
-| 5 | No deliverable accepted without evidence file/output matched | Cemri et al. (2025) FC3 (FM-3.3) |
+| 4 | No step completion without fresh acceptance-test evidence | Cemri et al. (2025) FM-3.1 + FM-3.2 + FM-2.6 |
+| 5 | No deliverable accepted without evidence file/output matched | Cemri et al. (2025) FM-3.1 |
 | 6 | No project close without execution report + memory write-back | Shinn et al. (2023) memory buffer |
-| 7 | No loop without cap (default cap=3 validator rounds) | Cemri et al. (2025) FM-1.5 + FM-3.1 |
+| 7 | No loop without cap (default cap=3 validator rounds) | Cemri et al. (2025) FM-1.5 |
 | 8 | No Phase 9 execution without evaluator dispatch at checkpoints (except under `--quick`) | Erdogan et al. (2025) planner/executor |
 | 9 | No reentrant ASP inside `claude -p /goal` child (`ASP_IN_GOAL` env-var guard) | Cost-explosion mitigation; design decision |
 | 10 | No `claude -p /goal` spawn without file-based contract | Subprocess state-divergence mitigation; design decision |
-| 11 | Never trust `$?` from `claude -p` for semantic success/failure | Empirical observation, characterised in Flores (2026b) |
+| 11 | Never trust `$?` from `claude -p` for semantic success/failure | Empirical observation, characterised in Flores (2026c) |
 | 12 | All `claude -p` invocations must use `--output-format json` or `stream-json` | Corollary of Iron Law 11 |
 
 ### 3.4. The micro-TODO contract
@@ -584,7 +585,9 @@ the deterministic adjudicator shows about itself on constructed fixtures
 Each evaluation specifies an INPUT (a task statement as a senior engineer
 might phrase it to a colleague), an EXPECTED list of shadow points that a
 competent practitioner would surface, and an ACCEPTANCE threshold
-(default 80%). The full text of each evaluation is in the companion
+(default 80%). E5 is not portable: two of its ten expected points (1 and 8)
+depend on the author's private project memory and cannot surface from its
+INPUT alone, so it measures memory recall as much as planning. The full text of each evaluation is in the companion
 repository.
 
 ### 5.2. What was observed in real dispatches (author, non-blind)
@@ -625,21 +628,27 @@ deterministic 4-layer matcher (exact name, synonym sidecar, Jaccard
 sliding window, unmatched). On the published run every one of the 42 matches
 comes from the first layer (exact name); no synonym sidecar exists for any
 task, and the Jaccard layer never fires. Its one published run is a **mock-mode** run:
-the RED and GREEN texts are fixtures the author wrote to exercise each
-matching layer (`benchmark/tests/fixtures/mock_runs/`), deliberately weaker
+the RED and GREEN texts are fixtures the author wrote to exercise the
+pipeline end to end (`benchmark/tests/fixtures/mock_runs/`); layers 2 and 3 are
+exercised only by the unit tests, deliberately weaker
 for RED and deliberately aligned with the expected list for GREEN. On those
 fixtures the matcher scores RED 4% and GREEN 80% on average — a statement
 about how the fixtures were written, not about ASP.
 
 The useful property the mock run does establish is **discrimination**:
 scoring each GREEN fixture against a *different* task's expected list drops
-the mean from 80% to 0.5% (largest off-task cell 10%; Figure 2), so the
-matcher keys on task-specific vocabulary rather than generic engineering
-words. That shows specificity, not recall: the E2 RED fixture mentions a rate
+the mean from 80% to 0.5% (largest off-task cell 10%; Figure 2). That is
+weaker evidence than it looks: the one off-task hit is the generic one-word
+name "Alerting", and the other cells are zero because layer 1 requires a
+whole expected name to appear verbatim. The matcher is also stricter than
+the evaluation files, which tell a human evaluator to accept paraphrases. That shows specificity, not recall: the E2 RED fixture mentions a rate
 limit, retries and logging and still scores 0/10: its best window overlap
 with "Rate-limit backoff" is a Jaccard of 0.11, below the 0.30 threshold, and
 the matcher does no stemming ("logging" does not match "logs"). Paraphrase
-with low lexical overlap is missed. The matcher has not yet been
+with low lexical overlap is missed. Re-scoring also exposed a defect, fixed in
+v2.0: the sliding window skipped the last few tokens of a text whose length
+did not land on the stride; re-scoring every fixture with the fix changes no
+coverage value. The matcher has not yet been
 applied to any real transcript. The real-mode protocol, with expected lists re-authored
 blind by independent engineers, is specified in the repository's
 `PREREGISTRATION.md` and has not been run. Its decision rule is fixed in
@@ -670,7 +679,7 @@ paper tests.
 This finding is observationally significant for any toolchain that wraps
 `claude -p` in a shell pipeline. Because the observation was from a
 single refusal scenario in our own battery, we **characterise it
-independently** in the companion paper Flores (2026b), which reports an N=50 measurement across four categories of refusal-provoking prompt (impossible-in-one-turn, capability, safety, ambiguity) on Claude Code 2.1.200 in July 2026. The session model was Fable 5; Opus 4.8 answered 16 of the 50 prompts, including all 12 safety prompts — consistent with an automatic fallback hand-off, although the envelopes record which model answered, not why. Twenty-four trials exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were graceful declines: 24% to 40% of the suite depending on how a decline is counted (40%, 95% Wilson CI 28–54%, under the author's label; 38% under the majority of a written codebook applied by five LLM raters, four of which returned identical labels; with an 18% floor from an English-only phrase detector). An earlier snapshot (May 2026, Claude Code 2.1.143, Opus 4.7) read 60% under the same detector, on a different model and reply language. A human second rater and a third snapshot under a drafted pre-registration are the open follow-ups.
+independently** in the companion paper Flores (2026c), which reports an N=50 measurement across four categories of refusal-provoking prompt (impossible-in-one-turn, capability, safety, ambiguity) on Claude Code 2.1.200 in July 2026. The session model was Fable 5; Opus 4.8 answered 16 of the 50 prompts, including all 12 safety prompts — consistent with an automatic fallback hand-off, although the envelopes record which model answered, not why. Twenty-four trials exited 0, all with `stop_reason: end_turn`. The companion paper counts the declines among them four ways: 20 (40%, 95% Wilson CI 28–54%) under the author's non-blind label; 19 (38%) under the majority of a codebook, written after the author had read the replies, and applied by five LLM raters, four of which returned identical labels; 12 (24%) counting only the safety and destructive-command refusals and excluding the eight reasoned declines of impossible-in-one-turn tasks; and 9 (18%) under the locked English-only phrase detector, which misses the replies written in Portuguese. An earlier snapshot (May 2026, Claude Code 2.1.143, Opus 4.7) read 60% under the same detector, on a different model and reply language. A human second rater and a third snapshot under a drafted pre-registration are the open follow-ups.
 
 ---
 
@@ -688,11 +697,11 @@ categories (data, integration) and underweighted less-salient ones
 dispatch tested free-form pre-mortem as a condition (RED had no framework
 at all), so this rests on the author's reading of drafts. The
 free-form prompt ("imagine the task has failed in 30 days; list 10+
-causes") is necessary but not sufficient. The MAST 14-mode interrogation
-surfaces categories the free-form pass clusters away from.
+causes") would then be necessary but not sufficient, and the MAST 14-mode
+interrogation would surface categories the free-form pass clusters away from.
 
-**Hypothesis: prompt isolation of the validator matters.** Validators
-that share context with planners reproduce the planner's confidence on
+**Hypothesis: prompt isolation of the validator matters.** We expect validators
+that share context with planners to reproduce the planner's confidence on
 shared content. The convergent literature on intrinsic self-correction
 limits, error-localization failure, and judge self-enhancement bias all
 point at this; we have not tested it inside ASP.
@@ -713,7 +722,7 @@ fields must be filled before the next phase, are in our use harder to skip.
 Compliance has not been measured.
 
 **Measured elsewhere: treating `claude -p` exit codes as semantic-success
-signals is a silent footgun.** This is the finding reported in Flores (2026b);
+signals is a silent footgun.** This is the finding reported in Flores (2026c);
 mentioning it here because the design implication (Iron Laws 11 and 12)
 was material to the system's reliability.
 
@@ -773,7 +782,7 @@ one-to-one. The highest-priority follow-ups, in order, are:
    `PREREGISTRATION.md` covers only RED vs GREEN, at 8 replicates per cell
    with a fixed budget rather than a power analysis.
 3. **A human second rater and a third `claude -p` snapshot** for the
-   companion finding (Flores, 2026b, §7), the latter under Protocol 1 of
+   companion finding (Flores, 2026c, §7), the latter under Protocol 1 of
    `PREREGISTRATION.md`.
 4. **Cross-model evaluation.** Re-run on Claude Sonnet, GPT-5, Gemini
    2.5, and an open-weight model.
@@ -806,20 +815,20 @@ install paths. On the three tasks run in both conditions the author observed,
 without blinding and on transcripts that were not preserved, that the
 assisted plans covered more of the expected failure modes; no effect has been measured.
 The deterministic adjudicator shipped with the skill has been validated only
-on constructed fixtures, where it discriminates task-specific vocabulary; a
+on constructed fixtures, where it separates whole expected names but has no
+measured recall; a
 real-mode run with independently authored lists, drafted for
 pre-registration, is the
 decisive next step.
 
 We additionally observed that `claude -p` returns exit code 0 even when
-the agent gracefully refuses the requested goal — a quietly load-bearing
-finding for anyone wrapping the CLI in a shell pipeline. Because the
-observation merits independent characterisation at larger N, we
-characterise it in the companion paper Flores (2026b).
+the agent gracefully refuses the requested goal. The vendor documents the
+behaviour for its API; the companion paper (Flores, 2026c) adds a count at
+the CLI boundary.
 
 The strongest follow-up is blind re-adjudication. The most useful
 companion work is a human second rater and a pre-registered third snapshot
-of the `claude -p` measurement (Flores, 2026b).
+of the `claude -p` measurement (Flores, 2026c).
 
 ---
 
@@ -857,17 +866,17 @@ Erdogan, L. E., Lee, N., Kim, S., Moon, S., Furuta, H., Anumanchipalli, G., Keut
 
 Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
 
-Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.2) [Technical note]. In Flores (2026a). https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026c). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.2) [Technical note]. In Flores (2026a). https://doi.org/10.5281/zenodo.20276631
 
 Huang, J., Chen, X., Mishra, S., Zheng, H. S., Yu, A. W., Song, X., & Zhou, D. (2024). *Large language models cannot self-correct reasoning yet*. ICLR 2024. https://arxiv.org/abs/2310.01798
 
 IEEE. (2017). *IEEE standard for system, software, and hardware verification and validation* (IEEE Std 1012-2016). https://doi.org/10.1109/IEEESTD.2017.8055462
 
+International Electrotechnical Commission. (2016). *Hazard and operability studies (HAZOP studies) — Application guide* (IEC 61882:2016, Edition 2.0). https://webstore.iec.ch/en/publication/24321
+
 International Electrotechnical Commission. (2018). *Failure modes and effects analysis (FMEA and FMECA)* (IEC 60812:2018). https://webstore.iec.ch/en/publication/26359
 
 International Electrotechnical Commission. (2019). *Risk management — Risk assessment techniques* (IEC 31010:2019, Edition 2.0). https://webstore.iec.ch/en/publication/59809
-
-International Electrotechnical Commission. (2016). *Hazard and operability studies (HAZOP studies) — Application guide* (IEC 61882:2016, Edition 2.0). https://webstore.iec.ch/en/publication/24321
 
 Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., & Narasimhan, K. (2024). *SWE-bench: Can language models resolve real-world GitHub issues?* ICLR 2024. https://arxiv.org/abs/2310.06770
 
@@ -915,23 +924,11 @@ Zhu, K., Liu, Z., Li, B., Tian, M., Yang, Y., Zhang, J., Han, P., Xie, Q., Cui, 
 
 ## Appendix A — Citation verification status
 
-Every claim in the body cites a primary source where one exists. The table below
-defines the tags of the verification scheme; the paragraphs after it
-record when each group of references was checked. The tag scheme is the author's own and is provided
-to make verification trivial for a reviewer; tags do not appear in the
-body for readability.
-
-**Table A1.** Verification tags.
-
-| Tag | Meaning |
-|---|---|
-| **[V]** | Verified directly via the arXiv/journal/HBR URL listed above. |
-| **[D]** | Anthropic documentation, treated as ground truth for documented tool behaviour. |
-| **[E]** | Empirical observation from this work or the companion paper. |
-| **[O]** | Author's operationalisation; not present verbatim in any cited paper. |
+Every claim in the body cites a primary source where one exists. The paragraphs below
+record when each group of references was checked.
 
 The references present in version 1.0 were verified by direct URL fetch on
-2026-05-17; references added in the July 2026 revision (Flores, 2026b; the
+2026-05-17; references added in the July 2026 revision (Flores, 2026c; the
 classical-lineage entries of Section 2.5) were checked when added; and the
 entries added in November 2026 (Barke et al., 2026; Deshpande et al., 2025;
 Kambhampati et al., 2024; G. Zhang et al., 2025; J. Zhang et al., 2026) were
@@ -943,8 +940,10 @@ Cemri et al. (2025) and listed in the companion skill file
 Klein's (2007) summary of it, which we could not re-derive from the 1989
 paper, and Klein (2007) is also the operational recipe.
 
-The eight references introduced in §2.5 (Avizienis et al., 2004;
-International Electrotechnical Commission [IEC 60812:2018], 2018; IEEE
+The nine references introduced in §2.5 (Avizienis et al., 2004;
+International Electrotechnical Commission [IEC 60812:2018], 2018; International
+Electrotechnical Commission [IEC 61882:2016], 2016, checked against the IEC
+catalogue on 2026-11-07; IEEE
 [Std 1012-2016], 2017; Meyer, 1992; Popper, 1959/2002; Shingo, 1986;
 U.S. Department of Defense [MIL-STD-1629A], 1980; Yuan et al., 2014)
 were verified against their primary source — DOI, ISBN, or standard

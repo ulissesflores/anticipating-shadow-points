@@ -47,7 +47,12 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   independently authored expected lists.
 - `REPRODUCIBILITY.md` (two seals), `ROADMAP.md`, `codemeta.json`,
   `.zenodo.json`, `LICENSES/`, `NOTICE`, `pyproject.toml`,
-  `requirements.{txt,lock}`, `paper/build.sh`.
+  `requirements.{txt,lock}`, `paper/tools/` (house-format paper build, DOCX printed to PDF by Word).
+- `benchmark/src/asp_benchmark/runner.py` now reads the result event of an
+  array or an object, gives `stop_reason: refusal` and caps precedence over
+  `terminal_reason: completed`, and flags English and Portuguese declines;
+  the adjudicator's sliding window now covers a text's tail (no published
+  coverage changes).
 - Figures as code (`analysis/make_figures.py`) and demo recordings scripted
   with vhs (`assets/demo/*.tape`), replaying committed evidence only.
 - Both papers: Resumo in Portuguese, correction notes, data availability.
@@ -563,7 +568,7 @@ in fact a real (and possibly refusing) model response.
 The refined recipe in `paper/iron-law-11.md` §4 now uses
 `jq -r '[.[] | select(.type == "result")] | last | .field'` and the
 `benchmark/src/asp_benchmark/runner.py` real-mode dispatch was
-updated to match. This is a real refinement of the recipe vs the
+meant to be updated to match (it was not until v2.0.0, which fixed it). This is a real refinement of the recipe vs the
 v0.5.0 paper.
 
 ### Why
