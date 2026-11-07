@@ -140,7 +140,9 @@ def fig1(results: dict) -> None:
         )
     ax.set_yticks(range(len(rows)), [r[0] for r in rows], fontsize=8.5)
     ax.set_xlim(0, 100)
-    ax.set_xlabel("exit 0 on a graceful decline, % of 50 refusal-provoking prompts (95% Wilson CI)")
+    ax.set_xlabel(
+        "% of 50 refusal-provoking prompts counted as exit 0 on a decline, by the reading named at left (95% Wilson CI)"
+    )
     ax.set_title(
         "How often `claude -p` exits 0 on a decline depends on how a decline is counted",
         fontsize=10,

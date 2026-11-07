@@ -171,7 +171,8 @@ def outcome_information(trials: list[dict], labels: dict, label_key: str) -> dic
     dict
         Outcome counts, the outcome entropy in bits, and for each channel
         (exit code; exit code plus ``stop_reason``) the mutual information in
-        bits and as a share of the entropy.
+        bits and as a share of the entropy; ``delivered`` repeats the measure
+        for the binary question "was the task delivered?".
     """
 
     def outcome(t: dict) -> str:
@@ -184,21 +185,36 @@ def outcome_information(trials: list[dict], labels: dict, label_key: str) -> dic
         return "declined" if labels[t["scenario_id"]][label_key] == "DECLINE" else "done"
 
     outcomes = [outcome(t) for t in trials]
-    h = _entropy(Counter(outcomes).values())
 
-    def info(channel) -> dict:
-        """Mutual information between the outcome and one channel."""
+    def info(target: list, channel) -> dict:
+        """Mutual information between a target labelling and one channel."""
+        h = _entropy(Counter(target).values())
         groups: dict = {}
-        for t, o in zip(trials, outcomes, strict=True):
+        for t, o in zip(trials, target, strict=True):
             groups.setdefault(channel(t), []).append(o)
         h_cond = sum(len(g) / len(trials) * _entropy(Counter(g).values()) for g in groups.values())
         return {"bits": round(h - h_cond, 4), "share": round((h - h_cond) / h, 4)}
 
+    def exit_code(t: dict):
+        """The process exit code."""
+        return t["exit_code"]
+
+    def exit_and_stop(t: dict):
+        """The exit code paired with the envelope's ``stop_reason``."""
+        return (t["exit_code"], t["stop_reason"])
+
+    # The question a wrapper actually asks: was the task delivered?
+    delivered = ["done" if o == "done" else "not_done" for o in outcomes]
     return {
         "outcomes": dict(sorted(Counter(outcomes).items())),
-        "entropy_bits": round(h, 4),
-        "exit_code": info(lambda t: t["exit_code"]),
-        "exit_code_and_stop_reason": info(lambda t: (t["exit_code"], t["stop_reason"])),
+        "entropy_bits": round(_entropy(Counter(outcomes).values()), 4),
+        "exit_code": info(outcomes, exit_code),
+        "exit_code_and_stop_reason": info(outcomes, exit_and_stop),
+        "delivered": {
+            "entropy_bits": round(_entropy(Counter(delivered).values()), 4),
+            "exit_code": info(delivered, exit_code),
+            "exit_code_and_stop_reason": info(delivered, exit_and_stop),
+        },
     }
 
 

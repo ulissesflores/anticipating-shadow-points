@@ -47,7 +47,7 @@ One SHA-256 `chain_hash` over five ordered leaves. Each leaf is the hash of its 
 | `code` | `run_all.py`, `make_provenance.py`, `analysis/*.py`, `benchmark/src/asp_benchmark/*.py`, the locked `tests/iron-law-11/scripts/analyze.py` |
 | `tests` | `tests/conftest.py`, `tests/test_*.py` |
 | `frozen_inputs` | the May 2026 `claude -p` run, the mock benchmark run (author-written fixtures), the 50 locked scenarios, the locked refusal-phrase list and seed, the five evaluation specs |
-| `data` | `data/**` (the redacted July 2026 extract, its labels and codebook) |
+| `data` | `data/**` (the redacted July 2026 extract, its labels and codebook) and `PREREGISTRATION.md` (so any amendment to the drafted protocols changes the seal) |
 | `results` | `output/results.json` |
 
 **Informational, NOT hashed:** `output/figures/*`, `requirements.lock`, the Python version and the platform. Rasterised figures differ across platforms and matplotlib versions; hashing them would make the seal fail on a reader's machine for reasons unrelated to the science. They are listed with their hashes in `output/hash-chain.md` for audit.

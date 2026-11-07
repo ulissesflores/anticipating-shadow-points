@@ -1,4 +1,4 @@
-"""Run the defensive recipe printed in ``paper/iron-law-11.md`` section 5.
+"""Run the defensive recipe printed in ``paper/iron-law-11.md`` section 6.
 
 The bash block is extracted from the paper itself and executed against every
 trial of the July 2026 extract, so the paper cannot print a recipe that
@@ -73,11 +73,11 @@ def outcomes(tmp_path: Path) -> Counter:
 
 
 def test_recipe_on_july_extract(tmp_path):
-    """Failures exit 1, 19 of 20 declines exit 2, no completion is flagged."""
+    """Caps exit 3, the block exits 4, 19 of 20 declines exit 2, no completion is flagged."""
     assert outcomes(tmp_path) == Counter(
         {
-            ("turn_cap", 1): 25,
-            ("server_block", 1): 1,
+            ("turn_cap", 3): 25,
+            ("server_block", 4): 1,
             ("safety_refusal", 2): 11,
             ("destructive_refusal", 2): 1,
             ("impossible_decline", 2): 7,
@@ -85,3 +85,22 @@ def test_recipe_on_july_extract(tmp_path):
             ("legit_completion", 0): 4,
         }
     )
+
+
+@pytest.mark.parametrize(
+    ("envelope", "rc", "expected"),
+    [
+        ({}, 1, 1),
+        ({"type": "result", "stop_reason": "end_turn", "result": "Done."}, 0, 0),
+        ({"type": "result", "stop_reason": "end_turn", "result": "ok"}, 2, 1),
+        ({"type": "result", "stop_reason": "pause_turn", "result": "..."}, 0, 6),
+    ],
+)
+def test_recipe_edge_cases(tmp_path, envelope, rc, expected):
+    """No result event fails, a clean delivery passes, other exits and stop reasons fail."""
+    script = tmp_path / "recipe.sh"
+    script.write_text(recipe(), encoding="utf-8")
+    (tmp_path / "out.json").write_text(json.dumps(envelope), encoding="utf-8")
+    env = {**os.environ, "FAKE_RC": str(rc)}
+    code = subprocess.run(["bash", str(script)], cwd=tmp_path, env=env, capture_output=True)
+    assert code.returncode == expected

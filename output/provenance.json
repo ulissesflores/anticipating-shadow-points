@@ -1,15 +1,15 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "236b3320c91a96245f3b71a3fef759345baf82d816c73c1d1f61e009e96c58bb",
+  "chain_hash": "d58182b4b4f326cd4bca7734ed1dc89d5f4af39ae1ecf16d99b7443abee98485",
   "informational_not_hashed": {
     "files": [
       {
         "path": "output/figures/fig1_silent_refusal_readings.png",
-        "sha256": "e0395d52fa4979864353d6e5ca7d020a6c8ca3aac6bee808c202b6eb5314f4f8"
+        "sha256": "a904c984102d9948969cd24efff4f3dc9ed2fe23623c7f306b098ec300a7422c"
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings.svg",
-        "sha256": "1eafa1af1c9a16e2bd6c936625c098220e0c4ff3c54c2c3cee47cc3cf2b4704d"
+        "sha256": "4ff57a94be47ffc4686428b1c943c9f174a7ee672b2d220ad898c420e71f05ea"
       },
       {
         "path": "output/figures/fig2_adjudicator_fixture_check.png",
@@ -36,11 +36,11 @@
         },
         {
           "path": "analysis/make_figures.py",
-          "sha256": "bfbac1f0426fc502ca46ce65cc19abae8d6ce1797ea9c65dc83db73c245d0c56"
+          "sha256": "c05cfcfe7e3152d81f5b2a4bba81cdcf86f64a12374c6e3787b069998be62802"
         },
         {
           "path": "analysis/results.py",
-          "sha256": "d316b392c209aedece223d401cdbb6eaffe21289ba270d88f806cf5e20258441"
+          "sha256": "8e39855774f2e5b65efbd106202242b6df157be95dd94e190098a74cc2e5027e"
         },
         {
           "path": "benchmark/src/asp_benchmark/__init__.py",
@@ -95,7 +95,7 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "55c0c19b4a64f4584335196a6af30256fa8917114f9ed0d9721f2babdc941c9d"
+      "leaf_sha256": "18f70d89c755d7c89a8d799aaa548b3df2ca129c5379207b64dff72d186d816b"
     },
     "data": {
       "files": [
@@ -1759,10 +1759,10 @@
       "files": [
         {
           "path": "output/results.json",
-          "sha256": "843ab5d66e4b1bd851a3b54ac68fdb19ec200b27b1f4a3ff109148ba6ee55d33"
+          "sha256": "b991ab22452d3f2712967efe6e247acc85fd8d7939ca2d67504aff163864737b"
         }
       ],
-      "leaf_sha256": "f93c93cd4df316884fbe0114b5b2798178c29a466b7a3bf61bd25b14c986d054"
+      "leaf_sha256": "5459dec23d2c00c10c7aef5c288e28bd9a6aa00404c26e7cd383ee98070ee92b"
     },
     "tests": {
       "files": [
@@ -1780,7 +1780,7 @@
         },
         {
           "path": "tests/test_paper_numbers.py",
-          "sha256": "482d4446f4eab377e85ed72cb8b5dcb777f7726d78f2690d06800039a5b1d676"
+          "sha256": "8dde7e9260fef376c3acd813f7eff2a19ecd3026c604af263bd816904dd7c630"
         },
         {
           "path": "tests/test_paper_text.py",
@@ -1788,10 +1788,10 @@
         },
         {
           "path": "tests/test_recipe.py",
-          "sha256": "97cd085162d0254e114314cb3c69b8bb149be4bf2d2b4138573f2844b8ea56d8"
+          "sha256": "914d2c8df5ec07bb7f0318a130070d007d797cd8e098a7ca3f6577a9dfb56d4d"
         }
       ],
-      "leaf_sha256": "916339c000516309fa3621880f0c5de8e179076f7025d13fdc2d992198062c24"
+      "leaf_sha256": "164380b8d6ff27460f9b4145c1d27149491588b35dc59202d63cf4129ded1f64"
     }
   },
   "schema": 1

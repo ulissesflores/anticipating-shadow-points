@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="617.731484pt" height="258.983219pt" viewBox="0 0 617.731484 258.983219" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="687.090547pt" height="258.983219pt" viewBox="0 0 687.090547 258.983219" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -21,8 +21,8 @@
  <g id="figure_1">
   <g id="patch_1">
    <path d="M 0 258.983219 
-L 617.731484 258.983219 
-L 617.731484 0 
+L 687.090547 258.983219 
+L 687.090547 0 
 L 0 0 
 z
 " style="fill: #fcfcfb"/>
@@ -133,7 +133,7 @@ L 600.987734 21.198437
      </g>
     </g>
     <g id="text_7">
-     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="400.107734" y="249.380875" transform="rotate(-0 400.107734 249.380875)">exit 0 on a graceful decline, % of 50 refusal-provoking prompts (95% Wilson CI)</text>
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="400.107734" y="249.380875" transform="rotate(-0 400.107734 249.380875)">% of 50 refusal-provoking prompts counted as exit 0 on a decline, by the reading named at left (95% Wilson CI)</text>
     </g>
    </g>
    <g id="matplotlib.axis_2">

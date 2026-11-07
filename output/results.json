@@ -143,6 +143,17 @@
       "n": 50,
       "outcome_information": {
         "author": {
+          "delivered": {
+            "entropy_bits": 0.4022,
+            "exit_code": {
+              "bits": 0.0902,
+              "share": 0.2242
+            },
+            "exit_code_and_stop_reason": {
+              "bits": 0.0902,
+              "share": 0.2242
+            }
+          },
           "entropy_bits": 1.4332,
           "exit_code": {
             "bits": 0.9988,
@@ -160,6 +171,17 @@
           }
         },
         "codebook": {
+          "delivered": {
+            "entropy_bits": 0.469,
+            "exit_code": {
+              "bits": 0.1146,
+              "share": 0.2444
+            },
+            "exit_code_and_stop_reason": {
+              "bits": 0.1146,
+              "share": 0.2444
+            }
+          },
           "entropy_bits": 1.4755,
           "exit_code": {
             "bits": 0.9988,

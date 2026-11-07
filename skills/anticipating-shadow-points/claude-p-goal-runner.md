@@ -115,18 +115,23 @@ For long-running goals (>10 min), parent can opt to `tail -f exec.json` via Moni
 
 ```bash
 # Pre-condition: exec.json exists and child has exited (verified via Monitor)
-RESULT="$(cat "$RUNTIME_DIR/exec.json")"
+# The result event: a single object by default, the last "result" event of an array with --verbose.
+RESULT="$(jq -c 'if type=="array" then (map(select(.type=="result")) | last) else . end' "$RUNTIME_DIR/exec.json")"
 
 # CRITICAL: do NOT use $? to determine semantic success.
-# Iron Law 11 — see tests/claude-p-goal-runner-probe.md test C.
+# Iron Law 11 — see paper/iron-law-11.md §6 for the full recipe and its test on 50 envelopes.
 IS_ERR="$(echo "$RESULT" | jq -r '.is_error // false')"
-STOP="$(echo "$RESULT" | jq -r '.terminal_reason // .stop_reason // "unknown"')"
+# terminal_reason names caps (max_turns, max_budget); stop_reason names classifier refusals.
+STOP="$(echo "$RESULT" | jq -r 'if (.terminal_reason // "completed") != "completed" then .terminal_reason else (.stop_reason // "unknown") end')"
 COST="$(echo "$RESULT" | jq -r '.total_cost_usd // 0')"
 NUM_TURNS="$(echo "$RESULT" | jq -r '.num_turns // 0')"
 FINAL_TEXT="$(echo "$RESULT" | jq -r '.result // ""')"
 # Actions the user's permission settings did not allow are denied in -p mode.
 # Surface them to the user; never re-run with a wider permission mode on their behalf.
 DENIALS="$(echo "$RESULT" | jq -r '(.permission_denials // []) | length')"
+# A graceful decline exits 0 with end_turn; only the text shows it. Heuristic, so flag it, never trust it.
+DECLINED=false
+grep -qiE "i (can't|cannot|won't|am unable)|não (vou|posso|dá)" <<<"$FINAL_TEXT" && DECLINED=true
 
 # Persist back to state.json
 jq --arg s "$STOP" \
@@ -135,7 +140,9 @@ jq --arg s "$STOP" \
    --arg f "$FINAL_TEXT" \
    --arg d "$DENIALS" \
    --argjson e "$IS_ERR" \
+   --argjson x "$DECLINED" \
    '.status = "completed" |
+    .possible_decline = $x |
     .permission_denials = ($d | tonumber) |
     .terminal_reason = $s |
     .cost_usd_acc = ($c | tonumber) |

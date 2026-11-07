@@ -129,3 +129,7 @@ def test_july_outcome_information(results):
     assert round(codebook["exit_code"]["share"] * 100) == 68
     assert round(codebook["exit_code_and_stop_reason"]["share"] * 100) == 76
     assert round(codebook["entropy_bits"], 2) == 1.48
+    # Binary question "was the task delivered?": stop_reason adds nothing to the exit code.
+    for block, share in ((author["delivered"], 22), (codebook["delivered"], 24)):
+        assert round(block["exit_code"]["share"] * 100) == share
+        assert block["exit_code"] == block["exit_code_and_stop_reason"]
