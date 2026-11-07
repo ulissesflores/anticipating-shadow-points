@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "d58182b4b4f326cd4bca7734ed1dc89d5f4af39ae1ecf16d99b7443abee98485",
+  "chain_hash": "eba5a3c1ef4b72bc20a1e20aa9b4926212c0d311e751640f87152b9b1b3ccd02",
   "informational_not_hashed": {
     "files": [
       {
@@ -36,11 +36,11 @@
         },
         {
           "path": "analysis/make_figures.py",
-          "sha256": "c05cfcfe7e3152d81f5b2a4bba81cdcf86f64a12374c6e3787b069998be62802"
+          "sha256": "2786dc2779bc7920dfcb679aa7f0a292d122d431c79086e0104da226776456c8"
         },
         {
           "path": "analysis/results.py",
-          "sha256": "8e39855774f2e5b65efbd106202242b6df157be95dd94e190098a74cc2e5027e"
+          "sha256": "315e8f9772314cdf47c9e593b38a4900a302c7ac0eaa9187abdd044cbe88f1a3"
         },
         {
           "path": "benchmark/src/asp_benchmark/__init__.py",
@@ -95,7 +95,7 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "18f70d89c755d7c89a8d799aaa548b3df2ca129c5379207b64dff72d186d816b"
+      "leaf_sha256": "1b02461bca0a46ccfb2c116c1c5be6b8bfdab5adfdbd84833b3ef3d98b86a4da"
     },
     "data": {
       "files": [

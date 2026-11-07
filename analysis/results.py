@@ -196,11 +196,11 @@ def outcome_information(trials: list[dict], labels: dict, label_key: str) -> dic
         return {"bits": round(h - h_cond, 4), "share": round((h - h_cond) / h, 4)}
 
     def exit_code(t: dict):
-        """The process exit code."""
+        """Return the process exit code."""
         return t["exit_code"]
 
     def exit_and_stop(t: dict):
-        """The exit code paired with the envelope's ``stop_reason``."""
+        """Return the exit code paired with the envelope's ``stop_reason``."""
         return (t["exit_code"], t["stop_reason"])
 
     # The question a wrapper actually asks: was the task delivered?
