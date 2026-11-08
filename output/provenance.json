@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "64140a0b11f05e0c5c103514aa0634a7fbc071da4715b7ba91e9c1313b69a8a5",
+  "chain_hash": "878da3b44fa7839c7574e39bc739c801e2e33a4b4e763d27a51f2c6332b0a534",
   "informational_not_hashed": {
     "files": [
       {
@@ -84,7 +84,7 @@
         },
         {
           "path": "analysis/make_figures.py",
-          "sha256": "feec0e1925e04516f9f9a062b4b5045aa7b828ace21fc1b611bb058014a40547"
+          "sha256": "ee7328534386757b15e2517aa3df93d43edd4e929776c391ec09cc6964a86165"
         },
         {
           "path": "analysis/results.py",
@@ -128,7 +128,7 @@
         },
         {
           "path": "benchmark/src/asp_benchmark/runner.py",
-          "sha256": "2340d8dcea13f71cecf7155a2da07373bac138d463de9c9e4817d013d41b2e4b"
+          "sha256": "52ddbdaf384f14d93f7b0d19d2349587da3417f59cd201a33ca976e62893f7c8"
         },
         {
           "path": "make_provenance.py",
@@ -143,13 +143,13 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "5b08e282f0d711a770435472f171801bec3cff002947b6dbfeee7a48f8a82715"
+      "leaf_sha256": "9a8b5d7cf112bb86ee51429b9e932635496c6852298bfabf1f74f8698546f5e4"
     },
     "data": {
       "files": [
         {
           "path": "PREREGISTRATION.md",
-          "sha256": "8e874af684414cf45d6da3fc3789d7c6c819d6e1541fea3e9e980253885725e2"
+          "sha256": "b9c5c8db331de8fa4b9ff041e308ed193a4afa9e773248a9e08d1b1b119b507a"
         },
         {
           "path": "data/README.md",
@@ -172,7 +172,7 @@
           "sha256": "092db9db9fb8f11236e4c91d03a0660d22fd983506f0c353053966362ef90624"
         }
       ],
-      "leaf_sha256": "3f078cb63c99a10c2ba5b41323f95f4c100cd7050b440775be7505ffbfaf240c"
+      "leaf_sha256": "5735e9240a9f91efce14669efc7242df62279fd6452d3fd359cfe645d03c3328"
     },
     "frozen_inputs": {
       "files": [
@@ -1823,23 +1823,31 @@
           "sha256": "99c8d918506a42820c84174e4b786f13a46fda0cc958e5a62e3fb214ade42ce4"
         },
         {
+          "path": "tests/test_findings.py",
+          "sha256": "4868876cd9ee0035d9eef4f742775cacbe866766d63ed6091df0665cc8007833"
+        },
+        {
           "path": "tests/test_metadata.py",
           "sha256": "340c1c41d9299ef8ca02c9d2f9697b084f8d3e5b1eba7428224bdb2058f788ad"
         },
         {
           "path": "tests/test_paper_numbers.py",
-          "sha256": "dd85875867c974d136b2ebff970eb5105dacccafa5113d25491acc4a218465f8"
+          "sha256": "9697ae17ce068008c6b599689f270a03fb3781cbe41795071cbbdf72640cb6cf"
+        },
+        {
+          "path": "tests/test_paper_pdf_hashes.py",
+          "sha256": "75bdf0b4854c1981ca2bf1543f55458b01c56085b2950d81a5cde76644a41b08"
         },
         {
           "path": "tests/test_paper_text.py",
-          "sha256": "a76fec27c37b5e1ab508ce8d2a8d1f5cfef292606364145703a4c3ad2b1d87a0"
+          "sha256": "155672e00439654aafa90cc81500ea902a0aefbd4e517a3527a3f692bb0b084e"
         },
         {
           "path": "tests/test_recipe.py",
-          "sha256": "603d83a5630d187e20e20428a00b5082128cff471b686c1c62f268cc607cdf37"
+          "sha256": "070665f9c8811575a3f74df3b3a314033eaba1dcadcd68c5b72934d08041b040"
         }
       ],
-      "leaf_sha256": "65242c0325c9e7a676e4dccab2b061fe515d4036d48dce198df50493f18bd971"
+      "leaf_sha256": "5988283f094616df1ff51dc90c15d3951d2773aafab1427a4eaf9a7b3faa1390"
     }
   },
   "schema": 1
