@@ -5,8 +5,8 @@ Edição inglesa (`en`) reproduz byte a byte os literais que o exportador tinha 
 (`pt-BR`, `es`, `it`) são as edições traduzidas. A edição traduzida leva o resumo no idioma dela e o Abstract em
 inglês (espelho literal do `paper/<nome>.md`); a camada i18n do canon
 (research-lab `metodo/templates/codex-hash-canon.json`, the Codex Hash house norm) fixa a ordem e as quebras de
-página: pt-BR = 4 (Resumo, Abstract, 1., Referências), es/it = 3 (resumo local, 1., Referências; o Abstract vem logo
-depois do resumo local, sem quebra, como o Resumo na edição inglesa).
+página: pt-BR = 4 (Abstract, Resumo, 1., Referências), es/it = 3 (Abstract, 1., Referências; o resumo local vem logo
+depois do Abstract, sem quebra, como o Resumo na edição inglesa). Inglês primeiro: regra do repo desde 2026-11-08.
 
 Campos:
   code      idioma de revisão do Word (w:lang) e dc:language                 | table/figure/note/source  rótulos
@@ -38,13 +38,13 @@ LABELS: dict[str, dict] = {
         date_fmt="{dia} de {mes} de {ano}",
         months=["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
                 "noviembre", "diciembre"],
-        breaks=("resumo", "intro", "refs"), about=("sobre el autor", "acerca del autor"), author="Autor"),
+        breaks=("abstract", "intro", "refs"), about=("sobre el autor", "acerca del autor"), author="Autor"),
     "it": dict(
         code="it-IT", table="Tabella", figure="Figura", note="Nota.", source="Fonte", refs="Riferimenti bibliografici",
         resumo="Riassunto", keywords="Parole chiave", appendix="Appendice", date="Data", date_fmt="{dia} {mes} {ano}",
         months=["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre",
                 "ottobre", "novembre", "dicembre"],
-        breaks=("resumo", "intro", "refs"), about=("sull'autore", "l'autore", "sull’autore", "l’autore"),
+        breaks=("abstract", "intro", "refs"), about=("sull'autore", "l'autore", "sull’autore", "l’autore"),
         author="Autore"),
 }
 IDIOMAS = tuple(LABELS)

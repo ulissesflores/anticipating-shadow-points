@@ -7,7 +7,7 @@ mirror is curated: real files for docs/paper/, and symlinks (never copies) from 
 Word-built paper under the basename the validator wants. Only the files the canon names are linked, so the
 validator's rglob does not walk .venv/, claude-cache/, runtime/ or .serena/.
 
-Usage: python3 -I paper/tools/canon_mirror.py <nome> [lang]   (nome = iron-law-11 | asp-preprint; lang = en (default)
+Usage: python3 -I paper/tools/canon_mirror.py <nome> [lang]   (nome = graceful-refusals | asp-preprint; lang = en (default)
        | pt-BR | es | it). The basename the validator wants comes from the canon's i18n layer (paper_basename), so the
        mirror of a translated edition reads docs/paper/<nome>.<lang>.* and is written to build/canon/<nome>.<lang>.
 """

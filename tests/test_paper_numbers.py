@@ -1,7 +1,7 @@
 """Every number the two papers cite, as an assertion on the derived results.
 
 If code or data drift, these fail before a paper can quote a stale figure.
-Sources: ``paper/iron-law-11.md`` sections 3-4 and ``paper/asp-preprint.md``
+Sources: ``paper/graceful-refusals.md`` sections 3-4 and ``paper/asp-preprint.md``
 section 5 (where the benchmark figures are an instrument check on constructed
 fixtures, not a measurement of ASP).
 """

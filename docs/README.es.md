@@ -17,7 +17,7 @@ nav_order: 1
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](../LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](../LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](../pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-75_passing-brightgreen.svg)](../tests/)
+[![tests](https://img.shields.io/badge/tests-80_passing-brightgreen.svg)](../tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](../output/hash-chain.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#install)
 
@@ -34,12 +34,12 @@ nav_order: 1
 >
 > **Aún no medido: si ASP mejora los planes.** El autor lo observó sin cegamiento en cinco tareas en mayo de 2026, y esas transcripciones no se conservaron. La cifra "80% vs 4%" de versiones anteriores salió de puntuar fixtures que el autor escribió para probar el matcher, no salidas de modelos; queda retirada como evidencia. Un benchmark real está planificado, preespecificado en [`PREREGISTRATION.md`](../PREREGISTRATION.md), aún no depositado.
 
-Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](../paper/asp-preprint.md) · [*Graceful refusals as unsignalled failures*](../paper/iron-law-11.md). Ambos son informes técnicos, no han sido revisados por pares. Las ediciones en PDF y DOCX (en, pt-BR, es, it) llegan a `docs/paper/` con la versión 2.0.0.
+Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](../paper/asp-preprint.md) · [*Graceful refusals as unsignalled failures*](../paper/graceful-refusals.md). Ambos son informes técnicos, no han sido revisados por pares. Las ediciones en PDF y DOCX en inglés, portugués, español e italiano están en [`docs/paper/`](paper/), con el SHA-256 de cada una en [`paper/PAPER-SHA256.txt`](../paper/PAPER-SHA256.txt).
 
 ## Qué aporta
 
 1. **Un protocolo de planificación que puedes instalar.** Trece fases: investigación, un pre-mortem de Klein forzado a través de los 14 modos de fallo multiagente de MAST, un subagente validador independiente, un contrato de tareas con pruebas de aceptación y una firma de entregables. Doce "Iron Laws" impiden que el agente se salte pasos.
-2. **Un fallo medido en un patrón común de harness.** `claude -p` sale con código 0 ante un rechazo amable. La medición, sus cuatro lecturas y una receta de parseo defensivo están en [`paper/iron-law-11.md`](../paper/iron-law-11.md); la receta está integrada en la fase de ejecución de la skill.
+2. **Un fallo medido en un patrón común de harness.** `claude -p` sale con código 0 ante un rechazo amable. La medición, sus cuatro lecturas y una receta de parseo defensivo están en [`paper/graceful-refusals.md`](../paper/graceful-refusals.md); la receta está integrada en la fase de ejecución de la skill.
 3. **Cada número publicado como un test.** `python run_all.py` vuelve a derivar los números a partir de datos confirmados en el repositorio, verifica cada uno con una aserción y sella código, tests, datos y resultados bajo un único chain hash SHA-256.
 
 ## De un vistazo
@@ -87,9 +87,9 @@ Salida esperada:
 == results: analysis/results.py
 results -> output/results.json | July author 20/50, codebook 19/50, detector 9/50
 == figures: analysis/make_figures.py
-figures -> output/figures (2 x PNG+SVG)
+figures -> output/figures (2 x PNG+SVG, plus pt-BR, es, it editions)
 == tests: -m pytest -q tests
-............................................                             [100%]
+.................................................                        [100%]
 == benchmark tests: -m pytest -q -o addopts= -c benchmark/pyproject.toml benchmark/tests
 ...............................                                          [100%]
 31 passed in <seconds>s
@@ -176,19 +176,20 @@ Solo necesita la biblioteca estándar. La CI lo ejecuta antes de instalar nada y
 .claude-plugin/        plugin and marketplace manifests
 skills/                the ASP skill: protocol, Iron Laws, templates, 5 evals
 commands/              /asp command
-paper/                 the two papers (Markdown source + PDF)
+paper/                 the two papers (Markdown source), PAPER-SHA256.txt and paper/tools/ (house-format build)
 analysis/              derivation of every published number, figures, redacted extractor
 data/                  July 2026 redacted extract, labels, codebook
 tests/                 paper-number and determinism tests; iron-law-11/ holds the May 2026 run
 benchmark/             RED/GREEN benchmark package and its committed May 2026 run
 output/                results.json, hash-chain.md, provenance.json, figures/
 assets/                icon, demo GIFs and their vhs scripts
-docs/                  architecture notes and translations
+docs/                  architecture notes, translations and docs/findings.md
+docs/paper/            PDF and DOCX editions of both papers (en, pt-BR, es, it)
 run_all.py             single entry point: results -> figures -> tests -> seal -> verify
 make_provenance.py     build or --verify the SHA-256 chain
 ```
 
-Lecturas adicionales: [arquitectura e historia del diseño](ARCHITECTURE.md) · [la skill y sus 12 Iron Laws](../skills/anticipating-shadow-points/SKILL.md) · [las 5 evaluaciones](../skills/anticipating-shadow-points/evals/) · [cómo contribuir](../CONTRIBUTING.md) · [política de seguridad](../SECURITY.md) · [registro de cambios](../CHANGELOG.md) · [hoja de ruta](../ROADMAP.md).
+Lecturas adicionales: [resultados](findings.md) · [arquitectura e historia del diseño](ARCHITECTURE.md) · [la skill y sus 12 Iron Laws](../skills/anticipating-shadow-points/SKILL.md) · [las 5 evaluaciones](../skills/anticipating-shadow-points/evals/) · [cómo contribuir](../CONTRIBUTING.md) · [política de seguridad](../SECURITY.md) · [registro de cambios](../CHANGELOG.md) · [hoja de ruta](../ROADMAP.md).
 
 ## Autor
 

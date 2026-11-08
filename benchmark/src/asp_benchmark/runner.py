@@ -253,7 +253,7 @@ def result_event(response: object) -> dict:
     """Return the result event of a `claude -p --output-format json` reply.
 
     The CLI prints either a single object or an array of events whose last
-    ``"type": "result"`` element carries the outcome (paper/iron-law-11.md §6).
+    ``"type": "result"`` element carries the outcome (paper/graceful-refusals.md §6).
     """
     if isinstance(response, list):
         results = [e for e in response if isinstance(e, dict) and e.get("type") == "result"]

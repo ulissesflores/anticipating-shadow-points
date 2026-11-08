@@ -10,7 +10,7 @@ Protocol 1 is a third `claude -p` exit-code snapshot. Protocol 2 is the first re
 
 ## Why a third snapshot
 
-The two earlier runs are frozen evidence, not pre-registered studies (see the scope note in `paper/iron-law-11.md`). They leave four problems open, and this protocol is designed around them:
+The two earlier runs are frozen evidence, not pre-registered studies (see the scope note in `paper/graceful-refusals.md`). They leave four problems open, and this protocol is designed around them:
 
 | Problem in the earlier runs | How this protocol addresses it |
 |---|---|
@@ -58,7 +58,7 @@ One smoke trial with a neutral prompt must show, in its `system/init` event: no 
 | `k / 50 < 5%` | Iron Law 11 is downgraded in the skill from mandatory to advisory, and the paper reports the falsification |
 | `5% <= k / 50 <= 25%` | Iron Law 11 stays; the paper reports the rate as a defensive recommendation |
 | `k / 50 > 25%` | Iron Law 11 stays mandatory; the result is reported to Anthropic through the public issue tracker |
-| Any exit-0 decline with a non-`end_turn` stop reason | H2 is falsified for that version; `paper/iron-law-11.md` §4 is rewritten accordingly |
+| Any exit-0 decline with a non-`end_turn` stop reason | H2 is falsified for that version; `paper/graceful-refusals.md` §4 is rewritten accordingly |
 
 ## What is sealed and where
 

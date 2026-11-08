@@ -2,7 +2,7 @@
 # One article, end to end: canonical MD -> derived source -> DOCX -> PDF by Word -> crivo -> docs/paper/<nome>.<lang>.* -> canon.
 #
 #   English edition (the canonical Markdown, unchanged path):
-#     paper/tools/build_paper.sh iron-law-11|asp-preprint [--date 2026-11-07] [--drop-resumo] [--keep-colophon]
+#     paper/tools/build_paper.sh graceful-refusals|asp-preprint [--date 2026-11-07] [--drop-resumo] [--keep-colophon]
 #   Translated edition (pt-BR, es, it):
 #     paper/tools/build_paper.sh <nome> --lang pt-BR|es|it [--i18n-src <translated.md>] [--date 2026-11-07] [--keep-colophon]
 #
@@ -10,12 +10,12 @@
 #   * source  = paper/i18n/<nome>.<lang>.md (override the path with --i18n-src, e.g. build/i18n-test/<nome>.pt-BR.md);
 #               the translated Markdown has the structure of paper/<nome>.md with the labels in its language and NO
 #               "## Abstract": the English Abstract + Keywords are copied verbatim from paper/<nome>.md at build time.
-#   * order   = cover -> local summary (Resumo / Resumen / Riassunto) + Keywords + Version/DOI/Status lines
-#               -> Abstract (English) + Keywords -> 1. ...   (pt-BR: page break before the Abstract, as the canon's
-#               4 breaks demand; es/it: no break, the canon has 3).  Details: header of paper/tools/monta_asp.py.
+#   * order   = cover -> Abstract (English) + Keywords + Version/DOI/Status lines -> local summary (Resumo /
+#               Resumen / Riassunto) + Keywords -> 1. ...   (English first, repo rule; pt-BR: page break before the
+#               Resumo too, as the canon's 4 breaks demand; es/it: no break, the canon has 3).  Details: header of paper/tools/monta_asp.py.
 #   * labels  = Table/Figure/Note./References/Appendix/Date: in the edition language (paper/tools/rotulos.py), Word
 #               proofing language pt-BR|es-ES|it-IT (docDefaults, theme, dc:language), crivo run with the same labels.
-#   * output  = build/<nome>.<lang>/ and docs/paper/<nome>.<lang>.{docx,pdf} (docs/paper is git-ignored until the DOI).
+#   * output  = build/<nome>.<lang>/ and docs/paper/<nome>.<lang>.{docx,pdf}, tracked; their SHA-256 go to paper/PAPER-SHA256.txt.
 #   * canon   = pt-BR: validate_canon --lang pt-BR (the known repo failure "manifest pip_freeze" is not ours to fix);
 #               es/it: validate_canon --lang es|it when the canon has that layer (v1.3+), otherwise "not applicable".
 # Does NOT commit, does NOT touch the canonical Markdown.
@@ -60,6 +60,8 @@ DOCS_NAME="$NOME.$LANG_ED"                          # docs/paper/<nome>.<lang>.{
 cp "$BUILD/$TAG.docx" "$ROOT/docs/paper/$DOCS_NAME.docx"
 cp "$BUILD/$TAG.pdf" "$ROOT/docs/paper/$DOCS_NAME.pdf"
 echo "== copied to docs/paper/$DOCS_NAME.{docx,pdf} (crivo exit $RC)"
+(cd "$ROOT/docs/paper" && shasum -a 256 *.pdf *.docx) > "$ROOT/paper/PAPER-SHA256.txt"   # outside the chain seal
+echo "== paper/PAPER-SHA256.txt refreshed"
 if ! "$PY" -I - "$CANON_JSON" "$LANG_ED" <<'PYEOF'
 import json, sys
 sys.exit(0 if sys.argv[2] in json.load(open(sys.argv[1], encoding="utf-8"))["i18n"]["langs"] else 1)

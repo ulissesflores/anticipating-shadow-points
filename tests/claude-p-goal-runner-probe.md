@@ -6,7 +6,7 @@
 > Historical record (2026-05-17, Claude Code 2.1.143). Test 2 and Test A ran with `--permission-mode bypassPermissions` in the operator's sandbox. Since v1.0.4 the shipped runner passes no permission flag: the child runs under the user's own permission settings.
 
 > [!NOTE]
-> **Superseded recipe (2026-11).** The parse lines below are the May 2026 probe as recorded. The current recipe, which locates the result event in an array or an object, reads `stop_reason: refusal` and caps before `terminal_reason: completed`, and flags likely declines, is in `paper/iron-law-11.md` §6 (tested by `tests/test_recipe.py`) and `skills/anticipating-shadow-points/claude-p-goal-runner.md` §4. In the CLI's envelopes `terminal_reason` reads `completed`, not `end_turn`.
+> **Superseded recipe (2026-11).** The parse lines below are the May 2026 probe as recorded. The current recipe, which locates the result event in an array or an object, reads `stop_reason: refusal` and caps before `terminal_reason: completed`, and flags likely declines, is in `paper/graceful-refusals.md` §6 (tested by `tests/test_recipe.py`) and `skills/anticipating-shadow-points/claude-p-goal-runner.md` §4. In the CLI's envelopes `terminal_reason` reads `completed`, not `end_turn`.
 
 ## Probe metadata
 

@@ -60,6 +60,16 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   3.12, ruff and 100% docstring coverage.
 
 ### Changed
+- **Paper 2 renamed** from `paper/iron-law-11.md` to `paper/graceful-refusals.md`
+  (translations and PDF/DOCX editions too): the old name was the number of the
+  skill rule it tests, which says nothing to a reader. The May 2026 data keeps
+  its folder, `tests/iron-law-11/`, because it is sealed.
+- **English first everywhere.** Each translated edition of a paper now opens
+  with the English Abstract, then the local summary.
+- **PDF and DOCX editions tracked** in `docs/paper/` (both papers, en, pt-BR,
+  es, it), outside the chain seal, with their SHA-256 in
+  `paper/PAPER-SHA256.txt` and a test that checks them.
+- `docs/findings.md` added: the headline results and their sensitivity in one page.
 - README rebuilt on the house publication skeleton; landing page aligned.
 - Licensing made explicit: MIT for code, CC BY 4.0 for papers, figures and
   data.
@@ -70,7 +80,7 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   inputs were committed and hash-locked in the project's own git before the
   run, but this is not public, timestamped pre-registration, and the commit
   cited as the anchor (`5c656f1`) is no longer in the published history after
-  a later rebase. See the scope note in `paper/iron-law-11.md`. The
+  a later rebase. See the scope note in `paper/graceful-refusals.md`. The
   `preregistration.json` manifest is retained as an input-integrity lock; the
   earlier entries below that call it "pre-registration" overstate it and are
   corrected by this note.

@@ -121,7 +121,7 @@ For long-running goals (>10 min), parent can opt to `tail -f exec.json` via Moni
 RESULT="$(jq -c 'if type=="array" then (map(select(.type=="result")) | last) else . end' "$RUNTIME_DIR/exec.json")"
 
 # CRITICAL: do NOT use $? to determine semantic success.
-# Iron Law 11 — see paper/iron-law-11.md §6 for the full recipe and its test on 50 envelopes.
+# Iron Law 11 — see paper/graceful-refusals.md §6 for the full recipe and its test on 50 envelopes.
 IS_ERR="$(echo "$RESULT" | jq -r '.is_error // false')"
 # terminal_reason names caps (max_turns, max_budget); stop_reason names classifier refusals.
 STOP="$(echo "$RESULT" | jq -r 'if (.terminal_reason // "completed") != "completed" then .terminal_reason else (.stop_reason // "unknown") end')"

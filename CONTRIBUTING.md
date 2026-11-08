@@ -105,13 +105,14 @@ Roman 12, double spacing, APA 7 references) and are produced by
 
 ```bash
 python run_all.py                           # regenerate the figures first
-paper/tools/build_paper.sh iron-law-11      # -> docs/paper/iron-law-11.en.{pdf,docx}
+paper/tools/build_paper.sh graceful-refusals      # -> docs/paper/graceful-refusals.en.{pdf,docx}
 paper/tools/build_paper.sh asp-preprint     # -> docs/paper/asp-preprint.en.{pdf,docx}
 ```
 
 Requirements: pandoc, qpdf, poppler and Microsoft Word, plus a Python with
 `lxml` and `Pillow`. The script also runs the house checker on the DOCX and the
-PDF. `docs/paper/` enters the repository only in a release that already carries
-its DOI; until then it is ignored by git. For the citable artefact, always use
-the files archived under the [Zenodo DOI](https://doi.org/10.5281/zenodo.20276631),
-not a local rebuild.
+PDF, copies both to `docs/paper/` (tracked) and refreshes their SHA-256 in
+`paper/PAPER-SHA256.txt`, which `tests/test_paper_pdf_hashes.py` checks. Pass
+`--lang pt-BR|es|it` for a translated edition; every edition opens with the
+English Abstract. For the citable artefact, always use the files archived under
+the [Zenodo DOI](https://doi.org/10.5281/zenodo.20276631), not a local rebuild.

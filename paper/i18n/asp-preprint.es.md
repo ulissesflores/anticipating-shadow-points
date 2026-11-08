@@ -11,7 +11,7 @@ c.ulisses@gmail.com · https://ulissesflores.com
 **Licencia** Texto, figuras y datos del artículo — CC BY 4.0 · Software complementario — MIT
 **Replicación** Todo número que las Secciones 5.3–5.4 calculan a partir de los datos y los fixtures del repositorio se recalcula con `python run_all.py` en el repositorio complementario y lo verifica una prueba; véase el Apéndice B.
 **Repositorio complementario** Flores, C. U. (2026a), https://github.com/ulissesflores/anticipating-shadow-points
-**Whitepaper complementario** Flores, C. U. (2026c). *Graceful Refusals as Unsignalled Failures: Characterising `claude -p` Exit-Code Semantics on Agent Declines.* Véase `paper/iron-law-11.md`.
+**Whitepaper complementario** Flores, C. U. (2026c). *Graceful Refusals as Unsignalled Failures: Characterising `claude -p` Exit-Code Semantics on Agent Declines.* Véase `paper/graceful-refusals.md`.
 
 ---
 

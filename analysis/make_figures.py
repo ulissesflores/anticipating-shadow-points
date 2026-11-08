@@ -7,7 +7,7 @@ fig1_silent_refusal_readings
     18% (locked phrase detector) <= 24% (unambiguous declines) <= 38%
     (codebook majority) <= 40% (author label). The May 2026 detector reading
     (60%) is shown separately because it used a different model and CLI.
-    Supports ``paper/iron-law-11.md`` section 3.
+    Supports ``paper/graceful-refusals.md`` section 3.
 fig2_adjudicator_fixture_check
     Instrument check, not an effect of ASP: on the author-constructed GREEN
     fixtures of the mock benchmark run, the deterministic matcher scores 80%

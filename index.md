@@ -26,7 +26,7 @@ ASP is a Claude Code skill that surfaces the failure modes a senior engineer wou
 
 ## Evidence — what is measured, and what is not
 
-**Measured (Iron Law 11).** `claude -p` exits 0 when the agent gracefully declines. On 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), 24 exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were declines: 24% to 40% of the suite depending on how a decline is counted. Every number computed from the data is re-derived from committed files by `python run_all.py` and sealed under a SHA-256 chain hash. [Paper](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/iron-law-11.md).
+**Measured (Iron Law 11).** `claude -p` exits 0 when the agent gracefully declines. On 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), 24 exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were declines: 24% to 40% of the suite depending on how a decline is counted. Every number computed from the data is re-derived from committed files by `python run_all.py` and sealed under a SHA-256 chain hash. [Paper](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/graceful-refusals.md).
 
 ![A recorded July 2026 trial: the agent refuses, exit code is 0, stop_reason is end_turn](assets/demo/exit-code.gif)
 
@@ -125,7 +125,7 @@ claude plugin install anticipating-shadow-points@anticipating-shadow-points
 
 **Maintainer**: [Carlos Ulisses Flores](https://ulissesflores.com) — CTO & Chief Researcher at Codex Hash Research Laboratory · São Paulo, Brazil · [ORCID `0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · [Lattes `6905246706890561`](http://lattes.cnpq.br/6905246706890561) · [@ulissesflores](https://github.com/ulissesflores)
 
-**Languages**: 🇬🇧 English · 🇪🇸 [Español](docs/README.es) · 🇧🇷 [Português](docs/README.pt) · 🇮🇹 [Italiano](docs/README.it) · 🇮🇱 [עברית](docs/README.he)
+**Languages**: 🇬🇧 English · 🇧🇷 [Português](docs/README.pt) · 🇪🇸 [Español](docs/README.es) · 🇮🇹 [Italiano](docs/README.it) · 🇮🇱 [עברית](docs/README.he)
 
 **Deep dive**: [ARCHITECTURE.md](docs/ARCHITECTURE) — 10-part SOTA design document (academic background, architectural journey, empirical discoveries, derivation of all 12 Iron Laws).
 

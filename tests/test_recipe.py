@@ -1,4 +1,4 @@
-"""Run the defensive recipe printed in ``paper/iron-law-11.md`` section 6.
+"""Run the defensive recipe printed in ``paper/graceful-refusals.md`` section 6.
 
 The bash block is extracted from the paper itself and executed against every
 trial of the July 2026 extract, so the paper cannot print a recipe that
@@ -33,7 +33,7 @@ def recipe() -> str:
         A bash script that reads ``out.json`` and takes the exit code from
         the ``FAKE_RC`` environment variable.
     """
-    paper = (ROOT / "paper" / "iron-law-11.md").read_text(encoding="utf-8")
+    paper = (ROOT / "paper" / "graceful-refusals.md").read_text(encoding="utf-8")
     block = re.search(r"```bash\n(# 1\. Always request JSON output.*?)```", paper, re.S)
     lines, skip = [], False
     for ln in block.group(1).splitlines():

@@ -47,7 +47,7 @@ def pct(block: dict) -> str:
 
 def test_iron_law_11_quotes_every_july_reading(results):
     """Each July reading appears in the note as ``k/50`` and as a percentage."""
-    note = text("iron-law-11.md")
+    note = text("graceful-refusals.md")
     jul = results["iron_law_11"]["july_2026"]
     for reading in ("author", "codebook", "core", "detector"):
         block = jul[f"{reading}_silent_refusals"]
@@ -57,14 +57,14 @@ def test_iron_law_11_quotes_every_july_reading(results):
 
 def test_iron_law_11_quotes_may_and_the_fair_comparison(results):
     """May's detector count and the like-for-like 60% versus 18% are stated."""
-    note = text("iron-law-11.md")
+    note = text("graceful-refusals.md")
     may = results["iron_law_11"]["may_2026"]["detector_silent_refusals"]
     jul = results["iron_law_11"]["july_2026"]["detector_silent_refusals"]
     assert f"{may['k']}/50" in note
     assert f"{pct(may)} versus {pct(jul)}" in note
 
 
-@pytest.mark.parametrize("name", ["iron-law-11.md", "asp-preprint.md"])
+@pytest.mark.parametrize("name", ["graceful-refusals.md", "asp-preprint.md"])
 def test_july_model_attribution(name):
     """Both papers name Fable 5 as the July session model."""
     assert "Fable 5" in text(name)
@@ -80,12 +80,12 @@ def test_preprint_labels_the_benchmark_as_mock():
 
 def test_no_invented_issue_title():
     """The withdrawn title for anthropics/claude-code #15685 is gone."""
-    assert "Exit code 0 when the agent refused to work" not in text("iron-law-11.md")
+    assert "Exit code 0 when the agent refused to work" not in text("graceful-refusals.md")
 
 
 def test_iron_law_11_quotes_outcome_information(results):
     """Table 3 quotes the information shares the data give."""
-    note = text("iron-law-11.md")
+    note = text("graceful-refusals.md")
     info = results["iron_law_11"]["july_2026"]["outcome_information"]
     for labels in ("author", "codebook"):
         for channel in ("exit_code", "exit_code_and_stop_reason"):
@@ -119,7 +119,7 @@ def test_preprint_quotes_overlap_and_rater_agreement(results):
 
 def test_iron_law_11_quotes_secondary_counts(results):
     """Conditional decline counts, Opus 4.8 exit-0 trials and May confusion appear as derived."""
-    note = text("iron-law-11.md")
+    note = text("graceful-refusals.md")
     jul = results["iron_law_11"]["july_2026"]
     a, n = jul["declines_given_exit0"]["author"].split("/")
     assert f"of the {n} trials that exit 0, {a} are declines" in note
@@ -132,7 +132,7 @@ def test_iron_law_11_quotes_secondary_counts(results):
 
 def test_iron_law_11_quotes_shares_and_conditional_rates(results):
     """Binary bits, May's Wilson interval and the decline share among exit-0 trials match."""
-    note = text("iron-law-11.md")
+    note = text("graceful-refusals.md")
     jul = results["iron_law_11"]["july_2026"]
     d = jul["outcome_information"]["author"]["delivered"]
     assert f"{d['exit_code']['bits']:.2f} of {d['entropy_bits']:.2f} bits" in note
@@ -145,7 +145,7 @@ def test_iron_law_11_quotes_shares_and_conditional_rates(results):
 
 def test_iron_law_11_quotes_one_decimal_shares(results):
     """The residual and binary shares appear with one decimal, as derived."""
-    note = text("iron-law-11.md")
+    note = text("graceful-refusals.md")
     info = results["iron_law_11"]["july_2026"]["outcome_information"]
     residual = 100 * (1 - info["author"]["exit_code_and_stop_reason"]["share"])
     assert f"residual {residual:.1f}% of the outcome" in note

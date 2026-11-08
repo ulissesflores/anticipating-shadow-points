@@ -100,7 +100,7 @@ CODE_PT_MAX, CODE_PT_MIN = 10, 7.5       # tamanho do bloco: o maior que deixa a
 
 def quebra_direta(t: str) -> bool:
     """canon en: exatamente 3 pageBreakBefore = Abstract, 1. (primeira secao numerada) e References.
-    Edicao traduzida: LB["breaks"] (pt-BR 4: Resumo, Abstract, 1., Referencias; es/it 3: resumo local, 1., refs)."""
+    Edicao traduzida: LB["breaks"] (pt-BR 4: Abstract, Resumo, 1., Referencias; es/it 3: Abstract, 1., refs)."""
     b = LB["breaks"]
     return (("abstract" in b and t == "Abstract") or ("resumo" in b and t == LB["resumo"])
             or ("refs" in b and t.startswith(LB["refs"])) or ("intro" in b and re.match(r"^1\. ", t) is not None))
