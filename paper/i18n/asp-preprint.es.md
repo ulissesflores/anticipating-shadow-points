@@ -19,7 +19,7 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 Los asistentes de código basados en LLM a menudo producen código *localmente correcto* que omite modos de fallo que un ingeniero sénior plantearía en un pre-mortem —una política de seguridad por fila, el límite de tasa de una API externa, el retraso de réplica durante una migración— y la producción falla entonces de formas costosas de depurar. Llamamos *shadow points* a esos elementos ausentes. Este informe de experiencia describe Anticipating Shadow Points (ASP), un protocolo de planificación de 13 fases distribuido como skill de Claude Code que integra el pre-mortem de Klein (2007) con la taxonomía de fallos multiagente de Cemri et al. (2025), revisa el plan con un validador que no comparte el contexto del planificador, siguiendo la literatura sobre los límites de la autocorrección (Huang et al., 2024; Tyen et al., 2024), y entrega la ejecución a un subproceso hijo con un contrato en archivos. Documentamos el diseño, su despliegue como plugin de código abierto y observaciones preliminares de cinco evaluaciones de ingeniería, leídas por el autor sin cegamiento y sin transcripciones conservadas. Un adjudicador determinista acompaña la skill; sus puntuaciones sobre fixtures escritos por el autor ejercitan el instrumento y nada más, por lo que no informamos ningún efecto medido de ASP. Fijamos de antemano el resultado que lo mostraría: en un benchmark en modo real, con listas esperadas ciegas escritas por revisores independientes y ocho réplicas por tarea y condición, un beneficio medido si la cobertura media de la condición asistida supera a la no asistida en las cinco tareas y una prueba de permutación unilateral, estratificada por tarea, da p < 0,05; ningún beneficio medible si no la supera en tres o más; inconcluso en los demás casos; incompleto si el presupuesto detiene la recogida antes de tiempo. El protocolo está redactado y aún no se ha depositado.
 
-**Palabras clave:** agentes de programación con llm; pre-mortem; modos de fallo multiagente; claude code; protocolos operativos; informe de experiencia
+**Palabras clave:** agentes de programación con LLM; pre-mortem; modos de fallo multiagente; Claude Code; protocolos operativos; informe de experiencia
 
 ---
 
@@ -135,8 +135,7 @@ ASP separa tres roles de agente con traspasos explícitos solo mediante artefact
 
 ```
 +----------------------------------------------------+
-|              proceso padre de ASP                  |
-|                                                    |
+|                proceso padre de ASP                |
 |  Fases 0a, 1, 0b, 2, 3, 4  -> rol PLANIFICADOR     |
 |                ↓ solo artefactos                   |
 |  Fase 5: subagente validador <- prompt nuevo       |
@@ -144,16 +143,19 @@ ASP separa tres roles de agente con traspasos explícitos solo mediante artefact
 |  Fase 7: aprobación del usuario                    |
 |                ↓                                   |
 |  Fase 8: emite micro-TODO + Goal Spec              |
-|                ↓ contrato en archivos              |
-|     ----- frontera del proceso -----               |
-|                ↓                                   |
-+----- subproceso hijo claude -p /goal ---------+    |
-|  Fase 9: worker + evaluador                   |    |
-|  ASP_IN_GOAL=1 (Iron Law 9: sin reentrada)    |    |
-|  --output-format json (Iron Law 12)           |    |
-+-----------------------------------------------+    |
-                ↓ exec.json                          |
-|  Fases 10, 11 de vuelta en el padre                |
++----------------------------------------------------+
+                 ↓ contrato en archivos
+      - - - - frontera del proceso - - - -
+                 ↓
++----------------------------------------------------+
+|          subproceso hijo claude -p /goal           |
+|  Fase 9: worker + evaluador                        |
+|  ASP_IN_GOAL=1 (Iron Law 9: sin reentrada)         |
+|  --output-format json (Iron Law 12)                |
++----------------------------------------------------+
+                 ↓ exec.json
++----------------------------------------------------+
+|  proceso padre de ASP: Fases 10, 11                |
 +----------------------------------------------------+
 ```
 

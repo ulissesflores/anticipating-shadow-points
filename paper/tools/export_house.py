@@ -235,6 +235,9 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
                  "figuras_codigo": 0}
 
     corte = texto.index("\n## ")
+    m_div = re.search(r"\n::: \{lang=[^}]+\}[ \t]*$", texto[:corte])   # abertura de div colada no 1o titulo
+    if m_div:                                                          # fica no corpo, senao o ':::' sobra
+        corte = m_div.start()
     h1 = re.search(r"^# (.+)$", texto[:corte], re.M)
     titulo = meta.get("title", (h1.group(1) if h1 else "")).strip()
     sub_t = meta.get("subtitle", "").strip()
@@ -764,7 +767,29 @@ def formatar_corpo(doc: etree._Element, media: dict[str, Path], fig_cm: float, r
             rs.getparent().remove(rs)
             inf["codigo"] += 1
             codigo_runs.add(r)             # inline: Times, mas o menos tipografico nao o toca
+            for t in list(r.iter(w("t"))):  # codigo nao parte no hifen ("claude -" / "p"); espaco fica comum para
+                if not t.text:              # o comando copiado do PDF colar certo no terminal
+                    continue
+                if "-" in t.text:              # <w:noBreakHyphen/> do Word: copia como hifen comum, nao U+2011
+                    partes = t.text.split("-")
+                    t.text = partes[0]
+                    t.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+                    ancora = t
+                    for parte in partes[1:]:
+                        h = mk("noBreakHyphen")
+                        ancora.addnext(h)
+                        nt = mk("t")
+                        nt.text = parte
+                        nt.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+                        h.addnext(nt)
+                        ancora = nt
         set_fonte_run(r, CFG["pt"])
+
+    # 5.1a travessao seguido de pontuacao ("exit 1—, de modo"): o Word quebrava depois do travessao e a linha
+    # seguinte comecava pela virgula; o "No-Width Non Break" do Word (U+200D) prende os dois (U+2060 nao prendia)
+    for t in corpo.iter(w("t")):
+        if t.text and "—" in t.text:
+            t.text = re.sub(r"—(?=[,;:.)])", "—\u200d", t.text)
 
     # 5.1b sinal de menos tipografico (U+2212) antes de digito, fora de palavra/numero: o Word quebra a linha
     # depois do hifen ("-12,3%" virava "-" no fim da linha e "12,3%" na seguinte; "[-0,0228" idem). Codigo fica de fora.
@@ -881,6 +906,7 @@ def formatar_corpo(doc: etree._Element, media: dict[str, Path], fig_cm: float, r
                         rpr.remove(el)
     quebras_de_pagina(corpo)
     resumo_inteiro(corpo)
+    nao_separa(corpo)
     for cb in corpo.iter(w("p")):                    # frase que apresenta o bloco de codigo fica com ele
         if estilo_de(cb) == "CodeBlock" and cb.getprevious() is not None and cb.getprevious().tag == w("p"):
             ant = cb.getprevious()
@@ -928,21 +954,49 @@ def resumo_inteiro(corpo: etree._Element) -> None:
     A norma fixa o numero de pageBreakBefore, entao o bloco usa keepNext/keepLines em vez de quebra explicita.
     """
     titulos = {"Abstract", "Resumo", "Resumen", "Riassunto"}
+
+    def juntos(pars: list) -> None:
+        for i, par in enumerate(pars):
+            if i < len(pars) - 1:
+                get_or_add(pxml(par), "keepNext")
+            get_or_add(pxml(par), "keepLines")
+            ordenar(pxml(par), ORD_PPR)
+
     for p in corpo.iter(w("p")):
         if estilo_de(p) != "Heading1" or texto_de(p).strip() not in titulos:
-            continue
-        if pxml(p).find(w("pageBreakBefore")) is not None:
             continue
         bloco = [p]
         nxt = p.getnext()
         while nxt is not None and nxt.tag == w("p") and estilo_de(nxt) != "Heading1":
             bloco.append(nxt)
             nxt = nxt.getnext()
-        for i, par in enumerate(bloco):
-            if i < len(bloco) - 1:
+        # linhas de informacao (Versao/DOI/Status...) depois das palavras-chave: um bloco so, que desce inteiro
+        kw = next((i for i, par in enumerate(bloco) if re.match(r"^(Keywords|Palavras-chave|Palabras clave|"
+                                                                 r"Parole chiave):", texto_de(par).strip())), None)
+        if kw is not None and kw + 1 < len(bloco):
+            juntos(bloco[kw + 1:])
+            bloco = bloco[:kw + 1]
+        if pxml(p).find(w("pageBreakBefore")) is None:
+            juntos(bloco)
+
+
+def nao_separa(corpo: etree._Element) -> None:
+    """Frase que termina em ':' fica com a lista ou a legenda seguinte; tabela de ate 25 linhas nao parte entre paginas."""
+    for p in corpo.iter(w("p")):
+        nxt = p.getnext()
+        if (texto_de(p).rstrip().endswith(":") and nxt is not None and nxt.tag == w("p")
+                and (nxt.find(f"{w('pPr')}/{w('numPr')}") is not None or estilo_de(nxt) == "CaptionLabel")
+                and p.getparent().tag != w("tc")):
+            get_or_add(pxml(p), "keepNext")
+            ordenar(pxml(p), ORD_PPR)
+    for tbl in corpo.iter(w("tbl")):
+        linhas = tbl.findall(w("tr"))
+        if len(linhas) > 25:
+            continue
+        for tr in linhas[:-1]:
+            for par in tr.iter(w("p")):
                 get_or_add(pxml(par), "keepNext")
-            get_or_add(pxml(par), "keepLines")
-            ordenar(pxml(par), ORD_PPR)
+                ordenar(pxml(par), ORD_PPR)
 
 
 def quebras_de_pagina(corpo: etree._Element) -> None:

@@ -70,6 +70,13 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   es, it), outside the chain seal, with their SHA-256 in
   `paper/PAPER-SHA256.txt` and a test that checks them.
 - `docs/findings.md` added: the headline results and their sensitivity in one page.
+- **Paper 1, Figure 1 redrawn.** The ASCII diagram had a box with a missing
+  wall around `exec.json`; the parent process, the child subprocess and the
+  return to the parent are now three closed boxes joined by arrows.
+- **Edition layout.** The information block moves whole to its own page,
+  tables of up to 25 rows no longer split, a sentence ending in a colon stays
+  with its list, and short inline code (`claude -p`) no longer breaks at a
+  hyphen.
 - README rebuilt on the house publication skeleton; landing page aligned.
 - Licensing made explicit: MIT for code, CC BY 4.0 for papers, figures and
   data.

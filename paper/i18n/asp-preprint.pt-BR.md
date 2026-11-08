@@ -19,8 +19,8 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 Assistentes de código baseados em LLM muitas vezes produzem código *localmente correto* que omite modos de falha que um engenheiro sênior levantaria num pre-mortem — uma política de segurança por linha, o limite de taxa de uma API externa, o atraso de réplica durante uma migração —, e a produção então quebra de formas caras de depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de experiência descreve o Anticipating Shadow Points (ASP), um protocolo de planejamento em 13 fases distribuído como skill do Claude Code, que integra o pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al. (2025), confere o plano com um validador que não compartilha o contexto do planejador, seguindo a literatura sobre os limites da autocorreção (Huang et al., 2024; Tyen et al., 2024), e entrega a execução a um subprocesso filho com contrato em arquivo. Documentamos o desenho, a implantação como plugin de código aberto e observações preliminares de cinco avaliações de engenharia, lidas pelo autor sem cegamento e sem transcrições preservadas. Um adjudicador determinístico acompanha a skill; suas notas sobre fixtures escritos pelo autor exercitam o instrumento e nada mais, por isso não relatamos efeito medido do ASP. Fixamos de antemão o resultado que mostraria um: num benchmark em modo real, com listas esperadas cegas e escritas por revisores independentes e oito réplicas por tarefa e condição, benefício medido se a cobertura média da condição assistida superar a da não assistida nas cinco tarefas e um teste de permutação unilateral, estratificado por tarefa, der p < 0,05; nenhum benefício mensurável se não a superar em três ou mais; inconclusivo nos demais casos; incompleto se o orçamento interromper a coleta. O protocolo está redigido e ainda não foi depositado.
 
-**Palavras-chave:** agentes de código llm; pre-mortem; modos de falha
-multiagente; claude code; protocolos operacionais; relato de experiência
+**Palavras-chave:** agentes de código LLM; pre-mortem; modos de falha
+multiagente; Claude Code; protocolos operacionais; relato de experiência
 
 ---
 
@@ -137,7 +137,6 @@ O ASP separa três papéis de agente com passagens explícitas apenas por artefa
 ```
 +----------------------------------------------------+
 |                processo-pai do ASP                 |
-|                                                    |
 |  Fases 0a, 1, 0b, 2, 3, 4    -> papel PLANEJADOR   |
 |                ↓ só artefatos                      |
 |  Fase 5: subagente validador <- prompt novo        |
@@ -145,16 +144,19 @@ O ASP separa três papéis de agente com passagens explícitas apenas por artefa
 |  Fase 7: aprovação do usuário                      |
 |                ↓                                   |
 |  Fase 8: emite micro-TODO + Goal Spec              |
-|                ↓ contrato em arquivo               |
-|     ----- fronteira do processo -----              |
-|                ↓                                   |
-+----- subprocesso filho claude -p /goal -------+    |
-|  Fase 9: worker + avaliador                   |    |
-|  ASP_IN_GOAL=1 (Iron Law 9: sem reentrada)    |    |
-|  --output-format json (Iron Law 12)           |    |
-+-----------------------------------------------+    |
-                ↓ exec.json                          |
-|  Fases 10, 11 de volta no pai                      |
++----------------------------------------------------+
+                 ↓ contrato em arquivo
+      - - - - fronteira do processo - - - -
+                 ↓
++----------------------------------------------------+
+|         subprocesso filho claude -p /goal          |
+|  Fase 9: worker + avaliador                        |
+|  ASP_IN_GOAL=1 (Iron Law 9: sem reentrada)         |
+|  --output-format json (Iron Law 12)                |
++----------------------------------------------------+
+                 ↓ exec.json
++----------------------------------------------------+
+|  processo-pai do ASP: Fases 10, 11                 |
 +----------------------------------------------------+
 ```
 

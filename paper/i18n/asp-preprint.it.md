@@ -19,7 +19,7 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 Gli assistenti di programmazione basati su LLM producono spesso codice *localmente corretto* che omette modi di fallimento che un ingegnere esperto solleverebbe in un pre-mortem — una policy di sicurezza a livello di riga, il limite di frequenza di un'API esterna, il ritardo di replica durante una migrazione — e la produzione si rompe poi in modi costosi da diagnosticare. Chiamiamo *shadow point* questi elementi mancanti. Questo resoconto di esperienza descrive Anticipating Shadow Points (ASP), un protocollo di pianificazione in 13 fasi distribuito come skill di Claude Code che integra il pre-mortem di Klein (2007) con la tassonomia dei fallimenti multi-agente di Cemri et al. (2025), controlla il piano con un validatore che non condivide il contesto del pianificatore, seguendo la letteratura sui limiti dell'autocorrezione (Huang et al., 2024; Tyen et al., 2024), e affida l'esecuzione a un sottoprocesso figlio con un contratto su file. Documentiamo il progetto, il suo rilascio come plugin open source e osservazioni preliminari da cinque valutazioni di ingegneria, lette dall'autore senza cecità e senza trascrizioni conservate. Un giudicatore deterministico accompagna la skill; i suoi punteggi su fixture scritte dall'autore esercitano lo strumento e nient'altro, perciò non riportiamo alcun effetto misurato di ASP. Fissiamo in anticipo il risultato che lo mostrerebbe: in un benchmark in modalità reale, con liste attese cieche scritte da revisori indipendenti e otto repliche per compito e condizione, un beneficio misurato se la copertura media della condizione assistita supera quella non assistita su tutti e cinque i compiti e un test di permutazione unilaterale, stratificato per compito, dà p < 0,05; nessun beneficio misurabile se non la supera su tre o più; inconcludente negli altri casi; incompleto se il budget interrompe la raccolta. Il protocollo è redatto e non ancora depositato.
 
-**Parole chiave:** agenti di programmazione llm; pre-mortem; modi di guasto multi-agente; claude code; protocolli operativi; resoconto di esperienza
+**Parole chiave:** agenti di programmazione LLM; pre-mortem; modi di guasto multi-agente; Claude Code; protocolli operativi; resoconto di esperienza
 
 ---
 
@@ -135,8 +135,7 @@ ASP separa tre ruoli di agente con passaggi esclusivamente tramite artefatti (Fi
 
 ```
 +----------------------------------------------------+
-|              processo padre di ASP                 |
-|                                                    |
+|               processo padre di ASP                |
 |  Fasi 0a, 1, 0b, 2, 3, 4   -> ruolo PIANIFICATORE  |
 |                ↓ solo artefatti                    |
 |  Fase 5: subagente validatore <- prompt nuovo      |
@@ -144,16 +143,19 @@ ASP separa tre ruoli di agente con passaggi esclusivamente tramite artefatti (Fi
 |  Fase 7: approvazione dell'utente                  |
 |                ↓                                   |
 |  Fase 8: emette micro-TODO + Goal Spec             |
-|                ↓ contratto su file                 |
-|     ----- confine del processo -----               |
-|                ↓                                   |
-+----- sottoprocesso figlio claude -p /goal ----+    |
-|  Fase 9: worker + valutatore                  |    |
-|  ASP_IN_GOAL=1 (Iron Law 9: niente rientro)   |    |
-|  --output-format json (Iron Law 12)           |    |
-+-----------------------------------------------+    |
-                ↓ exec.json                          |
-|  Fasi 10, 11 di nuovo nel padre                    |
++----------------------------------------------------+
+                 ↓ contratto su file
+      - - - - confine del processo - - - -
+                 ↓
++----------------------------------------------------+
+|        sottoprocesso figlio claude -p /goal        |
+|  Fase 9: worker + valutatore                       |
+|  ASP_IN_GOAL=1 (Iron Law 9: niente rientro)        |
+|  --output-format json (Iron Law 12)                |
++----------------------------------------------------+
+                 ↓ exec.json
++----------------------------------------------------+
+|  processo padre di ASP: Fasi 10, 11                |
 +----------------------------------------------------+
 ```
 

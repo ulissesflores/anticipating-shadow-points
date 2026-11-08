@@ -148,8 +148,8 @@ def derive(src: Path, date: str, keep_colophon: bool, drop_resumo: bool, lang: s
             # summary (it is the document language), lang=en-US on the Abstract
             ing = abstract_ingles(en_src)
             # English first (repo rule, 2026-11-08): the canonical Abstract opens the edition, then the info lines,
-            # then the local summary
-            b = ("::: {lang=en-US}\n## Abstract\n\n" + ing + "\n:::\n\n" + "".join(i + "\n\n" for i in info)
+            # then the local summary; the blank line before ':::' keeps the fence from joining the keywords
+            b = ("::: {lang=en-US}\n## Abstract\n\n" + ing + "\n\n:::\n\n" + "".join(i + "\n\n" for i in info)
                  + b.rstrip("\n") + "\n\n")
             rel["abstract_words"] = len(ing.split())
         elif cabeca.strip() == "## Resumo" and not traduzida:
