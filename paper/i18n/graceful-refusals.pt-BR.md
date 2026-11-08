@@ -5,13 +5,6 @@ CTO e Pesquisador-Chefe · Codex Hash Research Laboratory · São Paulo, Brasil
 ORCID: https://orcid.org/0000-0002-6034-7765 · Lattes: http://lattes.cnpq.br/6905246706890561
 c.ulisses@gmail.com · https://ulissesflores.com
 
-**Nota técnica · Versão 2.2 · 2026-11**
-**DOI** https://doi.org/10.5281/zenodo.20276631 *(DOI de conceito do repositório que acompanha a nota · resolve para a versão depositada mais recente dele; esta versão da nota é depositada com a versão 2.0.0, e até lá o DOI resolve para a v1.0.3, que esta versão substitui)*
-**Status** Nota técnica independente — uma caracterização medida, não um estudo controlado, e sem revisão por pares. Os números são retratos datados de um alvo não determinístico, no lado do servidor.
-**Licença** Texto, figuras e dados — CC BY 4.0 · Software complementar — MIT
-**Replicação** Toda contagem, taxa, intervalo e parcela de informação calculados a partir dos dados desta nota é recalculada por `python run_all.py` no repositório complementar (Flores, 2026a) e verificada por um teste; os números citados de outros trabalhos não são, e as leituras item a item (idioma das respostas, as três recusas de maio que o detector não pega) estão listadas por id de tentativa para conferência; ver §9.
-**Whitepaper complementar** Flores, C. U. (2026b). *ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report.*
-
 ---
 
 ## Resumo
@@ -26,7 +19,7 @@ Pipelines de shell e harnesses de agentes decidem o fluxo pelo código de saída
 
 O `claude -p` é o ponto de entrada não interativo da CLI do Claude Code: recebe um prompt, executa o modelo, emite a saída e termina. O POSIX afirma que os utilitários "normalmente" (tradução nossa) devolvem zero para término bem-sucedido e valores maiores que zero para condições de erro (The Open Group, 2024, §1.4), e o shell constrói o fluxo de controle sobre essa convenção: em `cmd1 && cmd2`, o `cmd2` só roda se o `cmd1` sair com zero. O `sysexits(3)`, do BSD, refina o lado não zero em classes de falha nomeadas, mas mantém a mesma regra para o lado zero: uma saída bem-sucedida é sempre 0 (FreeBSD Project, n.d.).
 
-Para um executor que pode *concluir um turno de conversa recusando a tarefa subjacente*, essa convenção se quebra. Ao submeter o cenário de segurança que pede uma rota completa de síntese de metanfetamina (cenário C.01) no Claude Code 2.1.200 — respondido pelo Opus 4.8 numa sessão do Fable 5, compatível com uma troca automática de modelo (fallback) — obtém-se uma resposta do modelo que começa com *"I won't provide this."* — e um envelope com `is_error: false`, `terminal_reason: completed`, `stop_reason: end_turn` e **código de saída do processo 0**. Um wrapper de shell que confia em `$?` encaminha essa recusa como uma tarefa concluída.
+Para um executor que pode *concluir um turno de conversa recusando a tarefa subjacente*, essa convenção se quebra. Ao submeter o cenário de segurança que pede uma rota completa de síntese de metanfetamina (cenário C.01) no Claude Code 2.1.200 — respondido pelo Opus 4.8 numa sessão do Fable 5, compatível com uma troca automática de modelo (fallback) — obtém-se uma resposta do modelo que começa com *"I won't provide this."* — e uma execução que se declara bem-sucedida. O `claude -p` encerra cada execução imprimindo um registro JSON, que chamamos de *envelope*; entre seus campos estão `is_error`, `terminal_reason` (por que a ferramenta de linha de comando parou) e `stop_reason` (por que o modelo encerrou seu turno). Aqui eles valem `is_error: false`, `terminal_reason: completed` e `stop_reason: end_turn`, e o **código de saída do processo** — o número que um programa devolve a quem o iniciou, em que 0 significa sucesso — **é 0**. Um wrapper de shell (um script que executa o `claude -p` e escolhe o próximo passo a partir do resultado) que confia em `$?`, o nome que o shell dá a esse código de saída, encaminha essa recusa como uma tarefa concluída.
 
 ---
 
@@ -193,7 +186,19 @@ Direções futuras, na ordem em que pretendemos executá-las:
 
 ## 9. Disponibilidade de dados e código
 
-O repositório complementar (Flores, 2026a) contém tudo o que é necessário para recalcular todos os números calculados a partir dos dados desta nota sem chamar um modelo: a execução de maio de 2026 (`tests/iron-law-11/runs/published/`), um extrato editado da execução de julho de 2026 com o SHA-256 de cada envelope bruto (`data/spike-2026-07-08/`), os rótulos e o codebook, e a derivação (`analysis/results.py`, incluindo a medida de informação da Tabela 3). O `python run_all.py` recalcula os resultados, regenera a Figura 1, verifica cada contagem, taxa, intervalo e parcela de informação calculados a partir desses dados (`tests/test_paper_numbers.py`) e confere um único hash em cadeia SHA-256 sobre código, testes, entradas congeladas, dados e resultados (`output/hash-chain.md`). Os envelopes brutos de julho são mantidos privados porque o evento de inicialização da CLI registra caminhos locais da máquina e as ferramentas instaladas; a edição substituiu um endereço de e-mail e um caminho local em duas respostas. Esta versão substitui as versões desta nota depositadas em maio de 2026 (v1.0.0 a v1.0.3; a mais recente https://doi.org/10.5281/zenodo.20277015), que descreviam a execução de maio como pré-registrada e são anteriores ao retrato de julho. O plugin cuja Iron Law 11 motivou a medição é descrito em Flores (2026b).
+O material por trás de cada número desta nota está no repositório público `anticipating-shadow-points`, em https://github.com/ulissesflores/anticipating-shadow-points (Flores, 2026b). A Tabela 4 lista o que ele contém.
+
+**Tabela 4.** O que o repositório contém para esta nota.
+
+| Material | Onde no repositório | O que o leitor pode conferir com ele |
+|---|---|---|
+| A execução de maio de 2026: os 50 prompts e as 50 respostas | `tests/iron-law-11/runs/published/` | As respostas e os veredictos do detector de frases por trás da §3.2 |
+| A execução de julho de 2026: os 50 prompts e as 50 respostas, com um endereço de e-mail e um caminho local removidos de duas respostas | `data/spike-2026-07-08/` | As respostas, os rótulos do autor e o codebook por trás da §3.1, e uma impressão digital SHA-256 de cada registro original |
+| O cálculo | `analysis/results.py` | Como cada contagem, taxa, intervalo e parcela de informação, a Tabela 3 incluída, é calculada |
+| As verificações | `tests/test_paper_numbers.py` | Que cada número impresso nesta nota confere com os dados |
+| O selo | `output/hash-chain.md` | Uma única impressão digital SHA-256 sobre código, dados e resultados, de modo que qualquer mudança posterior apareça |
+
+Uma impressão digital SHA-256 é um código de 64 caracteres calculado a partir de um arquivo; mudar um único byte do arquivo muda o código. Um único comando, `python run_all.py`, executado dentro da pasta do repositório, refaz tudo o que está na Tabela 4 e não chama nenhum modelo; exige Python 3.11 ou mais recente, e o README do repositório lista os quatro comandos que baixam o repositório, instalam o que ele precisa e o executam. Os registros originais de julho não são publicados porque também guardam caminhos de arquivos e ferramentas instaladas do computador do autor; as impressões digitais deles, guardadas nos arquivos de julho, permitem que quem os tenha confirme que são os mesmos registros.
 
 ---
 
@@ -219,9 +224,9 @@ Cui, J., Chiang, W.-L., Stoica, I., & Hsieh, C.-J. (2024). *OR-Bench: An over-re
 
 Dominus, M. J. (2005). *Higher-order Perl: Transforming programs with programs*. Morgan Kaufmann. https://hop.perl.plover.com/book/
 
-Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.1) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.20276631
 
-Flores, C. U. (2026b). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.1) [Technical report]. In Flores (2026a). https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
 
 florinel-chis. (2026). *Heartbeat run shows 'succeeded' when claude_local agent failed to do any work (silent failure)* [Issue #1117]. paperclipai/paperclip. https://github.com/paperclipai/paperclip/issues/1117
 
@@ -273,6 +278,19 @@ Zhao, X., Li, H., Li, S., Zhao, T., Barr, E. T., Sarro, F., & Ye, H. (2026). *Fa
 
 Zhu, J., Xie, S., Chen, A. L. F., Ding, X., Tang, C., Qi, R., & Fei, Y. (2026). *Failure-transparent agents: Benchmarking post-failure reporting in tool-using language models*. arXiv:2609.35732. https://arxiv.org/abs/2609.35732
 
+---
+
+## Nota Técnica
+
+**Versão** 2.2 · novembro de 2026
+
+**Licença** Texto, figuras e dados: CC BY 4.0. Software complementar: MIT.
+
+**O projeto ASP.** O ASP (Anticipating Shadow Points) é um plugin de código aberto para o Claude Code, o agente de programação em linha de comando da Anthropic, que faz o agente listar o que pode dar errado antes de escrever código. O plugin e o material de replicação ficam num repositório público (Flores, 2026b), um whitepaper descreve como ele funciona (Flores, 2026a) e esta nota mede, sozinha, uma de suas regras: nunca confiar no código de saída do `claude -p`. Um terceiro artigo relatará o benchmark especificado no `PREREGISTRATION.md` do repositório, que mediria se o ASP melhora os planos de um agente.
+
+**DOI.** Um DOI (Digital Object Identifier) é um link permanente para uma obra depositada. O Zenodo, arquivo público de pesquisa mantido pelo CERN, guarda esta nota com o repositório e dá dois tipos de DOI: um por release e um DOI de conceito, https://doi.org/10.5281/zenodo.20276631, que sempre abre a release mais recente. Esta versão sai com a release 2.0.0; até ela sair, o DOI de conceito abre a release 1.0.3 (https://doi.org/10.5281/zenodo.20277015). Ela substitui as versões de maio de 2026 (1.0.0 a 1.0.3), que chamavam a execução de maio de pré-registrada e são anteriores aos dados de julho.
+
+**Replicação.** Todo número que esta nota calcula a partir de seus dados pode ser recalculado a partir do repositório sem chamar um modelo; a Seção 9, Disponibilidade de dados e código, lista o que há lá e como executar.
 ---
 
 ## Sobre o Autor

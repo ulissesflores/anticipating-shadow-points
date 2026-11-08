@@ -5,14 +5,6 @@ CTO & Chief Researcher · Codex Hash Research Laboratory · São Paulo, Brazil
 ORCID: https://orcid.org/0000-0002-6034-7765 · Lattes: http://lattes.cnpq.br/6905246706890561
 c.ulisses@gmail.com · https://ulissesflores.com
 
-**Whitepaper · Version 2.1 · 2026-11** *(first published 2026-05-18)*
-**DOI** https://doi.org/10.5281/zenodo.20276631 *(concept DOI of the companion repository · resolves to its latest deposited version; this version of the paper is deposited with release 2.0.0, and until then the DOI resolves to v1.0.3, which this version supersedes)*
-**Status** Independent technical whitepaper · not under peer review
-**License** Paper text, figures and data — CC BY 4.0 · Companion software — MIT
-**Replication** Every number Sections 5.3–5.4 compute from the repository's data and fixtures is re-derived by `python run_all.py` in the companion repository and asserted by a test; see Appendix B.
-**Companion repository** Flores, C. U. (2026a), https://github.com/ulissesflores/anticipating-shadow-points
-**Companion whitepaper** Flores, C. U. (2026c). *Graceful Refusals as Unsignalled Failures: Characterising `claude -p` Exit-Code Semantics on Agent Declines.* See `paper/graceful-refusals.md`.
-
 ---
 
 ## Abstract
@@ -100,13 +92,14 @@ This experience report contributes:
    to run); the other ten are prompt-level instructions.
 3. **Preliminary, qualitative observations** from five engineering
    evaluations, and a deterministic adjudicator with cryptographic
-   provenance, exercised on constructed fixtures and ready to score real
+   provenance, exercised on constructed fixtures (sample plans the author wrote to test
+   it) and ready to score real
    transcripts without trusting the author's adjudication (the expected
    lists are still the author's, and the optional synonym sidecar is not
    provided for any task).
 4. **A separate empirical finding** on `claude -p` exit-code semantics
    under graceful agent refusal, characterised in the companion paper
-   Flores (2026c). The finding motivated two of
+   Flores (2026b). The finding motivated two of
    the Iron Laws but warrants independent characterization at larger N.
 
 This is an **experience report** in the systems sense, not a benchmark
@@ -227,9 +220,9 @@ ASP differs from PreFlect along four axes:
    as a methodology rather than a constraint system.
 4. **An empirical CLI-level finding** characterising `claude -p` exit
    semantics under graceful refusal, motivating two of the Iron Laws;
-   this is reported separately in Flores (2026c). The phenomenon itself is
+   this is reported separately in Flores (2026b). The phenomenon itself is
    documented by the vendor and in public issue reports (catalogued in
-   Flores, 2026c, §2); the contribution there is a measured count and a
+   Flores, 2026b, §2); the contribution there is a measured count and a
    proposed typed termination contract, not a discovery.
 
 ### 2.5. Classical software and quality-engineering lineage
@@ -311,7 +304,7 @@ IV&V's.
 11–12 has an exact name in the dependability taxonomy: an exit 0 on a
 graceful decline is an *unsignalled failure* (Avizienis et al., 2004),
 neither a crash nor a fail-silent stop. The term, its prior art, and the
-measurement are developed in the companion paper (Flores, 2026c); this
+measurement are developed in the companion paper (Flores, 2026b); this
 section imports only the vocabulary and does not re-open the novelty
 question here.
 
@@ -336,7 +329,7 @@ what ASP adds.
 | Shadow-point detection (Phase 2) | FMEA-style enumeration (MIL-STD-1629A; IEC 60812:2018) + HAZOP guidewords, over the MAST library (Cemri et al., 2025) | enumeration of an LLM plan under isolation; no risk-priority scoring, no per-component decomposition |
 | Iron Laws 9 and 12 as shell-level checks | Poka-yoke (Shingo, 1986) | two checks in a runner script the agent is instructed to emit; not physical impossibility, and Iron Law 10 is an instruction |
 | Prompt-isolated validator (Iron Law 2) | IV&V (IEEE Std 1012-2016) | organisational independence recast as prompt isolation; not IV&V |
-| Never-trust-`$?` (Iron Laws 11–12) | Unsignalled failure (Avizienis et al., 2004); Yuan et al. (2014) | characterised in the companion paper (Flores, 2026c); not the failure class |
+| Never-trust-`$?` (Iron Laws 11–12) | Unsignalled failure (Avizienis et al., 2004); Yuan et al. (2014) | characterised in the companion paper (Flores, 2026b); not the failure class |
 
 Read together, the section makes a deliberately modest claim: ASP's
 machinery is an *integration* of established reliability and
@@ -377,7 +370,7 @@ subprocess with a file-based contract (Phase 9).
 | 6 | Internal loop (cap=3) | Final-revision plan | Bounded iteration; FM-1.5 |
 | 7 | User approval | Go / no-go | Human-in-the-loop gate |
 | 8 | Micro-TODO + Goal Spec | `TaskCreate` per step + Goal Spec | Executor handoff |
-| 9 | Execution via `/goal` subprocess | Tasks marked completed with evidence | Process-level isolation; see Flores (2026c) |
+| 9 | Execution via `/goal` subprocess | Tasks marked completed with evidence | Process-level isolation; see Flores (2026b) |
 | 10 | Per-deliverable sign-off | Each deliverable accepted or rejected | Acceptance contract |
 | 11 | Execution Report + memory | Closure artifact + memory write-back | Reflexion-style memory (Shinn et al., 2023) |
 | 12 | (Opt-in) public release | Plugin marketplace + GitHub release | Distribution layer |
@@ -443,7 +436,7 @@ recommendation, or an empirical design decision.
 | 8 | No Phase 9 execution without evaluator dispatch at checkpoints (except under `--quick`) | Erdogan et al. (2025) planner/executor |
 | 9 | No reentrant ASP inside `claude -p /goal` child (`ASP_IN_GOAL` env-var guard) | Cost-explosion mitigation; design decision |
 | 10 | No `claude -p /goal` spawn without file-based contract | Subprocess state-divergence mitigation; design decision |
-| 11 | Never trust `$?` from `claude -p` for semantic success/failure | Empirical observation, characterised in Flores (2026c) |
+| 11 | Never trust `$?` from `claude -p` for semantic success/failure | Empirical observation, characterised in Flores (2026b) |
 | 12 | All `claude -p` invocations must use `--output-format json` or `stream-json` | Corollary of Iron Law 11 |
 
 ### 3.4. The micro-TODO contract
@@ -578,8 +571,10 @@ by the replication layer.
 ### 5.3. What the deterministic adjudicator shows about itself
 
 The `benchmark/` package scores a plan against an expected list with a
-deterministic 4-layer matcher (exact name, synonym sidecar, Jaccard
-sliding window, unmatched). On the published run every one of the 42 matches
+deterministic 4-layer matcher, the part that decides whether a plan mentions
+an expected point: exact name, synonym sidecar (an optional list of accepted
+synonyms), Jaccard sliding window (a word-overlap score over a moving stretch
+of the plan) and unmatched. On the published run every one of the 42 matches
 comes from the first layer (exact name); no synonym sidecar exists for any
 task, and the Jaccard layer never fires. Its one published run is a **mock-mode** run:
 the RED and GREEN texts are fixtures the author wrote to exercise the
@@ -649,7 +644,8 @@ paper tests.
 This finding is observationally significant for any toolchain that wraps
 `claude -p` in a shell pipeline. Because the observation was from a
 single refusal scenario in our own battery, we **characterise it
-independently** in the companion paper Flores (2026c), which reports an N=50 measurement across four categories of refusal-provoking prompt (impossible-in-one-turn, capability, safety, ambiguity) on Claude Code 2.1.200 in July 2026. The session model was Fable 5; Opus 4.8 answered 16 of the 50 prompts, including all 12 safety prompts — consistent with an automatic fallback hand-off, although the envelopes record which model answered, not why. Twenty-four trials exited 0, all with `stop_reason: end_turn`. The companion paper counts the declines among them four ways: 20 (40%, 95% Wilson CI 28–54%) under the author's non-blind label; 19 (38%) under the majority of a codebook, written after the author had read the replies, and applied by five LLM raters, four of which returned identical labels, all of the lineage of the model under test, so the majority is a codebook check, not an inter-rater agreement estimate; 12 (24%) counting only the safety and destructive-command refusals and excluding the eight reasoned declines of impossible-in-one-turn tasks; and 9 (18%) under the locked English-only phrase detector, which misses the replies written in Portuguese. An earlier snapshot (May 2026, Claude Code 2.1.143, Opus 4.7) read 60% under the same detector, on a different model and reply language. A human second rater and a third snapshot under a drafted pre-registration are the open follow-ups.
+independently** in the companion paper Flores (2026b), which reports an N=50 measurement across four categories of refusal-provoking prompt (impossible-in-one-turn, capability, safety, ambiguity) on Claude Code 2.1.200 in July 2026. The session model was Fable 5; Opus 4.8 answered 16 of the 50 prompts, including all 12 safety prompts — consistent with an automatic fallback hand-off, although the envelopes (the JSON record `claude -p` prints at the end of
+each run) record which model answered, not why. Twenty-four trials exited 0, all with `stop_reason: end_turn`. The companion paper counts the declines among them four ways: 20 (40%, 95% Wilson CI 28–54%) under the author's non-blind label; 19 (38%) under the majority of a codebook, written after the author had read the replies, and applied by five LLM raters, four of which returned identical labels, all of the lineage of the model under test, so the majority is a codebook check, not an inter-rater agreement estimate; 12 (24%) counting only the safety and destructive-command refusals and excluding the eight reasoned declines of impossible-in-one-turn tasks; and 9 (18%) under the locked English-only phrase detector, which misses the replies written in Portuguese. An earlier snapshot (May 2026, Claude Code 2.1.143, Opus 4.7) read 60% under the same detector, on a different model and reply language. A human second rater and a third snapshot under a drafted pre-registration are the open follow-ups.
 
 ---
 
@@ -692,7 +688,7 @@ fields must be filled before the next phase, are in our use harder to skip.
 Compliance has not been measured.
 
 **Measured elsewhere: treating `claude -p` exit codes as semantic-success
-signals is a silent footgun.** This is the finding reported in Flores (2026c);
+signals is a silent footgun.** This is the finding reported in Flores (2026b);
 mentioning it here because the design implication (Iron Laws 11 and 12)
 was material to the system's reliability.
 
@@ -752,7 +748,7 @@ one-to-one. The highest-priority follow-ups, in order, are:
    `PREREGISTRATION.md` covers only RED vs GREEN, at 8 replicates per cell
    with a fixed budget rather than a power analysis.
 3. **A human second rater and a third `claude -p` snapshot** for the
-   companion finding (Flores, 2026c, §8), the latter under Protocol 1 of
+   companion finding (Flores, 2026b, §8), the latter under Protocol 1 of
    `PREREGISTRATION.md`.
 4. **Cross-model evaluation.** Re-run on Claude Sonnet, GPT-5, Gemini
    2.5, and an open-weight model.
@@ -794,12 +790,12 @@ decisive next step.
 
 We additionally observed that `claude -p` returns exit code 0 even when
 the agent gracefully refuses the requested goal. The vendor documents the
-behaviour for its API; the companion paper (Flores, 2026c) adds a count at
+behaviour for its API; the companion paper (Flores, 2026b) adds a count at
 the CLI boundary.
 
 The strongest follow-up is blind re-adjudication. The most useful
 companion work is a human second rater and a pre-registered third snapshot
-of the `claude -p` measurement (Flores, 2026c).
+of the `claude -p` measurement (Flores, 2026b).
 
 ---
 
@@ -835,9 +831,9 @@ Deshpande, D., Gangal, V., Mehta, H., Krishnan, J., Kannappan, A., & Qian, R. (2
 
 Erdogan, L. E., Lee, N., Kim, S., Moon, S., Furuta, H., Anumanchipalli, G., Keutzer, K., & Gholami, A. (2025). *Plan-and-Act: Improving planning of agents for long-horizon tasks*. ICML 2025. https://arxiv.org/abs/2503.09572
 
-Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
 
-Flores, C. U. (2026c). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.2) [Technical note]. In Flores (2026a). https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.2) [Technical note]. Zenodo. https://doi.org/10.5281/zenodo.20276631
 
 Huang, J., Chen, X., Mishra, S., Zheng, H. S., Yu, A. W., Song, X., & Zhou, D. (2024). *Large language models cannot self-correct reasoning yet*. ICLR 2024. https://arxiv.org/abs/2310.01798
 
@@ -899,7 +895,7 @@ Every claim in the body cites a primary source where one exists. The paragraphs 
 record when each group of references was checked.
 
 The references present in version 1.0 were verified by direct URL fetch on
-2026-05-17; references added in the July 2026 revision (Flores, 2026c; the
+2026-05-17; references added in the July 2026 revision (Flores, 2026b; the
 classical-lineage entries of Section 2.5) were checked when added; and the
 entries added in November 2026 (Barke et al., 2026; Deshpande et al., 2025;
 Kambhampati et al., 2024; G. Zhang et al., 2025; J. Zhang et al., 2026) were
@@ -946,17 +942,27 @@ benchmark package in `benchmark/` provides:
 - 31 unit tests covering the adjudicator, the evaluation and reply parsers,
   the manifest and the hasher, including the determinism contract.
 
-**Reproducing the computed numbers of Sections 5.3–5.4 (no model calls).** From a clone
-of the repository, `python run_all.py` re-scores the author-constructed
-fixtures of the mock benchmark run with the shipped adjudicator, recomputes
-the discrimination matrix, regenerates Figure 2, asserts each number
-(`tests/test_paper_numbers.py`, which also asserts that the run is labelled
-`mock`) and verifies a single SHA-256 chain hash over code, tests, frozen
-inputs, data and results (`output/hash-chain.md`). The author's observations
-in Section 5.2 cannot be reproduced: their transcripts were not preserved.
-This version supersedes v1.0.3 (https://doi.org/10.5281/zenodo.20277015),
-which presented the adjudicator's scores on these fixtures as a reading of
-model transcripts.
+**Reproducing the computed numbers of Sections 5.3–5.4 (no model calls).**
+Table B1 lists what the repository holds for them.
+
+**Table B1.** What the repository holds for Sections 5.3 and 5.4.
+
+| Material | Where in the repository | What a reader can check with it |
+|---|---|---|
+| The five evaluations | `skills/anticipating-shadow-points/evals/` | Each task, its expected list and its acceptance rule (Table 4) |
+| The author's sample plans (RED and GREEN) and the run that scored them | `benchmark/tests/fixtures/mock_runs/` and `benchmark/runs/published/` | The plans the matcher scored and the scores behind Figure 2 |
+| The July 2026 `claude -p` run of the companion note | `data/spike-2026-07-08/` | The counts quoted in Section 5.4 |
+| The calculation | `analysis/results.py` | How each number of Sections 5.3 and 5.4 is computed |
+| The checks | `tests/test_paper_numbers.py` | That each of those numbers matches the data, and that the scored run is labelled `mock` |
+| The seal | `output/hash-chain.md` | One SHA-256 fingerprint over code, data and results, so that any later change shows |
+
+A SHA-256 fingerprint is a 64-character code computed from a file; changing a
+single byte of the file changes the code. A single command, `python
+run_all.py`, run inside the repository folder, redoes everything in Table B1
+and calls no model; it needs Python 3.11 or newer, and the repository's README
+lists the four commands that download the repository, install what it needs
+and run it. The author's observations in Section 5.2 cannot be reproduced: the
+model outputs they were read from were not kept.
 
 **Collecting real evidence (costs model calls).** Install the benchmark
 package and run `asp-benchmark run --mode real --model <model>` followed by
@@ -968,6 +974,19 @@ changes the runner and the matcher need before any dispatch. The protocol is spe
 independently of the Python implementation in `benchmark/PROTOCOL.md` so it
 can be re-implemented in another language.
 
+---
+
+## Technical Note
+
+**Version** 2.1 · November 2026 · first published 18 May 2026
+
+**License** Paper text, figures and data: CC BY 4.0. Companion software: MIT.
+
+**The ASP project.** ASP (Anticipating Shadow Points) is an open-source plugin for Claude Code, Anthropic's command-line coding agent, that makes the agent list what could go wrong before it writes code. Its plugin and replication material sit in one public repository (Flores, 2026a), this whitepaper describes how it works, and a technical note measures one of its rules on its own: never trust the exit code of `claude -p` (Flores, 2026b). A third paper will report the benchmark specified in the repository's `PREREGISTRATION.md`, which would measure whether ASP improves an agent's plans.
+
+**DOI.** A DOI (Digital Object Identifier) is a permanent link to a deposited work. Zenodo, a public research archive run by CERN, keeps this whitepaper with the repository and gives two kinds of DOI: one for each release, and a concept DOI, https://doi.org/10.5281/zenodo.20276631, that always opens the newest release. This version ships with release 2.0.0; until that release is out, the concept DOI opens release 1.0.3 (https://doi.org/10.5281/zenodo.20277015). It replaces the May 2026 versions (1.0.0 to 1.0.3), which presented the matcher's scores on the author's sample plans as a reading of real model output.
+
+**Replication.** Every number that Sections 5.3 and 5.4 compute can be recomputed from the repository without calling a model; Appendix B, Evaluation set and reproducibility, lists what is there and how to run it.
 ---
 
 ## About the Author

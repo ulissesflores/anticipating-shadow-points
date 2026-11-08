@@ -106,6 +106,12 @@ def quebra_direta(t: str) -> bool:
             or ("refs" in b and t.startswith(LB["refs"])) or ("intro" in b and re.match(r"^1\. ", t) is not None))
 
 
+def nota_tecnica(t: str) -> bool:
+    """Titulo da "Nota tecnica" da edicao (prefixos de LB["technote"], sem caixa): pagina propria depois das
+    referencias e dos apendices, antes do "Sobre o autor" (norma da casa v1.5, 2026-11-08)."""
+    return t.lower().startswith(tuple(LB["technote"]))
+
+
 def sobre_autor(t: str) -> bool:
     """Titulo da nota "Sobre o autor" da edicao (prefixos de LB["about"], sem caixa)."""
     return t.lower().startswith(tuple(LB["about"]))
@@ -984,11 +990,11 @@ def resumo_inteiro(corpo: etree._Element) -> None:
         while nxt is not None and nxt.tag == w("p") and estilo_de(nxt) != "Heading1":
             bloco.append(nxt)
             nxt = nxt.getnext()
-        # linhas de informacao (Versao/DOI/Status...) depois das palavras-chave: um bloco so, que desce inteiro
+        # o bloco termina nas palavras-chave: o que vier depois (o Resumo em pt-BR da edicao inglesa, por exemplo)
+        # nao fica preso a ele
         kw = next((i for i, par in enumerate(bloco) if re.match(r"^(Keywords|Palavras-chave|Palabras clave|"
                                                                  r"Parole chiave):", texto_de(par).strip())), None)
-        if kw is not None and kw + 1 < len(bloco):
-            juntos(bloco[kw + 1:])
+        if kw is not None:
             bloco = bloco[:kw + 1]
         if pxml(p).find(w("pageBreakBefore")) is None:
             juntos(bloco)
@@ -1034,10 +1040,18 @@ def quebras_de_pagina(corpo: etree._Element) -> None:
         t = texto_de(p).strip()
         if quebra_direta(t):
             sub(pxml(p), "pageBreakBefore")
-        elif re.match(rf"^{re.escape(LB['appendix'])} [A-Z] —", t) or sobre_autor(t):
+        elif re.match(rf"^{re.escape(LB['appendix'])} [A-Z] —", t) or sobre_autor(t) or nota_tecnica(t):
             r = mk("r")
             sub(r, "br", type="page")
             pxml(p).addnext(r)
+        if nota_tecnica(t):   # titulo centralizado com uma linha embaixo (o negrito ja vem do Heading1)
+            ppr = pxml(p)
+            bdr = sub(ppr, "pBdr")
+            sub(bdr, "bottom", val="single", sz=6, space=4, color="000000")
+            for old in ppr.findall(w("jc")):
+                ppr.remove(old)
+            sub(ppr, "jc", val="center")
+            ordenar(ppr, ORD_PPR)
 
 
 # --------------------------------------------------------------------------- #

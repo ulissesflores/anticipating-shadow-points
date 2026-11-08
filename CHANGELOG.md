@@ -69,6 +69,11 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   edition opens with its own summary, then the English Abstract.
 - **About the Author on its own page**, after the last reference, in every
   edition (Codex Hash house norm v1.4).
+- **Technical Note after the references.** Version, licence, the DOI (explained) and
+  replication moved from between the summaries to a Technical Note page before
+  About the Author, which also explains the ASP project; Section 9 and Appendix B
+  are tables; jargon is defined at first use; self-citations follow APA 7
+  (letters assigned per reference list, publisher instead of "In").
 - **Round-5 review fixes.** Paper 2: Table 3 shares to one decimal and the
   residual computed before rounding; eight, not nine, July replies cite the
   author's setup; SORRY-Bench regrouped; the recipe test's scope stated.

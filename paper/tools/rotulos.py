@@ -15,6 +15,7 @@ Campos:
   keywords  marcador de palavras-chave (sem os dois-pontos)                  | appendix "Apêndice X —"
   date      rótulo da data na capa; date_fmt/months formatam                 | breaks   títulos com pageBreakBefore
   about     prefixos (minúsculos) do título "Sobre o autor" (casa por prefixo)
+  technote  prefixos (minúsculos) do título "Nota técnica" (página própria, centralizado, linha embaixo)
   author    rótulo da linha de autoria do cabeçalho do Markdown (descartada: a capa a repõe)
 """
 from __future__ import annotations
@@ -25,28 +26,29 @@ LABELS: dict[str, dict] = {
         resumo="Resumo", keywords="Keywords", appendix="Appendix", date="Date", date_fmt="{mes} {dia}, {ano}",
         months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
                 "November", "December"],
-        breaks=("abstract", "intro", "refs"), about=("about the author",), author="Author"),
+        breaks=("abstract", "intro", "refs"), about=("about the author",), technote=("technical note",), author="Author"),
     "pt-BR": dict(
         code="pt-BR", table="Tabela", figure="Figura", note="Nota.", source="Fonte", refs="Referências",
         resumo="Resumo", keywords="Palavras-chave", appendix="Apêndice", date="Data",
         date_fmt="{dia} de {mes} de {ano}",
         months=["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro",
                 "novembro", "dezembro"],
-        breaks=("resumo", "abstract", "intro", "refs"), about=("sobre o autor",), author="Autor"),
+        breaks=("resumo", "abstract", "intro", "refs"), about=("sobre o autor",), technote=("nota técnica",), author="Autor"),
     "es": dict(
         code="es-ES", table="Tabla", figure="Figura", note="Nota.", source="Fuente", refs="Referencias",
         resumo="Resumen", keywords="Palabras clave", appendix="Apéndice", date="Fecha",
         date_fmt="{dia} de {mes} de {ano}",
         months=["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
                 "noviembre", "diciembre"],
-        breaks=("resumo", "intro", "refs"), about=("sobre el autor", "acerca del autor"), author="Autor"),
+        breaks=("resumo", "intro", "refs"), about=("sobre el autor", "acerca del autor"), technote=("nota técnica",),
+        author="Autor"),
     "it": dict(
         code="it-IT", table="Tabella", figure="Figura", note="Nota.", source="Fonte", refs="Riferimenti bibliografici",
         resumo="Riassunto", keywords="Parole chiave", appendix="Appendice", date="Data", date_fmt="{dia} {mes} {ano}",
         months=["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre",
                 "ottobre", "novembre", "dicembre"],
         breaks=("resumo", "intro", "refs"), about=("sull'autore", "l'autore", "sull’autore", "l’autore"),
-        author="Autore"),
+        technote=("nota tecnica",), author="Autore"),
 }
 IDIOMAS = tuple(LABELS)
 

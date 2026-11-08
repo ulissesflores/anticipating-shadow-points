@@ -5,13 +5,6 @@ CTO & Chief Researcher · Codex Hash Research Laboratory · São Paulo, Brazil
 ORCID: https://orcid.org/0000-0002-6034-7765 · Lattes: http://lattes.cnpq.br/6905246706890561
 c.ulisses@gmail.com · https://ulissesflores.com
 
-**Technical note · Version 2.2 · 2026-11**
-**DOI** https://doi.org/10.5281/zenodo.20276631 *(concept DOI of the companion repository · resolves to its latest deposited version; this version of the note is deposited with release 2.0.0, and until then the DOI resolves to v1.0.3, which this version supersedes)*
-**Status** Independent technical note — a measured characterisation, not a controlled study, and not under peer review. Numbers are dated snapshots against a non-deterministic, server-side target.
-**License** Text, figures and data — CC BY 4.0 · Companion software — MIT
-**Replication** Every count, rate, interval and information share computed from this note's data is re-derived by `python run_all.py` in the companion repository (Flores, 2026a) and asserted by a test; numbers quoted from other works are not, and per-item readings (reply language, the three May declines the detector misses) are listed by trial id for checking; see §9.
-**Companion whitepaper** Flores, C. U. (2026b). *ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report.*
-
 ---
 
 ## Abstract
@@ -32,7 +25,7 @@ Pipelines de shell e harnesses de agentes decidem o fluxo pelo código de saída
 
 `claude -p` is the non-interactive entry point of the Claude Code CLI: it takes a prompt, runs the model, emits output, and exits. POSIX states that utilities "usually" return zero for successful completion and values greater than zero for error conditions (The Open Group, 2024, §1.4), and the shell builds control flow on that convention: in `cmd1 && cmd2`, `cmd2` runs only if `cmd1` exits zero. BSD's `sysexits(3)` refines the non-zero side into named failure classes but keeps the same rule for the zero side: a successful exit is always 0 (FreeBSD Project, n.d.).
 
-For a runner that can *complete a conversation turn while declining the underlying task*, that convention breaks. Prompting the safety scenario that asks for a complete methamphetamine synthesis route (scenario C.01) on Claude Code 2.1.200 — answered by Opus 4.8 in a Fable 5 session, consistent with an automatic fallback hand-off — yields a model reply that begins *"I won't provide this."* — and an envelope with `is_error: false`, `terminal_reason: completed`, `stop_reason: end_turn`, and **process exit code 0**. A shell wrapper trusting `$?` routes this refusal as a completed task.
+For a runner that can *complete a conversation turn while declining the underlying task*, that convention breaks. Prompting the safety scenario that asks for a complete methamphetamine synthesis route (scenario C.01) on Claude Code 2.1.200 — answered by Opus 4.8 in a Fable 5 session, consistent with an automatic fallback hand-off — yields a model reply that begins *"I won't provide this."* — and a run that reports success. `claude -p` ends each run by printing a JSON record, which we call the *envelope*; its fields include `is_error`, `terminal_reason` (why the command-line tool stopped) and `stop_reason` (why the model ended its turn). Here they read `is_error: false`, `terminal_reason: completed` and `stop_reason: end_turn`, and the **process exit code** — the number a program hands back to whatever started it, where 0 means success — **is 0**. A shell wrapper (a script that runs `claude -p` and picks its next step from the result) that trusts `$?`, the shell's name for that exit code, routes this refusal as a completed task.
 
 ---
 
@@ -199,7 +192,19 @@ Future directions, in the order we intend to run them:
 
 ## 9. Data and code availability
 
-The companion repository (Flores, 2026a) contains everything needed to re-derive every number computed from this note's data without calling a model: the May 2026 run (`tests/iron-law-11/runs/published/`), a redacted extract of the July 2026 run with the SHA-256 of each raw envelope (`data/spike-2026-07-08/`), the labels and codebook, and the derivation (`analysis/results.py`, including the information measure of Table 3). `python run_all.py` recomputes the results, regenerates Figure 1, asserts each count, rate, interval and information share computed from these data (`tests/test_paper_numbers.py`) and verifies a single SHA-256 chain hash over code, tests, frozen inputs, data and results (`output/hash-chain.md`). The July raw envelopes are kept private because the CLI's initialisation event records machine-local paths and installed tooling; the redaction replaced one e-mail address and one local path in two replies. This version supersedes the versions of this note deposited in May 2026 (v1.0.0 to v1.0.3; latest https://doi.org/10.5281/zenodo.20277015), which described the May run as pre-registered and predate the July snapshot. The plugin whose Iron Law 11 motivated the measurement is described in Flores (2026b).
+The material behind every number in this note is in the public repository `anticipating-shadow-points`, at https://github.com/ulissesflores/anticipating-shadow-points (Flores, 2026b). Table 4 lists what it holds.
+
+**Table 4.** What the repository holds for this note.
+
+| Material | Where in the repository | What a reader can check with it |
+|---|---|---|
+| The May 2026 run: the 50 prompts and the 50 replies | `tests/iron-law-11/runs/published/` | The replies and the phrase detector's verdicts behind §3.2 |
+| The July 2026 run: the 50 prompts and the 50 replies, with one e-mail address and one local path removed from two replies | `data/spike-2026-07-08/` | The replies, the author's labels and the codebook behind §3.1, and a SHA-256 fingerprint of each original record |
+| The calculation | `analysis/results.py` | How each count, rate, interval and information share, Table 3 included, is computed |
+| The checks | `tests/test_paper_numbers.py` | That each number printed in this note matches the data |
+| The seal | `output/hash-chain.md` | One SHA-256 fingerprint over code, data and results, so that any later change shows |
+
+A SHA-256 fingerprint is a 64-character code computed from a file; changing a single byte of the file changes the code. A single command, `python run_all.py`, run inside the repository folder, redoes everything in Table 4 and calls no model; it needs Python 3.11 or newer, and the repository's README lists the four commands that download the repository, install what it needs and run it. The original July records are not published because they also hold file paths and installed tools of the author's computer; their fingerprints, kept in the July files, let anyone who holds them confirm they are the same records.
 
 ---
 
@@ -225,9 +230,9 @@ Cui, J., Chiang, W.-L., Stoica, I., & Hsieh, C.-J. (2024). *OR-Bench: An over-re
 
 Dominus, M. J. (2005). *Higher-order Perl: Transforming programs with programs*. Morgan Kaufmann. https://hop.perl.plover.com/book/
 
-Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.1) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.20276631
 
-Flores, C. U. (2026b). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.1) [Technical report]. In Flores (2026a). https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
 
 florinel-chis. (2026). *Heartbeat run shows 'succeeded' when claude_local agent failed to do any work (silent failure)* [Issue #1117]. paperclipai/paperclip. https://github.com/paperclipai/paperclip/issues/1117
 
@@ -279,6 +284,19 @@ Zhao, X., Li, H., Li, S., Zhao, T., Barr, E. T., Sarro, F., & Ye, H. (2026). *Fa
 
 Zhu, J., Xie, S., Chen, A. L. F., Ding, X., Tang, C., Qi, R., & Fei, Y. (2026). *Failure-transparent agents: Benchmarking post-failure reporting in tool-using language models*. arXiv:2609.35732. https://arxiv.org/abs/2609.35732
 
+---
+
+## Technical Note
+
+**Version** 2.2 · November 2026
+
+**License** Text, figures and data: CC BY 4.0. Companion software: MIT.
+
+**The ASP project.** ASP (Anticipating Shadow Points) is an open-source plugin for Claude Code, Anthropic's command-line coding agent, that makes the agent list what could go wrong before it writes code. Its plugin and replication material sit in one public repository (Flores, 2026b), a whitepaper describes how it works (Flores, 2026a), and this note measures one of its rules on its own: never trust the exit code of `claude -p`. A third paper will report the benchmark specified in the repository's `PREREGISTRATION.md`, which would measure whether ASP improves an agent's plans.
+
+**DOI.** A DOI (Digital Object Identifier) is a permanent link to a deposited work. Zenodo, a public research archive run by CERN, keeps this note with the repository and gives two kinds of DOI: one for each release, and a concept DOI, https://doi.org/10.5281/zenodo.20276631, that always opens the newest release. This version ships with release 2.0.0; until that release is out, the concept DOI opens release 1.0.3 (https://doi.org/10.5281/zenodo.20277015). It replaces the May 2026 versions (1.0.0 to 1.0.3), which called the May run pre-registered and came before the July data.
+
+**Replication.** Every number this note computes from its data can be recomputed from the repository without calling a model; Section 9, Data and code availability, lists what is there and how to run it.
 ---
 
 ## About the Author

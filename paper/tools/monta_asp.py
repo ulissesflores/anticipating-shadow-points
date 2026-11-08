@@ -5,10 +5,10 @@ The exporter (export_house.py) wants YAML front matter and a body without the ha
 script only changes STRUCTURE, never the scientific text. Every change is counted and printed so the caller can
 declare it:
 
-  1. header block (title, author/contact lines, Version/DOI/Status/License/Replication/Companion lines) -> YAML
-     front matter (title/subtitle/author/affiliation/orcid/date) for the cover; the Version/DOI/Status/License/
-     Replication/Companion lines are KEPT and moved, as plain paragraphs, to the end of the Abstract block
-     (just before "## Resumo"); the author/contact lines are dropped (the cover and "About the Author" carry them);
+  1. header block (title, author/contact lines) -> YAML front matter (title/subtitle/author/affiliation/orcid/date)
+     for the cover; the author/contact lines are dropped (the cover and "About the Author" carry them). Version,
+     DOI, licence and replication live in the source's own "## Technical Note" section, after the references and
+     appendices (house norm v1.5, 2026-11-08); nothing is placed between the summaries any more;
   2. thematic breaks (`---` lines) removed (pandoc would draw a rule in the DOCX);
   3. the references (paragraphs under "## References...") become `- ` items (what validate_canon counts) and any
      other `- ` bullet AFTER the references becomes `* ` (appendix lists must not be counted as references);
@@ -26,7 +26,7 @@ Riassunto`, `**Palavras-chave:**|**Palabras clave:**|**Parole chiave:**`, `**Tab
 English canonical. The translated file carries NO `## Abstract`: the build copies the English Abstract + Keywords
 verbatim from --en-src (mirror, never drifts), wrapped lang=en-US so Word proofs it as English. Front-matter order of
 a translated edition (set by the canon's i18n layers: the edition's own summary first, as in every Codex Hash paper):
-cover -> local summary (`## Resumo`...) + its Keywords + the Version/DOI/Status/... lines -> `## Abstract` (English) +
+cover -> local summary (`## Resumo`...) + its Keywords -> `## Abstract` (English) +
 Keywords -> `## 1.` The canon fixes the page breaks: pt-BR 4 (Resumo, Abstract, 1., Referências), es/it 3 (local
 summary, 1., Referências; the Abstract follows the summary without a break and is kept whole by the exporter).
 "English first" is the rule for the repository (README, language lists, docs), not for a paper's front matter. A translated file that already has `## Abstract` gets it replaced (counted in the report).
@@ -47,7 +47,6 @@ import rotulos  # noqa: E402
 AUTHOR = "Carlos Ulisses Flores"
 AFFIL = "Codex Hash Research Laboratory"
 ORCID = "0000-0002-6034-7765"
-INFO_RX = re.compile(r"^\*\*(?!(?:" + "|".join(rotulos.TODOS_AUTHOR) + r")\*\*)")  # bold-label header lines, except the author line
 
 
 def split_title(titulo: str) -> tuple[str, str]:
@@ -78,7 +77,7 @@ def derive(src: Path, date: str, keep_colophon: bool, drop_resumo: bool, lang: s
         assert not drop_resumo, "--drop-resumo makes no sense in a translated edition"
     texto = src.read_text(encoding="utf-8")
     rel: dict = {"lang": lang, "abstract": "n/a" if not traduzida else "English, verbatim from " + str(en_src),
-                 "hr_removed": 0, "refs": 0, "bullets_after_refs": 0, "info_lines": 0, "colophon_dropped": False,
+                 "hr_removed": 0, "refs": 0, "bullets_after_refs": 0, "colophon_dropped": False,
                  "resumo": ("dropped" if drop_resumo else "kept (lang=pt-BR, no page break)") if not traduzida
                  else f"local summary '## {LB['resumo']}' first, then the English Abstract"}
     corte = texto.index("\n## ")
@@ -88,17 +87,10 @@ def derive(src: Path, date: str, keep_colophon: bool, drop_resumo: bool, lang: s
     titulo, subtitulo = split_title(h1.group(1).strip())
     if traduzida:   # "Title: subtitle" split on a colon: the subtitle opens its own cover line, so capitalise it
         subtitulo = subtitulo[0].upper() + subtitulo[1:]
-    # header lines after the title: keep the labelled ones (Version, DOI, Status...), join wrapped continuations
-    info: list[str] = []
-    for ln in cab[h1.end():].splitlines():
-        s = ln.strip()
-        if not s or s == "---":
-            continue
-        if INFO_RX.match(s):
-            info.append(s)
-        elif info and not s.startswith(("CTO", "ORCID", "c.ulisses", "**Author")) and not s.startswith("**"):
-            info[-1] += " " + s
-    rel["info_lines"] = len(info)
+    # the header keeps only title and author block; a labelled info line there is a leftover of the old layout
+    sobra = [ln for ln in cab[h1.end():].splitlines()
+             if re.match(r"^\*\*(?!(?:" + "|".join(rotulos.TODOS_AUTHOR) + r")\*\*)", ln.strip())]
+    assert not sobra, f"info lines left in the header (move them to the Technical Note): {sobra[:2]}"
     rel["titulo"], rel["subtitulo"] = titulo, subtitulo
 
     linhas = corpo.split("\n")
@@ -145,12 +137,11 @@ def derive(src: Path, date: str, keep_colophon: bool, drop_resumo: bool, lang: s
             rel["abstract_in_translation"] = "dropped (replaced by the English canonical Abstract)"
             continue
         elif traduzida and cabeca.strip() == "## " + LB["resumo"]:
-            # local summary + the edition's info lines + the English Abstract (mirror); no lang wrapper on the
-            # summary (it is the document language), lang=en-US on the Abstract; the blank line before ':::' keeps
-            # the fence from joining the keywords
+            # local summary + the English Abstract (mirror); no lang wrapper on the summary (it is the document
+            # language), lang=en-US on the Abstract; the blank line before ':::' keeps the fence from joining the
+            # keywords
             ing = abstract_ingles(en_src)
-            b = (b.rstrip("\n") + "\n\n" + "".join(i + "\n\n" for i in info)
-                 + "::: {lang=en-US}\n## Abstract\n\n" + ing + "\n\n:::\n\n")
+            b = b.rstrip("\n") + "\n\n" + "::: {lang=en-US}\n## Abstract\n\n" + ing + "\n\n:::\n\n"
             rel["abstract_words"] = len(ing.split())
         elif cabeca.strip() == "## Resumo" and not traduzida:
             if drop_resumo:
@@ -159,16 +150,8 @@ def derive(src: Path, date: str, keep_colophon: bool, drop_resumo: bool, lang: s
             b = f"::: {{lang=pt-BR}}\n{cabeca}\n{resto}\n:::\n\n"
         novos.append(b)
     corpo = "".join(novos)
-    # info block just before "## Resumo" (or before "## 1." when the Resumo is dropped)
-    bloco_info = "".join(i + "\n\n" for i in info)
-    ancora = "::: {lang=pt-BR}\n## Resumo" if not drop_resumo else None
     if traduzida:
         assert "::: {lang=en-US}\n## Abstract" in corpo, f"no '## {LB['resumo']}' in the translated source"
-    elif ancora and ancora in corpo:
-        corpo = corpo.replace(ancora, bloco_info + ancora, 1)
-    else:
-        m1 = re.search(r"(?m)^## 1\. ", corpo)
-        corpo = corpo[:m1.start()] + bloco_info + corpo[m1.start():]
     meta = (f'---\ntitle: "{titulo}"\nsubtitle: "{subtitulo}"\nauthor: "{AUTHOR}"\naffiliation: "{AFFIL}"\n'
             f'orcid: "{ORCID}"\ndate: "{date}"\nlang: {LB["code"]}\n---\n\n')
     return meta + "# " + h1.group(1).strip() + "\n\n" + corpo.rstrip() + "\n", rel
