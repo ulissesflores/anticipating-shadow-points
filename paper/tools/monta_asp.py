@@ -25,10 +25,11 @@ Riassunto`, `**Palavras-chave:**|**Palabras clave:**|**Parole chiave:**`, `**Tab
 `## Referências|Referencias|Riferimenti bibliografici`, `## Apêndice X —`, `## Sobre o Autor`...) and --en-src the
 English canonical. The translated file carries NO `## Abstract`: the build copies the English Abstract + Keywords
 verbatim from --en-src (mirror, never drifts), wrapped lang=en-US so Word proofs it as English. Front-matter order of
-a translated edition (English first, repo rule since 2026-11-08): cover -> `## Abstract` (English) + Keywords -> the
-Version/DOI/Status/... lines -> local summary (`## Resumo`...) + its Keywords -> `## 1.` The canon fixes the number
-of page breaks: pt-BR 4 (Abstract, Resumo, 1., Referências), es/it 3 (Abstract, 1., Referências; the local summary
-follows without a break and is kept whole on one page by the exporter). A translated file that already has `## Abstract` gets it replaced (counted in the report).
+a translated edition (set by the canon's i18n layers: the edition's own summary first, as in every Codex Hash paper):
+cover -> local summary (`## Resumo`...) + its Keywords + the Version/DOI/Status/... lines -> `## Abstract` (English) +
+Keywords -> `## 1.` The canon fixes the page breaks: pt-BR 4 (Resumo, Abstract, 1., Referências), es/it 3 (local
+summary, 1., Referências; the Abstract follows the summary without a break and is kept whole by the exporter).
+"English first" is the rule for the repository (README, language lists, docs), not for a paper's front matter. A translated file that already has `## Abstract` gets it replaced (counted in the report).
 
 Usage: python3 -I paper/tools/monta_asp.py --src paper/graceful-refusals.md --out build/graceful-refusals/fonte.md [--date 2026-11-07]
        python3 -I paper/tools/monta_asp.py --lang pt-BR --src <translated.md> --en-src paper/graceful-refusals.md --out ...
@@ -79,7 +80,7 @@ def derive(src: Path, date: str, keep_colophon: bool, drop_resumo: bool, lang: s
     rel: dict = {"lang": lang, "abstract": "n/a" if not traduzida else "English, verbatim from " + str(en_src),
                  "hr_removed": 0, "refs": 0, "bullets_after_refs": 0, "info_lines": 0, "colophon_dropped": False,
                  "resumo": ("dropped" if drop_resumo else "kept (lang=pt-BR, no page break)") if not traduzida
-                 else f"English Abstract first, then the local summary '## {LB['resumo']}'"}
+                 else f"local summary '## {LB['resumo']}' first, then the English Abstract"}
     corte = texto.index("\n## ")
     cab, corpo = texto[:corte], texto[corte + 1:]
     h1 = re.search(r"^# (.+)$", cab, re.M)
@@ -144,13 +145,12 @@ def derive(src: Path, date: str, keep_colophon: bool, drop_resumo: bool, lang: s
             rel["abstract_in_translation"] = "dropped (replaced by the English canonical Abstract)"
             continue
         elif traduzida and cabeca.strip() == "## " + LB["resumo"]:
-            # English Abstract (mirror) + the edition's info lines + the local summary; no lang wrapper on the
-            # summary (it is the document language), lang=en-US on the Abstract
+            # local summary + the edition's info lines + the English Abstract (mirror); no lang wrapper on the
+            # summary (it is the document language), lang=en-US on the Abstract; the blank line before ':::' keeps
+            # the fence from joining the keywords
             ing = abstract_ingles(en_src)
-            # English first (repo rule, 2026-11-08): the canonical Abstract opens the edition, then the info lines,
-            # then the local summary; the blank line before ':::' keeps the fence from joining the keywords
-            b = ("::: {lang=en-US}\n## Abstract\n\n" + ing + "\n\n:::\n\n" + "".join(i + "\n\n" for i in info)
-                 + b.rstrip("\n") + "\n\n")
+            b = (b.rstrip("\n") + "\n\n" + "".join(i + "\n\n" for i in info)
+                 + "::: {lang=en-US}\n## Abstract\n\n" + ing + "\n\n:::\n\n")
             rel["abstract_words"] = len(ing.split())
         elif cabeca.strip() == "## Resumo" and not traduzida:
             if drop_resumo:

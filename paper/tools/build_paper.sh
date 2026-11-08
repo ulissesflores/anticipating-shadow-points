@@ -10,9 +10,9 @@
 #   * source  = paper/i18n/<nome>.<lang>.md (override the path with --i18n-src, e.g. build/i18n-test/<nome>.pt-BR.md);
 #               the translated Markdown has the structure of paper/<nome>.md with the labels in its language and NO
 #               "## Abstract": the English Abstract + Keywords are copied verbatim from paper/<nome>.md at build time.
-#   * order   = cover -> Abstract (English) + Keywords + Version/DOI/Status lines -> local summary (Resumo /
-#               Resumen / Riassunto) + Keywords -> 1. ...   (English first, repo rule; pt-BR: page break before the
-#               Resumo too, as the canon's 4 breaks demand; es/it: no break, the canon has 3).  Details: header of paper/tools/monta_asp.py.
+#   * order   = cover -> local summary (Resumo / Resumen / Riassunto) + Keywords + Version/DOI/Status lines ->
+#               Abstract (English) + Keywords -> 1. ...   (canon order; pt-BR: page break before the Abstract too,
+#               as the canon's 4 breaks demand; es/it: no break, the canon has 3). About the Author: new page.  Details: header of paper/tools/monta_asp.py.
 #   * labels  = Table/Figure/Note./References/Appendix/Date: in the edition language (paper/tools/rotulos.py), Word
 #               proofing language pt-BR|es-ES|it-IT (docDefaults, theme, dc:language), crivo run with the same labels.
 #   * output  = build/<nome>.<lang>/ and docs/paper/<nome>.<lang>.{docx,pdf}, tracked; their SHA-256 go to paper/PAPER-SHA256.txt.

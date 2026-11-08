@@ -100,10 +100,15 @@ CODE_PT_MAX, CODE_PT_MIN = 10, 7.5       # tamanho do bloco: o maior que deixa a
 
 def quebra_direta(t: str) -> bool:
     """canon en: exatamente 3 pageBreakBefore = Abstract, 1. (primeira secao numerada) e References.
-    Edicao traduzida: LB["breaks"] (pt-BR 4: Abstract, Resumo, 1., Referencias; es/it 3: Abstract, 1., refs)."""
+    Edicao traduzida: LB["breaks"] (pt-BR 4: Resumo, Abstract, 1., Referencias; es/it 3: resumo local, 1., refs)."""
     b = LB["breaks"]
     return (("abstract" in b and t == "Abstract") or ("resumo" in b and t == LB["resumo"])
             or ("refs" in b and t.startswith(LB["refs"])) or ("intro" in b and re.match(r"^1\. ", t) is not None))
+
+
+def sobre_autor(t: str) -> bool:
+    """Titulo da nota "Sobre o autor" da edicao (prefixos de LB["about"], sem caixa)."""
+    return t.lower().startswith(tuple(LB["about"]))
 
 
 def w(tag: str) -> str:
@@ -1010,14 +1015,15 @@ def nao_separa(corpo: etree._Element) -> None:
 
 def quebras_de_pagina(corpo: etree._Element) -> None:
     """Canon en: pageBreakBefore so em Abstract, 1. e References; cada apendice comeca em pagina nova por quebra
-    manual no proprio titulo (APA 7: cada apendice em pagina propria), sem contar como pageBreakBefore."""
+    manual no proprio titulo (APA 7: cada apendice em pagina propria), sem contar como pageBreakBefore. O "Sobre o
+    autor" tambem (norma da casa v1.3, 2026-11-08): pagina propria depois da ultima referencia."""
     for p in corpo.iter(w("p")):
         if estilo_de(p) != "Heading1":
             continue
         t = texto_de(p).strip()
         if quebra_direta(t):
             sub(pxml(p), "pageBreakBefore")
-        elif re.match(rf"^{re.escape(LB['appendix'])} [A-Z] —", t):
+        elif re.match(rf"^{re.escape(LB['appendix'])} [A-Z] —", t) or sobre_autor(t):
             r = mk("r")
             sub(r, "br", type="page")
             pxml(p).addnext(r)

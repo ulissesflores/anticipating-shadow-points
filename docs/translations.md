@@ -18,7 +18,7 @@ ASP documentation is available in five languages. The English README is the cano
 | 🇮🇹 [Italiano](README.it) | AI-assisted | Native review welcomed via PR |
 | 🇮🇱 [עברית](README.he) | AI-assisted (RTL marked) | Native review welcomed via PR |
 
-The two papers have PDF and DOCX editions in English, Portuguese, Spanish and Italian in [`docs/paper/`](paper/). Every translated edition opens with the English Abstract, copied verbatim from the English source, followed by the summary in its own language.
+The two papers have PDF and DOCX editions in English, Portuguese, Spanish and Italian in [`docs/paper/`](paper/). Every translated edition opens with the summary in its own language, followed by the English Abstract, copied verbatim from the English source.
 
 > [!NOTE]
 > If you're a native speaker of ES, IT, or HE and notice translation issues, please open a PR. We prefer accurate translations over silent corrections — your authorship attribution will be added.

@@ -237,7 +237,7 @@ def crivo_docx(docx: Path, fig_cm: float) -> dict:
                 atual_h1 = t
                 em_refs = t.startswith(X.LB["refs"])
                 quebra = est.ppr_bool(el, "pageBreakBefore") or el.find(f".//{w('br')}[@{w('type')}='page']") is not None
-                if (X.quebra_direta(t) or rx_apendice().match(t)) and not quebra:
+                if (X.quebra_direta(t) or rx_apendice().match(t) or X.sobre_autor(t)) and not quebra:
                     v("FORMA", "F07", f"titulo sem quebra de pagina antes: {t[:50]!r}")
                 ctx["titulos"].append(t)
             elif rx_apendice().match(t):

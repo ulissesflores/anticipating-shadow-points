@@ -113,6 +113,6 @@ Requirements: pandoc, qpdf, poppler and Microsoft Word, plus a Python with
 `lxml` and `Pillow`. The script also runs the house checker on the DOCX and the
 PDF, copies both to `docs/paper/` (tracked) and refreshes their SHA-256 in
 `paper/PAPER-SHA256.txt`, which `tests/test_paper_pdf_hashes.py` checks. Pass
-`--lang pt-BR|es|it` for a translated edition; every edition opens with the
-English Abstract. For the citable artefact, always use the files archived under
+`--lang pt-BR|es|it` for a translated edition, which opens with its own
+summary and then the English Abstract. For the citable artefact, always use the files archived under
 the [Zenodo DOI](https://doi.org/10.5281/zenodo.20276631), not a local rebuild.

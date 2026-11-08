@@ -64,8 +64,11 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   (translations and PDF/DOCX editions too): the old name was the number of the
   skill rule it tests, which says nothing to a reader. The May 2026 data keeps
   its folder, `tests/iron-law-11/`, because it is sealed.
-- **English first everywhere.** Each translated edition of a paper now opens
-  with the English Abstract, then the local summary.
+- **English first in the repository.** English comes first in the README,
+  language lists and docs. Inside a paper the house order holds: a translated
+  edition opens with its own summary, then the English Abstract.
+- **About the Author on its own page**, after the last reference, in every
+  edition (Codex Hash house norm v1.3).
 - **PDF and DOCX editions tracked** in `docs/paper/` (both papers, en, pt-BR,
   es, it), outside the chain seal, with their SHA-256 in
   `paper/PAPER-SHA256.txt` and a test that checks them.
