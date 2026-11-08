@@ -790,6 +790,15 @@ def formatar_corpo(doc: etree._Element, media: dict[str, Path], fig_cm: float, r
     for t in corpo.iter(w("t")):
         if t.text and "—" in t.text:
             t.text = re.sub(r"—(?=[,;:.)])", "—\u200d", t.text)
+            t.text = re.sub(r" —(?=\u200d)", "\u00a0—", t.text)   # nem antes dele ("migração" / "—, e a")
+
+    # 5.1c data ISO em texto corrido nao parte no hifen ("2026-05-" / "17"); codigo inline ja usa noBreakHyphen
+    for r in corpo.iter(w("r")):
+        if r in codigo_runs:
+            continue
+        for t in r.iter(w("t")):
+            if t.text and re.search(r"\d{4}-\d{2}-\d{2}", t.text):
+                t.text = re.sub(r"(?<![/\w])(\d{4})-(\d{2})-(\d{2})(?=T\d|[^/\w]|$)", "\\1\u2011\\2\u2011\\3", t.text)
 
     # 5.1b sinal de menos tipografico (U+2212) antes de digito, fora de palavra/numero: o Word quebra a linha
     # depois do hifen ("-12,3%" virava "-" no fim da linha e "12,3%" na seguinte; "[-0,0228" idem). Codigo fica de fora.

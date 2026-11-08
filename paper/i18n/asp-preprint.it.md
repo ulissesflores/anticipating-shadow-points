@@ -174,7 +174,7 @@ Enunciamo dodici vincoli operativi e li chiamiamo Iron Law (Tabella 3). Le Iron 
 | 3 | Nessun micro-TODO senza piano macro + charter + deliverable approvati dall'utente | Anthropic Skills: output intermedi verificabili |
 | 4 | Nessun completamento di passo senza evidenza fresca del test di accettazione | Cemri et al. (2025) FM-3.1 + FM-3.2 + FM-2.6 |
 | 5 | Nessun deliverable accettato senza file/output di evidenza corrispondente | Cemri et al. (2025) FM-3.1 |
-| 6 | Nessuna chiusura di progetto senza rapporto di esecuzione + scrittura in memoria | Shinn et al. (2023) memory buffer |
+| 6 | Nessuna chiusura di progetto senza rapporto di esecuzione + scrittura in memoria | Buffer di memoria di Shinn et al. (2023) |
 | 7 | Nessun ciclo senza limite (limite predefinito=3 round di validatore) | Cemri et al. (2025) FM-1.5 |
 | 8 | Nessuna esecuzione di Fase 9 senza dispatch del valutatore ai checkpoint (tranne con `--quick`) | Erdogan et al. (2025) pianificatore/esecutore |
 | 9 | Nessun ASP rientrante dentro il figlio `claude -p /goal` (protezione con variabile d'ambiente `ASP_IN_GOAL`) | Mitigazione dell'esplosione dei costi; decisione di progetto |
@@ -303,7 +303,7 @@ I limiti di questo resoconto di esperienza corrispondono uno a uno alle minacce 
 6. **Giudicatore basato su embedding** come v0.2 del benchmark, con modello sentence-transformer fissato, per alzare la soglia minima di recall sulle parafrasi lessicalmente disgiunte.
 7. **Replicazione su benchmark standardizzato.** L'insieme di cinque compiti non è un benchmark pubblico per agenti; replicare la direzione su SWE-bench (Jimenez et al., 2024) o su una suite standardizzata comparabile verificherebbe se regge fuori dai compiti scelti dall'autore.
 8. **Revisione da parte di madrelingua** delle traduzioni della documentazione in ES, IT ed HE.
-9. **Sede di sottomissione.** Le sedi workshop — NeurIPS LLM-agents track, ICLR agents workshop, AAAI agents track — sono la scelta adatta alla scala empirica attuale. La sottomissione al main track richiede i seguiti di cui sopra.
+9. **Sede di sottomissione.** Le sedi workshop — NeurIPS LLM-agents track, ICLR agents workshop, AAAI agents track — sono la scelta adatta alla scala empirica attuale. La sottomissione alla sessione principale richiede i seguiti di cui sopra.
 
 ---
 
