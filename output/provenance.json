@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "878da3b44fa7839c7574e39bc739c801e2e33a4b4e763d27a51f2c6332b0a534",
+  "chain_hash": "6dc138cab1619b1dec0511608d986d8d2370159d57fa177320605489bbd7e987",
   "informational_not_hashed": {
     "files": [
       {
@@ -88,7 +88,7 @@
         },
         {
           "path": "analysis/results.py",
-          "sha256": "e216ae1294784e6b5faba5377224aadb4439c2c05f4924a8df7e135db633a8dd"
+          "sha256": "1de264e585cf28aa1098e77ac88ef7c368c0e6719f679593924ab941934be4f0"
         },
         {
           "path": "benchmark/src/asp_benchmark/__init__.py",
@@ -143,7 +143,7 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "9a8b5d7cf112bb86ee51429b9e932635496c6852298bfabf1f74f8698546f5e4"
+      "leaf_sha256": "c83b37d8c38861009e21375dcf1d7530d52e004acd45d1bfc0a0225d0e2ef870"
     },
     "data": {
       "files": [
@@ -1807,10 +1807,10 @@
       "files": [
         {
           "path": "output/results.json",
-          "sha256": "64b668996c1f8fec2a54f0be974fe8da0f65e6cefed2214f987e1edf0385da01"
+          "sha256": "66ead700deb59c2719b90ac0afaddf852019f1a9643098a926ee62f4ab5aedd3"
         }
       ],
-      "leaf_sha256": "5a94ab4acf2b86fa10e11c94713a6c1ad3afc5822e70f2cfad12b2637332a51b"
+      "leaf_sha256": "b043fb0af019e9894cc9622868a8145320aea675e2aef028e8ea059e373201ab"
     },
     "tests": {
       "files": [
@@ -1840,14 +1840,14 @@
         },
         {
           "path": "tests/test_paper_text.py",
-          "sha256": "155672e00439654aafa90cc81500ea902a0aefbd4e517a3527a3f692bb0b084e"
+          "sha256": "0220b51effa54027f92599eadff417d6e134da8eecbaee6cd304c334e833cd7b"
         },
         {
           "path": "tests/test_recipe.py",
           "sha256": "070665f9c8811575a3f74df3b3a314033eaba1dcadcd68c5b72934d08041b040"
         }
       ],
-      "leaf_sha256": "5988283f094616df1ff51dc90c15d3951d2773aafab1427a4eaf9a7b3faa1390"
+      "leaf_sha256": "d57839798458c7315ae31340ff931b8372867ca2f459594c71579a71ee7afa07"
     }
   },
   "schema": 1

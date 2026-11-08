@@ -206,13 +206,17 @@ def outcome_information(trials: list[dict], labels: dict, label_key: str) -> dic
 
     outcomes = [outcome(t) for t in trials]
 
-    def info(target: list, channel) -> dict:
-        """Mutual information between a target labelling and one channel."""
-        h = _entropy(Counter(target).values())
+    def cond_entropy(target: list, channel) -> float:
+        """Entropy of a target labelling left after reading one channel, unrounded."""
         groups: dict = {}
         for t, o in zip(trials, target, strict=True):
             groups.setdefault(channel(t), []).append(o)
-        h_cond = sum(len(g) / len(trials) * _entropy(Counter(g).values()) for g in groups.values())
+        return sum(len(g) / len(trials) * _entropy(Counter(g).values()) for g in groups.values())
+
+    def info(target: list, channel) -> dict:
+        """Mutual information between a target labelling and one channel."""
+        h = _entropy(Counter(target).values())
+        h_cond = cond_entropy(target, channel)
         return {"bits": round(h - h_cond, 4), "share": round((h - h_cond) / h, 4)}
 
     def exit_code(t: dict):
@@ -230,9 +234,8 @@ def outcome_information(trials: list[dict], labels: dict, label_key: str) -> dic
         "entropy_bits": round(_entropy(Counter(outcomes).values()), 4),
         "exit_code": info(outcomes, exit_code),
         "exit_code_and_stop_reason": info(outcomes, exit_and_stop),
-        "residual_bits": round(
-            _entropy(Counter(outcomes).values()) - info(outcomes, exit_and_stop)["bits"], 4
-        ),
+        # computed before rounding the mutual information (rounding twice moved the 4th decimal)
+        "residual_bits": round(cond_entropy(outcomes, exit_and_stop), 4),
         "delivered": {
             "entropy_bits": round(_entropy(Counter(delivered).values()), 4),
             "exit_code": info(delivered, exit_code),

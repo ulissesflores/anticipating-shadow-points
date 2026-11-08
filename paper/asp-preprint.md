@@ -6,7 +6,7 @@ ORCID: https://orcid.org/0000-0002-6034-7765 · Lattes: http://lattes.cnpq.br/69
 c.ulisses@gmail.com · https://ulissesflores.com
 
 **Whitepaper · Version 2.1 · 2026-11** *(first published 2026-05-18)*
-**DOI** https://doi.org/10.5281/zenodo.20276631 *(concept · resolves to the latest deposited version)*
+**DOI** https://doi.org/10.5281/zenodo.20276631 *(concept DOI of the companion repository · resolves to its latest deposited version; this version of the paper is deposited with release 2.0.0, and until then the DOI resolves to v1.0.3, which this version supersedes)*
 **Status** Independent technical whitepaper · not under peer review
 **License** Paper text, figures and data — CC BY 4.0 · Companion software — MIT
 **Replication** Every number Sections 5.3–5.4 compute from the repository's data and fixtures is re-derived by `python run_all.py` in the companion repository and asserted by a test; see Appendix B.
@@ -17,14 +17,14 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 ## Abstract
 
-LLM coding assistants often produce *locally correct* code that omits failure modes a senior engineer would surface in a pre-mortem — a row-level security policy, an external API's rate limit, replica lag during a migration — and production then breaks in ways that are expensive to debug. We call these missing items *shadow points*. This experience report describes Anticipating Shadow Points (ASP), a 13-phase planning protocol shipped as a Claude Code skill that integrates Klein's (2007) pre-mortem with the multi-agent failure taxonomy of Cemri et al. (2025), checks the plan with a validator that does not share the planner's context, following the self-correction-limit literature (Huang et al., 2024; Tyen et al., 2024), and hands execution to a child subprocess with a file-based contract. We document the design, its deployment as an open-source plugin, and preliminary observations from five engineering evaluations, read by the author without blinding and with transcripts not preserved. A deterministic adjudicator ships with the skill; its scores on author-written fixtures exercise the instrument and nothing more, so we report no measured effect of ASP. We state in advance the result that would show one: in a real-mode benchmark with blind, independently written expected lists and eight replicates per task and condition, a measured benefit if the assisted condition's mean coverage beats the unassisted one on all five tasks and a one-sided, task-stratified permutation test gives p < 0.05; no measurable benefit if it fails on three or more; inconclusive otherwise; incomplete if the budget stops collection early. The protocol is drafted and not yet deposited.
+LLM coding assistants often produce *locally correct* code that omits failure modes a senior engineer would surface in a pre-mortem — a row-level security policy, an external API's rate limit, replica lag during a migration — and production then breaks in ways that are expensive to debug. We call these missing items *shadow points*. This experience report describes Anticipating Shadow Points (ASP), a 13-phase planning protocol shipped as a Claude Code skill that integrates Klein's (2007) pre-mortem with the multi-agent failure taxonomy of Cemri et al. (2025), checks the plan with a validator that does not share the planner's context, following the self-correction-limit literature (Huang et al., 2024; Tyen et al., 2024), and hands execution to a child subprocess with a file-based contract. We document the design, its deployment as an open-source plugin, and preliminary observations from five engineering evaluations, read by the author without blinding and with transcripts not preserved. A deterministic adjudicator ships with the skill; its scores on author-written fixtures exercise the instrument and nothing more, so we report no measured effect of ASP. We state in advance the result that would show one: in a real-mode benchmark with blind, independently written expected lists and eight replicates per task and condition, a measured benefit if the assisted condition's mean coverage beats the unassisted one on all five tasks and a one-sided, task-stratified permutation test gives p < 0.05; no measurable benefit if it does not beat it, ties included, on three or more; inconclusive in between; and no verdict at all if the budget stops collection early. The protocol is drafted and not yet deposited.
 
 **Keywords:** LLM coding agents; pre-mortem; multi-agent failure modes;
 Claude Code; operational protocols; experience report
 
 ## Resumo
 
-Assistentes de código baseados em LLM muitas vezes produzem código *localmente correto* que omite modos de falha que um engenheiro sênior levantaria num pre-mortem — uma política de segurança por linha, o limite de taxa de uma API externa, o atraso de réplica durante uma migração —, e a produção então quebra de formas caras de depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de experiência descreve o Anticipating Shadow Points (ASP), um protocolo de planejamento em 13 fases distribuído como skill do Claude Code, que integra o pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al. (2025), confere o plano com um validador que não compartilha o contexto do planejador, seguindo a literatura sobre os limites da autocorreção (Huang et al., 2024; Tyen et al., 2024), e entrega a execução a um subprocesso filho com contrato em arquivo. Documentamos o desenho, a implantação como plugin de código aberto e observações preliminares de cinco avaliações de engenharia, lidas pelo autor sem cegamento e sem transcrições preservadas. Um adjudicador determinístico acompanha a skill; suas notas sobre fixtures escritos pelo autor exercitam o instrumento e nada mais, por isso não relatamos efeito medido do ASP. Fixamos de antemão o resultado que mostraria um: num benchmark em modo real, com listas esperadas cegas e escritas por revisores independentes e oito réplicas por tarefa e condição, benefício medido se a cobertura média da condição assistida superar a da não assistida nas cinco tarefas e um teste de permutação unilateral, estratificado por tarefa, der p < 0,05; nenhum benefício mensurável se não a superar em três ou mais; inconclusivo nos demais casos; incompleto se o orçamento interromper a coleta. O protocolo está redigido e ainda não foi depositado.
+Assistentes de código baseados em LLM muitas vezes produzem código *localmente correto* que omite modos de falha que um engenheiro sênior levantaria num pre-mortem — uma política de segurança por linha, o limite de taxa de uma API externa, o atraso de réplica durante uma migração —, e a produção então quebra de formas caras de depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de experiência descreve o Anticipating Shadow Points (ASP), um protocolo de planejamento em 13 fases distribuído como skill do Claude Code, que integra o pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al. (2025), confere o plano com um validador que não compartilha o contexto do planejador, seguindo a literatura sobre os limites da autocorreção (Huang et al., 2024; Tyen et al., 2024), e entrega a execução a um subprocesso filho com contrato em arquivo. Documentamos o desenho, a implantação como plugin de código aberto e observações preliminares de cinco avaliações de engenharia, lidas pelo autor sem cegamento e sem transcrições preservadas. Um adjudicador determinístico acompanha a skill; suas notas sobre fixtures escritos pelo autor exercitam o instrumento e nada mais, por isso não relatamos efeito medido do ASP. Fixamos de antemão o resultado que mostraria um: num benchmark em modo real, com listas esperadas cegas e escritas por revisores independentes e oito réplicas por tarefa e condição, benefício medido se a cobertura média da condição assistida superar a da não assistida nas cinco tarefas e um teste de permutação unilateral, estratificado por tarefa, der p < 0,05; nenhum benefício mensurável se não a superar, empate incluído, em três ou mais; inconclusivo nos demais casos; e nenhum veredito se o orçamento interromper a coleta antes. O protocolo está redigido e ainda não foi depositado.
 
 **Palavras-chave:** agentes de código LLM; pre-mortem; modos de falha
 multiagente; Claude Code; protocolos operacionais; relato de experiência
@@ -81,8 +81,9 @@ report the design and what the evaluations can and cannot show. The evaluation i
 this version, unmeasured: GREEN on five tasks and RED on three, one dispatch
 each, a single
 model, read by the author without blinding, with the raw transcripts not
-preserved. We report it as qualitative observation; the five design choices
-we treat as hypotheses are in Section 6.
+preserved. We report it as qualitative observation; the four design choices
+we treat as hypotheses, and a fifth measured in the companion paper, are in
+Section 6.
 
 ### 1.1. Contributions
 
@@ -92,9 +93,9 @@ This experience report contributes:
    emitting a named artifact, organised around the principle that no
    implementation begins before shadow points have been surfaced.
 2. **Twelve operational constraints we call "Iron Laws"**, each tied to a
-   primary literature source or to a documented design decision. Two have an
+   primary literature source or to a documented design decision. Two have a
    shell-level check in the runner template the agent is told to run (Iron
-   Law 12's mandatory JSON output, and Iron Law 9's `ASP_IN_GOAL` flag set for
+   Law 12's JSON output, a template default the operator can override, and Iron Law 9's `ASP_IN_GOAL` flag set for
    the child, whose check at entry is a Bash snippet the skill tells the agent
    to run); the other ten are prompt-level instructions.
 3. **Preliminary, qualitative observations** from five engineering
@@ -505,8 +506,9 @@ the MAST checklist, per-mode pre-mortem prompts, and the seven
 artifact templates referenced in Section 3.1.
 
 Documentation is published as a GitHub Pages site, with translations of
-the README into Spanish, Portuguese, Italian, and Hebrew; the latter
-three are AI-assisted and pending native-speaker review. The full
+the README into Portuguese, Spanish, Italian, and Hebrew, all machine- or
+AI-assisted: the Portuguese awaits the author's review, the other three a
+native speaker's (`docs/translations.md`). The full
 source — skill files, plugin manifests, documentation, test artefacts,
 benchmark code — is MIT-licensed; the paper text, figures and data are
 CC BY 4.0.
@@ -531,7 +533,7 @@ the deterministic adjudicator shows about itself on constructed fixtures
 | E2 | Edge deploy | Edge function calling rate-limited external API | 10 | ≥ 80% |
 | E3 | Refactor | Date-formatting utility used across 30+ files | 10 | ≥ 80% |
 | E4 | RLS policy | Row-level security policy referencing new column | 10 | ≥ 80% |
-| E5 | Scheduling | Cron job whose script conflicts with disabled service | 10 | ≥ 80% |
+| E5 | Scheduling | Cron job whose script conflicts with disabled service | 10 | ≥ 80% and points 1 and 8 present |
 
 Each evaluation specifies an INPUT (a task statement as a senior engineer
 might phrase it to a colleague), an EXPECTED list of shadow points that a
@@ -583,8 +585,9 @@ task, and the Jaccard layer never fires. Its one published run is a **mock-mode*
 the RED and GREEN texts are fixtures the author wrote to exercise the
 pipeline end to end (`benchmark/tests/fixtures/mock_runs/`); on them layers 2
 and 3 never produce a match (layer 3's overlaps are computed and stay below the
-threshold), and only the unit tests exercise a match through those layers, deliberately weaker
-for RED and deliberately aligned with the expected list for GREEN. On those
+threshold), and only the unit tests exercise a match through those layers. The fixtures
+themselves were written deliberately weaker for RED and deliberately aligned
+with the expected list for GREEN. On those
 fixtures the matcher scores RED 4% and GREEN 80% on average — a statement
 about how the fixtures were written, not about ASP.
 
@@ -613,11 +616,14 @@ applied to any real transcript. The real-mode protocol, with expected lists re-a
 blind by independent engineers, is specified in the repository's
 `PREREGISTRATION.md` and has not been run. Its decision rule is fixed in
 advance: with eight replicates per task and condition (80 dispatches), a
-benefit is reported only if the assisted condition's mean coverage beats the
+run is labelled incomplete, with no verdict, if the budget stops collection
+before every task reaches eight replicates per condition; otherwise a benefit
+is reported only if the assisted condition's mean coverage beats the
 unassisted one on all five tasks and a one-sided, task-stratified permutation
 test on the mean per-task difference (10 000 relabellings, seed
-`asp-bench-v1`) gives p < 0.05; no measurable benefit if it fails to on three
-or more; inconclusive otherwise; incomplete if the budget stops collection.
+`asp-bench-v1`) gives p < 0.05; no measurable benefit if the assisted
+condition does not beat the unassisted one (GREEN − RED ≤ 0, so a tie
+counts) on three or more tasks; inconclusive in between.
 Coverage will be reported per matcher layer, since layer 1 rewards a plan
 that reuses the expected names verbatim.
 
@@ -633,7 +639,7 @@ runner, we observed that the binary returns exit code 0 even when the
 agent gracefully refuses the requested goal — the harness reports a
 successful conversation end despite the agent semantically refusing the
 task. The exit code reflects process-level success of the CLI binary,
-not semantic success of the agent's task. Iron Laws 11 and 12 require `--output-format json` and reading
+not semantic success of the agent's task. Iron Laws 11 and 12 require `--output-format json` or `stream-json` and reading
 `is_error`, `terminal_reason` and `stop_reason`. Those fields separate a
 turn-cap cut-off and a classifier refusal from a completed turn, but not a
 model-generated decline from a delivery; the runner therefore also flags
@@ -759,7 +765,8 @@ one-to-one. The highest-priority follow-ups, in order, are:
    public agent benchmark; replicating the direction on SWE-bench
    (Jimenez et al., 2024) or a comparable standardized suite would test
    whether it survives outside the author's chosen tasks.
-8. **Native-speaker review** of the ES, IT, and HE documentation
+8. **Translation review**: the author's review of the Portuguese and a
+   native speaker's of the Spanish, Italian and Hebrew documentation
    translations.
 9. **Submission target.** Workshop venues — NeurIPS LLM-agents track,
    ICLR agents workshop, AAAI agents track — are the appropriate fit
@@ -936,7 +943,8 @@ benchmark package in `benchmark/` provides:
   adjudication hashed into a Merkle-style chain);
 - a `verify` subcommand that re-walks a run directory and reports any
   byte-level drift;
-- 31 unit tests pinning the determinism contract and the reply parser.
+- 31 unit tests covering the adjudicator, the evaluation and reply parsers,
+  the manifest and the hasher, including the determinism contract.
 
 **Reproducing the computed numbers of Sections 5.3–5.4 (no model calls).** From a clone
 of the repository, `python run_all.py` re-scores the author-constructed
@@ -946,7 +954,7 @@ the discrimination matrix, regenerates Figure 2, asserts each number
 `mock`) and verifies a single SHA-256 chain hash over code, tests, frozen
 inputs, data and results (`output/hash-chain.md`). The author's observations
 in Section 5.2 cannot be reproduced: their transcripts were not preserved.
-This version supersedes version 1.0 (https://doi.org/10.5281/zenodo.20277015),
+This version supersedes v1.0.3 (https://doi.org/10.5281/zenodo.20277015),
 which presented the adjudicator's scores on these fixtures as a reading of
 model transcripts.
 

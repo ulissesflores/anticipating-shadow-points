@@ -68,7 +68,12 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   language lists and docs. Inside a paper the house order holds: a translated
   edition opens with its own summary, then the English Abstract.
 - **About the Author on its own page**, after the last reference, in every
-  edition (Codex Hash house norm v1.3).
+  edition (Codex Hash house norm v1.4).
+- **Round-5 review fixes.** Paper 2: Table 3 shares to one decimal and the
+  residual computed before rounding; eight, not nine, July replies cite the
+  author's setup; SORRY-Bench regrouped; the recipe test's scope stated.
+  Paper 1: the decision rule now matches the protocol (ties count, incomplete
+  first); Iron Law 12 described as a template default; E5's acceptance rule.
 - **PDF and DOCX editions tracked** in `docs/paper/` (both papers, en, pt-BR,
   es, it), outside the chain seal, with their SHA-256 in
   `paper/PAPER-SHA256.txt` and a test that checks them.

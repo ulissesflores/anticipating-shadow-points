@@ -90,7 +90,7 @@ def test_iron_law_11_quotes_outcome_information(results):
     for labels in ("author", "codebook"):
         for channel in ("exit_code", "exit_code_and_stop_reason"):
             block = info[labels][channel]
-            assert f"{block['bits']:.2f} ({round(block['share'] * 100)}%)" in note
+            assert f"{block['bits']:.2f} ({block['share'] * 100:.1f}%)" in note
 
 
 def test_preprint_quotes_fixture_and_companion_numbers(results):

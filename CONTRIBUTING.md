@@ -79,7 +79,7 @@ The English README and ARCHITECTURE.md are canonical. Translations under `docs/R
 | Language | Current state |
 |---|---|
 | 🇪🇸 Español | AI-assisted, awaiting native-speaker review |
-| 🇧🇷 Português | Native (author is PT-BR speaker) |
+| 🇧🇷 Português | Machine-assisted; review by the author (native PT-BR speaker) pending |
 | 🇮🇹 Italiano | AI-assisted, awaiting native-speaker review |
 | 🇮🇱 עברית | AI-assisted (RTL marked), awaiting native-speaker review |
 

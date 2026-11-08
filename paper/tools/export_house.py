@@ -995,7 +995,8 @@ def resumo_inteiro(corpo: etree._Element) -> None:
 
 
 def nao_separa(corpo: etree._Element) -> None:
-    """Frase que termina em ':' fica com a lista ou a legenda seguinte; tabela de ate 25 linhas nao parte entre paginas."""
+    """Frase que termina em ':' fica com a lista ou a legenda seguinte; ultimo paragrafo antes de pagina nova nao parte;
+    tabela de ate 25 linhas nao parte entre paginas."""
     for p in corpo.iter(w("p")):
         nxt = p.getnext()
         if (texto_de(p).rstrip().endswith(":") and nxt is not None and nxt.tag == w("p")
@@ -1003,6 +1004,16 @@ def nao_separa(corpo: etree._Element) -> None:
                 and p.getparent().tag != w("tc")):
             get_or_add(pxml(p), "keepNext")
             ordenar(pxml(p), ORD_PPR)
+    # o ultimo paragrafo antes de um titulo que abre pagina nao parte: sem isso, 2 linhas dele ficam sozinhas
+    # numa pagina antes das Referencias (achado da rodada 5, 2026-11-08)
+    for h in corpo.iter(w("p")):
+        if estilo_de(h) != "Heading1":
+            continue
+        abre = pxml(h).find(w("pageBreakBefore")) is not None or h.find(f".//{w('br')}[@{w('type')}='page']") is not None
+        prev = h.getprevious()
+        if abre and prev is not None and prev.tag == w("p") and estilo_de(prev) not in ("Heading1", "Heading2"):
+            get_or_add(pxml(prev), "keepLines")
+            ordenar(pxml(prev), ORD_PPR)
     for tbl in corpo.iter(w("tbl")):
         linhas = tbl.findall(w("tr"))
         if len(linhas) > 25:
@@ -1016,7 +1027,7 @@ def nao_separa(corpo: etree._Element) -> None:
 def quebras_de_pagina(corpo: etree._Element) -> None:
     """Canon en: pageBreakBefore so em Abstract, 1. e References; cada apendice comeca em pagina nova por quebra
     manual no proprio titulo (APA 7: cada apendice em pagina propria), sem contar como pageBreakBefore. O "Sobre o
-    autor" tambem (norma da casa v1.3, 2026-11-08): pagina propria depois da ultima referencia."""
+    autor" tambem (norma da casa v1.4, 2026-11-08): pagina propria depois da ultima referencia."""
     for p in corpo.iter(w("p")):
         if estilo_de(p) != "Heading1":
             continue

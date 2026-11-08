@@ -1,12 +1,12 @@
 # Iron Law 11 — locked-inputs protocol runner
 
 This directory contains the executable scaffolding for the protocol
-described in `paper/iron-law-11.md`. The protocol characterises
+described in `paper/graceful-refusals.md`. The protocol characterises
 `claude -p` exit-code semantics under graceful agent refusal across
 N=50 deliberate refusal scenarios.
 
 > **Note.** This was previously described as a "pre-registered protocol."
-> That framing is withdrawn (see the scope note in `paper/iron-law-11.md`):
+> That framing is withdrawn (see the scope note in `paper/graceful-refusals.md`):
 > the inputs were committed and hash-locked in the project's own git before
 > the run, but this is not public, timestamped pre-registration, and the
 > originally cited commit hash is no longer in the published history after a
@@ -47,7 +47,7 @@ deposited in a public registry).
 ## Running the formal N=50 protocol
 
 The formal runs have been executed (May and July 2026; results in
-`paper/iron-law-11.md` §3.1–§3.3 and §4). The commands below reproduce the
+`paper/graceful-refusals.md` §3.1–§3.3 and §4). The commands below reproduce the
 procedure.
 
 ```bash
@@ -60,7 +60,7 @@ procedure.
 
 # 3. Analyze the result. The locked analysis is implemented in
 #    scripts/analyze.py; the analysis actually reported is in
-#    paper/iron-law-11.md §3.1–§3.3 and §4.
+#    paper/graceful-refusals.md §3.1–§3.3 and §4.
 ./scripts/analyze.py runs/<run-id>
 
 # 4. Re-verify the input-integrity lock is still intact (no edits during run).
@@ -75,7 +75,7 @@ directory.
 
 ## After the formal run
 
-The results were written into `paper/iron-law-11.md` (§3.1–§3.3 for the
+The results were written into `paper/graceful-refusals.md` (§3.1–§3.3 for the
 measurements, §4 for what the envelope carries), which:
 
 1. Reports the confusion matrix and metrics from `analysis-report.md`
