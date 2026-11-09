@@ -147,7 +147,7 @@ def run_trial(trial: dict, task: dict, out: Path) -> dict:
     dict
         The trial record (also appended to ``trials.jsonl``).
     """
-    work = SCRATCH / "work" / trial["trial"]
+    work = SCRATCH / "work-2026-11b" / trial["trial"]  # never shared with study 2026-11
     mirror = SCRATCH / "repos" / task["repo"].rsplit("/", 1)[1]
     subprocess.run(["git", "clone", "-q", str(mirror), str(work)], check=True)
     subprocess.run(["git", "-C", str(work), "checkout", "-q", task["commit"]], check=True)

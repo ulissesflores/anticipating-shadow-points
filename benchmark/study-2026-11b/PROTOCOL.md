@@ -107,3 +107,9 @@ Before this protocol was pushed, one Sonnet 5.5 trial ran on a task outside the 
   - **Replicates:** 5, for 240 trials. About 6.5 hours remain before the usage reset.
   - **Reference lists:** 6 to 10 risks per task after the judge's merge.
   - **Agreement:** the share of each reviewer's items also named by another runs from 8% (GPT-OSS on U02) to 100% (Grok on U10).
+- **2026-11-09, 16:10 GMT-3: plumbing fix during the first minutes of collection.**
+  - **The problem:** `run.py` cloned each trial into the scratch folder `work/<trial id>`, and folders `t001` to `t090` still held study 2026-11's clones. Those trials failed at `git clone`, before any `claude -p` call, and left no record.
+  - **What ran anyway:** trials `t091` to `t096`, whose folders did not exist, ran normally and are kept. Their records are the first six lines of `runs/trials.jsonl`.
+  - **The fix:** `run.py` now clones into `work-2026-11b/`, and collection resumed with the same seeded order, skipping trials already recorded.
+  - Nothing in the prompts, models, tasks, scoring or analysis changed.
+
