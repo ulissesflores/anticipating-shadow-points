@@ -66,6 +66,16 @@ The data and the analysis follow the house pattern: raw envelopes kept outside g
 
 # Protocol 2 — ASP's effect on plans, first real-mode benchmark
 
+> [!NOTE]
+> **Replaced before deposit (2026-11-09).** This draft was never deposited and no data was collected under it. The study that runs is [`benchmark/study-2026-11/PROTOCOL.md`](benchmark/study-2026-11/PROTOCOL.md), fixed and timestamped before its first trial. Four things changed:
+>
+> 1. The tasks are now six requests on real public repositories, each pinned to one commit. The five prose-only evals gave the skill's codebase research nothing to read.
+> 2. The baseline is a plain request asked for the same ten-row risk table. The output contract is equal in all conditions, so length cannot drive the score.
+> 3. The blind lists are written by three models from other vendors. Two engineers who had not read ASP were not available, and this is stated as a weakening.
+> 4. The design is three conditions × six tasks × five replicates, with the decision rule rewritten for those numbers.
+>
+> The text below is kept as it was drafted.
+
 ## Why
 
 Version 1.0 of the ASP paper reported a deterministic match of 80% (GREEN) versus 4% (RED). That run was a mock run over fixtures the author wrote; it measured nothing about ASP. The only real evidence is a non-blind author reading of plans whose transcripts were not kept. This protocol produces the first real, preserved measurement.

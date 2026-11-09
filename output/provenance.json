@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "1d4ab527e38a10090cabb702e54af6de65eda6c59ca730fbbcb9051e790102d4",
+  "chain_hash": "54a793fe261bc625fb216627ecddd06c12214af2d4dfb984f9695ea25e3ea380",
   "informational_not_hashed": {
     "files": [
       {
@@ -149,7 +149,7 @@
       "files": [
         {
           "path": "PREREGISTRATION.md",
-          "sha256": "f3082f6f1599b8a4c8870654a04e5c8a49c4f519b79cd927c4ae152cee028f0f"
+          "sha256": "2b6ee4eecea8524cc2f8c7de36e3e492407795ee289f30210af8e0bd58757162"
         },
         {
           "path": "data/README.md",
@@ -172,7 +172,7 @@
           "sha256": "092db9db9fb8f11236e4c91d03a0660d22fd983506f0c353053966362ef90624"
         }
       ],
-      "leaf_sha256": "4dd26b5946bca9e198da77204240fb440ca18c4ae2a1b37d1945c7964e1935c4"
+      "leaf_sha256": "939f4951db88f06db365cab299df42e62ac38204523f46582be8b60c45c240bb"
     },
     "frozen_inputs": {
       "files": [

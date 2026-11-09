@@ -100,6 +100,8 @@ def numbered_items(text: str) -> list[str]:
         One string per item, continuation lines joined.
     """
     items: list[str] = []
+    # a reviewer may glue a sentence of narration to the first item ("...mudança.1. `retry`")
+    text = re.sub(r"(?<=[^\s\d])(?=1[.)] )", "\n", text, count=1)
     for line in text.splitlines():
         if re.match(r"^\s*\d+[.)]\s+", line):
             items.append(re.sub(r"^\s*\d+[.)]\s+", "", line).strip())
