@@ -9,10 +9,10 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 ## Abstract
 
-LLM coding assistants often produce *locally correct* code that omits failure modes a senior engineer would surface in a pre-mortem — a row-level security policy, an external API's rate limit, replica lag during a migration — and production then breaks in ways that are expensive to debug. We call these missing items *shadow points*. This experience report describes Anticipating Shadow Points (ASP), a 13-phase planning protocol shipped as a Claude Code skill that integrates Klein's (2007) pre-mortem with the multi-agent failure taxonomy of Cemri et al. (2025), checks the plan with a validator that does not share the planner's context, following the self-correction-limit literature (Huang et al., 2024; Tyen et al., 2024), and hands execution to a child subprocess with a file-based contract. We document the design, its deployment as an open-source plugin, and preliminary observations from five engineering evaluations, read by the author without blinding and with transcripts not preserved. A deterministic adjudicator ships with the skill; its scores on author-written fixtures exercise the instrument and nothing more, so we report no measured effect of ASP. We state in advance the result that would show one: in a real-mode benchmark with blind, independently written expected lists and eight replicates per task and condition, a measured benefit if the assisted condition's mean coverage beats the unassisted one on all five tasks and a one-sided, task-stratified permutation test gives p < 0.05; no measurable benefit if it does not beat it, ties included, on three or more; inconclusive in between; and no verdict at all if the budget stops collection early. The protocol is drafted and not yet deposited.
+LLM coding assistants often produce *locally correct* code that omits failure modes a senior engineer would surface in a pre-mortem — a row-level security policy, an external API's rate limit, replica lag during a migration — and production then breaks in ways that are expensive to debug. We call these missing items *shadow points*. This experience report describes Anticipating Shadow Points (ASP), a 13-phase planning protocol shipped as a Claude Code skill that integrates Klein's (2007) pre-mortem with the multi-agent failure taxonomy of Cemri et al. (2025), checks the plan with a validator that does not share the planner's context, following the self-correction-limit literature (Huang et al., 2024; Tyen et al., 2024), and hands execution to a child subprocess with a file-based contract. We document the design, its deployment as an open-source plugin, and preliminary observations from five engineering evaluations, read by the author without blinding and with transcripts not preserved. A pre-registered study then measured the protocol on six public repositories, each pinned to one commit: 90 trials on Claude Opus 5.5, reference risks listed blind by three models of other vendors, and two blind judges. ASP covered 48% of the reference risks against 66% for plain Claude Code asked to list the ways the change could go wrong before planning. It was behind on all six tasks: no measurable benefit under the rule fixed in advance. That single request raised coverage over a plain planning request from 56% to 66% (p = 0.0014), a pre-registered secondary comparison that a confirmatory study will test as its primary question.
 
 **Keywords:** LLM coding agents; pre-mortem; multi-agent failure modes;
-Claude Code; operational protocols; experience report
+Claude Code; operational protocols; pre-registration; experience report
 
 ## Resumo
 
@@ -608,27 +608,11 @@ the threshold. Layer 3 also has an arithmetic ceiling: Jaccard divides by
 the union, and a 40-token window of the fixtures holds 27 to 40 distinct
 content words (median 36); in any window with 34 or more, an expected point
 with ten or fewer distinct tokens cannot reach 0.30 even if the plan repeats
-all of them, and 19 of the 50 expected points are that short. The real-mode protocol therefore changes layer 3 before
-deposit (`PREREGISTRATION.md`). The matcher has not yet been
-applied to any real transcript. The real-mode protocol, with expected lists re-authored
-blind by independent engineers, is specified in the repository's
-`PREREGISTRATION.md` and has not been run. Its decision rule is fixed in
-advance: with eight replicates per task and condition (80 dispatches), a
-run is labelled incomplete, with no verdict, if the budget stops collection
-before every task reaches eight replicates per condition; otherwise a benefit
-is reported only if the assisted condition's mean coverage beats the
-unassisted one on all five tasks and a one-sided, task-stratified permutation
-test on the mean per-task difference (10 000 relabellings, seed
-`asp-bench-v1`) gives p < 0.05; no measurable benefit if the assisted
-condition does not beat the unassisted one (GREEN − RED ≤ 0, so a tie
-counts) on three or more tasks; inconclusive in between.
-Coverage will be reported per matcher layer, since layer 1 rewards a plan
-that reuses the expected names verbatim.
+all of them, and 19 of the 50 expected points are that short. The 2026-11 study (Section 5.5) replaced layer 3 with token recall before any reference list existed. On the reviewers' own lists even that version could not see that two reviewers named the same problem, so a blind judge became the primary scorer before any data was collected; the matcher is reported as secondary.
 
 ![Figure 2. Instrument check: each author-constructed GREEN fixture scored against every task's expected list. Not an effect of ASP.](../output/figures/fig2_adjudicator_fixture_check.png)
 
-Which component would matter most, if ASP has an effect, is discussed as a
-hypothesis in Section 6.
+Section 5.5 reports the measurement; Section 6 states the design hypotheses it bears on.
 
 ### 5.4. The `claude -p` exit-code finding
 
@@ -650,14 +634,43 @@ single refusal scenario in our own battery, we **characterise it
 independently** in the companion paper Flores (2026b), which reports an N=50 measurement across four categories of refusal-provoking prompt (impossible-in-one-turn, capability, safety, ambiguity) on Claude Code 2.1.200 in July 2026. The session model was Fable 5; Opus 4.8 answered 16 of the 50 prompts, including all 12 safety prompts — consistent with an automatic fallback hand-off, although the envelopes (the JSON record `claude -p` prints at the end of
 each run) record which model answered, not why. Twenty-four trials exited 0, all with `stop_reason: end_turn`. The companion paper counts the declines among them four ways: 20 (40%, 95% Wilson CI 28–54%) under the author's non-blind label; 19 (38%) under the majority of a codebook, written after the author had read the replies, and applied by five LLM raters, four of which returned identical labels, all of the lineage of the model under test, so the majority is a codebook check, not an inter-rater agreement estimate; 12 (24%) counting only the safety and destructive-command refusals and excluding the eight reasoned declines of impossible-in-one-turn tasks; and 9 (18%) under the locked English-only phrase detector, which misses the replies written in Portuguese. An earlier snapshot (May 2026, Claude Code 2.1.143, Opus 4.7) read 60% under the same detector, on a different model and reply language. A human second rater and a third snapshot under a drafted pre-registration are the open follow-ups.
 
+### 5.5. A pre-registered measurement (2026-11)
+
+The study was pre-registered in the repository (`benchmark/study-2026-11/PROTOCOL.md`), and its hash ledger was timestamped with OpenTimestamps before the first trial. It replaced the never-deposited Protocol 2 of `PREREGISTRATION.md`. The design:
+
+- **Tasks.** Six change requests on six public repositories, each pinned to one commit: soft-deleting users (FastAPI template), a weekly e-mail digest (Flask), linking Google and password sign-in (Django), retrying POST by default (the `ky` HTTP library), zero-downtime deploys (Django on Docker), and co-authors per article (Express with Prisma).
+- **Conditions.** Three, each run five times per task (90 trials) with `claude -p` on Claude Opus 5.5, in plan mode, from a fresh clone and a clean environment, with the same output contract: a final table of at most ten risks.
+  - **plain:** "Plan this change."
+  - **risk:** "Before planning, list the ways this change could go wrong."
+  - **ASP:** `/asp --standard`, stopped after the validated plan.
+- **Reference lists.** Three models of other vendors (Grok, GPT-OSS 120B, Gemini 3.8 Flash) read each repository and request without seeing ASP and wrote the risks they expected. A blind judge grouped their items, and a risk entered the reference list when at least two reviewers named it (8 to 12 per task). Models stood in for the independent engineers the earlier draft required, which the protocol states as a weakening.
+- **Scoring.** The primary judge (Gemini 3.8 Flash) saw only the rows of each answer's table, with words that would reveal the condition redacted, and marked each reference risk as covered or not. A second judge (Grok) did the same. The two agreed on 91.9% of 855 item decisions.
+
+**Table 5.** Risk coverage and time per trial in the 2026-11 study, by condition.
+
+| Condition | Covered (primary judge) | Covered (second judge) | Mean time per trial |
+|---|---|---|---|
+| plain | 56% | 57% | 58 s |
+| risk | 66% | 70% | 50 s |
+| ASP | 48% | 54% | 175 s |
+
+![Figure 3. Share of the blind reference risks covered by each condition's final table, per task and overall (primary judge).](../output/figures/fig3_study_2026_11_coverage.png)
+
+- **Primary.** ASP minus risk was −0.18 (primary judge) and −0.16 (second judge). It was negative on all six tasks, with a task-stratified permutation p = 1.0. The decision rule fixed in advance returns *no measurable benefit*.
+- **Secondary, pre-registered.** risk minus plain was +0.10 (p = 0.0014) and +0.13 (p = 0.0001): asking for the ways the change could go wrong, in one sentence, raised coverage.
+- **Exploratory.** ASP's answers handle some risks in their assumptions and deliverables rather than in the final table. When the primary judge read the whole answer, the gap narrowed to −0.08 (66% against 74%), and ASP was still behind on five of the six tasks.
+- **Limits.** One model, six tasks, reference lists and judges that are all models, and coverage as the only outcome: whether listed risks are real, or lead to better code, was not measured.
+- **Record.** Every trial, verdict and analysis is in the repository, chained by hash, and `run_all.py` re-derives every number above.
+
 ---
 
 ## 6. Design Hypotheses
 
-We highlight five design choices we believe are load-bearing. The first four
-are hypotheses about ASP that no data here measures, each stated with the
-observation that motivated it; the fifth rests on the companion paper's
-measurement.
+We highlight five design choices we believed to be load-bearing. The first four
+are hypotheses about ASP's design, each stated with the observation that
+motivated it. The 2026-11 study (Section 5.5) measured the protocol as a whole
+and found no benefit, which weighs against them taken together without testing
+any one alone. The fifth rests on the companion paper's measurement.
 
 **Hypothesis: a forced taxonomy surfaces more than free-form pre-mortem.**
 In the author's drafts, free-form pre-mortem clustered on obvious risk
@@ -741,15 +754,14 @@ edited under a run directory invalidates the manifest hash.
 The limitations of this experience report match the threats above
 one-to-one. The highest-priority follow-ups, in order, are:
 
-1. **Blind re-authoring** of the expected-shadow-point lists by 2+
-   independent reviewers with no exposure to ASP, then a real-mode run
-   whose transcripts are preserved and hash-sealed, adjudicated blind. Compute Cohen's κ for
-   inter-adjudicator agreement; re-measure coverage.
-2. **Formal ablation** of the load-bearing hypothesis: MAST checklist
-   on/off (testing the hypothesis of §6), validator prompt isolation on/off, Phase 0a
-   intake on/off. No ablation protocol exists yet; Protocol 2 of
-   `PREREGISTRATION.md` covers only RED vs GREEN, at 8 replicates per cell
-   with a fixed budget rather than a power analysis.
+1. **A confirmatory study of the one-sentence pre-mortem**, with it as the
+   primary question:
+   - 12 to 15 pinned tasks and a second model;
+   - a precision measure (are the listed risks real?) next to coverage;
+   - a human engineer on a sample of the reference lists, beside the model-written lists of Section 5.5.
+2. **Formal ablation**, now behind the confirmatory study: before testing which
+   component of the protocol helps (MAST checklist, validator isolation, Phase 0a
+   intake), test whether any of them beats the one sentence.
 3. **A human second rater and a third `claude -p` snapshot** for the
    companion finding (Flores, 2026b, §8), the latter under Protocol 1 of
    `PREREGISTRATION.md`.
@@ -781,22 +793,14 @@ integrating Mitchell, Russo and Pennington's (1989) prospective hindsight
 finding, Klein's (2007) pre-mortem operationalisation, and Cemri et al.'s
 (2025) MAST 14-mode failure taxonomy as runtime discipline under a
 contract of twelve Iron Laws. The skill ships open source with three
-install paths. On the three tasks run in both conditions the author observed,
-without blinding and on transcripts that were not preserved, that the
-assisted plans covered more of the expected failure modes; no effect has been measured.
-The deterministic adjudicator shipped with the skill has been exercised only
-on constructed fixtures, where it separates whole expected names but has no
-measured recall; a
-real-mode run with independently authored lists, drafted for
-pre-registration, is the
-decisive next step.
+install paths. The author's early, non-blind observation that assisted plans covered more failure modes did not survive measurement. In a pre-registered study on six real repositories, the full protocol covered fewer of the reviewers' risks than plain Claude Code asked, in one sentence, to list the ways the change could go wrong, and that sentence alone beat a plain planning request.
 
 We additionally observed that `claude -p` returns exit code 0 even when
 the agent gracefully refuses the requested goal. The vendor documents the
 behaviour for its API; the companion paper (Flores, 2026b) adds a count at
 the CLI boundary.
 
-The strongest follow-up is blind re-adjudication. The most useful
+The strongest follow-up is a confirmatory study of the one-sentence pre-mortem. The most useful
 companion work is a human second rater and a pre-registered third snapshot
 of the `claude -p` measurement (Flores, 2026b).
 
@@ -948,15 +952,16 @@ benchmark package in `benchmark/` provides:
 **Reproducing the computed numbers of Sections 5.3–5.4 (no model calls).**
 Table B1 lists what the repository holds for them.
 
-**Table B1.** What the repository holds for Sections 5.3 and 5.4.
+**Table B1.** What the repository holds for Sections 5.3 to 5.5.
 
 | Material | Where in the repository | What a reader can check with it |
 |---|---|---|
 | The five evaluations | `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/` | Each task, its expected list and its acceptance rule (Table 4) |
 | The author's sample plans (RED and GREEN) and the run that scored them | `benchmark/tests/fixtures/mock_runs/` and `benchmark/runs/published/` | The plans the matcher scored and the scores behind Figure 2 |
 | The July 2026 `claude -p` run of the companion note | `data/spike-2026-07-08/` | The counts quoted in Section 5.4 |
-| The calculation | `analysis/results.py` | How each number of Sections 5.3 and 5.4 is computed |
-| The checks | `tests/test_paper_numbers.py` | That each of those numbers matches the data, and that the scored run is labelled `mock` |
+| The 2026-11 study | `benchmark/study-2026-11/` | Its protocol, tasks, reference lists, 90 trials, both judges' verdicts and hash ledger, behind Section 5.5 and Figure 3 |
+| The calculation | `analysis/results.py` and `benchmark/study-2026-11/analyze.py` | How each number of Sections 5.3 to 5.5 is computed |
+| The checks | `tests/test_paper_numbers.py` and `tests/test_study_2026_11.py` | That each of those numbers matches the data, and that the scored run is labelled `mock` |
 | The seal | `output/hash-chain.md` | One SHA-256 fingerprint over code, data and results, so that any later change shows |
 
 A SHA-256 fingerprint is a 64-character code computed from a file; changing a
@@ -969,11 +974,11 @@ model outputs they were read from were not kept.
 
 **Collecting real evidence (costs model calls).** Install the benchmark
 package and run `asp-benchmark run --mode real --model <model>` followed by
-`asp-benchmark verify <run-id>`. This has not been done for any published
-number, and today's command is not yet Protocol 2: it sends a single-turn
-template rather than the shipped skill, runs one replicate per task in a
-fixed order and passes no clean-room flags. `PREREGISTRATION.md` lists the
-changes the runner and the matcher need before any dispatch. The protocol is specified
+`asp-benchmark verify <run-id>`. This package's runner was not used for any
+published number. The 2026-11 study of Section 5.5 has its own runner, judge
+and hash ledger in `benchmark/study-2026-11/`, and `python run_all.py`
+re-derives that study's numbers from the committed verdicts without calling a
+model. The protocol is specified
 independently of the Python implementation in `benchmark/PROTOCOL.md` so it
 can be re-implemented in another language.
 
@@ -981,15 +986,15 @@ can be re-implemented in another language.
 
 ## Technical Note
 
-**Version** 2.2 · November 2026 · first published 18 May 2026
+**Version** 2.3 · November 2026 · first published 18 May 2026
 
 **License** Paper text, figures and data: CC BY 4.0. Companion software: MIT.
 
-**The ASP project.** ASP (Anticipating Shadow Points) is an open-source plugin for Claude Code, Anthropic's command-line coding agent, that makes the agent list what could go wrong before it writes code. Its plugin and replication material sit in one public repository (Flores, 2026a), this whitepaper describes how it works, and a technical note measures one of its rules on its own: never trust the exit code of `claude -p` (Flores, 2026b). A third paper will report the benchmark specified in the repository's `PREREGISTRATION.md`, which would measure whether ASP improves an agent's plans.
+**The ASP project.** ASP (Anticipating Shadow Points) is an open-source plugin for Claude Code, Anthropic's command-line coding agent, that makes the agent list what could go wrong before it writes code. Its plugin and replication material sit in one public repository (Flores, 2026a), this whitepaper describes how it works, and a technical note measures one of its rules on its own: never trust the exit code of `claude -p` (Flores, 2026b). Section 5.5 reports the first measurement of whether ASP improves an agent's plans; a third paper will report the confirmatory study of the one-sentence pre-mortem that it pointed to.
 
 **DOI.** A DOI (Digital Object Identifier) is a permanent link to a deposited work. Zenodo, a public research archive run by CERN, holds this whitepaper as its own record: https://doi.org/10.5281/zenodo.24065969. The plugin, data and code are a separate record (Flores, 2026a) whose concept DOI, https://doi.org/10.5281/zenodo.20276631, always opens the newest release; release 2.0.0 is the one that matches this whitepaper. That record's May 2026 releases (1.0.0 to 1.0.3) presented the matcher's scores on the author's sample plans as a reading of real model output; release 2.0.0 replaces them.
 
-**Replication.** Every number that Sections 5.3 and 5.4 compute can be recomputed from the repository without calling a model; Appendix B, Evaluation set and reproducibility, lists what is there and how to run it.
+**Replication.** Every number that Sections 5.3 to 5.5 compute can be recomputed from the repository without calling a model; Appendix B, Evaluation set and reproducibility, lists what is there and how to run it.
 ---
 
 ## About the Author

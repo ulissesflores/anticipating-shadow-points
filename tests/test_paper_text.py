@@ -74,7 +74,7 @@ def test_preprint_labels_the_benchmark_as_mock():
     """The preprint calls the benchmark run mock and its texts fixtures."""
     paper = text("asp-preprint.md")
     assert "mock-mode" in paper
-    assert "no measured effect" in paper
+    assert "no measurable benefit" in paper
     assert "ten candidate transcripts in total" not in paper
 
 
@@ -168,3 +168,21 @@ def test_preprint_quotes_layer3_numbers(results):
     assert f"{short} of the {n} expected points" in paper
     core = results["iron_law_11"]["july_2026"]["core_silent_refusals"]
     assert f"{core['k']} ({pct(core)})" in paper
+
+
+def test_preprint_quotes_the_2026_11_study():
+    """Section 5.5 quotes the study's numbers as ``results.json`` holds them."""
+    import json
+
+    study = json.loads((PAPER.parent / "benchmark/study-2026-11/results.json").read_text())
+    gem, grok = study["gemini"], study["grok"]
+    paper = " ".join(text("asp-preprint.md").split())
+    for cond, pct in (("RED-plain", "56%"), ("RED-risk", "66%"), ("GREEN", "48%")):
+        assert f"{gem['overall'][cond]:.0%}" == pct and pct in paper
+    for cond, pct in (("RED-plain", "57%"), ("RED-risk", "70%"), ("GREEN", "54%")):
+        assert f"{grok['overall'][cond]:.0%}" == pct and pct in paper
+    assert f"−{abs(gem['primary']['delta_bar']):.2f} (primary judge)" in paper
+    assert f"−{abs(grok['primary']['delta_bar']):.2f} (second judge)" in paper
+    sec = gem["secondary"]["RED-risk - RED-plain"]
+    assert f"+{sec['delta_bar']:.2f} (p = {sec['p']})" in paper
+    assert "91.9% of 855 item decisions" in paper
