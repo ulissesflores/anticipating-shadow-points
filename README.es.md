@@ -35,13 +35,13 @@
 /plugin install anticipating-shadow-points@anticipating-shadow-points
 ```
 
-<p align="center"><img src="assets/demo/asp-plan.gif" width="100%" alt="ASP en acción: el pre-mortem de una migración en producción en un repositorio de ejemplo con cuatro archivos, ocho puntos de sombra antes de escribir código"></p>
+<p align="center"><img src="assets/demo/asp-live.gif" width="100%" alt="ASP grabado en vivo: instalado desde su marketplace en una configuración limpia de Claude Code y ejecutado sobre la plantilla oficial full-stack de FastAPI; lee el código, un validador independiente revisa el plan y salen diez puntos de sombra"></p>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/brand/plan-card-dark.svg">
   <img src="assets/brand/plan-card-light.svg" width="100%" alt="Los ocho puntos de sombra de la ejecución grabada y el más riesgoso">
 </picture>
-<p align="center"><sub>Una ejecución real en un repositorio de ejemplo con cuatro archivos, reproducida: ocho puntos de sombra, y el más riesgoso señalado, antes de una sola línea de código. <a href="assets/demo/asp-plan/">Ejecútalo tú mismo</a>.</sub></p>
+<p align="center"><sub>Grabado en vivo: ASP instalado desde su marketplace en una configuración limpia de Claude Code y ejecutado sobre la plantilla oficial full-stack de FastAPI (248 archivos). La espera de tres minutos se reproduce 13× más rápido, como indica la etiqueta, y las pausas sin actividad de la instalación se acortaron; nada es una repetición. <a href="assets/demo/live/">Cómo se grabó</a>.</sub></p>
 
 > [!IMPORTANT]
 > **Hallazgo: exit 0 no es éxito.** `claude -p` devuelve exit code 0 cuando el agente rechaza amablemente la tarea, sin ninguna marca de rechazo legible por máquina en el sobre JSON. En una suite fija de 50 prompts diseñados para provocar rechazos (Claude Code 2.1.200, julio de 2026), **24 de 50 terminaron con exit code 0, todos ellos con `stop_reason: end_turn`**, y **entre 12 y 20 de esos fueron rechazos**: del 24% al 40% de la suite, según cómo se cuente un rechazo. Un wrapper de shell que confíe en `$?` los lee todos como éxito.

@@ -23,3 +23,7 @@ runtime/
 build/
 
 uv.lock
+
+# Real-time recording of the live demo (large; the GIF is built from it)
+assets/demo/live/raw.mp4
+assets/demo/live/badge.png

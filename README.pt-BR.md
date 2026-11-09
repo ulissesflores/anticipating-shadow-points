@@ -33,13 +33,13 @@
 /plugin install anticipating-shadow-points@anticipating-shadow-points
 ```
 
-<p align="center"><img src="assets/demo/asp-plan.gif" width="100%" alt="O ASP em ação: o pre-mortem de uma migração em produção num repositório de exemplo com quatro arquivos, oito pontos de sombra antes de qualquer código"></p>
+<p align="center"><img src="assets/demo/asp-live.gif" width="100%" alt="O ASP gravado ao vivo: instalado pelo marketplace numa configuração limpa do Claude Code e rodado no template oficial full-stack do FastAPI; ele lê o código, um validador independente confere o plano e saem dez pontos de sombra"></p>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/brand/plan-card-dark.svg">
   <img src="assets/brand/plan-card-light.svg" width="100%" alt="Os oito pontos de sombra da execução gravada e o mais arriscado">
 </picture>
-<p align="center"><sub>Uma execução real num repositório de exemplo com quatro arquivos, reproduzida: oito pontos de sombra, e o mais arriscado apontado, antes de uma linha de código. <a href="assets/demo/asp-plan/">Rode você mesmo</a>.</sub></p>
+<p align="center"><sub>Gravado ao vivo: o ASP instalado pelo marketplace numa configuração limpa do Claude Code e rodado no template oficial full-stack do FastAPI (248 arquivos). A espera de três minutos passa 13× mais rápida, como mostra o selo, e as pausas paradas da instalação foram encurtadas; nada é reprodução. <a href="assets/demo/live/">Como foi gravado</a>.</sub></p>
 
 > [!IMPORTANT]
 > **Achado: exit 0 não é sucesso.** O `claude -p` retorna exit code 0 quando o agente recusa a tarefa de forma cortês, sem nenhum sinalizador de recusa legível por máquina no envelope JSON. Em uma suíte fixa de 50 prompts que provocam recusa (Claude Code 2.1.200, julho de 2026), **24 de 50 terminaram com exit 0, todas com `stop_reason: end_turn`**, e **12 a 20 delas foram recusas**: 24% a 40% da suíte, dependendo de como uma recusa é contada. Um wrapper de shell que confia em `$?` lê todas como sucesso.

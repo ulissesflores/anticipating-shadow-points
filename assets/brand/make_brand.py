@@ -349,7 +349,7 @@ def phases(fonts: Fonts, theme: str) -> str:
     )
 
 
-RESULT = OUT.parent / "demo" / "asp-plan" / "result.md"
+RESULT = OUT.parent / "demo" / "live" / "run" / "result.md"
 
 
 def wrap(fonts: Fonts, face: str, text: str, size: float, width: float) -> list[str]:
@@ -387,7 +387,7 @@ def wrap(fonts: Fonts, face: str, text: str, size: float, width: float) -> list[
 def plan_card(fonts: Fonts, theme: str) -> str:
     """Return a readable card of the recorded ``/asp`` reply: its shadow points and the riskiest.
 
-    The cells are copied from ``assets/demo/asp-plan/result.md`` (only the code backticks are
+    The cells are copied from ``assets/demo/live/run/result.md`` (only the code backticks are
     dropped), so the card cannot drift from the recorded reply.
 
     Parameters
@@ -409,8 +409,12 @@ def plan_card(fonts: Fonts, theme: str) -> str:
         for line in text.splitlines()
         if line.startswith("| ") and line.split("|")[1].strip().isdigit()
     ]
-    risk = next(line for line in text.splitlines() if line.startswith("**Riskiest:**"))
-    risk = risk.removeprefix("**Riskiest:**").strip().replace("`", "")
+
+    def labelled(label: str) -> str:
+        line = next(ln for ln in text.splitlines() if ln.lstrip("*").startswith(label + ":"))
+        return line.replace("**", "").split(":", 1)[1].strip().replace("`", "")
+
+    risk, verdict = labelled("Riskiest"), labelled("Validator")
     body = [
         fonts.path(
             "display",
@@ -422,33 +426,39 @@ def plan_card(fonts: Fonts, theme: str) -> str:
         ),
         fonts.path(
             "body",
-            "Recorded /asp run, 2026-11-09. Task: add a NOT NULL email_verified column to a 40M-row"
-            " users table and backfill it. Cells copied from the reply.",
+            "Recorded live on 2026-11-09 on the official FastAPI full-stack template. Task: soft"
+            " delete for users, restorable for 30 days. Cells copied from the reply.",
             48,
             110,
             15,
             t["muted"],
         ),
     ]
-    top, step, col_w = 150, 68, 560
+    top, step, col_w = 150, 60, 560
+    per_col = (len(rows) + 1) // 2
     for i, item in enumerate(rows):
-        x = 48 + (i // 4) * 600
-        y = top + (i % 4) * step
+        x = 48 + (i // per_col) * 600
+        y = top + (i % per_col) * step
         body.append(f'<circle cx="{x + 18}" cy="{y + 18}" r="18" fill="{AMBER}"/>')
         body.append(fonts.path("display", str(i + 1), x + 18, y + 26, 20, NAVY, anchor="middle"))
         for k, line in enumerate(wrap(fonts, "body", item, 20, col_w - 60)):
             body.append(fonts.path("body", line, x + 52, y + 26 + k * 26, 20, t["ink"]))
-    box_y = top + 4 * step + 8
-    lines = wrap(fonts, "body", risk, 18, 1100)
-    box_h = 56 + 27 * len(lines)
-    body.append(
-        f'<rect x="48" y="{box_y}" width="1184" height="{box_h}" rx="14" fill="{t["box"]}" '
-        f'stroke="{t["accent"]}" stroke-width="2.5"/>'
-    )
-    body.append(fonts.path("display", "Riskiest", 72, box_y + 36, 20, t["accent"]))
-    for k, line in enumerate(lines):
-        body.append(fonts.path("body", line, 72, box_y + 66 + k * 27, 18, t["ink"]))
-    height = box_y + box_h + 40
+    box_y = top + per_col * step + 8
+    for label, words, colour in (
+        ("Independent validator", verdict, "#3FB950" if theme == "dark" else "#1A7F37"),
+        ("Riskiest", risk, t["accent"]),
+    ):
+        lines = wrap(fonts, "body", words, 18, 1100)
+        box_h = 56 + 27 * len(lines)
+        body.append(
+            f'<rect x="48" y="{box_y}" width="1184" height="{box_h}" rx="14" fill="{t["box"]}" '
+            f'stroke="{colour}" stroke-width="2.5"/>'
+        )
+        body.append(fonts.path("display", label, 72, box_y + 36, 20, colour))
+        for k, line in enumerate(lines):
+            body.append(fonts.path("body", line, 72, box_y + 66 + k * 27, 18, t["ink"]))
+        box_y += box_h + 16
+    height = box_y + 24
     frame = f'<rect width="1280" height="{height}" rx="16" fill="{t["bg"]}"/>'
     return svg(
         1280, height, frame + "".join(body), "Eight shadow points found by a recorded /asp run"

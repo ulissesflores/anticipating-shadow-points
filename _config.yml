@@ -25,7 +25,7 @@ source: .
 exclude:
   - .claude-plugin/         # plugin manifest (not user-facing)
   - plugins/                # the plugin's own Markdown; its README is linked from the home page
-  - assets/demo/asp-plan/    # sample repository and recorded reply behind the demo GIF
+  - assets/demo/live/        # recording scripts and the reply behind the demo GIF
   - scripts/                # install/uninstall/verify
   - tests/                  # evidence and probes — accessible via repo, not Pages
   - .github/

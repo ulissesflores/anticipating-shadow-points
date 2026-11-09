@@ -35,13 +35,13 @@
 /plugin install anticipating-shadow-points@anticipating-shadow-points
 ```
 
-<p align="center"><img src="assets/demo/asp-plan.gif" width="100%" alt="ASP בפעולה: post-mortem מקדים להעברת נתונים בסביבת ייצור, במאגר לדוגמה בן ארבעה קבצים, שמונה נקודות צל לפני שורת קוד אחת"></p>
+<p align="center"><img src="assets/demo/asp-live.gif" width="100%" alt="ASP מוקלט בשידור חי: מותקן מה-marketplace שלו בתצורה נקייה של Claude Code ומורץ על תבנית ה-full-stack הרשמית של FastAPI; הוא קורא את הקוד, מאמת עצמאי בודק את התוכנית ויוצאות עשר נקודות צל"></p>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/brand/plan-card-dark.svg">
   <img src="assets/brand/plan-card-light.svg" width="100%" alt="שמונה נקודות הצל של ההרצה המוקלטת והמסוכנת שבהן">
 </picture>
-<p align="center"><sub>הרצה אמיתית במאגר לדוגמה בן ארבעה קבצים, בהקרנה חוזרת: שמונה נקודות צל, והמסוכנת שבהן מסומנת, לפני שורת קוד אחת. <a href="assets/demo/asp-plan/">הריצו בעצמכם</a>.</sub></p>
+<p align="center"><sub>הוקלט בשידור חי: ASP הותקן מה-marketplace שלו בתצורה נקייה של Claude Code והורץ על תבנית ה-full-stack הרשמית של FastAPI (248 קבצים). ההמתנה בת שלוש הדקות מוצגת מהר פי 13, כפי שהתג מראה, וההשהיות הריקות בהתקנה קוצרו; שום דבר אינו הקרנה חוזרת. <a href="assets/demo/live/">איך זה הוקלט</a>.</sub></p>
 
 > [!IMPORTANT]
 > **ממצא: exit 0 אינו הצלחה.** הפקודה `claude -p` מחזירה exit code 0 כאשר הסוכן מסרב בנימוס לבצע את המשימה, בלי שום דגל סירוב קריא-מכונה במעטפת ה-JSON. על סט קבוע של 50 הנחיות שנועדו לעורר סירוב (Claude Code 2.1.200, יולי 2026), **24 מתוך 50 הסתיימו ב-0, כולם עם `stop_reason: end_turn`**, ו-**12 עד 20 מהם היו סירובים**: 24% עד 40% מהסט, בהתאם לאופן שבו סופרים סירוב. עטיפת shell שסומכת על `$?` קוראת את כולם כהצלחה.

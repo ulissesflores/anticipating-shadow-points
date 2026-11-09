@@ -31,13 +31,13 @@
 /plugin install anticipating-shadow-points@anticipating-shadow-points
 ```
 
-<p align="center"><img src="assets/demo/asp-plan.gif" width="100%" alt="ASP at work: a pre-mortem of a production migration on a four-file sample repository, eight shadow points before any code"></p>
+<p align="center"><img src="assets/demo/asp-live.gif" width="100%" alt="ASP recorded live: installed from its marketplace into a fresh Claude Code config, then run on the official FastAPI full-stack template; it reads the code, an independent validator checks the plan, ten shadow points come out"></p>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/brand/plan-card-dark.svg">
   <img src="assets/brand/plan-card-light.svg" width="100%" alt="The eight shadow points of the recorded run and the riskiest one">
 </picture>
-<p align="center"><sub>A real run on a four-file sample repository, replayed: eight shadow points, and the riskiest one named, before a single line of code. <a href="assets/demo/asp-plan/">Run it yourself</a>.</sub></p>
+<p align="center"><sub>Recorded live: ASP installed from its marketplace into a fresh Claude Code config, then run on the official FastAPI full-stack template (248 files). The three-minute wait plays 13× faster, as the badge shows, and idle pauses in the install are shortened; nothing is replayed. <a href="assets/demo/live/">How it was recorded</a>.</sub></p>
 
 > [!IMPORTANT]
 > **Finding: exit 0 is not success.** `claude -p` returns exit code 0 when the agent gracefully declines the task, with no machine-readable refusal flag in the JSON envelope. On a fixed suite of 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), **24 of 50 exited 0, every one with `stop_reason: end_turn`**, and **12 to 20 of those were declines**: 24% to 40% of the suite, depending on how a decline is counted. A shell wrapper that trusts `$?` reads all of them as success.
