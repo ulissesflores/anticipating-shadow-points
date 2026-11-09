@@ -203,9 +203,9 @@ ASP è distribuito come plugin di Claude Code attraverso tre percorsi di install
 2. **Modalità sviluppatore** (per i contributori): `claude --plugin-dir ./` carica la skill sul posto; utile quando si itera sulla skill stessa.
 3. **Script di installazione autonomo** (per chi non usa il gestore di plugin): `./scripts/install.sh` copia la skill nella directory delle skill di Claude Code dell'utente.
 
-Il plugin usa il formato ufficiale di manifest `.claude-plugin/plugin.json` di Anthropic (Claude Code 2.1+; Anthropic, 2026a), e il repository funge anche da marketplace self-hosted tramite `.claude-plugin/marketplace.json` nella radice del repository.
+Il plugin usa il formato ufficiale di manifest `.claude-plugin/plugin.json` di Anthropic (Claude Code 2.1+; Anthropic, 2026a). Sta in una cartella propria, `plugins/anticipating-shadow-points/`, che contiene solo Markdown, l'icona e la licenza, così l'installazione non copia altro; la radice del repository funziona anche da marketplace proprio tramite `.claude-plugin/marketplace.json`.
 
-**Permessi.** Dalla versione 1.0.4 del plugin il runner della Fase 9 avvia il figlio `claude -p` **senza alcun flag di permesso**: il figlio gira con le impostazioni di permesso di Claude Code dell'utente stesso, e la skill non li concede, non li amplia né li aggira mai. Le versioni precedenti passavano `--permission-mode bypassPermissions`; ciò è stato rimosso dopo che la directory dei plugin di Claude ha rifiutato l'inserimento, perché un plugin non deve concedersi permessi da sé. In modalità non interattiva un'azione che l'utente non ha preautorizzato viene negata anziché richiesta; il padre legge il campo `permission_denials` del risultato JSON del figlio e segnala all'utente ogni diniego anziché riprovare con un permesso più ampio. Questo rende l'esecuzione autonoma strettamente più debole che nel rilascio di maggio 2026, e più sicura: la skill può fare solo ciò che l'operatore ha già consentito. La skill stessa è implementata come skill in Markdown secondo il documento di buone pratiche delle Agent Skills di Anthropic (Anthropic, 2026b), con file complementari per la checklist MAST, i prompt di pre-mortem per singolo modo e i sette template di artefatto citati nella Sezione 3.1.
+**Permessi.** Dalla versione 1.0.4 del plugin il runner della Fase 9 avvia il figlio `claude -p` **senza alcun flag di permesso**: il figlio gira con le impostazioni di permesso di Claude Code dell'utente stesso, e la skill non li concede, non li amplia né li aggira mai. Le versioni precedenti passavano `--permission-mode bypassPermissions`; ciò è stato rimosso dopo che la directory dei plugin di Claude ha rifiutato l'inserimento, perché un plugin non deve concedersi permessi da sé. In modalità non interattiva un'azione che l'utente non ha preautorizzato viene negata anziché richiesta; il padre legge il campo `permission_denials` del risultato JSON del figlio e segnala all'utente ogni diniego anziché riprovare con un permesso più ampio. Questo rende l'esecuzione autonoma strettamente più debole che nel rilascio di maggio 2026, e più sicura: la skill può fare solo ciò che l'operatore ha già consentito. Dalla versione 2.0.0 la skill avvisa inoltre l'utente, prima di avviare il primo figlio, che questo gira con i permessi e il consumo dell'utente stesso, con budget e limite di turni dichiarati, e lo avvia solo dopo il suo OK; i file di lavoro del figlio vanno nella cartella dati del plugin, che Claude Code rimuove quando il plugin viene disinstallato. La skill stessa è implementata come skill in Markdown secondo il documento di buone pratiche delle Agent Skills di Anthropic (Anthropic, 2026b), con file complementari per la checklist MAST, i prompt di pre-mortem per singolo modo e i sette template di artefatto citati nella Sezione 3.1.
 
 La documentazione è pubblicata come sito GitHub Pages, con traduzioni del README in portoghese, spagnolo, italiano ed ebraico, tutte assistite da macchina o da IA: quella portoghese attende la revisione dell'autore, le altre tre quella di un madrelingua (`docs/translations.md`). Il codice sorgente completo — file della skill, manifest dei plugin, documentazione, artefatti di test, codice del benchmark — è concesso in licenza MIT; il testo del paper, le figure e i dati sono CC BY 4.0.
 
@@ -335,7 +335,7 @@ Erdogan, L. E., Lee, N., Kim, S., Moon, S., Furuta, H., Anumanchipalli, G., Keut
 
 Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
 
-Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.2) [Technical note]. Zenodo. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.3) [Technical note]. Zenodo. https://doi.org/10.5281/zenodo.24065935
 
 Huang, J., Chen, X., Mishra, S., Zheng, H. S., Yu, A. W., Song, X., & Zhou, D. (2024). *Large language models cannot self-correct reasoning yet*. ICLR 2024. https://arxiv.org/abs/2310.01798
 
@@ -395,7 +395,7 @@ Zhu, K., Liu, Z., Li, B., Tian, M., Yang, Y., Zhang, J., Han, P., Xie, Q., Cui, 
 
 Ogni affermazione nel corpo del testo cita una fonte primaria ove ne esista una. I paragrafi che seguono registrano quando ciascun gruppo di riferimenti è stato controllato.
 
-I riferimenti presenti nella versione 1.0 sono stati verificati con un recupero diretto dell'URL il 2026-05-17; i riferimenti aggiunti nella revisione di luglio 2026 (Flores, 2026b; le voci della genealogia classica della Sezione 2.5) sono stati controllati al momento dell'aggiunta; e le voci aggiunte a novembre 2026 (Barke et al., 2026; Deshpande et al., 2025; Kambhampati et al., 2024; G. Zhang et al., 2025; J. Zhang et al., 2026) sono state controllate rispetto ai loro record arXiv, e Cemri et al. (2025) rispetto al suo record negli atti di NeurIPS. I nomi dei 14 modi MAST sono citati alla lettera da Cemri et al. (2025) ed elencati nel file della skill complementare `skills/anticipating-shadow-points/mast-checklist.md`. Mitchell et al. (1989) è lo studio primario sulla prospective hindsight; la cifra del ≈30% è il riassunto che ne dà Klein (2007), che non siamo riusciti a ricalcolare dall'articolo del 1989, e Klein (2007) è anche la ricetta operativa.
+I riferimenti presenti nella versione 1.0 sono stati verificati con un recupero diretto dell'URL il 2026-05-17; i riferimenti aggiunti nella revisione di luglio 2026 (Flores, 2026b; le voci della genealogia classica della Sezione 2.5) sono stati controllati al momento dell'aggiunta; e le voci aggiunte a novembre 2026 (Barke et al., 2026; Deshpande et al., 2025; Kambhampati et al., 2024; G. Zhang et al., 2025; J. Zhang et al., 2026) sono state controllate rispetto ai loro record arXiv, e Cemri et al. (2025) rispetto al suo record negli atti di NeurIPS. I nomi dei 14 modi MAST sono citati alla lettera da Cemri et al. (2025) ed elencati nel file della skill complementare `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/mast-checklist.md`. Mitchell et al. (1989) è lo studio primario sulla prospective hindsight; la cifra del ≈30% è il riassunto che ne dà Klein (2007), che non siamo riusciti a ricalcolare dall'articolo del 1989, e Klein (2007) è anche la ricetta operativa.
 
 I nove riferimenti introdotti nella §2.5 (Avizienis et al., 2004; International Electrotechnical Commission [IEC 60812:2018], 2018; International Electrotechnical Commission [IEC 61882:2016], 2016, controllato rispetto al catalogo IEC il 2026-11-07; IEEE [Std 1012-2016], 2017; Meyer, 1992; Popper, 1959/2002; Shingo, 1986; U.S. Department of Defense [MIL-STD-1629A], 1980; Yuan et al., 2014) sono stati verificati rispetto alla loro fonte primaria — DOI, ISBN o voce di catalogo dello standard — il 2026-07-08.
 
@@ -405,11 +405,11 @@ I nove riferimenti introdotti nella §2.5 (Avizienis et al., 2004; International
 
 Le cinque valutazioni ingegneristiche sono sottoposte a commit nel repository complementare:
 
-- `skills/anticipating-shadow-points/evals/01-supabase-migration.md` (E1)
-- `skills/anticipating-shadow-points/evals/02-edge-function-deploy.md` (E2)
-- `skills/anticipating-shadow-points/evals/03-refactor-shared-util.md` (E3)
-- `skills/anticipating-shadow-points/evals/04-rls-policy-change.md` (E4)
-- `skills/anticipating-shadow-points/evals/05-cron-skill-conflict.md` (E5)
+- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/01-supabase-migration.md` (E1)
+- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/02-edge-function-deploy.md` (E2)
+- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/03-refactor-shared-util.md` (E3)
+- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/04-rls-policy-change.md` (E4)
+- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/05-cron-skill-conflict.md` (E5)
 
 Ogni file contiene l'enunciato INPUT, l'elenco EXPECTED degli shadow point e la soglia di ACCEPTANCE, tutti scritti dal progettista del protocollo. Il pacchetto di benchmark in `benchmark/` fornisce:
 
@@ -424,7 +424,7 @@ Ogni file contiene l'enunciato INPUT, l'elenco EXPECTED degli shadow point e la 
 
 | Materiale | Dove nel repository | Che cosa può verificare il lettore |
 |---|---|---|
-| Le cinque valutazioni | `skills/anticipating-shadow-points/evals/` | Ogni compito, il suo elenco atteso e la sua regola di accettazione (Tabella 4) |
+| Le cinque valutazioni | `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/` | Ogni compito, il suo elenco atteso e la sua regola di accettazione (Tabella 4) |
 | I piani di esempio dell'autore (RED e GREEN) e l'esecuzione che li ha valutati | `benchmark/tests/fixtures/mock_runs/` e `benchmark/runs/published/` | I piani che il matcher ha valutato e i punteggi alla base della Figura 2 |
 | L'esecuzione di luglio 2026 di `claude -p` della nota complementare | `data/spike-2026-07-08/` | I conteggi citati nella Sezione 5.4 |
 | Il calcolo | `analysis/results.py` | Come si calcola ogni numero delle Sezioni 5.3 e 5.4 |
@@ -440,13 +440,13 @@ run_all.py`, eseguito dentro la cartella del repository, rifà tutto ciò che è
 
 ## Nota Tecnica
 
-**Versione** 2.1 · novembre 2026 · prima pubblicazione il 18 maggio 2026
+**Versione** 2.2 · novembre 2026 · prima pubblicazione il 18 maggio 2026
 
 **Licenza** Testo del paper, figure e dati: CC BY 4.0. Software complementare: MIT.
 
 **Il progetto ASP.** ASP (Anticipating Shadow Points) è un plugin open source per Claude Code, l'agente di programmazione da riga di comando di Anthropic, che fa elencare all'agente ciò che potrebbe andare storto prima di scrivere codice. Il plugin e il materiale di replicazione stanno in un repository pubblico (Flores, 2026a), questo whitepaper descrive come funziona e una nota tecnica misura da sola una delle sue regole: non fidarsi mai del codice di uscita di `claude -p` (Flores, 2026b). Un terzo articolo riporterà il benchmark specificato nel `PREREGISTRATION.md` del repository, che misurerebbe se ASP migliora i piani di un agente.
 
-**DOI.** Un DOI (Digital Object Identifier) è un collegamento permanente a un'opera depositata. Zenodo, un archivio pubblico di ricerca gestito dal CERN, conserva questo whitepaper con il repository e assegna due tipi di DOI: uno per release e un DOI concept, https://doi.org/10.5281/zenodo.20276631, che apre sempre la release più recente. Questa versione esce con la release 2.0.0; fino ad allora il DOI concept apre la release 1.0.3 (https://doi.org/10.5281/zenodo.20277015). Sostituisce le versioni di maggio 2026 (da 1.0.0 a 1.0.3), che presentavano i punteggi dati dal matcher ai piani di esempio dell'autore come lettura di output reali del modello.
+**DOI.** Un DOI (Digital Object Identifier) è un collegamento permanente a un'opera depositata. Zenodo, un archivio pubblico di ricerca gestito dal CERN, conserva questo whitepaper come record a sé: https://doi.org/10.5281/zenodo.24065969. Il plugin, i dati e il codice formano un altro record (Flores, 2026a), il cui DOI concept, https://doi.org/10.5281/zenodo.20276631, apre sempre la release più recente; la release 2.0.0 è quella che corrisponde a questo whitepaper. Le release di maggio 2026 di quel record (da 1.0.0 a 1.0.3) presentavano i punteggi dati dal matcher ai piani di esempio dell'autore come lettura di output reali del modello; la release 2.0.0 le sostituisce.
 
 **Replicazione.** Ogni numero che le Sezioni 5.3 e 5.4 calcolano può essere ricalcolato dal repository senza chiamare un modello; l'Appendice B, Insieme di valutazioni e riproducibilità, elenca cosa contiene e come eseguirlo.
 ---

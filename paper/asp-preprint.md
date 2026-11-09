@@ -478,8 +478,10 @@ install paths, each appropriate for a different audience:
    Claude Code skills directory.
 
 The plugin uses Anthropic's official `.claude-plugin/plugin.json` manifest
-format (Claude Code 2.1+; Anthropic, 2026a), and the repository doubles as a self-host
-marketplace via `.claude-plugin/marketplace.json` at the repository root.
+format (Claude Code 2.1+; Anthropic, 2026a). It lives in its own folder,
+`plugins/anticipating-shadow-points/`, which holds only Markdown, the icon and the
+licence, so an install copies nothing else; the repository root doubles as a
+self-host marketplace via `.claude-plugin/marketplace.json`.
 
 **Permissions.** Since plugin version 1.0.4 the Phase 9 runner spawns the
 `claude -p` child with **no permission flag**: the child runs under the
@@ -493,6 +495,7 @@ field of the child's JSON result and reports any denial to the user instead
 of retrying with wider permission. This makes autonomous execution strictly
 weaker than in the May 2026 deployment, and safer: the skill can only do
 what the operator already allowed.
+Since version 2.0.0 the skill also tells the user, before the first spawn, that the child runs under their permissions and their usage, with the budget and turn cap stated, and spawns only after their OK; the child's scratch files go to the plugin's own data folder, which Claude Code removes when the plugin is uninstalled.
 The skill itself is implemented as a Markdown-based skill following the
 Anthropic Agent Skills best-practices document (Anthropic, 2026b), with companion files for
 the MAST checklist, per-mode pre-mortem prompts, and the seven
@@ -833,7 +836,7 @@ Erdogan, L. E., Lee, N., Kim, S., Moon, S., Furuta, H., Anumanchipalli, G., Keut
 
 Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
 
-Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.2) [Technical note]. Zenodo. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.3) [Technical note]. Zenodo. https://doi.org/10.5281/zenodo.24065935
 
 Huang, J., Chen, X., Mishra, S., Zheng, H. S., Yu, A. W., Song, X., & Zhou, D. (2024). *Large language models cannot self-correct reasoning yet*. ICLR 2024. https://arxiv.org/abs/2310.01798
 
@@ -902,7 +905,7 @@ Kambhampati et al., 2024; G. Zhang et al., 2025; J. Zhang et al., 2026) were
 checked against their arXiv records, and Cemri et al. (2025) against its
 NeurIPS proceedings record. The MAST 14-mode names are quoted verbatim from
 Cemri et al. (2025) and listed in the companion skill file
-`skills/anticipating-shadow-points/mast-checklist.md`. Mitchell et al.
+`plugins/anticipating-shadow-points/skills/anticipating-shadow-points/mast-checklist.md`. Mitchell et al.
 (1989) is the primary study of prospective hindsight; the ≈30% figure is
 Klein's (2007) summary of it, which we could not re-derive from the 1989
 paper, and Klein (2007) is also the operational recipe.
@@ -923,11 +926,11 @@ catalogue entry — on 2026-07-08.
 The five engineering evaluations are committed in the companion
 repository:
 
-- `skills/anticipating-shadow-points/evals/01-supabase-migration.md` (E1)
-- `skills/anticipating-shadow-points/evals/02-edge-function-deploy.md` (E2)
-- `skills/anticipating-shadow-points/evals/03-refactor-shared-util.md` (E3)
-- `skills/anticipating-shadow-points/evals/04-rls-policy-change.md` (E4)
-- `skills/anticipating-shadow-points/evals/05-cron-skill-conflict.md` (E5)
+- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/01-supabase-migration.md` (E1)
+- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/02-edge-function-deploy.md` (E2)
+- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/03-refactor-shared-util.md` (E3)
+- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/04-rls-policy-change.md` (E4)
+- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/05-cron-skill-conflict.md` (E5)
 
 Each file contains the INPUT statement, the EXPECTED shadow-points list,
 and the ACCEPTANCE threshold, all authored by the protocol's designer. The
@@ -949,7 +952,7 @@ Table B1 lists what the repository holds for them.
 
 | Material | Where in the repository | What a reader can check with it |
 |---|---|---|
-| The five evaluations | `skills/anticipating-shadow-points/evals/` | Each task, its expected list and its acceptance rule (Table 4) |
+| The five evaluations | `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/` | Each task, its expected list and its acceptance rule (Table 4) |
 | The author's sample plans (RED and GREEN) and the run that scored them | `benchmark/tests/fixtures/mock_runs/` and `benchmark/runs/published/` | The plans the matcher scored and the scores behind Figure 2 |
 | The July 2026 `claude -p` run of the companion note | `data/spike-2026-07-08/` | The counts quoted in Section 5.4 |
 | The calculation | `analysis/results.py` | How each number of Sections 5.3 and 5.4 is computed |
@@ -978,13 +981,13 @@ can be re-implemented in another language.
 
 ## Technical Note
 
-**Version** 2.1 · November 2026 · first published 18 May 2026
+**Version** 2.2 · November 2026 · first published 18 May 2026
 
 **License** Paper text, figures and data: CC BY 4.0. Companion software: MIT.
 
 **The ASP project.** ASP (Anticipating Shadow Points) is an open-source plugin for Claude Code, Anthropic's command-line coding agent, that makes the agent list what could go wrong before it writes code. Its plugin and replication material sit in one public repository (Flores, 2026a), this whitepaper describes how it works, and a technical note measures one of its rules on its own: never trust the exit code of `claude -p` (Flores, 2026b). A third paper will report the benchmark specified in the repository's `PREREGISTRATION.md`, which would measure whether ASP improves an agent's plans.
 
-**DOI.** A DOI (Digital Object Identifier) is a permanent link to a deposited work. Zenodo, a public research archive run by CERN, keeps this whitepaper with the repository and gives two kinds of DOI: one for each release, and a concept DOI, https://doi.org/10.5281/zenodo.20276631, that always opens the newest release. This version ships with release 2.0.0; until that release is out, the concept DOI opens release 1.0.3 (https://doi.org/10.5281/zenodo.20277015). It replaces the May 2026 versions (1.0.0 to 1.0.3), which presented the matcher's scores on the author's sample plans as a reading of real model output.
+**DOI.** A DOI (Digital Object Identifier) is a permanent link to a deposited work. Zenodo, a public research archive run by CERN, holds this whitepaper as its own record: https://doi.org/10.5281/zenodo.24065969. The plugin, data and code are a separate record (Flores, 2026a) whose concept DOI, https://doi.org/10.5281/zenodo.20276631, always opens the newest release; release 2.0.0 is the one that matches this whitepaper. That record's May 2026 releases (1.0.0 to 1.0.3) presented the matcher's scores on the author's sample plans as a reading of real model output; release 2.0.0 replaces them.
 
 **Replication.** Every number that Sections 5.3 and 5.4 compute can be recomputed from the repository without calling a model; Appendix B, Evaluation set and reproducibility, lists what is there and how to run it.
 ---

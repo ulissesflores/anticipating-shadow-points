@@ -230,7 +230,7 @@ Cui, J., Chiang, W.-L., Stoica, I., & Hsieh, C.-J. (2024). *OR-Bench: An over-re
 
 Dominus, M. J. (2005). *Higher-order Perl: Transforming programs with programs*. Morgan Kaufmann. https://hop.perl.plover.com/book/
 
-Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.1) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.2) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.24065969
 
 Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
 
@@ -288,13 +288,13 @@ Zhu, J., Xie, S., Chen, A. L. F., Ding, X., Tang, C., Qi, R., & Fei, Y. (2026). 
 
 ## Technical Note
 
-**Version** 2.2 · November 2026
+**Version** 2.3 · November 2026
 
 **License** Text, figures and data: CC BY 4.0. Companion software: MIT.
 
 **The ASP project.** ASP (Anticipating Shadow Points) is an open-source plugin for Claude Code, Anthropic's command-line coding agent, that makes the agent list what could go wrong before it writes code. Its plugin and replication material sit in one public repository (Flores, 2026b), a whitepaper describes how it works (Flores, 2026a), and this note measures one of its rules on its own: never trust the exit code of `claude -p`. A third paper will report the benchmark specified in the repository's `PREREGISTRATION.md`, which would measure whether ASP improves an agent's plans.
 
-**DOI.** A DOI (Digital Object Identifier) is a permanent link to a deposited work. Zenodo, a public research archive run by CERN, keeps this note with the repository and gives two kinds of DOI: one for each release, and a concept DOI, https://doi.org/10.5281/zenodo.20276631, that always opens the newest release. This version ships with release 2.0.0; until that release is out, the concept DOI opens release 1.0.3 (https://doi.org/10.5281/zenodo.20277015). It replaces the May 2026 versions (1.0.0 to 1.0.3), which called the May run pre-registered and came before the July data.
+**DOI.** A DOI (Digital Object Identifier) is a permanent link to a deposited work. Zenodo, a public research archive run by CERN, holds this note as its own record: https://doi.org/10.5281/zenodo.24065935. The plugin, data and code are a separate record (Flores, 2026b) whose concept DOI, https://doi.org/10.5281/zenodo.20276631, always opens the newest release; release 2.0.0 is the one that matches this note. That record's May 2026 releases (1.0.0 to 1.0.3) called the May run pre-registered and came before the July data; release 2.0.0 replaces them.
 
 **Replication.** Every number this note computes from its data can be recomputed from the repository without calling a model; Section 9, Data and code availability, lists what is there and how to run it.
 ---
