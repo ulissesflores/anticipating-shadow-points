@@ -79,7 +79,7 @@ Symptoms that demand ASP: data migration, RLS/permissions change, multi-file ref
 Phase 9 keeps its scratch files (Goal Spec, `state.json`, `exec.json`, logs) under one runtime root:
 
 - **Installed as a plugin:** `${CLAUDE_PLUGIN_DATA}/runtime`. Claude Code substitutes that path when it loads this skill. The folder belongs to the plugin, survives plugin updates, and is deleted when the plugin is uninstalled.
-- **Copied by hand into `~/.claude/skills/`** (the line above then shows the literal `${CLAUDE_PLUGIN_DATA}`): use `${XDG_STATE_HOME:-$HOME/.local/state}/asp/runtime`.
+- **Copied by hand into `~/.claude/skills/`** instead of installed as a plugin: use `${XDG_STATE_HOME:-$HOME/.local/state}/asp/runtime`.
 
 ASP writes nothing else outside the user's project.
 
