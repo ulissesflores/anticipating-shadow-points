@@ -175,7 +175,7 @@ def run_trial(trial: dict, task: dict, out: Path) -> dict:
     init = next((e for e in events if e.get("type") == "system" and e.get("subtype") == "init"), {})
     results = [e for e in events if e.get("type") == "result"]
     last = results[-1] if results else {}
-    answer = last.get("result") or ""
+    answer = redact(last.get("result") or "", work)  # same markers as the envelope
     raw = redact(proc.stdout, work)
     (out / "envelopes").mkdir(parents=True, exist_ok=True)
     (out / "answers").mkdir(parents=True, exist_ok=True)

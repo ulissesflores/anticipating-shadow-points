@@ -112,4 +112,10 @@ Before this protocol was pushed, one Sonnet 5.5 trial ran on a task outside the 
   - **What ran anyway:** trials `t091` to `t096`, whose folders did not exist, ran normally and are kept. Their records are the first six lines of `runs/trials.jsonl`.
   - **The fix:** `run.py` now clones into `work-2026-11b/`, and collection resumed with the same seeded order, skipping trials already recorded.
   - Nothing in the prompts, models, tasks, scoring or analysis changed.
+- **2026-11-09, 16:19 GMT-3: collection paused by the operator, who had to shut the computer down.**
+  - 38 of 240 trials are recorded, all successful.
+  - Trials in flight at the pause were killed before they finished and left no record. They run again on resume.
+  - Collection resumes with the same seeded order, skipping recorded trials, and nothing else changes.
+  - The usage reset (about 22:40 GMT-3) may fall inside the pause. That does not change any condition.
+  - Three answers (`t006`, `t022`, `t023`) named Claude Code's plan file by its absolute path. The path was replaced by markers, as in study 2026-11, outside any table row. From the resumed trials on, `run.py` applies the same markers to the answer before saving it.
 
