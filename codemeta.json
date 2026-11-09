@@ -4,14 +4,26 @@
   "name": "ASP — Anticipating Shadow Points",
   "description": "A Claude Code plugin that runs a pre-mortem-first planning protocol for non-trivial engineering tasks, with a replication layer that re-derives every measured number in its two companion papers from committed data under a SHA-256 provenance seal.",
   "version": "2.0.0",
-  "dateModified": "2026-11-07",
+  "dateModified": "2026-11-08",
   "license": "https://spdx.org/licenses/MIT",
   "codeRepository": "https://github.com/ulissesflores/anticipating-shadow-points",
   "url": "https://ulissesflores.github.io/anticipating-shadow-points/",
   "identifier": "https://doi.org/10.5281/zenodo.20276631",
-  "programmingLanguage": ["Markdown", "Bash", "Python"],
+  "programmingLanguage": [
+    "Markdown",
+    "Bash",
+    "Python"
+  ],
   "runtimePlatform": "Claude Code",
-  "keywords": ["claude-code", "pre-mortem", "agentic-workflow", "MAST", "reproducibility", "exit codes", "graceful refusal"],
+  "keywords": [
+    "claude-code",
+    "pre-mortem",
+    "agentic-workflow",
+    "MAST",
+    "reproducibility",
+    "exit codes",
+    "graceful refusal"
+  ],
   "author": [
     {
       "@type": "Person",
@@ -19,14 +31,23 @@
       "givenName": "Carlos Ulisses",
       "familyName": "Flores",
       "email": "c.ulisses@gmail.com",
-      "affiliation": {"@type": "Organization", "name": "Codex Hash Research Laboratory"},
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Codex Hash Research Laboratory"
+      },
       "sameAs": "http://lattes.cnpq.br/6905246706890561"
     }
   ],
   "relatedLink": [
     "https://doi.org/10.5281/zenodo.20276631",
-    "https://ulissesflores.com"
+    "https://ulissesflores.com",
+    "https://doi.org/10.5281/zenodo.24065969",
+    "https://doi.org/10.5281/zenodo.24065935"
   ],
   "developmentStatus": "active",
-  "softwareRequirements": ["Claude Code", "Python >= 3.11 (replication layer only)", "matplotlib >= 3.8"]
+  "softwareRequirements": [
+    "Claude Code",
+    "Python >= 3.11 (replication layer only)",
+    "matplotlib >= 3.8"
+  ]
 }

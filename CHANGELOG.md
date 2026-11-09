@@ -7,7 +7,25 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## [Unreleased]
 
-## [2.0.0] — unreleased (branch `v2`; version DOI minted at release)
+## [2.0.0] — 2026-11-08
+
+### Changed (packaging, 2026-11-08)
+- **The plugin moved into its own folder**, `plugins/anticipating-shadow-points/`.
+  An install, and the plugin directory's review, now cover only Markdown, the
+  icon, a README and the licence: no scripts, binaries or test prompts. The
+  self-hosted marketplace points at the folder; `--plugin-dir` takes the folder.
+- **Portable runtime.** Phase 9 scratch files go to `${CLAUDE_PLUGIN_DATA}/runtime`
+  instead of `~/Developer/ASP/runtime`; lessons go where the project keeps them
+  instead of the author's own `~/.agent` tools; `date -Iseconds` became portable.
+- **The spawn of `claude -p` is announced first**: the skill tells the user the
+  child runs under their permissions and usage, states budget and turn cap, and
+  waits for their OK. Plain-language description in `plugin.json`, listing links
+  (documentation, support, privacy) and a plugin README added.
+- **Each paper is its own Zenodo record**: the whitepaper is
+  [10.5281/zenodo.24065969](https://doi.org/10.5281/zenodo.24065969) and the technical note is
+  [10.5281/zenodo.24065935](https://doi.org/10.5281/zenodo.24065935). Self-citations now point at the right object
+  (before, both cited the software's concept DOI). Paper versions 2.2 and 2.3.
+- `tests/test_plugin_payload.py` keeps the plugin folder inert and portable.
 
 ### Corrected
 - **The benchmark run is withdrawn as evidence of ASP's effect.** The one

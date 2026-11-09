@@ -26,7 +26,7 @@ ASP is a Claude Code skill that surfaces the failure modes a senior engineer wou
 
 ## Evidence — what is measured, and what is not
 
-**Measured (Iron Law 11).** `claude -p` exits 0 when the agent gracefully declines. On 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), 24 exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were declines: 24% to 40% of the suite depending on how a decline is counted. Every number computed from the data is re-derived from committed files by `python run_all.py` and sealed under a SHA-256 chain hash. [Paper](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/graceful-refusals.md).
+**Measured: a graceful refusal exits 0.** `claude -p` exits 0 when the agent gracefully declines. On 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), 24 exited 0, all with `stop_reason: end_turn`, and 12 to 20 of them were declines: 24% to 40% of the suite depending on how a decline is counted. Every number computed from the data is re-derived from committed files by `python run_all.py` and sealed under a SHA-256 chain hash. [Paper](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/graceful-refusals.md).
 
 ![A recorded July 2026 trial: the agent refuses, exit code is 0, stop_reason is end_turn](assets/demo/exit-code.gif)
 
@@ -56,7 +56,7 @@ ASP is a Claude Code skill that surfaces the failure modes a senior engineer wou
 </td>
 <td style="width: 50%; vertical-align: top; padding: 1.2em; border: 1px solid #d0d7de;">
 <h3 style="margin-top: 0;">⚡ <code>claude -p /goal</code> kernel</h3>
-<p>Hands execution to a <code>claude -p</code> child that runs under your own permission settings; the skill never widens them. Iron Law 11: never trust <code>$?</code> — parse the JSON.</p>
+<p>Can hand execution to a <code>claude -p</code> child, only after telling you: it runs under your own permission settings and usage, with a budget you see first; the skill never widens them. Iron Law 11: never trust <code>$?</code> — parse the JSON.</p>
 </td>
 </tr>
 </table>

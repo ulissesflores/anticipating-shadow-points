@@ -23,7 +23,7 @@ English (this file) · [Português (BR)](docs/README.pt.md) · [Español](docs/R
 >
 > **Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. The "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs; it is withdrawn as evidence. A real benchmark is planned, pre-specified in [`PREREGISTRATION.md`](PREREGISTRATION.md), not yet deposited.
 
-Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp-preprint.md) · [*Graceful refusals as unsignalled failures*](paper/graceful-refusals.md). Both are technical reports, not peer-reviewed. PDF and DOCX editions in English, Portuguese, Spanish and Italian are in [`docs/paper/`](docs/paper/), with their SHA-256 in [`paper/PAPER-SHA256.txt`](paper/PAPER-SHA256.txt).
+Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp-preprint.md) ([doi:10.5281/zenodo.24065969](https://doi.org/10.5281/zenodo.24065969)) · [*Graceful refusals as unsignalled failures*](paper/graceful-refusals.md) ([doi:10.5281/zenodo.24065935](https://doi.org/10.5281/zenodo.24065935)). Each paper is its own Zenodo record. Both are technical reports, not peer-reviewed. PDF and DOCX editions in English, Portuguese, Spanish and Italian are in [`docs/paper/`](docs/paper/), with their SHA-256 in [`paper/PAPER-SHA256.txt`](paper/PAPER-SHA256.txt).
 
 ## What this contributes
 
@@ -203,6 +203,28 @@ Cite the **concept DOI** to point at ASP in general; it always resolves to the l
   publisher = {Zenodo},
   doi       = {10.5281/zenodo.20276631},
   url       = {https://doi.org/10.5281/zenodo.20276631}
+}
+```
+
+To cite a paper, use its own DOI:
+
+```bibtex
+@techreport{flores_asp_report_2026,
+  author      = {Flores, Carlos Ulisses},
+  title       = {ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report},
+  year        = {2026},
+  institution = {Codex Hash Research Laboratory},
+  type        = {Whitepaper, version 2.2},
+  doi         = {10.5281/zenodo.24065969}
+}
+
+@techreport{flores_graceful_refusals_2026,
+  author      = {Flores, Carlos Ulisses},
+  title       = {Graceful Refusals as Unsignalled Failures: Characterising claude -p Exit-Code Semantics on Agent Declines},
+  year        = {2026},
+  institution = {Codex Hash Research Laboratory},
+  type        = {Technical note, version 2.3},
+  doi         = {10.5281/zenodo.24065935}
 }
 ```
 

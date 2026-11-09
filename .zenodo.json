@@ -1,8 +1,7 @@
 {
   "title": "ASP — Anticipating Shadow Points",
   "upload_type": "software",
-  "access_right": "closed",
-  "notes": "No DOI without operator's explicit authorization. Flip access_right to open only in the release commit that precedes v2.0.0-rc1.",
+  "access_right": "open",
   "description": "A Claude Code plugin that runs a pre-mortem-first planning protocol for non-trivial engineering tasks, plus a replication layer: every measured number in the two companion papers is re-derived from committed data by run_all.py, asserted by pytest and sealed under one SHA-256 chain hash. Licences: companion software MIT; paper text, figures and data CC BY 4.0.",
   "creators": [
     {
@@ -26,6 +25,16 @@
       "identifier": "https://github.com/ulissesflores/anticipating-shadow-points",
       "relation": "isSupplementTo",
       "scheme": "url"
+    },
+    {
+      "identifier": "10.5281/zenodo.24065969",
+      "relation": "isDocumentedBy",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.24065935",
+      "relation": "isReferencedBy",
+      "scheme": "doi"
     }
   ],
   "version": "2.0.0",

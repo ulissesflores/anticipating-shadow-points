@@ -68,7 +68,9 @@ benchmark/
 
 The eval markdown files live in
 `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/` and double as both runtime
-inputs to the skill and benchmark inputs. They are:
+inputs to the skill and benchmark inputs. The CLI's default `--evals` path still names their
+old location, `skills/anticipating-shadow-points/evals/`: the benchmark source is hash-locked by
+the published run, so pass `--evals` with the path above. They are:
 
 | ID | Domain | File |
 |---|---|---|
