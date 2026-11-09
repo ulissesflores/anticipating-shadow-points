@@ -7,11 +7,11 @@ Set FontSize 14
 Set Width 1400
 Set Height 1000
 Set Padding 24
-Set Theme "Builtin Light"
+Set Theme "GitHub Dark"
 Set TypingSpeed 30ms
 Env PS1 "$ "
 Hide
-Type "cd assets/demo/asp-plan/shop-api && claude() { sleep 3; glow -s light -w 150 ../result.md; } && clear" Enter
+Type "cd assets/demo/asp-plan/shop-api && claude() { sleep 3; glow -s dark -w 150 ../result.md; } && clear" Enter
 Show
 Type "# Replay of a recorded run: 2026-11-09, Claude Code 2.1.319, claude-opus-5-5. Files: assets/demo/asp-plan/" Enter
 Sleep 400ms

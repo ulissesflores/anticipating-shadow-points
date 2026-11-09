@@ -32,6 +32,11 @@
 ```
 
 <p align="center"><img src="assets/demo/asp-plan.gif" width="100%" alt="ASP at work: a pre-mortem of a production migration on a four-file sample repository, eight shadow points before any code"></p>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/plan-card-dark.svg">
+  <img src="assets/brand/plan-card-light.svg" width="100%" alt="The eight shadow points of the recorded run and the riskiest one">
+</picture>
 <p align="center"><sub>A real run on a four-file sample repository, replayed: eight shadow points, and the riskiest one named, before a single line of code. <a href="assets/demo/asp-plan/">Run it yourself</a>.</sub></p>
 
 > [!IMPORTANT]

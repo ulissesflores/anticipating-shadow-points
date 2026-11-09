@@ -8,6 +8,8 @@ Claim map (no picture without a claim):
 - ``phases-{dark,light}.svg``: the protocol in six stages; the pre-mortem is the highlighted
   stage because it is what the plugin adds to a plain request.
 - ``social-preview.png``: the image GitHub shows when the repository link is shared.
+- ``plan-card-{dark,light}.svg``: the shadow points of the recorded ``/asp`` run, in type large
+  enough to read in a README.
 
 All text is converted to outlines with fontTools, so the SVGs look the same on every screen
 and need no installed font. Fonts used (SIL Open Font License 1.1, not redistributed here):
@@ -347,6 +349,112 @@ def phases(fonts: Fonts, theme: str) -> str:
     )
 
 
+RESULT = OUT.parent / "demo" / "asp-plan" / "result.md"
+
+
+def wrap(fonts: Fonts, face: str, text: str, size: float, width: float) -> list[str]:
+    """Split ``text`` into lines no wider than ``width``.
+
+    Parameters
+    ----------
+    fonts : Fonts
+        Loaded fonts.
+    face : str
+        Key in ``FONT_FILES``.
+    text : str
+        The text.
+    size : float
+        Font size.
+    width : float
+        Maximum line width.
+
+    Returns
+    -------
+    list of str
+        The lines.
+    """
+    lines, line = [], ""
+    for word in text.split():
+        trial = f"{line} {word}".strip()
+        if line and fonts.width(face, trial, size) > width:
+            lines.append(line)
+            line = word
+        else:
+            line = trial
+    return lines + [line] if line else lines
+
+
+def plan_card(fonts: Fonts, theme: str) -> str:
+    """Return a readable card of the recorded ``/asp`` reply: its eight shadow points and the riskiest.
+
+    The cells are copied from ``assets/demo/asp-plan/result.md`` (only the code backticks are
+    dropped), so the card cannot drift from the recorded reply.
+
+    Parameters
+    ----------
+    fonts : Fonts
+        Loaded fonts.
+    theme : str
+        ``"dark"`` or ``"light"``.
+
+    Returns
+    -------
+    str
+        The SVG document.
+    """
+    t = THEMES[theme]
+    text = RESULT.read_text(encoding="utf-8")
+    rows = [
+        line.split("|")[2].strip().replace("`", "")
+        for line in text.splitlines()
+        if line.startswith("| ") and line.split("|")[1].strip().isdigit()
+    ]
+    risk = next(line for line in text.splitlines() if line.startswith("**Riskiest:**"))
+    risk = risk.removeprefix("**Riskiest:**").strip().replace("`", "")
+    body = [
+        fonts.path(
+            "display",
+            f"{len(rows)} shadow points before a single line of code",
+            48,
+            74,
+            36,
+            t["ink"],
+        ),
+        fonts.path(
+            "body",
+            "Recorded /asp run, 2026-11-09. Task: add a NOT NULL email_verified column to a 40M-row"
+            " users table and backfill it. Cells copied from the reply.",
+            48,
+            110,
+            15,
+            t["muted"],
+        ),
+    ]
+    top, step, col_w = 150, 68, 560
+    for i, item in enumerate(rows):
+        x = 48 + (i // 4) * 600
+        y = top + (i % 4) * step
+        body.append(f'<circle cx="{x + 18}" cy="{y + 18}" r="18" fill="{AMBER}"/>')
+        body.append(fonts.path("display", str(i + 1), x + 18, y + 26, 20, NAVY, anchor="middle"))
+        for k, line in enumerate(wrap(fonts, "body", item, 20, col_w - 60)):
+            body.append(fonts.path("body", line, x + 52, y + 26 + k * 26, 20, t["ink"]))
+    box_y = top + 4 * step + 8
+    lines = wrap(fonts, "body", risk, 18, 1100)
+    box_h = 56 + 27 * len(lines)
+    body.append(
+        f'<rect x="48" y="{box_y}" width="1184" height="{box_h}" rx="14" fill="{t["box"]}" '
+        f'stroke="{t["accent"]}" stroke-width="2.5"/>'
+    )
+    body.append(fonts.path("display", "Riskiest", 72, box_y + 36, 20, t["accent"]))
+    for k, line in enumerate(lines):
+        body.append(fonts.path("body", line, 72, box_y + 66 + k * 27, 18, t["ink"]))
+    height = box_y + box_h + 40
+    frame = f'<rect width="1280" height="{height}" rx="16" fill="{t["bg"]}"/>'
+    return svg(
+        1280, height, frame + "".join(body), "Eight shadow points found by a recorded /asp run"
+    )
+
+
 def main() -> None:
     """Write every asset into this folder; optionally render PNG copies."""
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
@@ -361,6 +469,8 @@ def main() -> None:
         "phases-dark.svg": phases(fonts, "dark"),
         "phases-light.svg": phases(fonts, "light"),
         "social-preview.svg": social_preview(fonts),
+        "plan-card-dark.svg": plan_card(fonts, "dark"),
+        "plan-card-light.svg": plan_card(fonts, "light"),
     }
     for name, text in files.items():
         (OUT / name).write_text(text, encoding="utf-8")

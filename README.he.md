@@ -36,6 +36,11 @@
 ```
 
 <p align="center"><img src="assets/demo/asp-plan.gif" width="100%" alt="ASP בפעולה: post-mortem מקדים להעברת נתונים בסביבת ייצור, במאגר לדוגמה בן ארבעה קבצים, שמונה נקודות צל לפני שורת קוד אחת"></p>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/plan-card-dark.svg">
+  <img src="assets/brand/plan-card-light.svg" width="100%" alt="שמונה נקודות הצל של ההרצה המוקלטת והמסוכנת שבהן">
+</picture>
 <p align="center"><sub>הרצה אמיתית במאגר לדוגמה בן ארבעה קבצים, בהקרנה חוזרת: שמונה נקודות צל, והמסוכנת שבהן מסומנת, לפני שורת קוד אחת. <a href="assets/demo/asp-plan/">הריצו בעצמכם</a>.</sub></p>
 
 > [!IMPORTANT]

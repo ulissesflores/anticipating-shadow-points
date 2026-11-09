@@ -34,6 +34,11 @@
 ```
 
 <p align="center"><img src="assets/demo/asp-plan.gif" width="100%" alt="O ASP em ação: o pre-mortem de uma migração em produção num repositório de exemplo com quatro arquivos, oito pontos de sombra antes de qualquer código"></p>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/plan-card-dark.svg">
+  <img src="assets/brand/plan-card-light.svg" width="100%" alt="Os oito pontos de sombra da execução gravada e o mais arriscado">
+</picture>
 <p align="center"><sub>Uma execução real num repositório de exemplo com quatro arquivos, reproduzida: oito pontos de sombra, e o mais arriscado apontado, antes de uma linha de código. <a href="assets/demo/asp-plan/">Rode você mesmo</a>.</sub></p>
 
 > [!IMPORTANT]
