@@ -13,10 +13,10 @@ ASP documentation is available in five languages. The English README is the cano
 | Language | Author / Reviewer | Status |
 |---|---|---|
 | 🇬🇧 [English](../) | Native | Canonical source |
-| 🇧🇷 [Português](README.pt) | Machine-assisted (v2.0.0) | Author review pending |
-| 🇪🇸 [Español](README.es) | AI-assisted | Native review welcomed via PR |
-| 🇮🇹 [Italiano](README.it) | AI-assisted | Native review welcomed via PR |
-| 🇮🇱 [עברית](README.he) | AI-assisted (RTL marked) | Native review welcomed via PR |
+| 🇧🇷 [Português](../README.pt-BR) | Machine-assisted (v2.0.0) | Author review pending |
+| 🇪🇸 [Español](../README.es) | AI-assisted | Native review welcomed via PR |
+| 🇮🇹 [Italiano](../README.it) | AI-assisted | Native review welcomed via PR |
+| 🇮🇱 [עברית](../README.he) | AI-assisted (RTL marked) | Native review welcomed via PR |
 
 The two papers have PDF and DOCX editions in English, Portuguese, Spanish and Italian in [`docs/paper/`](paper/). Every translated edition opens with the summary in its own language, followed by the English Abstract, copied verbatim from the English source.
 

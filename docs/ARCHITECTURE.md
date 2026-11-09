@@ -590,7 +590,7 @@ at v1.0.0+.
 
 - **Title**: ASP — State of the Art, Architectural Journey, and Empirical Discoveries
 - **Version**: corresponds to repo v1.0.3
-- **Author**: Carlos Ulisses Flores (direction, empirical testing, judgment, authorship). AI tooling (Claude, Opus 4.7) assisted with research synthesis, drafting, and verification; per the project's authorship policy this document is published under the author's name alone (see `AUTHORS`).
+- **Author**: Carlos Ulisses Flores (direction, empirical testing, judgment, authorship). AI tooling (Claude, Opus 4.7) assisted with research synthesis, drafting, and verification; per the project's authorship policy this document is published under the author's name alone.
 - **License**: MIT (same as repo)
 - **Last updated**: 2026-07-05
 - **Status**: living document — pull requests welcome, especially Sections 8 (novelty) and 9 (open questions) which evolve as the skill matures

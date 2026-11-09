@@ -10,7 +10,7 @@ Thanks for considering a contribution. ASP is a living skill — refinements to 
 | Propose a new feature or methodology refinement | [Feature Request issue](.github/ISSUE_TEMPLATE/feature_request.md) |
 | Contribute a new eval from your domain | [Eval Contribution issue](.github/ISSUE_TEMPLATE/eval_contribution.md) |
 | Submit code/docs changes | PR against `main` — see workflow below |
-| Improve a translation (native speaker) | PR editing `docs/README.{es,pt,it,he}.md` |
+| Improve a translation (native speaker) | PR editing `README.{pt-BR,es,it,he}.md` at the repository root |
 | Rebuild a whitepaper PDF from its `.md` source | See [§ Rebuilding the whitepaper PDFs](#rebuilding-the-whitepaper-pdfs) |
 | Report a security vulnerability | **Do NOT open a public issue.** See [SECURITY.md](SECURITY.md) |
 
@@ -74,7 +74,7 @@ The 12 Iron Laws documented in `plugins/anticipating-shadow-points/skills/antici
 
 ## Translations — native-speaker review welcomed
 
-The English README and ARCHITECTURE.md are canonical. Translations under `docs/README.*.md` are:
+The English README and ARCHITECTURE.md are canonical. Translations at the root, `README.{pt-BR,es,it,he}.md`, are:
 
 | Language | Current state |
 |---|---|
@@ -83,7 +83,7 @@ The English README and ARCHITECTURE.md are canonical. Translations under `docs/R
 | 🇮🇹 Italiano | AI-assisted, awaiting native-speaker review |
 | 🇮🇱 עברית | AI-assisted (RTL marked), awaiting native-speaker review |
 
-If you're a native speaker, open a PR with attribution — your authorship will be credited in `AUTHORS`.
+If you're a native speaker, open a PR with attribution — your authorship will be credited in `CHANGELOG.md` and in the translation's header.
 
 ## Questions?
 

@@ -125,11 +125,11 @@ claude plugin install anticipating-shadow-points@anticipating-shadow-points
 
 **Maintainer**: [Carlos Ulisses Flores](https://ulissesflores.com) — CTO & Chief Researcher at Codex Hash Research Laboratory · São Paulo, Brazil · [ORCID `0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · [Lattes `6905246706890561`](http://lattes.cnpq.br/6905246706890561) · [@ulissesflores](https://github.com/ulissesflores)
 
-**Languages**: 🇬🇧 English · 🇧🇷 [Português](docs/README.pt) · 🇪🇸 [Español](docs/README.es) · 🇮🇹 [Italiano](docs/README.it) · 🇮🇱 [עברית](docs/README.he)
+**Languages**: 🇬🇧 English · 🇧🇷 [Português](README.pt-BR) · 🇪🇸 [Español](README.es) · 🇮🇹 [Italiano](README.it) · 🇮🇱 [עברית](README.he)
 
 **Deep dive**: [ARCHITECTURE.md](docs/ARCHITECTURE) — 10-part SOTA design document (academic background, architectural journey, empirical discoveries, derivation of all 12 Iron Laws).
 
-**Cite this work**: [CITATION.cff](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/CITATION.cff) · **Community**: [Contributing](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/CONTRIBUTING.md) · [Code of Conduct](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/CODE_OF_CONDUCT.md) · [Security](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/SECURITY.md) · [Changelog](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/CHANGELOG.md)
+**Cite this work**: [CITATION.cff](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/CITATION.cff) · **Community**: [Contributing](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/.github/CONTRIBUTING.md) · [Code of Conduct](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/.github/CODE_OF_CONDUCT.md) · [Security](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/.github/SECURITY.md) · [Changelog](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/CHANGELOG.md)
 
 **License**: code MIT · papers, figures and data CC BY 4.0
 

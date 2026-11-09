@@ -8,6 +8,7 @@ author's machine, and keep the self-hosted marketplace pointing at it.
 from __future__ import annotations
 
 import json
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,14 +18,27 @@ INERT = {".md", ".json", ".svg"}
 
 
 def _payload() -> list[Path]:
-    """List every file an install of the plugin copies.
+    """List every file an install of the plugin copies: the ones git tracks in its folder.
+
+    Untracked local files (``.DS_Store`` from Finder, editor backups) never reach an install, so
+    they are left out; without git the folder is read from disk.
 
     Returns
     -------
     list of Path
         Files under the plugin folder, sorted.
     """
-    return sorted(p for p in PLUGIN.rglob("*") if p.is_file())
+    try:
+        out = subprocess.run(
+            ["git", "ls-files", "-z", "--", str(PLUGIN.relative_to(ROOT))],
+            cwd=ROOT,
+            capture_output=True,
+            check=True,
+        ).stdout.decode()
+        files = [ROOT / name for name in out.split("\0") if name]
+    except (OSError, subprocess.CalledProcessError):
+        files = [p for p in PLUGIN.rglob("*") if p.is_file()]
+    return sorted(files)
 
 
 def test_payload_is_inert():

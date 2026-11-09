@@ -7,7 +7,6 @@ set -u
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SKILL_SRC="$REPO_DIR/plugins/anticipating-shadow-points/skills/anticipating-shadow-points"
-DOCS_DIR="$REPO_DIR/docs"
 TESTS_DIR="$REPO_DIR/tests"
 SCRIPTS_DIR="$REPO_DIR/scripts"
 HOME_SKILL="$HOME/.claude/skills/anticipating-shadow-points"
@@ -107,8 +106,8 @@ check "14b. uninstall.sh syntax valid" \
     "bash -n '$SCRIPTS_DIR/uninstall.sh'"
 
 # 15. 5 READMEs present (EN + 4 translations)
-check "15. README.md + 4 docs/README.{es,pt,it,he}.md present" \
-    "[ -f '$REPO_DIR/README.md' ] && [ -f '$DOCS_DIR/README.es.md' ] && [ -f '$DOCS_DIR/README.pt.md' ] && [ -f '$DOCS_DIR/README.it.md' ] && [ -f '$DOCS_DIR/README.he.md' ]"
+check "15. README.md + 4 translations README.{pt-BR,es,it,he}.md present" \
+    "[ -f '$REPO_DIR/README.md' ] && [ -f '$REPO_DIR/README.pt-BR.md' ] && [ -f '$REPO_DIR/README.es.md' ] && [ -f '$REPO_DIR/README.it.md' ] && [ -f '$REPO_DIR/README.he.md' ]"
 
 # 16. /goal pre-flight probe file exists (or is scheduled — accept either)
 check "16. tests/goal-invocability-probe.md present OR scheduled-for-creation" \

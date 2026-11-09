@@ -4,10 +4,10 @@
 
 title: ASP — Anticipating Shadow Points
 description: >-
-  Claude Code skill: 13-phase planning protocol combining Klein pre-mortem,
-  Berkeley MAST 14-mode failure detection, independent validator subagent,
-  contractual TaskCreate micro-TODO, and claude -p /goal subprocess execution.
-  12 Iron Laws. Multilingual docs (EN/ES/PT/IT/HE). MIT.
+  Claude Code plugin that plans before it codes: research, a pre-mortem against
+  the MAST failure modes, an independently checked plan and tasks with acceptance
+  tests; plus a replication package for its two technical reports. Code MIT;
+  papers, figures and data CC BY 4.0.
 
 # Remote theme: just-the-docs — SOTA for OSS technical docs on GitHub Pages.
 # https://just-the-docs.com
@@ -24,8 +24,7 @@ source: .
 # Files/dirs Jekyll should NOT process or serve.
 exclude:
   - .claude-plugin/         # plugin manifest (not user-facing)
-  - skills/                 # skill internals are documented in ARCHITECTURE
-  - commands/               # ditto
+  - plugins/                # the plugin's own Markdown; its README is linked from the home page
   - scripts/                # install/uninstall/verify
   - tests/                  # evidence and probes — accessible via repo, not Pages
   - .github/
@@ -61,7 +60,7 @@ aux_links:
 aux_links_new_tab: true
 
 footer_content: >-
-  ASP — MIT License — built and validated 2026-05-17 —
+  ASP — code MIT, papers and data CC BY 4.0 —
   <a href="https://github.com/ulissesflores/anticipating-shadow-points">GitHub</a>
 
 # Back-to-top link

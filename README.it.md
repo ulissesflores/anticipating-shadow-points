@@ -1,27 +1,20 @@
----
-title: "Italiano"
-layout: default
-parent: Translations
-nav_order: 3
----
-
 <div align="center">
 
-<img src="../assets/icon.svg" width="96" alt="Icona di ASP: un sole basso color ambra che proietta una lunga ombra su un orizzonte">
+<img src="assets/icon.svg" width="96" alt="Icona di ASP: un sole basso color ambra che proietta una lunga ombra su un orizzonte">
 
 # ASP — Anticipating Shadow Points
 
 **Un plugin per Claude Code che fa scrivere all'agente il post-mortem prima del codice, e un livello di replicazione che ri-deriva ogni numero che pubblichiamo al riguardo.**
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
-[![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](../LICENSE)
-[![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](../LICENSES/CC-BY-4.0.txt)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](../pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-85_passing-brightgreen.svg)](../tests/)
-[![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](../output/hash-chain.md)
+[![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
+[![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](LICENSES/CC-BY-4.0.txt)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
+[![tests](https://img.shields.io/badge/tests-88_passing-brightgreen.svg)](tests/)
+[![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](output/hash-chain.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#installazione)
 
-[English](../README.md) · [Português (BR)](README.pt.md) · [Español](README.es.md) · Italiano (questo file) · [עברית](README.he.md)
+[English](README.md) · [Português (Brasil)](README.pt-BR.md) · [Español](README.es.md) · **Italiano** · [עברית](README.he.md)
 
 *Traduzione dal README inglese della v2.0.0; il file inglese è canonico.*
 
@@ -32,14 +25,21 @@ nav_order: 3
 > [!IMPORTANT]
 > **Risultato: un rifiuto garbato esce con 0.** `claude -p` restituisce exit code 0 quando l'agente rifiuta con garbo il compito, senza alcun flag di rifiuto leggibile da macchina nell'envelope JSON. Su una suite fissa di 50 prompt pensati per provocare rifiuti (Claude Code 2.1.200, luglio 2026), **24 su 50 sono terminati con exit 0, tutti con `stop_reason: end_turn`**, e **da 12 a 20 di questi erano rifiuti**: dal 24% al 40% della suite, a seconda di come si conta un rifiuto. Un wrapper di shell che si fida di `$?` li legge tutti come successi.
 >
-> **Non ancora misurato: se ASP migliora i piani.** L'autore lo ha osservato senza procedura in cieco su cinque compiti a maggio 2026, e quelle trascrizioni non sono state conservate. La cifra «80% contro 4%» delle versioni precedenti derivava dal punteggio di fixture scritte dall'autore per testare il matcher, non da output di modelli; è ritirata come evidenza. Un benchmark reale è pianificato, pre-specificato in [`PREREGISTRATION.md`](../PREREGISTRATION.md), non ancora depositato.
+> **Non ancora misurato: se ASP migliora i piani.** L'autore lo ha osservato senza procedura in cieco su cinque compiti a maggio 2026, e quelle trascrizioni non sono state conservate. La cifra «80% contro 4%» delle versioni precedenti derivava dal punteggio di fixture scritte dall'autore per testare il matcher, non da output di modelli; è ritirata come evidenza. Un benchmark reale è pianificato, pre-specificato in [`PREREGISTRATION.md`](PREREGISTRATION.md), non ancora depositato.
 
-Paper: [*ASP: an operational pre-mortem skill for LLM coding agents*](../paper/asp-preprint.md) · [*Graceful refusals as unsignalled failures*](../paper/graceful-refusals.md). Entrambi sono rapporti tecnici, non sottoposti a peer review. Le edizioni PDF e DOCX in inglese, portoghese, spagnolo e italiano sono in [`docs/paper/`](paper/), con lo SHA-256 di ciascuna in [`paper/PAPER-SHA256.txt`](../paper/PAPER-SHA256.txt).
+## Gli articoli
+
+| Articolo | DOI | PDF (DOCX accanto) |
+|---|---|---|
+| *ASP: an operational pre-mortem skill for LLM coding agents*, whitepaper, versione 2.2 | [10.5281/zenodo.24065969](https://doi.org/10.5281/zenodo.24065969) | [en](docs/paper/asp-preprint.en.pdf) · [pt-BR](docs/paper/asp-preprint.pt-BR.pdf) · [es](docs/paper/asp-preprint.es.pdf) · [it](docs/paper/asp-preprint.it.pdf) |
+| *Graceful refusals as unsignalled failures*, nota tecnica, versione 2.3 | [10.5281/zenodo.24065935](https://doi.org/10.5281/zenodo.24065935) | [en](docs/paper/graceful-refusals.en.pdf) · [pt-BR](docs/paper/graceful-refusals.pt-BR.pdf) · [es](docs/paper/graceful-refusals.es.pdf) · [it](docs/paper/graceful-refusals.it.pdf) |
+
+Entrambi sono rapporti tecnici, non sottoposti a revisione paritaria, ciascuno con un proprio record su Zenodo. I sorgenti Markdown sono in [`paper/`](paper/) e lo SHA-256 di ogni edizione in [`paper/PAPER-SHA256.txt`](paper/PAPER-SHA256.txt). I lettori di ebraico possono usare l'edizione inglese.
 
 ## Cosa apporta questo lavoro
 
 1. **Un protocollo di pianificazione installabile.** Tredici fasi: ricerca, un pre-mortem di Klein forzato attraverso le 14 modalità di fallimento multi-agente MAST, un subagente validatore indipendente, un contratto di task con test di accettazione e una chiusura con sign-off dei deliverable. Dodici «Iron Laws» impediscono all'agente di saltare passaggi.
-2. **Un fallimento misurato in un pattern comune degli harness.** `claude -p` termina con exit 0 su un rifiuto garbato. La misura, le sue quattro letture e una ricetta di parsing difensivo sono in [`paper/graceful-refusals.md`](../paper/graceful-refusals.md); la ricetta è integrata nella fase di esecuzione della skill.
+2. **Un fallimento misurato in un pattern comune degli harness.** `claude -p` termina con exit 0 su un rifiuto garbato. La misura, le sue quattro letture e una ricetta di parsing difensivo sono in [`paper/graceful-refusals.md`](paper/graceful-refusals.md); la ricetta è integrata nella fase di esecuzione della skill.
 3. **Ogni numero pubblicato come test.** `python run_all.py` ri-deriva i numeri dai dati committati, verifica ciascuno con un'asserzione e sigilla codice, test, dati e risultati sotto un unico chain hash SHA-256.
 
 ## In sintesi
@@ -57,9 +57,9 @@ Paper: [*ASP: an operational pre-mortem skill for LLM coding agents*](../paper/a
 
 | Replicare ogni numero offline | Il fallimento, da evidenza registrata |
 |---|---|
-| ![run_all.py ri-deriva i risultati, esegue i test e verifica il sigillo SHA-256](../assets/demo/replicate.gif) | ![Una prova registrata di luglio 2026: l'agente rifiuta, l'exit code è 0, stop_reason è end_turn](../assets/demo/exit-code.gif) |
+| ![run_all.py ri-deriva i risultati, esegue i test e verifica il sigillo SHA-256](assets/demo/replicate.gif) | ![Una prova registrata di luglio 2026: l'agente rifiuta, l'exit code è 0, stop_reason è end_turn](assets/demo/exit-code.gif) |
 
-Entrambi sono riproduzioni di file committati, scriptate con [vhs](https://github.com/charmbracelet/vhs) in [`assets/demo/`](../assets/demo/). Nessuno chiama un modello.
+Entrambi sono riproduzioni di file committati, scriptate con [vhs](https://github.com/charmbracelet/vhs) in [`assets/demo/`](assets/demo/). Nessuno chiama un modello.
 
 ## Avvio rapido
 
@@ -71,6 +71,30 @@ claude plugin install anticipating-shadow-points@anticipating-shadow-points
 ```
 
 Poi, in qualsiasi sessione di Claude Code: `/anticipating-shadow-points:asp <your task>`. Flag di profondità: `--quick` (nessun validatore, nessuna esecuzione autonoma), `--standard` (predefinito), `--paranoid`.
+
+Che cosa fa il plugin sulla tua macchina è descritto nel [suo README](plugins/anticipating-shadow-points/README.md).
+
+Tre modi per installarlo:
+
+| Percorso | Comando | Invocazione |
+|---|---|---|
+| Marketplace dei plugin (consigliato) | i due comandi sopra | `/anticipating-shadow-points:asp` |
+| Solo per la sessione, da un clone | `claude --plugin-dir /path/to/anticipating-shadow-points/plugins/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
+| Script standalone | `./scripts/verify.sh --pre-install && ./scripts/install.sh` | `/asp` |
+
+<details>
+<summary><b>Risoluzione dei problemi</b></summary>
+
+- **`claude plugin install` fallisce con SSH permission denied.** Il tuo git riscrive gli URL di GitHub in SSH e non hai alcuna chiave registrata. Correzione una tantum: `git config --global url."https://github.com/".insteadOf "git@github.com:"`.
+- **`/asp` funziona ma `/anticipating-shadow-points:asp` no, o viceversa.** Provengono da percorsi di installazione diversi (standalone contro plugin) e possono coesistere.
+- **Il nome del plugin compare due volte (`name@marketplace`).** Il repository è esso stesso il marketplace, quindi le due metà sono la stessa stringa.
+- **La fase autonoma si ferma per un permesso negato.** È voluto. ASP non passa alcun flag di permessi al figlio `claude -p`; tutto ciò che le tue impostazioni non consentono già viene negato in modalità non interattiva, e la skill lo segnala invece di riprovare con più permessi.
+
+</details>
+
+#### Quando ricorrere ad ASP
+
+Usalo per migrazioni, deploy con dipendenze esterne, refactoring su molti file, modifiche alla politica di accesso, decisioni architetturali e indagini sulla causa radice. Evitalo per correzioni di refusi, modifiche di una riga e domande di sola lettura.
 
 ### Replicare i paper
 
@@ -112,7 +136,7 @@ run_all OK: results reproduced, tests passed, provenance verified
 | | | | | **19/50 (38%)** | maggioranza di 5 valutatori in cieco, codebook |
 | | | | | **20/50 (40%)** | etichetta dell'autore |
 
-![Letture dei rifiuti silenziosi con intervalli di Wilson al 95%](../output/figures/fig1_silent_refusal_readings.png)
+![Letture dei rifiuti silenziosi con intervalli di Wilson al 95%](output/figures/fig1_silent_refusal_readings.png)
 
 Le esecuzioni di maggio e luglio differiscono per modello e CLI, quindi il calo dal 60% al 18% con lo stesso rilevatore è un cambiamento dell'oggetto misurato, non un andamento. A luglio, tutte le 24 prove con exit 0 riportavano `stop_reason: end_turn`; l'unico `stop_reason: refusal` era un blocco lato server, ed è terminato con exit 1.
 
@@ -120,10 +144,10 @@ Le esecuzioni di maggio e luglio differiscono per modello e CLI, quindi il calo 
 
 | Evidenza | Che cos'è | Cosa supporta |
 |---|---|---|
-| Lettura dell'autore di 8 piani di subagenti (5 GREEN, 3 RED), 2026-05-17 ([sintesi](../tests/evals-summary.md)) | Giudizio non in cieco rispetto a liste scritte dall'autore; RED intorno al 47%, GREEN intorno al 100%; trascrizioni non conservate | Un'osservazione, non una misura |
+| Lettura dell'autore di 8 piani di subagenti (5 GREEN, 3 RED), 2026-05-17 ([sintesi](tests/evals-summary.md)) | Giudizio non in cieco rispetto a liste scritte dall'autore; RED intorno al 47%, GREEN intorno al 100%; trascrizioni non conservate | Un'osservazione, non una misura |
 | Esecuzione mock del benchmark, 2026-05-18 | Il matcher deterministico che assegna punteggi a fixture scritte dall'autore per esercitarlo: RED 4%, GREEN 80% | Nulla su ASP. Mostra che il matcher discrimina tra i compiti: 80% sulla lista della propria fixture, 0.5% sulle liste di altri compiti |
 
-![Verifica dello strumento sulle fixture costruite](../output/figures/fig2_adjudicator_fixture_check.png)
+![Verifica dello strumento sulle fixture costruite](output/figures/fig2_adjudicator_fixture_check.png)
 
 ## Cosa si afferma e cosa no
 
@@ -132,9 +156,8 @@ Le esecuzioni di maggio e luglio differiscono per modello e CLI, quindi il calo 
 | **Affermato** | `claude -p` è terminato con exit 0 e `stop_reason: end_turn` su rifiuti garbati in due snapshot datati; i conteggi qui sopra derivano in modo deterministico dalle trascrizioni committate; il matcher fornito discrimina tra i compiti su fixture costruite |
 | **Non affermato** | Un tasso di base di fallimento silenzioso nel traffico reale degli agenti (la suite è stata costruita per provocare rifiuti); che il calo dal 60% al 18% sia un andamento; che ASP migliori i piani o i risultati nel mondo reale (non misurato su output di modelli conservati); che i punteggi 80%/4% delle fixture dicano qualcosa su ASP |
 | **Congelato** | Le trascrizioni. I modelli che le hanno prodotte non sono fissati e non possono essere interrogati di nuovo; rieseguire i prompt dà un nuovo snapshot, non una replicazione |
-| **Corretto in questa versione** | Il testo precedente attribuiva l'esecuzione di luglio a «Opus 4.8»; le envelope mostrano Fable 5 come modello di sessione, con Opus 4.8 che ha risposto a 16 prove. Il testo precedente confrontava il conteggio del rilevatore di maggio (60%) con il conteggio manuale di luglio (40%); il confronto a parità di condizioni è 60% contro 18%. Le versioni precedenti presentavano i punteggi del matcher su fixture scritte dall'autore (80% contro 4%) come una lettura di dieci trascrizioni di modelli; l'esecuzione è un'esecuzione mock, e l'affermazione è ritirata. Un titolo di riferimento per l'issue GitHub #15685 era stato inventato ed è ora quello reale. L'etichetta «pre-registrato» sull'esecuzione di maggio è stata ritirata a luglio 2026 |
 
-Metodo completo e limiti: [`REPRODUCIBILITY.md`](../REPRODUCIBILITY.md). La prossima misurazione è pianificata in [`PREREGISTRATION.md`](../PREREGISTRATION.md) (bozza, non ancora depositata).
+Le versioni da 1.0.0 a 1.0.3 (maggio 2026) contenevano affermazioni che la versione 2.0.0 ritira; ognuna è elencata nel [CHANGELOG](CHANGELOG.md). Metodo completo e limiti: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). La prossima misurazione è pianificata in [`PREREGISTRATION.md`](PREREGISTRATION.md) (bozza, non ancora depositata).
 
 ## Integrità
 
@@ -147,28 +170,6 @@ python3 make_provenance.py --verify
 Richiede solo la libreria standard. La CI lo esegue prima di installare qualsiasi cosa, poi esegue `run_all.py` su Python 3.11 e 3.12.
 
 <a id="install"></a>
-
-## Installazione
-
-| Percorso | Comando | Invocazione |
-|---|---|---|
-| Marketplace dei plugin (consigliato) | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` poi `claude plugin install anticipating-shadow-points@anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
-| Solo per la sessione, da un clone | `claude --plugin-dir /path/to/anticipating-shadow-points/plugins/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
-| Script standalone | `./scripts/verify.sh --pre-install && ./scripts/install.sh` | `/asp` |
-
-<details>
-<summary><b>Risoluzione dei problemi</b></summary>
-
-- **`claude plugin install` fallisce con SSH permission denied.** Il tuo git riscrive gli URL di GitHub in SSH e non hai alcuna chiave registrata. Correzione una tantum: `git config --global url."https://github.com/".insteadOf "git@github.com:"`.
-- **`/asp` funziona ma `/anticipating-shadow-points:asp` no, o viceversa.** Provengono da percorsi di installazione diversi (standalone contro plugin) e possono coesistere.
-- **Il nome del plugin compare due volte (`name@marketplace`).** Il repository è esso stesso il marketplace, quindi le due metà sono la stessa stringa.
-- **La fase autonoma si ferma per un permesso negato.** È voluto. ASP non passa alcun flag di permessi al figlio `claude -p`; tutto ciò che le tue impostazioni non consentono già viene negato in modalità non interattiva, e la skill lo segnala invece di riprovare con più permessi.
-
-</details>
-
-### Quando ricorrere ad ASP
-
-Usalo per migrazioni, deploy con dipendenze esterne, refactoring su molti file, modifiche alla politica di accesso, decisioni architetturali e indagini sulla causa radice. Evitalo per correzioni di refusi, modifiche di una riga e domande di sola lettura.
 
 ## Struttura
 
@@ -184,13 +185,15 @@ tests/                 paper-number and determinism tests; iron-law-11/ holds th
 benchmark/             RED/GREEN benchmark package and its committed May 2026 run
 output/                results.json, hash-chain.md, provenance.json, figures/
 assets/                icon, demo GIFs and their vhs scripts
-docs/                  architecture notes, translations and docs/findings.md
+docs/                  architecture notes and docs/findings.md
+README.*.md            this README in Portuguese (Brazil), Spanish, Italian and Hebrew
+.github/               CI, contributing guide, code of conduct, security policy
 docs/paper/            PDF and DOCX editions of both papers (en, pt-BR, es, it)
 run_all.py             single entry point: results -> figures -> tests -> seal -> verify
 make_provenance.py     build or --verify the SHA-256 chain
 ```
 
-Ulteriori letture: [risultati](findings.md) · [architettura e storia del design](ARCHITECTURE.md) · [la skill e le sue 12 Iron Laws](../plugins/anticipating-shadow-points/skills/anticipating-shadow-points/SKILL.md) · [le 5 valutazioni](../plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/) · [come contribuire](../CONTRIBUTING.md) · [policy di sicurezza](../SECURITY.md) · [changelog](../CHANGELOG.md) · [roadmap](../ROADMAP.md).
+Ulteriori letture: [risultati](docs/findings.md) · [architettura e storia del design](docs/ARCHITECTURE.md) · [la skill e le sue 12 Iron Laws](plugins/anticipating-shadow-points/skills/anticipating-shadow-points/SKILL.md) · [le 5 valutazioni](plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/) · [come contribuire](.github/CONTRIBUTING.md) · [policy di sicurezza](.github/SECURITY.md) · [changelog](CHANGELOG.md) · [roadmap](ROADMAP.md).
 
 ## Autore
 
@@ -200,11 +203,11 @@ Ulteriori letture: [risultati](findings.md) · [architettura e storia del design
 [![Website](https://img.shields.io/badge/web-ulissesflores.com-black.svg)](https://ulissesflores.com)
 [![Lattes](https://img.shields.io/badge/Lattes-6905246706890561-blue.svg)](http://lattes.cnpq.br/6905246706890561)
 
-La sintesi della ricerca, la stesura e gli script di verifica sono stati prodotti con Claude (Anthropic) sotto la direzione dell'autore; ogni numero nei paper è derivato da codice in questo repository. Vedi [`AUTHORS`](../AUTHORS).
+La sintesi della ricerca, la stesura e gli script di verifica sono stati prodotti con Claude (Anthropic) sotto la direzione dell'autore; ogni numero nei paper è derivato da codice in questo repository.
 
 ## Citazione
 
-Cita il **concept DOI** per riferirti ad ASP in generale; si risolve sempre sull'ultima versione. Cita un **version DOI** per fissare i file esatti che hai usato. Il version DOI della v2.0.0 viene emesso al momento del rilascio e sarà elencato qui e in [`CITATION.cff`](../CITATION.cff).
+Cita il **concept DOI** per riferirti ad ASP in generale; si risolve sempre sull'ultima versione. Cita un **version DOI** per fissare i file esatti che hai usato. Il version DOI della v2.0.0 viene emesso al momento del rilascio e sarà elencato qui e in [`CITATION.cff`](CITATION.cff).
 
 ```bibtex
 @software{flores_asp_2026,
@@ -218,11 +221,33 @@ Cita il **concept DOI** per riferirti ad ASP in generale; si risolve sempre sull
 }
 ```
 
-Il pulsante «Cite this repository» di GitHub legge [`CITATION.cff`](../CITATION.cff), che elenca anche i riferimenti metodologici da citare insieme ad ASP.
+Per citare un articolo, usa il suo DOI:
+
+```bibtex
+@techreport{flores_asp_report_2026,
+  author      = {Flores, Carlos Ulisses},
+  title       = {ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report},
+  year        = {2026},
+  institution = {Codex Hash Research Laboratory},
+  type        = {Whitepaper, version 2.2},
+  doi         = {10.5281/zenodo.24065969}
+}
+
+@techreport{flores_graceful_refusals_2026,
+  author      = {Flores, Carlos Ulisses},
+  title       = {Graceful Refusals as Unsignalled Failures: Characterising claude -p Exit-Code Semantics on Agent Declines},
+  year        = {2026},
+  institution = {Codex Hash Research Laboratory},
+  type        = {Technical note, version 2.3},
+  doi         = {10.5281/zenodo.24065935}
+}
+```
+
+Il pulsante «Cite this repository» di GitHub legge [`CITATION.cff`](CITATION.cff), che elenca anche i riferimenti metodologici da citare insieme ad ASP.
 
 ## Licenza
 
-Codice sotto [MIT](../LICENSE). Paper, figure, dati e testo sotto [CC BY 4.0](../LICENSES/CC-BY-4.0.txt). La mappa file per file è in [`NOTICE`](../NOTICE).
+Codice sotto [MIT](LICENSE). Paper, figure, dati e testo sotto [CC BY 4.0](LICENSES/CC-BY-4.0.txt). La mappa file per file è in [`NOTICE`](NOTICE).
 
 ## Riferimenti di ancoraggio
 

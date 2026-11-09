@@ -1,4 +1,17 @@
+<div align="center">
+
+<img src="assets/icon.svg" width="96" alt="ASP icon: a low amber sun casting a long shadow over a horizon">
+
 # Anticipating Shadow Points (ASP)
+
+**A Claude Code plugin that makes the agent write the post-mortem before it writes the code.**
+
+[![Version 2.0.0](https://img.shields.io/badge/version-2.0.0-blue.svg)](.claude-plugin/plugin.json)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
+[![Markdown only](https://img.shields.io/badge/ships-Markdown%20only-lightgrey.svg)](#what-it-does-on-your-machine)
+
+</div>
 
 **Plan before you code.** ASP is a Claude Code plugin for tasks where a wrong first move is expensive: a migration, a deploy, a permissions change, a refactor across many files, a bug whose cause is not yet known. Before any code is written it makes Claude:
 
@@ -45,12 +58,24 @@ The pre-mortem and the independent check rest on published evidence: prospective
 
 ## Learn more
 
-- Repository, replication package and DOI: <https://github.com/ulissesflores/anticipating-shadow-points>
-- *ASP: an operational pre-mortem skill for LLM coding agents* (technical report)
-- *Graceful refusals as unsignalled failures* (technical report on the `claude -p` exit code)
+- Repository and replication package: <https://github.com/ulissesflores/anticipating-shadow-points>
+- *ASP: an operational pre-mortem skill for LLM coding agents*, whitepaper: <https://doi.org/10.5281/zenodo.24065969>
+- *Graceful refusals as unsignalled failures*, technical note on the `claude -p` exit code: <https://doi.org/10.5281/zenodo.24065935>
 
-Both reports are in the repository's `paper/` folder, with PDF editions in English, Portuguese, Spanish and Italian.
+Both reports come in English, Portuguese, Spanish and Italian.
+
+## Author
+
+**Carlos Ulisses Flores** — Codex Hash Research Laboratory, São Paulo, Brazil.
+
+[![ORCID](https://img.shields.io/badge/ORCID-0000--0002--6034--7765-a6ce39.svg)](https://orcid.org/0000-0002-6034-7765)
+[![Website](https://img.shields.io/badge/web-ulissesflores.com-black.svg)](https://ulissesflores.com)
+[![Lattes](https://img.shields.io/badge/Lattes-6905246706890561-blue.svg)](http://lattes.cnpq.br/6905246706890561)
+
+## Citation
+
+Cite the plugin and its replication package by the concept DOI, which always opens the newest release: [10.5281/zenodo.20276631](https://doi.org/10.5281/zenodo.20276631). The two reports have their own DOIs: [10.5281/zenodo.24065969](https://doi.org/10.5281/zenodo.24065969) (how ASP works) and [10.5281/zenodo.24065935](https://doi.org/10.5281/zenodo.24065935) (the `claude -p` exit code). BibTeX is in the [repository README](https://github.com/ulissesflores/anticipating-shadow-points#citation).
 
 ## License
 
-MIT. See [LICENSE](LICENSE). Author: Carlos Ulisses Flores ([ORCID 0000-0002-6034-7765](https://orcid.org/0000-0002-6034-7765)).
+MIT. See [LICENSE](LICENSE).

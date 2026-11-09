@@ -10,11 +10,11 @@
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-85_passing-brightgreen.svg)](tests/)
+[![tests](https://img.shields.io/badge/tests-88_passing-brightgreen.svg)](tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](output/hash-chain.md)
-[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#install)
+[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](plugins/anticipating-shadow-points/)
 
-English (this file) · [Português (BR)](docs/README.pt.md) · [Español](docs/README.es.md) · [Italiano](docs/README.it.md) · [עברית](docs/README.he.md)
+**English** · [Português (Brasil)](README.pt-BR.md) · [Español](README.es.md) · [Italiano](README.it.md) · [עברית](README.he.md)
 
 </div>
 
@@ -23,7 +23,14 @@ English (this file) · [Português (BR)](docs/README.pt.md) · [Español](docs/R
 >
 > **Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. The "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs; it is withdrawn as evidence. A real benchmark is planned, pre-specified in [`PREREGISTRATION.md`](PREREGISTRATION.md), not yet deposited.
 
-Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp-preprint.md) ([doi:10.5281/zenodo.24065969](https://doi.org/10.5281/zenodo.24065969)) · [*Graceful refusals as unsignalled failures*](paper/graceful-refusals.md) ([doi:10.5281/zenodo.24065935](https://doi.org/10.5281/zenodo.24065935)). Each paper is its own Zenodo record. Both are technical reports, not peer-reviewed. PDF and DOCX editions in English, Portuguese, Spanish and Italian are in [`docs/paper/`](docs/paper/), with their SHA-256 in [`paper/PAPER-SHA256.txt`](paper/PAPER-SHA256.txt).
+## The papers
+
+| Paper | DOI | PDF (DOCX alongside) |
+|---|---|---|
+| *ASP: an operational pre-mortem skill for LLM coding agents*, whitepaper, version 2.2 | [10.5281/zenodo.24065969](https://doi.org/10.5281/zenodo.24065969) | [en](docs/paper/asp-preprint.en.pdf) · [pt-BR](docs/paper/asp-preprint.pt-BR.pdf) · [es](docs/paper/asp-preprint.es.pdf) · [it](docs/paper/asp-preprint.it.pdf) |
+| *Graceful refusals as unsignalled failures*, technical note, version 2.3 | [10.5281/zenodo.24065935](https://doi.org/10.5281/zenodo.24065935) | [en](docs/paper/graceful-refusals.en.pdf) · [pt-BR](docs/paper/graceful-refusals.pt-BR.pdf) · [es](docs/paper/graceful-refusals.es.pdf) · [it](docs/paper/graceful-refusals.it.pdf) |
+
+Both are technical reports, not peer-reviewed, each with its own Zenodo record. The Markdown sources are in [`paper/`](paper/) and the SHA-256 of every edition in [`paper/PAPER-SHA256.txt`](paper/PAPER-SHA256.txt). Hebrew readers are served by the English edition.
 
 ## What this contributes
 
@@ -60,7 +67,29 @@ claude plugin marketplace add ulissesflores/anticipating-shadow-points
 claude plugin install anticipating-shadow-points@anticipating-shadow-points
 ```
 
-Then, in any Claude Code session: `/anticipating-shadow-points:asp <your task>`. Depth flags: `--quick` (no validator, no autonomous execution), `--standard` (default), `--paranoid`.
+Then, in any Claude Code session: `/anticipating-shadow-points:asp <your task>`. Depth flags: `--quick` (no validator, no autonomous execution), `--standard` (default), `--paranoid`. What the plugin does on your machine is in [its README](plugins/anticipating-shadow-points/README.md).
+
+Three ways to install:
+
+| Path | Command | Invoke |
+|---|---|---|
+| Plugin marketplace (recommended) | the two commands above | `/anticipating-shadow-points:asp` |
+| Session only, from a clone | `claude --plugin-dir /path/to/anticipating-shadow-points/plugins/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
+| Standalone script | `./scripts/verify.sh --pre-install && ./scripts/install.sh` | `/asp` |
+
+<details>
+<summary><b>Troubleshooting</b></summary>
+
+- **`claude plugin install` fails with SSH permission denied.** Your git rewrites GitHub URLs to SSH and you have no key registered. One-time fix: `git config --global url."https://github.com/".insteadOf "git@github.com:"`.
+- **`/asp` works but `/anticipating-shadow-points:asp` does not, or the reverse.** They come from different install paths (standalone vs plugin) and can coexist.
+- **The plugin name appears twice (`name@marketplace`).** The repository is its own marketplace, so both halves are the same string.
+- **The autonomous phase stops on a permission denial.** By design. ASP passes no permission flag to the `claude -p` child; anything your settings do not already allow is denied in non-interactive mode, and the skill reports it instead of retrying with more permission.
+
+</details>
+
+#### When to reach for ASP
+
+Use it for migrations, deploys with external dependencies, refactors across many files, changes to access policy, architecture decisions and root-cause investigations. Skip it for typo fixes, one-line edits and read-only questions.
 
 ### Replicate the papers
 
@@ -122,9 +151,8 @@ The May and July runs differ in model, CLI and reply language (11 of July's 20 d
 | **Claimed** | `claude -p` exited 0 with `stop_reason: end_turn` on graceful declines in two dated snapshots; the counts above follow deterministically from the committed transcripts; the shipped matcher discriminates between tasks on constructed fixtures |
 | **Not claimed** | A base rate of silent failure in real agent traffic (the suite was built to provoke declines); that the 60% to 18% drop is a trend; that ASP improves plans or real-world outcomes (not measured on preserved model output); that the 80%/4% fixture scores say anything about ASP |
 | **Frozen** | The transcripts. The models that produced them are not pinned and cannot be re-queried; re-running the prompts gives a new snapshot, not a replication |
-| **Corrected in this version** | Earlier text attributed the July run to "Opus 4.8"; the envelopes show Fable 5 as session model, with Opus 4.8 answering 16 trials. Earlier text compared May's detector count (60%) with July's manual count (40%); under the same detector it is 60% vs 18%, still not like for like because the detector is English-only and July replied partly in Portuguese. Earlier versions presented the matcher's scores on author-written fixtures (80% vs 4%) as a reading of ten model transcripts; the run is a mock run, and the claim is withdrawn. A reference title for GitHub issue #15685 had been invented and is now the real one. The "pre-registered" label on the May run was withdrawn in July 2026 |
 
-Full method and limits: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). The next measurement is planned in [`PREREGISTRATION.md`](PREREGISTRATION.md) (draft, not yet deposited).
+Versions 1.0.0 to 1.0.3 (May 2026) made claims that version 2.0.0 withdraws; each one is listed in the [CHANGELOG](CHANGELOG.md). Full method and limits: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). The next measurement is planned in [`PREREGISTRATION.md`](PREREGISTRATION.md) (draft, not yet deposited).
 
 ## Integrity
 
@@ -135,28 +163,6 @@ python3 make_provenance.py --verify
 ```
 
 It needs only the standard library. CI runs it before installing anything, then runs `run_all.py` on Python 3.11 and 3.12.
-
-## Install
-
-| Path | Command | Invoke |
-|---|---|---|
-| Plugin marketplace (recommended) | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` then `claude plugin install anticipating-shadow-points@anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
-| Session only, from a clone | `claude --plugin-dir /path/to/anticipating-shadow-points/plugins/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
-| Standalone script | `./scripts/verify.sh --pre-install && ./scripts/install.sh` | `/asp` |
-
-<details>
-<summary><b>Troubleshooting</b></summary>
-
-- **`claude plugin install` fails with SSH permission denied.** Your git rewrites GitHub URLs to SSH and you have no key registered. One-time fix: `git config --global url."https://github.com/".insteadOf "git@github.com:"`.
-- **`/asp` works but `/anticipating-shadow-points:asp` does not, or the reverse.** They come from different install paths (standalone vs plugin) and can coexist.
-- **The plugin name appears twice (`name@marketplace`).** The repository is its own marketplace, so both halves are the same string.
-- **The autonomous phase stops on a permission denial.** By design. ASP passes no permission flag to the `claude -p` child; anything your settings do not already allow is denied in non-interactive mode, and the skill reports it instead of retrying with more permission.
-
-</details>
-
-### When to reach for ASP
-
-Use it for migrations, deploys with external dependencies, refactors across many files, changes to access policy, architecture decisions and root-cause investigations. Skip it for typo fixes, one-line edits and read-only questions.
 
 ## Layout
 
@@ -172,13 +178,15 @@ tests/                 paper-number and determinism tests; iron-law-11/ holds th
 benchmark/             RED/GREEN benchmark package and its committed May 2026 run
 output/                results.json, hash-chain.md, provenance.json, figures/
 assets/                icon, demo GIFs and their vhs scripts
-docs/                  architecture notes, translations and docs/findings.md
+docs/                  architecture notes and docs/findings.md
+README.*.md            this README in Portuguese (Brazil), Spanish, Italian and Hebrew
+.github/               CI, contributing guide, code of conduct, security policy
 docs/paper/            PDF and DOCX editions of both papers (en, pt-BR, es, it)
 run_all.py             single entry point: results -> figures -> tests -> seal -> verify
 make_provenance.py     build or --verify the SHA-256 chain
 ```
 
-Further reading: [findings](docs/findings.md) · [architecture and design history](docs/ARCHITECTURE.md) · [the skill and its 12 Iron Laws](plugins/anticipating-shadow-points/skills/anticipating-shadow-points/SKILL.md) · [the 5 evaluations](plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/) · [contributing](CONTRIBUTING.md) · [security policy](SECURITY.md) · [changelog](CHANGELOG.md) · [roadmap](ROADMAP.md).
+Further reading: [findings](docs/findings.md) · [architecture and design history](docs/ARCHITECTURE.md) · [the skill and its 12 Iron Laws](plugins/anticipating-shadow-points/skills/anticipating-shadow-points/SKILL.md) · [the 5 evaluations](plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/) · [contributing](.github/CONTRIBUTING.md) · [security policy](.github/SECURITY.md) · [changelog](CHANGELOG.md) · [roadmap](ROADMAP.md).
 
 ## Author
 
@@ -188,7 +196,7 @@ Further reading: [findings](docs/findings.md) · [architecture and design histor
 [![Website](https://img.shields.io/badge/web-ulissesflores.com-black.svg)](https://ulissesflores.com)
 [![Lattes](https://img.shields.io/badge/Lattes-6905246706890561-blue.svg)](http://lattes.cnpq.br/6905246706890561)
 
-Research synthesis, drafting and verification scripts were produced with Claude (Anthropic) under the author's direction; every measured number in the papers is derived by code in this repository. See [`AUTHORS`](AUTHORS).
+Research synthesis, drafting and verification scripts were produced with Claude (Anthropic) under the author's direction; every measured number in the papers is derived by code in this repository.
 
 ## Citation
 
