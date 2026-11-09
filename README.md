@@ -5,7 +5,7 @@
   <img src="assets/brand/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. Plan before you code.">
 </picture>
 
-<h3>Your coding agent writes the post-mortem before it writes the code.</h3>
+<h3>A pre-mortem for your coding agent, and a measured test of whether it helps.</h3>
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
@@ -25,7 +25,7 @@
   <img src="assets/brand/phases-light.svg" width="100%" alt="The ASP protocol in six stages: research, pre-mortem, plan and independent check, your approval, execution, sign-off">
 </picture>
 
-<p align="center"><b>Find the failure before it finds you.</b> Install in Claude Code:</p>
+<p align="center">Install in Claude Code:</p>
 
 ```text
 /plugin marketplace add ulissesflores/anticipating-shadow-points

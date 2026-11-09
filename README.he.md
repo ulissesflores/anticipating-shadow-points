@@ -7,7 +7,7 @@
   <img src="assets/brand/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. תכננו לפני שאתם כותבים קוד.">
 </picture>
 
-<h3>סוכן הקוד שלך כותב את ה-post-mortem לפני שהוא כותב את הקוד.</h3>
+<h3>‏pre-mortem לסוכן הקוד שלך, ומבחן מדוד של האם הוא עוזר.</h3>
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
@@ -29,7 +29,7 @@
   <img src="assets/brand/phases-light.svg" width="100%" alt="פרוטוקול ASP בשישה שלבים: מחקר, post-mortem מקדים, תוכנית ובדיקה עצמאית, האישור שלך, ביצוע, אישור תוצרים">
 </picture>
 
-<p align="center"><b>מצאו את הכשל לפני שהוא ימצא אתכם.</b> התקנה ב-Claude Code:</p>
+<p align="center">התקנה ב-Claude Code:</p>
 
 ```text
 /plugin marketplace add ulissesflores/anticipating-shadow-points

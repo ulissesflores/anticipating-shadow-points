@@ -5,7 +5,7 @@
   <img src="assets/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. Plan before you code.">
 </picture>
 
-<h3>Your coding agent writes the post-mortem before it writes the code.</h3>
+<h3>A pre-mortem for your coding agent, and a measured test of whether it helps.</h3>
 
 [![Version 2.0.0](https://img.shields.io/badge/version-2.0.0-blue.svg)](.claude-plugin/plugin.json)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
