@@ -385,7 +385,7 @@ def wrap(fonts: Fonts, face: str, text: str, size: float, width: float) -> list[
 
 
 def plan_card(fonts: Fonts, theme: str) -> str:
-    """Return a readable card of the recorded ``/asp`` reply: its eight shadow points and the riskiest.
+    """Return a readable card of the recorded ``/asp`` reply: its shadow points and the riskiest.
 
     The cells are copied from ``assets/demo/asp-plan/result.md`` (only the code backticks are
     dropped), so the card cannot drift from the recorded reply.
