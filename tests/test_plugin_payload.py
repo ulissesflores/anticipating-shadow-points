@@ -88,3 +88,10 @@ def test_icon_copies_match():
     """The README icon and the plugin icon are the same file."""
     root_icon = (ROOT / "assets" / "icon.svg").read_bytes()
     assert (PLUGIN / "assets" / "icon.svg").read_bytes() == root_icon
+
+
+def test_commands_pre_approve_no_tools():
+    """No command grants tools without a prompt: every action goes through the user's settings."""
+    for cmd in (PLUGIN / "commands").glob("*.md"):
+        head = cmd.read_text(encoding="utf-8").split("---")[1]
+        assert "allowed-tools" not in head, cmd.name

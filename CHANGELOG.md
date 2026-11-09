@@ -7,6 +7,16 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed (plugin, after the v2.0.0 release)
+- **`/asp` no longer pre-approves tools.** The command's `allowed-tools` line,
+  which granted Bash, Write, Edit and Skill without a prompt, is removed: every
+  action now goes through the user's own permission settings, as the skill
+  already promised. The directory's review flagged it as a policy hold. The
+  2026-11 study measured the earlier version, with the line present (skill hash
+  `70ac673c…`, commit `fc448ba`); the protocol text is unchanged.
+- The plugin folder no longer carries the banner SVGs; its README loads them
+  from the repository. Only the icon stays.
+
 ## [2.0.0] — 2026-11-09
 
 ### Measured (2026-11-09)

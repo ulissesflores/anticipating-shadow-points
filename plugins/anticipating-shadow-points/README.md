@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
-  <img src="assets/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. Plan before you code.">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ulissesflores/anticipating-shadow-points/main/assets/brand/banner-dark.svg">
+  <img src="https://raw.githubusercontent.com/ulissesflores/anticipating-shadow-points/main/assets/brand/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. Plan before you code.">
 </picture>
 
 <h3>A pre-mortem for your coding agent, and a measured test of whether it helps.</h3>

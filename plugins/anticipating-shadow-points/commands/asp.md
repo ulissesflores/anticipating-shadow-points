@@ -1,6 +1,5 @@
 ---
 description: "Plan a non-trivial task before coding: research, pre-mortem, independently checked plan, tasks with acceptance tests, execution and sign-off"
-allowed-tools: [Skill, Agent, TaskCreate, TaskUpdate, TaskList, Bash, Read, Grep, Glob, Write, Edit, AskUserQuestion]
 ---
 
 # /asp — Anticipating Shadow Points
