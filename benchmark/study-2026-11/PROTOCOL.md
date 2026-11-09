@@ -154,4 +154,12 @@ Each entry carries the hash of the previous entry, and `python ledger.py verify`
   - The reader now takes the first valid JSON object, and a reply with none is asked again (at most 3 times). No reply was edited.
   - Every trial has exactly one verdict from each judge. The two judges agree on 91.9% of the 855 item decisions.
 - **2026-11-09 12:40 GMT-3: sealing.** The verdicts and `results.json` were chained in the ledger before any interpretation was written. The head is stamped in `analysis-head.txt.ots`. The OpenTimestamps proof of the pre-trial head (`pretrial-head.txt.ots`) is complete, anchored in Bitcoin.
+- **2026-11-09, after the primary result: exploratory, not confirmatory.**
+  - The question came from reading the answers: `GREEN` answers deal with several problems in their assumptions and deliverables, and those do not return to the final table.
+  - The same judge (Gemini) re-read the **whole** answer of every `GREEN` and `RED-risk` trial, with the same reference lists and redaction (`explore_fulltext.py`, `judge/gemini-full/`).
+  - Mean coverage of the table versus the full text:
+    - `GREEN`: 0.481 in the table, 0.659 in the full text;
+    - `RED-risk`: 0.664 in the table, 0.739 in the full text.
+  - The gap shrinks from −0.18 to −0.08, but `GREEN` stays behind on 5 of 6 tasks. It is ahead only on T5, the deploy task (+0.06).
+  - The primary decision is unchanged.
 
