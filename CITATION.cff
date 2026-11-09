@@ -66,7 +66,7 @@ repository-code: "https://github.com/ulissesflores/anticipating-shadow-points"
 url: "https://ulissesflores.github.io/anticipating-shadow-points/"
 license: MIT
 version: 2.0.0
-date-released: 2026-11-08
+date-released: 2026-11-09
 keywords:
   - claude-code
   - agentic-workflow

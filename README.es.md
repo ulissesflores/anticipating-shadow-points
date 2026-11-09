@@ -35,6 +35,9 @@
 /plugin install anticipating-shadow-points@anticipating-shadow-points
 ```
 
+<p align="center"><img src="assets/demo/asp-plan.gif" width="100%" alt="ASP en acción: el pre-mortem de una migración en producción en un repositorio de ejemplo con cuatro archivos, ocho puntos de sombra antes de escribir código"></p>
+<p align="center"><sub>Una ejecución real en un repositorio de ejemplo con cuatro archivos, reproducida: ocho puntos de sombra, y el más riesgoso señalado, antes de una sola línea de código. <a href="assets/demo/asp-plan/">Ejecútalo tú mismo</a>.</sub></p>
+
 > [!IMPORTANT]
 > **Hallazgo: exit 0 no es éxito.** `claude -p` devuelve exit code 0 cuando el agente rechaza amablemente la tarea, sin ninguna marca de rechazo legible por máquina en el sobre JSON. En una suite fija de 50 prompts diseñados para provocar rechazos (Claude Code 2.1.200, julio de 2026), **24 de 50 terminaron con exit code 0, todos ellos con `stop_reason: end_turn`**, y **entre 12 y 20 de esos fueron rechazos**: del 24% al 40% de la suite, según cómo se cuente un rechazo. Un wrapper de shell que confíe en `$?` los lee todos como éxito.
 >

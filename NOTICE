@@ -17,8 +17,9 @@ Typefaces — the brand SVGs carry text converted to outlines from Space Grotesk
 License 1.1. No font file is distributed here.
 
 Data — CC BY 4.0
-  data/, output/results.json, tests/iron-law-11/runs/published/,
-  benchmark/runs/published/. The replies in data/ and tests/iron-law-11/runs/
+  data/, output/results.json, tests/iron-law-11/runs/published/, assets/demo/asp-plan/,
+  benchmark/runs/published/. The replies in data/, tests/iron-law-11/runs/ and
+  assets/demo/asp-plan/result.md
   are outputs of Anthropic models, reproduced for research and verification.
   The texts in benchmark/runs/published/ are author-written fixtures (mock run).
 

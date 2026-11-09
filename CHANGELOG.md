@@ -7,9 +7,9 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## [Unreleased]
 
-## [2.0.0] — 2026-11-08
+## [2.0.0] — 2026-11-09
 
-### Changed (packaging, 2026-11-08)
+### Changed (packaging, 2026-11-08 and 09)
 - **The plugin moved into its own folder**, `plugins/anticipating-shadow-points/`.
   An install, and the plugin directory's review, now cover only Markdown, the
   icon, a README and the licence: no scripts, binaries or test prompts. The

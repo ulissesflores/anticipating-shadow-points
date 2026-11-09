@@ -1,0 +1,17 @@
+{
+  "recorded": "2026-11-09",
+  "claude_code": "2.1.319",
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "plugin": "plugins/anticipating-shadow-points (this repository, version 2.0.0)",
+  "depth": "--quick",
+  "exit_code": 0,
+  "is_error": false,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "num_turns": 5,
+  "duration_ms": 47358,
+  "permission_denials": 0,
+  "configuration": "run inside the author own Claude Code configuration; the sample repository is shop-api/ here"
+}

@@ -35,6 +35,9 @@
 /plugin install anticipating-shadow-points@anticipating-shadow-points
 ```
 
+<p align="center"><img src="assets/demo/asp-plan.gif" width="100%" alt="ASP all'opera: il pre-mortem di una migrazione in produzione su un repository di esempio di quattro file, otto punti d'ombra prima di qualsiasi codice"></p>
+<p align="center"><sub>Un'esecuzione reale su un repository di esempio di quattro file, riprodotta: otto punti d'ombra, e il più rischioso indicato, prima di una sola riga di codice. <a href="assets/demo/asp-plan/">Provalo tu stesso</a>.</sub></p>
+
 > [!IMPORTANT]
 > **Risultato: exit 0 non è successo.** `claude -p` restituisce exit code 0 quando l'agente rifiuta con garbo il compito, senza alcun flag di rifiuto leggibile da macchina nell'envelope JSON. Su una suite fissa di 50 prompt pensati per provocare rifiuti (Claude Code 2.1.200, luglio 2026), **24 su 50 sono terminati con exit 0, tutti con `stop_reason: end_turn`**, e **da 12 a 20 di questi erano rifiuti**: dal 24% al 40% della suite, a seconda di come si conta un rifiuto. Un wrapper di shell che si fida di `$?` li legge tutti come successi.
 >
