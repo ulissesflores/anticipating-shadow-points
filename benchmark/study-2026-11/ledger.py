@@ -104,7 +104,9 @@ def add(kind: str, paths: list[Path]) -> str:
 
 
 def verify() -> bool:
-    """Check every link and every recorded file hash.
+    """Check every link, and that each file matches its latest entry.
+
+    An earlier entry for the same path records a previous version, kept in the git history.
 
     Returns
     -------
@@ -112,16 +114,26 @@ def verify() -> bool:
         True when the chain is intact and every file still has its recorded hash.
     """
     prev, ok, root = GENESIS, True, HERE.parents[1]
-    for entry in entries():
+    all_entries = entries()
+    latest = {e["path"]: e["n"] for e in all_entries}  # a later entry supersedes an earlier one
+    superseded = 0
+    for entry in all_entries:
         if entry["prev"] != prev or link(entry) != entry["hash"]:
             print("broken link at", entry["n"])
             ok = False
         file = root / entry["path"]
-        if not file.exists() or sha256(file) != entry["sha256"]:
+        if latest[entry["path"]] != entry["n"]:
+            superseded += 1  # that version is in the git history of the commit that added it
+        elif not file.exists() or sha256(file) != entry["sha256"]:
             print("changed or missing:", entry["path"])
             ok = False
         prev = entry["hash"]
-    print("ledger head", prev, "OK" if ok else "FAILED")
+    print(
+        "ledger head",
+        prev,
+        f"({len(all_entries)} entries, {superseded} superseded)",
+        "OK" if ok else "FAILED",
+    )
     return ok
 
 
