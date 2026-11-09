@@ -224,7 +224,7 @@ Cui, J., Chiang, W.-L., Stoica, I., & Hsieh, C.-J. (2024). *OR-Bench: An over-re
 
 Dominus, M. J. (2005). *Higher-order Perl: Transforming programs with programs*. Morgan Kaufmann. https://hop.perl.plover.com/book/
 
-Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.2) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.24065969
+Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.3) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.24065969
 
 Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
 
@@ -286,7 +286,7 @@ Zhu, J., Xie, S., Chen, A. L. F., Ding, X., Tang, C., Qi, R., & Fei, Y. (2026). 
 
 **Licenza** Testo, figure e dati: CC BY 4.0. Software complementare: MIT.
 
-**Il progetto ASP.** ASP (Anticipating Shadow Points) è un plugin open source per Claude Code, l'agente di programmazione da riga di comando di Anthropic, che fa elencare all'agente ciò che potrebbe andare storto prima di scrivere codice. Il plugin e il materiale di replicazione stanno in un repository pubblico (Flores, 2026b), un whitepaper descrive come funziona (Flores, 2026a) e questa nota misura da sola una delle sue regole: non fidarsi mai del codice di uscita di `claude -p`. Un terzo articolo riporterà il benchmark specificato nel `PREREGISTRATION.md` del repository, che misurerebbe se ASP migliora i piani di un agente.
+**Il progetto ASP.** ASP (Anticipating Shadow Points) è un plugin open source per Claude Code, l'agente di programmazione da riga di comando di Anthropic, che fa elencare all'agente ciò che potrebbe andare storto prima di scrivere codice. Il plugin e il materiale di replicazione stanno in un repository pubblico (Flores, 2026b), un whitepaper descrive come funziona (Flores, 2026a) e questa nota misura da sola una delle sue regole: non fidarsi mai del codice di uscita di `claude -p`. La Sezione 5.5 del whitepaper riporta la prima misurazione di se ASP migliora i piani di un agente (nessun beneficio misurabile rispetto a una richiesta di una frase di elencare cosa può andare storto); un terzo articolo riporterà lo studio confermativo di quel pre-mortem di una frase.
 
 **DOI.** Un DOI (Digital Object Identifier) è un collegamento permanente a un'opera depositata. Zenodo, un archivio pubblico di ricerca gestito dal CERN, conserva questa nota come record a sé: https://doi.org/10.5281/zenodo.24065935. Il plugin, i dati e il codice formano un altro record (Flores, 2026b), il cui DOI concept, https://doi.org/10.5281/zenodo.20276631, apre sempre la release più recente; la release 2.0.0 è quella che corrisponde a questa nota. Le release di maggio 2026 di quel record (da 1.0.0 a 1.0.3) chiamavano preregistrata l'esecuzione di maggio e precedono i dati di luglio; la release 2.0.0 le sostituisce.
 
