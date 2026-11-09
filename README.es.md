@@ -1,10 +1,11 @@
 <div align="center">
 
-<img src="assets/icon.svg" width="96" alt="Icono de ASP: un sol bajo y ámbar que proyecta una sombra larga sobre un horizonte">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/banner-dark.svg">
+  <img src="assets/brand/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. Planifica antes de programar.">
+</picture>
 
-# ASP — Anticipating Shadow Points
-
-**Un plugin de Claude Code que hace que el agente escriba el post-mortem antes de escribir el código, y una capa de replicación que vuelve a derivar cada número que publicamos sobre él.**
+<h3>Tu agente de código escribe el post-mortem antes de escribir el código.</h3>
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
@@ -22,8 +23,20 @@
 
 </div>
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/phases-dark.svg">
+  <img src="assets/brand/phases-light.svg" width="100%" alt="El protocolo de ASP en seis etapas: investigación, pre-mortem, plan y verificación independiente, tu aprobación, ejecución, aceptación">
+</picture>
+
+<p align="center"><b>Encuentra el fallo antes de que te encuentre a ti.</b> Instálalo en Claude Code:</p>
+
+```text
+/plugin marketplace add ulissesflores/anticipating-shadow-points
+/plugin install anticipating-shadow-points@anticipating-shadow-points
+```
+
 > [!IMPORTANT]
-> **Hallazgo: un rechazo amable sale con 0.** `claude -p` devuelve exit code 0 cuando el agente rechaza amablemente la tarea, sin ninguna marca de rechazo legible por máquina en el sobre JSON. En una suite fija de 50 prompts diseñados para provocar rechazos (Claude Code 2.1.200, julio de 2026), **24 de 50 terminaron con exit code 0, todos ellos con `stop_reason: end_turn`**, y **entre 12 y 20 de esos fueron rechazos**: del 24% al 40% de la suite, según cómo se cuente un rechazo. Un wrapper de shell que confíe en `$?` los lee todos como éxito.
+> **Hallazgo: exit 0 no es éxito.** `claude -p` devuelve exit code 0 cuando el agente rechaza amablemente la tarea, sin ninguna marca de rechazo legible por máquina en el sobre JSON. En una suite fija de 50 prompts diseñados para provocar rechazos (Claude Code 2.1.200, julio de 2026), **24 de 50 terminaron con exit code 0, todos ellos con `stop_reason: end_turn`**, y **entre 12 y 20 de esos fueron rechazos**: del 24% al 40% de la suite, según cómo se cuente un rechazo. Un wrapper de shell que confíe en `$?` los lee todos como éxito.
 >
 > **Aún no medido: si ASP mejora los planes.** El autor lo observó sin cegamiento en cinco tareas en mayo de 2026, y esas transcripciones no se conservaron. La cifra "80% vs 4%" de versiones anteriores salió de puntuar fixtures que el autor escribió para probar el matcher, no salidas de modelos; queda retirada como evidencia. Un benchmark real está planificado, preespecificado en [`PREREGISTRATION.md`](PREREGISTRATION.md), aún no depositado.
 

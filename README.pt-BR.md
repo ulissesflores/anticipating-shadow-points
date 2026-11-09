@@ -1,10 +1,11 @@
 <div align="center">
 
-<img src="assets/icon.svg" width="96" alt="Ícone do ASP: um sol baixo cor de âmbar projetando uma sombra longa sobre o horizonte">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/banner-dark.svg">
+  <img src="assets/brand/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. Planeje antes de codar.">
+</picture>
 
-# ASP — Anticipating Shadow Points
-
-**Um plugin do Claude Code que faz o agente escrever o post-mortem antes de escrever o código, e uma camada de replicação que re-deriva cada número medido que publicamos sobre ele.**
+<h3>Seu agente de código escreve o post-mortem antes de escrever o código.</h3>
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
@@ -20,8 +21,20 @@
 
 </div>
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/phases-dark.svg">
+  <img src="assets/brand/phases-light.svg" width="100%" alt="O protocolo do ASP em seis etapas: pesquisa, pre-mortem, plano e checagem independente, sua aprovação, execução, aceite">
+</picture>
+
+<p align="center"><b>Ache a falha antes que ela ache você.</b> Instale no Claude Code:</p>
+
+```text
+/plugin marketplace add ulissesflores/anticipating-shadow-points
+/plugin install anticipating-shadow-points@anticipating-shadow-points
+```
+
 > [!IMPORTANT]
-> **Achado: uma recusa cortês sai com 0.** O `claude -p` retorna exit code 0 quando o agente recusa a tarefa de forma cortês, sem nenhum sinalizador de recusa legível por máquina no envelope JSON. Em uma suíte fixa de 50 prompts que provocam recusa (Claude Code 2.1.200, julho de 2026), **24 de 50 terminaram com exit 0, todas com `stop_reason: end_turn`**, e **12 a 20 delas foram recusas**: 24% a 40% da suíte, dependendo de como uma recusa é contada. Um wrapper de shell que confia em `$?` lê todas como sucesso.
+> **Achado: exit 0 não é sucesso.** O `claude -p` retorna exit code 0 quando o agente recusa a tarefa de forma cortês, sem nenhum sinalizador de recusa legível por máquina no envelope JSON. Em uma suíte fixa de 50 prompts que provocam recusa (Claude Code 2.1.200, julho de 2026), **24 de 50 terminaram com exit 0, todas com `stop_reason: end_turn`**, e **12 a 20 delas foram recusas**: 24% a 40% da suíte, dependendo de como uma recusa é contada. Um wrapper de shell que confia em `$?` lê todas como sucesso.
 >
 > **Ainda não medido: se o ASP melhora os planos.** O autor observou sem cegamento em cinco tarefas em maio de 2026, e essas transcrições não foram preservadas. O número "80% vs 4%" das versões anteriores veio da pontuação de fixtures que o autor escreveu para testar o matcher, não de saídas de modelo; ele está retirado como evidência. Um benchmark real está planejado, pré-especificado em [`PREREGISTRATION.md`](PREREGISTRATION.md), ainda não depositado.
 

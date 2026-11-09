@@ -1,10 +1,11 @@
 <div align="center">
 
-<img src="assets/icon.svg" width="96" alt="Icona di ASP: un sole basso color ambra che proietta una lunga ombra su un orizzonte">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/banner-dark.svg">
+  <img src="assets/brand/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. Pianifica prima di scrivere codice.">
+</picture>
 
-# ASP — Anticipating Shadow Points
-
-**Un plugin per Claude Code che fa scrivere all'agente il post-mortem prima del codice, e un livello di replicazione che ri-deriva ogni numero che pubblichiamo al riguardo.**
+<h3>Il tuo agente di programmazione scrive il post-mortem prima di scrivere il codice.</h3>
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
@@ -22,8 +23,20 @@
 
 </div>
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/phases-dark.svg">
+  <img src="assets/brand/phases-light.svg" width="100%" alt="Il protocollo di ASP in sei fasi: ricerca, pre-mortem, piano e verifica indipendente, la tua approvazione, esecuzione, accettazione">
+</picture>
+
+<p align="center"><b>Trova il guasto prima che trovi te.</b> Installalo in Claude Code:</p>
+
+```text
+/plugin marketplace add ulissesflores/anticipating-shadow-points
+/plugin install anticipating-shadow-points@anticipating-shadow-points
+```
+
 > [!IMPORTANT]
-> **Risultato: un rifiuto garbato esce con 0.** `claude -p` restituisce exit code 0 quando l'agente rifiuta con garbo il compito, senza alcun flag di rifiuto leggibile da macchina nell'envelope JSON. Su una suite fissa di 50 prompt pensati per provocare rifiuti (Claude Code 2.1.200, luglio 2026), **24 su 50 sono terminati con exit 0, tutti con `stop_reason: end_turn`**, e **da 12 a 20 di questi erano rifiuti**: dal 24% al 40% della suite, a seconda di come si conta un rifiuto. Un wrapper di shell che si fida di `$?` li legge tutti come successi.
+> **Risultato: exit 0 non è successo.** `claude -p` restituisce exit code 0 quando l'agente rifiuta con garbo il compito, senza alcun flag di rifiuto leggibile da macchina nell'envelope JSON. Su una suite fissa di 50 prompt pensati per provocare rifiuti (Claude Code 2.1.200, luglio 2026), **24 su 50 sono terminati con exit 0, tutti con `stop_reason: end_turn`**, e **da 12 a 20 di questi erano rifiuti**: dal 24% al 40% della suite, a seconda di come si conta un rifiuto. Un wrapper di shell che si fida di `$?` li legge tutti come successi.
 >
 > **Non ancora misurato: se ASP migliora i piani.** L'autore lo ha osservato senza procedura in cieco su cinque compiti a maggio 2026, e quelle trascrizioni non sono state conservate. La cifra «80% contro 4%» delle versioni precedenti derivava dal punteggio di fixture scritte dall'autore per testare il matcher, non da output di modelli; è ritirata come evidenza. Un benchmark reale è pianificato, pre-specificato in [`PREREGISTRATION.md`](PREREGISTRATION.md), non ancora depositato.
 

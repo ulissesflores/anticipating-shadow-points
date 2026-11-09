@@ -2,11 +2,12 @@
 
 <div align="center" markdown="1">
 
-<img src="assets/icon.svg" width="96" alt="סמל ASP: שמש נמוכה בצבע ענבר המטילה צל ארוך מעל האופק">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/banner-dark.svg">
+  <img src="assets/brand/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. תכננו לפני שאתם כותבים קוד.">
+</picture>
 
-# ASP — Anticipating Shadow Points
-
-**תוסף ל-Claude Code שגורם לסוכן לכתוב את ה-post-mortem לפני שהוא כותב את הקוד, ושכבת שכפול שגוזרת מחדש כל מספר שאנחנו מפרסמים עליו.**
+<h3>סוכן הקוד שלך כותב את ה-post-mortem לפני שהוא כותב את הקוד.</h3>
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
@@ -22,8 +23,20 @@
 
 </div>
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/phases-dark.svg">
+  <img src="assets/brand/phases-light.svg" width="100%" alt="פרוטוקול ASP בשישה שלבים: מחקר, post-mortem מקדים, תוכנית ובדיקה עצמאית, האישור שלך, ביצוע, אישור תוצרים">
+</picture>
+
+<p align="center"><b>מצאו את הכשל לפני שהוא ימצא אתכם.</b> התקנה ב-Claude Code:</p>
+
+```text
+/plugin marketplace add ulissesflores/anticipating-shadow-points
+/plugin install anticipating-shadow-points@anticipating-shadow-points
+```
+
 > [!IMPORTANT]
-> **ממצא (Iron Law 11).** הפקודה `claude -p` מחזירה exit code 0 כאשר הסוכן מסרב בנימוס לבצע את המשימה, בלי שום דגל סירוב קריא-מכונה במעטפת ה-JSON. על סט קבוע של 50 הנחיות שנועדו לעורר סירוב (Claude Code 2.1.200, יולי 2026), **24 מתוך 50 הסתיימו ב-0, כולם עם `stop_reason: end_turn`**, ו-**12 עד 20 מהם היו סירובים**: 24% עד 40% מהסט, בהתאם לאופן שבו סופרים סירוב. עטיפת shell שסומכת על `$?` קוראת את כולם כהצלחה.
+> **ממצא: exit 0 אינו הצלחה.** הפקודה `claude -p` מחזירה exit code 0 כאשר הסוכן מסרב בנימוס לבצע את המשימה, בלי שום דגל סירוב קריא-מכונה במעטפת ה-JSON. על סט קבוע של 50 הנחיות שנועדו לעורר סירוב (Claude Code 2.1.200, יולי 2026), **24 מתוך 50 הסתיימו ב-0, כולם עם `stop_reason: end_turn`**, ו-**12 עד 20 מהם היו סירובים**: 24% עד 40% מהסט, בהתאם לאופן שבו סופרים סירוב. עטיפת shell שסומכת על `$?` קוראת את כולם כהצלחה.
 >
 > **טרם נמדד: האם ASP משפר תוכניות.** המחבר צפה בכך ללא עיוורון בחמש משימות במאי 2026, והתמלילים ההם לא נשמרו. הנתון "80% מול 4%" בגרסאות קודמות נבע מניקוד של fixtures שהמחבר כתב כדי לבדוק את ה-matcher, ולא מפלטים של מודלים; הוא נמשך כראיה. בנצ'מארק אמיתי [מתוכנן](PREREGISTRATION.md), מוגדר מראש ב-[`PREREGISTRATION.md`](PREREGISTRATION.md), טרם הופקד.
 
@@ -138,7 +151,7 @@ run_all OK: results reproduced, tests passed, provenance verified
 
 ## תוצאות
 
-### Iron Law 11: ה-exit code של `claude -p` בסירוב מנומס
+### ה-exit code של `claude -p` בסירוב מנומס
 
 | צילום מצב | CLI | המודל שענה | Exit 0 | סירובים עם exit 0 | קריאה |
 |---|---|---|---|---|---|

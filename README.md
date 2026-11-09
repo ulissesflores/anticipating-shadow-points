@@ -1,10 +1,11 @@
 <div align="center">
 
-<img src="assets/icon.svg" width="96" alt="ASP icon: a low amber sun casting a long shadow over a horizon">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/banner-dark.svg">
+  <img src="assets/brand/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. Plan before you code.">
+</picture>
 
-# ASP — Anticipating Shadow Points
-
-**A Claude Code plugin that makes the agent write the post-mortem before it writes the code, and a replication layer that re-derives every measured number we publish about it.**
+<h3>Your coding agent writes the post-mortem before it writes the code.</h3>
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276631.svg)](https://doi.org/10.5281/zenodo.20276631)
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
@@ -18,8 +19,20 @@
 
 </div>
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/phases-dark.svg">
+  <img src="assets/brand/phases-light.svg" width="100%" alt="The ASP protocol in six stages: research, pre-mortem, plan and independent check, your approval, execution, sign-off">
+</picture>
+
+<p align="center"><b>Find the failure before it finds you.</b> Install in Claude Code:</p>
+
+```text
+/plugin marketplace add ulissesflores/anticipating-shadow-points
+/plugin install anticipating-shadow-points@anticipating-shadow-points
+```
+
 > [!IMPORTANT]
-> **Finding: a graceful refusal exits 0.** `claude -p` returns exit code 0 when the agent gracefully declines the task, with no machine-readable refusal flag in the JSON envelope. On a fixed suite of 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), **24 of 50 exited 0, every one with `stop_reason: end_turn`**, and **12 to 20 of those were declines**: 24% to 40% of the suite, depending on how a decline is counted. A shell wrapper that trusts `$?` reads all of them as success.
+> **Finding: exit 0 is not success.** `claude -p` returns exit code 0 when the agent gracefully declines the task, with no machine-readable refusal flag in the JSON envelope. On a fixed suite of 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), **24 of 50 exited 0, every one with `stop_reason: end_turn`**, and **12 to 20 of those were declines**: 24% to 40% of the suite, depending on how a decline is counted. A shell wrapper that trusts `$?` reads all of them as success.
 >
 > **Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. The "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs; it is withdrawn as evidence. A real benchmark is planned, pre-specified in [`PREREGISTRATION.md`](PREREGISTRATION.md), not yet deposited.
 

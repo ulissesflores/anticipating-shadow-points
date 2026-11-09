@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 EDITIONS = ["README.md", "README.pt-BR.md", "README.es.md", "README.it.md", "README.he.md"]
 PLUGIN_README = ROOT / "plugins" / "anticipating-shadow-points" / "README.md"
-LINK = re.compile(r"(?:\]\(|src=\")([^)\"\s]+)")
+LINK = re.compile(r"(?:\]\(|src=\"|srcset=\")([^)\"\s]+)")
 
 
 def _heading_levels(path: Path) -> list[int]:

@@ -4,11 +4,17 @@ Copyright (c) 2026 Carlos Ulisses Flores · Codex Hash Research Laboratory
 This repository is dual-licensed by content type.
 
 Software — MIT (LICENSE, LICENSES/MIT.txt)
-  skills/, commands/, scripts/, analysis/, benchmark/, tests/, run_all.py,
-  make_provenance.py, .claude-plugin/, .github/, assets/icon.svg, assets/demo/*.tape
+  plugins/anticipating-shadow-points/ (skill, command, manifest), scripts/, analysis/, benchmark/, tests/, run_all.py,
+  make_provenance.py, .claude-plugin/, .github/, assets/demo/*.tape,
+  assets/brand/make_brand.py
 
 Papers, figures and prose — CC BY 4.0 (LICENSES/CC-BY-4.0.txt)
-  paper/, output/figures/, docs/, assets/demo/*.gif
+  paper/, output/figures/, docs/, assets/demo/*.gif, assets/icon.svg,
+  assets/brand/*.svg and *.png (logo, banners, diagram, social preview)
+
+Typefaces — the brand SVGs carry text converted to outlines from Space Grotesk
+(Florian Karsten) and Inter (Rasmus Andersson), both under the SIL Open Font
+License 1.1. No font file is distributed here.
 
 Data — CC BY 4.0
   data/, output/results.json, tests/iron-law-11/runs/published/,

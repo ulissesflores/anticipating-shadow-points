@@ -1,10 +1,11 @@
 <div align="center">
 
-<img src="assets/icon.svg" width="96" alt="ASP icon: a low amber sun casting a long shadow over a horizon">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
+  <img src="assets/banner-light.svg" width="100%" alt="ASP — Anticipating Shadow Points. Plan before you code.">
+</picture>
 
-# Anticipating Shadow Points (ASP)
-
-**A Claude Code plugin that makes the agent write the post-mortem before it writes the code.**
+<h3>Your coding agent writes the post-mortem before it writes the code.</h3>
 
 [![Version 2.0.0](https://img.shields.io/badge/version-2.0.0-blue.svg)](.claude-plugin/plugin.json)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
