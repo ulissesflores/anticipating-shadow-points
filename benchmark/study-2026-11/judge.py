@@ -89,8 +89,15 @@ def first_json(text: str) -> dict | list:
     dict or list
         The parsed value.
     """
-    start = min(i for i in (text.find("{"), text.find("[")) if i >= 0)
-    return json.JSONDecoder().raw_decode(text[start:])[0]
+    decoder = json.JSONDecoder()
+    for start in (i for i, ch in enumerate(text) if ch in "{["):  # skip braces in prose
+        try:
+            value = decoder.raw_decode(text[start:])[0]
+        except json.JSONDecodeError:
+            continue
+        if isinstance(value, dict) and value:
+            return value
+    raise ValueError("no JSON object in the reply")
 
 
 def merge_prompt(request: str, lists: dict[str, list[str]]) -> str:
@@ -247,8 +254,15 @@ def do_trials(judge: str, folder: str, workers: int = 6) -> None:
         answer = (HERE / folder / "answers" / f"{tr['trial']}.md").read_text(encoding="utf-8")
         reference = [r["item"] for r in merged[tr["task"]]["reference"]]
         prompt, hits = trial_prompt(tasks[tr["task"]]["request"], reference, table_rows(answer))
-        raw = call(judge, prompt)
-        verdict = first_json(raw)
+        for _ in range(3):  # an unreadable reply is asked again, never edited
+            raw = call(judge, prompt)
+            try:
+                verdict = first_json(raw)
+                break
+            except ValueError:
+                continue
+        else:
+            raise RuntimeError(f"{judge}: no readable verdict for {tr['trial']}")
         covered = [int(k) for k, v in verdict.items() if v is True]
         dest.write_text(
             json.dumps(

@@ -150,4 +150,8 @@ Each entry carries the hash of the previous entry, and `python ledger.py verify`
   - Machine paths were redacted from the envelopes and the answers before publication. The temporary folder and the user name are replaced by markers. In 10 answers, the path to Claude Code's plan file was replaced the same way.
   - None of these paths was inside a table row, so the judges' input is unchanged. The SHA-256 values in `runs/trials.jsonl` are those of the published files.
   - `judge.py` gained parallel calls for trial judging. The prompts and models did not change.
+  - The first Gemini pass stopped after 48 verdicts. One reply had a brace in its prose before the JSON, and the reader could not parse it.
+  - The reader now takes the first valid JSON object, and a reply with none is asked again (at most 3 times). No reply was edited.
+  - Every trial has exactly one verdict from each judge. The two judges agree on 91.9% of the 855 item decisions.
+- **2026-11-09 12:40 GMT-3: sealing.** The verdicts and `results.json` were chained in the ledger before any interpretation was written. The head is stamped in `analysis-head.txt.ots`. The OpenTimestamps proof of the pre-trial head (`pretrial-head.txt.ots`) is complete, anchored in Bitcoin.
 
