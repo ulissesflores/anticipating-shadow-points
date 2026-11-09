@@ -11,6 +11,8 @@ Seal 1 says "given these transcripts, the numbers follow". Seal 2 says "these ar
 
 ## Track 1: verify in under a minute (no model calls)
 
+In the browser, with nothing installed: [`colab/replication.ipynb`](colab/replication.ipynb) ([open in Colab](https://colab.research.google.com/github/ulissesflores/anticipating-shadow-points/blob/main/colab/replication.ipynb)) runs the same steps and also checks that the replication changed no sealed file. Locally:
+
 ```bash
 git clone https://github.com/ulissesflores/anticipating-shadow-points
 cd anticipating-shadow-points

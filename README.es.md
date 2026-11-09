@@ -13,6 +13,7 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 [![tests](https://img.shields.io/badge/tests-88_passing-brightgreen.svg)](tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](output/hash-chain.md)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ulissesflores/anticipating-shadow-points/blob/main/colab/replication.ipynb)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](plugins/anticipating-shadow-points/)
 
 [English](README.md) · [Português (Brasil)](README.pt-BR.md) · **Español** · [Italiano](README.it.md) · [עברית](README.he.md)
@@ -199,6 +200,7 @@ Solo necesita la biblioteca estándar. La CI lo ejecuta antes de instalar nada y
 plugins/anticipating-shadow-points/
                        the plugin itself, and all that an install copies: skill (protocol, Iron Laws,
                        templates, 5 evals), /asp command, icon, README, LICENSE. Markdown only
+colab/                 replication.ipynb: verifica el sello y replica en el navegador (Google Colab)
 paper/                 the two papers (Markdown source), PAPER-SHA256.txt and paper/tools/ (house-format build)
 analysis/              derivation of every published number, figures, redacted extractor
 data/                  July 2026 redacted extract, labels, codebook

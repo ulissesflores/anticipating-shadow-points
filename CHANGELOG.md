@@ -21,6 +21,10 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   child runs under their permissions and usage, states budget and turn cap, and
   waits for their OK. Plain-language description in `plugin.json`, listing links
   (documentation, support, privacy) and a plugin README added.
+- **The background session is opt-in.** Phase 9 runs in the user's own session by
+  default; the separate `claude -p /goal` session starts only with `--goal`.
+- **Colab notebook** (`colab/replication.ipynb`): verifies the seal, replicates
+  every number and checks that nothing sealed changed, in the browser.
 - **Each paper is its own Zenodo record**: the whitepaper is
   [10.5281/zenodo.24065969](https://doi.org/10.5281/zenodo.24065969) and the technical note is
   [10.5281/zenodo.24065935](https://doi.org/10.5281/zenodo.24065935). Self-citations now point at the right object

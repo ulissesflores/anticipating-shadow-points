@@ -26,4 +26,4 @@ The second experiment is the source of the series' third paper: the scientific p
 | Blind re-authoring of the five benchmark expected lists by independent engineers | No preserved model output yet measures ASP; and lists written by the author would make any measurement circular | Needs two or more outside reviewers |
 | MAST ablation with a blind placebo prompt | Tests whether the 14-mode enumeration, not prompt length or framing, drives the GREEN effect | Needs the blind lists above first |
 | Human second rater on the July 2026 labels | The 40% rests on one non-blind rater; an LLM panel agreed but shares lineage with the model under test | Needs one outside human rater |
-| Colab notebook | Zero-setup Track 1 verification in the browser | None; planned for v2.1 |
+| ASP for decisions outside code (legal, accounting, strategy) | The pre-mortem and the independent check are domain-neutral; the shipped checklist is not | A domain-specific checklist and its own blind lists; an exploratory pilot is reserved in the 2026-11 study |
