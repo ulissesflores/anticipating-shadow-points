@@ -251,7 +251,7 @@ Research synthesis, drafting and verification scripts were produced with Claude 
 
 ## Citation
 
-Cite the **concept DOI** to point at ASP in general; it always resolves to the latest version. Cite a **version DOI** to pin the exact files you used. The v2.0.0 version DOI is minted at release and will be listed here and in [`CITATION.cff`](CITATION.cff).
+Cite the **concept DOI** to point at ASP in general; it always resolves to the latest version. Cite a **version DOI** to pin the exact files you used. The v2.0.0 version DOI is [10.5281/zenodo.24090006](https://doi.org/10.5281/zenodo.24090006).
 
 ```bibtex
 @software{flores_asp_2026,

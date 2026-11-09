@@ -256,7 +256,7 @@ A síntese de pesquisa, a redação e os scripts de verificação foram produzid
 
 ## Citação
 
-Cite o **DOI de conceito** para apontar para o ASP em geral; ele sempre resolve para a versão mais recente. Cite um **DOI de versão** para fixar os arquivos exatos que você usou. O DOI de versão da v2.0.0 é emitido no release e será listado aqui e em [`CITATION.cff`](CITATION.cff).
+Cite o **DOI de conceito** para apontar para o ASP em geral; ele sempre resolve para a versão mais recente. Cite um **DOI de versão** para fixar os arquivos exatos que você usou. O DOI de versão da v2.0.0 é [10.5281/zenodo.24090006](https://doi.org/10.5281/zenodo.24090006).
 
 ```bibtex
 @software{flores_asp_2026,

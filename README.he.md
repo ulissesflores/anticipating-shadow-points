@@ -278,7 +278,7 @@ make_provenance.py     build or --verify the SHA-256 chain
 
 ## ציטוט
 
-ציטטו את ה-**concept DOI** כדי להפנות ל-ASP באופן כללי; הוא תמיד מפנה לגרסה האחרונה. ציטטו **version DOI** כדי לקבע את הקבצים המדויקים שבהם השתמשתם. ה-version DOI של v2.0.0 נוצר בעת ההוצאה (release) ויופיע כאן וב-[`CITATION.cff`](CITATION.cff).
+ציטטו את ה-**concept DOI** כדי להפנות ל-ASP באופן כללי; הוא תמיד מפנה לגרסה האחרונה. ציטטו **version DOI** כדי לקבע את הקבצים המדויקים שבהם השתמשתם. ה-version DOI של v2.0.0 הוא [10.5281/zenodo.24090006](https://doi.org/10.5281/zenodo.24090006).
 
 <div dir="ltr" markdown="1">
 

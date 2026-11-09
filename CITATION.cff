@@ -52,6 +52,9 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.20277015"
     description: "Versioned DOI (Zenodo) for v1.0.3. Superseded: still carries the withdrawn 'pre-registered' framing and the 60% figure."
+  - type: doi
+    value: "10.5281/zenodo.24090006"
+    description: "Versioned DOI (Zenodo) for v2.0.0: the measured release (2026-11 study), plugin in its own folder, papers v2.3."
   - type: url
     value: "https://github.com/ulissesflores/anticipating-shadow-points"
     description: "Software source repository"
