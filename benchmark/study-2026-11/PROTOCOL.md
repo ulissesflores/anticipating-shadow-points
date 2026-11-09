@@ -142,3 +142,12 @@ Each entry carries the hash of the previous entry, and `python ledger.py verify`
   - **Replicates:** 5 (90 trials). Collection starts about 13 hours before the usage reset.
   - **Plugin:** installed from commit `fc448ba`. `run.py check` gives the same hash for the repository and the installed copy (`70ac673cb976b6d7e0b72d8237fd24b2e3c85367e769b9cbae13b55b242e123b`).
   - **Reinstall:** the plugin had to be uninstalled and installed again, because Claude Code does not refresh an installed plugin whose version number is unchanged.
+- **2026-11-09, 10:20 to 11:28 GMT-3: collection.**
+  - All 90 trials ran: 30 per condition, every one ended with `success`, and none changed a project file.
+  - The ASP plugin was loaded in all 30 `GREEN` trials and in none of the others.
+  - In one trial, `t026` (T3, `GREEN`), Claude Code also used `claude-haiku-5-5` (an internal subagent at its default model), and the run produced 3 `result` events. The last one is the answer, as `run.py` specifies.
+- **2026-11-09, after collection: redaction and judging.**
+  - Machine paths were redacted from the envelopes and the answers before publication. The temporary folder and the user name are replaced by markers. In 10 answers, the path to Claude Code's plan file was replaced the same way.
+  - None of these paths was inside a table row, so the judges' input is unchanged. The SHA-256 values in `runs/trials.jsonl` are those of the published files.
+  - `judge.py` gained parallel calls for trial judging. The prompts and models did not change.
+

@@ -221,7 +221,7 @@ def trial_prompt(request: str, reference: list[str], rows: list[str]) -> tuple[s
     return prompt, hits
 
 
-def do_trials(judge: str, folder: str) -> None:
+def do_trials(judge: str, folder: str, workers: int = 6) -> None:
     """Judge every answer of a run folder that has no verdict yet.
 
     Parameters
@@ -230,16 +230,20 @@ def do_trials(judge: str, folder: str) -> None:
         Key of ``JUDGES``.
     folder : str
         ``runs`` or ``pilot``.
+    workers : int
+        Judge calls run at the same time.
     """
     tasks = {t["id"]: t for t in json.loads((HERE / "tasks.json").read_text())["tasks"]}
     merged = json.loads((HERE / "lists" / "merged.json").read_text())
     out_dir = HERE / "judge" / judge
     out_dir.mkdir(parents=True, exist_ok=True)
     trials = [json.loads(x) for x in (HERE / folder / "trials.jsonl").read_text().splitlines()]
-    for tr in trials:
+
+    def one(tr: dict) -> None:
+        """Judge one trial unless it already has a verdict."""
         dest = out_dir / f"{tr['trial']}.json"
         if dest.exists():
-            continue
+            return
         answer = (HERE / folder / "answers" / f"{tr['trial']}.md").read_text(encoding="utf-8")
         reference = [r["item"] for r in merged[tr["task"]]["reference"]]
         prompt, hits = trial_prompt(tasks[tr["task"]]["request"], reference, table_rows(answer))
@@ -262,12 +266,16 @@ def do_trials(judge: str, folder: str) -> None:
         )
         print(tr["trial"], len(covered), "/", len(reference), flush=True)
 
+    with ThreadPoolExecutor(max_workers=workers) as pool:  # independent calls
+        list(pool.map(one, trials))
+
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("command", choices=["merge", "trials"])
     ap.add_argument("--judge", default="gemini", choices=sorted(JUDGES))
     ap.add_argument("--folder", default="runs")
+    ap.add_argument("--workers", type=int, default=6)
     a = ap.parse_args()
     if a.command == "merge":
         m = do_merge()
@@ -275,4 +283,4 @@ if __name__ == "__main__":
             json.dumps({t: {k: v for k, v in x.items() if k != "reference"} for t, x in m.items()})
         )
     else:
-        do_trials(a.judge, a.folder)
+        do_trials(a.judge, a.folder, a.workers)

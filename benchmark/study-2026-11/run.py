@@ -152,6 +152,8 @@ def redact(text: str, work: Path) -> str:
     """
     for path, mark in ((work, "<repo>"), (SCRATCH, "<scratch>"), (CONFIG, "<config>")):
         text = text.replace(str(path), mark)
+    text = re.sub(r"/private/tmp/claude-\d+/[^\"\s\\]*", "<tmp>", text)
+    text = re.sub(r"-?Users-[A-Za-z0-9._]+[^\"\s/\\]*", "<home>", text)
     return re.sub(r"/Users/[A-Za-z0-9._-]+", "<home>", text)
 
 
