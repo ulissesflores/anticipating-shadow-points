@@ -67,7 +67,7 @@ benchmark/
 ## The five evals
 
 The eval markdown files live in
-`skills/anticipating-shadow-points/evals/` and double as both runtime
+`plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/` and double as both runtime
 inputs to the skill and benchmark inputs. They are:
 
 | ID | Domain | File |

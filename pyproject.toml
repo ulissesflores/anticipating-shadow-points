@@ -18,7 +18,7 @@ line-length = 100
 target-version = "py311"
 include = ["analysis/*.py", "tests/*.py", "run_all.py", "make_provenance.py"]
 # Frozen, hash-locked code is never reformatted (it would break the seal).
-extend-exclude = ["tests/iron-law-11", "benchmark", "claude-cache", "skills"]
+extend-exclude = ["tests/iron-law-11", "benchmark", "claude-cache", "plugins"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "D"]

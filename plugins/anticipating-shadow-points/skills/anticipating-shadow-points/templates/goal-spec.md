@@ -38,7 +38,7 @@ HARD STOP CONDITIONS:
   - any Iron Law violation detected by evaluator
 ```
 
-## Example — concrete instance (this very ASP build)
+## Example — concrete instance (the author's own build of ASP, May 2026; paths are from that machine)
 
 ```
 GOAL: ASP skill at ~/.claude/skills/anticipating-shadow-points/ exists, loads via Skill tool in fresh session, scripts/verify.sh exits 0 with 16/16 criteria PASS, and advisor() final call returns ship verdict.

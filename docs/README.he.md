@@ -19,7 +19,7 @@ nav_order: 4
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](../LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](../LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](../pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-80_passing-brightgreen.svg)](../tests/)
+[![tests](https://img.shields.io/badge/tests-85_passing-brightgreen.svg)](../tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](../output/hash-chain.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#install)
 
@@ -169,7 +169,7 @@ python3 make_provenance.py --verify
 | נתיב | פקודה | הפעלה |
 |---|---|---|
 | Plugin marketplace (מומלץ) | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` ואז `claude plugin install anticipating-shadow-points@anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
-| לסשן הנוכחי בלבד, מתוך clone | `claude --plugin-dir /path/to/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
+| לסשן הנוכחי בלבד, מתוך clone | `claude --plugin-dir /path/to/anticipating-shadow-points/plugins/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
 | סקריפט עצמאי | `./scripts/verify.sh --pre-install && ./scripts/install.sh` | `/asp` |
 
 <details markdown="1">
@@ -191,9 +191,10 @@ python3 make_provenance.py --verify
 <div dir="ltr" markdown="1">
 
 ```text
-.claude-plugin/        plugin and marketplace manifests
-skills/                the ASP skill: protocol, Iron Laws, templates, 5 evals
-commands/              /asp command
+.claude-plugin/        marketplace manifest (points at the plugin folder)
+plugins/anticipating-shadow-points/
+                       the plugin itself, and all that an install copies: skill (protocol, Iron Laws,
+                       templates, 5 evals), /asp command, icon, README, LICENSE. Markdown only
 paper/                 the two papers (Markdown source), PAPER-SHA256.txt and paper/tools/ (house-format build)
 analysis/              derivation of every published number, figures, redacted extractor
 data/                  July 2026 redacted extract, labels, codebook
@@ -209,7 +210,7 @@ make_provenance.py     build or --verify the SHA-256 chain
 
 </div>
 
-לקריאה נוספת: [ממצאים](findings.md) · [ארכיטקטורה והיסטוריית העיצוב](ARCHITECTURE.md) · [ה-skill ו-12 ה-Iron Laws שלו](../skills/anticipating-shadow-points/SKILL.md) · [5 ההערכות](../skills/anticipating-shadow-points/evals/) · [תרומה לפרויקט](../CONTRIBUTING.md) · [מדיניות אבטחה](../SECURITY.md) · [יומן שינויים](../CHANGELOG.md) · [מפת דרכים](../ROADMAP.md).
+לקריאה נוספת: [ממצאים](findings.md) · [ארכיטקטורה והיסטוריית העיצוב](ARCHITECTURE.md) · [ה-skill ו-12 ה-Iron Laws שלו](../plugins/anticipating-shadow-points/skills/anticipating-shadow-points/SKILL.md) · [5 ההערכות](../plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/) · [תרומה לפרויקט](../CONTRIBUTING.md) · [מדיניות אבטחה](../SECURITY.md) · [יומן שינויים](../CHANGELOG.md) · [מפת דרכים](../ROADMAP.md).
 
 ## מחבר
 

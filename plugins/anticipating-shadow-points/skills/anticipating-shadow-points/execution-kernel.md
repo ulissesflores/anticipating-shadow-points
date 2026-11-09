@@ -118,7 +118,7 @@ The `claude -p /goal` runner depends on:
 - `claude` CLI in `$PATH`
 - Claude Code 2.1.139+
 - jq for JSON parsing
-- File system writable at `~/Developer/ASP/runtime/`
+- A writable runtime root (see Runtime directory in `SKILL.md`)
 - Background process support (run_in_background)
 
 When any of these fails, this in-session native kernel provides a graceful fallback that does the same worker/evaluator separation, just inside the same Claude session instead of a child subprocess. Iron Law 8 (no Phase 9 without evaluator checkpoints) is enforced in both paths.

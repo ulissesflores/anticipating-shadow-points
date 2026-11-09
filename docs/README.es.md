@@ -17,7 +17,7 @@ nav_order: 1
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](../LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](../LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](../pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-80_passing-brightgreen.svg)](../tests/)
+[![tests](https://img.shields.io/badge/tests-85_passing-brightgreen.svg)](../tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](../output/hash-chain.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#install)
 
@@ -30,7 +30,7 @@ nav_order: 1
 </div>
 
 > [!IMPORTANT]
-> **Hallazgo (Iron Law 11).** `claude -p` devuelve exit code 0 cuando el agente rechaza amablemente la tarea, sin ninguna marca de rechazo legible por máquina en el sobre JSON. En una suite fija de 50 prompts diseñados para provocar rechazos (Claude Code 2.1.200, julio de 2026), **24 de 50 terminaron con exit code 0, todos ellos con `stop_reason: end_turn`**, y **entre 12 y 20 de esos fueron rechazos**: del 24% al 40% de la suite, según cómo se cuente un rechazo. Un wrapper de shell que confíe en `$?` los lee todos como éxito.
+> **Hallazgo: un rechazo amable sale con 0.** `claude -p` devuelve exit code 0 cuando el agente rechaza amablemente la tarea, sin ninguna marca de rechazo legible por máquina en el sobre JSON. En una suite fija de 50 prompts diseñados para provocar rechazos (Claude Code 2.1.200, julio de 2026), **24 de 50 terminaron con exit code 0, todos ellos con `stop_reason: end_turn`**, y **entre 12 y 20 de esos fueron rechazos**: del 24% al 40% de la suite, según cómo se cuente un rechazo. Un wrapper de shell que confíe en `$?` los lee todos como éxito.
 >
 > **Aún no medido: si ASP mejora los planes.** El autor lo observó sin cegamiento en cinco tareas en mayo de 2026, y esas transcripciones no se conservaron. La cifra "80% vs 4%" de versiones anteriores salió de puntuar fixtures que el autor escribió para probar el matcher, no salidas de modelos; queda retirada como evidencia. Un benchmark real está planificado, preespecificado en [`PREREGISTRATION.md`](../PREREGISTRATION.md), aún no depositado.
 
@@ -102,7 +102,7 @@ run_all OK: results reproduced, tests passed, provenance verified
 
 ## Resultados
 
-### Iron Law 11: exit code de `claude -p` ante un rechazo amable
+### Exit code de `claude -p` ante un rechazo amable
 
 | Instantánea | CLI | Modelo que respondió | Exit 0 | Rechazos con exit 0 | Lectura |
 |---|---|---|---|---|---|
@@ -153,7 +153,7 @@ Solo necesita la biblioteca estándar. La CI lo ejecuta antes de instalar nada y
 | Vía | Comando | Invocación |
 |---|---|---|
 | Marketplace de plugins (recomendada) | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` y luego `claude plugin install anticipating-shadow-points@anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
-| Solo la sesión, desde un clon | `claude --plugin-dir /path/to/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
+| Solo la sesión, desde un clon | `claude --plugin-dir /path/to/anticipating-shadow-points/plugins/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
 | Script independiente | `./scripts/verify.sh --pre-install && ./scripts/install.sh` | `/asp` |
 
 <details>
@@ -173,9 +173,10 @@ Solo necesita la biblioteca estándar. La CI lo ejecuta antes de instalar nada y
 ## Estructura
 
 ```text
-.claude-plugin/        plugin and marketplace manifests
-skills/                the ASP skill: protocol, Iron Laws, templates, 5 evals
-commands/              /asp command
+.claude-plugin/        marketplace manifest (points at the plugin folder)
+plugins/anticipating-shadow-points/
+                       the plugin itself, and all that an install copies: skill (protocol, Iron Laws,
+                       templates, 5 evals), /asp command, icon, README, LICENSE. Markdown only
 paper/                 the two papers (Markdown source), PAPER-SHA256.txt and paper/tools/ (house-format build)
 analysis/              derivation of every published number, figures, redacted extractor
 data/                  July 2026 redacted extract, labels, codebook
@@ -189,7 +190,7 @@ run_all.py             single entry point: results -> figures -> tests -> seal -
 make_provenance.py     build or --verify the SHA-256 chain
 ```
 
-Lecturas adicionales: [resultados](findings.md) · [arquitectura e historia del diseño](ARCHITECTURE.md) · [la skill y sus 12 Iron Laws](../skills/anticipating-shadow-points/SKILL.md) · [las 5 evaluaciones](../skills/anticipating-shadow-points/evals/) · [cómo contribuir](../CONTRIBUTING.md) · [política de seguridad](../SECURITY.md) · [registro de cambios](../CHANGELOG.md) · [hoja de ruta](../ROADMAP.md).
+Lecturas adicionales: [resultados](findings.md) · [arquitectura e historia del diseño](ARCHITECTURE.md) · [la skill y sus 12 Iron Laws](../plugins/anticipating-shadow-points/skills/anticipating-shadow-points/SKILL.md) · [las 5 evaluaciones](../plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/) · [cómo contribuir](../CONTRIBUTING.md) · [política de seguridad](../SECURITY.md) · [registro de cambios](../CHANGELOG.md) · [hoja de ruta](../ROADMAP.md).
 
 ## Autor
 

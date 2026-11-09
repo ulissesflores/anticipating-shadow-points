@@ -61,12 +61,12 @@ Scopes commonly used: `plugin`, `skill`, `kernel`, `runner`, `evals`, `templates
 3. **Signed-off-by trailer** on every commit (DCO).
 4. **Conventional commit message** with clear scope.
 5. **For methodology changes**: PR description explains the failure mode it addresses + which Iron Law (if any) is affected.
-6. **For evals**: input + expected shadow points + acceptance criterion, following the format in `skills/anticipating-shadow-points/evals/01-supabase-migration.md`.
+6. **For evals**: input + expected shadow points + acceptance criterion, following the format in `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/01-supabase-migration.md`.
 7. **For translations**: structural parallelism with the English source; PR description states "native speaker review" status.
 
 ## Iron Laws apply to contributors too
 
-The 12 Iron Laws documented in `skills/anticipating-shadow-points/SKILL.md` apply not only to ASP runtime but to ASP development:
+The 12 Iron Laws documented in `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/SKILL.md` apply not only to ASP runtime but to ASP development:
 
 - **Iron Law 4** — for non-trivial PRs, include evidence (verify output, eval results, screenshots).
 - **Iron Law 6** — significant methodology changes should be reflected in `docs/ARCHITECTURE.md` + memory write-back guidance in the PR description.

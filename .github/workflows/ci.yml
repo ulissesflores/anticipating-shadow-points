@@ -51,16 +51,16 @@ jobs:
         run: command -v yq || sudo snap install yq
       - name: Validate SKILL.md frontmatter
         run: |
-          SKILL_FILE=skills/anticipating-shadow-points/SKILL.md
+          SKILL_FILE=plugins/anticipating-shadow-points/skills/anticipating-shadow-points/SKILL.md
           awk '/^---$/{i++; if(i==2)exit} i==1' "$SKILL_FILE" | tail -n +2 | yq -e '.name' && yq -e '.description' <(awk '/^---$/{i++; if(i==2)exit} i==1' "$SKILL_FILE" | tail -n +2)
       - name: Validate command frontmatter
         run: |
-          for f in commands/*.md; do
+          for f in plugins/anticipating-shadow-points/commands/*.md; do
             awk '/^---$/{i++; if(i==2)exit} i==1' "$f" | tail -n +2 | yq -e '.description' || exit 1
           done
       - name: Validate plugin.json
         run: |
-          jq -e '.name and .description and .version' .claude-plugin/plugin.json
+          jq -e '.name and .description and .version' plugins/anticipating-shadow-points/.claude-plugin/plugin.json
       - name: Validate marketplace.json
         run: |
           jq -e '.name and .description and .plugins' .claude-plugin/marketplace.json

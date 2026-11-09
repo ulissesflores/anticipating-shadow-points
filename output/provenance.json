@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "6dc138cab1619b1dec0511608d986d8d2370159d57fa177320605489bbd7e987",
+  "chain_hash": "cd59dbb5023758fc4e4060a8a25a829662d15f150bc3c5f62a3c07f0aa017ad5",
   "informational_not_hashed": {
     "files": [
       {
@@ -88,7 +88,7 @@
         },
         {
           "path": "analysis/results.py",
-          "sha256": "1de264e585cf28aa1098e77ac88ef7c368c0e6719f679593924ab941934be4f0"
+          "sha256": "9aff24288ad956d3583c6af71f2effe3ef55a396bc044156cde4cc404bc969f0"
         },
         {
           "path": "benchmark/src/asp_benchmark/__init__.py",
@@ -132,7 +132,7 @@
         },
         {
           "path": "make_provenance.py",
-          "sha256": "60e885a861018efc5cc8c10bd7274100d0ca0459b5039448f5fcf35e01703e13"
+          "sha256": "502c2febb56a20ae8fe549680f6af34fd297b73ceb0bf062992cbe3cfa0937b8"
         },
         {
           "path": "run_all.py",
@@ -143,13 +143,13 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "c83b37d8c38861009e21375dcf1d7530d52e004acd45d1bfc0a0225d0e2ef870"
+      "leaf_sha256": "404a10680ac672f5158989c18706e02495066fad4ebc68b76c717210f691f297"
     },
     "data": {
       "files": [
         {
           "path": "PREREGISTRATION.md",
-          "sha256": "b9c5c8db331de8fa4b9ff041e308ed193a4afa9e773248a9e08d1b1b119b507a"
+          "sha256": "f3082f6f1599b8a4c8870654a04e5c8a49c4f519b79cd927c4ae152cee028f0f"
         },
         {
           "path": "data/README.md",
@@ -172,7 +172,7 @@
           "sha256": "092db9db9fb8f11236e4c91d03a0660d22fd983506f0c353053966362ef90624"
         }
       ],
-      "leaf_sha256": "5735e9240a9f91efce14669efc7242df62279fd6452d3fd359cfe645d03c3328"
+      "leaf_sha256": "4dd26b5946bca9e198da77204240fb440ca18c4ae2a1b37d1945c7964e1935c4"
     },
     "frozen_inputs": {
       "files": [
@@ -357,23 +357,23 @@
           "sha256": "3a901dbee2011efc4781e764cde82a089db302cd610e2bff433964c77fab9852"
         },
         {
-          "path": "skills/anticipating-shadow-points/evals/01-supabase-migration.md",
+          "path": "plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/01-supabase-migration.md",
           "sha256": "bd14226f62f5e48b6a34f64f1d97fd3bc4011a7f0f4b82707787c5c26f6b9352"
         },
         {
-          "path": "skills/anticipating-shadow-points/evals/02-edge-function-deploy.md",
+          "path": "plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/02-edge-function-deploy.md",
           "sha256": "ee523364fb5f98b1969ba33aef5a3fdaa78987668ad8e1027e6a757fd5b71b00"
         },
         {
-          "path": "skills/anticipating-shadow-points/evals/03-refactor-shared-util.md",
+          "path": "plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/03-refactor-shared-util.md",
           "sha256": "691fd57867f0cde926f5839439b29153ee4ffbf0a2063168b2d9fd7ef43d6ab0"
         },
         {
-          "path": "skills/anticipating-shadow-points/evals/04-rls-policy-change.md",
+          "path": "plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/04-rls-policy-change.md",
           "sha256": "f89314fa6c7031bf380d9bbbd0cd58944575c75e309302ab332a347252360856"
         },
         {
-          "path": "skills/anticipating-shadow-points/evals/05-cron-skill-conflict.md",
+          "path": "plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/05-cron-skill-conflict.md",
           "sha256": "7d26d9f63b69cd4fbc03c8f79038d826614a8f85cc66615734ab6fa50dcea210"
         },
         {
@@ -1801,7 +1801,7 @@
           "sha256": "ec4894c9205efa18b5473f8ec243e8c7f29f867fc2bea30cedd970bddc554214"
         }
       ],
-      "leaf_sha256": "b032c33808a942254a34d27016e2e43c3d58b7ea34f2b10e25c43474d67a407b"
+      "leaf_sha256": "e867e6802d3350f911f2a1f0bcf456a3291923184d71bb9651da801296896467"
     },
     "results": {
       "files": [
@@ -1828,7 +1828,7 @@
         },
         {
           "path": "tests/test_metadata.py",
-          "sha256": "340c1c41d9299ef8ca02c9d2f9697b084f8d3e5b1eba7428224bdb2058f788ad"
+          "sha256": "ea822f23431eeb037f2275a9f1cb79271bc3bab0caa487cbb6ec6f96763cfa97"
         },
         {
           "path": "tests/test_paper_numbers.py",
@@ -1843,11 +1843,15 @@
           "sha256": "0220b51effa54027f92599eadff417d6e134da8eecbaee6cd304c334e833cd7b"
         },
         {
+          "path": "tests/test_plugin_payload.py",
+          "sha256": "ae649bfa1bc2d665654b1054fcad0b445953b15f33907be91fdd2bf8a4de795a"
+        },
+        {
           "path": "tests/test_recipe.py",
           "sha256": "070665f9c8811575a3f74df3b3a314033eaba1dcadcd68c5b72934d08041b040"
         }
       ],
-      "leaf_sha256": "d57839798458c7315ae31340ff931b8372867ca2f459594c71579a71ee7afa07"
+      "leaf_sha256": "8c4eaa68a9c91f2037fa2ca7cd43c6b750e5bd99b8a58f64623c6e755d2bc4f9"
     }
   },
   "schema": 1

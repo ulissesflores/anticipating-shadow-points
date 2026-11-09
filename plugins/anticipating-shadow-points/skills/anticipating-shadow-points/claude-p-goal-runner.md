@@ -2,11 +2,11 @@
 
 > v5 primary execution kernel. Spawns a child Claude Code session via `claude -p`, pipes `/goal "..."` as first input, captures structured JSON output, reconciles state with parent TaskList.
 >
-> Empirical validation: 2026-05-17 battery (Claude Code 2.1.143) — see `tests/claude-p-goal-runner-probe.md`.
+> Empirical validation: 2026-05-17 battery (Claude Code 2.1.143) — see the [runner probe](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/claude-p-goal-runner-probe.md).
 
 ## 1. Spawn pattern (Bash)
 
-The parent skill (Phase 9 step 1) emits this script template, substituting `$SESSION_ID`, `$GOAL_SPEC_PATH`, `$BUDGET`, `$MAX_TURNS`:
+The parent skill (Phase 9 step 1) emits this script template, substituting `$RUNTIME_ROOT` (the runtime root named in `SKILL.md`), `$SESSION_ID`, `$BUDGET` and `$MAX_TURNS`:
 
 ```bash
 #!/usr/bin/env bash
@@ -14,7 +14,8 @@ set -uo pipefail
 
 # Inputs from parent Phase 8 emission
 SESSION_ID="${SESSION_ID:-$(date +%s)-$$}"
-RUNTIME_DIR="$HOME/Developer/ASP/runtime/$SESSION_ID"
+RUNTIME_ROOT="${RUNTIME_ROOT:?set RUNTIME_ROOT to the runtime root named in SKILL.md}"
+RUNTIME_DIR="$RUNTIME_ROOT/$SESSION_ID"
 GOAL_SPEC_PATH="$RUNTIME_DIR/goal-spec.md"
 BUDGET="${BUDGET:-2.00}"
 MAX_TURNS="${MAX_TURNS:-50}"
@@ -27,7 +28,7 @@ cat > "$RUNTIME_DIR/state.json" <<EOF
 {
   "session": "$SESSION_ID",
   "status": "spawned",
-  "spawned_at": "$(date -Iseconds)",
+  "spawned_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "cost_usd_acc": 0.0,
   "current_task_id": null
 }
@@ -121,7 +122,7 @@ For long-running goals (>10 min), parent can opt to `tail -f exec.json` via Moni
 RESULT="$(jq -c 'if type=="array" then (map(select(.type=="result")) | last) else . end' "$RUNTIME_DIR/exec.json")"
 
 # CRITICAL: do NOT use $? to determine semantic success.
-# Iron Law 11 — see paper/graceful-refusals.md §6 for the full recipe and its test on 50 envelopes.
+# Iron Law 11 — see §6 of the graceful-refusals paper (https://github.com/ulissesflores/anticipating-shadow-points/blob/main/paper/graceful-refusals.md) for the full recipe and its test on 50 recorded replies.
 IS_ERR="$(echo "$RESULT" | jq -r '.is_error // false')"
 # terminal_reason names caps (max_turns, max_budget); stop_reason names classifier refusals.
 STOP="$(echo "$RESULT" | jq -r 'if (.terminal_reason // "completed") != "completed" then .terminal_reason else (.stop_reason // "unknown") end')"

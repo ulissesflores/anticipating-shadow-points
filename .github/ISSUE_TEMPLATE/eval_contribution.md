@@ -38,7 +38,7 @@ assignees: ulissesflores
 ## File location
 
 If accepted, this eval would live at:
-`skills/anticipating-shadow-points/evals/0X-<short-slug>.md`
+`plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/0X-<short-slug>.md`
 
 (numbered after the existing 5 evals; see `evals/01-supabase-migration.md` for format reference.)
 

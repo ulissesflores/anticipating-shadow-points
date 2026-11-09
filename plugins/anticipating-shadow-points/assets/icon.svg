@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="t">
+  <title id="t">Anticipating Shadow Points</title>
+  <rect width="512" height="512" rx="112" fill="#14161c"/>
+  <!-- long shadow cast forward from the point: the failure imagined before it happens -->
+  <path d="M256 236 L420 400 L360 430 L230 270 Z" fill="#000" opacity="0.45"/>
+  <!-- horizon line -->
+  <rect x="96" y="352" width="320" height="12" rx="6" fill="#2a2f3a"/>
+  <!-- the anticipated point -->
+  <circle cx="232" cy="236" r="64" fill="#f2b33d"/>
+  <circle cx="232" cy="236" r="26" fill="#14161c"/>
+</svg>

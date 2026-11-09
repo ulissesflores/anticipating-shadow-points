@@ -167,16 +167,16 @@ not at Phase 5.
 /goal "<EVALUATOR CRITERIA from goal-spec.md>"
 ```
 
-If `/goal` is not invocable from skill context (pre-flight probe documented in `tests/goal-invocability-probe.md`), force `--no-goal` and fallback to `executing-plans` skill.
+If `/goal` is not invocable from skill context (pre-flight probe documented in the [invocability probe](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/goal-invocability-probe.md)), force `--no-goal` and fallback to `executing-plans` skill.
 
 ## 7. TDD-for-skills (writing-skills meta-skill)
 
-**Source**: `~/.claude/skills/writing-skills/SKILL.md`.
+**Source**: the `writing-skills` meta-skill (Superpowers), if installed.
 
 **Principle**: Every skill is documentation that must pass a RED test (agent violates without skill) and a GREEN test (agent complies with skill). Refactor closes loopholes.
 
 **ASP application** — building ASP itself requires:
-- 3 baseline scenarios (RED) documented in `tests/baseline-pressure-tests.md`.
+- 3 baseline scenarios (RED) documented in [`tests/baseline-pressure-tests.md`](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/baseline-pressure-tests.md).
 - 3 re-runs with the skill loaded (GREEN) showing compliance.
 - 1 REFACTOR cycle plugging new rationalizations into SKILL.md.
 - 5 evals in `evals/` with expected shadow-point coverage ≥80%.

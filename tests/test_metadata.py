@@ -23,7 +23,9 @@ def _versions() -> dict[str, str]:
         ],
         ".zenodo.json": json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))["version"],
         "plugin.json": json.loads(
-            (ROOT / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8")
+            (
+                ROOT / "plugins" / "anticipating-shadow-points" / ".claude-plugin" / "plugin.json"
+            ).read_text(encoding="utf-8")
         )["version"],
     }
 

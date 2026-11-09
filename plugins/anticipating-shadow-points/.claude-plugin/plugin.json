@@ -1,0 +1,27 @@
+{
+  "name": "anticipating-shadow-points",
+  "displayName": "Anticipating Shadow Points",
+  "description": "Plan before you code. For a non-trivial task, ASP researches the codebase, runs a pre-mortem against the MAST checklist of 14 failure modes, has an independent subagent check the plan, and turns it into tasks with acceptance tests you approve. It can then carry the plan out in a separate headless claude -p session that uses your own permission settings and usage, capped by a budget you set. Markdown only: no hooks, MCP servers, scripts or telemetry.",
+  "version": "2.0.0",
+  "author": {
+    "name": "Carlos Ulisses Flores",
+    "email": "c.ulisses@gmail.com",
+    "url": "https://ulissesflores.com"
+  },
+  "homepage": "https://ulissesflores.github.io/anticipating-shadow-points/",
+  "repository": "https://github.com/ulissesflores/anticipating-shadow-points",
+  "license": "MIT",
+  "icon": "./assets/icon.svg",
+  "documentationUrl": "https://github.com/ulissesflores/anticipating-shadow-points/tree/main/plugins/anticipating-shadow-points#readme",
+  "supportUrl": "https://github.com/ulissesflores/anticipating-shadow-points/issues",
+  "privacyPolicyUrl": "https://github.com/ulissesflores/anticipating-shadow-points/blob/main/PRIVACY.md",
+  "keywords": [
+    "planning",
+    "pre-mortem",
+    "risk",
+    "failure-modes",
+    "MAST",
+    "code-review",
+    "agentic-workflow"
+  ]
+}

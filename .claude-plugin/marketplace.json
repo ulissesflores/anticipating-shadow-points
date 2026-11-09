@@ -1,6 +1,6 @@
 {
   "name": "anticipating-shadow-points",
-  "description": "Self-host marketplace for the anticipating-shadow-points plugin (ASP). One-step install: /plugin marketplace add ulissesflores/anticipating-shadow-points && /plugin install anticipating-shadow-points@anticipating-shadow-points",
+  "description": "Self-hosted marketplace for the Anticipating Shadow Points (ASP) plugin. Install: /plugin marketplace add ulissesflores/anticipating-shadow-points, then /plugin install anticipating-shadow-points@anticipating-shadow-points",
   "owner": {
     "name": "Carlos Ulisses Flores",
     "url": "https://ulissesflores.com",
@@ -9,11 +9,8 @@
   "plugins": [
     {
       "name": "anticipating-shadow-points",
-      "description": "Pre-mortem-first planning protocol for LLM coding agents — Klein pre-mortem + Berkeley MAST 14-mode + claude -p /goal subprocess execution kernel + 12 Iron Laws (incl. NEVER trust $? from claude -p: a July 2026 N=50 measurement found 24–40% of refusal-provoking prompts exit 0 on a graceful decline; companion paper).",
-      "source": {
-        "source": "github",
-        "repo": "ulissesflores/anticipating-shadow-points"
-      },
+      "description": "Plan before you code: research, a pre-mortem against the MAST checklist of 14 failure modes, an independently checked plan and tasks with acceptance tests; optional execution in a separate claude -p session under your own permissions and a budget you set.",
+      "source": "./plugins/anticipating-shadow-points",
       "category": "workflow"
     }
   ]

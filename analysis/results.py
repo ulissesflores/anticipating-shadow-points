@@ -30,7 +30,8 @@ IL11 = ROOT / "tests" / "iron-law-11"
 MAY_RUN = IL11 / "runs" / "published" / "2026-05-18T15-36-05Z-c1bceb85"
 SPIKE = ROOT / "data" / "spike-2026-07-08"
 BENCH_RUN = ROOT / "benchmark" / "runs" / "published" / "2026-05-18T00-27-43Z-b0a1bc7b"
-EVALS = ROOT / "skills" / "anticipating-shadow-points" / "evals"
+PLUGIN = ROOT / "plugins" / "anticipating-shadow-points"
+EVALS = PLUGIN / "skills" / "anticipating-shadow-points" / "evals"
 OUT = ROOT / "output" / "results.json"
 
 

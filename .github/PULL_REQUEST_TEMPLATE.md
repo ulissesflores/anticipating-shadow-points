@@ -21,11 +21,11 @@
 
 <!-- Check all that apply. -->
 
-- [ ] `skills/anticipating-shadow-points/SKILL.md`
-- [ ] `skills/anticipating-shadow-points/methodology.md` or `mast-checklist.md`
-- [ ] `skills/anticipating-shadow-points/claude-p-goal-runner.md` or `execution-kernel.md`
-- [ ] `skills/anticipating-shadow-points/templates/`
-- [ ] `skills/anticipating-shadow-points/evals/`
+- [ ] `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/SKILL.md`
+- [ ] `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/methodology.md` or `mast-checklist.md`
+- [ ] `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/claude-p-goal-runner.md` or `execution-kernel.md`
+- [ ] `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/templates/`
+- [ ] `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/`
 - [ ] `commands/`
 - [ ] `scripts/` (install/uninstall/verify)
 - [ ] `tests/` (baselines, probes, evidence)

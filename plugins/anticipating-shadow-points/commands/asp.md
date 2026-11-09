@@ -1,9 +1,9 @@
 ---
-description: "ASP (Ant-Shadow-Point) — full lifecycle: research, pre-mortem, validated plan, contractual micro-TODO, /goal-driven execution, deliverables sign-off"
+description: "Plan a non-trivial task before coding: research, pre-mortem, independently checked plan, tasks with acceptance tests, execution and sign-off"
 allowed-tools: [Skill, Agent, TaskCreate, TaskUpdate, TaskList, Bash, Read, Grep, Glob, Write, Edit, AskUserQuestion]
 ---
 
-# /asp — Ant-Shadow-Point Protocol
+# /asp — Anticipating Shadow Points
 
 Invoke the `anticipating-shadow-points` skill on this task:
 
@@ -21,4 +21,4 @@ $ARGUMENTS
 1. Load the `anticipating-shadow-points` skill via the `Skill` tool, not `Read`.
 2. Follow the 13-phase protocol in order. Skip a phase only if explicitly permitted by the skill (e.g., Phase 0b zero questions OK).
 3. Iron Laws are non-negotiable. See `SKILL.md`.
-4. The non-violation contract must be acknowledged by the user before Phase 9 execution.
+4. The non-violation contract must be acknowledged by the user before Phase 9 execution, and before any separate `claude -p` session is started the user is told it runs under their permissions and usage, with the budget and turn cap stated.

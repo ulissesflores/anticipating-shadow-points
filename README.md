@@ -10,7 +10,7 @@
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-80_passing-brightgreen.svg)](tests/)
+[![tests](https://img.shields.io/badge/tests-85_passing-brightgreen.svg)](tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](output/hash-chain.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#install)
 
@@ -19,7 +19,7 @@ English (this file) · [Português (BR)](docs/README.pt.md) · [Español](docs/R
 </div>
 
 > [!IMPORTANT]
-> **Finding (Iron Law 11).** `claude -p` returns exit code 0 when the agent gracefully declines the task, with no machine-readable refusal flag in the JSON envelope. On a fixed suite of 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), **24 of 50 exited 0, every one with `stop_reason: end_turn`**, and **12 to 20 of those were declines**: 24% to 40% of the suite, depending on how a decline is counted. A shell wrapper that trusts `$?` reads all of them as success.
+> **Finding: a graceful refusal exits 0.** `claude -p` returns exit code 0 when the agent gracefully declines the task, with no machine-readable refusal flag in the JSON envelope. On a fixed suite of 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), **24 of 50 exited 0, every one with `stop_reason: end_turn`**, and **12 to 20 of those were declines**: 24% to 40% of the suite, depending on how a decline is counted. A shell wrapper that trusts `$?` reads all of them as success.
 >
 > **Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. The "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs; it is withdrawn as evidence. A real benchmark is planned, pre-specified in [`PREREGISTRATION.md`](PREREGISTRATION.md), not yet deposited.
 
@@ -41,6 +41,7 @@ Papers: [*ASP: an operational pre-mortem skill for LLM coding agents*](paper/asp
 | Replication needs | Python 3.11+, `matplotlib`, `pytest`; no model calls, about 10 seconds |
 | Evidence | 2 × 50 `claude -p` transcripts (May and July 2026); no preserved transcripts yet for the ASP effect |
 | Permissions | The skill never sets a permission mode; the child session it spawns runs under your own settings |
+| What an install copies | Only [`plugins/anticipating-shadow-points/`](plugins/anticipating-shadow-points/): Markdown, an SVG icon and the licence. No hooks, scripts, MCP servers or telemetry |
 
 ## See it
 
@@ -91,7 +92,7 @@ run_all OK: results reproduced, tests passed, provenance verified
 
 ## Results
 
-### Iron Law 11: `claude -p` exit code on a graceful decline
+### `claude -p` exit code on a graceful decline
 
 | Snapshot | CLI | Model that answered | Exit 0 | Declines with exit 0 | Reading |
 |---|---|---|---|---|---|
@@ -140,7 +141,7 @@ It needs only the standard library. CI runs it before installing anything, then 
 | Path | Command | Invoke |
 |---|---|---|
 | Plugin marketplace (recommended) | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` then `claude plugin install anticipating-shadow-points@anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
-| Session only, from a clone | `claude --plugin-dir /path/to/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
+| Session only, from a clone | `claude --plugin-dir /path/to/anticipating-shadow-points/plugins/anticipating-shadow-points` | `/anticipating-shadow-points:asp` |
 | Standalone script | `./scripts/verify.sh --pre-install && ./scripts/install.sh` | `/asp` |
 
 <details>
@@ -160,9 +161,10 @@ Use it for migrations, deploys with external dependencies, refactors across many
 ## Layout
 
 ```text
-.claude-plugin/        plugin and marketplace manifests
-skills/                the ASP skill: protocol, Iron Laws, templates, 5 evals
-commands/              /asp command
+.claude-plugin/        marketplace manifest (points at the plugin folder)
+plugins/anticipating-shadow-points/
+                       the plugin itself, and all that an install copies: skill (protocol, Iron Laws,
+                       templates, 5 evals), /asp command, icon, README, LICENSE. Markdown only
 paper/                 the two papers (Markdown source), PAPER-SHA256.txt and paper/tools/ (house-format build)
 analysis/              derivation of every published number, figures, redacted extractor
 data/                  July 2026 redacted extract, labels, codebook
@@ -176,7 +178,7 @@ run_all.py             single entry point: results -> figures -> tests -> seal -
 make_provenance.py     build or --verify the SHA-256 chain
 ```
 
-Further reading: [findings](docs/findings.md) · [architecture and design history](docs/ARCHITECTURE.md) · [the skill and its 12 Iron Laws](skills/anticipating-shadow-points/SKILL.md) · [the 5 evaluations](skills/anticipating-shadow-points/evals/) · [contributing](CONTRIBUTING.md) · [security policy](SECURITY.md) · [changelog](CHANGELOG.md) · [roadmap](ROADMAP.md).
+Further reading: [findings](docs/findings.md) · [architecture and design history](docs/ARCHITECTURE.md) · [the skill and its 12 Iron Laws](plugins/anticipating-shadow-points/skills/anticipating-shadow-points/SKILL.md) · [the 5 evaluations](plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/) · [contributing](CONTRIBUTING.md) · [security policy](SECURITY.md) · [changelog](CHANGELOG.md) · [roadmap](ROADMAP.md).
 
 ## Author
 

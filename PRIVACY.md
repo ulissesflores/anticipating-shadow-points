@@ -5,9 +5,9 @@ ASP is a Claude Code skill that runs entirely **client-side** within the user's 
 ## What ASP does locally
 
 - Reads files the user explicitly provides as task context.
-- Writes evidence and runtime artifacts to `~/Developer/ASP/runtime/<session-id>/` (on the user's own machine).
-- Optionally invokes `python3 ~/.agent/tools/recall.py` if the user has the `agentic-stack` installed. Lookups are local; nothing leaves the user's machine via this path.
-- Spawns `claude -p` subprocesses for Phase 9 autonomous execution. These subprocesses route to Anthropic's inference API per the user's existing Claude Code subscription and are subject to **Anthropic's own privacy policy** (https://www.anthropic.com/legal/privacy). ASP itself adds no additional logging or transmission.
+- Writes the Phase 9 scratch files (Goal Spec, `state.json`, `exec.json`, logs) to the plugin's own data folder, `~/.claude/plugins/data/<plugin id>/runtime/<session-id>/`, which Claude Code deletes when the plugin is uninstalled. Acceptance evidence goes to the user's project, where the user can see it.
+- Optionally reads a lessons file the project already keeps (for example one that `CLAUDE.md` points to). Reads are local.
+- Spawns `claude -p` subprocesses for Phase 9 autonomous execution, only after telling the user and getting their OK. They run under the user's own permission settings and usage, with a stated budget and turn cap. These subprocesses route to Anthropic's inference API per the user's existing Claude Code subscription and are subject to **Anthropic's own privacy policy** (https://www.anthropic.com/legal/privacy). ASP itself adds no additional logging or transmission.
 
 ## What ASP does NOT do
 
@@ -19,16 +19,16 @@ ASP is a Claude Code skill that runs entirely **client-side** within the user's 
 
 ## Network activity caused by ASP
 
-Only two outbound network calls are caused by ASP:
+ASP itself makes no network calls. Three kinds of traffic can follow from using it:
 
 1. **`git clone` / `git pull`** from `github.com/ulissesflores/anticipating-shadow-points` when the user installs or updates the plugin via the plugin marketplace. Standard package management.
 2. **`claude -p` subprocess invocations**, which route to Anthropic's inference API per the user's Claude Code subscription. Governed by Anthropic's privacy policy.
 
-The agentic-stack `recall.py` integration, when present, is local-only.
+3. **Web research in Phase 1**, through Claude Code's own web search and fetch tools, under the user's permission settings. ASP sends nothing to any server of its own.
 
 ## Data retention
 
-ASP does not retain any user data. Runtime artifacts written under `~/Developer/ASP/runtime/<session-id>/` remain on the user's machine until the user deletes them; ASP makes no copy elsewhere.
+ASP does not retain any user data. Phase 9 scratch files stay in the plugin's data folder on the user's machine until the user deletes them or uninstalls the plugin; ASP makes no copy elsewhere.
 
 ## Children's privacy
 

@@ -1,6 +1,6 @@
 # Execution Report — {{projeto}}
 
-> ASP Phase 11 output. The closure artifact for the project. Written before `memory_reflect.py` + `learn.py` calls.
+> ASP Phase 11 output. The closure artifact for the project. Written before the lessons are recorded.
 
 ## Entregue
 
@@ -39,21 +39,16 @@
 2.
 3.
 
-## Memory write-back commands (rodar logo após este report)
+## Lessons write-back (right after this report)
 
-```bash
-# Episodic + semantic entries:
-python3 ~/.agent/tools/memory_reflect.py \
-    "<categoria>" \
-    "<ação realizada>" \
-    "<resultado conciso>" \
-    --importance <5-10> \
-    --note "<lição não-óbvia que precisa sobreviver à sessão atual>"
+Record what the next session must not relearn, in the place the project already keeps lessons:
+a `CLAUDE.md` section, Claude Code's own memory, or a lessons file the project names. Ask the user
+before creating a new file for this. Write each lesson as:
 
-# Durable rule (only if Phase 2 surfaced a rule worth keeping):
-python3 ~/.agent/tools/learn.py \
-    "<regra phrased as principle>" \
-    --rationale "<incidente específico que ensinou>"
+```text
+<category> | <what was done> | <result in one line>
+Lesson: <the non-obvious point that must survive this session>
+Rule (only if Phase 2 surfaced one worth keeping): <rule phrased as a principle> — because <the incident that taught it>
 ```
 
 ## Project close confirmation

@@ -45,7 +45,7 @@ GROUPS: dict[str, list[str]] = {
         "tests/iron-law-11/scenarios/*.txt",
         "tests/iron-law-11/runs/published/**/*",
         "benchmark/runs/published/**/*",
-        "skills/anticipating-shadow-points/evals/*.md",
+        "plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/*.md",
     ],
     "data": ["data/**/*", "PREREGISTRATION.md"],
     "results": ["output/results.json"],

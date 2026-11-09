@@ -1,15 +1,15 @@
 # Hash chain
 
-**chain_hash** `6dc138cab1619b1dec0511608d986d8d2370159d57fa177320605489bbd7e987`
+**chain_hash** `cd59dbb5023758fc4e4060a8a25a829662d15f150bc3c5f62a3c07f0aa017ad5`
 
 Recompute with `python make_provenance.py --verify`.
 
 | Leaf | Files | leaf_sha256 |
 |---|---|---|
-| code | 16 | `c83b37d8c38861009e21375dcf1d7530d52e004acd45d1bfc0a0225d0e2ef870` |
-| tests | 8 | `d57839798458c7315ae31340ff931b8372867ca2f459594c71579a71ee7afa07` |
-| frozen_inputs | 406 | `b032c33808a942254a34d27016e2e43c3d58b7ea34f2b10e25c43474d67a407b` |
-| data | 6 | `5735e9240a9f91efce14669efc7242df62279fd6452d3fd359cfe645d03c3328` |
+| code | 16 | `404a10680ac672f5158989c18706e02495066fad4ebc68b76c717210f691f297` |
+| tests | 9 | `8c4eaa68a9c91f2037fa2ca7cd43c6b750e5bd99b8a58f64623c6e755d2bc4f9` |
+| frozen_inputs | 406 | `e867e6802d3350f911f2a1f0bcf456a3291923184d71bb9651da801296896467` |
+| data | 6 | `4dd26b5946bca9e198da77204240fb440ca18c4ae2a1b37d1945c7964e1935c4` |
 | results | 1 | `b043fb0af019e9894cc9622868a8145320aea675e2aef028e8ea059e373201ab` |
 
 ## Informational (NOT hashed)

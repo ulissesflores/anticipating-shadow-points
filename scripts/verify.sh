@@ -6,7 +6,7 @@
 set -u
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SKILL_SRC="$REPO_DIR/skills/anticipating-shadow-points"
+SKILL_SRC="$REPO_DIR/plugins/anticipating-shadow-points/skills/anticipating-shadow-points"
 DOCS_DIR="$REPO_DIR/docs"
 TESTS_DIR="$REPO_DIR/tests"
 SCRIPTS_DIR="$REPO_DIR/scripts"
