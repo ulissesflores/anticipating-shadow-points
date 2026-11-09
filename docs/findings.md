@@ -17,9 +17,9 @@ July 2026, Claude Code 2.1.200, 50 refusal-provoking prompts, one run.
 
 Among the 24 exit-0 trials no status field separates a decline from a delivery. The May 2026 snapshot (Claude Code 2.1.143, Opus 4.7) gave 30 of 50 (60%) under the same detector.
 
-## 2. ASP's effect on plans is not measured
+## 2. ASP's effect on plans: no measurable benefit (2026-11 study)
 
-The one published benchmark run is a mock run over fixtures the author wrote to test the matcher: GREEN 80% and RED 4% mean coverage. It shows that the matcher separates the two fixture sets, not that ASP improves plans. A real benchmark is specified in [`PREREGISTRATION.md`](../PREREGISTRATION.md) and has not been run.
+The pre-registered 2026-11 study ([`benchmark/study-2026-11/`](../benchmark/study-2026-11/)) ran 90 trials on six pinned public repositories, scored by blind judges from other vendors against reference lists written blind by three other models. ASP's full protocol covered 48% of the reference risks, plain Claude Code asked to list the ways the change could go wrong 66%, and a plain "plan this change" 56% (primary judge). ASP was behind the one-sentence request on all six tasks; that sentence beat the plain request by 10 to 13 points (p ≤ 0.0014). The earlier mock run (GREEN 80% and RED 4% mean coverage) scored fixtures the author wrote and says nothing about ASP.
 
 ## Sensitivity
 

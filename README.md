@@ -11,7 +11,7 @@
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-88_passing-brightgreen.svg)](tests/)
+[![tests](https://img.shields.io/badge/tests-96_passing-brightgreen.svg)](tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](output/hash-chain.md)
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ulissesflores/anticipating-shadow-points/blob/main/colab/replication.ipynb)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](plugins/anticipating-shadow-points/)
@@ -43,7 +43,7 @@
 > [!IMPORTANT]
 > **Finding: exit 0 is not success.** `claude -p` returns exit code 0 when the agent gracefully declines the task, with no machine-readable refusal flag in the JSON envelope. On a fixed suite of 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), **24 of 50 exited 0, every one with `stop_reason: end_turn`**, and **12 to 20 of those were declines**: 24% to 40% of the suite, depending on how a decline is counted. A shell wrapper that trusts `$?` reads all of them as success.
 >
-> **Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. The "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs; it is withdrawn as evidence. A real benchmark is planned, pre-specified in [`PREREGISTRATION.md`](PREREGISTRATION.md), not yet deposited.
+> **Measured: ASP's full protocol did not beat a one-sentence request.** In a pre-registered study (90 trials on six public repositories, Claude Opus 5.5, two blind judges from other vendors), `/asp --standard` covered **48%** of the risks that independent reviewers named, against **66%** for plain Claude Code asked *"Before planning, list the ways this change could go wrong."*, behind on all six tasks: no measurable benefit. That one sentence, by itself, raised coverage from **56% to 66%** over a plain "Plan this change." (p ≤ 0.0014 with both judges). That was a secondary comparison fixed before the data, in one model and six tasks; a confirmatory study with it as the primary question is planned. [Protocol, data and ledger](benchmark/study-2026-11/).
 
 ## The papers
 
@@ -58,7 +58,8 @@ Both are technical reports, not peer-reviewed, each with its own Zenodo record. 
 
 1. **A planning protocol you can install.** Thirteen phases: research, a Klein pre-mortem forced through the 14 MAST multi-agent failure modes, an independent validator subagent, a contract of tasks with acceptance tests, and a sign-off of deliverables. Twelve "Iron Laws" keep the agent from skipping steps.
 2. **A measured failure in a common harness pattern.** `claude -p` exits 0 on a graceful decline. The measurement, its four readings and a defensive parsing recipe are in [`paper/graceful-refusals.md`](paper/graceful-refusals.md); the recipe is built into the skill's execution phase.
-3. **Every computed number as a test.** `python run_all.py` re-derives every number computed from the committed data, asserts each one, and seals code, tests, data and results under one SHA-256 chain hash.
+3. **A pre-registered test of the protocol itself, reported as it came out.** Three conditions, six pinned repositories, blind reference lists and blind judges from other vendors, every trial and verdict chained in a hash ledger with an OpenTimestamps proof. The protocol lost to a one-sentence request; the sentence is the finding. See [Results](#results).
+4. **Every computed number as a test.** `python run_all.py` re-derives every number computed from the committed data, asserts each one, and seals code, tests, data and results under one SHA-256 chain hash.
 
 ## At a glance
 
@@ -68,8 +69,8 @@ Both are technical reports, not peer-reviewed, each with its own Zenodo record. 
 | Install | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` |
 | Runtime needs | Claude Code, `bash`, `jq` |
 | Replication needs | Python 3.11+, `matplotlib`, `pytest`; no model calls, about 10 seconds |
-| Evidence | 2 × 50 `claude -p` transcripts (May and July 2026); no preserved transcripts yet for the ASP effect |
-| Permissions | The skill never sets a permission mode; the child session it spawns runs under your own settings |
+| Evidence | 2 × 50 `claude -p` transcripts (May and July 2026); 90 preserved trials of the 2026-11 ASP study, with both judges' verdicts |
+| Permissions | The skill never sets a permission mode; the optional `--goal` child session runs under your own settings |
 | What an install copies | Only [`plugins/anticipating-shadow-points/`](plugins/anticipating-shadow-points/): Markdown, an SVG icon and the licence. No hooks, scripts, MCP servers or telemetry |
 
 ## See it
@@ -127,8 +128,10 @@ Expected output:
 ```text
 == results: analysis/results.py
 results -> output/results.json | July author 20/50, codebook 19/50, detector 9/50
+== study results: benchmark/study-2026-11/analyze.py results 5
+study -> benchmark/study-2026-11/results.json | coverage ASP 48.1%, list-what-could-go-wrong 66.3%, plain 56.0% | primary: no measurable benefit
 == figures: analysis/make_figures.py
-figures -> output/figures (2 x PNG+SVG, plus pt-BR, es, it editions)
+figures -> output/figures (3 x PNG+SVG, plus pt-BR, es, it editions)
 == tests: -m pytest -q tests
 .................................................                        [100%]
 == benchmark tests: -m pytest -q -o addopts= -c benchmark/pyproject.toml benchmark/tests
@@ -157,11 +160,36 @@ run_all OK: results reproduced, tests passed, provenance verified
 
 The May and July runs differ in model, CLI and reply language (11 of July's 20 declines are in Portuguese, which the English-only detector cannot see), so the drop from 60% to 18% under the same detector is not a trend. In July, every one of the 24 exit-0 trials carried `stop_reason: end_turn`; the only `stop_reason: refusal` was a server-side block, and it exited 1.
 
-### ASP effect on plans: not measured yet
+### ASP effect on plans: the 2026-11 study
+
+Pre-registered in [`benchmark/study-2026-11/PROTOCOL.md`](benchmark/study-2026-11/PROTOCOL.md) and timestamped before trial 1. The setup:
+- **Tasks:** six change requests on six public repositories, each pinned to one commit.
+- **Conditions:** three, all in plan mode, all asked for the same final table of at most ten risks.
+- **Runs:** 5 per task and condition, 90 in total, on Claude Opus 5.5.
+- **Reference lists:** written blind by Grok, GPT-OSS 120B and Gemini 3.8 Flash. A risk counts when at least two of them name it.
+- **Scoring:** a blind judge from another vendor (Gemini primary, Grok second) reads only the table rows, with words that would reveal the condition redacted.
+
+| Condition | Risks covered (Gemini) | (Grok) | Time per run |
+|---|---|---|---|
+| Plain: "Plan this change." | 56% | 57% | 58 s |
+| Plain + "Before planning, list the ways this change could go wrong." | **66%** | **70%** | 50 s |
+| ASP: `/asp --standard`, stopped after the validated plan | 48% | 54% | 175 s |
+
+![Coverage per task and overall in the 2026-11 study](output/figures/fig3_study_2026_11_coverage.png)
+
+- **Primary, pre-registered:** ASP minus the one-sentence request = −18 points (Gemini) and −16 (Grok), negative on 6 of 6 tasks, permutation p = 1.0. The decision rule fixed in advance says *no measurable benefit*.
+- **Secondary, pre-registered:** the one sentence minus the plain request = +10 points (p = 0.0014) and +13 (p = 0.0001).
+- **Exploratory:**
+  - ASP's answers deal with some risks in their plan rather than in the final table. Judging the whole answer narrows the gap to −8 points (66% vs 74%), with ASP still behind on 5 of 6 tasks.
+  - The two judges agree on 91.9% of 855 item decisions.
+  - All 90 trials succeeded and none changed a project file.
+- **Changed before collection, and why:** the lexical matcher fixed first could not see that two reviewers named the same problem (0% to 46% agreement), so a blind judge replaced it. Both are reported; the matcher scores near zero everywhere.
+
+Earlier evidence, kept for the record and no longer used:
 
 | Evidence | What it is | What it supports |
 |---|---|---|
-| Author's reading of 8 subagent plans (5 GREEN, 3 RED), 2026-05-17 ([summary](tests/evals-summary.md)) | Non-blind judgement against lists the author wrote; RED near 47%, GREEN near 100%; transcripts not preserved | An observation, not a measurement |
+| Author's reading of 8 subagent plans (5 GREEN, 3 RED), 2026-05-17 ([summary](tests/evals-summary.md)) | Non-blind judgement against lists the author wrote; RED near 47%, GREEN near 100%; transcripts not preserved | An observation, not a measurement; the 2026-11 study did not reproduce it |
 | Mock benchmark run, 2026-05-18 | The deterministic matcher scoring fixtures the author wrote to exercise it: RED 4%, GREEN 80% | Nothing about ASP. It shows the matcher discriminates tasks: 80% on a fixture's own list, 0.5% on other tasks' lists |
 
 ![Instrument check on the constructed fixtures](output/figures/fig2_adjudicator_fixture_check.png)
@@ -170,11 +198,11 @@ The May and July runs differ in model, CLI and reply language (11 of July's 20 d
 
 | | |
 |---|---|
-| **Claimed** | `claude -p` exited 0 with `stop_reason: end_turn` on graceful declines in two dated snapshots; the counts above follow deterministically from the committed transcripts; the shipped matcher discriminates between tasks on constructed fixtures |
-| **Not claimed** | A base rate of silent failure in real agent traffic (the suite was built to provoke declines); that the 60% to 18% drop is a trend; that ASP improves plans or real-world outcomes (not measured on preserved model output); that the 80%/4% fixture scores say anything about ASP |
-| **Frozen** | The transcripts. The models that produced them are not pinned and cannot be re-queried; re-running the prompts gives a new snapshot, not a replication |
+| **Claimed** | `claude -p` exited 0 with `stop_reason: end_turn` on graceful declines in two dated snapshots; in the 2026-11 study, ASP's protocol covered fewer of the reviewers' risks than a plain request asking for them, and that one-sentence request covered more than a plain "plan this change" (secondary, pre-registered); every count above follows deterministically from committed files |
+| **Not claimed** | A base rate of silent failure in real agent traffic (the suite was built to provoke declines); that the 60% to 18% drop is a trend; that ASP improves plans or real-world outcomes (the 2026-11 study found no benefit on risk coverage); that the one-sentence effect holds beyond one model, six tasks and model-written reference lists, or that more risks listed means better code (not measured); that the 80%/4% fixture scores say anything about ASP |
+| **Frozen** | The transcripts and the judges' verdicts. The models that produced them cannot be pinned forever; re-running gives a new snapshot, not a replication |
 
-Versions 1.0.0 to 1.0.3 (May 2026) made claims that version 2.0.0 withdraws; each one is listed in the [CHANGELOG](CHANGELOG.md). Full method and limits: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). The next measurement is planned in [`PREREGISTRATION.md`](PREREGISTRATION.md) (draft, not yet deposited).
+Versions 1.0.0 to 1.0.3 (May 2026) made claims that version 2.0.0 withdraws; each one is listed in the [CHANGELOG](CHANGELOG.md). Full method and limits: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). The study's protocol, tasks, reference lists, 90 trials, verdicts and hash ledger are in [`benchmark/study-2026-11/`](benchmark/study-2026-11/). A confirmatory study with the one-sentence request as its primary question is next on the [roadmap](ROADMAP.md).
 
 ## Integrity
 

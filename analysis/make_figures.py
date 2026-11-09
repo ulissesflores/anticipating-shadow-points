@@ -15,8 +15,16 @@ fig2_adjudicator_fixture_check
     other tasks' lists, so it discriminates task-specific vocabulary. Supports
     ``paper/asp-preprint.md`` section 5.2. (A RED-vs-GREEN bar chart of the same
     fixtures was dropped in v2.0: it reads as an ASP effect, which it is not.)
+fig3_study_2026_11_coverage
+    The pre-registered 2026-11 study: share of the blind reference risks that each
+    condition's final table covers, per task and overall, by the primary judge.
+    ASP (``/asp --standard``) is below the plain request that asks for the ways
+    the change could go wrong on all six tasks (48% vs 66%), and that one-sentence
+    request is above the plain "Plan this change." (66% vs 56%). Supports
+    ``paper/asp-preprint.md`` (study section) and the README.
 
-Inputs come only from ``output/results.json``. Outputs: PNG + SVG in
+Inputs come only from ``output/results.json`` and, for fig3,
+``benchmark/study-2026-11/results.json``. Outputs: PNG + SVG in
 ``output/figures/``. Figures are informational in the provenance seal (not
 hashed), because rasterisation varies by platform and library version.
 """
@@ -33,6 +41,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "output" / "results.json"
+STUDY = ROOT / "benchmark" / "study-2026-11" / "results.json"
 FIGDIR = ROOT / "output" / "figures"
 
 SURFACE = "#fcfcfb"
@@ -41,6 +50,7 @@ INK_2 = "#52514e"
 GRID = "#e4e3df"
 BLUE = "#2a78d6"  # categorical slot 1
 ORANGE = "#eb6834"  # categorical slot 2
+NEUTRAL = "#8a8985"  # third series, recessive
 SEQ_BLUE = ["#f3f8fe", "#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0f3d75"]
 
 plt.rcParams.update(
@@ -95,6 +105,12 @@ def _clean(ax) -> None:
 # are written next to it as <name>.<lang>.png/svg for the translated papers.
 LABELS = {
     "en": {
+        "green": "ASP (/asp --standard)",
+        "red_risk": 'Plain + "list what could go wrong"',
+        "red_plain": 'Plain "Plan this change."',
+        "all": "All 6 tasks",
+        "x3": "% of the blind reference risks covered by the final risk"
+        " table (judge: Gemini; 5 trials per task, 30 overall)",
         "may": "May 2026 · locked phrase detector\nCC 2.1.143 · Opus 4.7",
         "jul_detector": "Jul 2026 · locked phrase detector",
         "jul_core": "Jul 2026 · unambiguous declines only",
@@ -106,6 +122,12 @@ LABELS = {
         "y2": "author-constructed GREEN fixture of task",
     },
     "pt-BR": {
+        "green": "ASP (/asp --standard)",
+        "red_risk": 'Simples + "liste o que pode dar errado"',
+        "red_plain": 'Simples "Planeje esta mudança."',
+        "all": "As 6 tarefas",
+        "x3": "% dos riscos de referência cegos cobertos pela tabela"
+        " final (juiz: Gemini; 5 rodadas por tarefa, 30 no total)",
         "may": "Mai 2026 · detector de frases travado\nCC 2.1.143 · Opus 4.7",
         "jul_detector": "Jul 2026 · detector de frases travado",
         "jul_core": "Jul 2026 · só recusas inequívocas",
@@ -117,6 +139,12 @@ LABELS = {
         "y2": "fixture GREEN escrito pelo autor, da tarefa",
     },
     "es": {
+        "green": "ASP (/asp --standard)",
+        "red_risk": 'Simple + "enumera lo que puede salir mal"',
+        "red_plain": 'Simple "Planifica este cambio."',
+        "all": "Las 6 tareas",
+        "x3": "% de los riesgos de referencia ciegos cubiertos por la tabla"
+        " final (juez: Gemini; 5 ejecuciones por tarea, 30 en total)",
         "may": "May 2026 · detector de frases bloqueado\nCC 2.1.143 · Opus 4.7",
         "jul_detector": "Jul 2026 · detector de frases bloqueado",
         "jul_core": "Jul 2026 · solo rechazos inequívocos",
@@ -129,6 +157,12 @@ LABELS = {
         "y2": "fixture GREEN escrito por el autor, de la tarea",
     },
     "it": {
+        "green": "ASP (/asp --standard)",
+        "red_risk": 'Semplice + "elenca cosa può andare storto"',
+        "red_plain": 'Semplice "Pianifica questa modifica."',
+        "all": "Tutti i 6 compiti",
+        "x3": "% dei rischi di riferimento ciechi coperti dalla tabella"
+        " finale (giudice: Gemini; 5 esecuzioni per compito, 30 in totale)",
         "may": "Mag 2026 · rilevatore di frasi bloccato\nCC 2.1.143 · Opus 4.7",
         "jul_detector": "Lug 2026 · rilevatore di frasi bloccato",
         "jul_core": "Lug 2026 · solo rifiuti inequivocabili",
@@ -239,13 +273,48 @@ def fig2(results: dict, lang: str = "en") -> None:
     _save(fig, "fig2_adjudicator_fixture_check" + ("" if lang == "en" else f".{lang}"))
 
 
+def fig3(study: dict, lang: str = "en") -> None:
+    """Per-task coverage of the three conditions of the 2026-11 study (primary judge).
+
+    Parameters
+    ----------
+    study : dict
+        Contents of ``benchmark/study-2026-11/results.json``.
+    lang : str
+        Edition language, a key of ``LABELS``.
+    """
+    t = LABELS[lang]
+    means = study["gemini"]["means"]
+    tasks = sorted(means)
+    series = [("RED-plain", t["red_plain"], NEUTRAL), ("RED-risk", t["red_risk"], ORANGE),
+              ("GREEN", t["green"], BLUE)]  # fmt: skip
+    overall = study["gemini"]["overall"]
+    rows = [*tasks, t["all"]]
+    fig, ax = plt.subplots(figsize=(7.2, 3.8))
+    for k, (cond, label, color) in enumerate(series):
+        xs = [means[task][cond] * 100 for task in tasks] + [overall[cond] * 100]
+        ys = [y + (k - 1) * 0.18 for y in range(len(rows))]
+        ax.plot(xs, ys, "o", color=color, markersize=7, markeredgecolor=SURFACE,
+                markeredgewidth=1.5, label=label)  # fmt: skip
+    ax.axhline(len(tasks) - 0.5, color=GRID, linewidth=1)
+    ax.set_yticks(range(len(rows)), rows)
+    ax.invert_yaxis()
+    ax.set_xlim(0, 100)
+    ax.set_xlabel(t["x3"], fontsize=8.5)
+    ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=3, frameon=False, fontsize=8)
+    _clean(ax)
+    _save(fig, "fig3_study_2026_11_coverage" + ("" if lang == "en" else f".{lang}"))
+
+
 def main() -> None:
     """Render all figures from ``output/results.json``."""
     results = json.loads(RESULTS.read_text(encoding="utf-8"))
+    study = json.loads(STUDY.read_text(encoding="utf-8"))
     for lang in LABELS:
         fig1(results, lang)
         fig2(results, lang)
-    print(f"figures -> {FIGDIR.relative_to(ROOT)} (2 x PNG+SVG, plus pt-BR, es, it editions)")
+        fig3(study, lang)
+    print(f"figures -> {FIGDIR.relative_to(ROOT)} (3 x PNG+SVG, plus pt-BR, es, it editions)")
 
 
 if __name__ == "__main__":

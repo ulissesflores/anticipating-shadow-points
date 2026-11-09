@@ -55,7 +55,7 @@ Privacy: [PRIVACY.md](https://github.com/ulissesflores/anticipating-shadow-point
 
 ## What is and isn't known
 
-The pre-mortem and the independent check rest on published evidence: prospective hindsight (Mitchell, Russo & Pennington, 1989), MAST (Cemri et al., 2025), and studies showing that models correct their own reasoning poorly without outside feedback (Huang et al., 2024) but fix an error once told where it is (Tyen et al., 2024). **Whether ASP itself produces better plans has not been measured yet.** A benchmark is specified in advance in the repository's `PREREGISTRATION.md`.
+The pre-mortem and the independent check rest on published evidence: prospective hindsight (Mitchell, Russo & Pennington, 1989), MAST (Cemri et al., 2025), and studies showing that models correct their own reasoning poorly without outside feedback (Huang et al., 2024) but fix an error once told where it is (Tyen et al., 2024). **Measured in a pre-registered study (2026-11):** on six real repositories, this protocol did not find more risks than plain Claude Code asked *"Before planning, list the ways this change could go wrong."*, and that one sentence alone found more than a plain request. Use `--quick` for reversible work, and read the [study](https://github.com/ulissesflores/anticipating-shadow-points/tree/main/benchmark/study-2026-11) before relying on the full protocol.
 
 ## Learn more
 

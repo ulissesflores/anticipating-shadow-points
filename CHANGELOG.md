@@ -9,6 +9,28 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## [2.0.0] — 2026-11-09
 
+### Measured (2026-11-09)
+- **The first real measurement of ASP**, pre-registered and timestamped before
+  trial 1 ([`benchmark/study-2026-11/`](benchmark/study-2026-11/)). The design
+  was 90 trials: six pinned public repositories × three conditions × five
+  replicates, on Claude Opus 5.5. The reference lists were written blind by
+  three models of other vendors, and two blind judges scored the answers.
+  - **Primary:** ASP's protocol covered 48% of the reviewers' risks, against
+    66% for plain Claude Code asked "Before planning, list the ways this change
+    could go wrong." It was behind on all six tasks: **no measurable benefit**.
+  - **Secondary:** that one sentence beat a plain "Plan this change." by +10
+    and +13 points (p ≤ 0.0014).
+  - **Exploratory:** judging whole answers narrows the gap to −8 points.
+  - The lexical matcher fixed first was blind to paraphrase on the
+    reviewers' own lists. It was demoted before any data, and both scorers
+    are reported.
+- **Every trial, verdict and analysis is chained in a hash ledger**, with
+  OpenTimestamps proofs and a Software Heritage snapshot. The study's numbers
+  are asserted in `tests/test_study_2026_11.py`, its analysis runs in
+  `run_all.py`, and its files are in the provenance seal (`fig3` added).
+- Protocol 2 of `PREREGISTRATION.md` was replaced before deposit by the study
+  protocol. The original text is kept.
+
 ### Changed (packaging, 2026-11-08 and 09)
 - **The plugin moved into its own folder**, `plugins/anticipating-shadow-points/`.
   An install, and the plugin directory's review, now cover only Markdown, the

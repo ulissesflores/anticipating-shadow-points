@@ -11,7 +11,7 @@
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-88_passing-brightgreen.svg)](tests/)
+[![tests](https://img.shields.io/badge/tests-96_passing-brightgreen.svg)](tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](output/hash-chain.md)
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ulissesflores/anticipating-shadow-points/blob/main/colab/replication.ipynb)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](plugins/anticipating-shadow-points/)
@@ -45,7 +45,7 @@
 > [!IMPORTANT]
 > **Achado: exit 0 não é sucesso.** O `claude -p` retorna exit code 0 quando o agente recusa a tarefa de forma cortês, sem nenhum sinalizador de recusa legível por máquina no envelope JSON. Em uma suíte fixa de 50 prompts que provocam recusa (Claude Code 2.1.200, julho de 2026), **24 de 50 terminaram com exit 0, todas com `stop_reason: end_turn`**, e **12 a 20 delas foram recusas**: 24% a 40% da suíte, dependendo de como uma recusa é contada. Um wrapper de shell que confia em `$?` lê todas como sucesso.
 >
-> **Ainda não medido: se o ASP melhora os planos.** O autor observou sem cegamento em cinco tarefas em maio de 2026, e essas transcrições não foram preservadas. O número "80% vs 4%" das versões anteriores veio da pontuação de fixtures que o autor escreveu para testar o matcher, não de saídas de modelo; ele está retirado como evidência. Um benchmark real está planejado, pré-especificado em [`PREREGISTRATION.md`](PREREGISTRATION.md), ainda não depositado.
+> **Medido: o protocolo completo do ASP não superou um pedido de uma frase.** Num estudo pré-registrado (90 rodadas em seis repositórios públicos, Claude Opus 5.5, dois juízes cegos de outros fornecedores), o `/asp --standard` cobriu **48%** dos riscos nomeados por revisores independentes, contra **66%** do Claude Code simples com o pedido *"Before planning, list the ways this change could go wrong."* (antes de planejar, liste o que pode dar errado), atrás nas seis tarefas: sem benefício mensurável. Essa frase, sozinha, elevou a cobertura de **56% para 66%** sobre um simples "Plan this change." (p ≤ 0,0014 com os dois juízes). Era uma comparação secundária fixada antes dos dados, em um modelo e seis tarefas; um estudo confirmatório com ela como pergunta principal está planejado. [Protocolo, dados e registro](benchmark/study-2026-11/).
 
 ## Os artigos
 
@@ -60,7 +60,8 @@ Os dois são relatórios técnicos, sem revisão por pares, cada um com registro
 
 1. **Um protocolo de planejamento que você pode instalar.** Treze fases: pesquisa, um pre-mortem de Klein forçado através dos 14 modos de falha multiagente do MAST, um subagente validador independente, um contrato de tarefas com testes de aceitação e uma aprovação final das entregas. Doze "Iron Laws" impedem o agente de pular etapas.
 2. **Uma falha medida em um padrão comum de harness.** O `claude -p` retorna exit 0 diante de uma recusa cortês. A medição, suas quatro leituras e uma receita de parsing defensivo estão em [`paper/graceful-refusals.md`](paper/graceful-refusals.md); a receita está embutida na fase de execução da skill.
-3. **Cada número publicado como um teste.** O `python run_all.py` re-deriva os números a partir de dados versionados, verifica cada um por asserção e sela código, testes, dados e resultados sob um único hash de cadeia SHA-256.
+3. **Um teste pré-registrado do próprio protocolo, relatado como saiu.** Três condições, seis repositórios fixados, listas de referência e juízes cegos de outros fornecedores, cada rodada e cada veredito encadeados num registro de hashes com prova no OpenTimestamps. O protocolo perdeu para um pedido de uma frase; a frase é o achado. Veja [Resultados](#resultados).
+4. **Cada número publicado como um teste.** O `python run_all.py` re-deriva os números a partir de dados versionados, verifica cada um por asserção e sela código, testes, dados e resultados sob um único hash de cadeia SHA-256.
 
 ## Em resumo
 
@@ -70,8 +71,8 @@ Os dois são relatórios técnicos, sem revisão por pares, cada um com registro
 | Instalação | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` |
 | Requisitos de execução | Claude Code, `bash`, `jq` |
 | Requisitos de replicação | Python 3.11+, `matplotlib`, `pytest`; nenhuma chamada de modelo, cerca de 10 segundos |
-| Evidência | 2 × 50 transcrições de `claude -p` (maio e julho de 2026); ainda sem transcrições preservadas para o efeito do ASP |
-| Permissões | A skill nunca define um modo de permissão; a sessão filha que ela inicia roda sob as suas próprias configurações |
+| Evidência | 2 × 50 transcrições de `claude -p` (maio e julho de 2026); 90 rodadas preservadas do estudo de 2026-11 sobre o ASP, com os vereditos dos dois juízes |
+| Permissões | A skill nunca define um modo de permissão; a sessão filha opcional de `--goal` roda sob as suas próprias configurações |
 
 ## Veja funcionando
 
@@ -130,8 +131,10 @@ Saída esperada:
 ```text
 == results: analysis/results.py
 results -> output/results.json | July author 20/50, codebook 19/50, detector 9/50
+== study results: benchmark/study-2026-11/analyze.py results 5
+study -> benchmark/study-2026-11/results.json | coverage ASP 48.1%, list-what-could-go-wrong 66.3%, plain 56.0% | primary: no measurable benefit
 == figures: analysis/make_figures.py
-figures -> output/figures (2 x PNG+SVG, plus pt-BR, es, it editions)
+figures -> output/figures (3 x PNG+SVG, plus pt-BR, es, it editions)
 == tests: -m pytest -q tests
 .................................................                        [100%]
 == benchmark tests: -m pytest -q -o addopts= -c benchmark/pyproject.toml benchmark/tests
@@ -160,11 +163,36 @@ run_all OK: results reproduced, tests passed, provenance verified
 
 As execuções de maio e julho diferem em modelo e CLI, portanto a queda de 60% para 18% sob o mesmo detector é uma mudança de alvo, não uma tendência. Em julho, cada um dos 24 ensaios com exit 0 trazia `stop_reason: end_turn`; o único `stop_reason: refusal` foi um bloqueio no lado do servidor, e terminou com exit 1.
 
-### Efeito do ASP sobre os planos: ainda não medido
+### Efeito do ASP sobre os planos: o estudo de 2026-11
+
+Pré-registrado em [`benchmark/study-2026-11/PROTOCOL.md`](benchmark/study-2026-11/PROTOCOL.md) e carimbado no tempo antes da rodada 1. Como foi feito:
+- **Tarefas:** seis pedidos de mudança em seis repositórios públicos, cada um fixado num commit.
+- **Condições:** três, todas em modo plano, todas pedindo a mesma tabela final de no máximo dez riscos.
+- **Rodadas:** 5 por tarefa e condição, 90 no total, com o Claude Opus 5.5.
+- **Listas de referência:** escritas às cegas por Grok, GPT-OSS 120B e Gemini 3.8 Flash. Um risco conta quando pelo menos dois deles o citam.
+- **Pontuação:** um juiz cego de outro fornecedor (Gemini o principal, Grok o segundo) lê só as linhas da tabela, com as palavras que revelariam a condição apagadas.
+
+| Condição | Riscos cobertos (Gemini) | (Grok) | Tempo por rodada |
+|---|---|---|---|
+| Simples: "Plan this change." | 56% | 57% | 58 s |
+| Simples + "Before planning, list the ways this change could go wrong." | **66%** | **70%** | 50 s |
+| ASP: `/asp --standard`, parado após o plano validado | 48% | 54% | 175 s |
+
+![Cobertura por tarefa e no total no estudo de 2026-11](output/figures/fig3_study_2026_11_coverage.pt-BR.png)
+
+- **Primário, pré-registrado:** ASP menos o pedido de uma frase = −18 pontos (Gemini) e −16 (Grok), negativo em 6 de 6 tarefas, permutação p = 1,0. A regra de decisão fixada antes diz *sem benefício mensurável*.
+- **Secundário, pré-registrado:** a frase menos o pedido simples = +10 pontos (p = 0,0014) e +13 (p = 0,0001).
+- **Exploratório:**
+  - As respostas do ASP tratam alguns riscos dentro do plano, e não na tabela final. Julgar a resposta inteira reduz a diferença para −8 pontos (66% contra 74%), com o ASP ainda atrás em 5 de 6 tarefas.
+  - Os dois juízes concordam em 91,9% de 855 decisões por item.
+  - As 90 rodadas terminaram com sucesso e nenhuma alterou arquivo do projeto.
+- **Mudado antes da coleta, e por quê:** o matcher lexical fixado primeiro não via que dois revisores citavam o mesmo problema (0% a 46% de concordância), então um juiz cego o substituiu. Os dois são relatados; o matcher dá perto de zero em tudo.
+
+Evidência anterior, mantida para registro e não mais usada:
 
 | Evidência | O que é | O que sustenta |
 |---|---|---|
-| Leitura do autor de 8 planos de subagentes (5 GREEN, 3 RED), 2026-05-17 ([resumo](tests/evals-summary.md)) | Julgamento não cego contra listas que o autor escreveu; RED perto de 47%, GREEN perto de 100%; transcrições não preservadas | Uma observação, não uma medição |
+| Leitura do autor de 8 planos de subagentes (5 GREEN, 3 RED), 2026-05-17 ([resumo](tests/evals-summary.md)) | Julgamento não cego contra listas que o autor escreveu; RED perto de 47%, GREEN perto de 100%; transcrições não preservadas | Uma observação, não uma medição; o estudo de 2026-11 não a reproduziu |
 | Execução simulada (mock) do benchmark, 2026-05-18 | O matcher determinístico pontuando fixtures que o autor escreveu para exercitá-lo: RED 4%, GREEN 80% | Nada sobre o ASP. Mostra que o matcher discrimina tarefas: 80% sobre a lista da própria fixture, 0.5% sobre as listas de outras tarefas |
 
 ![Verificação do instrumento nas fixtures construídas](output/figures/fig2_adjudicator_fixture_check.png)
@@ -173,11 +201,11 @@ As execuções de maio e julho diferem em modelo e CLI, portanto a queda de 60% 
 
 | | |
 |---|---|
-| **Afirmado** | O `claude -p` terminou com exit 0 e `stop_reason: end_turn` em recusas corteses em dois snapshots datados; as contagens acima decorrem deterministicamente das transcrições versionadas; o matcher distribuído discrimina entre tarefas em fixtures construídas |
-| **Não afirmado** | Uma taxa-base de falha silenciosa no tráfego real de agentes (a suíte foi construída para provocar recusas); que a queda de 60% para 18% seja uma tendência; que o ASP melhore planos ou resultados no mundo real (não medido sobre saída de modelo preservada); que as pontuações de fixture de 80%/4% digam qualquer coisa sobre o ASP |
-| **Congelado** | As transcrições. Os modelos que as produziram não estão fixados e não podem ser consultados de novo; reexecutar os prompts gera um novo snapshot, não uma replicação |
+| **Afirmado** | O `claude -p` terminou com exit 0 e `stop_reason: end_turn` em recusas corteses em dois snapshots datados; no estudo de 2026-11, o protocolo do ASP cobriu menos riscos dos revisores do que um pedido simples que os pede, e esse pedido de uma frase cobriu mais do que um simples "planeje esta mudança" (secundário, pré-registrado); cada contagem acima decorre deterministicamente de arquivos versionados |
+| **Não afirmado** | Uma taxa-base de falha silenciosa no tráfego real de agentes (a suíte foi construída para provocar recusas); que a queda de 60% para 18% seja uma tendência; que o ASP melhore planos ou resultados no mundo real (o estudo de 2026-11 não encontrou benefício na cobertura de riscos); que o efeito da frase valha além de um modelo, seis tarefas e listas escritas por modelos, ou que mais riscos listados signifiquem código melhor (não medido); que as pontuações de fixture de 80%/4% digam qualquer coisa sobre o ASP |
+| **Congelado** | As transcrições e os vereditos dos juízes. Os modelos que os produziram não podem ser fixados para sempre; reexecutar gera um novo snapshot, não uma replicação |
 
-As versões 1.0.0 a 1.0.3 (maio de 2026) fizeram afirmações que a versão 2.0.0 retira; cada uma está listada no [CHANGELOG](CHANGELOG.md). Método completo e limites: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). A próxima medição está planejada em [`PREREGISTRATION.md`](PREREGISTRATION.md) (rascunho, ainda não depositado).
+As versões 1.0.0 a 1.0.3 (maio de 2026) fizeram afirmações que a versão 2.0.0 retira; cada uma está listada no [CHANGELOG](CHANGELOG.md). Método completo e limites: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). O protocolo, as tarefas, as listas de referência, as 90 rodadas, os vereditos e o registro de hashes do estudo estão em [`benchmark/study-2026-11/`](benchmark/study-2026-11/). Um estudo confirmatório com o pedido de uma frase como pergunta principal é o próximo no [roadmap](ROADMAP.md).
 
 ## Integridade
 

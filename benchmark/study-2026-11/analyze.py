@@ -162,6 +162,10 @@ def summarise(scores: dict, replicates: int) -> dict:
     d, per = delta(full, *PRIMARY) if full else (0.0, {})
     p = permutation_p(full, *PRIMARY) if full else 1.0
     return {
+        "overall": {
+            c: round(statistics.fmean(v for cells in scores.values() for v in cells[c]), 4)
+            for c in ("GREEN", "RED-risk", "RED-plain")
+        },
         "means": {
             t: {k: round(statistics.fmean(v), 4) if v else None for k, v in c.items()}
             for t, c in scores.items()
@@ -249,6 +253,11 @@ if __name__ == "__main__":
         )
     elif sys.argv[1:2] == ["results"]:
         r = do_results(int(sys.argv[2]) if len(sys.argv) > 2 else 5)
-        print(json.dumps({s: r[s] for s in ("gemini", "grok", "matcher")}, indent=1))
+        o = r["gemini"]["overall"]
+        print(
+            "study -> benchmark/study-2026-11/results.json | coverage ASP "
+            f"{o['GREEN']:.1%}, list-what-could-go-wrong {o['RED-risk']:.1%}, plain "
+            f"{o['RED-plain']:.1%} | primary: {r['gemini']['primary']['decision']}"
+        )
     else:
         sys.exit(__doc__)

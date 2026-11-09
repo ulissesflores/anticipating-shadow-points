@@ -1263,6 +1263,11 @@
  ],
  "primary_scorer": "gemini",
  "gemini": {
+  "overall": {
+   "GREEN": 0.4811,
+   "RED-risk": 0.6635,
+   "RED-plain": 0.56
+  },
   "means": {
    "T1": {
     "GREEN": 0.6223,
@@ -1322,6 +1327,11 @@
   }
  },
  "grok": {
+  "overall": {
+   "GREEN": 0.5378,
+   "RED-risk": 0.7022,
+   "RED-plain": 0.5679
+  },
   "means": {
    "T1": {
     "GREEN": 0.6445,
@@ -1381,6 +1391,11 @@
   }
  },
  "matcher": {
+  "overall": {
+   "GREEN": 0.0172,
+   "RED-risk": 0.0074,
+   "RED-plain": 0.0095
+  },
   "means": {
    "T1": {
     "GREEN": 0.0,

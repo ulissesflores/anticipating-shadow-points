@@ -10,20 +10,29 @@ Stated honestly: what the next versions add, and what they still will not prove.
 - Demo recordings and figures as code; translations regenerated from the revised English.
 - Runner no longer sets a permission mode (shipped in 1.0.4).
 
-## Next: two experiments, drafted and not yet deposited
+## Done in v2.0.0: the first real measurement of ASP
 
-Both are specified in [`PREREGISTRATION.md`](PREREGISTRATION.md) and run only after the document is deposited with a public timestamp:
+The 2026-11 study ([`benchmark/study-2026-11/`](benchmark/study-2026-11/)) ran 90 pre-registered trials on six pinned public repositories. ASP's full protocol covered fewer of the blind reviewers' risks than plain Claude Code asked to list the ways a change could go wrong: no measurable benefit. That one sentence beat a plain "plan this change" by 10 to 13 points (secondary, pre-registered).
 
-1. A third `claude -p` snapshot: pinned model, two turn caps, clean-room precondition, deterministic primary outcome.
-2. The first real ASP benchmark: real-mode RED/GREEN runs with preserved, hash-sealed transcripts, scored by the shipped matcher against expected lists written blind by independent engineers.
+## Next
 
-The second experiment is the source of the series' third paper: the scientific paper on ASP, reporting the benchmark's result under the decision rule fixed in advance. Until it runs, the whitepaper stays what it is, an experience report, and claims no measured effect.
+1. **A confirmatory study of the one-sentence pre-mortem**, with it as the primary question:
+   - 12 to 15 pinned tasks and a second model;
+   - a precision measure (are the listed risks real?) next to coverage;
+   - a human engineer on a sample of the reference lists.
+
+   It reuses the 2026-11 infrastructure and is pre-registered and timestamped before trial 1. It is the source of the series' third paper.
+2. **ASP v2.1, rebuilt on what was measured.**
+   - The one-sentence pre-mortem becomes the cheap default.
+   - The full protocol becomes an option that has to earn its cost.
+   - The same study design re-measures it.
+3. **A third `claude -p` snapshot** (Protocol 1 of [`PREREGISTRATION.md`](PREREGISTRATION.md)): pinned model, two turn caps, clean-room precondition.
 
 ## Open, and not claimed until done
 
 | Item | Why it matters | Blocker |
 |---|---|---|
-| Blind re-authoring of the five benchmark expected lists by independent engineers | No preserved model output yet measures ASP; and lists written by the author would make any measurement circular | Needs two or more outside reviewers |
-| MAST ablation with a blind placebo prompt | Tests whether the 14-mode enumeration, not prompt length or framing, drives the GREEN effect | Needs the blind lists above first |
+| Human reviewers next to the model-written reference lists | The 2026-11 lists were written by three models of other vendors, a stated weakening | One or more outside engineers |
+| MAST ablation with a blind placebo prompt | Would test what part of the protocol helps; after the 2026-11 result, first test whether any part beats the one sentence | The confirmatory study first |
 | Human second rater on the July 2026 labels | The 40% rests on one non-blind rater; an LLM panel agreed but shares lineage with the model under test | Needs one outside human rater |
-| ASP for decisions outside code (legal, accounting, strategy) | The pre-mortem and the independent check are domain-neutral; the shipped checklist is not | A domain-specific checklist and its own blind lists; an exploratory pilot is reserved in the 2026-11 study |
+| ASP for decisions outside code (legal, accounting, strategy) | The pre-mortem and the independent check are domain-neutral; the shipped checklist is not | A domain-specific checklist and its own blind lists; not run in 2026-11, since the protocol did not beat the baseline in code |

@@ -30,7 +30,7 @@ ASP is a Claude Code skill that surfaces the failure modes a senior engineer wou
 
 ![A recorded July 2026 trial: the agent refuses, exit code is 0, stop_reason is end_turn](assets/demo/exit-code.gif)
 
-**Not yet measured: whether ASP improves plans.** The author observed it without blinding on five tasks in May 2026, and those transcripts were not preserved. An "80% vs 4%" figure in earlier versions came from scoring fixtures the author wrote to test the matcher, not model outputs, and is withdrawn as evidence. The first real benchmark is [pre-specified](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/PREREGISTRATION.md) with expected lists written blind by independent engineers.
+**Measured: ASP's full protocol did not beat a one-sentence request.** In a pre-registered study (90 trials on six public repositories, Claude Opus 5.5, two blind judges from other vendors), `/asp --standard` covered 48% of the risks that independent reviewers named, against 66% for plain Claude Code asked *"Before planning, list the ways this change could go wrong."*: no measurable benefit. That one sentence, by itself, raised coverage from 56% to 66% over a plain "Plan this change." (p ≤ 0.0014), a secondary comparison fixed before the data; a confirmatory study is planned. [Study](https://github.com/ulissesflores/anticipating-shadow-points/tree/main/benchmark/study-2026-11).
 
 ![run_all.py re-derives every published number, runs the tests and verifies the SHA-256 seal](assets/demo/replicate.gif)
 
