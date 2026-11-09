@@ -2,8 +2,8 @@
 
 > ASP Phase 8 output (paired with micro-TODO). The rendered output is consumed by **one of three execution paths** in Phase 9:
 >
-> 1. **Primary (v5)**: `claude -p /goal` child via stdin pipe — see `claude-p-goal-runner.md`. This is the default.
-> 2. **Fallback**: evaluator subagent of the native in-session kernel — see `execution-kernel.md`. Used when `--no-claude-p` OR task <5 steps.
+> 1. **Default**: evaluator subagent of the native in-session kernel — see `execution-kernel.md`.
+> 2. **Opt-in (`--goal`)**: `claude -p /goal` child via stdin pipe — see `claude-p-goal-runner.md`.
 > 3. **Alternative**: user typing `/goal "..."` manually in their terminal — opt-in interactive autonomous mode.
 >
 > Regardless of consumer, the schema below is the same. Focus on completion-condition clarity — the text must be readable enough that ANY evaluator (Anthropic's built-in, our subagent, or the user themselves) can decide done/not-done unambiguously.

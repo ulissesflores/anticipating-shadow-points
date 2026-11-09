@@ -37,7 +37,7 @@ From Claude Code:
 /asp <describe the task>
 /asp --quick <task>      # no independent check, no separate session (cheapest)
 /asp --paranoid <task>   # two independent checks and stricter evaluation
-/asp --no-goal <task>    # plan with ASP, then execute step by step yourself
+/asp --goal <task>       # opt-in: execute in a separate background session
 ```
 
 The default is `--standard`. Skip ASP for one-line edits, renames and questions. It costs more turns than a plain request, by design.
@@ -45,7 +45,7 @@ The default is `--standard`. Skip ASP for one-line edits, renames and questions.
 ## What it does on your machine
 
 - **Ships only Markdown.** No hooks, no MCP servers, no scripts, no binaries, no telemetry. Nothing runs unless you type `/asp` or Claude chooses the skill for a task that fits its description.
-- **Optional second session.** In execution, ASP can start a separate headless Claude Code session (`claude -p`) to work through the approved plan. Before it does, it tells you so and waits for your OK. That session:
+- **Optional second session, off by default.** Execution runs in your session. Only with `--goal` does ASP start a separate headless Claude Code session (`claude -p`) to work through the approved plan, and before it does, it tells you so and waits for your OK. That session:
   - runs under **your own permission settings**: ASP passes no permission flag, so anything you have not pre-allowed is denied;
   - uses **your plan or API usage**, capped by a budget (`--max-budget-usd`) and a turn limit that it states up front;
   - writes its scratch files to the plugin's data folder (`~/.claude/plugins/data/…`), which is removed when you uninstall the plugin.

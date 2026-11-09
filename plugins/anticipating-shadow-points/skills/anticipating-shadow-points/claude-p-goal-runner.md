@@ -208,9 +208,8 @@ Cost trade-off: ~2x more IO but real-time visibility into the child's reasoning.
 
 | Situation | Runner | Rationale |
 |---|---|---|
-| Task has ≥5 micro-steps | `claude -p /goal` (this runner) | Spawn overhead amortized; native /goal evaluator handles complex flow |
-| Task has <5 micro-steps | Native kernel (`execution-kernel.md`) | Spawn overhead not justified for small work |
-| User passed `--no-claude-p` | Native kernel | Explicit user choice |
+| User passed `--goal` and agreed at Phase 7 | `claude -p /goal` (this runner) | Explicit opt-in to a background session |
+| No `--goal` flag | Native kernel (`execution-kernel.md`) | The default: the user sees every step |
 | User passed `--no-kernel` | Vanilla `executing-plans` skill | Manual step-by-step, no autonomy |
 | Inside a child session (ASP_IN_GOAL=1) | NEITHER — refuse with Iron Law 9 | Prevent recursion |
 | `claude` binary not in PATH | Native kernel + warn | Graceful degradation |

@@ -1,0 +1,17 @@
+{
+  "note": "Six change requests on public repositories, each pinned to one commit. Written 2026-11-09 before any reference list or trial existed.",
+  "tasks": [
+    {"id": "T1", "repo": "https://github.com/fastapi/full-stack-fastapi-template", "commit": "aabb90126964a164e02aff39e7c385bb0598236d", "shape": "data lifecycle",
+     "request": "Add soft delete for users: deleting a user hides the account but keeps their items, and an admin can restore it within 30 days."},
+    {"id": "T2", "repo": "https://github.com/miguelgrinberg/microblog", "commit": "a975ef64864354867c88e0ed3a17ba7d17dca752", "shape": "scheduled job",
+     "request": "Send every user a weekly email digest of the new posts written by the people they follow."},
+    {"id": "T3", "repo": "https://github.com/HackSoftware/Django-Styleguide-Example", "commit": "a70ef43d7df03706c1211d4fcfd70b4b0120ba1e", "shape": "authentication",
+     "request": "Let a user sign in with Google or with their password on the same account, linking the two by email address."},
+    {"id": "T4", "repo": "https://github.com/sindresorhus/ky", "commit": "3541888878c4d303a8bc2ad61815f4e048f55a5d", "shape": "shared library behaviour",
+     "request": "Make ky retry POST and PATCH requests by default when the network fails, so that flaky mobile connections stop failing."},
+    {"id": "T5", "repo": "https://github.com/testdrivenio/django-on-docker", "commit": "26be9cd5f891734425e4fe754d6340b92180b471", "shape": "deploy",
+     "request": "Deploy new versions with zero downtime: run the database migrations automatically on every deploy and keep the site up while the new container starts."},
+    {"id": "T6", "repo": "https://github.com/gothinkster/node-express-realworld-example-app", "commit": "30b68e1e881462b2f4164ea09ab4c4f5699c7b0b", "shape": "schema migration",
+     "request": "Allow an article to have several co-authors, while keeping existing article URLs and API responses working for current clients."}
+  ]
+}

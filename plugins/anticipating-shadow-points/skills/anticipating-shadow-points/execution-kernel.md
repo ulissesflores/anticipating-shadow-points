@@ -1,8 +1,8 @@
-# Native Execution Kernel — Phase 9 Fallback
+# Native Execution Kernel — Phase 9 Default
 
-> v4 native kernel, retained in v5 as **fallback** for tasks with <5 micro-steps OR when `--no-claude-p` is set OR when `claude` CLI is unavailable.
+> The default Phase 9 path: an in-session worker/evaluator pattern the user can watch step by step.
 >
-> Primary path is `claude -p /goal` (see `claude-p-goal-runner.md`). This document describes the in-session worker/evaluator pattern used when the primary path is not chosen.
+> The `claude -p /goal` child session (see `claude-p-goal-runner.md`) runs only when the user passes `--goal`.
 
 ## 1. Worker loop (pseudocode)
 
@@ -106,9 +106,8 @@ These files are durable evidence the project-close audit can inspect.
 
 | Situation | Use this kernel? |
 |---|---|
-| ≥5 micro-steps in TaskList | No — use `claude-p-goal-runner.md` (subprocess) instead |
-| <5 micro-steps | Yes — spawn overhead not justified |
-| User passed `--no-claude-p` | Yes — explicit choice |
+| No `--goal` flag | Yes — the default |
+| User passed `--goal` | No — use `claude-p-goal-runner.md` (subprocess) |
 | `claude` binary missing | Yes — graceful degradation |
 | Inside `ASP_IN_GOAL=1` child | NEITHER — refuse via Iron Law 9 |
 

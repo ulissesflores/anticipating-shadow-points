@@ -9,7 +9,7 @@ description: Use when starting a non-trivial engineering task (feature, refactor
 
 **ASP IS Plan-Validate-Execute discipline applied to agentic work, with explicit pre-mortem detection of hidden failure modes ("Ant-Shadow-Points") before any line of code is written.**
 
-Core principle: **No implementation without shadow-point pass first.** Every non-trivial task gets researched, pre-mortemed, planned, validated by an independent agent, contracted into a micro-TODO, executed via `/goal` with built-in evaluator, signed-off per-deliverable, and closed with memory write-back.
+Core principle: **No implementation without shadow-point pass first.** Every non-trivial task gets researched, pre-mortemed, planned, validated by an independent agent, contracted into a micro-TODO, executed in-session with evaluator checkpoints (or, opt-in with `--goal`, by a `/goal` child session), signed-off per-deliverable, and closed with memory write-back.
 
 **REQUIRED BACKGROUND:** Read `methodology.md` (Klein pre-mortem, Berkeley MAST 14-mode, Plan-Validate-Execute, Reflexion critic-refine, /goal integration). Read `mast-checklist.md` before Phase 2.
 
@@ -41,7 +41,7 @@ Symptoms that demand ASP: data migration, RLS/permissions change, multi-file ref
 | 6 | Internal loop cap=3 + optional `advisor()` | Final-revision plan |
 | 7 | User approves charter + macro plan + deliverables | Go/No-Go |
 | 8 | Micro-TODO contract (`TaskCreate`) + Goal Spec | N tasks with PRE/ACT/POST/ACC/FAL/DEPENDS/DELIVERABLE-ID + completion condition |
-| 9 | Execution via `/goal` (worker + evaluator built-in) | Tasks completed with fresh evidence |
+| 9 | Execution: in-session kernel by default; `/goal` child session with `--goal` | Tasks completed with fresh evidence |
 | 10 | Deliverables sign-off (per-deliverable acceptance) | All Deliverables `aceito` |
 | 11 | Execution Report + lessons write-back | Closure artifact + lessons recorded where the project keeps them |
 | 12 | (Opt-in) Publish or release | Only on explicit user approval |
@@ -83,28 +83,28 @@ Phase 9 keeps its scratch files (Goal Spec, `state.json`, `exec.json`, logs) und
 
 ASP writes nothing else outside the user's project.
 
-## What Phase 9 does on the user's machine (say it before spawning)
+## What `--goal` does on the user's machine (say it before spawning)
 
-The primary Phase 9 path starts a **second, headless Claude Code session** (`claude -p`) that works on the plan without the user watching each step. Before the first spawn, tell the user in plain words, and spawn only after they agree at Phase 7:
+By default Phase 9 runs in the current session, where the user sees every step. Only with `--goal` does it start a **second, headless Claude Code session** (`claude -p`) that works on the plan without the user watching each step. Before that spawn, tell the user in plain words, and spawn only after they agree at Phase 7:
 
 - it runs with **their own Claude Code permission settings**; ASP passes no permission flag and never widens them, so an action they have not pre-allowed is denied, not prompted;
 - it **uses their plan or API usage**, capped by `--max-budget-usd` and `--max-turns` (state the values);
 - its scratch files go to the runtime root above.
 
-If the user declines, use the in-session kernel (`--no-claude-p`) instead.
+If the user declines, stay on the in-session kernel.
 
 ## Pre-flight: `/goal` invocability check
 
-On **first real run** of this skill, before relying on `/goal` in Phase 9, verify empirically that `/goal` is invocable from skill context. If verification fails, force `--no-goal` as default, tell the user, and record it in the Execution Report. This is ASP applying its own shadow-point discipline to its own assumptions.
+When `--goal` is passed, before relying on `/goal` in Phase 9, verify empirically that `/goal` is invocable from skill context. If verification fails, fall back to the in-session kernel, tell the user, and record it in the Execution Report. This is ASP applying its own shadow-point discipline to its own assumptions.
 
 ## Depth Flags
 
 | Flag | Behavior | Relative cost |
 |---|---|---|
-| `--quick` | Skip validator + skip `/goal` (manual execution) | 1x |
-| `--standard` (default) | Pre-mortem + MAST + 1 validator round + `/goal` | 3x |
-| `--paranoid` | + `advisor()` + 2 validators + 3 rounds + strict `/goal` evaluator | 6x+ |
-| `--no-goal` | Anything above, but skip `/goal` (fallback to `executing-plans` skill) | -1x |
+| `--quick` | Skip validator + manual execution | 1x |
+| `--standard` (default) | Pre-mortem + MAST + 1 validator round + in-session execution kernel | 3x |
+| `--paranoid` | + `advisor()` + 2 validators + 3 rounds + strict evaluator | 6x+ |
+| `--goal` | Opt-in, combines with the above: Phase 9 runs in a background `claude -p /goal` child session (see below) | +1 session |
 
 ## Phase 0a — Entry check (Iron Law 9)
 
@@ -185,9 +185,9 @@ HARD STOP CONDITIONS:
 ## Phase 9 — Execution kernel (v5)
 
 > [!IMPORTANT]
-> **`/goal` is invocable from skill context via `claude -p` subprocess** (empirically verified 2026-05-17 — see the [runner probe](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/claude-p-goal-runner-probe.md)). The skill spawns a child Claude Code session, pipes `/goal "..."` as first input, captures structured JSON output, and reconciles state with the parent TaskList. This is the primary Phase 9 path. Native in-session kernel (`execution-kernel.md`) is the fallback for short tasks.
+> **Default: the native in-session kernel** (`execution-kernel.md`), where the user sees every step. **Opt-in with `--goal`:** `/goal` is invocable from skill context via a `claude -p` subprocess (empirically verified 2026-05-17 — see the [runner probe](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/claude-p-goal-runner-probe.md)); the skill spawns a child Claude Code session, pipes `/goal "..."` as first input, captures structured JSON output, and reconciles state with the parent TaskList.
 
-### Primary path: `claude -p /goal` subprocess
+### Opt-in path (`--goal`): `claude -p /goal` subprocess
 
 See `claude-p-goal-runner.md` for the full spawn pattern. High-level flow:
 
@@ -199,21 +199,15 @@ See `claude-p-goal-runner.md` for the full spawn pattern. High-level flow:
 
 **Phase 5 validator ≠ `/goal` evaluator**: Phase 5 validates the PLAN (before execution); the child's built-in `/goal` evaluator validates EXECUTION turn-by-turn. Complementary, not redundant.
 
-### Fallback path: native in-session kernel
+### Default path: native in-session kernel
 
-See `execution-kernel.md`. Use when:
-- Task has <5 micro-steps (subprocess overhead not justified).
-- User passed `--no-claude-p` flag explicitly.
+See `execution-kernel.md`. Always used unless `--goal` is passed, and also when:
 - `claude` CLI is missing from `$PATH`.
 - Inside a child session (`ASP_IN_GOAL=1`) — Iron Law 9 prevents recursion.
 
 ### Opt-in alternative: user-typed `/goal`
 
-The user MAY also manually type `/goal "..."` in their interactive Claude Code terminal using the rendered Goal Spec. This is a third mode, complementary to the primary `claude -p` subprocess path. Useful when the user wants to drive autonomous mode interactively rather than via skill-triggered spawn.
-
-### `--no-claude-p` flag
-
-Forces the native in-session kernel even when `claude` is available. Useful in CI / batch contexts where subprocess spawn is undesired.
+The user MAY also manually type `/goal "..."` in their interactive Claude Code terminal using the rendered Goal Spec. This is a third mode, complementary to the `--goal` subprocess path. Useful when the user wants to drive autonomous mode interactively rather than via skill-triggered spawn.
 
 ### `--no-kernel` flag
 
@@ -221,7 +215,7 @@ Skips both kernels and delegates to vanilla `executing-plans` skill. Manual step
 
 ### Why this design
 
-Empirical probe (2026-05-17 battery) confirmed `claude -p /goal` is the right primitive. The probe also surfaced **critical finding C**: Claude returns exit 0 even when it gracefully refuses the goal — Iron Laws 11 (parse JSON, never trust `$?`) and 12 (always use `--output-format json` or `stream-json`) are mandatory to use this kernel safely. See Section 3 of the [runner probe](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/claude-p-goal-runner-probe.md) for the empirical evidence.
+Empirical probe (2026-05-17 battery) confirmed `claude -p /goal` works as an autonomous primitive; it is opt-in because it runs a second session on the user's permissions and usage without step-by-step visibility. The probe also surfaced **critical finding C**: Claude returns exit 0 even when it gracefully refuses the goal — Iron Laws 11 (parse JSON, never trust `$?`) and 12 (always use `--output-format json` or `stream-json`) are mandatory to use this kernel safely. See Section 3 of the [runner probe](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/claude-p-goal-runner-probe.md) for the empirical evidence.
 
 ## Red Flags / Rationalizations × Counter
 

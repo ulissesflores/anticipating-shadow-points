@@ -167,7 +167,7 @@ not at Phase 5.
 /goal "<EVALUATOR CRITERIA from goal-spec.md>"
 ```
 
-If `/goal` is not invocable from skill context (pre-flight probe documented in the [invocability probe](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/goal-invocability-probe.md)), force `--no-goal` and fallback to `executing-plans` skill.
+If `/goal` is not invocable from skill context (pre-flight probe documented in the [invocability probe](https://github.com/ulissesflores/anticipating-shadow-points/blob/main/tests/goal-invocability-probe.md)), stay on the in-session kernel, or fall back to the `executing-plans` skill.
 
 ## 7. TDD-for-skills (writing-skills meta-skill)
 
