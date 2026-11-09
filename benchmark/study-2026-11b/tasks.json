@@ -1,0 +1,29 @@
+{
+  "note": "Study 2 (2026-11b): twelve new change requests on public repositories, each pinned to one commit, written 2026-11-09 before any reference list or trial existed. None of them was used in study 2026-11.",
+  "tasks": [
+    {"id": "U01", "repo": "https://github.com/remix-run/blues-stack", "commit": "7390646d6f3b6e6cb7ef722e4b61cdbffb997afc", "shape": "authentication",
+     "request": "Require new users to verify their email address before they can log in."},
+    {"id": "U02", "repo": "https://github.com/realworld-apps/golang-gin-realworld-example-app", "commit": "a41289b2a4951e7cc09066f86742a27f85121c9b", "shape": "URL and data contract",
+     "request": "Let authors change an article's title, and its URL slug with it, without breaking links that were already shared."},
+    {"id": "U03", "repo": "https://github.com/gothinkster/laravel-realworld-example-app", "commit": "e45c37c8a5f57131c9d239f1fc104c227e66b6ee", "shape": "moderation workflow",
+     "request": "Let moderators hide abusive comments, and let the comment's author appeal within 7 days."},
+    {"id": "U04", "repo": "https://github.com/django-commons/django-axes", "commit": "ba9926171dd93e1006c23bb54cb6bfc274b21fd6", "shape": "security library default",
+     "request": "Lock users out by username and IP address together instead of by IP address alone, as the new default."},
+    {"id": "U05", "repo": "https://github.com/expressjs/session", "commit": "8947e169ae838b22cc1af198e50e370e6fc09f96", "shape": "shared library behaviour",
+     "request": "Make sessions roll by default, so that every request extends the session's expiry."},
+    {"id": "U06", "repo": "https://github.com/miguelgrinberg/flasky", "commit": "3beedd640b9146b0bd65c8c2ecf402b01798bc33", "shape": "data export",
+     "request": "Let every user download all of their data (profile, posts and comments) as a single file."},
+    {"id": "U07", "repo": "https://github.com/testdrivenio/fastapi-tdd-docker", "commit": "16433b6621e9afd801de8eba9738a6bfefb1f601", "shape": "identifier migration",
+     "request": "Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working."},
+    {"id": "U08", "repo": "https://github.com/pallets/itsdangerous", "commit": "672971d66a2ef9f85151e53283113f33d642dabd", "shape": "cryptographic default",
+     "request": "Change the default signing digest from SHA-1 to SHA-256."},
+    {"id": "U09", "repo": "https://github.com/realworld-apps/aspnetcore-realworld-example-app", "commit": "9345f18abf36b778abe2f290467ba432bf1f7e5c", "shape": "credential migration",
+     "request": "Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords."},
+    {"id": "U10", "repo": "https://github.com/jasontaylordev/CleanArchitecture", "commit": "e1ab4cc4d5d7b4e25e57bd8b0514b766573b8c04", "shape": "multi-tenancy",
+     "request": "Make every to-do list and item belong to a tenant, so that each company only sees its own data."},
+    {"id": "U11", "repo": "https://github.com/spring-projects/spring-petclinic", "commit": "500158f732419217507c7656904b8e6aa1bcc0d6", "shape": "concurrency and booking",
+     "request": "Let pet owners book visits online, without two visits being booked for the same vet at the same time."},
+    {"id": "U12", "repo": "https://github.com/Kludex/starlette", "commit": "271c277da0ff64e2048a4d46ecc812b9d61db5f6", "shape": "framework security default",
+     "request": "Make the session middleware's cookie Secure and SameSite=Strict by default."}
+  ]
+}
