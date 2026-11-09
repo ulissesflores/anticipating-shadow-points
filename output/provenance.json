@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "e283619219863eebe2bb74291c2bb4922437b0453dfbac243a4cc3df436fbc6d",
+  "chain_hash": "42548d70f9171e1361afef415579f82734ec5573a49c61f68646cb870bd22101",
   "informational_not_hashed": {
     "files": [
       {
@@ -3784,7 +3784,7 @@
         },
         {
           "path": "tests/test_plugin_payload.py",
-          "sha256": "1e261d8b7b5688d8e37aba26c697e908e8686fc28124e9c6f0e7df0748686d37"
+          "sha256": "f5b34620f4f7eb7d6844862d63490a804ba4dcae453560d4284e7464d3a3a884"
         },
         {
           "path": "tests/test_readme_editions.py",
@@ -3799,7 +3799,7 @@
           "sha256": "a04caf42c0eb030808fb841d98bc6d37d12616ecf8f9422c673a7d5be962d05e"
         }
       ],
-      "leaf_sha256": "59096050e61ec9240c9b295431d337ef0baba284c3d218156276ab89d98b9dad"
+      "leaf_sha256": "0d5d2b13634ad72c86b1d998241c3d7e4cb0570580b4489b4276df629eb49a83"
     }
   },
   "schema": 1
