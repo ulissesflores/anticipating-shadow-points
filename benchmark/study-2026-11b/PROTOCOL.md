@@ -118,4 +118,14 @@ Before this protocol was pushed, one Sonnet 5.5 trial ran on a task outside the 
   - Collection resumes with the same seeded order, skipping recorded trials, and nothing else changes.
   - The usage reset (about 22:40 GMT-3) may fall inside the pause. That does not change any condition.
   - Three answers (`t006`, `t022`, `t023`) named Claude Code's plan file by its absolute path. The path was replaced by markers, as in study 2026-11, outside any table row. From the resumed trials on, `run.py` applies the same markers to the answer before saving it.
+- **2026-11-13, 09:40 GMT-3: collection resumed after a four-day pause.**
+  - **Claude Code version:** the computer had updated to 2.1.325 during the pause. The 38 recorded trials ran on 2.1.319, so the resumed trials run on 2.1.319 too, installed in a separate folder and placed first on `PATH`, with the auto-updater off. `run.py` is unchanged.
+  - **Scratch folder:** the repository mirrors were lost with the restart and were cloned again from the URLs in `tasks.json`. Each pinned commit was checked out once before collection.
+  - **Order:** the 38 records match the seeded order on task, model, condition and replicate, and 202 trials remain.
+  - Nothing in the prompts, models, tasks, scoring or analysis changed.
+- **2026-11-13: collection finished, 240 of 240 trials recorded; three ended in a network error.**
+  - **What happened:** during a short loss of internet access, trials `t097` (U09, Opus 5.5), `t099` (U07, Opus 5.5) and `t100` (U10, Sonnet 5.5) ended with "API Error: Can't reach the API server" after ten retries. They left no table. No usage limit was reached.
+  - **How they count:** as fixed under "Stopping and errors", each counts as coverage 0 and relevance 0 and is not rerun.
+  - **Why this matters:** all three are `RED-plain` trials, so the fixed rule moves the primary difference in the direction of the hypothesis. The report therefore also gives the same analysis without the three strata that hold these trials (21 of 24), labelled as a sensitivity check that was not planned. If the two disagree, the report says so and the weaker result is the one stated in the README.
+  - All 240 trials ran on Claude Code 2.1.319 with no plugin enabled, and none changed a project file.
 
