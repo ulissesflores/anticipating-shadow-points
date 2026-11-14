@@ -132,4 +132,4 @@ Before this protocol was pushed, one Sonnet 5.5 trial ran on a task outside the 
   - **Judge pause:** the Gemini judge stopped at 225 of 240 coverage verdicts when its usage quota ran out. The remaining 15 were judged by the same model with the same command about three hours later, after the quota reset. No other judge was substituted.
   - **Order of sealing:** all trials were pushed before any verdict existed, and all 720 verdicts (Gemini coverage, Grok coverage, Gemini relevance) were chained in the ledger and committed before `analyze.py` ran.
   - **Sensitivity check, not planned:** `sensitivity.py` repeats the primary analysis without the three strata that hold a network-error trial, and without those three trials only. Its output is `sensitivity.json`.
-
+- **2026-11-14: the exploratory `RED-klein` condition was not run.** As of this report it has no trials. It stays optional and exploratory, and it has no bearing on the confirmatory result.
