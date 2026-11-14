@@ -1,0 +1,17 @@
+{
+ "trial": "t197",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Exporting another user's data   Routes elsewhere take `<username>`/`<id>`   No URL parameter; use only `current_user`; test that A's file has none of B's data  \n2.  Leaking sensitive fields   `User` has `password_hash` and email   Fixed list of exported fields; test that the hash is absent  \n3.  Slow or memory-heavy export for big accounts   Built synchronously; `fake.py` can make thousands of posts   Two queries with no per-item lookups; measure, and stream or move to a background job if needed  \n4.  Dates not valid JSON or ambiguous   `datetime` objects can't go into `json.dumps` directly, and stored times are naive UTC   Write explicit ISO strings with a `Z` suffix  \n5.  Hidden comments surprise users or moderators   Moderation sets `disabled`   Include them with a `disabled` flag; document it  \n6.  Unconfirmed users can't export   The confirmation check catches every non-auth page   Accept it for now (they have little data), or exempt this route  \n7.  Browser or proxy caches personal data   It's a normal GET response   `Cache-Control: no-store`  \n8.  Characters broken in the file or filename   Usernames and posts may be non-ASCII   `ensure_ascii=False` + UTF-8 charset; keep the filename ASCII-safe  \n9.  Format drifts and breaks importers   No schema exists yet   `export_version` field plus a test of the file's structure  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false\n}\n```\n"
+}

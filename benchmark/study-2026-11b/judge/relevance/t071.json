@@ -1,0 +1,15 @@
+{
+ "trial": "t071",
+ "covered": [
+  1,
+  3,
+  4,
+  6,
+  7,
+  8
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Lock users out by username and IP address together instead of by IP address alone, as the new default.\n\nRows:\n1.  Weaker brute-force defense   No per-IP total, so one IP can spray many usernames freely   Document it. Recommend pairing with rate limiting or the OR form `[\"username\",\"ip_address\"]`  \n2.  Silent breaking default   `conf.py` fallback applies to every unconfigured site   Changelog and release-note warning, and consider a system-check warning  \n3.  Empty or `None` username   A combined key with a missing part may share one bucket or skip lockout   Handle missing values explicitly. Add tests for API and custom-field logins  \n4.  Username case or whitespace variants   Each variant starts a new counter   Normalize in `AXES_USERNAME_CALLABLE` or by default. Test it  \n5.  `AXES_USE_USER_AGENT` mutation   `conf.py:53-60` edits the default list in place   Test the combination. Copy the list instead of mutating it  \n6.  Legacy flag regression   Branch order in `conf.py` is easy to break   Parametrized test for every flag combination  \n7.  Storage and cache growth   One record per combination under spraying   Check handler key size and the cleanup command  \n8.  Reset commands and tooling mismatch   `axes_reset_ip` and `axes_reset_username` act on a different slice   Verify and document their behavior under the combined key  \n9.  Stale tests and docs   Existing tests assume the IP-only default   Update the tests and the docs in `2_installation.rst` and `3_usage.rst`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": false,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false\n}\n"
+}

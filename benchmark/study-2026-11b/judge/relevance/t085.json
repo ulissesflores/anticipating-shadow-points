@@ -1,0 +1,18 @@
+{
+ "trial": "t085",
+ "covered": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Schema has no vet or time   `visits` is pet + DATE only   New `appointments` table, per-dialect scripts  \n2.  Check-then-insert race   Concurrent bookings both pass the check   Database constraint is the source of truth  \n3.  Dialect divergence   H2 tests pass, Postgres or MySQL differ   Run the concurrency test on all three  \n4.  Overlap not equality   Unique key misses overlapping slots   Fixed slot grid, or Postgres exclusion constraint  \n5.  Time zone and DST   DATE or naive times double-book or shift   `TIMESTAMP` in UTC, one clinic zone  \n6.  Cancel and reschedule   Cancelled rows block slots, half-done moves   Status-aware uniqueness, one transaction  \n7.  Legacy data migration   Old visits have no vet or time   Nullable columns or a separate table  \n8.  Slot hoarding and abuse   No auth, any visitor can book   Limits, past-date checks, validation  \n9.  Violation shown as 500   Same class as the earlier 500 fix   Catch it, show a friendly message  \n10.  Stale cached availability   Cached data offers taken slots   Don't cache availability, re-check on submit  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

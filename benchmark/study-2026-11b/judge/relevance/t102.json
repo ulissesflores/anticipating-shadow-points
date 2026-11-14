@@ -1,0 +1,19 @@
+{
+ "trial": "t102",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   Migration adds a nullable field, and nothing marks current users verified   Backfill `emailVerifiedAt` in the migration  \n2.  Verified check missed on some path   Auth is only `requireUser` and `requireUserId`, and `requireUserId` skips the user lookup   Enforce in `requireUser` and `login`. Make `requireUserId` check too, or document it  \n3.  Token leaks or is guessable   New secret-bearing flow, with the raw token in a URL   32 random bytes, store only the hash, single-use, 24h expiry  \n4.  Mail scanners consume the token   GET-based links get prefetched   Confirm via POST button, or accept and document the risk  \n5.  Email provider failure blocks signup   Signup now depends on an external send   Create the user first, send best-effort, and keep resend available  \n6.  Host-header injection in link   Building the URL from the request could point links at an attacker   Use a fixed `APP_URL` env var  \n7.  Account enumeration   Join says \"user already exists\", and resend could leak status   Generic responses and rate limits  \n8.  Resend abuse and email bombing   No rate limiting exists in the app   Per-email and per-IP throttle, with a cooldown  \n9.  E2E and seed tests break   Cypress and seed assume instant login   Update the fixtures, plus a test mailer hook  \n10.  Missing prod config   New env vars (`APP_URL`, mail creds) aren't in `fly.toml` and secrets   Add `invariant` checks at startup and update the deploy docs  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

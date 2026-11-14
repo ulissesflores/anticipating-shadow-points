@@ -1,0 +1,15 @@
+{
+ "trial": "t172",
+ "covered": [
+  2,
+  3,
+  4,
+  5,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working.\n\nRows:\n1.  `id` type changes in responses   Old clients parse `id` as an int   Keep int `id`, add `uuid`, and flip only in `/v2`  \n2.  Path union mis-parses   `{id}` is `int` with `gt=0`, and tests assert 422   Single resolver, digits-first, explicit tests  \n3.  Locking or failing migration   Existing rows, and `downgrade` is empty   Nullable add, batched backfill, then constrain, with a real downgrade  \n4.  Duplicate or NULL UUIDs   Inserts can land mid-migration   Default at the DB level, unique index, post-check query  \n5.  Background task uses the wrong id   `generate_summary(summary_id)` runs after the response   Keep the internal int PK for tasks  \n6.  False sense of security   There's no auth, and int access stays open   Treat UUIDs as opaque only, and plan auth separately  \n7.  Stale stored int references   Bookmarks, logs and other services hold ints   Keep the int path through a sunset window and publish the date  \n8.  Auto-generated schema drift   `pydantic_model_creator` follows the model   Pin response schemas explicitly and add contract tests  \n9.  Missing index or fragmentation   The UUID is queried on every request   Unique index now, and don't make a random UUID the clustered PK  \n10.  Legacy path never retired   No end date is set   Deprecation headers, usage metrics, and a dated removal  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n"
+}

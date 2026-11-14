@@ -1,0 +1,15 @@
+{
+ "trial": "t162",
+ "covered": [
+  1,
+  2,
+  4,
+  6,
+  7,
+  8
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Login becomes a DoS lever   Each Argon2id check uses about 19 MiB and CPU, and `/users/login` is anonymous   Add rate limiting and a concurrency cap, and benchmark the parameters  \n2.  Wrong scheme detection   The current code guesses by byte length, so an Argon2id blob could be mistaken for a legacy hash   Use an explicit prefix byte and a version, with tests for each format  \n3.  Dormant users never upgrade   Rehash only happens on login, so old hashes remain indefinitely   Track the hash-scheme mix, and set a sunset or forced-reset policy  \n4.  Rollback can't read the new hashes   Older builds can't verify the `0x02` blobs   Ship a verify-only release first, then enable issuing  \n5.  Third-party crypto dependency   Argon2 comes from a NuGet package, not the BCL, so there is supply-chain and maintenance exposure   Pin the version, review the package, and keep the lock files  \n6.  Timing side channels   There are now three code paths with different costs   Use fixed-time comparison, and optionally run a dummy hash when the user is not found  \n7.  Parameters too high for hosting   Memory-hard hashing can OOM small containers under concurrent logins   Make the parameters configurable and load-test on production-sized hardware  \n8.  Failed upgrade write   The rehash is saved inside the login request, and a failed save could surface as a login error   Make the rehash best-effort and non-fatal, and log it  \n9.  Test and build drift   The strict analyzers and locked restore fail CI if lock files or formatting are stale   Run the `test` target locally and commit the lock files  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false\n}\n"
+}

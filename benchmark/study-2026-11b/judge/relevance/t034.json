@@ -1,0 +1,17 @@
+{
+ "trial": "t034",
+ "covered": [
+  1,
+  2,
+  3,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   The column is new and defaults to null for every current row   Backfill `emailVerifiedAt` in the same migration; test on a data copy  \n2.  Email never arrives   The repo has no mailer; deliverability depends on SPF/DKIM and domain setup   Use a managed provider, verify the sending domain, and ship the resend flow  \n3.  Token leak or replay   Tokens travel in URLs, which end up in logs and referrers   Store only the hash, make it single-use, give it a short expiry, and redact it in logs  \n4.  Account enumeration   Join already says \"user already exists\"; login errors could leak status   Check the password before revealing \"unverified\"; keep resend responses uniform  \n5.  Existing sessions bypass the gate   The session cookie holds only `userId` and `requireUser` doesn't check status   Add the `emailVerifiedAt` check in `requireUser` and `getUser`  \n6.  Broken tests and tooling   The Cypress smoke test, `create-user.ts` and the seed all assume instant login   Update them in the same PR; add a test-only way to read the link  \n7.  Email abuse or cost   The resend and signup endpoints can trigger unlimited emails   Add per-email and per-IP rate limits, plus a cooldown  \n8.  Deploy ordering   Code reading `emailVerifiedAt` before the migration runs would crash on Fly   Rely on `release_command` migrating first; keep the migration backward compatible  \n9.  Email-provider outage during signup   A failed send would leave a user who can't log in   Create the user, log the failure, and let the resend flow recover  \n10.  Verification race or double-click   A mail scanner prefetches the GET link and burns the token   Make the GET show a confirm button that POSTs the verification  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

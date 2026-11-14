@@ -1,0 +1,13 @@
+{
+ "trial": "t214",
+ "covered": [
+  1,
+  2,
+  3,
+  6
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make the session middleware's cookie Secure and SameSite=Strict by default.\n\nRows:\n1.  Sessions silently break on plain HTTP   The `Secure` cookie is never stored or sent over `http://`. That covers local dev, Docker-internal calls and TLS-terminating proxies that forward HTTP without `X-Forwarded-Proto` handling.   Release note, a docs warning, and the `https_only=False` opt-out. Document `ProxyHeadersMiddleware` for proxies.  \n2.  `Strict` breaks OAuth/SSO callbacks   The session cookie is not sent on cross-site top-level redirects. IdP callbacks that read `state` or a nonce from the session fail.   Document `same_site=\"lax\"` for login-redirect flows.  \n3.  Existing tests fail on `http://testserver`   The `TestClient` cookie jar drops `Secure` cookies over HTTP, so downstream users' suites break too.   Use an `https` base URL in the repo's tests. Mention it in the migration notes.  \n4.  Breaking change in a patch or minor release   Users upgrading without reading notes get logged-out users and no error.   Flag it as breaking and bump the version accordingly. Consider a `DeprecationWarning` first.  \n5.  No error signal when cookies are dropped   The browser discards the cookie silently, so it looks like a session bug.   Clear docs, and optionally a debug log.  \n6.  Link-follow UX regression   Users arriving from emails or other sites appear logged out on the first load under `Strict`.   Call this out in the docs as an expected tradeoff.  \n7.  `partitioned` and `same_site=\"none\"` combos   `none` plus `Secure` is now the only valid pairing, but users who pass `https_only=False` with `none` get a cookie browsers reject.   Document the pairing. Optionally validate it.  \n8.  Coverage or lint gate failures   The repo enforces 100% coverage and strict typing, so new branches and tests must be complete.   Run the full check script before finishing.  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": false,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false\n}\n"
+}

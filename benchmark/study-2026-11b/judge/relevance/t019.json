@@ -1,0 +1,19 @@
+{
+ "trial": "t019",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Check-then-insert race   Two owners submit the same slot at once; an app-level check passes for both   DB unique constraint is the arbiter; concurrency test  \n2.  Constraint violation surfaces as HTTP 500   Recent commits fixed other 500s; the error comes from `owners.save()`   Catch `DataIntegrityViolationException`, map to a field error  \n3.  Schema drift across 3 databases   H2 is recreated on start, MySQL and Postgres are not; no Flyway or Liquibase   Update all three schemas, document manual `ALTER`  \n4.  Legacy visits have no vet or time   Existing rows would break `NOT NULL` columns or a constraint   Nullable columns; unique constraint ignores NULLs  \n5.  Wrong constraint catch   Other violations (pet FK, name uniqueness) could be shown as \"slot taken\"   Check the constraint name or re-query before mapping  \n6.  Time zone and \"today\" drift   The controller uses server `LocalDate.now()`; a clinic time zone isn't defined   Fix a clinic `Clock` or zone; test around midnight  \n7.  Fixed-slot assumption   Real visits vary in length; a grid hides overlaps   State the assumption; plan range-overlap or exclusion constraint later  \n8.  Vet cache is stale   `findAll` is `@Cacheable(\"vets\")`; a removed vet could still be offered   FK catches it; short cache TTL  \n9.  Owner-wide save   `owners.save(owner)` rewrites the whole aggregate, so an unrelated failure rolls back the booking   Keep the booking in one transaction; consider saving the visit directly  \n10.  i18n sync test fails   New keys missing from any of the ~10 message files   Add keys to every locale in the same change  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

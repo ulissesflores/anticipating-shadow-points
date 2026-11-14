@@ -1,0 +1,17 @@
+{
+ "trial": "t110",
+ "covered": [
+  1,
+  2,
+  3,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   The new column is null for everyone already in the database   Backfill `emailVerifiedAt` in the migration itself  \n2.  Email never arrives   The app has no mail code or provider, and spam filters can drop it   Use an authenticated sending domain, add a resend flow, and log failures  \n3.  Account enumeration   `join` already says \"user exists\", and the new login and resend messages could leak the same   Check the password first, return neutral resend responses, and accept the signup leak or fix it separately  \n4.  Token weaknesses   Tokens that are guessable, reusable, stored in plaintext or never expiring   Use 32 random bytes, store a hash, make tokens single-use, and expire them after 24h  \n5.  Session bypass   `join` and `create-user.ts` issue sessions directly, and cookies are valid on their own   Remove the join session, and enforce verification in `requireUser`  \n6.  Email abuse   An open resend route can be used to spam or mail-bomb an address   Rate-limit per email and per IP, and add a cooldown  \n7.  Broken e2e and seed flows   The Cypress smoke test, seed and helper script assume instant login   Update them in the same PR and stub the mailer in msw  \n8.  Wrong base URL in links   Fly deploys and previews have different hosts   Use an explicit env var and fail loudly if it's unset in production  \n9.  Unverified squatting   Someone can register an email they don't own and block the real owner   Allow re-signup to overwrite an unverified account, and purge stale ones  \n10.  Migration on live DB   A schema change plus backfill on Fly Postgres during a deploy   Make the migration additive, take a backup, and deploy the migration before the code  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

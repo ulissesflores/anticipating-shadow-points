@@ -1,0 +1,16 @@
+{
+ "trial": "t183",
+ "covered": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Lock users out by username and IP address together instead of by IP address alone, as the new default.\n\nRows:\n1.  Weaker brute-force protection   An attacker who rotates IPs against one user never reaches the per-pair limit   Document it. Recommend `[\"username\", \"ip_address\"]` (either) or a proxy rate limit  \n2.  Password spraying goes unnoticed   One IP trying many usernames gets a fresh counter for each pair   Keep an IP-only option in the docs. Consider an additional IP key  \n3.  Silent behavior change on upgrade   Deployments relying on the implicit default are now locked differently   Major-version bump, changelog entry, startup log  \n4.  Legacy flags interact with the new default   The `None` fallback chain can mask or reorder the flags   Keep their precedence and add tests for each flag  \n5.  Username-less or odd credentials   Requests with no username produce an empty key part and unclear lockouts   Test missing-username and truncated-username (9.0.0 change) cases  \n6.  Mutation of the shared default list   `AXES_USE_USER_AGENT` edits `[0]` in place   Build a fresh list on each load and test it  \n7.  Existing `AccessAttempt` rows   Old IP-based attempts may or may not count toward the new keys   Check the lookup filters and note it in the upgrade notes  \n8.  Test suite churn   Many tests assume IP-only   Pin `override_settings` explicitly in each affected test  \n9.  Username enumeration or lockout abuse   A per-user key lets someone lock a victim's pair from a shared or NAT IP   Document it. Use `AXES_NEVER_LOCKOUT_*` and cool-off settings  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": false, \"2\": true, \"3\": true, \"4\": true, \"5\": true, \"6\": true, \"7\": true, \"8\": true, \"9\": false}\n"
+}

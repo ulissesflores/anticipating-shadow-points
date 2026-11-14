@@ -1,0 +1,19 @@
+{
+ "trial": "t010",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  A new article takes an old slug   `makeUniqueSlug` only checks the articles table   Also check the alias table; add a test  \n2.  Delete through an old slug silently does nothing   `ArticleDelete` deletes by the slug from the URL   Delete by ID; add a test  \n3.  Slug changes on every save   `base != articleModel.Slug` is true for `foo-2` slugs   Only change it when the title changes  \n4.  Article saved without its alias   Update and tag replacement aren't in a transaction today   Save the alias and the slug change in one transaction  \n5.  Two simultaneous edits pick the same slug   No database rule stops an alias and an article slug from matching   Check both tables, keep the retry; SQLite runs one write at a time  \n6.  Renaming back conflicts with the article's own alias   The alias's unique slug blocks the rename   Remove the article's own alias in the same transaction  \n7.  One handler still uses the old lookup   7 handlers each look up the article themselves   Use one helper everywhere; check with grep  \n8.  Spec tests break   Hurl and bruno tests check exact responses   Answer 200 with the current slug; run `run-spec-tests.sh`  \n9.  Migration missing somewhere   Tables are registered separately in `hello.go`, `TestMain` and `resetDBWithMock`   Add the new table in all three places  \n10.  Aliases build up forever   Nothing ever deletes them   Accepted; one small indexed row per rename  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

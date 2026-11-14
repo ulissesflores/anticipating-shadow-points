@@ -1,0 +1,16 @@
+{
+ "trial": "t003",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Exporting another user's data   Routes such as `/user/<username>` take a name from the URL   Use `current_user` only, with no ID parameter, and test with a second user  \n2.  Secrets in the export   `to_json()` is built for the public API   Write an explicit allow-list serializer for the export  \n3.  Incomplete export   Disabled comments, `body` versus `body_html`, and comments on others' posts are easy to miss   Define the field list and write a test with seeded data  \n4.  Memory or timeout on big accounts   `lazy='dynamic'` queries are easy to call with `.all()`, and Heroku has a 30-second limit   Stream the response with `yield_per`, and cap or test with large data  \n5.  Export abuse   No rate limiting exists   Add a per-user limit, such as one export per minute  \n6.  Cross-site triggering   A GET route can be triggered from another site   Use a POST with a CSRF token, and set `Cache-Control: no-store`  \n7.  Unsafe filename or format injection   The filename could be built from `username`   Use a fixed or sanitized filename and JSON output  \n8.  Encoding and timezone errors   Datetimes are naive UTC and posts contain Unicode   Output ISO-8601 with `Z` and UTF-8 JSON, and test with emoji  \n9.  Unconfirmed or anonymous access   The app has a confirmation flow and an anonymous user class   Use `@login_required` and handle the unconfirmed state explicitly  \n10.  Privacy and audit gap   The file contains PII and leaves the app   Log the export, and consider asking for the password again  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n"
+}

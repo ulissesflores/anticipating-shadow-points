@@ -1,0 +1,15 @@
+{
+ "trial": "t177",
+ "covered": [
+  1,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Lock users out by username and IP address together instead of by IP address alone, as the new default.\n\nRows:\n1.  Brute-force protection weakens   One IP can now try unlimited different usernames, because each pair counts separately (credential stuffing).   Document it clearly. Tell users to add `AXES_LOCKOUT_PARAMETERS` with `ip_address` or a rate limiter.  \n2.  Silent behaviour change on upgrade   Projects that never set the option change behaviour without any error.   Major-version bump, loud changelog, and a system-check notice.  \n3.  Attacker rotates IPs against one account   A botnet or proxy pool resets the per-pair counter for each new IP.   Recommend `[\"username\", \"ip_address\"]` (OR mode) for high-risk sites.  \n4.  Legacy flag precedence confusion   The old flags are only read when the new setting is `None`. A new default must not override them.   Change only the final fallback and add tests for each legacy flag.  \n5.  Existing tests assume IP-only locking   Many tests rely on the default and could fail or pass for the wrong reasons.   Audit them, pin the settings explicitly, and add new tests.  \n6.  User-agent suffix breaks on nested default   `conf.py:54-60` mutates `[0]` in place.   Test `AXES_USE_USER_AGENT` combined with the new default.  \n7.  Stale lockout records and cache keys   Existing `AccessAttempt` rows and cache entries were keyed IP-only, so they won't match the new scheme.   Note it in the upgrade notes. Old records expire or can be reset.  \n8.  Username enumeration or casing issues   Pair locking depends on how usernames are normalised, and `AXES_USERNAME_CALLABLE` can differ.   Verify case handling and callable usage in tests.  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": false,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true\n}\n```\n"
+}

@@ -1,0 +1,18 @@
+{
+ "trial": "t052",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Query filter bypassed   Raw SQL or `IgnoreQueryFilters` would leak across tenants, and handlers hit the DbContext directly   Ban both outside the initialiser, and add a test for each handler  \n2.  Cross-tenant `ListId` on item create   `CreateTodoItem` trusts the client's `ListId`   Look up the list through the filter, and add a composite FK  \n3.  Tenant claim missing or spoofable   `CurrentUser` reads claims, and background paths have none   Fail closed, issue the claim only server-side, never read it from the request body  \n4.  Non-request code paths   The initialiser and domain-event handlers run without an HTTP user   Use an explicit system-tenant scope, and test it  \n5.  Existing data and schema change   There are no migrations, and init drops the database   Seed a default tenant, and add a real migration if production data exists  \n6.  Registration and identity flow   Users have no tenant today, and the `.http` and frontend registration pages assume a flat user   Define tenant assignment (invite or company field) before coding  \n7.  Tenant-change on update   A client could post a changed `TenantId` or reparent an item   The interceptor rejects tenant changes, and DTOs never expose `TenantId`  \n8.  Test suite breakage   The functional and acceptance tests assume a single user and no tenant   Update the setup first, and keep an explicit two-tenant fixture  \n9.  Template conditionals   `#if` branches (API-only, React, Angular) multiply the places to change   Change shared layers first, then build each template variant in CI  \n10.  Unique and lookup performance   Without a `TenantId` index prefix, filtered queries scan   Add composite indexes starting with `TenantId`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n"
+}

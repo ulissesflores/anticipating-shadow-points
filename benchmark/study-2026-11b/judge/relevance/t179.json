@@ -1,0 +1,15 @@
+{
+ "trial": "t179",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  6,
+  7
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Silent behaviour change for existing apps   Every app that never set `rolling` changes on upgrade   Major version bump plus a breaking-change HISTORY/README note  \n2.  Idle sessions never time out for active users   Security or compliance policies may assume a fixed (absolute) session lifetime   Document `rolling: false`; suggest a separate absolute-timeout check  \n3.  `Set-Cookie` on every response breaks caching   CDNs and proxies often refuse to cache responses that set cookies   Doc warning; mount session only on routes that need it  \n4.  Many existing tests fail   Test helper defaults `maxAge: 60000`; some of the 26 no-`Set-Cookie` tests would now fail   Add `rolling: false` to each affected test  \n5.  Setting the opt-out in the test helper hides regressions   Putting `rolling: false` in `createSession` would leave the new default untested   Opt out per test, not in the helper  \n6.  More store writes and touches   Rolling sessions touch on every request; stores without `touch` plus `resave` write more   Test the `store.touch` path; recommend stores that implement `touch`  \n7.  Header bloat and extra signing work with browser-session cookies   `shouldSetCookie` returns true even when `maxAge` is null   Note in README; optionally skip the cookie when `expires == null` (separate decision)  \n8.  Falsy values handled inconsistently   `null` or `0` could be read as \"unset\" by mistake   Check strictly for `=== undefined`; add a test for `rolling: false`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false\n}\n```\n"
+}

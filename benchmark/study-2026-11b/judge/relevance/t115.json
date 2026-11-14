@@ -1,0 +1,17 @@
+{
+ "trial": "t115",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  Existing tokens invalidated on upgrade   Default-signed session cookies, reset links and email confirmations all fail `BadSignature`   Changelog entry plus a documented `fallback_signers=[{\"digest_method\": hashlib.sha1}]` recipe  \n2.  Derived key changes as well   `derive_key` (all three methods) hashes with `digest_method`   A fallback with SHA-1 covers both; add a test  \n3.  No fallback on plain `Signer`/`TimestampSigner`   Only `Serializer` has `fallback_signers`   Document catch-and-retry or keeping SHA-1  \n4.  Longer tokens   Signature grows from 27 to 43 chars, so cookies, URLs and DB columns may overflow   Call it out in the changelog  \n5.  Breaking change in a minor release   Users pinned to `<3` get the change silently   Prominent changelog entry; maintainers may choose 3.0  \n6.  Defaults diverge   Changing `Signer` but not `HMACAlgorithm` gives inconsistent signatures   Change both together; test `algorithm=HMACAlgorithm()`  \n7.  Downstream libraries assume SHA-1   Code that imports `_lazy_sha1` or compares defaults   Keep `_lazy_sha1`; note it in the changelog  \n8.  Mixed-version deployments   During a rolling deploy, old nodes reject new tokens   Advise deploying the fallback config before the switch  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true\n}\n"
+}

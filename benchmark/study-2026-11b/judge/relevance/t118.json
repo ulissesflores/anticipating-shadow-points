@@ -1,0 +1,16 @@
+{
+ "trial": "t118",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Leaking sensitive fields   `User` holds `password_hash`, and `to_json()` is API-shaped   Explicit allow-list; test asserts forbidden keys are absent  \n2.  Wrong user's data (IDOR)   Other routes take `<username>` or `<id>` params   Use `current_user` only; no id parameter; cross-user test  \n3.  Large export exhausts memory or blocks a worker   Lazy `dynamic` relationships; Gunicorn on Heroku has few workers   `yield_per` streaming; row cap or a background job if heavy users exist  \n4.  CSRF or prefetch of a sensitive GET   A `<a href>` can be triggered cross-site   POST with a CSRF token; `Cache-Control: no-store`  \n5.  Abuse as a DoS vector   Heavy queries can be repeated   Per-user throttle; auth required  \n6.  Incomplete export   Disabled comments, comments on others' posts, and deleted posts are easy to miss   Define scope in the spec; tests for each case  \n7.  Datetime or encoding errors   Naive UTC datetimes; non-ASCII bodies   `isoformat()` plus `Z`; `ensure_ascii=False` with UTF-8  \n8.  Old pinned stack   Flask 0.12 and SQLAlchemy 1.1 lack newer helpers   Stick to `Response` and core ORM APIs; test on the pinned versions  \n9.  Unconfirmed accounts or stale sessions   `confirmed` is a flag, and the export includes the email   Require login only; consider requiring a confirmed account  \n10.  Privacy and compliance expectations   The export is a GDPR-style request, and the scope may be wrong   Confirm the legal scope; log export events without logging contents  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": true, \"4\": true, \"5\": true, \"6\": true, \"7\": true, \"8\": false, \"9\": false, \"10\": false}\n"
+}

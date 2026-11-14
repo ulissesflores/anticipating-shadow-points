@@ -1,0 +1,16 @@
+{
+ "trial": "t198",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  8,
+  9
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Existing MySQL/Postgres databases never get the new columns   Setup only runs `CREATE TABLE IF NOT EXISTS` and there's no migration tool, so the app breaks on deploy   Ship a migration script and document it; consider Flyway  \n2.  \"Slot taken\" detection misfires on some databases   The handler matches the constraint name in the error message; MySQL's existing UNIQUE is unnamed   Name the constraint on every database; run the MySQL and Postgres integration tests  \n3.  Race between the pre-check and the insert   The pre-check alone allows double booking   Rely on the database constraint plus `saveAndFlush` and catching the exception; add a concurrency test  \n4.  Vet choice silently ignored   `@InitBinder` blocks `*.id`   Bind with `VetFormatter` on the `vet` field; test it  \n5.  Positional seed inserts break   `INSERT INTO visits VALUES (...)` without column names   Use explicit column lists in all three `data.sql` files  \n6.  Anyone can book for any owner   The app has no authentication   Accept for now; flag it for a follow-up on auth  \n7.  Overlaps if visit lengths ever vary   UNIQUE only catches the same start time   Enforce the slot grid on the server; vary lengths later via a Postgres exclusion constraint  \n8.  Old visits have no vet or time   Columns must allow NULL   Templates must handle NULL; require vet and time only on new bookings  \n9.  Build fails on i18n   11 locale files must have the same keys   Add every key to every locale file  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": true, \"4\": true, \"5\": true, \"6\": false, \"7\": false, \"8\": true, \"9\": true}\n"
+}

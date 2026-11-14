@@ -1,0 +1,13 @@
+{
+ "trial": "t004",
+ "covered": [
+  1,
+  2,
+  4,
+  5
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Lock users out by username and IP address together instead of by IP address alone, as the new default.\n\nRows:\n1.  Password spraying no longer blocked by default   Each username gets its own counter per IP, so one IP can try every account   Document the trade-off and the `[\"ip_address\"]` opt-out; suggest `[[\"username\",\"ip_address\"], \"ip_address\"]` with a higher limit  \n2.  Lockouts lifted on upgrade   Cache keys change and database lookups add a username filter   Say so in CHANGES.rst; deploy outside an active attack  \n3.  Test suite failures   `test_lockout_by_ip_*` tests rely on the implicit default   Pin `[\"ip_address\"]` on those tests and add new tests for the default  \n4.  Missing username shares one bucket per IP   Empty values are dropped from the key, and the database stores a null username   Add tests for this; document how `AXES_USERNAME_FORM_FIELD` affects it  \n5.  Cache key collisions   No separator in `\"\".join(values)`   Optionally add a separator now, since keys are reset anyway  \n6.  Silent behaviour change for implicit configs   Deprecated flags set to `False`, or no setting at all, resolve to the new default   Major version bump plus an upgrade note  \n7.  `reset_request` scope changes   It now requires username and IP together   Test resets with an IP only and with an IP plus username  \n8.  Stale docs   Several pages still describe IP-only as the default   Update them and grep for leftover wording  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": false, \"4\": true, \"5\": true, \"6\": false, \"7\": false, \"8\": false}\n"
+}

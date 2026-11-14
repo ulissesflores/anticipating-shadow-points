@@ -1,0 +1,16 @@
+{
+ "trial": "t202",
+ "covered": [
+  1,
+  3,
+  4,
+  5,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   New nullable column; seed user and production rows have no value   Backfill `emailVerifiedAt = createdAt` in the migration  \n2.  Signup still logs users in   `join.tsx` calls `createUserSession` directly   Redirect to \"check email\" with no session  \n3.  Cookies get past the gate   Session holds only `userId`; `requireUser` checks nothing else   Check verified in `requireUser` too  \n4.  Token forgery or replay   No token infrastructure exists yet   32-byte random, hashed, 24h, single-use, inside a transaction  \n5.  Link scanners use up tokens   A GET request that verifies is triggered by mail previews   Confirm by POST, or a button on the page  \n6.  Account enumeration   Login and join currently reveal whether an account exists   Same response wording for resend, login and unverified  \n7.  Mail not delivered or resend abused   No provider; no rate limiting anywhere   Resend flow, per-email and per-IP throttle, dev mock through MSW  \n8.  Email squatting   \"User already exists\" blocks the real owner   Let signup for an unverified address re-send the email, or expire unverified accounts  \n9.  CI and e2e break   `create-user.ts` and `smoke.cy.ts` assume instant login   Verified test users; e2e reads the token from the DB  \n10.  Deploy crashes or misconfiguration   New env vars; the migration runs automatically on Fly   `.env.example`, Fly secrets, staging deploy first  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": false,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

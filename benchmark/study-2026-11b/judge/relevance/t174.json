@@ -1,0 +1,16 @@
+{
+ "trial": "t174",
+ "covered": [
+  1,
+  2,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Silent breaking change   Apps that never set `rolling` change behaviour on upgrade   Release as semver-major; deprecation warning first; HISTORY entry  \n2.  Store write load   Every request saves or `touch`es; `resave` still defaults to `true`   Document `resave: false` plus stores that implement `touch`  \n3.  `Set-Cookie` on every response   `shouldSetCookie` returns `true` for every existing session   Document it; `rolling: false` opts out  \n4.  Sessions never expire for active clients   Polling or a stolen cookie keeps extending expiry   Recommend an app-level absolute timeout  \n5.  Wrong default check   `Boolean(undefined)` is `false`, and a truthy check would ignore `rolling: false`   Use `=== undefined`; test the explicit `false` case  \n6.  Test churn hides regressions   About 26 no-`Set-Cookie` assertions depend on the old default   Pin `rolling: false` per test, don't delete the assertions  \n7.  Race on concurrent requests   More full-session writes means more lost updates   Document it; prefer stores with `touch`  \n8.  Useless cookies without `maxAge`   A browser-session cookie gets resent with nothing to roll   Accept and document it, or skip when `expires` is null  \n9.  Docs out of date   README says default is `false`   Update README and JSDoc in the same change  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false\n}\n```\n"
+}

@@ -1,0 +1,16 @@
+{
+ "trial": "t078",
+ "covered": [
+  1,
+  2,
+  3,
+  5,
+  6,
+  7,
+  9
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  Existing tokens stop verifying   The digest changes both the derived key and the MAC   Default SHA-1 fallback in `Serializer`  \n2.  Plain `Signer`/`TimestampSigner` tokens break   There is no fallback for them   Clear changelog entry and how to keep SHA-1  \n3.  FIPS builds raise `ValueError` on bad tokens   The SHA-1 fallback runs when the SHA-256 check fails   Skip the fallback if SHA-1 is missing; add a test  \n4.  Repeats the 1.0.0 problem   That release was pulled for this exact kind of change   Put it in the 2.3.0 release notes; keep the fallback  \n5.  Longer tokens   27 \u2192 43 characters, which can push cookies or URLs past size limits   Document the increase  \n6.  Fallback keeps SHA-1 accepted   An attacker can still use the SHA-1 path   Announce removal of the fallback; allow `fallback_signers=[]`  \n7.  Hard-coded tokens in tests   `test_timed.py:70` and `test_digests` assume SHA-1   Regenerate the tokens and check the error path  \n8.  Downstream code relies on the default   Projects other than Flask may not set a digest   Release notes; pin SHA-1 explicitly  \n9.  Code that imports `_lazy_sha1` or checks the default   `test_iter_unsigners` compares against `_lazy_sha1`   Keep `_lazy_sha1` and update the check  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": true\n}\n"
+}

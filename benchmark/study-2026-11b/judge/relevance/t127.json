@@ -1,0 +1,15 @@
+{
+ "trial": "t127",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  Outstanding SHA-1 tokens stop verifying   Sessions, reset links and cookies signed before the upgrade fail with `BadSignature`   Default SHA-1 fallback signer; test the old-to-new path  \n2.  New tokens rejected by older consumers   Rolling deploys or other services on the old version only verify SHA-1   Document the upgrade order (upgrade verifiers first); changelog note  \n3.  Fallback keeps SHA-1 acceptance alive indefinitely   The weaker digest stays accepted for verification with no end date   Document how to drop the fallback; plan its removal in a later release  \n4.  Tests and fixtures pin SHA-1 values   `test_digests` and downstream suites hard-code signatures   Regenerate vectors; note in release notes  \n5.  Signature length and token size change   SHA-256 gives 43 base64 chars against SHA-1's 27, which affects cookie and URL length limits   State it in the changelog; check the documented limits  \n6.  Key derivation output changes with the digest   `django-concat` uses `digest_method`, so derived keys change, not just the MAC   The fallback signer re-derives with SHA-1; test it  \n7.  Fallback mutates a shared default list   `default_fallback_signers` is a class attribute   Keep the existing `list(...)` copy at line 229  \n8.  Downstream libraries subclass or override the default   Flask, for example, sets `digest_method` itself   Keep the `default_digest_method` attribute API unchanged  \n9.  Double verification cost on bad tokens   Failures now try two digests   Negligible, but note it  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": true, \"4\": true, \"5\": true, \"6\": true, \"7\": false, \"8\": false, \"9\": false}\n"
+}

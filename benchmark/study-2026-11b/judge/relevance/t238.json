@@ -1,0 +1,12 @@
+{
+ "trial": "t238",
+ "covered": [
+  1,
+  2,
+  3
+ ],
+ "n": 7,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make the session middleware's cookie Secure and SameSite=Strict by default.\n\nRows:\n1.  Sessions silently stop working over plain HTTP   Browsers drop `Secure` cookies on `http://` (except localhost in some browsers), so existing HTTP deployments, such as behind a TLS-terminating proxy without scheme forwarding, lose sessions with no error   Release note, doc note, and an explicit `https_only=False` opt-out  \n2.  Strict breaks cross-site login flows   OAuth/OIDC callbacks and links from email or other sites arrive as cross-site navigations, so the cookie isn't sent and the first request looks logged out   Document `same_site=\"lax\"` for these apps  \n3.  Test suite breaks widely   `TestClient` defaults to `http://testserver`, so the Secure cookie isn't replayed   Switch tests to an `https://` base URL  \n4.  Behind-proxy scheme confusion   The flag is static, not derived from the request scheme, so a misconfigured proxy still gets `secure` cookies that never round-trip   Document `ProxyHeadersMiddleware` and `--proxy-headers`  \n5.  Semver and compatibility   Changing security defaults in a minor release surprises downstream frameworks that rely on the defaults   Mark it breaking in the release notes, and consider a deprecation warning before the flip  \n6.  Partial opt-outs behave unexpectedly   Users who set only `same_site=\"none\"` now also get `secure` by default, which is correct. Users who set `same_site=\"none\"` with `https_only=False` produce a cookie browsers reject   Test the combos, and consider a warning for `none` without `https_only`  \n7.  Third-party code relies on the defaults   Libraries such as Authlib examples, and FastAPI docs and apps, assume lax and non-secure cookies   Search the docs and examples in this repo, and call it out in the PR  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": false,\n  \"6\": false,\n  \"7\": false\n}\n"
+}

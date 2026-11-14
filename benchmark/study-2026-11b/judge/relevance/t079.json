@@ -1,0 +1,15 @@
+{
+ "trial": "t079",
+ "covered": [
+  3,
+  5,
+  6,
+  7,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working.\n\nRows:\n1.  Changing `id` to a UUID in place   Clients parse `id` as an int and build `/summaries/{int}/` URLs   Leave v1 unchanged; put UUID `id`s in `/v2`  \n2.  Code deployed before the migration   Heroku release never runs `aerich upgrade`   Add a migrate step; release migration before code  \n3.  Rows left with a NULL uuid   The default is Python-side only, and old instances keep inserting during rollout   DB default `gen_random_uuid()`, backfill, then NOT NULL  \n4.  Migration bugs not caught by tests   conftest uses `generate_schemas=True`   Add a test that runs `aerich upgrade` on seeded data  \n5.  `Union[int, UUID]` path is ambiguous   An all-digit hex UUID parses as an int; 422 bodies change   Separate routes, with one strict type each  \n6.  Swapping the primary key   The summarizer and crud are keyed on the int PK   Keep the int PK internal; add a unique `uuid` column  \n7.  List order changes   `get_all()` has no ordering, and UUIDs have no meaningful order   `order_by(\"created_at\")` in v2  \n8.  Enumeration stays possible   Int lookups still work in v1   Deprecation headers and a sunset date for v1  \n9.  Background summary never fills in   `generate_summary` is passed the id from `post()`   Keep passing the internal int; cover it with a test  \n10.  Exact-match tests and clients break   Tests assert on full 422 bodies and `\"id\": 1`   Freeze the v1 contract; don't edit the existing tests  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": false,\n  \"2\": false,\n  \"3\": true,\n  \"4\": false,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

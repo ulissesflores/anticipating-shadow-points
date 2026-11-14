@@ -1,0 +1,19 @@
+{
+ "trial": "t080",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Existing MySQL/Postgres databases never get the new columns   `CREATE TABLE IF NOT EXISTS` skips existing tables, so the app fails when it touches `vet_id`   Postgres \"if not exists\" statements; MySQL migration script; test against an old-schema database  \n2.  Two simultaneous submissions both pass the \"is it free?\" check   That check happens before the save, so it can't stop a race   Database uniqueness rule plus handling the duplicate error  \n3.  Duplicate error matched by reading the error message   Wording and case differ between H2, MySQL and Postgres   Name the rule identically everywhere; lowercase match; test on all three databases  \n4.  Sample data fails to load   H2 and MySQL inserts list values by position   Switch to explicit column lists  \n5.  The vet field can't be filled from the form   The controller blocks fields named `*.id`   Bind `vet` through `VetFormatter`  \n6.  Pages crash when showing the vet   `open-in-view=false` breaks lazy loading during page rendering   Load the vet eagerly  \n7.  Old visits have no vet or time   Making the columns required would reject existing rows   Leave the columns optional in the database and enforce them only for new bookings  \n8.  A translation file is missed   `I18nPropertiesSyncTest` fails the build   Add the keys to all 11 files  \n9.  Anyone can book for any owner   The app has no login   Called out as out of scope; add login before going live  \n10.  Time zone or clinic-hours mismatch   Uses the server clock (`LocalDate.now()`)   Make the zone and hours configurable  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

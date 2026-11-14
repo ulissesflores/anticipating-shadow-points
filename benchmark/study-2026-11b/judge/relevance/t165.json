@@ -1,0 +1,13 @@
+{
+ "trial": "t165",
+ "covered": [
+  1,
+  2,
+  3,
+  7
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Silent behaviour change for existing apps   Apps that never set `rolling` will start sending `Set-Cookie` on every response   Release as a major version; add a breaking note in HISTORY and README  \n2.  CDN/proxy caching breaks   Many caches won't store responses that carry `Set-Cookie`, and static routes behind the session middleware get one   Document `rolling: false` or mounting the middleware per route  \n3.  Sessions never expire for active or polling clients   Every request extends the expiry, so background polling keeps a session alive forever   Document it; suggest an absolute timeout stored in session data  \n4.  Test suite breaks widely   About 26 tests expect no `Set-Cookie`, and the helper sets a 60s `maxAge`   Default the helper to `rolling: false` unless the key is given  \n5.  Helper default hides the real default   Pinning `rolling: false` in the helper means most tests no longer exercise the new default   Write explicit tests for the default (`undefined`), `true` and `false`  \n6.  `rolling: undefined` vs missing key confusion   `opts.rolling === undefined` treats both the same   Spell out \"undefined means the default\" in the docs  \n7.  Overhead on every response   Each response now signs and serializes the cookie   Minor cost; benchmark only if someone raises it  \n8.  Conflicts with `saveUninitialized: false`   Users may expect a cookie on brand-new sessions   Keep the README note that rolling only affects loaded sessions  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": false,\n  \"6\": false,\n  \"7\": true,\n  \"8\": false\n}\n```\n"
+}

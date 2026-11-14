@@ -1,0 +1,18 @@
+{
+ "trial": "t117",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   New column is null for all current users; the login check would reject them   Backfill `emailVerifiedAt = createdAt` in the same migration  \n2.  Link used up before the user clicks it   Corporate mail scanners open links in emails   Opening the link only shows a page; a button press verifies  \n3.  No email provider yet   The app can't send email today; a missing key breaks sign-up   Log the email when there's no key; fail clearly in production; set Fly secrets  \n4.  End-to-end tests break   Smoke test expects to be logged in right after sign-up   Mock captures the email; test reads the link; helpers create verified users  \n5.  Tokens stolen from the database   Stored raw tokens would act like passwords   Store only the SHA-256 hash, single use, 24h expiry  \n6.  Resend button used to spam inboxes   The resend form is public   One email per minute per user, same message every time  \n7.  Account enumeration widened   New messages could reveal which emails are registered   \"Verify your email\" only after a correct password; resend always gives the same reply  \n8.  Wrong link domain   `APP_ORIGIN` differs between dev, staging and Fly   Required setting, checked at startup  \n9.  Deploy order   Old code runs while the migration applies   The change only adds things, and old code ignores the new column  \n10.  Users stuck unverified   Emails go to spam or bounce   Resend button on the login page; an admin can set the flag manually  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n"
+}

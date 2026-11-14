@@ -1,0 +1,14 @@
+{
+ "trial": "t007",
+ "covered": [
+  2,
+  3,
+  4,
+  5,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  Missing authz on a route   No roles exist, so every check is new   Add a policy or middleware, plus a test per route  \n2.  Hidden body leaks   `$with`, relations and `CommentTransformer` all expose the body   Mask in the transformer and use a visibility scope  \n3.  Wrong 7-day window   Clock or timezone mistakes, and the wrong start time   Store `hidden_at` in UTC and check it server-side  \n4.  Duplicate or repeated appeals   Nothing prevents repeated requests   Unique open appeal per hide, plus a transaction  \n5.  Moderator conflict of interest   A single role can both hide and decide   A different moderator must decide the appeal  \n6.  No audit trail   No history is stored   Log the moderator, reason and decision  \n7.  Unsafe migration   Existing comments and a shared DB   Nullable columns, reversible `down()`  \n8.  Client contract break   Frontends expect a fixed shape   Add fields only, and keep the author's view stable  \n9.  Author unaware of hide   Window expires silently   Include status in the author's response, and notify  \n10.  Thin test coverage   Few existing tests to catch regressions   Feature tests for hide, appeal, expiry and visibility  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": false,\n  \"9\": true,\n  \"10\": false\n}\n"
+}

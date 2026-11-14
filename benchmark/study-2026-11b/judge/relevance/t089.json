@@ -1,0 +1,17 @@
+{
+ "trial": "t089",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  Hidden comments still served   `index` returns all comments, unfiltered   Add a `visible` scope; use it in `index`; test the response  \n2.  Privilege escalation   No roles exist; auth is owner-only   Add a role column and a policy; deny by default; test each role  \n3.  Appeal window miscounted   The 7 days need a stored start time   Store `hidden_at` in UTC; compare with `now()`; test day 7  \n4.  Appeal abuse or duplicates   Anyone authenticated could try appealing   Only the author may appeal; one open appeal per comment; rate limit  \n5.  Race between moderators   Concurrent decisions on one comment   Row lock or state check in a transaction  \n6.  Self-moderation and no audit   Moderators can hide their own comments   Block self-moderation; log actor, reason and time  \n7.  API contract break   The transformer shape is fixed by the spec   Add fields only for the author and moderators; keep the public shape  \n8.  Unsafe migration   Existing rows need safe defaults   Use nullable columns with defaults; test up and down  \n9.  Author never told   The appeal clock runs silently   Show hidden state and deadline to the author; send a notification  \n10.  Thin test coverage   Existing tests miss all of this   Add feature tests for permissions, visibility and the window  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": true,\n  \"10\": false\n}\n"
+}

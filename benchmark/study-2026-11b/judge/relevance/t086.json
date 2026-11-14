@@ -1,0 +1,17 @@
+{
+ "trial": "t086",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Two simultaneous bookings both succeed   A check-then-insert in the controller isn't atomic   Unique index on (vet, date, start time); catch the duplicate error  \n2.  Overlap slips past the unique key   09:00 and 09:10 are different keys but overlap   Require times on the 30-minute grid, checked on the server  \n3.  Existing MySQL/Postgres databases never get the new columns   The table scripts only create missing tables   Guarded `ALTER TABLE` statements that are safe to re-run  \n4.  Sample data in H2 breaks   `data.sql` inserts values by column position   Name the columns in each insert  \n5.  Old visits break pages or the unique index   Historical rows have no vet or time   Nullable columns, NULL-safe page code, required only for new bookings  \n6.  Duplicate booking shows HTTP 500   The database error isn't caught today   Turn it into a form error on the time field  \n7.  Database engines behave differently   MySQL already lacks the pet-name unique index   Integration tests against all three engines  \n8.  Translation test fails   It checks every language for the same keys   Add new keys to all translation files  \n9.  Anyone can book for any owner   There's no login; the owner id is in the URL   Out of scope here; flag it as a follow-up  \n10.  Wrong-day or past bookings   `LocalDate.now()` uses the server's time zone   Set the clinic time zone in configuration and use it everywhere  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n"
+}

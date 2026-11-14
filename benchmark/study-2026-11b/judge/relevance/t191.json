@@ -1,0 +1,15 @@
+{
+ "trial": "t191",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Lock users out by username and IP address together instead of by IP address alone, as the new default.\n\nRows:\n1.  Password spraying from one IP is no longer limited   Each username and IP pair gets its own `FAILURE_LIMIT`   Document the trade-off; suggest `[\"ip_address\", [\"username\",\"ip_address\"]]` for strict setups  \n2.  Silent behaviour change on upgrade   Installs that rely on the default get no warning; W006 still passes   Major release, CHANGES entry, optional startup check  \n3.  Cache lockouts lifted on upgrade   Key changes from `sha(ip)` to `sha(username+ip)`   Call it out in the upgrade notes  \n4.  Cache reset commands do nothing   `reset_attempts` hashes only the IP or only the username   Raise a clear error or require both values; add tests  \n5.  Missing username weakens the key   None is skipped in cache keys and becomes a NULL filter in the database   Test the no-username path on both handlers  \n6.  Deprecated-flag fallback changes   The `USE_USER_AGENT` append path and `COMBINATION=False` now behave differently   Test each flag combination in test_conf  \n7.  Many tests break   `tests/settings.py` depends on the IP-only default   Pin IP-only in those tests; add new pair tests  \n8.  Docs contradict the code   Three doc files state IP-only   Update all of them in the same change  \n9.  Semver violation   9.0.0 has just been released   Ship as 10.0.0  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false,\n  \"9\": false\n}\n"
+}

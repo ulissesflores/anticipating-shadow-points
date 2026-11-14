@@ -1,0 +1,13 @@
+{
+ "trial": "t158",
+ "covered": [
+  1,
+  2,
+  3,
+  6
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Wrapped hash checked the wrong way   A 16-byte salt then means \"wrapped\" unless the hash is 64 bytes, and one wrong branch fails every old user's login   Classify by salt plus length; test every format both ways  \n2.  Job overwrites a concurrent login upgrade   Login and the job both write `Hash`   Write only if the hash hasn't changed  \n3.  Startup CPU spike   Each wrap costs 210,000 PBKDF2 iterations, roughly 100 ms per user   Small batches, low parallelism, config switch  \n4.  Old-format check removed too early   Any raw rows still left could no longer log in   Remove only after the count is zero everywhere  \n5.  Old hashes were already leaked   Wrapping doesn't help with copies taken before the change   Wrap soon; consider a breach notice if backups leaked  \n6.  Mixed versions during a rolling deploy   Old app instances can't read wrapped hashes   Deploy all instances first, then enable the job  \n7.  Dropping the `salt` parameter touches many call sites   Create, Edit, Login and the tests all call `Hash`   Leave it out or do it in a separate PR  \n8.  Hashes appear in logs or errors   New logging code in the job   Log counts and IDs only  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": true, \"4\": false, \"5\": false, \"6\": true, \"7\": false, \"8\": false}\n"
+}

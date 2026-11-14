@@ -1,0 +1,16 @@
+{
+ "trial": "t136",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Alias/slug collision   `makeUniqueSlug` only checks `articles.slug`   Check both tables, including soft-deleted rows  \n2.  Alias hijacking by new article   A new article can claim a freed slug and capture old links   Reserve aliases permanently; current slug never takes an alias  \n3.  Non-atomic update   Slug, tags and alias are separate writes in `ArticleUpdate`   Wrap in one transaction  \n4.  Needless renames   `base != articleModel.Slug` mismatches suffixed slugs like `foo-2`   Compare against the slug base, not the suffixed value  \n5.  Rename back or chain loops   A\u2192B\u2192A breaks the alias unique index   Delete the alias when a slug is reclaimed  \n6.  Concurrent rename race   Check-then-write in `makeUniqueSlug` races   Rely on the unique index and extend the retry to aliases  \n7.  Delete leaves stale aliases   Soft-delete keeps slugs in the unique index   Cascade-delete aliases or tie them to the article's `deleted_at`  \n8.  Client slug desync   The response slug differs from the requested one   Document it; return the canonical slug in the body  \n9.  Alias lookup precedence   An alias checked first can shadow a live article   Resolve the current slug first, then the alias  \n10.  Spec and test drift   Existing suites may expect a 404 after a rename   Update the tests and run hurl and bruno  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

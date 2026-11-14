@@ -1,0 +1,16 @@
+{
+ "trial": "t095",
+ "covered": [
+  1,
+  2,
+  5,
+  6,
+  7,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   New nullable column means everyone, Rachel included, counts as unverified   Backfill `emailVerifiedAt = createdAt` in the migration  \n2.  Verify link fails outside primary region   GETs aren't replayed (`server.ts:65`) and non-primary regions use the read replica   Make the GET a confirm page and write only in a POST  \n3.  Signup still logs users in   `join.tsx` calls `createUserSession` right away   Redirect to the pending page with no session  \n4.  Old unverified sessions keep working   `requireUserId` only checks the cookie   Check `emailVerifiedAt` in `requireUser`/`getUser`  \n5.  Link scanners consume the token   Mail security tools prefetch GET links   Consume the token only on POST  \n6.  Reveals which emails exist   Verify message shown before password check, or resend that confirms the account   Check password first; resend always returns the same reply  \n7.  Stuck after send failure   User row exists but email failed, and signup says \"already exists\"   Unverified re-signup resends; resend route available  \n8.  Token weakness   Plaintext, reusable or never-expiring tokens   Store sha256 only, 24h expiry, single use in a transaction  \n9.  Email bombing via resend   No rate limiting exists today   Throttle per user (60s) and use one generic reply  \n10.  E2E/seed break   `create-user.ts`, seed and smoke test assume instant login   Create pre-verified users; read the link from the DB in Cypress  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": false,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

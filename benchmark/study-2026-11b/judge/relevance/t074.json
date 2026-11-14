@@ -1,0 +1,17 @@
+{
+ "trial": "t074",
+ "covered": [
+  1,
+  2,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Another user's data leaks (IDOR)   Existing routes are keyed by `<username>`/`<id>`, so copying that pattern is tempting   No URL parameter; use `current_user` only; test with a second user  \n2.  `password_hash` or other secrets in the file   `User` stores `password_hash` and `avatar_hash` next to profile fields   Explicit allowlist serializer; test that the raw body lacks `password_hash`  \n3.  Export misses data   Existing `to_json()` returns API links, not content, and has no email or about_me   Separate `to_export_dict()`; test the key set  \n4.  Timeout or memory blow-up on heavy users   Dynamic relationships, Heroku 30 s limit, Gunicorn workers   Stream with `yield_per` and `stream_with_context`  \n5.  Personal file cached by proxy or browser   Plain GET with no cache headers   `Cache-Control: no-store`  \n6.  Disabled comments missing or unexplained   Moderators set `Comment.disabled`   Include them with a `disabled` flag  \n7.  Bad or ambiguous dates   `jsonify` uses RFC-1123 with no timezone; `json.dumps` fails on datetime   ISO-8601 with `Z`, done in the serializers  \n8.  Header injection via filename   Username goes into `Content-Disposition`   `secure_filename` plus a fixed prefix  \n9.  Endpoint hammered to load the database   No rate limiter in the stack   Streaming keeps cost low; add Flask-Limiter later if needed  \n10.  Unconfirmed users get redirected   `auth.before_app_request` blocks `main.*` for them   Accept and document (they have no posts or comments)  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

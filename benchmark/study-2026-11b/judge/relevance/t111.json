@@ -1,0 +1,14 @@
+{
+ "trial": "t111",
+ "covered": [
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Breaking default for every consumer   Anyone relying on a fixed absolute timeout silently gets sessions that never expire while the user is active   Major release, a loud HISTORY and README note, and a documented `rolling: false` opt-out  \n2.  Absolute lifetime lost (security)   A stolen cookie stays valid indefinitely if it is used regularly   Document it, and recommend an app-level absolute cap  \n3.  Cookie and store expiry drift   With no `touch` and `resave: false`, the cookie renews but the store entry still expires   Verify the store path, document the requirement, and add a test with a touch-less store  \n4.  `Set-Cookie` on every response   Caches and CDNs may skip caching, and responses get larger   Note it in the docs, and tell users to set `Cache-Control` and scope sessions to the routes that need them  \n5.  Extra store writes   A `touch` on every request raises load on Redis or SQL stores   Mention it in the upgrade notes, and advise a sensible `maxAge` and store TTL handling  \n6.  Many existing tests break   Tests assume no cookie on unmodified sessions   Audit them, pin `rolling: false` where the old behavior is intended, and add new default tests  \n7.  Interaction with `saveUninitialized: false`   Rolling only applies to loaded sessions, so users may expect it to apply to new ones   Keep the current semantics, and test and document the combination  \n8.  Session-less requests such as static assets   A session may be loaded for every asset request, and each one rolls it   Advise mounting the middleware only on the routes that need it  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false\n}\n"
+}

@@ -1,0 +1,16 @@
+{
+ "trial": "t206",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  6,
+  7,
+  8
+ ],
+ "n": 10,
+ "redactions": 1,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Filter fixed to one tenant   The filter must read a property on the database context; capturing a local value bakes in the first tenant and leaks it to everyone   Use the `CurrentTenantId` property; test with two tenants  \n2.  Linking to another company's list   `CreateTodoItem` and `UpdateTodoItemDetail` accept any `ListId` and don't check it today   [term] check plus the database-level link that includes `TenantId`  \n3.  Users with no company   Registration via `MapIdentityApi` has no tenant field, so new users would see nothing or crash   Create a company on registration; refuse users without one  \n4.  Seeding and background code have no user   The startup seed has no logged-in user, so the interceptor would reject its writes   Set `TenantId` explicitly; allow a preset value when there's no user  \n5.  Filter bypassed later   Someone adding `IgnoreQueryFilters()` or raw SQL in Application code silently leaks data   Keep bypasses in Infrastructure and tests only; review rule  \n6.  Logins issued before the change   Existing cookies and tokens have no `tenant_id`   Treat a missing claim as Forbidden; force re-login  \n7.  Existing projects have real data   Adding a required `TenantId` to filled tables needs a backfill; the template itself has no migrations   Document a migration: add nullable, backfill, then make required  \n8.  Test helpers break   `TestApp.FindAsync` and the test user stand-in don't know about tenants   Add tenant to `RunAsUserAsync`; bypass the filter in `FindAsync`  \n9.  One of the 6 template variants breaks   Code switches on `UseApiOnly` and the three databases   Build every variant in CI  \n10.  Uniqueness changes   Title uniqueness becomes per company, so the same title can now exist in two companies   Optional database index on (`TenantId`, `Title`); test it  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": false\n}\n"
+}

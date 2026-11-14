@@ -1,0 +1,18 @@
+{
+ "trial": "t036",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Old slug goes to a new article   `makeUniqueSlug` only checks `article_models`   Also check the alias table (unscoped)  \n2.  Alias saved but slug not updated, or the reverse   `Update` and the new insert are separate statements today   One transaction for both  \n3.  Some handlers skip alias lookup   8+ handlers each call `FindOneArticle` with the slug   One `FindArticleBySlug` used by every handler  \n4.  DELETE by old slug deletes nothing   `DeleteArticleModel` filters on the URL slug   Delete by `ID`  \n5.  Renaming back to an old slug collides   That slug is in both tables   Delete the article's own alias in the same transaction  \n6.  Chained renames break or loop   Aliases might point to slugs, not articles   Aliases store `ArticleID`  \n7.  Spec suite expects 404 on old slug   Pinned hurl/bruno suite is the source of truth   Run it; document the difference or add a setting  \n8.  Concurrent retitles lose an alias   Both read the same old slug   Transaction plus unique index; return the error, don't retry blindly  \n9.  Aliases reach deleted articles   Soft delete leaves rows behind   Normal (scoped) query when loading the article  \n10.  Earlier links can't be fixed   No slug history exists before this change   Say so in the PR; no backfill possible  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

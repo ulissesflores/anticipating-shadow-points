@@ -1,0 +1,19 @@
+{
+ "trial": "t133",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Two people book the same slot at the same moment   The controller checks first and saves later; nothing locks in between   Unique constraint on (vet, date, time) and catch the duplicate error  \n2.  Visits of different lengths overlap anyway   A unique constraint only matches identical start times   Fixed slots, checked on the server  \n3.  Existing MySQL/Postgres databases break   `IF NOT EXISTS` skips new columns and there are no migrations, so every owner page fails with a SQL error   Ship `ALTER` scripts, or add Flyway  \n4.  The three schema files drift apart   H2, MySQL and Postgres DDL are maintained by hand   Change all three; run the container tests in CI  \n5.  The vet field is silently ignored   `*.id` is blocked from binding   Bind `vet` through a `VetFormatter`  \n6.  Bookings for other people's pets, or spam that fills a vet's calendar   There is no login; URLs use guessable ids   Add a login and ownership check before going public; limit request rates  \n7.  Duplicate shows as a 500 page   The error only appears when `save` commits   Catch it and show it as a form error  \n8.  Old visits have no vet or time   Existing rows are NULL   Allow NULL; templates handle missing values  \n9.  Wrong day or slot because of time zones   `LocalDate.now()` uses the server's zone   Set an explicit clinic time zone  \n10.  Build fails on translations   `I18nPropertiesSyncTest`   Add keys to all 11 files  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

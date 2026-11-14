@@ -1,0 +1,16 @@
+{
+ "trial": "t020",
+ "covered": [
+  1,
+  2,
+  3,
+  6,
+  7,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Missed filter leaks cross-tenant data   Handlers call `_context` directly, with no repository layer   Global query filter; a test per handler  \n2.  Cross-tenant `ListId` on create   `CreateTodoItem` trusts the client's `ListId`   Resolve the list through the filtered set first  \n3.  No tenant on the principal   Template users have no tenant concept; the seeded admin would see nothing   Fail closed; seed tenants; reject tenantless users  \n4.  Stale or forged tenant claim   Cookies and bearer tokens outlive membership changes   Derive the claim server-side only; short token lifetime  \n5.  Filter bypass   `IgnoreQueryFilters` or raw SQL is easy to add later   Code-review rule; analyzer or grep check in CI  \n6.  Existing data has no tenant   A required column cannot be added to populated rows   Backfill a default tenant in a migration; dev DB is recreated  \n7.  Background and domain-event code   `TodoItemCompletedEvent` handlers have no HTTP user   Pass the tenant on the event; use an explicit scope  \n8.  Query filter on `FindAsync` assumptions   Tests or code may rely on global lookups   Add tests; use a test-only context without a filter  \n9.  Orphaned client work   Registration UI and NSwag clients need updates   List in scope; regenerate clients  \n10.  Performance regression   Every query gains a `TenantId` predicate   Composite indexes starting with `TenantId`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n"
+}

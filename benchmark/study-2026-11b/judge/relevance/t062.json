@@ -1,0 +1,17 @@
+{
+ "trial": "t062",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  All existing tokens stop verifying   The digest also drives key derivation, so both key and signature change   SHA-1 entry in `default_fallback_signers`  \n2.  Plain `Signer`/`TimestampSigner` can't fall back   Fallback exists only in `Serializer.iter_unsigners`   Document pinning `digest_method=sha1`; maybe add an option later  \n3.  Repeat of the pulled 1.0.0 release   Same kind of change, previously reverted   Ship only with the fallback and loud changelog notes  \n4.  FIPS builds break   A fallback that touches `hashlib.sha1` at import fails there   Keep the fallback lazy (`_lazy_sha1`); test the import  \n5.  Mixed-version deploys reject tokens   Old servers can't check SHA-256 tokens   Upgrade all servers first, or pin SHA-1 during rollout  \n6.  Tokens get bigger   Signature grows from 27 to 43 characters   Note it in the changelog; check cookie size limits  \n7.  Other verifiers break   Ports and hard-coded test values assume HMAC-SHA1   Changelog note and a pinning recipe  \n8.  SHA-1 is accepted forever   A permanent fallback keeps the old path open   Plan to deprecate and remove the fallback later  \n9.  Tests fail   Tests assume the default is `_lazy_sha1` / SHA-1   Update them; keep SHA-1 golden values  \n10.  Docs contradict the code   `concepts.rst` says the default is SHA-1   Update the docs and add `versionchanged`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": false\n}\n```\n"
+}

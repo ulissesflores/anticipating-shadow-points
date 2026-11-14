@@ -1,0 +1,18 @@
+{
+ "trial": "t218",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Another user's data exposed   Routes take `<username>` and `<id>` params   Use `current_user` only, no id param, plus a test  \n2.  Secrets in the export   `User` holds `password_hash` and the email   Explicit field whitelist, assert in tests  \n3.  `to_json()` is the wrong shape   It's built for the API and has URLs and `body_html`   Write a dedicated `export_data()`  \n4.  Memory or timeout on big accounts   Sync generation under Gunicorn and Heroku's 30s limit   Stream the response, cap size, or move to a job later  \n5.  N+1 queries   Relationships use `lazy='dynamic'`   Eager-load, one query per table  \n6.  Sensitive file cached   Plain GET with personal data   `@login_required`, `Cache-Control: no-store`  \n7.  Export-spam load   No rate limiting in the app   Throttle per user, such as one per minute  \n8.  Inconsistent or moderated content   `Comment.disabled`, data changing mid-export   Define the rule, read in one transaction  \n9.  Encoding or header bugs   Unicode text, naive datetimes, username in the filename   UTF-8, ISO UTC, fixed filename  \n10.  Cross-DB or privacy gaps   SQLite, MySQL and Postgres all in use, plus third-party text   Test across DBs, audit-log the export  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

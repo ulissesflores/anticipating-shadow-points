@@ -1,0 +1,15 @@
+{
+ "trial": "t161",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Retired slug reused by another article   `makeUniqueSlug` checks only the `slug` column, so a new article could take an old URL   Check the alias table in `makeUniqueSlug`; test it  \n2.  Alias write not atomic with the update   Today's update and retry loop aren't transactional, so a crash could leave a renamed article with no alias   Single transaction for the update plus alias insert  \n3.  Some `:slug` handler still skips alias lookup   Eight call sites repeat `FindOneArticle`, so one missed site leaves a broken link   One helper; grep and test every route with an old slug  \n4.  Rename back (A\u2192B\u2192A) hits the unique index   The old slug is both the target and an existing alias   Delete the same-article alias before the update  \n5.  Deleted articles leak through aliases   Soft delete leaves rows, so aliases could resolve to dead articles   Join on `deleted_at IS NULL`; remove aliases on delete  \n6.  Concurrent renames race on slugs   `makeUniqueSlug` check-then-insert races, as the code already notes   Keep the unique index and the duplicate-key retry; apply it to alias inserts too  \n7.  Schema change on existing databases   New table via AutoMigrate. Articles renamed before this change have no alias   Idempotent AutoMigrate; document that earlier renames can't be recovered  \n8.  Clients keep using stale slugs forever   Transparent resolution hides the rename   Return the canonical slug in every response; consider a 301 for GET later  \n9.  Unbounded alias growth   Each rename adds a row   Cap per article; clean up on delete  \n10.  Spec-suite regression   The RealWorld hurl and bruno tests passed recently and expect 404 for missing slugs   Run both suites; unknown slugs still return 404  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": false,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

@@ -1,0 +1,14 @@
+{
+ "trial": "t055",
+ "covered": [
+  1,
+  2,
+  5,
+  7,
+  8
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Lock users out by username and IP address together instead of by IP address alone, as the new default.\n\nRows:\n1.  Weaker brute-force protection   An attacker from one IP who rotates usernames (password spraying) is never locked.   Call it out in the docs, and recommend `[\"ip_address\", [\"username\",\"ip_address\"]]` for strict setups.  \n2.  Silent behavior change on upgrade   Anyone relying on the implicit IP-only default loses protection with no code change.   Add a prominent breaking-change note and a major or minor bump. Consider a one-time startup warning.  \n3.  Distributed attack on one account   The attacker spreads attempts across many IPs, so the per-IP-and-username counter never reaches the limit.   Document it, and suggest adding `\"username\"` or a CAPTCHA/rate limiter.  \n4.  Missing or spoofed client IP   When `ip_address` is `None` or behind a proxy, all users collapse into one bucket or lockouts are bypassed.   Document the `AXES_IPWARE_*` and proxy settings, and test with a `None` IP.  \n5.  Stale counters at the switch   Old IP-keyed attempts and cache entries do not match the new combined keys.   Note in the changelog that the counters effectively reset at upgrade.  \n6.  Test suite breakage   Many tests assume the IP-only default.   Pin explicit parameters in those tests, then add new default tests.  \n7.  Username normalization gaps   Case or whitespace variants of a username get separate buckets (the 9.0 truncation fix covers length only).   Check that `AXES_USERNAME_CALLABLE` normalizes usernames, and test case variants.  \n8.  Callable and legacy flag interplay   A user-supplied callable or deprecated flags might get mixed with the new default.   Apply the default only when the setting is `None` and no flag is set, and test that.  \n9.  Inconsistent docs   The old default is quoted in several places (configuration, installation, usage).   grep for `[\"ip_address\"]` and fix every mention.  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": false,\n  \"5\": true,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false\n}\n"
+}

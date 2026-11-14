@@ -1,0 +1,15 @@
+{
+ "trial": "t223",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  8
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Handler misses the alias lookup   About 8 handlers call `FindOneArticle` by slug, so one missed handler leaves a 404   Use one helper, and add a test per endpoint  \n2.  Old slug stolen by a new article   `makeUniqueSlug` checks only `articles`, so a retired slug looks free   Make slug generation check aliases too  \n3.  Rename and alias insert not atomic   The retry loop on `ErrDuplicatedKey` re-runs the update   Wrap both in one transaction  \n4.  Needless slug churn on re-save   `base != Slug` is true for `foo-2`, so the slug becomes `foo-3`   Compare slug bases, and test it  \n5.  Rename back hits own alias   The unique index on the alias table collides with the article's own old slug   Reuse the slug and drop the alias in the same transaction  \n6.  Alias table grows without limit   Every rename adds a row, and there are no rate limits   Cap aliases per article, or add rate limiting  \n7.  Schema migration on existing DBs   The new table needs AutoMigrate, and I haven't confirmed where it runs   Check the migration path, and test on a copy of an existing DB  \n8.  Info leak after delete   A deleted article's alias could still resolve to a soft-deleted row   Resolve through scoped queries, and test for 404  \n9.  Race on concurrent renames   The existing slug race on create also applies to renames   Keep the unique indexes on both tables, and retry on duplicate  \n10.  Clients cache the old slug   The SPA may keep using it after a rename   Return the new slug in the PUT response, and send a canonical header  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": true,\n  \"9\": false,\n  \"10\": false\n}\n"
+}

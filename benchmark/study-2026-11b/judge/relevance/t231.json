@@ -1,0 +1,19 @@
+{
+ "trial": "t231",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Dormant accounts stay weak   Rehash only happens on login   Report remaining legacy rows; optionally wrap them in the new KDF in a batch job  \n2.  Format detected by length   `64 bytes + 16-byte salt` could match a new format   Add an explicit version prefix or marker column  \n3.  Failed or racing rehash write   `Login.cs` rewrites the hash after verifying   Compare-and-swap update; keep the old hash on failure  \n4.  Login CPU/memory DoS   Unauthenticated endpoint with a heavier KDF   Tune cost with benchmarks; add rate limiting  \n5.  New package or native dependency   Locked restore and CI publish are enforced   Prefer BCL PBKDF2; vet and pin any package  \n6.  Column size and dual migrations   Two providers with separate snapshots   Check hash length; add migrations for both providers  \n7.  One-way upgrade breaks rollback   Old builds can't read new hashes   Ship read-compat first, enable writes later  \n8.  Tests miss real legacy data   No SQL Server tests, synthetic hashes   Add fixtures from real legacy hashes; run a SQL Server check  \n9.  Hard-coded legacy key and drifting parameters   Fixed `\"realworld\"` key, per-instance cost   Keep the legacy path verify-only; store parameters inside the hash  \n10.  Timing and enumeration side channels   Three verify paths with different costs   Run a dummy hash for unknown users; use constant-time compares  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

@@ -1,0 +1,16 @@
+{
+ "trial": "t224",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  7,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working.\n\nRows:\n1.  `id` changes type in responses   Schemas say `id: int`, so integer parsers break   Keep `id` as int, add `uuid`, and put UUID-as-`id` behind `/v2`  \n2.  Path accepts int and UUID ambiguously   Routes use `Path(gt=0)` with `int`   One resolver with explicit parsing, and tests for bad input  \n3.  Migration locks or leaves NULL UUIDs   Aerich runs one migration, and live inserts continue   Nullable column, batched backfill, then `NOT NULL`, with a default set first  \n4.  Background task gets the wrong ID   `generate_summary` is called with an int from `crud.post`   Keep the internal integer for tasks, and add a test  \n5.  Auto-generated schema drifts   `pydantic_model_creator` picks up new fields silently   Pin the response model explicitly  \n6.  Integer IDs stay guessable   The dual-ID window keeps enumeration open, and there is no auth   Rate-limit, set a sunset date, and then remove integer lookups  \n7.  Rollback is lossy   `downgrade` is empty, and clients may store UUIDs   Write a reversible migration and ship behind a flag  \n8.  Unknown consumers use integer IDs   Clients and stored links are outside this repo   Log ID-form usage, announce the deprecation, and check logs before removal  \n9.  Tests and CI break or miss cases   Tests likely hard-code integer IDs   Update the fixtures, and add dual-ID and migration tests  \n10.  Missing unique index   UUID lookups would be slow or allow duplicates   Add a unique index in the migration  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": true,\n  \"8\": false,\n  \"9\": false,\n  \"10\": true\n}\n```\n"
+}

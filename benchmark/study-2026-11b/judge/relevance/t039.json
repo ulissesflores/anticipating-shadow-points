@@ -1,0 +1,19 @@
+{
+ "trial": "t039",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Race lets two bookings into one slot   Saving cascades through Owner, and a \"check then insert\" lookup isn't atomic   Unique constraint on (vet, date, time); keep the check only for a friendly message  \n2.  Clash shows as HTTP 500   Duplicate-key error is thrown at save time, after validation   Catch it around the save and turn it into a form error  \n3.  Existing databases never get the new columns   `CREATE TABLE IF NOT EXISTS`, no migration tool   Ship `ALTER TABLE` scripts or adopt Flyway  \n4.  Seed data fails at startup   Positional `INSERT INTO visits VALUES (...)`   Name the columns in all three `data.sql` files  \n5.  Vet silently not saved, so no clash detection   Binder blocks `*.id`   Bind a separate `vetId` parameter or use a `Vet` formatter; `@NotNull` on vet  \n6.  Overlapping visits slip past the constraint   Variable lengths can't be expressed as a portable unique constraint   Fixed 30-minute slots, checked on the server  \n7.  Old visits with no vet break the constraint   Existing rows have no vet   Allow an empty vet; test that empty values are treated as distinct  \n8.  Anyone can book for any owner   No login; owner ID is in the URL   Flag it; add Spring Security plus an ownership check as a follow-up  \n9.  Slot and date shift by time zone   `LocalDate.now()` uses the server's zone   Use a configured clinic time zone via `Clock`  \n10.  Build breaks on translations and mocks   `I18nPropertiesSyncTest`; `VisitControllerTests`   Add keys to all 11 files; mock `VetRepository`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

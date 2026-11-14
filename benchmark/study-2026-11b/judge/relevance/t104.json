@@ -1,0 +1,17 @@
+{
+ "trial": "t104",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Item attached to another company's list   `CreateTodoItem` and `UpdateTodoItemDetail` trust the `ListId` from the request; read filters don't cover writes   Check `ListId` against the user's lists, plus a parent-company check in the interceptor  \n2.  Filter keeps the first request's company   EF caches the model, so a copied value sticks   Filter on a context property; test with two companies in a row  \n3.  Filter shows everything when company is missing   Seeding, tests and broken claims have no company   Match nothing when null; refuse to save without a company  \n4.  Company claim missing for one login style   Cookie and bearer logins both come from the claims factory   Custom factory registered in both `#if` branches  \n5.  Title check reveals or blocks across companies   The validators check titles globally today   Per-company check plus a unique index on `(TenantId, Title)`  \n6.  `FindAsync` skips the filter   It can return an already-loaded entity unfiltered   Switch to filtered `FirstOrDefaultAsync`  \n7.  Seeding and tests break silently   `TrySeedAsync`, `TestApp.CountAsync` and `FindAsync` run with no user   `IgnoreQueryFilters()` and an explicit company id  \n8.  Company id changed on update   Nothing stops an edit to it   Interceptor refuses to change the company on existing rows  \n9.  Template variant fails to build   Many `#if` database and frontend combinations   Run the template matrix  \n10.  Existing real data breaks   Here the database is recreated; real apps keep theirs   Document a migration that fills in a company for existing rows  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": false\n}\n```\n"
+}

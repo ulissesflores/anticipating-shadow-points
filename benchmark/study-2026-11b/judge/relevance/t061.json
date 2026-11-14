@@ -1,0 +1,18 @@
+{
+ "trial": "t061",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   New column is null for every current row   Backfill `emailVerifiedAt = createdAt` in the same migration  \n2.  Verify link fails in replica regions   Only non-GET requests are forwarded to the primary region; replicas use read-only Postgres   Verify on the Confirm button's POST, never on page load  \n3.  Link scanners use up tokens   Single-use tokens break when a scanner opens the link before the user   Opening the link only shows the page; the button does the write  \n4.  Account squatting   Someone registers another person's email first and blocks them   Re-registering an unverified email replaces the password and old tokens  \n5.  Email delivery fails in prod   No email setup exists; missing secrets or SPF/DKIM   Required-env checks, set secrets before deploy, configure the domain  \n6.  Link poisoning via Host header   Building the URL from the request lets an attacker choose the domain   Use the `APP_ORIGIN` env var only  \n7.  Email enumeration and resend abuse   The resend endpoint is public   Always the same response, 60s limit per user  \n8.  Leaked tokens are usable   Raw tokens in the DB or logs can be replayed   Store only hashes, 24h expiry, delete after use  \n9.  E2E and seed breakage   `cy.login()`, the seed and the sign-up smoke test assume instant login   Create test users as verified; capture emails with the mock handler  \n10.  Logged-in unverified sessions   Some future path could call `createUserSession` early   `getUser`/`requireUser` reject unverified users  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

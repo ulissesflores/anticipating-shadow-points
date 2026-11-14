@@ -1,0 +1,18 @@
+{
+ "trial": "t233",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Exporting another user's data (IDOR)   Most existing routes take `<username>` or `<id>`   No user parameter; always use `current_user`  \n2.  Secret fields leak   `User` holds `password_hash`; `to_json` exists and could be extended carelessly   Explicit field allowlist; test that `password_hash` is absent  \n3.  Third-party comments leak   Comments on your posts belong to other users   Export your own comments; only counts for others'  \n4.  Export triggered from another site   A GET would bypass Flask-WTF CSRF   POST plus a CSRF token through `ExportForm`  \n5.  JSON serialisation crash   `datetime` fields and `None` values   Use `.isoformat()` with None guards  \n6.  Slow export / N+1 queries   `lazy='dynamic'` relationships cause one count query per post   One grouped count query; order once  \n7.  Personal data cached   No cache headers today   `Cache-Control: no-store`  \n8.  Export silently goes stale   New model fields won't appear automatically   `format_version` plus a test listing the expected keys  \n9.  Disabled or orphaned comments skipped or crash   `disabled` flag; `post_id` can point to a deleted post   Include with the flag; keep the raw `post_id`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true\n}\n"
+}

@@ -1,0 +1,19 @@
+{
+ "trial": "t021",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   The new column is null for every current row   Backfill in the migration; check the row count after deploy  \n2.  Verification emails never arrive   There's no email provider yet; production secrets could be missing   Require the env vars in production; check provider errors in logs  \n3.  Some route still logs people in without verifying   `createUserSession` is called from `join.tsx` and the Cypress helper   Remove the call from sign-up; check verification in `requireUser` too  \n4.  Stolen tokens from database or logs   Tokens grant login   Store only the hash; 24h expiry; single use; don't log links in production  \n5.  Finding out which emails have accounts   Sign-up and resend can reveal whether an email exists   Generic replies; \"not verified\" only after a correct password  \n6.  Resend abuse   Anyone can trigger emails, which costs money   60s per-user limit; generic reply  \n7.  Wrong link host on Fly   Request origin can differ behind the proxy   Use the `APP_ORIGIN` env var  \n8.  Cypress and the seed user break   Test and seed users are created unverified   Mark them verified; add a helper that fetches the link  \n9.  Users stuck if the link expires   One-time 24h links   Resend option on the error page and the login page  \n10.  Migration fails or is slow on deploy   The Fly release step runs `migrate deploy`   Nullable column plus one `UPDATE`; test against a copy of the database  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

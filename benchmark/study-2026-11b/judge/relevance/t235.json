@@ -1,0 +1,16 @@
+{
+ "trial": "t235",
+ "covered": [
+  1,
+  2,
+  3,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  Existing tokens and cookies stop validating   The new hash changes both the derived key and the signature   Default SHA-1 fallback in `Serializer`  \n2.  Code that uses `Signer` directly breaks with no fallback   Only `Serializer` supports fallbacks   Changelog note and a one-line way to keep SHA-1  \n3.  Fallback drops custom `key_derivation`/`sep`   Fallback settings replace `signer_kwargs` instead of merging   Merge the default fallback over `signer_kwargs`, plus a test  \n4.  Repeat of the 1.0.0 yank   The project already reverted a default-hash change after users broke   Ship in 2.3.0 with the fallback and a clear upgrade note  \n5.  Tokens get longer (27 \u2192 43 characters)   Cookies and URLs have size limits   Document it; SHA-1 can still be kept  \n6.  Hard-coded tokens break downstream tests   Golden values like `-9cNi0Cx\u2026` change   Changelog note; tests keep a SHA-1 case  \n7.  The fallback keeps SHA-1 in use and slows rejection   FIPS builds and compliance scans flag SHA-1; failed checks run twice   Keep `_lazy_sha1`, allow `fallback_signers=[]`, remove the fallback in 3.0  \n8.  Unclear effect on mixed-version deployments   Old instances can't read new SHA-256 tokens during a rolling upgrade   Document \"upgrade every instance before relying on SHA-256 tokens\"  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true\n}\n```\n"
+}

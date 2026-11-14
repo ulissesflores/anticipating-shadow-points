@@ -1,0 +1,19 @@
+{
+ "trial": "t116",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Another user's data leaks (IDOR)   Existing routes take `<username>` or `<id>`, so it's tempting to copy that pattern   No identifier in the URL; always use `current_user`; add a test  \n2.  Password hash in the file   `User` has `password_hash` and `avatar_hash` next to profile fields   Explicit allowlist plus a test on the exact key set  \n3.  Other users' text included   `post.comments` holds comments by everyone   Query only `User.comments` and give parent posts by id/URL only  \n4.  Unconfirmed users blocked   `auth.before_app_request` redirects them away from non-`auth` endpoints   Put the route in the `auth` blueprint and test it  \n5.  Dates fail or lose precision   `json.dumps` can't encode datetime; Flask 0.12 `jsonify` writes RFC-1123   ISO-8601 UTC strings written explicitly  \n6.  File cached by proxy or browser   Production sits behind Heroku/Docker proxies   `Cache-Control: no-store`  \n7.  Timeout on large accounts   Whole export built in memory under Gunicorn's 30 s limit   Fine at this scale; switch to a streaming generator with `yield_per` if needed  \n8.  Moderated comments silently missing   UI hides `disabled` comments   Include them, with a `disabled` flag  \n9.  Download filename breaks   Usernames are user-controlled   Use the numeric id and date in the filename  \n10.  Export goes stale as the schema grows   New columns are skipped quietly, or leak quietly   `export_version` key and the allowlist test  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

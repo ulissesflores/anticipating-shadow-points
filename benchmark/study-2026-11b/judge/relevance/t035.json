@@ -1,0 +1,14 @@
+{
+ "trial": "t035",
+ "covered": [
+  1,
+  2,
+  4,
+  5,
+  6
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Race: two bookings for one slot   The controller saves the whole owner with no lock or check   `UNIQUE(vet_id, visit_date, start_time)`, plus a friendly handler for the violation  \n2.  Schemas drift across DBs   Three hand-written `schema.sql` files, no migration tool   Change all three together and run the MySQL and Postgres integration tests  \n3.  No vet or time in the model   `Visit` has only a date, so the change spreads widely   Add the fields, update forms, i18n and seed data, and keep the scope to a fixed slot grid  \n4.  Null legacy rows vs unique index   Null handling differs between H2, MySQL and Postgres   Keep the columns nullable, migrate or ignore legacy rows, and test each DB  \n5.  Generic 500 on conflict   `owners.save(owner)` throws a raw constraint error   Catch it, return to the form with the input kept and a clear message  \n6.  Time zone and DST errors   `LocalDate.now()` uses the server zone   Use a configured clinic zone and a `Clock` bean  \n7.  Cancelled visits block slots   No cancel flow exists   Add a cancel path, or a status column that the unique rule honors  \n8.  Double submit and bot abuse   Booking is anonymous and POST isn't idempotent   Post-redirect-get, a disabled submit button, and rate limiting  \n9.  Unvalidated vet, date and time input   The recent commits show input hardening is an ongoing concern   Bind only allowed fields, check the vet exists, and check the slot is on the grid and in range  \n10.  Existing tests break   The concurrency and visit tests assume date-only visits   Update the fixtures and add a concurrent booking test  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false,\n  \"9\": false,\n  \"10\": false\n}\n```\n"
+}

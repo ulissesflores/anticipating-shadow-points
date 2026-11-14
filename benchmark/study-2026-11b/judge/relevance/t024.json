@@ -1,0 +1,14 @@
+{
+ "trial": "t024",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  6
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Login CPU cost   PBKDF2 at 210k iterations runs synchronously on the request thread   Rate-limit login, benchmark, keep the count at the OWASP baseline  \n2.  Legacy rows linger   Dormant users keep the weak HMAC hash with a constant key   Track the count, optionally wrap with PBKDF2  \n3.  Rehash write race   Concurrent logins both save the rehash on a tracked entity   Last write wins, both values are valid, add a test  \n4.  Format misdetection   The 64-byte length check is a fragile heuristic   Check the version byte explicitly, add tests for each format  \n5.  Email enumeration by timing   An unknown email skips hashing and returns faster   Dummy verify on the not-found path  \n6.  Rollback breaks users   Old code can't read Identity v3 hashes after upgrades   Deploy forward-only, take a DB backup first  \n7.  Dual-provider drift   SQLite and SQL Server could store `Hash` differently   Run the integration tests on both providers  \n8.  Password length DoS   A very long password input makes PBKDF2 slower   Keep a max length in the FluentValidation rules  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false\n}\n```\n"
+}

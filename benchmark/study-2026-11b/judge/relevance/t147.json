@@ -1,0 +1,15 @@
+{
+ "trial": "t147",
+ "covered": [
+  1,
+  2,
+  4,
+  5,
+  6,
+  7
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  A user makes themselves moderator   `PUT /user` saves the request's fields; adding the new flag to the allowed fields would let anyone set it   Leave it out of `$fillable`; test that it's ignored  \n2.  Hidden comment still visible somewhere   `CommentController::index` and `User::comments` both read comments without any filter   Apply the `visibleTo` filter everywhere and search for other comment queries  \n3.  Acting on a comment through the wrong article   Routes don't check the comment belongs to the article (`destroy` ignores `$article`)   Check `article_id` in each new request class  \n4.  Off-by-one or time-zone errors on the 7-day limit   Deadline compared against the clock; easy to get wrong   Compute on the server in UTC with `<=`; boundary tests with a frozen clock  \n5.  Duplicate appeals or conflicting hides from simultaneous requests   Two requests can both pass the checks before either saves   Transaction with a row lock; check status inside it  \n6.  Revoked moderator keeps their powers   Putting the role in the JWT would keep it valid until the token expires   Read `is_moderator` from the database on every request  \n7.  Same moderator hides the comment and judges the appeal   No separation of duties, which undermines the appeal   Record who resolved it; optionally block self-review  \n8.  Clients break on the new fields   Clients built to the RealWorld spec read the comment format   Add fields only (nothing removed or renamed); unhidden comments look the same  \n9.  Deleting a comment erases the moderation history   Database rule deletes moderation rows along with the comment   Accept this, or keep a short audit record  \n10.  Mistakes when changing the database   Three migrations on live tables   Columns are nullable or have defaults; test rolling back  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": false, \"4\": true, \"5\": true, \"6\": true, \"7\": true, \"8\": false, \"9\": false, \"10\": false}\n"
+}

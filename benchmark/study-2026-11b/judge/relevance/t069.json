@@ -1,0 +1,13 @@
+{
+ "trial": "t069",
+ "covered": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Misreading the hash format   Formats are told apart only by byte length, first byte and salt length; `LoginTests` already stores a normal hash next to a 16-byte salt   Check the old format first, then `0xF1`; test every combination  \n2.  Rewrap overwrites a hash a login just upgraded   Login can update the same row at the same moment   Only write if the hash is unchanged (`WHERE Hash = old`); add a race test  \n3.  Rewrap is slow or locks the table   210k iterations per row; large user tables   Run as a separate command in batches, not at startup  \n4.  Accounts locked out by a bug in the wrapping   Wrapping can't be undone without the plaintext   Back up first; test on a copy; check a login after the run  \n5.  Old hashes still there after the run   Rows added during the run or from restored backups   Safe to rerun; check that the old-hash count is 0  \n6.  Timing differences reveal the hash format   Wrapped rows compute HMAC plus PBKDF2, normal rows only PBKDF2   Small, acceptable difference; the unknown-email path is unchanged  \n7.  Slower login   210k iterations on every login   Already the case today; watch latency  \n8.  Hashes appear in logs   The new job touches every row   Log only counts  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": false,\n  \"7\": false,\n  \"8\": false\n}\n"
+}

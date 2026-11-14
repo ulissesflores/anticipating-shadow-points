@@ -1,0 +1,16 @@
+{
+ "trial": "t225",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  All existing tokens fail verification   The default affects both key derivation and the HMAC, so old signatures are invalid   Document `fallback_signers` with SHA-1; major version bump  \n2.  Users logged out or links broken at deploy   Sessions, reset links and confirmation emails use default signers   Roll out with the fallback first, then drop it after tokens expire  \n3.  Longer tokens exceed limits   Signature goes from 27 to 43 base64 characters   Note it in the changelog; check cookie and URL length budgets  \n4.  Mixed-version deployments disagree   Old and new app instances sign and verify differently during rollout   Deploy the fallback-capable version everywhere before flipping the default  \n5.  Tests with hardcoded SHA-1 vectors fail   `test_digests` and the `_lazy_sha1` import assume the old default   Update expected values; keep explicit SHA-1 cases  \n6.  Downstream libraries pin on the default   Flask and other consumers rely on `Signer` defaults or subclass it   Pre-release and notify; test against major consumers  \n7.  Custom subclasses overriding `default_digest_method`   Subclasses that set it explicitly won't change, so behaviour diverges   Document that explicit overrides are unaffected  \n8.  Silent half-migration   SHA-1 fallback left enabled indefinitely keeps the weak digest accepted   Set a removal date for the fallback; add a deprecation warning  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": true, \"4\": true, \"5\": true, \"6\": true, \"7\": false, \"8\": true}\n"
+}

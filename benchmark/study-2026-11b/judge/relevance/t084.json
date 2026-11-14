@@ -1,0 +1,19 @@
+{
+ "trial": "t084",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Two simultaneous requests double-book a slot   The current flow is \"validate, then `owners.save`\", with no locking   Unique constraint on `(vet_id, visit_date, visit_time)` plus a two-thread test  \n2.  Constraint missing on MySQL/Postgres or existing databases   `CREATE TABLE IF NOT EXISTS` and no migration tool   Change all three schemas and ship an `ALTER` script  \n3.  Clash shows as HTTP 500 instead of a form error   The error only appears when the cascaded save finishes   `try/catch DataIntegrityViolationException` around `save`, following `PetController`  \n4.  Constraint detected by fragile text match   Each database reports constraint or index names differently   Same name in all databases, case-insensitive match, check the cause chain  \n5.  Overlapping times slip through   An equality constraint can't detect overlapping time ranges   Fixed 30-minute slots, grid checked on the server  \n6.  Old visits with no vet break the schema or the check   Existing rows and `data.sql` have no vet   Nullable columns, check only new bookings  \n7.  Anyone can book or flood slots for any owner   There's no login, and IDs are in the URL   Treat as a known gap, follow up with login and rate limits  \n8.  Tampered input (bad vet ID, past time, odd minutes)   Today only the date is checked on the server   Check vet exists, grid, opening hours, and future date and time  \n9.  Build fails on translation keys   `I18nPropertiesSyncTest` checks all 11 files   Add every key to every file  \n10.  Wrong day or slot from time zone mismatch   `LocalDate.now()` uses the server's zone   Set one clinic zone and use it in all checks  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

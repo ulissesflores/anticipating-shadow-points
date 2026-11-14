@@ -1,0 +1,13 @@
+{
+ "trial": "t126",
+ "covered": [
+  1,
+  2,
+  4,
+  5
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Sessions never expire for active/polling clients   `rolling` extends expiry on every request, including background polls   Document it, and offer an absolute max-age option  \n2.  Store write amplification   Every request calls `touch` or a full `save`   Keep `touch` support, and warn for stores without it  \n3.  Silent breaking change for existing users   The default flips with no code change on their side   Semver-major, deprecation warning first, migration note  \n4.  `Set-Cookie` on every response breaks caching   `shouldSetCookie` is true whenever rolling is on   Skip cookie refresh for static or cacheable routes  \n5.  Lost updates from concurrent saves   Without `touch`, each request re-saves the whole session   Prefer `touch`, and document `resave: false`  \n6.  Existing tests fail or go stale   Tests assume the old default, for example at `test/session.js:1158`   Update tests, and add default-on and explicit-off cases  \n7.  Security and compliance drift   Idle-timeout policies change without anyone deciding to   Release notes and a security note in the README  \n8.  Docs out of sync   README `rolling` section and HISTORY describe the old default   Update both in the same change  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": false\n}\n```\n"
+}

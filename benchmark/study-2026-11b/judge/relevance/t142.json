@@ -1,0 +1,15 @@
+{
+ "trial": "t142",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working.\n\nRows:\n1.  The migration is never tested on Postgres in CI   CI runs pytest on SQLite with `generate_schemas=True`; the aerich migration and `gen_random_uuid()` never run there   Add a CI job that runs `aerich upgrade` against Postgres 17 on seeded data  \n2.  Filling and locking a large table   `UPDATE` on every row plus the unique index can lock `textsummary`   Fill in batches; use `CREATE UNIQUE INDEX CONCURRENTLY` outside a transaction  \n3.  The extra `uuid` field breaks strict v1 clients or tests   Unit tests use exact `==` on responses; strict client deserializers may reject unknown fields   Update the tests; note the change in the changelog; drop `uuid` from v1 if strict clients exist  \n4.  Test mocks fail response validation   `pydantic_model_creator` adds `uuid` to `SummarySchema`; mocked dicts without it cause 500s   Add `uuid` to every mock and fixture  \n5.  The app and the migration are deployed in the wrong order   The model expects a required `uuid` column; Heroku releases the image with no migration step   Run the migration as a release step before the app goes live; keep the column nullable until it is filled  \n6.  UUIDs behave differently on SQLite and Postgres   SQLite stores them as `CHAR(36)`, so comparison and case can differ from native `UUID`   Always compare as `uuid.UUID`; run the v2 tests on both databases  \n7.  The integer ID still leaks through v1   v1 remains open to enumeration, which is the problem UUIDs are meant to fix   Add deprecation headers, track v1 usage, and set a shutdown date  \n8.  Two ID functions get mixed up   `crud.get(id)` and `get_by_uuid` sit side by side; a v2 route could call the integer one   Separate v2 module; tests where an int and a UUID would collide  \n9.  The downgrade loses data   The current migration has an empty `downgrade`; dropping `uuid` loses mappings clients already stored   Never regenerate UUIDs; back up the table before downgrading  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false,\n  \"9\": false\n}\n```\n"
+}

@@ -1,0 +1,19 @@
+{
+ "trial": "t226",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   New nullable column is null for all current rows   Backfill `emailVerifiedAt` in the migration; enforce only after  \n2.  Verification bypass   `join` and `create-user.ts` create sessions directly   Gate inside `createUserSession` or `verifyLogin`; remove the join auto-login  \n3.  Weak or reusable tokens   Hand-rolled tokens are easy to get wrong   Random 32-byte token, hash it in the DB, short expiry, single use  \n4.  Account enumeration   Distinct \"unverified\" and resend responses   Uniform messages; resend always returns the same reply  \n5.  Email not delivered   No mailer exists; deliverability is unconfigured   Add a provider with SPF/DKIM; send async with retry; log failures  \n6.  Resend abuse   No rate limiting in the app   Per-email and per-IP throttle with a cooldown  \n7.  Tests and seeds break   Cypress, seed and mocks expect instant login   Test-only verified fixtures; mock the mailer in MSW  \n8.  Deploy ordering   Migration and code ship separately on Fly   Backward-compatible two-step migration; backfill before enforcing  \n9.  Scanners burn tokens   Prefetch GET consumes a one-time link   Confirm via a POST button on the landing page  \n10.  Typo'd email strands users   Unique email blocks re-signup   Let unverified accounts re-register; purge stale ones  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

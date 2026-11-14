@@ -1,0 +1,13 @@
+{
+ "trial": "t002",
+ "covered": [
+  3,
+  4,
+  5,
+  8
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working.\n\nRows:\n1.  Changing `id`'s type breaks clients   Every response and path uses `id: int`   Keep v1 `id` as an integer, add `uuid`; put the UUID `id` in v2 only  \n2.  Migration not applied before deploy   Nothing runs `aerich upgrade` automatically   Add an explicit release step; ship the migration before the code  \n3.  Rows left without a UUID / `NOT NULL` fails   Existing rows need filling before the constraint is added   Add nullable, fill, then constrain, all in one migration; verify the null count is 0  \n4.  Ambiguous path parsing   `\"123\"` could be read as an integer or a string   All digits means integer, otherwise strict UUID parsing, otherwise 422  \n5.  Auto-generated schema exposes both IDs   `pydantic_model_creator(TextSummary)` includes every field   Write explicit response schemas for v2  \n6.  Integers stay guessable on v1   v1 still accepts integer IDs   Deprecation headers, metrics, and a dated sunset  \n7.  Tests miss production behaviour   Tests use `generate_schemas=True`, not migrations   Also test the migration on a copy with data  \n8.  Lock or slow fill on a large table   One `UPDATE` across the whole table   Fill in batches if the table is large; build the index `CONCURRENTLY`  \n9.  No rollback path   The init migration's `downgrade` is empty   Write a real `downgrade` that drops the column  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": false,\n  \"2\": false,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": true,\n  \"9\": false\n}\n"
+}

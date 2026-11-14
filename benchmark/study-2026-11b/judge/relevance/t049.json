@@ -1,0 +1,18 @@
+{
+ "trial": "t049",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Old link points to a different article   `makeUniqueSlug` only checks `articles`, so a new article with the old title would take the freed slug   Check the alias table in `makeUniqueSlug`; current slug wins over aliases  \n2.  A handler misses the fallback   8 handlers each call `FindOneArticle(&ArticleModel{Slug: \u2026})`   Route all of them through `FindArticleBySlug`; test each endpoint with an old slug  \n3.  Delete via old slug hits nothing   `DeleteArticleModel(&ArticleModel{Slug: slug})` uses the URL slug   Delete by ID  \n4.  Rename back to an earlier title fails   The old slug sits in the unique alias index   Remove the article's own alias in the same transaction  \n5.  Two renames at once collide   `makeUniqueSlug` checks and then writes with no lock   Use a transaction, keep the `ErrDuplicatedKey` retry, cover both tables  \n6.  Slugs churn on small title edits   Comparing against `foo-2` makes a `-3` and piles up aliases   Treat the article's own slug and aliases as free  \n7.  Spec tests break   The hurl/bruno suite expects exact update and 404 behaviour   Return 200 with the current slug, no redirect; run the spec suite  \n8.  Alias table grows without limit   Every title change adds a row, and deletes leave soft-deleted rows   Accept for now (rows are small); add a cap later if needed  \n9.  Missing migration in tests or prod   `AutoMigrate` calls are listed by hand in `hello.go` and the test setup   Add the new table to both  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true\n}\n```\n"
+}

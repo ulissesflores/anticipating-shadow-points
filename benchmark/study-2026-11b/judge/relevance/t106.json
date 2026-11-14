@@ -1,0 +1,18 @@
+{
+ "trial": "t106",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Items added to another tenant's list   `CreateTodoItem` trusts the client's `ListId` with no ownership check   Check the list under the filter first; interceptor also checks list and item tenants match  \n2.  Filter bypassed or missed   `ProjectTo`, validators and future raw SQL or `ExecuteDelete`   Global query filters on all `ITenantOwned` types; avoid `IgnoreQueryFilters`; isolation tests  \n3.  Filter fixed to one tenant   EF caches the model, so a captured value applies to everyone   Filter reads a field on the context; test with two tenants in one process  \n4.  Null tenant shows all or nothing   Seeder and event handlers run without an HTTP request   Filter matches nothing when tenant is missing; interceptor refuses to save; explicit system scope for seeding  \n5.  Tenant ID taken from request input   Easy shortcut in endpoints or DTOs   Read it only from the `tenant_id` claim; keep `TenantId` out of commands and DTOs  \n6.  Claim missing from tokens or cookies   Two auth paths (cookie and bearer, `UseApiOnly`)   One claims-principal factory used by both; test each scheme  \n7.  Unique title rule clashes across tenants   A global title index would block other tenants   Index on (`TenantId`, `Title`); validators run under the filter  \n8.  Existing rows have no tenant   Template uses `EnsureCreated`; real apps built from it have data   Migration with a default tenant backfill, then make the column NOT NULL  \n9.  Breaks some template variants   `#if` branches for SQLite, PostgreSQL, SQL Server and API-only   Build and test every variant  \n10.  Tests pass without testing isolation   Test users have no tenant   Give `TestBase` users tenants; add tests that try to cross tenants  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n```\n"
+}

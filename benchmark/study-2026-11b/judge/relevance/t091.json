@@ -1,0 +1,14 @@
+{
+ "trial": "t091",
+ "covered": [
+  1,
+  2,
+  6,
+  7,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make the session middleware's cookie Secure and SameSite=Strict by default.\n\nRows:\n1.  Sessions vanish on plain HTTP   Default `TestClient` and dev servers use `http://`   Document `https_only=False` for dev; use `https://testserver` in tests  \n2.  Cross-site redirects drop the cookie   Strict blocks it on OAuth/SSO return   Document `same_site=\"lax\"` for login flows; release note  \n3.  Existing tests fail   Tests assume non-Secure default cookies   Update base URLs and add explicit-flag tests  \n4.  Silent breaking change for downstream users   A library default flips on upgrade with no code change   Changelog, major or minor bump, clear upgrade note  \n5.  Docs become wrong   `docs/middleware.md` states the old defaults   Update docs and examples together  \n6.  Clearing old non-Secure cookies fails   The delete cookie reuses the new flags   Test logout with a legacy cookie; consider a flag-agnostic delete  \n7.  Proxy and TLS-termination confusion   Secure is a fixed flag, not scheme-aware   Document it; keep `https_only` overridable  \n8.  Safari and localhost inconsistencies   Safari doesn't treat `http://localhost` as secure   Note in the docs; recommend local HTTPS  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": false,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true\n}\n"
+}

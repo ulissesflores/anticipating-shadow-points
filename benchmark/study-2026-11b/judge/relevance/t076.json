@@ -1,0 +1,16 @@
+{
+ "trial": "t076",
+ "covered": [
+  1,
+  2,
+  3,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Format misdetected   Length-based check (64/16 bytes)   Tests for each format; native hash is 61 bytes  \n2.  Dormant users stay on fast hash   Upgrade only happens at login   Wrap old hashes in a batch job  \n3.  Rollback locks out wrapped users   Old build can't read the wrapped format   Ship verify code first, run the job in a later release  \n4.  Partial job run   Many rows, process can crash   Idempotent, batched, re-runnable  \n5.  Login CPU load   210k iterations, called synchronously in `Login.cs`   Rate-limit login; tune iteration count  \n6.  Email check by timing   Unknown email skips hashing   Verify against a dummy hash  \n7.  Rehash race on login   Concurrent `SaveChangesAsync`   Accept last write; no concurrency check  \n8.  Provider differences   SQLite and SQL Server compare byte lengths differently   Filter in C#, test both providers  \n9.  Slow startup   Job run inside app boot   Run as a separate command or background service  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false\n}\n```\n"
+}

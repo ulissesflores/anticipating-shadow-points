@@ -1,0 +1,19 @@
+{
+ "trial": "t109",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 1,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Double booking under concurrency   The controller does a read-modify-write on the whole owner, with no lock   Unique constraint on (vet_id, slot_start) in the DB; catch the violation and show a form error  \n2.  Constraint differs across DBs   There are three hand-written schemas and no migrations   Same DDL in all three; test on MySQL and Postgres with Testcontainers  \n3.  Legacy visits have no vet or time   The table has only a date; the new columns must be nullable or backfilled   Nullable columns, with the unique key only on active, non-null rows  \n4.  Cancelled slots stay blocked   A plain unique key counts every row   Add a status column, and use a partial or active-only unique key  \n5.  Overlap and boundary errors   A date-only model has no duration   Fixed slot grid, with start time [term] against it  \n6.  Time zone and DST mistakes   The code uses `LocalDate.now()`, with no clinic zone   Set one clinic zone, inject a `Clock`, store slot start as a local datetime  \n7.  Forged or invalid input   The binder trusts form fields; other owners' pet ids are reachable   Server-side check of vet, slot, working hours, past times and pet ownership  \n8.  Constraint error becomes HTTP 500   `owners.save(owner)` throws on a DB-level violation   Catch `DataIntegrityViolationException` and return the form with a field error  \n9.  Stale availability from cache   Vet data is cached by `CacheConfiguration`   Don't cache availability; the DB constraint decides  \n10.  Weak tests miss the race   H2 and single-threaded tests hide it   Concurrent test with parallel POSTs on a real database  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

@@ -1,0 +1,18 @@
+{
+ "trial": "t144",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   New column is null for every current row, including the seed user   Backfill `emailVerifiedAt = createdAt` in the same migration; update seed  \n2.  Check bypassed   `join.tsx` logs users in at once; `requireUser` only checks the user exists   Remove the session from join; check verification in `requireUser`/`getUser`  \n3.  Unverified accounts block real owner   Join rejects any existing email   Re-signup of an unverified email resends the link  \n4.  Link scanners use up tokens   Single-use token in a plain link   Link opens a page; only the Confirm button uses the token  \n5.  Weak tokens   No token system exists yet   32 random bytes, stored hashed, 24h expiry, deleted once used  \n6.  Reveals which emails exist   Login and resend could answer differently   Check verification only after the password; same resend reply for all  \n7.  Poisoned links   Link built from the Host header   Build it from the configured app URL  \n8.  Email sending fails   No email setup in repo or on Fly   Add env vars to `.env.example` and Fly; handle errors; MSW in dev/test  \n9.  Resend used to spam   Endpoint needs no login   Limit per user and per address  \n10.  Tests and deploy break   Smoke test expects instant login   Mark test users verified; token helper for the e2e sign-up flow  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

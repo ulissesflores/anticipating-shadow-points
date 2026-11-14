@@ -1,0 +1,17 @@
+{
+ "trial": "t188",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  Privilege escalation via roles   No role system exists, and `User::$fillable` is open   Guard `role` out of `$fillable`, and add a policy plus tests  \n2.  Hidden comments leak   `index`, `$with` and the transformer have no hidden state   Global scope, plus a moderator-only opt-in  \n3.  Moderator conflict of interest   Hider and appeal reviewer could be the same person   Require a different reviewer, and log both  \n4.  7-day window miscalculated   Timezone and `updated_at` pitfalls, boundary cases   Store `hidden_at`, compute in UTC, freeze time in tests  \n5.  Appeal races and duplicates   Concurrent requests, and appeals on non-hidden comments   Unique appeal per hide, row lock, state checks  \n6.  Author deletes to dodge review   `DeleteComment` lets authors delete freely   Block delete while an appeal is pending, or keep an audit copy  \n7.  Migration breaks existing data   Existing comments need defaults, and rollback must work   Nullable columns, default visible, tested `down()`  \n8.  API contract drift   RealWorld clients expect the current comment shape   Add fields only for moderators and authors, and keep the default shape  \n9.  Appeal and moderation abuse   No rate limits, and no record of who did what   Throttle, cap length, add an audit table  \n10.  Thin test coverage   Tests only cover author actions today   Feature tests per role, state and time boundary  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n"
+}

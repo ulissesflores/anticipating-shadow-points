@@ -1,0 +1,19 @@
+{
+ "trial": "t082",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Write path skips the filter   The filter only affects reads; `CreateTodoItem` accepts any `ListId`   Validate the list is visible; composite FK; interceptor check  \n2.  Seeder sees no data or writes without a company   It runs at startup with no logged-in user, so `TodoLists.Any()` is filtered   `IgnoreQueryFilters()` and an explicit `TenantId` in the seeder  \n3.  Registered users have no company   `MapIdentityApi` registration knows nothing about companies   Fail closed; create a company on registration  \n4.  Item moved into another company's list   `UpdateTodoItemDetail` sets `ListId` freely   Visibility check on the list plus the composite FK  \n5.  Out-of-date company on a user's sign-in   The claim is captured at login   Single company per user; refresh the sign-in if it changes  \n6.  Filter value fixed when the model is built   EF caches the model; a captured local value would freeze one tenant   Filter on a property of the context instance; test with two tenants  \n7.  Template variants break   `#if UseApiOnly` / database-provider branches in DI   Build the template for each option  \n8.  Downstream projects that use migrations   Existing rows have no `TenantId`   Document a migration that fills in a default company  \n9.  Existing tests fail   Test users have no company, so they see nothing   Give the test user a company in `TestApp` and `WebApiFactory`  \n10.  Admin expects to see everything   Today the \"Administrator\" role has no limits on to-do data   State that admins are limited to their company; opt-in bypass later  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

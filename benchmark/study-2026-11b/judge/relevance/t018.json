@@ -1,0 +1,17 @@
+{
+ "trial": "t018",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Alias hijack   `makeUniqueSlug` only checks the `articles` table, so a new article could claim an old shared slug   Make `makeUniqueSlug` also check aliases, and test it  \n2.  Rename and alias not atomic   `articleModel.Update` runs alone today, so a failed alias insert leaves a dead link   Run both in one transaction  \n3.  Race on the unique index   Two concurrent renames or creates can pick the same slug   Keep the `ErrDuplicatedKey` retry; add the alias unique index  \n4.  Missed `/:slug` handler   Eight handlers look up by slug, and one left on `FindOneArticle` still 404s   Route all of them through `resolveArticle`; grep for stragglers  \n5.  Wrong rename trigger   The `base != Slug` check misfires on suffixed slugs and breaks links on a no-op save   Compare against the old title's slug; add a test  \n6.  Alias shadows a live slug   Renaming back to an old title leaves an alias equal to the live slug   Delete the matching alias in the rename transaction  \n7.  Deleted articles still resolve   Soft delete keeps rows and slug occupancy   Hard-delete aliases on delete; resolver ignores soft-deleted articles  \n8.  Alias table growth   Every rename adds a row, with no cap   Accept it; optionally cap per article later  \n9.  Spec-suite or client mismatch   Spec tests (hurl/bruno) may expect 404 on unknown slugs   Only aliased slugs resolve; run `scripts/run-spec-tests.sh`  \n10.  AutoMigrate wiring missed   Production and two test setups each list models by hand   Update all three; the tests fail fast if one is missed  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": false,\n  \"10\": true\n}\n```\n"
+}

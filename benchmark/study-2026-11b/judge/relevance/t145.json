@@ -1,0 +1,15 @@
+{
+ "trial": "t145",
+ "covered": [
+  1,
+  2,
+  4,
+  5,
+  6,
+  7
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Dormant old hashes stay weak   Upgrade only happens on login; HMAC key `\"realworld\"` is in the source   Wrap them in a one-time pass  \n2.  Format detected by length   `Hash.Length == 64 && Salt.Length == 16` decides the path   Add a version byte to wrapped hashes  \n3.  Lockout from an upgrade bug   No reset flow; users can't recover   Tests for each format, including wrong password  \n4.  Upgrade runs twice and corrupts hashes   A startup or batch task may run again   Only touch rows without the marker; test running it twice  \n5.  Login CPU cost   210k PBKDF2 iterations on every login   Rate-limit login; keep iteration count set in one place  \n6.  Rollback locks users out   Old builds can't read Identity hashes   Don't roll back past #152; keep the old-format check  \n7.  Concurrent upgrade writes   Two logins at once both save   Rewrite is idempotent; failed save shouldn't fail login  \n8.  Email enumeration by timing   Unknown email returns before any hashing   Verify against a dummy hash when the email isn't found  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false\n}\n```\n"
+}

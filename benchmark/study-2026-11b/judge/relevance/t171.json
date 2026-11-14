@@ -1,0 +1,18 @@
+{
+ "trial": "t171",
+ "covered": [
+  1,
+  2,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  Every existing token and session stops verifying   The digest feeds both key derivation and the signature, so nothing old matches   Add the SHA-1 fallback by default in `Serializer`; put it in the changelog  \n2.  Code that calls `Signer` directly breaks with no fallback   Fallbacks only exist in `Serializer`   Document pinning `digest_method=hashlib.sha1`; add a test that shows the rejection  \n3.  Same rejection as 1.0.0, when the release was pulled   Users read a changed default as a broken release   Ship in 2.3.0 with the fallback and a clear upgrade note  \n4.  Fallback raises `ValueError` on FIPS systems   `_lazy_sha1` fails when called, and the fallback runs on every bad token   Turn it into `BadSignature` or skip the fallback; test with SHA-1 made unavailable  \n5.  Longer tokens (27 \u2192 43 characters)   Cookie and URL size limits, plus database columns sized to the old length   Changelog note; users can pin SHA-1  \n6.  Mixed versions during a rolling deploy   Old servers can't read SHA-256 tokens from new ones   Document \"upgrade readers first\" or pin SHA-1 during the rollout  \n7.  The fallback keeps accepting SHA-1 indefinitely   A SHA-1 token can still be accepted with no end date   Document how to set `fallback_signers=[]`; plan to remove the fallback later  \n8.  Hard-coded tokens break in tests and docs   `test_timed.py:70`, `test_digests` and the example tokens are all SHA-1   Regenerate them all; build the docs and run the doc examples  \n9.  Downstream subclasses change behaviour without notice   Subclasses that inherit `default_digest_method` silently switch to SHA-256   Call it out in the changelog  \n10.  Slower loading of bad tokens   Each failed SHA-256 check now also tries SHA-1   Small cost; accept it and note it  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

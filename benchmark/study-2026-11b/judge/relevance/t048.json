@@ -1,0 +1,17 @@
+{
+ "trial": "t048",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  6,
+  7,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 2,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Item added to another company's list   `CreateTodoItem` sets `ListId` from the request, and the filter doesn't apply to inserts   [term] checks the list exists in the caller's company; interceptor checks item and list tenants match  \n2.  No tenant claim yet when a user registers   `MapIdentityApi` register has no hook for a company   Custom register endpoint; with no tenant, reads return nothing  \n3.  Seed re-runs or fails   Startup has no signed-in user, so the filter hides everything and the stamp has no tenant   Set `TenantId` explicitly; use `IgnoreQueryFilters()` in the seed  \n4.  Filter doesn't cover some code paths   Raw SQL, `IgnoreQueryFilters` and records already in memory skip it   Ban raw SQL on these tables; tests across companies  \n5.  Stale claim   A cookie or token keeps the old `tenant_id` after the user's company changes   Company is fixed per user; refresh the security stamp if it ever changes  \n6.  Template variants break   `#if UseApiOnly` / database-provider branches in DI   Register the claims factory in both branches; build every variant  \n7.  Tests fail with no tenant   The `IUser` mock has no `TenantId`   Extend `TestApp` and the mock; reset the `Tenants` table  \n8.  Unique title rule leaks or collides   The [term] now runs inside the filter; a database index would be global   Use a composite `(TenantId, Title)` index  \n9.  Slower queries   Every query gains a `TenantId` condition   Index on `TenantId`  \n10.  Real deployments with migrations   Forks that switched to migrations already have rows with no tenant   Backfill a default company, then make the column required  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n"
+}

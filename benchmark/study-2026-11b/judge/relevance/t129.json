@@ -1,0 +1,19 @@
+{
+ "trial": "t129",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   Login now requires `emailVerifiedAt`, which is empty for everyone today   Backfill in the migration; check the seed user can still log in  \n2.  Emails not delivered (spam, provider down, bad settings)   No email code exists yet, so the whole sign-up flow depends on new setup   SPF/DKIM, check settings at startup, resend button, log send failures  \n3.  Mail scanners use up the link   Corporate mail filters fetch links before the user clicks   Token is only used when the confirm button is pressed  \n4.  Sign-up form used to spam people with emails   Join and resend now send mail to any address typed in   Rate limits; generic responses  \n5.  Someone claims an address before its owner   Anyone can register an address they don't own; the owner then can't sign up   Re-sign-up resends the link and old tokens are cancelled; email says \"ignore if this wasn't you\"  \n6.  Cypress and seed data break   `cy.login()` and the smoke test assume instant access   Mark test users verified; the mock captures emails for the new test  \n7.  Accounts created mid-deploy   Fly's rolling deploy runs the migration while old servers can still create users   Re-run the backfill after deploy, or accept a small number of affected users  \n8.  Token leaks or guessing   Raw tokens in the database or logs would let someone verify an account   Store only the hash, 32 random bytes, 24h expiry, single use  \n9.  Link points to an attacker's site   Building the link from the `Host` header lets a forged request change it   Use `APP_URL` only  \n10.  Extra database load per request   The `requireUser` backstop adds a check to every protected page   Store the verified flag in the session at login  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

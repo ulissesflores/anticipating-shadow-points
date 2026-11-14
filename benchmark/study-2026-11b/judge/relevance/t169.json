@@ -1,0 +1,17 @@
+{
+ "trial": "t169",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Another user's data gets downloaded   Every other route here takes an `<id>` or `<username>`   No id in the link; use `current_user` only  \n2.  Secrets in the file   `User` stores `password_hash`, `avatar_hash` and `role_id`   List exactly which fields go in; test that `password_hash` is absent  \n3.  Other people's comments included   `Post.comments` holds everyone's comments on the post   Export `user.comments` only; test that B's comment is absent  \n4.  Unconfirmed users can't download   The confirm check redirects routes outside the `auth` section   Put the route under `auth`; test it  \n5.  Dates ambiguous or in odd formats   Flask 0.12 writes dates email-style; stored dates have no timezone   `isoformat()+'Z'` explicitly  \n6.  Hidden comments left out   Moderators set `Comment.disabled`   Include them with a `disabled` flag  \n7.  Personal file cached   A plain GET download can be stored by browsers or proxies   `Cache-Control: no-store`  \n8.  Garbled text or broken filename   Posts may contain non-ASCII text   `ensure_ascii=False`, UTF-8 type, ASCII-only filename  \n9.  Slow for heavy users   The whole file is built in one request   Fine at this size; streaming or a background job later  \n10.  Format changes break users' files   Fields may be added later   `format_version` field  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": false\n}\n```\n"
+}

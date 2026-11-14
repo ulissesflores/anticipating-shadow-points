@@ -1,0 +1,19 @@
+{
+ "trial": "t216",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Existing MySQL/Postgres databases never get the new columns   Scripts use `CREATE TABLE IF NOT EXISTS` and run on every startup; there's no migration tool   Add upgrade statements that can safely re-run (guarded on MySQL); test against an existing database  \n2.  Double-booking under concurrent requests   The \"is it taken?\" check and the save are separate steps   Unique rule on (vet, date, time) in the database, plus `saveAndFlush` and catching the rejection  \n3.  A database rejection shows up as an HTTP 500   Spring raises the duplicate as a generic `DataIntegrityViolationException`   Catch only the slot rule's violation, as `PetController` does, and re-throw anything else  \n4.  Visits that don't overlap exactly can still collide   The unique rule only blocks identical start times   Accept only slot-aligned times, checked on the server  \n5.  Old visits break pages or rules   Existing rows have no vet or time   Allow empty values in the database; require them only for new bookings; display empty values safely  \n6.  Sample-data inserts fail   `INSERT INTO visits VALUES (...)` lists values by position   Name the columns in all three `data.sql` files  \n7.  Translation test fails   `I18nPropertiesSyncTest` requires every locale file to have the same keys   Add the new keys to all `messages_*.properties`  \n8.  Anyone can book for any owner   The app has no login   Treat it as out of scope; leave this risk in place until login exists  \n9.  Timezone or \"today\" edge cases   `LocalDate.now()`/`LocalTime` use the server's clock   One configured clinic timezone; reject past slots on the server  \n10.  Vet list goes stale   `findAll()` is cached in `vets`   Use the uncached `findById` when saving; the vet list being stale is acceptable  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

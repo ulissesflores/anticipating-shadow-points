@@ -1,0 +1,14 @@
+{
+ "trial": "t222",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5
+ ],
+ "n": 7,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Lock users out by username and IP address together instead of by IP address alone, as the new default.\n\nRows:\n1.  Password spraying from one IP never triggers a lockout   Each new username starts a fresh username + IP counter   Security note in CHANGES and docs; suggest adding `\"ip_address\"` as a second entry  \n2.  Silent security downgrade on upgrade   Unset projects change behaviour, and W006 stays quiet   Major version bump, upgrade note, and a \"set it explicitly\" line in the docs  \n3.  `AXES_USE_USER_AGENT` mapping changes   The `[0].append(\"user_agent\")` code adds `user_agent` to the new nested default   Special-case that flag to keep `[[\"ip_address\",\"user_agent\"]]`; add a test  \n4.  Tests relying on the old default fail or lose coverage   The `test_lockout_by_ip_*` tests assume IP-only   Pin those tests with `override_settings`; add tests for the new default  \n5.  Cache lockouts lost at deploy   Cache keys come from the lockout settings   Mention it in CHANGES; it only affects cache users during their cool-off period  \n6.  Failures with no username share one bucket per IP   A missing username is stored as `None`   Add an empty-username test and document the behaviour  \n7.  Docs and reset guidance drift out of date   Several docs state the IP-only default   Update the configuration, installation, customization and usage docs together  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": true, \"4\": true, \"5\": true, \"6\": false, \"7\": false}\n"
+}

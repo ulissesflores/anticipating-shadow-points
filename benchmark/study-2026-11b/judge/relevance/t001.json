@@ -1,0 +1,15 @@
+{
+ "trial": "t001",
+ "covered": [
+  2,
+  3,
+  4,
+  5,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working.\n\nRows:\n1.  Some clients break when `id` changes type   `id` is an integer in every response today   Keep v1 `id` as an integer; UUID-only `id` goes in v2  \n2.  Filling existing rows locks the table   One `UPDATE` across `textsummary`   Fill in batches; add the index with `CONCURRENTLY`  \n3.  Rows created during deploy have no UUID   Old app instances don't set `uuid`   Database default `gen_random_uuid()`  \n4.  v1 error bodies change   The union type changes the 422 detail that tests and clients check for `id=0`   Update tests; mention it in the changelog  \n5.  `\"123\"` parsed as the wrong type   Union parsing order   Integer type first; test both kinds of input  \n6.  Rollback is impossible   The existing migration's `downgrade` is empty   Write and test a real downgrade  \n7.  IDs still guessable through v1   v1 still accepts integers   Deprecation headers, usage metrics, then 410  \n8.  Two ID schemes drift apart in the code   `crud` and schemas must handle both   One lookup helper; tests for both paths  \n9.  Background job updates the wrong row   `generate_summary` gets an ID from the request handler   Always pass the internal integer key  \n10.  Test database differs from the migrated one   Tests use `generate_schemas=True`, not the migrations   Run `aerich upgrade` in CI on seeded data  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": false,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

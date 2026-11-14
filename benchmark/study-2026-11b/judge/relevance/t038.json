@@ -1,0 +1,17 @@
+{
+ "trial": "t038",
+ "covered": [
+  1,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Query bypasses the filter   Handlers use `_context` directly, with `FindAsync` and `ProjectTo`   Global query filters, ban `IgnoreQueryFilters`, review every handler  \n2.  Cross-tenant id access   Integer ids are guessable   Filter applies to lookups, return 404 for other tenants  \n3.  Tenant from untrusted source   `IUser` has only an id today   Take it from a signed claim, fail closed if missing  \n4.  Item attached to another tenant's list   `ListId` comes from the request   Validate the list is in the tenant, stamp the item from the list  \n5.  No user in background paths   Domain events and the seeder run without a request   Explicit tenant scope for system code, tests for it  \n6.  Migration or backfill failure   The schema has no tenant column, and existing rows exist   Add nullable, backfill, then make non-null, rehearse on a copy  \n7.  Slow queries   Every query now filters on tenant   Composite indexes with `TenantId` first  \n8.  Tests pass but leaks remain   Tests use a single user   Add two-tenant isolation tests for every endpoint  \n9.  Client or API contract drift   Both frontends assume the current responses   Keep response shapes unchanged, run the client builds  \n10.  Identity and data disagree   `ApplicationUser` has no tenant   Single source of truth, set at registration, put it in the token  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": false,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n"
+}

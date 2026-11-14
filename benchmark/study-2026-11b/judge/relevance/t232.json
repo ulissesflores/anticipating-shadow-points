@@ -1,0 +1,18 @@
+{
+ "trial": "t232",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Delete by old slug does nothing but returns 204   `DeleteArticleModel(&ArticleModel{Slug: slug})` matches nothing for an alias   Delete by `articleModel.ID`  \n2.  Another article takes an old slug   `makeUniqueSlug` only checks `article_models`   Also check aliases in create and update  \n3.  Renaming back (A\u2192B\u2192A) blocked   The article's own alias looks like a collision   Ignore aliases owned by the same article; drop that alias on rename  \n4.  Half-finished rename breaks old links   Article update and alias insert are separate writes   One `db.Transaction`  \n5.  Saving the same title changes the slug   `foo-2` \u2260 base `foo`, so it becomes `foo-3`   Skip when slug already matches `base` or `base-N`  \n6.  Only some routes accept old slugs   8 handlers each call `FindOneArticle` by slug   Shared `FindArticleBySlug` helper  \n7.  Redirect breaks writes   301 on PUT/DELETE/POST is unsafe   Serve 200 with the current slug  \n8.  Deleted article's old link opens another article   Soft delete keeps the slug; aliases would be freed if hard-deleted   No soft delete on aliases; reserve forever; 404  \n9.  Spec suite fails   hurl/bruno expect slug to change on title update   Run `scripts/run-spec-tests.sh`  \n10.  Two renames at once collide   SQLite unique index; reserve-then-write race   Unique index on alias slug + existing retry loop  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n"
+}

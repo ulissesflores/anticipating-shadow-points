@@ -1,0 +1,16 @@
+{
+ "trial": "t081",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  Hidden body leaks via another path   `Comment` eager-loads `user`, and the transformer reads raw data, so any new endpoint can bypass the scope   Filter in the transformer/scope, not just `index`; add a leak test  \n2.  No role system exists   `is_moderator` is a new trust boundary; mass assignment or a bad seeder could grant it   Keep it out of `$fillable`; grant it only via a tinker command or seeder  \n3.  Appeal deadline errors   Timezones, `updated_at` changes and re-hides can shift the 7-day window   Use a dedicated `hidden_at`, UTC, and `Carbon::setTestNow` tests  \n4.  Moderator abuse or self-hiding   One flag gives broad power, and there's no audit trail   Store `hidden_by` and a reason; block self-moderation; log decisions  \n5.  Race at deadline or on double-decide   Concurrent appeal and decision requests can both pass checks   Wrap in a transaction with `lockForUpdate`  \n6.  Breaking the RealWorld API contract   Frontends expect the fixed comment shape   Add fields only; leave existing keys unchanged  \n7.  Migration on populated tables   Adding columns and FKs to live `comments` and `users`   Use nullable columns, defaults, and a reversible `down()`  \n8.  Legacy JWT middleware quirks   Optional auth means `auth()->user()` can be null on `index`   Null-safe visibility scope; test anonymous access  \n9.  Cascade deletes lose evidence   Deleting a user or article cascades and removes appeals   Keep the appeal FK cascade, or add soft deletes if retention is needed  \n10.  Old Laravel 5.5 / PHP version   Missing newer helpers and policy conveniences   Stick to 5.5 APIs; run the full suite on the project's PHP version  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n"
+}

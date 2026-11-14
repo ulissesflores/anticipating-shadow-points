@@ -1,0 +1,19 @@
+{
+ "trial": "t141",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   New nullable column blocks every current user at login   Backfill existing rows as verified in the migration  \n2.  Signup still creates a session   `join.tsx` likely logs users in after `createUser`   Remove auto-login; redirect to a \"check your email\" page  \n3.  Other session paths bypass the gate   Cypress and seed helpers call `createUserSession` directly   Check verification inside session creation; update helpers  \n4.  No mail infrastructure   No mailer, secrets or domain auth exist yet; mail may go to spam   Pick a provider, set Fly secrets, mock it in tests, add a dev log fallback  \n5.  Weak or reusable tokens   Anyone could verify an address they don't own   Random tokens, hashed at rest, single-use, short expiry  \n6.  Account enumeration   Distinct errors reveal which emails are registered   Use uniform messages and neutral resend responses  \n7.  No resend path or rate limit   Expired mail strands users; resend can be abused   Add a resend route with throttling and a cooldown  \n8.  Squatting on someone's email   An attacker's unverified signup can block the real owner   Let a later signup or verification take over; purge stale unverified accounts  \n9.  Tests and e2e break   Existing flows assume instant login after signup   Update fixtures; add verification tests  \n10.  Deploy ordering and mail failure   Mixed schema and code versions during rollout; partial signup if the send fails   Ship an additive migration first; send mail with retry and a resend option  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

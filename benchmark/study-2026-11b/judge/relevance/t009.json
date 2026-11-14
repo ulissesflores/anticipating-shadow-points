@@ -1,0 +1,17 @@
+{
+ "trial": "t009",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Leaking private fields   It's easy to copy fields wholesale or reuse `to_json()`; `User` has `password_hash` and the token methods   List allowed fields explicitly; test that `password_hash` never appears  \n2.  Including other users' data   Including the comments on a user's posts would export other people's text   Only the user's own comments; just counts on posts; test with a second user  \n3.  Large accounts   The file is built in memory in one request; Gunicorn/Heroku have request timeouts   Order by indexed timestamp; check with fake data; stream or move to a background job later if needed  \n4.  Date format   Dates are stored as UTC without a timezone, and `jsonify` writes them in HTTP format   `_iso()` helper with a `Z` suffix; `json.dumps` instead of `jsonify`  \n5.  Unsafe filename header   Usernames go straight into `Content-Disposition`   Clean the username to ASCII and quote the filename  \n6.  Unconfirmed users can't export   The `before_app_request` redirect applies to every route outside `auth`   Accept and document it; add an exception later if required  \n7.  Cached copies of personal data   Proxies or the browser might keep the response   `Cache-Control: no-store`  \n8.  Encoding problems   Unicode in posts and comments   `ensure_ascii=False`, UTF-8 response, round-trip test  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true\n}\n"
+}

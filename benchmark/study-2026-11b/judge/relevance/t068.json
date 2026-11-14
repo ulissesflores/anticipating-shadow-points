@@ -1,0 +1,13 @@
+{
+ "trial": "t068",
+ "covered": [
+  2,
+  3,
+  4,
+  7
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Silent breaking change   The default flips for every existing user, with no code change on their side   Ship in a major version, put it in HISTORY, give a migration note  \n2.  Sessions never expire for active users   Each request resets `maxAge`, so there is no absolute lifetime   Document it, and advise an app-level absolute timeout  \n3.  Set-Cookie on every response breaks caching   Shared caches and CDNs may skip or split cached responses that carry `Set-Cookie`   Note it in the docs, and tell users to opt out for cacheable routes  \n4.  Cookie sent on static or health-check routes   Extra headers, and polling endpoints keep sessions alive   Keep the middleware off those routes, and document that  \n5.  Many existing tests assume non-rolling   Wide test churn can hide a real regression   Pin `rolling: false` in old tests, and review the diff by hand  \n6.  Interaction with `saveUninitialized: false`   New unmodified sessions get no cookie, so \"rolls by default\" isn't universal   Keep the README note and add an explicit test  \n7.  Store and cookie TTL drift   The store only extends expiry via `touch` or `save`, while the cookie always rolls   Verify the touch path with a custom store, and document `resave` with `touch`  \n8.  Dynamic cookie option functions (1.19 feature)   The cookie options are resolved per request, so more Set-Cookie calls exercise that path   Add a test combining a cookie function with the rolling default  \n9.  Third-party stores or middleware read `rolling`   Wrappers or tests may rely on `opts.rolling` being undefined   Search dependents, and keep the option's public shape unchanged  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": false,\n  \"7\": true,\n  \"8\": false,\n  \"9\": false\n}\n"
+}

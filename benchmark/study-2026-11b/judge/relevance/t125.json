@@ -1,0 +1,16 @@
+{
+ "trial": "t125",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  7,
+  8
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Missed filter leaks data   `FindAsync` bypasses the filter when an entity is already tracked, and there are five call sites   Replace them with filtered queries, and add cross-tenant tests for every handler  \n2.  Null tenant fails open   An unauthenticated or claim-less call could compare to null and match rows   Fail closed: a null tenant matches nothing  \n3.  Existing data has no tenant   `EnsureCreated` and no migrations mean existing databases can't be altered   Migration with a default-tenant backfill, then NOT NULL  \n4.  Client-supplied tenant   A `TenantId` in a request body would let a user write into another company   Take it only from the claim, and stamp it in the interceptor  \n5.  Cross-tenant FK   A tenant A item could point at a tenant B list   Check the list under the filter, and add a composite constraint  \n6.  Stale claims   A user moved between tenants keeps the old claim until re-login   Short token lifetime, or reload the claim from the database  \n7.  Filter ignores DI scope   A filter captured at model-build time would freeze the first tenant for all requests   Reference the context field, not a captured value  \n8.  Background paths   The initialiser and domain event handlers run with no tenant   Use `IgnoreQueryFilters` explicitly, with a seeding tenant  \n9.  Tests break   Existing functional tests assume a global scope   Add tenant-aware test helpers and update the fixtures  \n10.  Performance   Every query now filters on `TenantId`   Index it, and check the query plans  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": false\n}\n"
+}

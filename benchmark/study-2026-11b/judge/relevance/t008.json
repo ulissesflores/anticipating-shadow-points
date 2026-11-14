@@ -1,0 +1,18 @@
+{
+ "trial": "t008",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Delete through an old slug silently does nothing   `ArticleDelete` deletes by URL slug; no match still returns 204   Delete by the article's ID  \n2.  Old link taken over by another article   `makeUniqueSlug` only checks current slugs   Reserve old slugs in the duplicate check  \n3.  Renaming back can't reclaim the original slug   Its own old slug counts as taken \u2192 `-2`   Skip old slugs owned by the same article; remove that record on rename  \n4.  Chains or loops of old slugs   Old slugs pointing to other old slugs   Point every old slug at the article ID  \n5.  Renamed article with no old-slug record   Update and record written separately   One `db.Transaction` for both  \n6.  Some routes still 404 on old slugs   8 handlers each look up by slug   One shared lookup, tested on every route  \n7.  Redirect breaks POST/DELETE and the spec suite   301 turns writes into GETs in clients   Answer directly with 200  \n8.  Empty slug matches an arbitrary article   GORM ignores empty struct fields   Reject empty slugs in the lookup  \n9.  Unneeded slug change (`foo-2` \u2192 `foo-3`)   `makeUniqueSlug` counts the article itself   Exclude the article's own current slug  \n10.  Duplicate slugs from concurrent requests   Check-then-write race (SQLite)   Unique index on old slugs plus the existing retry  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

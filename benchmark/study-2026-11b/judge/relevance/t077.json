@@ -1,0 +1,16 @@
+{
+ "trial": "t077",
+ "covered": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working.\n\nRows:\n1.  Clients break on a non-int `id`   `id: int` is in the response contract   Keep int `id`, add `uuid`, use v2 for a UUID `id`  \n2.  Stored integer IDs stop resolving   Clients may cache or bookmark `/summaries/3/`   Dual lookup by int or UUID through the sunset  \n3.  Backfill leaves NULL or duplicate UUIDs   Added column on a populated table   Nullable, backfill, then NOT NULL and unique, in separate steps  \n4.  Deploy and migration order mismatch   Rolling deploy runs mixed versions   Expand, then deploy, then contract; the new column is nullable until code is live  \n5.  422 error shape changes   Tests assert `loc: [\"path\",\"id\"]` and int errors   Update the tests deliberately and document the change  \n6.  Public and internal IDs get mixed   The background task and `crud` take an int   Convert only at the API boundary, with one lookup helper  \n7.  Empty downgrade blocks rollback   The existing migration's downgrade is blank   Write an explicit downgrade that drops the column  \n8.  Integer enumeration stays open   Dual lookup keeps guessable IDs reachable   Put a sunset date on int access and monitor its usage  \n9.  Lost ordering   UUIDv4 doesn't sort by creation   Sort on `created_at`, or use UUIDv7  \n10.  Wrong assumptions about clients   Who the clients are is unknown   Check access logs for the ID format in use before the sunset  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n"
+}

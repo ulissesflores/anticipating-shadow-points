@@ -1,0 +1,17 @@
+{
+ "trial": "t185",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  Existing tokens fail verification   Default feeds both the MAC and the derived key   Ship a SHA-1 fallback signer for a migration window  \n2.  Mixed-version rollout   Old and new instances disagree on the digest   Deploy verify-both first, then switch signing  \n3.  Permanent SHA-1 fallback   `default_fallback_signers` is empty, and a fallback added for migration may never be removed   Add a documented removal date and a deprecation warning  \n4.  Key derivation shifts   `django-concat` hashes `salt+secret` with the digest   Test derived-key vectors and document the change  \n5.  Longer signatures   The base64 signature grows from 28 to 43 characters   Check cookie and URL limits, and tell users  \n6.  Tests and docs pin SHA-1   The default-equals-SHA-1 assertion and the hard-coded signature fail   Update the tests, the docstrings, and `CHANGES.rst`  \n7.  FIPS and import-time breakage   `_lazy_sha1` exists to avoid import-time failure   Keep the default lazy, and test with a restricted hashlib  \n8.  Downstream Flask and Werkzeug breakage   They assume the current default   Run their test suites, and coordinate the release  \n9.  Cross-service interop   External verifiers still expect SHA-1   Inventory verifiers and give an explicit-config escape hatch  \n10.  Semver violation   Tokens silently stop validating on a minor bump   Release as a major, or make it opt-in first  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

@@ -1,0 +1,13 @@
+{
+ "trial": "t013",
+ "covered": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make the session middleware's cookie Secure and SameSite=Strict by default.\n\nRows:\n1.  OAuth/SSO logins break   With Strict, the cookie isn't sent when an identity provider redirects the user back (a cross-site navigation), so the saved login state is missing   Document `same_site=\"lax\"` for OAuth; say so clearly in release notes  \n2.  Users look logged out after following links from other sites   Strict drops the cookie on any navigation that starts on another site, e.g. an email or Slack link   Document the trade-off; Lax stays one kwarg away  \n3.  Downstream test suites fail silently   The test client defaults to `http://testserver`, so it drops `Secure` cookies and sessions come back empty without any error   Release note telling users to use an `https://` base_url or `https_only=False`  \n4.  Local development over plain HTTP loses sessions   Safari (and some setups using LAN IPs or `.local` names) won't store `Secure` cookies over http   Document `https_only=False` for development  \n5.  Silent behaviour change on upgrade   Defaults change without any warning or error   Mark as breaking in release notes; consider a minor-version bump  \n6.  Starlette's own tests break   Most session tests write and then read the session over http   Update the tests as in step 2  \n7.  Clearing the cookie stops working if flags differ   Browsers may not replace an old non-Secure cookie with a Secure one after the upgrade   Old cookies are still accepted (signature unchanged); they expire within `max_age`. Note it  \n8.  Duplicate PR   AI_POLICY.md bans contributors who open duplicate PRs   Search PRs, issues and discussions first  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": false,\n  \"7\": false,\n  \"8\": false\n}\n"
+}

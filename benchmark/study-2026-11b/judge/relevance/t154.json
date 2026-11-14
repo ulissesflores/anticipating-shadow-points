@@ -1,0 +1,19 @@
+{
+ "trial": "t154",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Race: two owners book the same slot at once   The current save path has no transaction or lock. A check-then-insert passes for both requests.   Enforce it in the database, and catch the violation.  \n2.  Overlap is not equality   A unique key on (vet, start) misses a 10:00\u201310:30 booking against a 10:15 one.   Use slot-aligned start times, or a Postgres exclusion constraint. On H2 and MySQL, lock the vet row inside a transaction.  \n3.  Three databases behave differently   H2, MySQL and Postgres lack a shared range-constraint feature. Tests default to H2.   Lock the vet row in code, and add DB-specific schema and Testcontainers runs.  \n4.  Existing data and schema migration   `visits` rows have no vet or time. There is no Flyway or Liquibase, only `schema.sql`.   Use nullable columns, and apply constraints only where the values are set. Document the manual migration.  \n5.  Time zones and DST   `LocalDate` is used today. Adding times raises server-versus-clinic zone and DST-shift issues.   Store the clinic-zone local time, and fix one zone in config.  \n6.  Stale form lists and double submit   The slot list loads before the POST. A double-click or back button resubmits.   Re-validate on POST, and use post-redirect-get. The unique violation covers the rest.  \n7.  Client-controlled input   A user can post any vet id, past time or huge duration. The repo already added integer-overflow guards.   Validate server-side: the vet exists, the time is future and within hours, and the duration is whitelisted.  \n8.  Owner can book for someone else's pet   `loadPetWithVisit` trusts the path ids, and there is no auth.   Keep the owner/pet ownership check, and note the auth gap.  \n9.  Slot hoarding and abuse   Anyone can book many slots with no limit, which blocks vets for real owners.   Cap bookings per pet or owner, and require future dates only.  \n10.  Existing flows and tests break   The visit form and the `Visit()` default of tomorrow have tests and i18n strings in about 10 languages.   Keep old fields compatible, add new message keys with an English fallback, and run the full suite.  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

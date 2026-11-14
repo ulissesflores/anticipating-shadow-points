@@ -1,0 +1,15 @@
+{
+ "trial": "t044",
+ "covered": [
+  2,
+  3,
+  4,
+  5,
+  7,
+  9
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Silent default flip   `index.js:109` affects every consumer without a code change   Ship as a major version, with a changelog and migration note  \n2.  Hard session cap lost   `maxAge` was an absolute cap and now slides forever   Document how to opt out with `rolling: false`; suggest an absolute-lifetime check  \n3.  Cache and CDN breakage   `shouldSetCookie` returns true on every response   Note in the docs; advise cache rules that ignore `Set-Cookie` or skip static routes  \n4.  Store write amplification   `touch` or `save` fires on every request   Recommend stores that implement `touch`; load-test a Redis store  \n5.  Concurrent write races   Parallel requests each refresh the expiry   Prefer `touch`, which doesn't rewrite session data; add a test with parallel requests  \n6.  Misread `saveUninitialized` interaction   Uninitialized sessions still get no cookie   Keep the README note; add a test  \n7.  Pointless header with no `maxAge`   Session-only cookies get no benefit from rolling   Skip setting the cookie when no `expires` or `maxAge` exists  \n8.  Test and doc drift   Tests near `test/session.js:1158` assume the default is false   Update the tests and the README default text, and add a default-true test  \n9.  Non-user traffic keeps sessions alive   Probes and assets refresh the expiry   Advise mounting the session middleware after static routes and health checks  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": true,\n  \"8\": false,\n  \"9\": true\n}\n```\n"
+}

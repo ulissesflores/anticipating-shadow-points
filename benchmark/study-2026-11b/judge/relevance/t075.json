@@ -1,0 +1,15 @@
+{
+ "trial": "t075",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  6,
+  7
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  Hidden comments still show up   `index` is public and comments are read through 2 relations   `visibleTo` scope plus a public-index test  \n2.  Users promote themselves   `PUT /user` mass-assigns from the request   Keep `is_moderator` out of `$fillable`; add a test  \n3.  7-day window off or spoofable   Window could be taken from `created_at` or client time   Measure from `hidden_at` on server time; boundary tests with `setTestNow`  \n4.  Appeal spam or appealing others' comments   No appeal concept exists yet   Unique `comment_id`, author-only, hidden-only checks  \n5.  Comment from another article gets moderated   Existing routes don't check that the comment belongs to `{article}`   Check `article_id` in every FormRequest, `DeleteComment` included  \n6.  Author deletes evidence   `destroy` only checks authorship   Block delete while the comment is hidden or under appeal  \n7.  Hidden text leaked or author locked out   Transformer always outputs `body`   Return it only to the author and moderators, with a `hidden` flag  \n8.  Breaking RealWorld clients   The comment JSON shape is a spec contract   Only add fields; leave existing ones unchanged  \n9.  Migration fails or won't roll back   Existing rows, SQLite in tests   Nullable or defaulted columns; test rollback  \n10.  No audit trail for appeals   Nothing records who hid a comment or why   Store `hidden_by`, `hidden_reason` and `resolved_by`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": false,\n  \"10\": false\n}\n```\n"
+}

@@ -1,0 +1,16 @@
+{
+ "trial": "t093",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  6,
+  7,
+  8
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  All existing tokens invalid   Signature and derived key change with the digest   Add SHA-1 fallback by default for a deprecation window  \n2.  Fallbacks don't cover old tokens   Fallback signers inherit the new class default   Make the fallback explicitly SHA-1 and test it  \n3.  Rolling-deploy mismatch   Old and new instances reject each other's tokens   Ship fallback first, then flip the default  \n4.  Longer tokens   43 vs 27 base64 chars may exceed cookie, URL or column limits   Document it and check downstream size limits  \n5.  Key derivation shifts   The digest feeds `derive_key` (`signer.py:201-209`)   Test derived keys for both digests  \n6.  Subclass and private-API breakage   `default_digest_method` overrides and `_lazy_sha1` imports   Keep `_lazy_sha1` and note the change in `CHANGES.rst`  \n7.  Hardcoded test and downstream fixtures   `test_serializer.py:180-192` pins SHA-1 values   Update the tests and add dual-digest cases  \n8.  Non-Python verifiers   Other services still expect SHA-1   Inventory consumers and have them pass `digest_method` explicitly  \n9.  FIPS or lazy-import regression   Replacement must stay lazy   Keep the lazy wrapper pattern  \n10.  Stale docs   Docs say SHA-1 is the default   Update `docs/serializer.rst` and docstrings  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": false\n}\n"
+}

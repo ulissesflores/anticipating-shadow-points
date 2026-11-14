@@ -1,0 +1,16 @@
+{
+ "trial": "t054",
+ "covered": [
+  1,
+  2,
+  3,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Old slug gets reused by another article   `makeUniqueSlug` only checks `articles` today   Check aliases in it; unique index on alias slug  \n2.  Alias row and slug update diverge   `Update` and `ReplaceTags` aren't transactional   Single transaction for update plus alias insert  \n3.  Missed handler still 404s on old slugs   Eight handlers each do their own lookup   One shared lookup helper; test every route  \n4.  Client sees a different slug than requested   Old-slug requests return the new canonical slug   Document it; always return the canonical slug  \n5.  Slug race on concurrent renames   Check-then-write is already racy   Keep the retry loop; cover the alias index  \n6.  Rename-back or same-base rename breaks   Own alias or own slug counts as a collision   Exclude self; delete own alias on reuse  \n7.  Unbounded alias growth   Every rename adds a row   Accept it; optionally cap aliases per article  \n8.  Deleted article leaks through an alias   The alias lookup could skip the soft-delete filter   Load via the scoped query; add a test  \n9.  Schema change on existing DBs   A new table needs migration in `hello.go` and tests   `AutoMigrate` in both; test on the existing SQLite file  \n10.  Spec suites regress   hurl and bruno assert the current slug behavior   Re-run both suites before merge  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": true, \"4\": false, \"5\": true, \"6\": true, \"7\": true, \"8\": true, \"9\": false, \"10\": false}\n"
+}

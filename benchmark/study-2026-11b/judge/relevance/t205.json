@@ -1,0 +1,18 @@
+{
+ "trial": "t205",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Old slug given to a different article   `makeUniqueSlug` only checks `article_models` today   Also check the alias table (incl. soft-deleted rows); current slug wins on lookup  \n2.  Write handlers act on nothing or the wrong row via an old slug   `ArticleDelete` deletes by URL slug; `ArticleUpdate` re-fetches by `finalSlug`   Act on the resolved ID and stored slug; test every route through an old slug  \n3.  Article renamed but no alias saved   Update and alias insert are separate writes   One `db.Transaction` for both  \n4.  Retry loop stops catching slug collisions   Retry depends on `errors.Is(err, gorm.ErrDuplicatedKey)`   Return the tx error unwrapped; test concurrent renames  \n5.  Renaming back to an earlier title fails   The alias row still holds that slug   Delete this article's matching alias row inside the tx  \n6.  Spec suite expects 404 on the old slug   The pinned hurl/bruno specs may check rename behavior   Run both suites; if one asserts 404, raise it with the spec maintainers  \n7.  New table missing in some environment   Three separate AutoMigrate lists (`hello.go` + 2 in tests)   Add to all three; a test fails fast if it's missing  \n8.  Extra query on every miss   Unknown slugs now hit two tables   Unique index on `alias.slug`; the fallback runs only on a miss  \n9.  Duplicate content / stale cached URLs   Old slugs return 200, not a redirect   Optional `Link: rel=canonical` header; frontend uses `replaceState`  \n10.  Links already broken stay broken   No record of past renames exists   Accept and document; no backfill is possible  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

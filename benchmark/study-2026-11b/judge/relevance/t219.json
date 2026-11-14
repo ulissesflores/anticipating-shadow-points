@@ -1,0 +1,16 @@
+{
+ "trial": "t219",
+ "covered": [
+  1,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Lock users out by username and IP address together instead of by IP address alone, as the new default.\n\nRows:\n1.  Weaker protection against one IP trying many usernames   Under the new default, a single IP gets the failure limit (3) for every username, so password spraying and credential stuffing from one IP are no longer stopped   Document it clearly; suggest `[\"ip_address\", [\"username\",\"ip_address\"]]` for sites with high exposure  \n2.  Silent behaviour change on upgrade   Sites that never set the parameter switch modes with no warning   Major version bump, CHANGES \"Breaking\" entry, upgrade note giving the one line that restores the old behaviour  \n3.  Many existing tests break   Lots of tests rely on the IP-only default without setting it   Pin those tests one by one; don't pin globally  \n4.  Legacy user-agent flag changes meaning   The no-flags branch feeds the `AXES_USE_USER_AGENT` handling, so the user agent would be added on top of username+IP   Give user-agent-alone its own case; add a test for it  \n5.  Shared list changed in place   `conf.py` modifies `[0]` in place, and the new default is a nested list   Build a new list literal in each branch  \n6.  No-username attempts behave differently   Failures without a username are stored with an empty username plus the IP, and the `== [\"username\"]` guard doesn't apply to them   Add a test for no-username failures; document the behaviour  \n7.  Locked-out IP can still browse other pages   Page requests carry no username, so they no longer match a lock   Document that lockout now applies only to login attempts  \n8.  Reset tools need both username and IP   `reset_request` needs both values for combined records, so resetting by IP alone may miss records   Document it in the reset/CLI docs; add a test  \n9.  Unchanged rows left in existing databases   Records stored under the old default don't match the new lookups   Note in the upgrade guide: run `axes_reset` after upgrading if needed  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": false,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true\n}\n```\n"
+}

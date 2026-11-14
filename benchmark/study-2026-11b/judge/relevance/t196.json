@@ -1,0 +1,12 @@
+{
+ "trial": "t196",
+ "covered": [
+  2,
+  3,
+  4
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Silent breaking change for existing apps   Every upgrader gets a `Set-Cookie` on all responses, and their sessions stop expiring while the client stays active   Ship in a major, add a changelog entry, and show the `rolling: false` opt-out  \n2.  Sessions never expire for active or polling clients   A heartbeat or a bot hitting the app keeps the session alive forever, which weakens the security assumption   Document it, and advise an absolute-lifetime check in the app  \n3.  Extra store writes or touches on every request   The stores in `session/` and external ones with no `touch` fall back to a full resave   Recommend `resave: false` with a store that has `touch`, and put a README warning on it  \n4.  Caching and CDN interference   `Set-Cookie` on every response makes responses uncacheable at shared caches   Advise mounting session only on dynamic routes  \n5.  Existing tests fail or encode the old default   Many tests in `test/session.js` assume no cookie on an unmodified request   Run the suite, then fix each case with an explicit `rolling: false`  \n6.  Race conditions on parallel requests   Concurrent requests each re-set the cookie and touch the store, and the last write wins   Keep the current `touch` semantics. Add no new locking. Mention this in the docs  \n7.  Downstream stores or middleware assume the old default   Wrappers around `session()` that read `opts.rolling` may now see `undefined` and behave differently   Normalise the option in one place and note it in the changelog  \n8.  `Set-Cookie` after headers sent, or on error responses   Rolling cookies on 4xx or 5xx responses and redirects may surprise clients   Add a test for error and redirect paths, and keep the existing `on-headers` hook  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": false,\n  \"7\": false,\n  \"8\": false\n}\n"
+}

@@ -1,0 +1,14 @@
+{
+ "trial": "t107",
+ "covered": [
+  1,
+  2,
+  3,
+  6,
+  8
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  Hidden body leaks   `index` and `$with` return everything, and the transformer always outputs `body`   Apply the `visible` scope and gate the body in the transformer; test unauthorized reads  \n2.  No role system exists   `is_moderator` is new, and a mass-assignment slip could grant it   Keep it out of `$fillable` and set it only by seeder or command  \n3.  Appeal window miscalculated   Timezones, boundary at exactly 7 days, and re-hides can reset it   Store UTC `hidden_at`, centralize in `canAppeal()`, test with `Carbon::setTestNow`  \n4.  Article/comment mismatch   `destroy` ignores `{article}`, so the same bug could let actions hit another article's comment   Verify `comment->article_id` in each action and return 404  \n5.  Unauthenticated `index`   `index` uses optional auth, so viewer-dependent output varies   Resolve the viewer defensively and treat null as a guest  \n6.  Appeal abuse or races   Double submits or concurrent resolves can produce inconsistent state   Use a conditional update or lock, and a unique appeal per hide  \n7.  Old Laravel 5.5 and dependencies   Old stack, so modern Laravel features and some packages won't apply   Stick to 5.5 APIs and avoid new syntax  \n8.  No audit trail   Moderator actions are contested by nature, and hide-then-unhide overwrites history   Add a `comment_moderation_logs` table if disputes matter, or at least keep `hidden_by`  \n9.  Frontend contract change   RealWorld clients expect a fixed comment shape   Only add fields and keep existing keys unchanged  \n10.  Migration on a big table   Adding many columns to `comments` can lock a large production table   Use nullable columns with no backfill and run off-peak  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": false,\n  \"6\": true,\n  \"7\": false,\n  \"8\": true,\n  \"9\": false,\n  \"10\": false\n}\n"
+}

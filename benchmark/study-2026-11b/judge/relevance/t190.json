@@ -1,0 +1,13 @@
+{
+ "trial": "t190",
+ "covered": [
+  1,
+  2,
+  4,
+  6
+ ],
+ "n": 7,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make the session middleware's cookie Secure and SameSite=Strict by default.\n\nRows:\n1.  Sessions silently stop working on plain HTTP   Browsers and httpx drop `Secure` cookies over `http://`, so local dev and HTTP-only deployments lose their sessions with no error   Release-note it, document `https_only=False`, and test over HTTPS  \n2.  Cross-site logins and flows break   `SameSite=Strict` omits the cookie on cross-site navigations, which breaks OAuth/OIDC callbacks and links from email   Document `same_site=\"lax\"` for those flows  \n3.  Behind a TLS-terminating proxy, `Secure` still works but test and dev setups differ   Browsers see HTTPS, while internal checks and health probes over HTTP get no cookie   Document the proxy case and keep the override  \n4.  Many existing tests fail   The default `TestClient` uses `http://testserver`, so default-config tests lose cookies   Switch the base URL to HTTPS and keep the override tests  \n5.  Downstream breakage for users upgrading   Users on the old defaults see sessions vanish after a minor upgrade   Highlight it in the release notes and ship it in a major or clearly marked release  \n6.  Embedded or iframe use breaks   `Strict` cookies are not sent in third-party frames, and `none` needs `Secure`   Keep `same_site=\"none\"` with `https_only=True` as the documented path  \n7.  Docs example becomes misleading   `docs/config.md` examples assume defaults that no longer hold   Review and update the examples  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": false\n}\n```\n"
+}

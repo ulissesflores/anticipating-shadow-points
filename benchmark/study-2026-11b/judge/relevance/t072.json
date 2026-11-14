@@ -1,0 +1,15 @@
+{
+ "trial": "t072",
+ "covered": [
+  2,
+  3,
+  4,
+  7,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Old slug not kept   `ArticleUpdate` overwrites `slug`, so shared links 404   Alias table written on rename  \n2.  New article steals an old slug   `makeUniqueSlug` checks only `articles.slug`   Also check aliases there  \n3.  Alias vs live slug conflict   Two articles can claim `/foo`   Resolve live first, alias second  \n4.  Rename-back or chain breaks the unique index   A\u2192B\u2192A reinserts an existing alias   Delete the alias that matches the new slug  \n5.  Concurrent slug race   `makeUniqueSlug` is check-then-write   Unique indexes, plus retry on `ErrDuplicatedKey`  \n6.  Partial write on update   Slug, alias and tags updated separately   One DB transaction  \n7.  Deleted articles   Aliases outlive the article or still resolve   Delete aliases with the article; join on non-deleted  \n8.  Redirects break the API contract   The spec and hurl/bruno suites expect 200 with JSON   Resolve and serve in place, no 301  \n9.  Authorization gap via alias   PUT and DELETE use the lookup before the author check   One helper, author check kept after it  \n10.  Stale canonical slug in responses   Clients keep using the old slug   Always serialize the canonical slug  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n```\n"
+}

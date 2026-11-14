@@ -1,0 +1,19 @@
+{
+ "trial": "t208",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Cross-tenant `ListId` reassignment   `UpdateTodoItemDetail` and `CreateTodoItem` trust the `ListId` the client sends   Load the list through the filtered set; check its tenant in the interceptor too  \n2.  Query filter bypassed or missing   `FindAsync` returns already-tracked entities without filtering; future `IgnoreQueryFilters` or raw SQL skip it   Interceptor rejects writes from another tenant; isolation tests for each endpoint  \n3.  Filter frozen in the cached model   EF caches the model, so a captured tenant value would apply to every request   Reference a DbContext instance member; test two tenants in one process  \n4.  Tenant taken from client input   Easy shortcut via a header or body field   Use only the server-issued `tenant_id` claim  \n5.  Seeding has no tenant   The initialiser runs with no HTTP user and calls `TodoLists.Any()`   Explicit system or tenant scope for seeding; seed a default tenant  \n6.  Registration can't assign a tenant   `MapIdentityApi` has no tenant hook   Custom register endpoint or first-login assignment  \n7.  Stale or empty tenant claim   Tokens issued before the change carry no `tenant_id`   Fail closed when the claim is missing; shorten token lifetime or force re-login  \n8.  Title uniqueness leaks or blocks   `BeUniqueTitle` checks titles across all tenants   Check per tenant plus a unique index on `(TenantId, Title)`  \n9.  Breaks template variants or tests   3 database providers, Respawn, Playwright tests all assume one shared dataset   Update test helpers; run `build/test.ps1` on every provider  \n10.  No backfill path for real deployments   Template uses `EnsureDeleted`/`EnsureCreated`, but adopters will have existing data   Document a migration that backfills a default tenant before making `TenantId` NOT NULL  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

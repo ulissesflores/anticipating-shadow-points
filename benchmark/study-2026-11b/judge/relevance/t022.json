@@ -1,0 +1,15 @@
+{
+ "trial": "t022",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  7,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Silent breaking change for existing users   Apps that never set `rolling` start sending `Set-Cookie` on every response   Release in a major version, add a HISTORY entry and a README note on opting out  \n2.  HTTP caching breaks   CDNs and proxies often won't cache responses that carry `Set-Cookie`, and some may cache the cookie itself   Document it; suggest `rolling: false` or skipping the middleware for static routes  \n3.  Tests mass-fail or get \"fixed\" wrongly   26 tests assert no `Set-Cookie`; flipping them would hide regressions   Add `rolling: false` where a test needs the old default; don't flip expectations  \n4.  Does nothing without `maxAge`   The default cookie has no expiry, so rolling gives only extra headers   Say so in the README; consider a later warning when `maxAge` isn't set  \n5.  Sessions never time out for active users   Any request, including polling or keep-alive calls, keeps the session alive   Document the need for an absolute timeout and app-level checks  \n6.  Mismatch with `saveUninitialized: false`   The cookie still isn't set for uninitialized sessions, which can surprise people expecting \"every request\"   Keep the documented note; tests already cover this case  \n7.  Extra overhead   Every response gets cookie serialization and signing, plus a larger header   Small cost; mention it in the release notes  \n8.  Cookie and store expiry drift apart   Store TTL relies on `touch`/resave while the cookie now always slides   Note that a store without `touch` and with `resave: false` will expire server-side first  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true\n}\n```\n"
+}

@@ -1,0 +1,15 @@
+{
+ "trial": "t221",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  8
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  Hidden comments leak   `index` is unfiltered, and `Comment` eager-loads relations everywhere   Global scope or `visible()` scope; add tests for each read path  \n2.  Privilege escalation   No role system exists, and `$fillable` is loose   Role column outside `$fillable`; policy-based checks; deny by default  \n3.  Ambiguous 7-day window   No `hidden_at` timestamp exists   Store `hidden_at`; compute the deadline server-side in UTC; one appeal per hide  \n4.  Author not notified   No mail or notification code, and the queue is `sync`   Return hidden state to the author; send a notification; start the clock on notice  \n5.  Broken appeal state machine   Concurrent requests, and moderators can rule on their own hides   Explicit states; row lock or unique constraint; require a different moderator  \n6.  No audit trail   Hide or delete would overwrite or lose history   Append-only `comment_moderation_events` table with actor, reason and time  \n7.  Delete bypasses review   `destroy` hard-deletes, and FKs cascade   Block author deletion while hidden or under appeal; soft-delete  \n8.  Abuse and retaliation   No rate limits or reporting controls   Throttle appeals; require a reason; paginate the moderator queue  \n9.  Contract and migration breakage   Spec-based clients and tests assume every comment is returned   Additive nullable columns; keep the response shape; update tests  \n10.  Privacy and retention   Hidden text stays in the database   Define retention; redact reasons in public output  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": true,\n  \"9\": false,\n  \"10\": false\n}\n```\n"
+}

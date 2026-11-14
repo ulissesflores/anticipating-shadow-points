@@ -1,0 +1,16 @@
+{
+ "trial": "t103",
+ "covered": [
+  1,
+  3,
+  4,
+  5,
+  6,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Data leak to another user   The export includes email and private fields, and any ID-based or session mix-up exposes them   Use `current_user` only, take no ID parameter, and add a cross-user test  \n2.  CSRF or drive-by download   A GET endpoint can be triggered from another site, and the response is sensitive   Use POST with a CSRF token, or require recent re-authentication  \n3.  Secrets in the export   The `User` model holds `password_hash`, and tokens are derived from `SECRET_KEY`   Use an explicit allowlist of fields, never `__dict__`, and add a test  \n4.  Memory and slow responses   A heavy user's posts and comments are loaded in one request on a Gunicorn worker (Heroku and Docker)   Stream or iterate the query, set a size cap, and rate-limit  \n5.  Wrong or incomplete scope   \"All their data\" is ambiguous, and followers, follows and comments received may be expected   Document the assumption, put the scope in the UI text, and keep `to_export` easy to extend  \n6.  Datetime and encoding bugs   The default `jsonify` emits HTTP-date strings, and non-ASCII markdown can be mangled   Use ISO 8601 and UTF-8, and test unicode bodies  \n7.  Abuse for scraping or load   Repeated exports from a hijacked session drain data and CPU   Per-user rate limit and an audit log  \n8.  Stale or inconsistent snapshot   Posts and comments are read in separate queries, and a write between them skews the file   Read in one request and accept eventual consistency, or wrap in one transaction  \n9.  Privacy and compliance gaps   The export may not meet GDPR-style portability expectations on format or completeness   Use a machine-readable JSON format, state the covered scope, and have the privacy owner review it  \n10.  Caching of sensitive file   Proxies or the browser may cache the download   Send `Cache-Control: no-store` and use `attachment` disposition  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": false,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n```\n"
+}

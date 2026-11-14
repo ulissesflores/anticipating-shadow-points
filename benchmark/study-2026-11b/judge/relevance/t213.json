@@ -1,0 +1,18 @@
+{
+ "trial": "t213",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   New nullable column makes all current users unverified   Backfill `emailVerifiedAt=now()` in the migration  \n2.  Signup still creates a session   `join.tsx` calls `createUserSession` after `createUser`   Remove it and redirect to a \"check your email\" page  \n3.  Unverified cookie sessions stay valid   `requireUser` and `getUser` only check that the user exists   Enforce verification in the session helpers and invalidate old sessions  \n4.  Account enumeration   A distinct \"unverified\" login error reveals registered emails   Reveal it only after a correct password; keep other errors generic  \n5.  Weak or reusable tokens   Auth tokens are security-critical and nothing exists yet   Use 32-byte random tokens, store a hash, expire in 24h, single use  \n6.  Email never arrives   No email infrastructure exists; unverified users are blocked entirely   Set up SPF/DKIM, log send errors, provide a resend path and monitoring  \n7.  Scanner prefetch or resend abuse   A GET link can be auto-consumed; resend can be spammed   Use a confirm-button POST and rate-limit per email and IP  \n8.  Deploy-order breakage   Fly runs a migration against a live DB while old code serves traffic   Make the migration additive and backwards-compatible; deploy in two steps  \n9.  Tests and seed break   The Cypress `create-user` and `seed.ts` users are unverified   Create them pre-verified and mock the email provider  \n10.  Typo'd email strands the user   No way to change the email or recover   Add resend and change-email flows, and delete stale unverified accounts after a TTL  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

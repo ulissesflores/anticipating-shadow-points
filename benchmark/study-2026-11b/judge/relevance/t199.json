@@ -1,0 +1,18 @@
+{
+ "trial": "t199",
+ "covered": [
+  1,
+  2,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  Hidden comments leak publicly   `index` returns all comments, and the comment relation is reused elsewhere   `visibleTo` scope plus tests for anonymous and other users  \n2.  Users make themselves moderators   Profile update mass-assigns user fields   Keep `is_moderator` out of `$fillable`; add a test  \n3.  Comment id doesn't match the article   Route binding never checks article ownership   Check it and return 404  \n4.  Off-by-one or timezone error on the 7-day deadline   Carbon/app timezone; \"within 7 days\" is ambiguous   Compute on the server in UTC; boundary tests with `setTestNow`  \n5.  Double appeal or decision when requests race   Status changes are read-then-write   Transaction plus `lockForUpdate`  \n6.  Audit trail lost when a comment is deleted   Existing foreign keys cascade on delete   Null on delete plus `body_snapshot`  \n7.  N+1 queries in the comment list   Moderation data is loaded per comment   Eager-load `currentModeration`  \n8.  Breaking RealWorld clients   The response format is shared across frontends   Only add fields; privileged block only for author/moderator  \n9.  No moderators exist after deploy   There's no admin UI   Seeder/tinker runbook; document how to promote a user  \n10.  Migrations on a large comments table   Adding an indexed column can lock the table   Run in a low-traffic window; the column is nullable, so no backfill  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

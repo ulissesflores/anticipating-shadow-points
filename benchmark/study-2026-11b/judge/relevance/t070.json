@@ -1,0 +1,13 @@
+{
+ "trial": "t070",
+ "covered": [
+  2,
+  3,
+  5,
+  8
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Breaking default change   Every existing user gets a `Set-Cookie` on every response after upgrading   Major bump, a HISTORY entry, and an optional one-release deprecation warning  \n2.  Sessions never expire for active users   Rolling extends the cookie with no absolute cap, so a polling tab keeps the session alive   Document it, and suggest an absolute-lifetime check in the app  \n3.  HTTP cache and CDN breakage   A `Set-Cookie` on every response stops shared caches storing public pages   Document `rolling: false` for cacheable routes, or a per-route opt-out  \n4.  Many existing tests fail   The suite assumes cookies are not re-sent on unmodified sessions   Make the opt-out explicit per test and review each diff  \n5.  Cookie-size and bandwidth overhead   Each response adds a signed cookie header, which matters for APIs and static assets   Note it in the README and keep the guidance on mounting the middleware per route  \n6.  Parallel-request cookie races   Concurrent responses may overwrite each other's cookie with different expiry values   Expiry is derived from the same `maxAge`, so it is low impact. Add a note  \n7.  Session-fixation or cookie-handling surprises   Proxies and clients now see cookies on read-only requests   Keep the `secure`, `httpOnly` and `sameSite` defaults, and test proxy and secure-cookie paths  \n8.  Stores that lack `touch`   With `resave: false` and no `touch`, the cookie rolls but the store entry doesn't, so the two expiries drift apart   Add a README warning and a test for this case  \n9.  Docs and typings drift   `@types/express-session` and the README still say the default is `false`   Update the README and send a PR to DefinitelyTyped  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": false, \"2\": true, \"3\": true, \"4\": false, \"5\": true, \"6\": false, \"7\": false, \"8\": true, \"9\": false}\n"
+}

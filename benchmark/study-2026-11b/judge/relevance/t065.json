@@ -1,0 +1,15 @@
+{
+ "trial": "t065",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  Hidden bodies leak   `Comment` is eager-loaded and serialized in `index` and the article responses, with no visibility filter today   Apply the filter in one place (scope + transformer), and test each viewer role  \n2.  Privilege escalation   No roles exist, and `$fillable` or `UpdateUser` could expose `role`   Keep `role` out of `$fillable` and the request validators; test it  \n3.  Wrong-article comment ids   `destroy` ignores `{article}`, so a moderator could hide a comment from another article   Verify the comment's article matches the route; return 404  \n4.  Appeal window edge cases   The 7 days could be read from `created_at` or `hidden_at`, and timezone/DST can shift the cutoff   Use `hidden_at` in UTC, put the window in config, test day 6 and day 8  \n5.  Optional-auth null user   `index` uses `auth.api:optional`, so viewer checks can hit a null user   Null-safe viewer helper; guest test  \n6.  Appeal abuse or races   Double submits, or appealing after a resolution   One appeal per hide, status checks, `lockForUpdate` in a transaction  \n7.  No moderator bootstrap   Without a seeder or command the feature can't be used   Add an artisan command or seeder and document it  \n8.  Client contract change   The new transformer fields could break existing RealWorld frontends   Only add fields, never rename; keep defaults falsy  \n9.  Audit gap   Hide and restore decisions are contestable and need a record   Store who and when in the columns; consider a log table later  \n10.  Old framework   Laravel 5.5 (no `nullOnDelete()` helper, older test APIs)   Use 5.5-compatible syntax and run the migrations on a fresh DB  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false,\n  \"9\": false,\n  \"10\": false\n}\n```\n"
+}

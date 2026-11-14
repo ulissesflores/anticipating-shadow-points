@@ -1,0 +1,19 @@
+{
+ "trial": "t124",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Double booking under concurrent requests   The controller saves via `owners.save` with no lock; checking in Java first is a race   Named unique constraint plus catching `DataIntegrityViolationException`; two-thread test  \n2.  Overlapping but different times both get booked   The unique key only catches exact (vet, date, time) matches   Fixed slots, server-side boundary check; no free-form times  \n3.  Existing MySQL/Postgres databases lack the new columns   `ddl-auto=none` and `CREATE TABLE IF NOT EXISTS` skip changes   Ship an `ALTER TABLE` migration script and document it  \n4.  Startup fails on sample data   `data.sql` inserts visits by column position   Use explicit column lists  \n5.  Constraint error not recognised on one database   Each database words the error differently; matching is by name   Same constraint name everywhere; run MySQL/Postgres integration tests  \n6.  Old visits break the new rules   Existing rows have no vet or time   Nullable columns; require them only on new bookings  \n7.  Anyone can book or spam slots for any owner   No authentication in the app   Note as out of scope; add login and rate limiting later  \n8.  Wrong \"past slot\" or \"today\" checks   `LocalDate.now()` uses the server's time zone   Use one clinic time zone via an injected `Clock`  \n9.  Build fails on translations   `I18nPropertiesSyncTest` needs the same keys in every file   Add keys to all `messages_*.properties`  \n10.  Forged vet ID causes HTTP 500   Form values can be tampered with   Formatter turns unknown IDs into field errors; test it  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

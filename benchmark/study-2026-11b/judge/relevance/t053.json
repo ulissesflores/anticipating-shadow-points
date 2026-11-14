@@ -1,0 +1,14 @@
+{
+ "trial": "t053",
+ "covered": [
+  2,
+  3,
+  4,
+  5,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Breaking default change   Every consumer silently gets new behaviour   Semver-major, a HISTORY note, a README migration line  \n2.  `Set-Cookie` on every response   `shouldSetCookie` returns true whenever rolling is on, which breaks CDN and cache behaviour   Document it, and advise `rolling: false` for public routes  \n3.  Resave writes for stores without `touch`   The `shouldTouch` fallback becomes a full save   Warn in the docs, and recommend stores that implement `touch`  \n4.  Extra store load   One `touch` per request on Redis or DB stores   Note the cost and suggest throttling via `unset` or a custom touch  \n5.  Idle timeout never fires   Polling clients keep sessions alive forever   Add an absolute-lifetime guidance note or option  \n6.  Regression with `saveUninitialized: false`   Past bug history at HISTORY.md:200   Keep the existing tests at test/session.js:1199 and 1221  \n7.  Existing tests fail   Several tests assume the default is `false`   Set `rolling: false` explicitly in those tests and add tests for the new default  \n8.  Concurrent-request races   Many parallel requests each rewrite expiry   Rely on the store's atomic `touch`, and document the limits  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": true\n}\n"
+}

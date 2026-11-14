@@ -1,0 +1,18 @@
+{
+ "trial": "t229",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   New column defaults to null, so every current account looks unverified   The migration backfills `emailVerifiedAt = createdAt`. Test it on real-shaped data  \n2.  No mail infra today   The app has no mailer, so a bad SMTP setup means nobody can ever register   Console-log fallback in dev, a startup check on SMTP vars, a deliverability test in staging  \n3.  Token leak or replay   A plaintext or reusable token turns into account takeover   Store only the SHA-256 hash, make it single use, expire it in 24h, and don't auto-login on verify  \n4.  Link prefetch consumes token   Mail scanners fire GET requests, so GET-consumed tokens fail for real users   Confirm button with a POST consume  \n5.  Account enumeration   The join page already says \"user already exists\", and resend or login could leak more   Uniform responses on resend, and check the password before revealing the unverified state  \n6.  Resend abuse   The resend endpoint can be used to spam an address or burn email quota   Per-email cooldown from `createdAt`, per-IP limit  \n7.  Squatted or unverified emails   An unverified row holds the unique email, so a real owner cannot sign up   Let sign-up re-send and overwrite the password of an unverified account, or purge unverified accounts after N days  \n8.  Tests and tooling break   `create-user.ts`, the seed and the Cypress smoke test all assume instant login   Update them in the same PR, and run the e2e suite in CI  \n9.  Wrong link origin   A bad `APP_ORIGIN` behind Fly's proxy produces dead or wrong-host links   Make `APP_ORIGIN` an explicit required env var and don't derive it from the request  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true\n}\n"
+}

@@ -1,0 +1,15 @@
+{
+ "trial": "t105",
+ "covered": [
+  1,
+  2,
+  4,
+  5,
+  6,
+  8
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Credential or secret fields leak into the file   `User` holds `password_hash`, `avatar_hash` and confirmation state   Explicit allowlist serializer, not `__dict__`  \n2.  Another user's data is exposed   A username or id in the URL invites IDOR   Always use `current_user`, with no id parameter, and test it with two users  \n3.  Request forgery or cross-site trigger   Session-cookie auth with a GET download   POST with a CSRF token, or require password re-entry  \n4.  Timeout or memory exhaustion   `lazy='dynamic'` queries, Heroku 30s limit, blocking Gunicorn workers   Stream with a generator and `yield_per`, and cap size  \n5.  Endpoint abuse   No rate limiter in the stack   Add a per-user cooldown, such as one export per hour  \n6.  Wrong or bloated format   Naive datetimes and redundant `body_html`   Pick JSON, use ISO-8601 UTC, and export raw `body` only  \n7.  Cached or intercepted download   Personal data over HTTP if `SSL_REDIRECT` is off   Send `no-store`, require HTTPS in production  \n8.  Incomplete or crashing export   Null `author_id`, deleted posts, disabled comments   Handle nulls, decide on disabled comments, and test on messy fixtures  \n9.  Doesn't satisfy privacy-law needs   Follows, email and `last_seen` are personal data too   Confirm scope with the product owner before building  \n10.  Regression from future model changes   No tests for the export   Add tests that compare the exported keys to an expected list  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": true,\n  \"9\": false,\n  \"10\": false\n}\n```\n"
+}

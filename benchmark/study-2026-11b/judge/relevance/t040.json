@@ -1,0 +1,13 @@
+{
+ "trial": "t040",
+ "covered": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make the session middleware's cookie Secure and SameSite=Strict by default.\n\nRows:\n1.  Sign-in through another site (OAuth, SSO) breaks   The identity provider's redirect back is cross-site, so Strict drops the cookie and the `state` stored in the session is lost   Document `same_site=\"lax\"` for OAuth; consider keeping the Lax default  \n2.  Users appear logged out after following an inbound link   Strict strips the cookie on cross-site top-level navigation   Docs note; release note  \n3.  Plain-HTTP dev and test setups lose their session   The Secure flag is rejected over http (Safari, LAN IPs, `.test` hosts)   Docs: use `https_only=False` for local dev  \n4.  `TestClient` suites start failing   The default `http://testserver` won't send Secure cookies   Update Starlette's own tests; flag it in release notes  \n5.  Silent behaviour change for downstream users   FastAPI and others re-export these defaults   Breaking-change label; version bump  \n6.  Docs contradict the code   `middleware.md` hard-codes the old defaults and the `partitioned` advice   Update in the same PR  \n7.  Duplicate or previously rejected PR   `AI_POLICY.md` bans duplicate PRs   Search PRs, issues and discussions first  \n8.  Missing coverage for the opt-out   Defaults flip, but the old behaviour must stay reachable   Test explicit `https_only=False, same_site=\"lax\"`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": false,\n  \"7\": false,\n  \"8\": false\n}\n```\n"
+}

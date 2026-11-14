@@ -1,0 +1,14 @@
+{
+ "trial": "t228",
+ "covered": [
+  1,
+  2,
+  3,
+  5,
+  6
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  Existing tokens stop validating   Cookies, reset links and sessions signed with SHA-1 fail `loads`, because the default has no fallback   Document the SHA-1 `fallback_signers` recipe, add a changelog warning, and add a test for the fallback  \n2.  Key derivation changes too   `derive_key` hashes with `digest_method`, so the key changes along with the HMAC   State this in the docs, and test the old-to-new fallback end to end  \n3.  Signature length and token format change   A SHA-256 MAC is longer than SHA-1, which affects length-limited cookies and URLs, plus any schema or regex that assumes the old length   Note the longer tokens in the changelog, and check size limits in dependents  \n4.  Downstream libraries pin the default   Flask and similar libraries rely on the default or on subclass overrides   Pin the version and test against dependents, or release as a major or minor bump with a notice  \n5.  Rollout skew across instances   Mixed old and new versions reject each other's tokens during a deploy   Roll out the fallback first, then the new default  \n6.  Hardcoded test vectors break   `test_digests` and `test_iter_unsigners` encode SHA-1   Regenerate the expected vectors from the new default, and keep the explicit SHA-1 vector  \n7.  FIPS import-time failure   A non-lazy `hashlib.sha256` reference could break FIPS builds   Keep the lazy wrapper, and test with SHA-1 disabled  \n8.  Another revert like PR #113   The default was already reverted once, so it may have hit hidden breakage   Read PR #113's reasoning before merging, and ship the migration docs with the change  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false\n}\n"
+}

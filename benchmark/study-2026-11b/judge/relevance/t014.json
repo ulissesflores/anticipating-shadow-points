@@ -1,0 +1,17 @@
+{
+ "trial": "t014",
+ "covered": [
+  1,
+  2,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let moderators hide abusive comments, and let the comment's author appeal within 7 days.\n\nRows:\n1.  Hidden comments still visible   `index` returns everything, and `Comment` loads `user` on every query, so filtering in one place is easy to miss   `visibleTo` scope plus tests that check guests and other users  \n2.  Wrong people can hide or resolve   There are no roles today, and checks live in each FormRequest   `is_moderator` plus `CommentPolicy`, and 403 tests  \n3.  Comment reached through the wrong article   `destroy` already ignores `{article}`   Check `article_id` in every new request  \n4.  Appeal deadline wrong   It's easy to use `created_at`, or to share one window across repeat hides   Deadline = `hidden_at + 7d`, with time-frozen tests  \n5.  Duplicate appeals   Two requests at once can both pass the check   Unique `(comment_id, hidden_at)` index  \n6.  Author can't see their hidden comment   A blanket filter hides it from the author too   Scope lets the author see their own comment  \n7.  RealWorld clients break   `CommentTransformer` returns the spec shape   Extra fields only for author or moderator  \n8.  Moderator reviews their own hide   No separation between hider and reviewer   Policy blocks `hidden_by == resolver`  \n9.  No record of moderation   A single flag gets overwritten   Store `hidden_by`/`reason`; appeals table keeps history  \n10.  Migration or test DB out of sync   New columns, and the tests use a separate DB   Nullable or defaulted columns; migrate `realworld_test` in CI  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

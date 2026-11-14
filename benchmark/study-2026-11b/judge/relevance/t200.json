@@ -1,0 +1,14 @@
+{
+ "trial": "t200",
+ "covered": [
+  1,
+  2,
+  3,
+  5,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  Existing tokens, sessions and cookies stop validating   Both the signature and the derived key change, so every outstanding SHA-1 signature fails   Document the SHA-1 `fallback_signers` recipe, add a changelog entry, and ship in a minor version with a loud note  \n2.  Users who rely on the default can't roll back or deploy gradually   Old and new app versions in a rolling deploy reject each other's tokens   Recommend deploying a fallback-enabled version first, then switching  \n3.  Longer signatures break size limits   SHA-256 adds 16 base64 characters per token, which matters for cookies and URLs   Document the size delta and test URL-safe and timed tokens  \n4.  Hidden dependence on the default digest   Code that calls `Signer` or `HMACAlgorithm` directly, or subclasses and overrides `default_digest_method`, may break   Grep downstream projects and note the change in the API docs  \n5.  Third-party verifiers mismatch   Another service that verifies these signatures, for example in another language, assumes SHA-1   List this under compatibility in the changelog and tell users to pin the digest explicitly  \n6.  FIPS regression   An eager `hashlib` access at import would break FIPS builds, which `_lazy_sha1` was written to prevent   Keep the lazy wrapper and add a test that import works without SHA-1  \n7.  Stale tests and docs   Pinned SHA-1 vectors and the \"default is sha1\" docs would contradict the code   Update them in the same change and grep for `sha1` and `SHA-1`  \n8.  Key-derivation side effect goes unnoticed   `django-concat` hashes the salt and secret with the default digest, so the key changes, not only the MAC   Call it out in the docs and test a fallback-signed round trip  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": true, \"4\": false, \"5\": true, \"6\": false, \"7\": false, \"8\": true}\n"
+}

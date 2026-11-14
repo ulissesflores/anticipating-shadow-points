@@ -1,0 +1,18 @@
+{
+ "trial": "t064",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Secret/field leakage   Public `to_json()` helpers differ from what a private export needs   Explicit allow-list; test excludes `password_hash`  \n2.  IDOR on export   Many routes take `<username>` or `<id>`   Use `current_user`, no id in URL  \n3.  CSRF-triggered download   Session-cookie auth on web routes   POST with CSRF token  \n4.  Memory/timeout on big accounts   `lazy='dynamic'` relations, Heroku 30s limit   Stream or paginate; cap size  \n5.  Export used for DoS   No rate limiting exists   Per-user throttle  \n6.  Wrong scope of \"comments\"   Comments on user's posts belong to others   Define scope; own authored only  \n7.  Other users' data exposed   Comments reference other users   Include only usernames/ids, not emails  \n8.  Filename/header injection   Username goes into `Content-Disposition`   Fixed or sanitized filename  \n9.  Moderation state leaked   `Comment.disabled` is internal   Omit or document the field  \n10.  Untested edge cases   No download or auth tests today   Add client and model tests  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n"
+}

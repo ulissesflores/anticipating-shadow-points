@@ -1,0 +1,17 @@
+{
+ "trial": "t113",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Race between two owners booking the same slot   A check-then-save in Java passes for both requests   DB unique constraint on (vet, date, time); map the violation to a form error  \n2.  Schema drift across H2, MySQL and Postgres   Three hand-maintained `schema.sql` files and `ddl-auto=none`   Edit all three together; run the MySQL and Postgres integration tests  \n3.  Existing deployed DBs lack the new columns   No migration tool in the repo   Provide an explicit `ALTER` script; consider Flyway separately  \n4.  NULL handling in the unique index   Legacy visits have no vet or time   Nullable columns; unique indexes permit multiple NULLs on all three DBs; test it  \n5.  Exception not translated as expected   Save happens via `Owner` cascade, so the violation may surface at flush or commit   Test the controller path against a real DB; catch at the save call and in a fallback handler  \n6.  Overlap only blocked for identical start times   A unique key doesn't catch partial overlaps   Fixed slot grid enforced server-side; reject any non-grid time  \n7.  Form binding tampering   A user could post arbitrary vet ids or times   Resolve the vet via repository; validate the time against the slot list  \n8.  i18n test breaks   `I18nPropertiesSyncTest` needs the same keys in all locale files   Add keys to every `messages_*.properties`  \n9.  Stale slot list shown to the user   The slot is taken between page render and submit   Re-render with fresh slots and a clear error on conflict  \n10.  Scope creep (cancellation, schedules, time zones)   Real clinics need them   State the assumptions; defer to follow-ups  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": true,\n  \"10\": false\n}\n"
+}

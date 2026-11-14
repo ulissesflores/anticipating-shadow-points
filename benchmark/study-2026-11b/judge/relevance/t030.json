@@ -1,0 +1,17 @@
+{
+ "trial": "t030",
+ "covered": [
+  1,
+  2,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Require new users to verify their email address before they can log in.\n\nRows:\n1.  Existing users locked out   New column is NULL; Fly runs `migrate deploy` on release   Backfill `emailVerifiedAt = now()` in the same migration  \n2.  Bypass through sign-up or old sessions   `join.tsx` logs in right away; `requireUser` only checks that the user exists   Remove auto-login; check verification in `requireUser`  \n3.  Weak or reusable tokens   Nothing exists yet, so it's easy to store raw or long-lived tokens   32 random bytes, store the hash, 24h expiry, one-time delete in a transaction  \n4.  Account enumeration   Login and sign-up already return different errors   Generic messages on resend and the unverified-login path  \n5.  Users stuck when email fails   No mailer exists; the unique email blocks signing up again   Resend flow; log send failures; let unverified users re-register  \n6.  Email-bombing through resend   No rate limiting anywhere in the app   Cooldown per email (and ideally per IP)  \n7.  Broken links or open redirect   No base-URL config; `redirectTo` passes through the email link   `APP_URL` variable; keep using `safeRedirect`  \n8.  CI and e2e break   Smoke test, `cy.login()` and seed assume new users can log in   Seed and helpers set verified; e2e reads the token through mocks or the DB  \n9.  Deploy without mail secrets   `.env.example` and Fly secrets lack them; CI copies `.env.example`   Validate env at startup; set Fly secrets before deploying  \n10.  Token race or double use   Two clicks or prefetching email scanners can hit the link at once   Atomic `delete` that returns the row; check expiry in the transaction  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": false,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

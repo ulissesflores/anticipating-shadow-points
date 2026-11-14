@@ -1,0 +1,16 @@
+{
+ "trial": "t148",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  10
+ ],
+ "n": 10,
+ "redactions": 1,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Double-booking race   The current save path is check-then-act, with no locking.   DB unique index on `(vet_id, start_time)` as the authority. Catch the violation.  \n2.  Overlap not enforced   Index covers equal starts only. Range constraints are Postgres-only.   Fixed slot grid, aligned in code and [term].  \n3.  Dialect drift   Three hand-written schemas, `ddl-auto=none`.   Change all three together and run CI on each DB.  \n4.  Legacy rows break   Existing visits have no vet or time.   Nullable columns, no backfill, and tests with `data.sql`.  \n5.  HTTP 500 on conflict   The cascade save surfaces the error late.   Booking service with explicit handling and a form error.  \n6.  Time and time-zone bugs   `LocalDate` becomes a date-time. DST and local time are undefined.   Clinic-local `LocalDateTime` and one configured zone.  \n7.  Tampered input   The vet and slot come from the form.   Server-side validation and the disallowed-fields list.  \n8.  Slots never freed   No cancel or reschedule exists.   Include cancel in scope, or ship with a clear limitation.  \n9.  Slot hoarding and data exposure   No auth, ids in URL.   Out of scope here. Flag it, and add per-owner limits later.  \n10.  Race goes untested   H2 unit tests hide concurrency and dialect differences.   Concurrent test and Testcontainers for MySQL and Postgres.  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false,\n  \"9\": false,\n  \"10\": true\n}\n"
+}

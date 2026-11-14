@@ -1,0 +1,12 @@
+{
+ "trial": "t181",
+ "covered": [
+  1,
+  2,
+  3
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make the session middleware's cookie Secure and SameSite=Strict by default.\n\nRows:\n1.  Secure cookie dropped over HTTP   `https_only` default flips to `True`. `TestClient` uses `http://testserver`, and dev servers use HTTP   Use an `https://` base URL in tests. Document `https_only=False` for dev  \n2.  Strict drops cookie on cross-site navigation   Users arrive via email or external links and look logged out   Document `same_site=\"lax\"` for login-style apps. Call it out in the release notes  \n3.  OAuth/OIDC callback fails   `docs/config.md` stores `state` in the session, and the IdP redirect is cross-site   Update the docs example to set `same_site=\"lax\"`  \n4.  Silent upgrade regression   No exception is raised. Sessions just stop persisting   Make it a major or minor bump with a prominent note. Consider a one-release deprecation warning  \n5.  Old tests and docs go stale   Existing tests assert `samesite=lax` and no `secure`   Update the tests, add default-flag tests, and fix `docs/middleware.md`  \n6.  `partitioned` contradicts the defaults   It needs `same_site=\"none\"`, but the new default is `strict`   Validate or document the combination. Add a test  \n7.  Old cookies not cleared   The clearing cookie's flags differ from those the original was set with   Test the set and clear flows with matching flags  \n8.  Subclass/ecosystem breakage   Downstream frameworks rely on the current defaults   Search known dependents. Keep the argument names unchanged  \n9.  Inconsistent cookie policy   Other cookie-setting code keeps the old defaults   State that the scope is sessions only  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": false,\n  \"6\": false,\n  \"7\": false,\n  \"8\": false,\n  \"9\": false\n}\n```\n"
+}

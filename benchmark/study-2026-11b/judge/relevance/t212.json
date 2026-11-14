@@ -1,0 +1,17 @@
+{
+ "trial": "t212",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  6,
+  7,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working.\n\nRows:\n1.  `id` type change breaks typed clients   A JSON int becomes a string, and the POST response is parsed by clients   Keep int `id` on v1, add `uuid`, and flip only in v2  \n2.  Int/UUID path ambiguity   The `Union[UUID, int]` parse order can misroute 32-digit strings, and 422 bodies change   Explicit resolver and parse rules, with contract tests  \n3.  Backfill locks or fails on a big table   `ALTER` plus `UPDATE` on Postgres during live traffic   Add the column nullable, backfill in batches, then add `NOT NULL` and the index  \n4.  Rolling-deploy skew   Old pods insert rows without a uuid during the cutover   DB default `gen_random_uuid()`, and deploy the migration first  \n5.  Empty downgrade in the existing migration   Rolling back is unsafe, and aerich state can drift   Write a real down-migration and test it  \n6.  Auto-generated schema hides the contract   `pydantic_model_creator` changes the output when the model changes   Declare explicit response schemas per version  \n7.  Background task or internal code using the wrong id   `generate_summary` updates by int id   Keep the pk internal and pass only the pk  \n8.  Old links, bookmarks and cached URLs   Int ids are already in the wild   Keep int routes for the whole deprecation window and log their usage  \n9.  ID enumeration is not fixed while int routes remain   Integer access still allows scraping, and the security gain is delayed   Pair the contract step with an end date and authorization checks  \n10.  Test suite churn hides regressions   Many tests assert `id` and the error `loc`   Keep the old tests as the v1 contract and add new ones alongside  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n"
+}

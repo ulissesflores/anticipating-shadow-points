@@ -1,0 +1,16 @@
+{
+ "trial": "t195",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  7,
+  8
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  Alias collides with a live slug   `makeUniqueSlug` only checks `articles`, so a new article can take a retired slug and steal the old links   Make slug uniqueness checks cover aliases, and test it  \n2.  Slug update and alias insert not atomic   `Update` runs outside a transaction, so a crash can lose the old slug   Wrap both in one `db.Transaction`  \n3.  Rename back to a retired slug   The slug ends up both current and aliased, or gets a needless `-2`   Delete the article's own alias and ignore its own aliases when checking uniqueness  \n4.  Concurrent renames or creates race   The existing retry only handles `ErrDuplicatedKey` on `articles`   Unique index on alias slug, and retry on both tables  \n5.  Old slug accepted on write routes   A write via a stale slug (for example DELETE) may surprise clients   Resolve aliases on every `:slug` route, and keep the author check after resolution  \n6.  Existing rows have no history   Links shared before this change stay broken, because the old slugs weren't recorded   State this limitation, since it can't be backfilled  \n7.  Unbounded alias growth   Repeated renames add one row each   Cap or dedupe aliases per article if abuse appears  \n8.  Breaks the RealWorld spec tests   The hurl and bruno suites may expect 404 for an old slug after a rename   Run both suites and adjust any such assertions deliberately  \n9.  Soft-delete semantics   Aliases of a deleted article still occupy the unique index, as soft-deleted slugs do today   Keep aliases unscoped in uniqueness checks, and return 404 on read  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false\n}\n```\n"
+}

@@ -1,0 +1,15 @@
+{
+ "trial": "t067",
+ "covered": [
+  2,
+  3,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working.\n\nRows:\n1.  Changing the type of `id` in responses breaks clients   Clients parse `id` as an int and build URLs from it   Keep `id` an int and add `uuid`; flip only in a major version  \n2.  Table lock or long rewrite during migration   A plain `ADD COLUMN ... DEFAULT` and index build can lock `textsummary`   Add the column nullable, backfill in batches, use `CREATE INDEX CONCURRENTLY`  \n3.  Code deployed before migration, or a rollback after it   Rolling deploys mean old and new pods overlap, and a model with `uuid` fails on the old schema   Expand and backfill first, deploy second, and keep the old code compatible with the new column  \n4.  Integer and UUID path parsing is ambiguous   `Union[UUID, int]` may coerce wrongly, and `\"123\"` could be read as either   Try UUID first, then int; keep one shared resolver; test edge cases  \n5.  Sequential integer IDs stay usable as an enumeration vector   Integer lookups still work, so the security gain is partial   Add auth or ownership checks, and set a date to retire integer lookup  \n6.  Background task keys on the wrong ID   `generate_summary(summary_id, url)` gets the id from `crud.post`   Pass the same internal key it uses today; test the task end to end  \n7.  Backfill duplicates or leaves NULLs   A unique constraint added before the backfill finishes will fail   Backfill, verify, then add `NOT NULL` and the unique index  \n8.  Hand-written migration drifts from aerich state   Aerich tracks model state, so a manual migration can desync   Generate it with aerich, then edit it, and run a clean-DB migration in CI  \n9.  Existing tests encode the integer contract   `gt=0` and the 422 error shapes change   Update the tests deliberately and keep a legacy-integer test set  \n10.  Stored integer IDs in client caches or logs go stale if integer lookup is removed   Removing integer lookup too early silently breaks them   Add a `Deprecation` header and a usage metric, and set a sunset date  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": false,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

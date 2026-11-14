@@ -1,0 +1,16 @@
+{
+ "trial": "t015",
+ "covered": [
+  1,
+  2,
+  3,
+  5,
+  7,
+  8,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Wrong rehash signal   Only `SuccessRehashNeeded` triggers the write in `Login.cs`   Return it for every older format, `Success` only for current; unit-test each  \n2.  Length-based format sniffing   Legacy check is `Length == 64 && Salt == 16`   Use an explicit version prefix; check the prefix before length  \n3.  `Hash` column too narrow   Argon2 payload is bigger than Identity's   Check column sizes in both snapshots; add migrations if needed  \n4.  Dual-provider migrations   SQLite and SQL Server have separate snapshots   Prefer no schema change; otherwise add both and test on both  \n5.  Login CPU/memory DoS   Public login endpoint, heavier hash   Tune cost, add rate limiting, benchmark on target hardware  \n6.  Timing leak on unknown email   Unknown email skips hashing entirely   Verify against a dummy hash when the user isn't found  \n7.  One-way upgrade, no rollback   Old builds can't verify new hashes   Ship verify-only support first, then enable issuing a release later  \n8.  Concurrent rehash writes   Two logins can upgrade the same row   Make the update idempotent; write only if the stored hash is unchanged  \n9.  New package and locked restore   Warnings-as-errors, `packages.lock.json`, CI targets   Prefer a managed library; regenerate lock files; run the CI pipeline  \n10.  Legacy path untested   Only new hashes get exercised by default   Add fixtures for legacy HMAC and Identity v3 hashes and run them through login  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": true,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true,\n  \"9\": false,\n  \"10\": true\n}\n"
+}

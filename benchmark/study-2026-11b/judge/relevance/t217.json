@@ -1,0 +1,18 @@
+{
+ "trial": "t217",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Filter bypassed by `IgnoreQueryFilters` or raw SQL   Handlers use `DbSet` directly with no repository layer   Ban the call in review or an analyzer, and add isolation tests  \n2.  Tenant claim is missing or stale   Identity is cookie or bearer, and the claim is set at sign-in   Deny when the claim is absent; refresh the claim when the tenant changes  \n3.  `FindAsync` skips the filter   Update and delete handlers use `FindAsync`   Use filtered `FirstOrDefaultAsync` and test cross-tenant IDs  \n4.  Writes land in the wrong tenant   Interceptor and `CreateTodoItem` accept a `ListId` from the client   Stamp `TenantId` in the interceptor and validate the parent list's tenant  \n5.  Background work has no tenant   Domain events and the initialiser run outside HTTP   Pass an explicit tenant context and fail closed when it's missing  \n6.  Existing data can't be migrated   No migrations; the DB is dropped on startup   Confirm no real data, or add a backfill and a real migration  \n7.  Filter cached across tenants   A filter capturing a scoped value must read it per request   Reference the provider on the context instance, and test two tenants in one process  \n8.  Query performance degrades   Every query gains a `TenantId` predicate   Add composite indexes starting with `TenantId`  \n9.  Tests and clients break   Functional tests assume a single user with no tenant   Update the test harness first; keep DTO contracts unchanged  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true\n}\n"
+}

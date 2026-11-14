@@ -1,0 +1,16 @@
+{
+ "trial": "t160",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Opt-out broken   A `  `-style default turns `false` into `true`   Use `=== undefined`; add a test for `rolling: false`  \n2.  Silent breaking change for all users   Widely used middleware; most apps never set `rolling`   Major version bump, HISTORY entry, optional deprecation warning  \n3.  Responses can no longer be cached   `Set-Cookie` on every response blocks CDN and proxy caching   Document it; tell users to mount the session middleware only on routes that need it  \n4.  Sessions with no hard end   Expiry slides forward forever while the user is active   Document it; suggest an absolute-timeout check in the app  \n5.  Store deletes sessions with valid cookies   Store TTL rolls only through `touch` or `resave`   README note; test with a store that has `touch`  \n6.  Polling keeps sessions alive   Every request through the middleware rolls the expiry   Docs: exclude polling and static routes  \n7.  Uninitialized sessions get cookies   Default `true` combined with `saveUninitialized: false`   Keep the existing guard; add a regression test  \n8.  Other tests break   Several tests assume no `Set-Cookie` with default options   Run the full suite; pin `rolling: false` where needed  \n9.  Docs and code disagree   README says the default is `false`   Update README, JSDoc and HISTORY in the same change  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": false\n}\n```\n"
+}

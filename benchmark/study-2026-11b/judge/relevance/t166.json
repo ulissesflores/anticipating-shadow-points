@@ -1,0 +1,15 @@
+{
+ "trial": "t166",
+ "covered": [
+  1,
+  2,
+  4,
+  5,
+  8,
+  9
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  All existing tokens are rejected   The digest drives both the HMAC and `django-concat` key derivation   Documented SHA-1 `fallback_signers` recipe; breaking-change note  \n2.  Rolling-deploy mismatch   Old and new nodes reject each other's tokens   Deploy the fallback first, then switch the default  \n3.  Tokens get longer   27\u219243 signature characters, close to cookie/URL limits   Call out the size in CHANGES; recommend SHA-256 over SHA-512  \n4.  No fallback for bare `Signer` or `TimestampSigner`   `fallback_signers` exists only on `Serializer`   Document a manual try-SHA-1 pattern for signer-only users  \n5.  `_lazy_sha1` removed or renamed   Tests and third parties import it   Keep it; add `_lazy_sha256` alongside  \n6.  FIPS/import-time regression   An eager `hashlib` reference breaks the lazy pattern   Use a lazy wrapper for SHA-256  \n7.  Stale tests and docs   Hardcoded SHA-1 token, \"defaults to sha1\" text, README token   Update constants, docstrings, `concepts.rst` and README together  \n8.  Downstream behaviour silently changes   Libraries that don't pin a digest inherit the new one   Release notes; check Flask, which pins SHA-1  \n9.  Change is mistaken for a security fix   Docs say HMAC-SHA1 is still secure   Frame it as modernisation/compliance, not a vulnerability  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": true,\n  \"6\": false,\n  \"7\": false,\n  \"8\": true,\n  \"9\": true\n}\n"
+}

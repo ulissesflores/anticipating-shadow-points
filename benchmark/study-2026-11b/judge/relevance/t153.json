@@ -1,0 +1,19 @@
+{
+ "trial": "t153",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Race condition if the rule lives only in app code   Two owners can submit the same slot at once; a read-then-write check passes for both   Unique `(vet_id, visit_date, visit_time)` constraint, then catch the violation  \n2.  Three divergent schema files   H2, MySQL and Postgres are edited by hand, so one can drift   Change all three in one commit and run schema tests on each  \n3.  No migration tool   Existing MySQL/Postgres databases won't pick up the new columns or constraint   Document the `ALTER TABLE` steps in the README and release notes  \n4.  Constraint error surfaces at the wrong point   `save` is transactional, so a failure at commit can escape the `try/catch` and return HTTP 500   Test the failure path and flush inside the guarded call  \n5.  NULL vet on legacy rows   Unique constraints treat NULLs as distinct, so old rows would never conflict   State this as intended, and make `vet_id` required for new bookings in validation  \n6.  Fixed-slot assumption is wrong   Real visits vary in length; an equality constraint misses overlaps   Confirm the assumption; if wrong, use a Postgres exclusion constraint or a locking check  \n7.  Timezones and \"today\"   `LocalDate.now()` uses the server zone, so slot cutoffs can be off for owners elsewhere   Use one configured clinic zone for all comparisons  \n8.  Cached `Vet` entities   The vets list is cached, so a visits collection on `Vet` would go stale   Keep the relation one-way from `Visit` to `Vet`  \n9.  Slot enumeration and abuse   The availability endpoint and booking form are open and unauthenticated   Validate the vet, date range and slot; consider rate limiting  \n10.  Missing translations   About ten message bundles, and a missing key shows raw text   Add keys to all bundles and rely on the English fallback  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

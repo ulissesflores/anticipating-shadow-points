@@ -1,0 +1,19 @@
+{
+ "trial": "t186",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let every user download all of their data (profile, posts and comments) as a single file.\n\nRows:\n1.  Leaking secrets in the export   `User` has `password_hash` and `avatar_hash` columns; a generic column dump would include them   Explicit allow-list of fields; a test checks those strings aren't in the body  \n2.  Leaking other users' data   Comments belong to other people's posts; followers are other users   Export post id and URL only, not post text; usernames only for followers  \n3.  Access control mistake (IDOR)   An `/export/<id>` route would let anyone fetch anyone's data   No id in the URL; always use `current_user`; `@login_required`  \n4.  Slow or large response   No background job queue; heavy users mean big queries and a big file   One query per collection; add streaming or a queue only if it's ever needed  \n5.  Repeated queries per row (N+1)   Existing `to_json()` runs `.count()` for every row   Use a separate export serializer instead of `to_json()`  \n6.  Wrong or ambiguous timestamps   Times are stored without a timezone (`utcnow`), and Flask's `jsonify` uses an older date format   `.isoformat()+'Z'`, applied the same way everywhere  \n7.  Cached personal data   The browser or a proxy could keep a copy of the file with the user's email   `Cache-Control: no-store`  \n8.  Unconfirmed users can't export   `auth.before_app_request` redirects unconfirmed users   Accept for now and document it; exempt the export route later if required  \n9.  Format drift breaks old exports   Users or tools may parse the file later   `export_format_version` field  \n10.  Disabled comments surprise users   Moderated comments are hidden in the UI but still belong to the user   Include them with `disabled: true`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

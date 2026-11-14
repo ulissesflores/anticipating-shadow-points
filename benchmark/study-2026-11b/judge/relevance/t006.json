@@ -1,0 +1,16 @@
+{
+ "trial": "t006",
+ "covered": [
+  1,
+  3,
+  4,
+  5,
+  6,
+  7,
+  9
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Formats misclassified, valid logins rejected   Format is told apart only by hash/salt length   Explicit ordered checks; tests at 61/64 bytes and 0/16-byte salt  \n2.  Inactive users keep weak hashes   Upgrade happens only at login; old scheme is one HMAC with key `\"realworld\"`   Wrap old hashes in PBKDF2 with the batch upgrader  \n3.  Batch overwrites a newer hash   Login or Edit may rewrite `Hash` during the batch   Save only if `Hash` is unchanged; skip conflicts; safe to re-run  \n4.  Startup stalls or instances race   Each row costs about 100 ms of PBKDF2   Run only with an explicit flag, in batches, on one instance  \n5.  Rollback can't read wrapped hashes   Older code doesn't know the wrapped format   Ship the verify change first, then run the upgrader  \n6.  CPU overload from login floods   210k iterations per attempt, no rate limit   Add login rate limiting (separate change)  \n7.  Timing reveals registered emails   Missing users return before any hashing   Hash a dummy value when the user isn't found  \n8.  Old hashes survive in backups   Wrapping only changes live rows   Back up, then expire old backups  \n9.  Failed save breaks a good login   Login upgrade saves inside the login request   Keep the upgrade in a try/catch: log and continue  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": false,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": false,\n  \"9\": true\n}\n"
+}

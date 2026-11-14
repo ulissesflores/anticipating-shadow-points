@@ -1,0 +1,13 @@
+{
+ "trial": "t182",
+ "covered": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make the session middleware's cookie Secure and SameSite=Strict by default.\n\nRows:\n1.  OAuth/OIDC logins break   Libraries like Authlib keep the login `state` value in this session. The identity provider's redirect back to the app is cross-site, so with `strict` the browser doesn't send the cookie and the state check fails   Document opting out with `same_site=\"lax\"`; flag it in the release note  \n2.  Users' own test suites quietly lose sessions   `TestClient` defaults to `http://testserver`, and the test client drops `Secure` cookies over plain HTTP. The session comes back empty without any error   Release note plus a doc tip: use an `https://` base URL or `https_only=False`  \n3.  Local development over plain HTTP breaks   Safari, and access via LAN IPs or Docker hostnames, may reject `Secure` cookies sent over HTTP   Document `https_only=False` for development  \n4.  Sessions seem lost after following an external link   With `strict`, the first visit from an email or another site arrives without the cookie, so the user looks logged out   Recommend `lax` for apps where users arrive via such links  \n5.  Silent change for existing apps   The defaults change without any warning or error   Put it under \"Changed\" in release notes; consider a minor version bump  \n6.  Tests in this repo only partly updated   About 10 tests rely on the defaults over HTTP   Run the full suite; add a test for the default flags  \n7.  Duplicate PR   AI_POLICY.md bans contributors who open duplicate PRs   Search PRs, issues and discussions again before opening  \n8.  Docs left out of date   The `partitioned` bullet and the example both mention `https_only=True`   Update every mention in the same PR  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": false,\n  \"7\": false,\n  \"8\": false\n}\n"
+}

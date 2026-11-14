@@ -1,0 +1,15 @@
+{
+ "trial": "t134",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Upgrade-on-login undoes a password change   `Login.cs` saves the new hash with no concurrency check   Save only if the hash is unchanged (`WHERE Hash == oldHash`)  \n2.  Dormant accounts keep weak hashes   Upgrade happens only at login; old key \"realworld\" is public   Wrap old hashes in PBKDF2 offline  \n3.  Failed upgrade blocks a valid login   Save happens inside the login request and transaction   Catch and log; don't fail the login  \n4.  Timing reveals registered emails   Unknown email skips the 210k-iteration check   Verify against a dummy hash  \n5.  Old and new hashes confused   Detection relies only on 64/16-byte lengths   Add a marker byte; test the lengths  \n6.  CPU exhaustion on login   210k PBKDF2 iterations per attempt, no rate limit   Rate-limit the login endpoint  \n7.  Future iteration bumps don't upgrade hashes   No test for the \"needs upgrade\" result   Add a lower-iteration test  \n8.  Lost-update tests flaky on SQLite   Concurrency is hard to reproduce in tests   Test the conditional update directly  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": true, \"4\": true, \"5\": true, \"6\": true, \"7\": false, \"8\": false}\n"
+}

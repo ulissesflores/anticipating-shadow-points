@@ -1,0 +1,19 @@
+{
+ "trial": "t210",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let pet owners book visits online, without two visits being booked for the same vet at the same time.\n\nRows:\n1.  Two concurrent bookings of the same slot both succeed   A \"check then insert\" in code alone has a race window   DB unique constraint on (vet, date, time) is the real guard; flush and translate the error  \n2.  Existing MySQL/Postgres databases never get the new columns   Their schema uses `CREATE TABLE IF NOT EXISTS`, and there's no migration tool   Ship an explicit `ALTER TABLE` script and document it; consider adding Flyway  \n3.  Sample-data loading breaks at startup   H2 and MySQL insert visits by column position   Rewrite the inserts with named columns  \n4.  Error when showing the vet on the owner page   `open-in-view=false`, so the vet can't be loaded later   Load the vet together with the visit, or fetch it in the query  \n5.  Duplicate error shows up at commit as a 500 page   `owners.save` cascades the insert, which only runs when the transaction commits   Save and flush in the service, and catch `DataIntegrityViolationException`  \n6.  Overlaps the constraint doesn't catch   It only compares equal start times   Enforce on-grid, fixed-length slots on the server  \n7.  Anyone can book for any owner   No login exists, and owner and pet IDs are in the URL   State it explicitly as a follow-up (owner login and ownership checks)  \n8.  Build fails on missing message keys   `I18nPropertiesSyncTest` checks all 11 files   Add every new key to all files  \n9.  Old visits break the UI or validation   They have no vet or time   Columns allow empty values; templates handle missing values; validation applies only to new bookings  \n10.  Wrong-day or wrong-hour bookings   `LocalDate.now()` uses the server's time zone   Set the clinic time zone in config  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}

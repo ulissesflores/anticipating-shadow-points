@@ -1,0 +1,17 @@
+{
+ "trial": "t159",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Change the default signing digest from SHA-1 to SHA-256.\n\nRows:\n1.  All existing tokens become invalid   Digest feeds both the HMAC and the derived key   SHA-1 default fallback in `Serializer`  \n2.  Bare `Signer`/`TimestampSigner` users break   No fallback mechanism on those classes   Changelog migration note; pass `digest_method=sha1`  \n3.  Larger tokens   Signature grows from 27 to 43 chars; cookie, URL and DB limits   Document size change in CHANGES  \n4.  FIPS crash in the fallback   `hashlib.sha1` raises on FIPS when a token fails to verify   Turn it into `BadSignature` or skip; add test  \n5.  Downstream relied on the default   Shared tokens and pinned vectors in other libraries   Breaking-change note; Flask pins SHA-1 already  \n6.  Rolling-deploy mismatch   Old instances reject new SHA-256 tokens   Release notes: deploy all, or pin sha1 first  \n7.  Fallback never removed   SHA-1 stays tried forever   Mark as transitional, remove in a later release  \n8.  Stale tests and docs   `test_digests`, `test_iter_unsigners` and `concepts.rst` assume SHA-1   Update; pin both vectors  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true\n}\n"
+}

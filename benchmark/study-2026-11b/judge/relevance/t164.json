@@ -1,0 +1,18 @@
+{
+ "trial": "t164",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nRows:\n1.  Silent breaking change   Every app without `rolling` set changes behaviour on upgrade   Ship as major (2.0); HISTORY entry; optional deprecation warning first  \n2.  Responses can't be cached / cookie leaks via shared cache   A `Set-Cookie` on every response blocks CDN caching and risks one user's cookie being served to others   Document it; recommend `Cache-Control: private`  \n3.  Sessions never expire   Polling keeps them alive and there's no absolute timeout   Document it; consider an absolute-lifetime option later  \n4.  Cookie extended but store record expires   Store expiry only moves via save or `touch`, not via `rolling`   Document `touch` / `resave`; test that `store.touch` is called  \n5.  `rolling: false` ignored   A naive `opts.rolling \\ \\  true` overrides it   Check for `undefined`; add explicit-false test  \n6.  Test churn hides real regressions   26 no-`Set-Cookie` assertions, many using defaults   Pin `rolling: false` per test on purpose; don't bulk-flip  \n7.  `saveUninitialized: false` stops holding   Rolling must not create cookies for empty sessions   Keep the `cookieId !== sessionID` check first; add a test  \n8.  Change seems to do nothing   Without `maxAge` the cookie lasts until the browser closes   README note; manual check with `maxAge`  \n9.  Outside docs and types go stale   `@types/express-session` says the default is `false`   Open a DefinitelyTyped follow-up  \n10.  More Set-Cookie writes and secure-cookie edge cases   `onHeaders` now always runs `touch` and `setcookie`   Keep the `secure` check; run the existing secure/proxy tests  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```\n"
+}

@@ -1,0 +1,16 @@
+{
+ "trial": "t152",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  7,
+  8,
+  9
+ ],
+ "n": 9,
+ "redactions": 1,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Replace the integer IDs that the API exposes with UUIDs, while keeping existing API clients working.\n\nRows:\n1.  Changing the `id` type in responses   Clients parse `id` as an integer, so a UUID string breaks them silently   Keep `id` as an integer, add `uuid`, and flip only under `/v2`  \n2.  Backfill and `NOT NULL` locking the table   `ALTER` plus `UPDATE` on a live Postgres table can block writes   Add nullable, backfill in batches, then add the constraint; the table is small, but rehearse on a copy  \n3.  Old and new code running together during rollout   Old pods don't write `uuid`, so rows can end up with `NULL`   Give the column a DB default `gen_random_uuid()`, and deploy the migration before the code  \n4.  Ambiguous or malformed identifiers   A string like `123` could be read as either type, and bad input could cause a 500   Digits-only means integer, strict UUID parsing otherwise, and 422 on anything else  \n5.  Sequential integer IDs stay reachable   The integer path still allows enumeration, so the security gain is partial   Treat [term] removal as the real fix; consider rate limits or auth in the meantime  \n6.  Empty or unreliable `downgrade`   The init migration's downgrade is empty, so rollback is untested   Write and test a real downgrade; take a backup first  \n7.  Hidden integer consumers   Webhooks, logs, dashboards or other services may store integer IDs   Search logs and consumers first; keep integer lookups until traffic is near zero  \n8.  Mocked tests hide signature changes   `test_summaries_unit.py` monkeypatches `crud`, so type changes can slip through   Update the mocks and add integration tests that use UUIDs  \n9.  Auto-generated schema drift   `pydantic_model_creator` changes the OpenAPI output as soon as the field is added   Snapshot the OpenAPI spec and review the diff  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": false,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true\n}\n```\n"
+}

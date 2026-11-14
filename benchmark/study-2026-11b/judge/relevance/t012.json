@@ -1,0 +1,19 @@
+{
+ "trial": "t012",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Let authors change an article's title, and its URL slug with it, without breaking links that were already shared.\n\nRows:\n1.  A new article takes a retired slug   `makeUniqueSlug` only checks `articles`   One `ArticleSlugModel` table with a unique index; check it with `Unscoped`  \n2.  The same slug ends up in two places   Two tables can't share a unique index; the code already retries on races   Keep every slug in one table and keep the `ErrDuplicatedKey` retry  \n3.  Partly saved rename   `ArticleModel.Update` runs outside a transaction   Insert the slug row and update the article in one `db.Transaction`  \n4.  Renaming back gives `a-2`   The uniqueness check doesn't know which article owns a slug   Pass the article ID; its own slugs count as free  \n5.  Old slug brings back a deleted article   Articles are soft-deleted   Load the article by ID with normal scoping; keep the slug reserved  \n6.  Wrong delete or permission bypass via old slug   `ArticleDelete` deletes by the URL slug again   Use `articleModel.ID` after the lookup in every write handler  \n7.  Spec suite breaks   #57 pins hurl and bruno compliance   Return 200 instead of a redirect; run both suites  \n8.  Existing articles have no slug rows   Created before the table existed   Backfill at startup; migrate the table in tests too  \n9.  Extra queries on every request   #49 removed N+1 queries   Check the current slug first; history only on a miss  \n10.  Chains of renames break   Old slugs pointing at the next slug   Point every slug at the article ID  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n```\n"
+}

@@ -1,0 +1,14 @@
+{
+ "trial": "t037",
+ "covered": [
+  1,
+  2,
+  4,
+  6,
+  8
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Lock users out by username and IP address together instead of by IP address alone, as the new default.\n\nRows:\n1.  Weaker protection against trying many usernames from one IP (password spraying, credential stuffing)   Each new username from an IP starts at 0 failures, so one IP can try 9 passwords on every account   Changelog security note; document `[\"ip_address\", [\"username\",\"ip_address\"]]` as a stronger option  \n2.  Sites that set nothing change behaviour silently on upgrade   `conf.py` changes the fallback without any warning   Major version bump; info-level check when the setting isn't set; opt-out snippet in the docs  \n3.  Many existing tests break   The suite assumes IP-only lockout   Pin those tests to `[\"ip_address\"]` and add new tests for the default  \n4.  Reset by IP alone stops working   `reset_request` requires both IP and username for a combination   Document it, or let an IP-only reset clear every username for that IP  \n5.  Attempts without a username fall back to keying by IP   Lookups store an empty username; the cache key becomes a hash of the IP   Add tests; mention it in the docs  \n6.  Old user-agent flag now appends to a nested list   `conf.py:54-60` changes `[0]` in place   Build a new list and add a test  \n7.  Tests for the new default can't see it   `conf.py` applies the default once, at import   Move the default logic into a function and test that  \n8.  Lockout records from before the upgrade no longer match   Records made under IP-only rules have different usernames   Release note: expect failure counts to effectively reset  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": true,\n  \"5\": false,\n  \"6\": true,\n  \"7\": false,\n  \"8\": true\n}\n"
+}

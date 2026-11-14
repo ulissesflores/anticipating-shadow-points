@@ -1,0 +1,19 @@
+{
+ "trial": "t043",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nRows:\n1.  Filter bypassed by `FindAsync` or raw queries   Update and delete handlers use `FindAsync`   Use filtered `FirstOrDefault`; add a test per handler  \n2.  Foreign `ListId` accepted on item create   Items link to lists by plain int id   Validate list ownership via the filtered set  \n3.  Tenant taken from client input   DTOs and commands are bound directly   Derive it only from the claim; never bind it  \n4.  Existing rows end up with no tenant   There is live-style data and a seeder   Backfill to a default tenant; make the column non-null  \n5.  No migrations, schema change is destructive   `EnsureCreated` can't alter tables   Introduce migrations first, or script the change  \n6.  Missing claim or background context   Domain event handlers and the seeder run without an HTTP user   Use an explicit tenant scope for non-HTTP work; fail closed  \n7.  Unscoped unique indexes or cached data   Shared tables mean shared keys and caches   Scope indexes by tenant; key caches by tenant  \n8.  Information leak through errors   \"Forbidden\" versus \"not found\" reveals other tenants' ids   Return not found for cross-tenant ids  \n9.  Tests only cover one tenant   Current suite uses one dataset   Add two-tenant isolation tests  \n10.  Scope creep into tenant admin and the frontends   Registration and both clients assume no tenant   Limit this change to data isolation; track the rest separately  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\n  \"1\": true,\n  \"2\": true,\n  \"3\": true,\n  \"4\": true,\n  \"5\": true,\n  \"6\": true,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": true\n}\n"
+}
