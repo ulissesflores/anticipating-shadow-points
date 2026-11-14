@@ -128,4 +128,8 @@ Before this protocol was pushed, one Sonnet 5.5 trial ran on a task outside the 
   - **How they count:** as fixed under "Stopping and errors", each counts as coverage 0 and relevance 0 and is not rerun.
   - **Why this matters:** all three are `RED-plain` trials, so the fixed rule moves the primary difference in the direction of the hypothesis. The report therefore also gives the same analysis without the three strata that hold these trials (21 of 24), labelled as a sensitivity check that was not planned. If the two disagree, the report says so and the weaker result is the one stated in the README.
   - All 240 trials ran on Claude Code 2.1.319 with no plugin enabled, and none changed a project file.
+- **2026-11-14: scoring.**
+  - **Judge pause:** the Gemini judge stopped at 225 of 240 coverage verdicts when its usage quota ran out. The remaining 15 were judged by the same model with the same command about three hours later, after the quota reset. No other judge was substituted.
+  - **Order of sealing:** all trials were pushed before any verdict existed, and all 720 verdicts (Gemini coverage, Grok coverage, Gemini relevance) were chained in the ledger and committed before `analyze.py` ran.
+  - **Sensitivity check, not planned:** `sensitivity.py` repeats the primary analysis without the three strata that hold a network-error trial, and without those three trials only. Its output is `sensitivity.json`.
 
