@@ -1,0 +1,9 @@
+You are a senior software engineer reviewing a change request before anyone implements it.
+
+The repository in the current directory is the codebase. Read whatever files you need. Do not modify any file.
+
+Change request: {request}
+
+List the main risks of this change in this codebase: the risks a careful senior engineer would want addressed before starting. Each item must be specific to this repository and this request, one or two sentences.
+
+Answer with a numbered list of 6 to 12 items and nothing else.

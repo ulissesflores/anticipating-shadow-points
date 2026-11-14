@@ -1,0 +1,737 @@
+{
+ "bootstrap_95": [
+  0.0885,
+  0.14
+ ],
+ "bootstrap_95_by_model": {
+  "claude-opus-5-5": [
+   0.0677,
+   0.1413
+  ],
+  "claude-sonnet-5-5": [
+   0.0881,
+   0.1617
+  ]
+ },
+ "by_item": {
+  "items": {
+   "U01#1": {
+    "RED-plain": 0.3,
+    "RED-risk": 1.0
+   },
+   "U01#2": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U01#3": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.1
+   },
+   "U01#4": {
+    "RED-plain": 1.0,
+    "RED-risk": 0.8
+   },
+   "U01#5": {
+    "RED-plain": 0.5,
+    "RED-risk": 1.0
+   },
+   "U01#6": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U01#7": {
+    "RED-plain": 0.3,
+    "RED-risk": 0.6
+   },
+   "U02#1": {
+    "RED-plain": 0.7,
+    "RED-risk": 0.3
+   },
+   "U02#2": {
+    "RED-plain": 0.5,
+    "RED-risk": 0.6
+   },
+   "U02#3": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U02#4": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.6
+   },
+   "U02#5": {
+    "RED-plain": 0.8,
+    "RED-risk": 0.9
+   },
+   "U02#6": {
+    "RED-plain": 0.5,
+    "RED-risk": 0.8
+   },
+   "U02#7": {
+    "RED-plain": 0.7,
+    "RED-risk": 0.1
+   },
+   "U02#8": {
+    "RED-plain": 0.6,
+    "RED-risk": 0.8
+   },
+   "U03#1": {
+    "RED-plain": 1.0,
+    "RED-risk": 0.7
+   },
+   "U03#2": {
+    "RED-plain": 0.3,
+    "RED-risk": 0.8
+   },
+   "U03#3": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U03#4": {
+    "RED-plain": 0.7,
+    "RED-risk": 1.0
+   },
+   "U03#5": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.3
+   },
+   "U03#6": {
+    "RED-plain": 0.8,
+    "RED-risk": 0.5
+   },
+   "U03#7": {
+    "RED-plain": 0.2,
+    "RED-risk": 0.7
+   },
+   "U03#8": {
+    "RED-plain": 0.4,
+    "RED-risk": 0.3
+   },
+   "U04#1": {
+    "RED-plain": 0.2,
+    "RED-risk": 0.5
+   },
+   "U04#2": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U04#3": {
+    "RED-plain": 1.0,
+    "RED-risk": 0.9
+   },
+   "U04#4": {
+    "RED-plain": 0.6,
+    "RED-risk": 0.9
+   },
+   "U04#5": {
+    "RED-plain": 0.6,
+    "RED-risk": 0.7
+   },
+   "U04#6": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.1
+   },
+   "U04#7": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U04#8": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U04#9": {
+    "RED-plain": 0.7,
+    "RED-risk": 0.8
+   },
+   "U05#1": {
+    "RED-plain": 0.3,
+    "RED-risk": 0.6
+   },
+   "U05#2": {
+    "RED-plain": 0.5,
+    "RED-risk": 0.3
+   },
+   "U05#3": {
+    "RED-plain": 0.3,
+    "RED-risk": 0.6
+   },
+   "U05#4": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U05#5": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U05#6": {
+    "RED-plain": 0.5,
+    "RED-risk": 0.4
+   },
+   "U05#7": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.5
+   },
+   "U05#8": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U06#1": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U06#2": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.3
+   },
+   "U06#3": {
+    "RED-plain": 1.0,
+    "RED-risk": 0.9
+   },
+   "U06#4": {
+    "RED-plain": 0.8,
+    "RED-risk": 1.0
+   },
+   "U06#5": {
+    "RED-plain": 0.7,
+    "RED-risk": 0.6
+   },
+   "U06#6": {
+    "RED-plain": 0.7,
+    "RED-risk": 0.6
+   },
+   "U06#7": {
+    "RED-plain": 0.7,
+    "RED-risk": 0.7
+   },
+   "U06#8": {
+    "RED-plain": 0.2,
+    "RED-risk": 0.2
+   },
+   "U07#1": {
+    "RED-plain": 0.7,
+    "RED-risk": 0.9
+   },
+   "U07#10": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U07#2": {
+    "RED-plain": 0.8,
+    "RED-risk": 1.0
+   },
+   "U07#3": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U07#4": {
+    "RED-plain": 0.3,
+    "RED-risk": 0.9
+   },
+   "U07#5": {
+    "RED-plain": 0.4,
+    "RED-risk": 1.0
+   },
+   "U07#6": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.3
+   },
+   "U07#7": {
+    "RED-plain": 0.8,
+    "RED-risk": 0.8
+   },
+   "U07#8": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U07#9": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.1
+   },
+   "U08#1": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U08#2": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.2
+   },
+   "U08#3": {
+    "RED-plain": 0.4,
+    "RED-risk": 0.5
+   },
+   "U08#4": {
+    "RED-plain": 0.7,
+    "RED-risk": 1.0
+   },
+   "U08#5": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U08#6": {
+    "RED-plain": 0.4,
+    "RED-risk": 0.9
+   },
+   "U09#1": {
+    "RED-plain": 0.7,
+    "RED-risk": 1.0
+   },
+   "U09#2": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.2
+   },
+   "U09#3": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U09#4": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U09#5": {
+    "RED-plain": 0.6,
+    "RED-risk": 0.7
+   },
+   "U09#6": {
+    "RED-plain": 0.2,
+    "RED-risk": 0.9
+   },
+   "U09#7": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.1
+   },
+   "U09#8": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U09#9": {
+    "RED-plain": 0.7,
+    "RED-risk": 0.8
+   },
+   "U10#1": {
+    "RED-plain": 0.2,
+    "RED-risk": 0.5
+   },
+   "U10#10": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.0
+   },
+   "U10#2": {
+    "RED-plain": 0.9,
+    "RED-risk": 1.0
+   },
+   "U10#3": {
+    "RED-plain": 0.2,
+    "RED-risk": 0.7
+   },
+   "U10#4": {
+    "RED-plain": 0.7,
+    "RED-risk": 0.9
+   },
+   "U10#5": {
+    "RED-plain": 0.6,
+    "RED-risk": 0.7
+   },
+   "U10#6": {
+    "RED-plain": 0.4,
+    "RED-risk": 0.6
+   },
+   "U10#7": {
+    "RED-plain": 0.9,
+    "RED-risk": 0.7
+   },
+   "U10#8": {
+    "RED-plain": 0.2,
+    "RED-risk": 0.4
+   },
+   "U10#9": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.2
+   },
+   "U11#1": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.1
+   },
+   "U11#2": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.2
+   },
+   "U11#3": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U11#4": {
+    "RED-plain": 0.2,
+    "RED-risk": 0.2
+   },
+   "U11#5": {
+    "RED-plain": 0.5,
+    "RED-risk": 0.5
+   },
+   "U11#6": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   },
+   "U11#7": {
+    "RED-plain": 0.5,
+    "RED-risk": 0.9
+   },
+   "U11#8": {
+    "RED-plain": 0.2,
+    "RED-risk": 0.2
+   },
+   "U11#9": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.2
+   },
+   "U12#1": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.2
+   },
+   "U12#2": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U12#3": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U12#4": {
+    "RED-plain": 1.0,
+    "RED-risk": 1.0
+   },
+   "U12#5": {
+    "RED-plain": 0.4,
+    "RED-risk": 0.9
+   },
+   "U12#6": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.3
+   },
+   "U12#7": {
+    "RED-plain": 0.1,
+    "RED-risk": 0.3
+   },
+   "U12#8": {
+    "RED-plain": 0.0,
+    "RED-risk": 0.0
+   }
+  },
+  "summary": {
+   "covered_in_most_plain": 41,
+   "covered_in_most_risk": 56,
+   "gain": 52,
+   "gain_10_points_or_more": 45,
+   "loss": 14,
+   "loss_10_points_or_more": 9,
+   "never_covered_either": 12,
+   "never_covered_plain": 17,
+   "never_covered_risk": 13,
+   "reference_risks": 100,
+   "tie": 34
+  }
+ },
+ "costs": {
+  "RED-plain": {
+   "all": {
+    "output_tokens": 4395,
+    "rows": 9.22,
+    "seconds": 49.6,
+    "trials": 117,
+    "turns": 4.65,
+    "words": 836
+   },
+   "claude-opus-5-5": {
+    "output_tokens": 5801,
+    "rows": 9.17,
+    "seconds": 66.5,
+    "trials": 58,
+    "turns": 5.81,
+    "words": 785
+   },
+   "claude-sonnet-5-5": {
+    "output_tokens": 3014,
+    "rows": 9.27,
+    "seconds": 32.9,
+    "trials": 59,
+    "turns": 3.51,
+    "words": 885
+   }
+  },
+  "RED-risk": {
+   "all": {
+    "output_tokens": 3603,
+    "rows": 9.57,
+    "seconds": 40.4,
+    "trials": 120,
+    "turns": 3.99,
+    "words": 857
+   },
+   "claude-opus-5-5": {
+    "output_tokens": 4736,
+    "rows": 9.4,
+    "seconds": 53.5,
+    "trials": 60,
+    "turns": 4.83,
+    "words": 967
+   },
+   "claude-sonnet-5-5": {
+    "output_tokens": 2469,
+    "rows": 9.73,
+    "seconds": 27.3,
+    "trials": 60,
+    "turns": 3.15,
+    "words": 748
+   }
+  }
+ },
+ "delta_bar": 0.114,
+ "full_tables_only": {
+  "coverage": {
+   "RED-plain": 0.4734,
+   "RED-risk": 0.5753
+  },
+  "delta_bar": 0.1131,
+  "strata": 17,
+  "trials": {
+   "RED-plain": 56,
+   "RED-risk": 82
+  }
+ },
+ "judges": {
+  "agreement": 0.932,
+  "covered_gemini": 0.508,
+  "covered_grok": 0.545,
+  "items": 2000,
+  "kappa": 0.8638
+ },
+ "judges_where_a_table_exists": {
+  "agreement": 0.931,
+  "covered_gemini": 0.5155,
+  "covered_grok": 0.553,
+  "items": 1971,
+  "kappa": 0.8615
+ },
+ "note": "Descriptive and exploratory. The confirmatory analysis is results.json.",
+ "null": {
+  "bin_width": 0.005,
+  "bins": {
+   "-0.005": 1214,
+   "-0.010": 1068,
+   "-0.015": 905,
+   "-0.020": 697,
+   "-0.025": 454,
+   "-0.030": 320,
+   "-0.035": 187,
+   "-0.040": 95,
+   "-0.045": 57,
+   "-0.050": 26,
+   "-0.055": 12,
+   "-0.060": 2,
+   "-0.065": 1,
+   "-0.075": 1,
+   "0.000": 1137,
+   "0.005": 1067,
+   "0.010": 864,
+   "0.015": 718,
+   "0.020": 486,
+   "0.025": 320,
+   "0.030": 197,
+   "0.035": 97,
+   "0.040": 41,
+   "0.045": 17,
+   "0.050": 14,
+   "0.055": 3
+  },
+  "hits": 0,
+  "largest_shuffled": 0.0589,
+  "observed": 0.114,
+  "relabellings": 10000
+ },
+ "per_task": {
+  "U01": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.4857,
+    "RED-risk": 0.6571,
+    "delta": 0.1714
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.4286,
+    "RED-risk": 0.6286,
+    "delta": 0.2
+   },
+   "delta": 0.1857
+  },
+  "U02": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.6,
+    "RED-risk": 0.7,
+    "delta": 0.1
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.625,
+    "RED-risk": 0.575,
+    "delta": -0.05
+   },
+   "delta": 0.025
+  },
+  "U03": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.375,
+    "RED-risk": 0.5,
+    "delta": 0.125
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.5,
+    "RED-risk": 0.575,
+    "delta": 0.075
+   },
+   "delta": 0.1
+  },
+  "U04": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.4889,
+    "RED-risk": 0.5111,
+    "delta": 0.0222
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.4222,
+    "RED-risk": 0.5778,
+    "delta": 0.1556
+   },
+   "delta": 0.0889
+  },
+  "U05": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.575,
+    "RED-risk": 0.65,
+    "delta": 0.075
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.6,
+    "RED-risk": 0.7,
+    "delta": 0.1
+   },
+   "delta": 0.0875
+  },
+  "U06": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.575,
+    "RED-risk": 0.6,
+    "delta": 0.025
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.725,
+    "RED-risk": 0.725,
+    "delta": 0.0
+   },
+   "delta": 0.0125
+  },
+  "U07": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.22,
+    "RED-risk": 0.46,
+    "delta": 0.24
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.42,
+    "RED-risk": 0.54,
+    "delta": 0.12
+   },
+   "delta": 0.18
+  },
+  "U08": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.5333,
+    "RED-risk": 0.7333,
+    "delta": 0.2
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.6667,
+    "RED-risk": 0.8,
+    "delta": 0.1333
+   },
+   "delta": 0.1667
+  },
+  "U09": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.2,
+    "RED-risk": 0.3555,
+    "delta": 0.1555
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.2889,
+    "RED-risk": 0.4666,
+    "delta": 0.1778
+   },
+   "delta": 0.1667
+  },
+  "U10": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.42,
+    "RED-risk": 0.48,
+    "delta": 0.06
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.44,
+    "RED-risk": 0.66,
+    "delta": 0.22
+   },
+   "delta": 0.14
+  },
+  "U11": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.2889,
+    "RED-risk": 0.3111,
+    "delta": 0.0222
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.2889,
+    "RED-risk": 0.4222,
+    "delta": 0.1334
+   },
+   "delta": 0.0778
+  },
+  "U12": {
+   "claude-opus-5-5": {
+    "RED-plain": 0.45,
+    "RED-risk": 0.5,
+    "delta": 0.05
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0.45,
+    "RED-risk": 0.675,
+    "delta": 0.225
+   },
+   "delta": 0.1375
+  }
+ },
+ "reference_risks_per_task": {
+  "U01": 7,
+  "U02": 8,
+  "U03": 8,
+  "U04": 9,
+  "U05": 8,
+  "U06": 8,
+  "U07": 10,
+  "U08": 6,
+  "U09": 9,
+  "U10": 10,
+  "U11": 9,
+  "U12": 8
+ },
+ "relevance_where_a_table_exists": {
+  "RED-plain": {
+   "relevance": 0.7113,
+   "trials": 117
+  },
+  "RED-risk": {
+   "relevance": 0.739,
+   "trials": 120
+  }
+ },
+ "wording_origin": {
+  "gemini": 91,
+  "gptoss": 9,
+  "grok": 0
+ }
+}
