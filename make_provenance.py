@@ -37,6 +37,7 @@ GROUPS: dict[str, list[str]] = {
         "benchmark/src/asp_benchmark/*.py",
         "tests/iron-law-11/scripts/analyze.py",
         "benchmark/study-2026-11/*.py",
+        "benchmark/study-2026-11b/*.py",
     ],
     "tests": ["tests/conftest.py", "tests/test_*.py"],
     "frozen_inputs": [
@@ -60,8 +61,22 @@ GROUPS: dict[str, list[str]] = {
         "benchmark/study-2026-11/ledger.jsonl",
         "benchmark/study-2026-11/*.ots",
         "benchmark/study-2026-11/*-head.txt",
+        "benchmark/study-2026-11b/PROTOCOL.md",
+        "benchmark/study-2026-11b/tasks.json",
+        "benchmark/study-2026-11b/prompts/*",
+        "benchmark/study-2026-11b/lists/**/*",
+        "benchmark/study-2026-11b/runs/**/*",
+        "benchmark/study-2026-11b/judge/**/*",
+        "benchmark/study-2026-11b/ledger.jsonl",
+        "benchmark/study-2026-11b/*.ots",
+        "benchmark/study-2026-11b/*-head.txt",
     ],
-    "results": ["output/results.json", "benchmark/study-2026-11/results.json"],
+    "results": [
+        "output/results.json",
+        "benchmark/study-2026-11/results.json",
+        "benchmark/study-2026-11b/results.json",
+        "benchmark/study-2026-11b/sensitivity.json",
+    ],
 }
 INFORMATIONAL = ["output/figures/*", "requirements.lock"]
 

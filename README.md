@@ -43,7 +43,7 @@
 > [!IMPORTANT]
 > **Finding: exit 0 is not success.** `claude -p` returns exit code 0 when the agent gracefully declines the task, with no machine-readable refusal flag in the JSON envelope. On a fixed suite of 50 refusal-provoking prompts (Claude Code 2.1.200, July 2026), **24 of 50 exited 0, every one with `stop_reason: end_turn`**, and **12 to 20 of those were declines**: 24% to 40% of the suite, depending on how a decline is counted. A shell wrapper that trusts `$?` reads all of them as success.
 >
-> **Measured: ASP's full protocol did not beat a one-sentence request.** In a pre-registered study (90 trials on six public repositories, Claude Opus 5.5, two blind judges from other vendors), `/asp --standard` covered **48%** of the risks that independent reviewers named, against **66%** for plain Claude Code asked *"Before planning, list the ways this change could go wrong."*, behind on all six tasks: no measurable benefit. That one sentence, by itself, raised coverage from **56% to 66%** over a plain "Plan this change." (p ≤ 0.0014 with both judges). That was a secondary comparison fixed before the data, in one model and six tasks; a confirmatory study with it as the primary question is planned. [Protocol, data and ledger](benchmark/study-2026-11/).
+> **Measured: ASP's full protocol did not beat a one-sentence request.** In a pre-registered study (90 trials on six public repositories, Claude Opus 5.5, two blind judges from other vendors), `/asp --standard` covered **48%** of the risks that independent reviewers named, against **66%** for plain Claude Code asked *"Before planning, list the ways this change could go wrong."*, behind on all six tasks: no measurable benefit. That one sentence, by itself, raised coverage from **56% to 66%** over a plain "Plan this change." (p ≤ 0.0014 with both judges). That was a secondary comparison fixed before the data, in one model and six tasks. A second pre-registered study then made it the primary question and **confirmed it**: 240 trials on twelve new repositories with Claude Opus 5.5 and Sonnet 5.5, coverage from **46% to 58%** (p = 0.0001 overall and within each model). [Study 1](benchmark/study-2026-11/) · [Study 2](benchmark/study-2026-11b/).
 
 ## The papers
 
@@ -58,7 +58,7 @@ Both are technical reports, not peer-reviewed, each with its own Zenodo record. 
 
 1. **A planning protocol you can install.** Thirteen phases: research, a Klein pre-mortem forced through the 14 MAST multi-agent failure modes, an independent validator subagent, a contract of tasks with acceptance tests, and a sign-off of deliverables. Twelve "Iron Laws" keep the agent from skipping steps.
 2. **A measured failure in a common harness pattern.** `claude -p` exits 0 on a graceful decline. The measurement, its four readings and a defensive parsing recipe are in [`paper/graceful-refusals.md`](paper/graceful-refusals.md); the recipe is built into the skill's execution phase.
-3. **A pre-registered test of the protocol itself, reported as it came out.** Three conditions, six pinned repositories, blind reference lists and blind judges from other vendors, every trial and verdict chained in a hash ledger with an OpenTimestamps proof. The protocol lost to a one-sentence request; the sentence is the finding. See [Results](#results).
+3. **A pre-registered test of the protocol itself, reported as it came out.** Three conditions, six pinned repositories, blind reference lists and blind judges from other vendors, every trial and verdict chained in a hash ledger with an OpenTimestamps proof. The protocol lost to a one-sentence request; the sentence is the finding, and a second pre-registered study confirmed it on two models and twelve new repositories. See [Results](#results).
 4. **Every computed number as a test.** `python run_all.py` re-derives every number computed from the committed data, asserts each one, and seals code, tests, data and results under one SHA-256 chain hash.
 
 ## At a glance
@@ -69,7 +69,7 @@ Both are technical reports, not peer-reviewed, each with its own Zenodo record. 
 | Install | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` |
 | Runtime needs | Claude Code, `bash`, `jq` |
 | Replication needs | Python 3.11+, `matplotlib`, `pytest`; no model calls, about 10 seconds |
-| Evidence | 2 × 50 `claude -p` transcripts (May and July 2026); 90 preserved trials of the 2026-11 ASP study, with both judges' verdicts |
+| Evidence | 2 × 50 `claude -p` transcripts (May and July 2026); 90 preserved trials of the 2026-11 ASP study and 240 of the 2026-11b study, with both judges' verdicts |
 | Permissions | The skill never sets a permission mode; the optional `--goal` child session runs under your own settings |
 | What an install copies | Only [`plugins/anticipating-shadow-points/`](plugins/anticipating-shadow-points/): Markdown, an SVG icon and the licence. No hooks, scripts, MCP servers or telemetry |
 
@@ -130,6 +130,10 @@ Expected output:
 results -> output/results.json | July author 20/50, codebook 19/50, detector 9/50
 == study results: benchmark/study-2026-11/analyze.py results 5
 study -> benchmark/study-2026-11/results.json | coverage ASP 48.1%, list-what-could-go-wrong 66.3%, plain 56.0% | primary: no measurable benefit
+== study 2 results: benchmark/study-2026-11b/analyze.py results 5
+study2 -> results.json | plain 46.1%, list-what-could-go-wrong 57.5% | delta +0.114, p = 0.0001 | confirmed
+== study 2 sensitivity: benchmark/study-2026-11b/sensitivity.py --quiet
+study2 sensitivity -> sensitivity.json | without the 3 network-error strata: delta +0.101, p = 0.0001
 == figures: analysis/make_figures.py
 figures -> output/figures (3 x PNG+SVG, plus pt-BR, es, it editions)
 == tests: -m pytest -q tests
@@ -185,6 +189,29 @@ Pre-registered in [`benchmark/study-2026-11/PROTOCOL.md`](benchmark/study-2026-1
   - All 90 trials succeeded and none changed a project file.
 - **Changed before collection, and why:** the lexical matcher fixed first could not see that two reviewers named the same problem (0% to 46% agreement), so a blind judge replaced it. Both are reported; the matcher scores near zero everywhere.
 
+### The one sentence, confirmed: the 2026-11b study
+
+Study 1 found the one-sentence effect as a secondary comparison. Study 2 tests it as the primary question, pre-registered in [`benchmark/study-2026-11b/PROTOCOL.md`](benchmark/study-2026-11b/PROTOCOL.md) and timestamped before trial 1. To our knowledge, no earlier study measures this single sentence in a coding agent. The setup:
+- **Tasks:** twelve new change requests on twelve public repositories, each pinned to one commit. None was used in study 1.
+- **Conditions:** two, with no plugin in either. They differ by one sentence: "Plan this change." against "Before planning, list the ways this change could go wrong."
+- **Runs:** 5 per task, model and condition, 240 in total, on Claude Opus 5.5 and Claude Sonnet 5.5.
+- **Reference lists and scoring:** as in study 1, with a second measure, relevance: the share of an answer's table rows that the judge calls a concrete, plausible risk of that change.
+
+| Model | Plain (Gemini) | + the sentence (Gemini) | Plain (Grok) | + the sentence (Grok) |
+|---|---|---|---|---|
+| Claude Opus 5.5 | 43% | **54%** | 48% | **57%** |
+| Claude Sonnet 5.5 | 49% | **61%** | 52% | **64%** |
+| Both | 46% | **58%** | 50% | **61%** |
+
+- **Primary, pre-registered:** the sentence minus the plain request = +11 points (Gemini), permutation p = 0.0001 overall and p = 0.0001 within each model, positive in 22 of 24 task-and-model cells. The decision rule fixed in advance says *confirmed*, scoped to these two models, these tasks and model-written reference lists.
+- **Second judge:** Grok gives +11 points and the same decision. The two judges agree on 93.2% of 2,000 item decisions.
+- **Relevance:** the sentence did not make the listed risks less relevant. It scored 74% against 69%; without the network errors below, the difference is +3 points and not significant (p = 0.09).
+- **Cost:** the answers with the sentence took 40 s on average against 50 s, and their tables have about the same number of rows (9.6 against 9.2).
+- **Three network errors, and a check that was not planned:**
+  - Three trials ended in a network error during a loss of internet access. The fixed rule counts each as 0 and does not rerun it.
+  - All three were plain requests, so that rule favours the result. Without the three task-and-model cells that hold them, the difference is +10 points (Gemini) and +9 (Grok), p ≤ 0.0005 overall and within each model.
+- **Other deviations, all recorded in the protocol:** collection was paused for four days and resumed on the same Claude Code version (2.1.319), and the Gemini judge finished its last 15 verdicts after a quota reset.
+
 Earlier evidence, kept for the record and no longer used:
 
 | Evidence | What it is | What it supports |
@@ -198,11 +225,11 @@ Earlier evidence, kept for the record and no longer used:
 
 | | |
 |---|---|
-| **Claimed** | `claude -p` exited 0 with `stop_reason: end_turn` on graceful declines in two dated snapshots; in the 2026-11 study, ASP's protocol covered fewer of the reviewers' risks than a plain request asking for them, and that one-sentence request covered more than a plain "plan this change" (secondary, pre-registered); every count above follows deterministically from committed files |
-| **Not claimed** | A base rate of silent failure in real agent traffic (the suite was built to provoke declines); that the 60% to 18% drop is a trend; that ASP improves plans or real-world outcomes (the 2026-11 study found no benefit on risk coverage); that the one-sentence effect holds beyond one model, six tasks and model-written reference lists, or that more risks listed means better code (not measured); that the 80%/4% fixture scores say anything about ASP |
+| **Claimed** | `claude -p` exited 0 with `stop_reason: end_turn` on graceful declines in two dated snapshots; in the 2026-11 study, ASP's protocol covered fewer of the reviewers' risks than a plain request asking for them, and that one-sentence request covered more than a plain "plan this change" (secondary in study 1, then confirmed as the primary question of the 2026-11b study on Opus 5.5 and Sonnet 5.5); every count above follows deterministically from committed files |
+| **Not claimed** | A base rate of silent failure in real agent traffic (the suite was built to provoke declines); that the 60% to 18% drop is a trend; that ASP improves plans or real-world outcomes (the 2026-11 study found no benefit on risk coverage); that the one-sentence effect holds beyond two Claude models, eighteen tasks and model-written reference lists, or that more risks listed means better code (not measured); that the 80%/4% fixture scores say anything about ASP |
 | **Frozen** | The transcripts and the judges' verdicts. The models that produced them cannot be pinned forever; re-running gives a new snapshot, not a replication |
 
-Versions 1.0.0 to 1.0.3 (May 2026) made claims that version 2.0.0 withdraws; each one is listed in the [CHANGELOG](CHANGELOG.md). Full method and limits: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). The study's protocol, tasks, reference lists, 90 trials, verdicts and hash ledger are in [`benchmark/study-2026-11/`](benchmark/study-2026-11/). A confirmatory study with the one-sentence request as its primary question is next on the [roadmap](ROADMAP.md).
+Versions 1.0.0 to 1.0.3 (May 2026) made claims that version 2.0.0 withdraws; each one is listed in the [CHANGELOG](CHANGELOG.md). Full method and limits: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). The study's protocol, tasks, reference lists, 90 trials, verdicts and hash ledger are in [`benchmark/study-2026-11/`](benchmark/study-2026-11/), and the confirmatory study's 240 trials are in [`benchmark/study-2026-11b/`](benchmark/study-2026-11b/). What comes next is on the [roadmap](ROADMAP.md).
 
 ## Integrity
 

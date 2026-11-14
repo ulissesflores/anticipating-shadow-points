@@ -7,6 +7,19 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## [Unreleased]
 
+### Added (study 2026-11b, after the v2.0.0 release)
+- **A confirmatory study of the one-sentence request**, in
+  `benchmark/study-2026-11b/`: 240 pre-registered trials on twelve new pinned
+  repositories, with Claude Opus 5.5 and Sonnet 5.5. Asking "Before planning,
+  list the ways this change could go wrong." raised risk coverage from 46% to
+  58% (p = 0.0001 overall and within each model); the fixed decision rule says
+  *confirmed*. The second judge agrees, and relevance did not fall.
+- Three trials ended in a network error and count as 0 under the fixed rule.
+  All three were plain requests, so `sensitivity.py` repeats the analysis
+  without them (+10 points, p = 0.0001). That check was not planned.
+- `run_all.py` re-derives both analyses, `tests/test_study_2026_11b.py` asserts
+  every quoted number, and the provenance seal covers the study's files.
+
 ### Changed (plugin, after the v2.0.0 release)
 - **`/asp` no longer pre-approves tools.** The command's `allowed-tools` line,
   which granted Bash, Write, Edit and Skill without a prompt, is removed: every

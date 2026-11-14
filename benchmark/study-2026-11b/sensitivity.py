@@ -8,12 +8,13 @@ written after the errors were seen and has no decision rule of its own.
 
 Usage::
 
-    python sensitivity.py
+    python sensitivity.py [--quiet]
 """
 
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 from analyze import MODELS, A, B, delta, permutation_p
@@ -58,4 +59,12 @@ def run() -> dict:
 
 
 if __name__ == "__main__":
-    print(json.dumps(run(), indent=1))
+    out = run()
+    if "--quiet" in sys.argv:
+        g = out["gemini"]["without_strata"]
+        print(
+            f"study2 sensitivity -> sensitivity.json | without the {len(out['error_trials'])} "
+            f"network-error strata: delta {g['delta_bar']:+.3f}, p = {g['p']}"
+        )
+    else:
+        print(json.dumps(out, indent=1))

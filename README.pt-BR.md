@@ -45,7 +45,7 @@
 > [!IMPORTANT]
 > **Achado: exit 0 não é sucesso.** O `claude -p` retorna exit code 0 quando o agente recusa a tarefa de forma cortês, sem nenhum sinalizador de recusa legível por máquina no envelope JSON. Em uma suíte fixa de 50 prompts que provocam recusa (Claude Code 2.1.200, julho de 2026), **24 de 50 terminaram com exit 0, todas com `stop_reason: end_turn`**, e **12 a 20 delas foram recusas**: 24% a 40% da suíte, dependendo de como uma recusa é contada. Um wrapper de shell que confia em `$?` lê todas como sucesso.
 >
-> **Medido: o protocolo completo do ASP não superou um pedido de uma frase.** Num estudo pré-registrado (90 rodadas em seis repositórios públicos, Claude Opus 5.5, dois juízes cegos de outros fornecedores), o `/asp --standard` cobriu **48%** dos riscos nomeados por revisores independentes, contra **66%** do Claude Code simples com o pedido *"Before planning, list the ways this change could go wrong."* (antes de planejar, liste o que pode dar errado), atrás nas seis tarefas: sem benefício mensurável. Essa frase, sozinha, elevou a cobertura de **56% para 66%** sobre um simples "Plan this change." (p ≤ 0,0014 com os dois juízes). Era uma comparação secundária fixada antes dos dados, em um modelo e seis tarefas; um estudo confirmatório com ela como pergunta principal está planejado. [Protocolo, dados e registro](benchmark/study-2026-11/).
+> **Medido: o protocolo completo do ASP não superou um pedido de uma frase.** Num estudo pré-registrado (90 rodadas em seis repositórios públicos, Claude Opus 5.5, dois juízes cegos de outros fornecedores), o `/asp --standard` cobriu **48%** dos riscos nomeados por revisores independentes, contra **66%** do Claude Code simples com o pedido *"Before planning, list the ways this change could go wrong."* (antes de planejar, liste o que pode dar errado), atrás nas seis tarefas: sem benefício mensurável. Essa frase, sozinha, elevou a cobertura de **56% para 66%** sobre um simples "Plan this change." (p ≤ 0,0014 com os dois juízes). Era uma comparação secundária fixada antes dos dados, em um modelo e seis tarefas. Um segundo estudo pré-registrado fez dela a pergunta principal e **a confirmou**: 240 rodadas em doze repositórios novos, com o Claude Opus 5.5 e o Sonnet 5.5, cobertura de **46% para 58%** (p = 0,0001 no total e dentro de cada modelo). [Estudo 1](benchmark/study-2026-11/) · [Estudo 2](benchmark/study-2026-11b/).
 
 ## Os artigos
 
@@ -60,7 +60,7 @@ Os dois são relatórios técnicos, sem revisão por pares, cada um com registro
 
 1. **Um protocolo de planejamento que você pode instalar.** Treze fases: pesquisa, um pre-mortem de Klein forçado através dos 14 modos de falha multiagente do MAST, um subagente validador independente, um contrato de tarefas com testes de aceitação e uma aprovação final das entregas. Doze "Iron Laws" impedem o agente de pular etapas.
 2. **Uma falha medida em um padrão comum de harness.** O `claude -p` retorna exit 0 diante de uma recusa cortês. A medição, suas quatro leituras e uma receita de parsing defensivo estão em [`paper/graceful-refusals.md`](paper/graceful-refusals.md); a receita está embutida na fase de execução da skill.
-3. **Um teste pré-registrado do próprio protocolo, relatado como saiu.** Três condições, seis repositórios fixados, listas de referência e juízes cegos de outros fornecedores, cada rodada e cada veredito encadeados num registro de hashes com prova no OpenTimestamps. O protocolo perdeu para um pedido de uma frase; a frase é o achado. Veja [Resultados](#resultados).
+3. **Um teste pré-registrado do próprio protocolo, relatado como saiu.** Três condições, seis repositórios fixados, listas de referência e juízes cegos de outros fornecedores, cada rodada e cada veredito encadeados num registro de hashes com prova no OpenTimestamps. O protocolo perdeu para um pedido de uma frase; a frase é o achado, e um segundo estudo pré-registrado a confirmou em dois modelos e doze repositórios novos. Veja [Resultados](#resultados).
 4. **Cada número publicado como um teste.** O `python run_all.py` re-deriva os números a partir de dados versionados, verifica cada um por asserção e sela código, testes, dados e resultados sob um único hash de cadeia SHA-256.
 
 ## Em resumo
@@ -71,7 +71,7 @@ Os dois são relatórios técnicos, sem revisão por pares, cada um com registro
 | Instalação | `claude plugin marketplace add ulissesflores/anticipating-shadow-points` |
 | Requisitos de execução | Claude Code, `bash`, `jq` |
 | Requisitos de replicação | Python 3.11+, `matplotlib`, `pytest`; nenhuma chamada de modelo, cerca de 10 segundos |
-| Evidência | 2 × 50 transcrições de `claude -p` (maio e julho de 2026); 90 rodadas preservadas do estudo de 2026-11 sobre o ASP, com os vereditos dos dois juízes |
+| Evidência | 2 × 50 transcrições de `claude -p` (maio e julho de 2026); 90 rodadas preservadas do estudo de 2026-11 sobre o ASP e 240 do estudo de 2026-11b, com os vereditos dos dois juízes |
 | Permissões | A skill nunca define um modo de permissão; a sessão filha opcional de `--goal` roda sob as suas próprias configurações |
 
 ## Veja funcionando
@@ -133,6 +133,10 @@ Saída esperada:
 results -> output/results.json | July author 20/50, codebook 19/50, detector 9/50
 == study results: benchmark/study-2026-11/analyze.py results 5
 study -> benchmark/study-2026-11/results.json | coverage ASP 48.1%, list-what-could-go-wrong 66.3%, plain 56.0% | primary: no measurable benefit
+== study 2 results: benchmark/study-2026-11b/analyze.py results 5
+study2 -> results.json | plain 46.1%, list-what-could-go-wrong 57.5% | delta +0.114, p = 0.0001 | confirmed
+== study 2 sensitivity: benchmark/study-2026-11b/sensitivity.py --quiet
+study2 sensitivity -> sensitivity.json | without the 3 network-error strata: delta +0.101, p = 0.0001
 == figures: analysis/make_figures.py
 figures -> output/figures (3 x PNG+SVG, plus pt-BR, es, it editions)
 == tests: -m pytest -q tests
@@ -188,6 +192,29 @@ Pré-registrado em [`benchmark/study-2026-11/PROTOCOL.md`](benchmark/study-2026-
   - As 90 rodadas terminaram com sucesso e nenhuma alterou arquivo do projeto.
 - **Mudado antes da coleta, e por quê:** o matcher lexical fixado primeiro não via que dois revisores citavam o mesmo problema (0% a 46% de concordância), então um juiz cego o substituiu. Os dois são relatados; o matcher dá perto de zero em tudo.
 
+### A frase, confirmada: o estudo de 2026-11b
+
+O estudo 1 encontrou o efeito da frase como comparação secundária. O estudo 2 testa esse efeito como pergunta principal, pré-registrado em [`benchmark/study-2026-11b/PROTOCOL.md`](benchmark/study-2026-11b/PROTOCOL.md) e carimbado no tempo antes da rodada 1. Até onde sabemos, nenhum estudo anterior mede essa frase única num agente de código. Como foi feito:
+- **Tarefas:** doze pedidos de mudança novos em doze repositórios públicos, cada um fixado num commit. Nenhum foi usado no estudo 1.
+- **Condições:** duas, sem plugin em nenhuma. Elas diferem por uma frase: "Plan this change." contra "Before planning, list the ways this change could go wrong."
+- **Rodadas:** 5 por tarefa, modelo e condição, 240 no total, com o Claude Opus 5.5 e o Claude Sonnet 5.5.
+- **Listas de referência e pontuação:** como no estudo 1, com uma segunda medida, a relevância: a parte das linhas da tabela de uma resposta que o juiz considera um risco concreto e plausível daquela mudança.
+
+| Modelo | Simples (Gemini) | + a frase (Gemini) | Simples (Grok) | + a frase (Grok) |
+|---|---|---|---|---|
+| Claude Opus 5.5 | 43% | **54%** | 48% | **57%** |
+| Claude Sonnet 5.5 | 49% | **61%** | 52% | **64%** |
+| Os dois | 46% | **58%** | 50% | **61%** |
+
+- **Primário, pré-registrado:** a frase menos o pedido simples = +11 pontos (Gemini), p de permutação = 0,0001 no total e p = 0,0001 dentro de cada modelo, positivo em 22 das 24 células de tarefa e modelo. A regra de decisão fixada antes diz *confirmado*, com alcance limitado a estes dois modelos, estas tarefas e listas de referência escritas por modelos.
+- **Segundo juiz:** o Grok dá +11 pontos e a mesma decisão. Os dois juízes concordam em 93,2% de 2.000 decisões por item.
+- **Relevância:** a frase não tornou os riscos listados menos relevantes. Ela marcou 74% contra 69%; sem os erros de rede abaixo, a diferença é de +3 pontos e não é significativa (p = 0,09).
+- **Custo:** as respostas com a frase levaram 40 s em média contra 50 s, e as tabelas têm quase o mesmo número de linhas (9,6 contra 9,2).
+- **Três erros de rede e uma conferência que não estava planejada:**
+  - Três rodadas terminaram em erro de rede durante uma queda de internet. A regra fixada conta cada uma como 0 e não a refaz.
+  - As três eram pedidos simples, então essa regra favorece o resultado. Sem as três células de tarefa e modelo que as contêm, a diferença é de +10 pontos (Gemini) e +9 (Grok), p ≤ 0,0005 no total e dentro de cada modelo.
+- **Outros desvios, todos registrados no protocolo:** a coleta ficou parada quatro dias e foi retomada na mesma versão do Claude Code (2.1.319), e o juiz Gemini terminou os últimos 15 vereditos depois que a cota voltou.
+
 Evidência anterior, mantida para registro e não mais usada:
 
 | Evidência | O que é | O que sustenta |
@@ -201,11 +228,11 @@ Evidência anterior, mantida para registro e não mais usada:
 
 | | |
 |---|---|
-| **Afirmado** | O `claude -p` terminou com exit 0 e `stop_reason: end_turn` em recusas corteses em dois snapshots datados; no estudo de 2026-11, o protocolo do ASP cobriu menos riscos dos revisores do que um pedido simples que os pede, e esse pedido de uma frase cobriu mais do que um simples "planeje esta mudança" (secundário, pré-registrado); cada contagem acima decorre deterministicamente de arquivos versionados |
-| **Não afirmado** | Uma taxa-base de falha silenciosa no tráfego real de agentes (a suíte foi construída para provocar recusas); que a queda de 60% para 18% seja uma tendência; que o ASP melhore planos ou resultados no mundo real (o estudo de 2026-11 não encontrou benefício na cobertura de riscos); que o efeito da frase valha além de um modelo, seis tarefas e listas escritas por modelos, ou que mais riscos listados signifiquem código melhor (não medido); que as pontuações de fixture de 80%/4% digam qualquer coisa sobre o ASP |
+| **Afirmado** | O `claude -p` terminou com exit 0 e `stop_reason: end_turn` em recusas corteses em dois snapshots datados; no estudo de 2026-11, o protocolo do ASP cobriu menos riscos dos revisores do que um pedido simples que os pede, e esse pedido de uma frase cobriu mais do que um simples "planeje esta mudança" (secundário no estudo 1, depois confirmado como pergunta principal do estudo de 2026-11b com o Opus 5.5 e o Sonnet 5.5); cada contagem acima decorre deterministicamente de arquivos versionados |
+| **Não afirmado** | Uma taxa-base de falha silenciosa no tráfego real de agentes (a suíte foi construída para provocar recusas); que a queda de 60% para 18% seja uma tendência; que o ASP melhore planos ou resultados no mundo real (o estudo de 2026-11 não encontrou benefício na cobertura de riscos); que o efeito da frase valha além de dois modelos Claude, dezoito tarefas e listas escritas por modelos, ou que mais riscos listados signifiquem código melhor (não medido); que as pontuações de fixture de 80%/4% digam qualquer coisa sobre o ASP |
 | **Congelado** | As transcrições e os vereditos dos juízes. Os modelos que os produziram não podem ser fixados para sempre; reexecutar gera um novo snapshot, não uma replicação |
 
-As versões 1.0.0 a 1.0.3 (maio de 2026) fizeram afirmações que a versão 2.0.0 retira; cada uma está listada no [CHANGELOG](CHANGELOG.md). Método completo e limites: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). O protocolo, as tarefas, as listas de referência, as 90 rodadas, os vereditos e o registro de hashes do estudo estão em [`benchmark/study-2026-11/`](benchmark/study-2026-11/). Um estudo confirmatório com o pedido de uma frase como pergunta principal é o próximo no [roadmap](ROADMAP.md).
+As versões 1.0.0 a 1.0.3 (maio de 2026) fizeram afirmações que a versão 2.0.0 retira; cada uma está listada no [CHANGELOG](CHANGELOG.md). Método completo e limites: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). O protocolo, as tarefas, as listas de referência, as 90 rodadas, os vereditos e o registro de hashes do estudo estão em [`benchmark/study-2026-11/`](benchmark/study-2026-11/), e as 240 rodadas do estudo confirmatório estão em [`benchmark/study-2026-11b/`](benchmark/study-2026-11b/). O que vem depois está no [roadmap](ROADMAP.md).
 
 ## Integridade
 

@@ -19,6 +19,8 @@ ROOT = Path(__file__).resolve().parent
 STEPS = [
     ("results", [sys.executable, "analysis/results.py"]),
     ("study results", [sys.executable, "benchmark/study-2026-11/analyze.py", "results", "5"]),
+    ("study 2 results", [sys.executable, "benchmark/study-2026-11b/analyze.py", "results", "5"]),
+    ("study 2 sensitivity", [sys.executable, "benchmark/study-2026-11b/sensitivity.py", "--quiet"]),
     ("figures", [sys.executable, "analysis/make_figures.py"]),
     ("tests", [sys.executable, "-m", "pytest", "-q", "tests"]),
     (
