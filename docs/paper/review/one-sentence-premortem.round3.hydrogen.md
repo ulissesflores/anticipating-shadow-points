@@ -1,9 +1,9 @@
 # Parecer do Gemini Hydrogen, artigo 3, rodada 3 (2026-11-15, ~15:45 GMT-3)
 
-- Canal: site do Gemini (https://gemini.google.com/app/53da201754985af9), modelo "Hydrogen", conta Pro do autor.
+- Canal: site do Gemini, modelo "Hydrogen".
 - Material: 4 anexos de texto (pedido do revisor + manuscrito + protocolo, adendos e resultados + results.json e testes), commit `d70b7b0`. Pacote reduzido: sem respostas, vereditos individuais, figuras nem código além de `analyze.py`.
 - Papel: leitura adicional, mesma casa do Argon (rodada 2). Não conta como segundo fornecedor para a barra.
-- Este arquivo é a transcrição condensada feita na sessão; o texto integral está na conversa do endereço acima.
+- Este arquivo é a transcrição condensada feita na sessão.
 
 **NOTA: 945/1000**
 
