@@ -190,7 +190,7 @@ Prerregistro aquí significa que el protocolo, las tareas, los prompts, las list
 
 ![Figura 7. La cadena de hashes del registro del estudio: las tres entradas iniciales, las dos cabezas con sello de tiempo y las etapas entre ellas.](../paper/figures/d6_hash_chain.es.png)
 
-La cabeza del registro antes de la ejecución 1 recibió un sello de tiempo de OpenTimestamps, servicio que ancla una huella en la blockchain de Bitcoin, y el commit se guardó en el archivo de Software Heritage, que conserva código fuente público de forma permanente. La Tabla 3 enumera cada evento sellado con el registro que prueba su orden, y la Figura 8 muestra la secuencia. Las 240 respuestas se publicaron antes de que existiera cualquier veredicto, y todos los veredictos se añadieron al registro antes de que se ejecutara el análisis (Flores, 2026b).
+La cabeza del registro antes de la ejecución 1 recibió un sello de tiempo de OpenTimestamps, servicio que ancla una huella en la blockchain de Bitcoin, y el commit se guardó en el archivo de Software Heritage, que conserva código fuente público de forma permanente. La Tabla 3 enumera cada evento sellado con el registro que prueba su orden, y la Figura 8 muestra la secuencia hasta el análisis prerregistrado. Las 240 respuestas se publicaron antes de que existiera cualquier veredicto, y todos los veredictos se añadieron al registro antes de que se ejecutara el análisis (Flores, 2026b).
 
 **Tabla 3.** El registro de integridad del estudio.
 
@@ -204,7 +204,7 @@ La cabeza del registro antes de la ejecución 1 recibió un sello de tiempo de O
 | Análisis prerregistrado ejecutado y sellado | 14 nov 2026, 12:45 | Commit `e8c73c1`; cabeza del registro `8872c0c5…c2284e29`; prueba de OpenTimestamps anclada en el bloque 975820 de Bitcoin |
 | Segunda vara de medir: anexo, prompt y código sellados antes de escribirse sus listas | 14 nov 2026, 16:25 | Commits `573b8bf` y `fa3d0ba`; cabeza del registro `cf0a7bfd…0499f47f`; prueba de OpenTimestamps anclada en el bloque 975834 de Bitcoin |
 
-*Nota.* Los commits están en el repositorio de Flores (2026b). Las cabezas del registro están abreviadas; los valores completos están en `benchmark/study-2026-11b/pretrial-head.txt` y `analysis-head.txt`, junto a sus archivos de prueba `.ots`. Las pruebas pueden comprobarse con `ots verify`; la tercera cabeza está en `yardstick2/head-before-lists.txt`.
+*Nota.* Los commits están en el repositorio de Flores (2026b). Las cabezas del registro están abreviadas; los valores completos están en `benchmark/study-2026-11b/pretrial-head.txt` y `analysis-head.txt`, junto a sus archivos de prueba `.ots`. Las pruebas pueden leerse con `ots info` y comprobarse contra un nodo de Bitcoin con `ots verify`; la tercera cabeza está en `yardstick2/head-before-lists.txt`.
 
 ![Figura 8. Orden de los eventos sellados del estudio, del archivo de tareas al análisis (eje ordinal, fuera de escala).](../paper/figures/d7_timeline.es.png)
 

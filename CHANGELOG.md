@@ -14,6 +14,13 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   list the ways this change could go wrong." raised risk coverage from 46% to
   58% (p = 0.0001 overall and within each model); the fixed decision rule says
   *confirmed*. The second judge agrees, and relevance did not fall.
+- **A second yardstick for that study**, exploratory and specified in
+  `benchmark/study-2026-11b/yardstick2/ADDENDUM.md` before it was collected:
+  reference lists asked for again without the words of the tested sentence.
+  Primary judge: 55.8% to 62.5%, +6.7 points (p = 0.0002), against +11.4 on
+  the original lists. The second judge's verdicts are pending.
+- **The third paper**, `paper/one-sentence-premortem.md`, in English,
+  Portuguese, Spanish and Italian under `docs/paper/`.
 - Three trials ended in a network error and count as 0 under the fixed rule.
   All three were plain requests, so `sensitivity.py` repeats the analysis
   without them (+10 points, p = 0.0001). That check was not planned.

@@ -190,7 +190,7 @@ Pré-registro aqui significa que o protocolo, as tarefas, os prompts, as listas 
 
 ![Figura 7. A cadeia de hashes do registro do estudo: as três primeiras entradas, as duas cabeças carimbadas e as etapas entre elas.](../paper/figures/d6_hash_chain.pt-BR.png)
 
-A cabeça do registro antes da rodada 1 foi carimbada com o OpenTimestamps, serviço que ancora uma impressão digital no blockchain do Bitcoin, e o commit foi salvo no arquivo do Software Heritage, que guarda código-fonte público de forma permanente. A Tabela 3 lista cada evento selado com o registro que prova sua ordem, e a Figura 8 mostra a sequência. As 240 respostas foram publicadas antes de existir qualquer veredito, e todos os vereditos foram acrescentados ao registro antes de a análise rodar (Flores, 2026b).
+A cabeça do registro antes da rodada 1 foi carimbada com o OpenTimestamps, serviço que ancora uma impressão digital no blockchain do Bitcoin, e o commit foi salvo no arquivo do Software Heritage, que guarda código-fonte público de forma permanente. A Tabela 3 lista cada evento selado com o registro que prova sua ordem, e a Figura 8 mostra a sequência até a análise pré-registrada. As 240 respostas foram publicadas antes de existir qualquer veredito, e todos os vereditos foram acrescentados ao registro antes de a análise rodar (Flores, 2026b).
 
 **Tabela 3.** O registro de integridade do estudo.
 
@@ -204,7 +204,7 @@ A cabeça do registro antes da rodada 1 foi carimbada com o OpenTimestamps, serv
 | Análise pré-registrada executada e selada | 14 nov 2026, 12:45 | Commit `e8c73c1`; cabeça do registro `8872c0c5…c2284e29`; prova do OpenTimestamps ancorada no bloco 975820 do Bitcoin |
 | Segunda régua: adendo, prompt e código selados antes de suas listas serem escritas | 14 nov 2026, 16:25 | Commits `573b8bf` e `fa3d0ba`; cabeça do registro `cf0a7bfd…0499f47f`; prova do OpenTimestamps ancorada no bloco 975834 do Bitcoin |
 
-*Nota.* Os commits estão no repositório de Flores (2026b). As cabeças do registro estão abreviadas; os valores completos estão em `benchmark/study-2026-11b/pretrial-head.txt` e `analysis-head.txt`, ao lado de seus arquivos de prova `.ots`. As provas podem ser conferidas com `ots verify`; a terceira cabeça está em `yardstick2/head-before-lists.txt`.
+*Nota.* Os commits estão no repositório de Flores (2026b). As cabeças do registro estão abreviadas; os valores completos estão em `benchmark/study-2026-11b/pretrial-head.txt` e `analysis-head.txt`, ao lado de seus arquivos de prova `.ots`. As provas podem ser lidas com `ots info` e conferidas contra um nó do Bitcoin com `ots verify`; a terceira cabeça está em `yardstick2/head-before-lists.txt`.
 
 ![Figura 8. Ordem dos eventos selados do estudo, do arquivo de tarefas à análise (eixo ordinal, fora de escala).](../paper/figures/d7_timeline.pt-BR.png)
 

@@ -190,7 +190,7 @@ Pre-registrazione qui significa che il protocollo, i compiti, i prompt, le liste
 
 ![Figura 7. La catena di hash del registro dello studio: le tre voci iniziali, le due teste con marca temporale e le tappe tra di esse.](../paper/figures/d6_hash_chain.it.png)
 
-La testa del registro prima della prova 1 ha ricevuto una marca temporale di OpenTimestamps, servizio che ancora un'impronta nella blockchain di Bitcoin, e il commit è stato salvato nell'archivio di Software Heritage, che conserva in modo permanente il codice sorgente pubblico. La Tabella 3 elenca ogni evento sigillato con il registro che ne prova l'ordine, e la Figura 8 mostra la sequenza. Le 240 risposte sono state pubblicate prima che esistesse qualsiasi verdetto, e tutti i verdetti sono stati aggiunti al registro prima che l'analisi venisse eseguita (Flores, 2026b).
+La testa del registro prima della prova 1 ha ricevuto una marca temporale di OpenTimestamps, servizio che ancora un'impronta nella blockchain di Bitcoin, e il commit è stato salvato nell'archivio di Software Heritage, che conserva in modo permanente il codice sorgente pubblico. La Tabella 3 elenca ogni evento sigillato con il registro che ne prova l'ordine, e la Figura 8 mostra la sequenza fino all'analisi pre-registrata. Le 240 risposte sono state pubblicate prima che esistesse qualsiasi verdetto, e tutti i verdetti sono stati aggiunti al registro prima che l'analisi venisse eseguita (Flores, 2026b).
 
 **Tabella 3.** Il registro di integrità dello studio.
 
@@ -204,7 +204,7 @@ La testa del registro prima della prova 1 ha ricevuto una marca temporale di Ope
 | Analisi pre-registrata eseguita e sigillata | 14 nov 2026, 12:45 | Commit `e8c73c1`; testa del registro `8872c0c5…c2284e29`; attestazione di OpenTimestamps ancorata nel blocco 975820 di Bitcoin |
 | Secondo metro di misura: aggiunta, prompt e codice sigillati prima che le sue liste fossero scritte | 14 nov 2026, 16:25 | Commit `573b8bf` e `fa3d0ba`; testa del registro `cf0a7bfd…0499f47f`; attestazione di OpenTimestamps ancorata nel blocco 975834 di Bitcoin |
 
-*Nota.* I commit sono nel repository di Flores (2026b). Le teste del registro sono abbreviate; i valori completi sono in `benchmark/study-2026-11b/pretrial-head.txt` e `analysis-head.txt`, accanto ai loro file di attestazione `.ots`. Le attestazioni si possono verificare con `ots verify`; la terza testa è in `yardstick2/head-before-lists.txt`.
+*Nota.* I commit sono nel repository di Flores (2026b). Le teste del registro sono abbreviate; i valori completi sono in `benchmark/study-2026-11b/pretrial-head.txt` e `analysis-head.txt`, accanto ai loro file di attestazione `.ots`. Le attestazioni si possono leggere con `ots info` e verificare contro un nodo Bitcoin con `ots verify`; la terza testa è in `yardstick2/head-before-lists.txt`.
 
 ![Figura 8. Ordine degli eventi sigillati dello studio, dal file dei compiti all'analisi (asse ordinale, non in scala).](../paper/figures/d7_timeline.it.png)
 

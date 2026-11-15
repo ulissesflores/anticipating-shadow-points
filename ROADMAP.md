@@ -18,6 +18,7 @@ The 2026-11 study ([`benchmark/study-2026-11/`](benchmark/study-2026-11/)) ran 9
 
 The 2026-11b study ([`benchmark/study-2026-11b/`](benchmark/study-2026-11b/)) made the one-sentence pre-mortem its primary question: 240 pre-registered trials on twelve new pinned repositories, with Claude Opus 5.5 and Sonnet 5.5.
 - **Result:** asking "Before planning, list the ways this change could go wrong." raised risk coverage from 46% to 58% (p = 0.0001 overall and within each model). The second judge agrees.
+- **A second yardstick, added afterwards:** against reference lists asked for again in other words, the gain is smaller, 55.8% to 62.5% (p = 0.0002, primary judge; second judge pending).
 - **Relevance:** the listed risks were not less relevant.
 - **Limits:** two Claude models, model-written reference lists, and three network-error trials that the report handles with a sensitivity check that was not planned.
 

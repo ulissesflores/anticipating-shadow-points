@@ -196,7 +196,7 @@ Pre-registration here means that the protocol, the tasks, the prompts, the refer
 
 ![Figure 7. The hash chain of the study's ledger: its first three entries, the two stamped heads and the stages between them.](../paper/figures/d6_hash_chain.png)
 
-The head of the ledger before trial 1 was stamped with OpenTimestamps, a service that anchors a fingerprint in the Bitcoin blockchain, and the commit was saved to the Software Heritage archive, which keeps public source code permanently. Table 3 lists each sealed event with the record that proves its order, and Figure 8 shows the sequence. All 240 answers were published before any verdict existed, and all verdicts were added to the ledger before the analysis ran (Flores, 2026b).
+The head of the ledger before trial 1 was stamped with OpenTimestamps, a service that anchors a fingerprint in the Bitcoin blockchain, and the commit was saved to the Software Heritage archive, which keeps public source code permanently. Table 3 lists each sealed event with the record that proves its order, and Figure 8 shows the sequence up to the pre-registered analysis. All 240 answers were published before any verdict existed, and all verdicts were added to the ledger before the analysis ran (Flores, 2026b).
 
 **Table 3.** The integrity record of the study.
 
@@ -210,7 +210,7 @@ The head of the ledger before trial 1 was stamped with OpenTimestamps, a service
 | Pre-registered analysis run and sealed | 14 Nov 2026, 12:45 | Commit `e8c73c1`; ledger head `8872c0c5…c2284e29`; OpenTimestamps proof anchored in Bitcoin block 975820 |
 | Second yardstick: addendum, prompt and code sealed before its lists were written | 14 Nov 2026, 16:25 | Commits `573b8bf` and `fa3d0ba`; ledger head `cf0a7bfd…0499f47f`; OpenTimestamps proof anchored in Bitcoin block 975834 |
 
-*Note.* Commits are in the repository of Flores (2026b). Ledger heads are shortened; the full values are in `benchmark/study-2026-11b/pretrial-head.txt` and `analysis-head.txt`, next to their `.ots` proof files. The proofs can be checked with `ots verify`; the third head is in `yardstick2/head-before-lists.txt`.
+*Note.* Commits are in the repository of Flores (2026b). Ledger heads are shortened; the full values are in `benchmark/study-2026-11b/pretrial-head.txt` and `analysis-head.txt`, next to their `.ots` proof files. The proofs can be read with `ots info` and checked against a Bitcoin node with `ots verify`; the third head is in `yardstick2/head-before-lists.txt`.
 
 ![Figure 8. Order of the sealed events of the study, from the task file to the analysis (ordinal axis, not to scale).](../paper/figures/d7_timeline.png)
 
