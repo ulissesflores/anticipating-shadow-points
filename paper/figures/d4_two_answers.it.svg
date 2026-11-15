@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 784" width="1000" height="784">
-<text x="260" y="36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">Risposta alla richiesta semplice</text>
+<text x="260" y="36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">Risposta: richiesta semplice</text>
 <rect x="40" y="60" width="440" height="610" rx="12" fill="none" stroke="#5c5c5c" stroke-width="2"/>
 <text x="64" y="96" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="start" font-style="italic">colonna dei rischi della tabella finale · prova t078</text>
 <line x1="60" y1="112" x2="460" y2="112" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
@@ -29,8 +29,7 @@
 <text x="100" y="607.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">controlla il valore predefinito</text>
 <rect x="80" y="690" width="360" height="46" rx="12" fill="#f4f4f3" stroke="#5c5c5c" stroke-width="2"/>
 <text x="260" y="720" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">copre 3 dei 6 rischi di riferimento</text>
-<text x="740" y="36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">Risposta alla richiesta con la</text>
-<text x="740" y="67.68" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">frase</text>
+<text x="740" y="36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">Risposta: richiesta con la frase</text>
 <rect x="520" y="60" width="440" height="610" rx="12" fill="none" stroke="#d2501a" stroke-width="2.5"/>
 <text x="544" y="96" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="start" font-style="italic">colonna dei rischi della tabella finale · prova t051</text>
 <line x1="540" y1="112" x2="940" y2="112" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>

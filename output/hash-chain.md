@@ -1,29 +1,29 @@
 # Hash chain
 
-**chain_hash** `5ed686c58f3c4f8f2f23299600b9556b3afbb6ea83599a2a48f9b2c42428ba01`
+**chain_hash** `ae0a98e468a8ddd2c517a272b65216bfee30655fa6268532b2eb56c856f6a708`
 
 Recompute with `python make_provenance.py --verify`.
 
 | Leaf | Files | leaf_sha256 |
 |---|---|---|
-| code | 30 | `fac8e25e85532c6f6e9c7d582308e31999742c7bcd9ada55834e2a5812ed9126` |
-| tests | 13 | `74f918b401286f37a7f797b2a6410036fe5031d4eba0d39412ab43f5af63efac` |
+| code | 30 | `2ed9601d7bcf969e58c5e66ab9e774f811e7845aa4e649438d7fa203a22e254b` |
+| tests | 13 | `07e3cf51bb1376a54ea9883a023772ce7e308de5eea7a4de628e3381ea813ca7` |
 | frozen_inputs | 406 | `e867e6802d3350f911f2a1f0bcf456a3291923184d71bb9651da801296896467` |
-| data | 1746 | `c757ba6e32f2901d483f7c0ece1d34ef86b3cb01d96ab2a4b323bd291b0ca0b9` |
-| results | 6 | `7e8d061cff51fcdeaa0a1746688ad3f86578f32caec38c0432062fdfd1baf84d` |
+| data | 1746 | `e305f9f1b00dd5cea48d7ba88ede00dcb9239e59f4bf3fb1d89e298ccb598ef1` |
+| results | 7 | `42bfa0d572101b8a2ded71999ce3ae2b51824271688b0420edd14b068e45e9bd` |
 
 ## Informational (NOT hashed)
 
 Figures, the lockfile and the platform vary by machine and are listed for audit only.
 
-- `output/figures/fig13_effects.es.png` `5ac172af7c406818…`
-- `output/figures/fig13_effects.es.svg` `4bdffa300959e22a…`
-- `output/figures/fig13_effects.it.png` `f72ccbf1acb33a98…`
-- `output/figures/fig13_effects.it.svg` `baae660d19a8a1bd…`
-- `output/figures/fig13_effects.png` `152b1be6bb713c65…`
-- `output/figures/fig13_effects.pt-BR.png` `75c0c86d61e67b36…`
-- `output/figures/fig13_effects.pt-BR.svg` `079d940178872ff4…`
-- `output/figures/fig13_effects.svg` `37850dfff1199f8d…`
+- `output/figures/fig13_effects.es.png` `f6ee5b541f572f05…`
+- `output/figures/fig13_effects.es.svg` `0bbccc4a736d6b08…`
+- `output/figures/fig13_effects.it.png` `08c9f56dd18f2045…`
+- `output/figures/fig13_effects.it.svg` `f59c09691875b009…`
+- `output/figures/fig13_effects.png` `69717b56841505ab…`
+- `output/figures/fig13_effects.pt-BR.png` `dcee6f205b8e9090…`
+- `output/figures/fig13_effects.pt-BR.svg` `c5917f0f0c3c23f7…`
+- `output/figures/fig13_effects.svg` `0647a40aa73b6387…`
 - `output/figures/fig1_silent_refusal_readings.es.png` `c68413dbe41fc502…`
 - `output/figures/fig1_silent_refusal_readings.es.svg` `cadc18d8a62c3178…`
 - `output/figures/fig1_silent_refusal_readings.it.png` `8f0e59b1fc15e725…`

@@ -166,7 +166,7 @@ Models stand in here for independent engineers, a substitution that guidelines f
 | GPT-OSS 120B | yes | no | no | no | 9 |
 | Grok | yes | no | second judge | no | 0 |
 
-*Note.* A reference risk is worded as the first reviewer in alphabetical order of reviewer name wrote it, which is why none carries Grok's wording. No outside model shares a vendor with the models under test.
+*Note.* A reference risk is worded as the first reviewer in alphabetical order of reviewer name wrote it, which is why none carries Grok's wording. No outside model shares a vendor with the models under test. The saved outputs of the Grok client carry no model identifier (Flores, 2026b).
 
 ### 4.5. Scoring
 
@@ -297,7 +297,7 @@ The opposite bound gives the same reading. If each of the three error trials is 
 
 Mean running time was lower with the sentence, as were turns and output tokens, on both models (Table 8). The protocol lists these measures as descriptive and attaches no test to them, so they are reported as description (Flores, 2026b). They support one statement only: no added cost was observed.
 
-One difference in behaviour lies behind part of these figures. In plan mode the agent may save its plan to a file with a tool call before it answers (Anthropic, 2026). On Opus 5.5 it did so in 59 of the 60 plain trials and in 22 of the 60 trials with the sentence; on Sonnet 5.5 it never did, in either condition (Flores, 2026b). Section 7, objection 13, examines whether this difference could explain the gain in coverage.
+One difference in behaviour lies behind part of these figures. In plan mode the agent may save its plan to a file with a tool call before it answers (Anthropic, 2026). On Opus 5.5 it did so in 59 of the 60 plain trials and in 22 of the 60 trials with the sentence; on Sonnet 5.5 it never did, in either condition (Flores, 2026b). Section 7, objection 13, examines whether this difference could explain the gain in coverage. The two Opus 5.5 trials that ended in a network error (Section 5.5) had already saved a plan file when the connection failed, and the one on Sonnet 5.5 had not. A plain trial on Opus 5.5 ran one turn longer on average (Table 8) and was exposed to the outage for longer.
 
 **Table 8.** Mean cost per trial, by condition and model, over the trials that did not end in an error.
 
@@ -343,6 +343,8 @@ The difference stays positive under a yardstick that does not share the words of
 
 The data do not say how much of the gap between 11.4 and 6.7 comes from the wording. This is one new elicitation; the two sets of lists differ in size and in content, and a higher starting coverage leaves less room to gain (Table 9). Two limits apply to this check. Gemini wrote the wording of 98 of the 111 reference risks and is also its only judge so far, the concentration that objection 3 of Section 7 describes. The second judge's usage quota ran out after 11 of 240 verdicts; the addendum forbids substituting a judge, so its verdicts are not in this version (Section 8).
 
+Three further checks on this yardstick were added at the request of a blind reviewer of this manuscript, after its result was known; none is in the addendum (Section 8). The three network-error trials are all plain trials and count as zero here too. Without the three strata that hold them the difference is 5.3 points (p = 0.0002), and without the three trials it is 5.6 (p = 0.0002). At the opposite bound, with each error trial scored as full coverage, it is 4.2 points (p = 0.0051): 5.3 on Sonnet 5.5 (p = 0.0097) and 3.2 on Opus 5.5, where it is no longer significant (p = 0.099). The reading fixed in the addendum rests on the combined test and holds under every handling; the separate result on Opus 5.5 does not hold at that bound (Flores, 2026b). The bootstrap interval of the second difference is 4.1 to 9.4 points and overlaps the original interval, 8.9 to 14.0. Resampling the twelve tasks, and not the replicates, widens it to 2.2 to 11.1, against 8.2 to 14.5 for the original yardstick.
+
 ---
 
 ## 6. Discussion
@@ -365,9 +367,9 @@ The data do not say how much of the gap between 11.4 and 6.7 comes from the word
 
 This section takes the objections one by one. They follow the usual classes of threats in empirical software engineering (Wohlin et al., 2012) and the cautions raised for studies that use LLMs (Sallou et al., 2024; Baltes et al., 2026). Before this version was written, the manuscript and its data were given to two models of other vendors, each asked independently to act as a hostile reviewer; both raised objection 1. One of them was then given the sentence under study itself, turned on the manuscript: before this paper is published, list the ways it could go wrong. That request produced objection 13, which neither review had raised. The repository holds the three reports (Flores, 2026b).
 
-**1. The yardstick was elicited with the words of the sentence under test (construct).** The reviewers who wrote the reference lists were asked for "the concrete ways this change could go wrong" (Appendix A). The condition under test asks the agent to "list the ways this change could go wrong", and the plain condition never sees those words. Part of the gain could therefore be a match between the tested answers and the question that produced the yardstick, and not more of the change's real risks. Both conditions are scored against the same lists, which protects the comparison from differences between lists; it does not protect it from a treatment that steers the agent toward the reviewers' framing. Nothing in the pre-registered data separates the two readings. The relevance measure, which does not use the reference lists, shows that the rows did not become less concrete (Section 5.4), and that is a partial answer only. A second yardstick, elicited with the words of the output contract that both conditions receive, was specified after these results were known, in a dated addendum sealed before its collection (Flores, 2026b). Against it the difference is 6.7 points (p = 0.0002), positive on both models and about four tenths smaller than the pre-registered estimate (Section 5.8). The objection is upheld in part: the gain does not vanish when the yardstick stops sharing the sentence's words, and its size does depend on the yardstick.
+**1. The yardstick was elicited with the words of the sentence under test (construct).** The reviewers who wrote the reference lists were asked for "the concrete ways this change could go wrong" (Appendix A). The condition under test asks the agent to "list the ways this change could go wrong", and the plain condition never sees those words. Part of the gain could therefore be a match between the tested answers and the question that produced the yardstick, and not more of the change's real risks. Both conditions are scored against the same lists, which protects the comparison from differences between lists; it does not protect it from a treatment that steers the agent toward the reviewers' framing. Nothing in the pre-registered data separates the two readings. The relevance measure, which does not use the reference lists, shows that the rows did not become less concrete (Section 5.4), and that is a partial answer only. A second yardstick, elicited with the words of the output contract that both conditions receive, was specified after these results were known, in a dated addendum sealed before its collection (Flores, 2026b). Against it the difference is 6.7 points (p = 0.0002), positive on both models and about four tenths smaller than the pre-registered estimate (Section 5.8). At the opposite bound for the three error trials it is 4.2 points (p = 0.0051), and 3.2 on Opus 5.5 alone, not significant (p = 0.099). The objection is upheld in part: the gain does not vanish when the yardstick stops sharing the sentence's words, and its size does depend on the yardstick.
 
-**2. The reference lists were written by models (construct).** Coverage measures agreement with what three LLMs of other vendors expected to go wrong, filtered to items at least two of them named (Section 4.4). It is not a measure of real risk. A risk that all three reviewers missed cannot be credited. In the field experiment of Caraeni et al. (2026), human planners captured context-specific risks that the model working alone did not, so a human yardstick could change the absolute figures. The first next step in Section 9 addresses this.
+**2. The reference lists were written by models (construct).** Coverage measures agreement with what three LLMs of other vendors expected to go wrong, filtered to items at least two of them named (Section 4.4). It is not a measure of real risk. A risk that all three reviewers missed cannot be credited. In the field experiment of Caraeni et al. (2026), human planners captured context-specific risks that the model working alone did not, so a human yardstick could change the absolute figures. The first next step in Section 9 addresses this. Coverage also gives every reference risk the same weight, whatever the severity of the failure it names.
 
 **3. One model holds four roles (construct).** Gemini 3.8 Flash wrote one reviewer list, grouped the items, is the primary judge of coverage and the only judge of relevance, and 91 of the 100 reference risks carry its wording (Table 4). A judge may match its own wording more readily (Panickssery et al., 2024). The second judge is the control for this: Grok wrote none of the reference wording, and it finds a gain of 10.7 points against 11.4 (Table 5). Relevance has no such control, which is a second reason to claim only that it did not fall.
 
@@ -379,7 +381,7 @@ This section takes the objections one by one. They follow the usual classes of t
 
 **7. Longer tables could explain higher recall (internal).** Tables with the sentence have 0.4 more rows on average (Table 8). Among trials with the full ten rows the difference is 11.3 points (Section 5.4).
 
-**8. The judge could sense the condition (internal).** The judge is not told the condition, and the word list replaced before judging was not designed for these two conditions (Section 4.5). A judge could infer the condition from the style of a table. The study has no measure of this. Two judges of different vendors agree on 93.2% of decisions (Section 5.3), which bounds judge noise and not a bias they might share.
+**8. The judge could sense the condition (internal).** The judge is not told the condition, and the word list replaced before judging was not designed for these two conditions (Section 4.5). A judge could infer the condition from the style of a table. The study has no measure of this. Two judges of different vendors agree on 93.2% of decisions (Section 5.3), which bounds judge noise and not a bias they might share. The judge also decides all reference risks of an answer in one call, so those decisions are not independent (Flores, 2026b).
 
 **9. The repositories are public and probably in the models' training data (external).** Several tasks use widely copied example projects (Table 2). The agent may recall known pitfalls of those projects, and the sentence may help retrieval more than reasoning. Both conditions use the same repositories, so this affects the meaning of the effect and not its existence; cautions about data leakage in LLM studies apply (Sallou et al., 2024).
 
@@ -391,7 +393,7 @@ This section takes the objections one by one. They follow the usual classes of t
 
 **13. On one model the conditions differ in a tool call (internal).** On Opus 5.5 the plain request led the agent to save a plan file in 59 of 60 trials, against 22 of 60 with the sentence (Section 5.6). An agent that has written its plan to a file may give a shorter final answer, and the table is scored from the final answer. Sonnet 5.5 is the control: it saved no plan file in any trial, and its gain is the larger of the two, 12.4 points (Table 5). Among the Opus 5.5 trials that did save the file, the difference is 7.5 points over the 10 strata where both conditions remain (Flores, 2026b). The tool call does not explain the gain; it may explain part of the lower cost on Opus 5.5.
 
-**Conclusion validity.** One primary test carries the decision; secondary measures are reported as such, and the sensitivity check, the opposite bound, the bootstrap interval, Cohen's κ, the full-table comparison, the plan-file comparison and Section 5.7 are labelled as unplanned, the separation that pre-registration exists to protect (Nosek et al., 2018). Five replicates per cell give coarse stratum means; the test pools 24 strata and does not rely on any one of them (Table 6).
+**Conclusion validity.** One primary test carries the decision; secondary measures are reported as such, and the sensitivity check, the opposite bound, the bootstrap interval, Cohen's κ, the full-table comparison, the plan-file comparison and Section 5.7 are labelled as unplanned, the separation that pre-registration exists to protect (Nosek et al., 2018). Five replicates per cell give coarse stratum means; the test pools 24 strata and does not rely on any one of them (Table 6). The tests treat the twelve tasks as fixed, and both models share them; resampling whole tasks gives 8.2 to 14.5 points for the pre-registered difference and 2.2 to 11.1 for the second yardstick (Section 5.8).
 
 ---
 
@@ -406,7 +408,7 @@ The protocol file records each deviation with its date (Flores, 2026b). In summa
 5. **A pause in scoring.** The primary judge's usage quota ran out after 225 of 240 verdicts. The remaining 15 were produced by the same model with the same command after the quota reset. No judge was substituted.
 6. **An exploratory condition that did not run.** The protocol allowed, if usage remained, a third condition with Klein's full framing: "Imagine it is a month from now and this change has failed. Before planning, list why it failed." It has no trials and no bearing on the result.
 7. **Unplanned analyses,** each labelled where it appears: the sensitivity check and its opposite bound, the bootstrap interval, Cohen's κ, the full-table comparison, the plan-file comparison and the item-level description.
-8. **The second yardstick,** exploratory and specified after the result (Section 5.8). The primary judge's quota ran out after 208 of its 240 verdicts, which resumed after the reset with the same model and command. The second judge's quota ran out after 11 verdicts and had not returned when this version was written.
+8. **The second yardstick,** exploratory and specified after the result (Section 5.8). The primary judge's quota ran out after 208 of its 240 verdicts, which resumed after the reset with the same model and command. The second judge's quota ran out after 11 verdicts and had not returned when this version was written. Three checks on it were added afterwards, at a reviewer's request (Section 5.8).
 
 ---
 
@@ -420,7 +422,9 @@ The limits are those of Section 7: the yardstick and the judges were models, the
 
 ## 10. Data and code availability
 
-The material behind every number in this paper is in the public repository `anticipating-shadow-points`, at https://github.com/ulissesflores/anticipating-shadow-points (Flores, 2026b). Table 10 lists what it holds.
+The material behind every number in this paper is in the public repository `anticipating-shadow-points` (Flores, 2026b), which Table 10 describes.
+
+A single command, `python run_all.py`, recomputes every number in this paper from the stored answers and verdicts and calls no model; it needs Python 3.11 or newer (Flores, 2026b). Running the trials again needs a Claude subscription and access to the two judge models, which may have changed since November 2026.
 
 **Table 10.** What the repository holds for this paper.
 
@@ -432,14 +436,12 @@ The material behind every number in this paper is in the public repository `anti
 | The 240 answers and run records | `runs/` | Each reply and the record of each run |
 | The 720 verdicts | `judge/` | Every decision, with the prompt that produced it |
 | Analysis and checks | `analyze.py`, `sensitivity.py`, `describe.py`; `tests/test_paper3_numbers.py` | How each number is computed, and that the text matches the data |
-| Ledger and timestamps | `ledger.jsonl`, `*.ots` | That no recorded file changed and that the protocol predates the trials |
+| Ledger and timestamps | `ledger.jsonl`, `*.ots` | That each file matches its latest entry and the protocol predates the trials |
 | Outside reviews of this manuscript | `docs/paper/review/` | The reports behind Section 7 |
 | The originating study | `benchmark/study-2026-11/` | The same material for the 90 trials of Section 3 |
 
 *Note.* Paths without a folder in front are inside `benchmark/study-2026-11b/` (Flores, 2026b). Run records have machine paths removed.
 
-
-A single command, `python run_all.py`, run inside the repository folder, recomputes every number in this paper from the stored answers and verdicts and calls no model; it needs Python 3.11 or newer (Flores, 2026b). Running the trials again needs a Claude subscription, and the judges need access to the two judge models; the models behind those names may have changed since November 2026.
 
 ---
 

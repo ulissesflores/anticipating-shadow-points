@@ -92,6 +92,7 @@ def effects(lang: str):
     two = json.loads((STUDY2 / "results.json").read_text())
     two_b = json.loads((STUDY2 / "yardstick2" / "results2.json").read_text())
     sens = json.loads((STUDY2 / "sensitivity.json").read_text())
+    sens_b = json.loads((STUDY2 / "yardstick2" / "sensitivity2.json").read_text())
     desc = json.loads((STUDY2 / "descriptives.json").read_text())
     key = "RED-risk - RED-plain"
     opus, sonnet = "claude-opus-5-5", "claude-sonnet-5-5"
@@ -105,7 +106,7 @@ def effects(lang: str):
         (sens["gemini"]["without_strata"]["delta_bar"], None),
         (desc["errors_as_full_coverage"]["gemini"], None),
         (desc["full_tables_only"]["delta_bar"], None),
-        (two_b["gemini"]["delta_bar"], None),
+        (two_b["gemini"]["delta_bar"], sens_b["gemini"]["bootstrap_95"]),
     ]
     groups = {0: t["s1"], 2: t["s2"], 6: t["checks"]}
     colors = [NEUTRAL, NEUTRAL, ORANGE, ORANGE, ORANGE, ORANGE, BLUE, BLUE, BLUE, BLUE]

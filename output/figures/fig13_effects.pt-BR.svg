@@ -270,11 +270,16 @@ z
     </g>
    </g>
    <g id="line2d_31">
+    <path d="M 223.224253 238.6305 
+L 289.939102 238.6305 
+" clip-path="url(#pd26954fec7)" style="fill: none; stroke: #2a78d6; stroke-opacity: 0.45; stroke-width: 2.2; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_32">
     <g clip-path="url(#pd26954fec7)">
      <use xlink:href="#m8c7ac39cb0" x="256.707555" y="238.6305" style="fill: #2a78d6; stroke: #ffffff; stroke-width: 1.2"/>
     </g>
    </g>
-   <g id="line2d_32">
+   <g id="line2d_33">
     <path d="M 171.866407 254.628 
 L 171.866407 7.2 
 " clip-path="url(#pd26954fec7)" style="fill: none; stroke: #52514e; stroke-linecap: square"/>

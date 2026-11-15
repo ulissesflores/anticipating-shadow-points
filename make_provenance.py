@@ -78,6 +78,7 @@ GROUPS: dict[str, list[str]] = {
         "benchmark/study-2026-11b/sensitivity.json",
         "benchmark/study-2026-11b/descriptives.json",
         "benchmark/study-2026-11b/yardstick2/results2.json",
+        "benchmark/study-2026-11b/yardstick2/sensitivity2.json",
     ],
 }
 INFORMATIONAL = ["output/figures/*", "requirements.lock"]

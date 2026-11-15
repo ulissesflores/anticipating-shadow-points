@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 784" width="1000" height="784">
-<text x="260" y="36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">Resposta ao pedido simples</text>
+<text x="260" y="36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">Resposta: pedido simples</text>
 <rect x="40" y="60" width="440" height="610" rx="12" fill="none" stroke="#5c5c5c" stroke-width="2"/>
 <text x="64" y="96" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="start" font-style="italic">coluna de riscos da tabela final · rodada t078</text>
 <line x1="60" y1="112" x2="460" y2="112" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
@@ -27,7 +27,7 @@
 <text x="100" y="555.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">confere o padrão</text>
 <rect x="80" y="690" width="360" height="46" rx="12" fill="#f4f4f3" stroke="#5c5c5c" stroke-width="2"/>
 <text x="260" y="720" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">cobre 3 dos 6 riscos de referência</text>
-<text x="740" y="36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">Resposta ao pedido com a frase</text>
+<text x="740" y="36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">Resposta: pedido com a frase</text>
 <rect x="520" y="60" width="440" height="610" rx="12" fill="none" stroke="#d2501a" stroke-width="2.5"/>
 <text x="544" y="96" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="start" font-style="italic">coluna de riscos da tabela final · rodada t051</text>
 <line x1="540" y1="112" x2="940" y2="112" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>

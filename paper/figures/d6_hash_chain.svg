@@ -67,5 +67,5 @@
 <text x="832" y="643" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="600" fill="#d2501a" text-anchor="middle">8872c0c5…c2284e29</text>
 <text x="832" y="686" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#d2501a" text-anchor="middle" font-style="italic">anchored in Bitcoin block 975820</text>
 <line x1="40" y1="760" x2="960" y2="760" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
-<text x="500.0" y="800" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#1b1b1b" text-anchor="middle">Changing any recorded file changes every hash after it.</text>
+<text x="500.0" y="800" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#1b1b1b" text-anchor="middle">Altering any entry changes every hash after it.</text>
 </svg>

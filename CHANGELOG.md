@@ -19,6 +19,9 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   reference lists asked for again without the words of the tested sentence.
   Primary judge: 55.8% to 62.5%, +6.7 points (p = 0.0002), against +11.4 on
   the original lists. The second judge's verdicts are pending.
+  With the three network-error trials scored as full coverage the difference
+  is +4.2 points (p = 0.0051), and +3.2 on Opus 5.5 alone (p = 0.099)
+  (`yardstick2/sensitivity2.py`, added at a reviewer's request).
 - **The third paper**, `paper/one-sentence-premortem.md`, in English,
   Portuguese, Spanish and Italian under `docs/paper/`.
 - Three trials ended in a network error and count as 0 under the fixed rule.

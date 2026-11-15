@@ -366,3 +366,21 @@ def test_second_yardstick():
     assert "98 of the 111 reference risks" in PAPER
     assert delta == "6.7" and PAPER.count("6.7 points") >= 5
     assert len(list((STUDY / "yardstick2" / "judge" / "gemini").glob("t*.json"))) == 240
+    # the unplanned checks a blind reviewer asked for (round 2), recomputed by sensitivity2.py
+    s2 = json.loads((STUDY / "yardstick2" / "sensitivity2.json").read_text())["gemini"]
+    assert s2["fixed_rule"]["delta_bar"] == g["delta_bar"] and s2["fixed_rule"]["p"] == g["p"]
+    ws, wt, full = s2["without_strata"], s2["without_trials"], s2["errors_as_full_coverage"]
+    assert f"the difference is {pct(ws['delta_bar'])} points (p = {ws['p']})" in PAPER
+    assert f"without the three trials it is {pct(wt['delta_bar'])} (p = {wt['p']})" in PAPER
+    assert f"it is {pct(full['delta_bar'])} points (p = {full['p']})" in PAPER
+    assert f"{pct(full['by_model'][SONNET])} on Sonnet 5.5 (p = {full['p_by_model'][SONNET]})" in PAPER
+    assert pct(full["by_model"][OPUS]) == "3.2" and full["p_by_model"][OPUS] == 0.0994
+    assert "3.2 on Opus 5.5, where it is no longer significant (p = 0.099)" in PAPER
+    low, high = (pct(v) for v in s2["bootstrap_95"])
+    assert f"second difference is {low} to {high} points" in PAPER
+    low, high = (pct(v) for v in s2["task_bootstrap_95"])
+    assert PAPER.count(f"{low} to {high}") == 2
+    first = json.loads((STUDY / "yardstick2" / "sensitivity2.json").read_text())["original"]
+    low, high = (pct(v) for v in first["task_bootstrap_95"])
+    assert PAPER.count(f"{low} to {high}") == 2
+    assert first["bootstrap_95"] == json.loads((STUDY / "descriptives.json").read_text())["bootstrap_95"]

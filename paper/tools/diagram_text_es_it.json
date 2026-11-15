@@ -32,8 +32,8 @@
   "line_label": "LA ÚNICA LÍNEA QUE CAMBIA",
   "contract_label": "CONTRATO DE SALIDA (igual en ambos)",
   "contract": "Declara los supuestos, no edites archivos y termina con una tabla de hasta 10 riesgos.",
-  "ans_plain": "Respuesta a la solicitud simple",
-  "ans_sent": "Respuesta a la solicitud con la frase",
+  "ans_plain": "Respuesta: solicitud simple",
+  "ans_sent": "Respuesta: solicitud con la frase",
   "ans_sub": "columna de riesgos de la tabla final · ejecución {t}",
   "covers": "cubre {k} de los 6 riesgos de referencia",
   "ref_head": "Riesgo de referencia (tarea U08)",
@@ -70,7 +70,7 @@
    "Los despliegues graduales rechazan tokens nuevos",
    "Se rompen subclases e introspección",
    "Las bibliotecas dependientes cambian de comportamiento en silencio",
-   "Las pruebas y la documentación quedan desfasadas"
+   "Pruebas y documentación desfasadas"
   ],
   "translated": "traducido del inglés; el original está en el repositorio",
   "how": "Cada entrada guarda la huella SHA-256 de un archivo y el hash de la entrada anterior",
@@ -89,7 +89,7 @@
   "head2": "Cabeza después del análisis",
   "btc": "anclada en el bloque 975226 de Bitcoin",
   "sub": "anclada en el bloque 975820 de Bitcoin",
-  "tamper": "Cambiar cualquier archivo registrado cambia todos los hashes posteriores.",
+  "tamper": "Alterar cualquier registro cambia todos los hashes posteriores.",
   "before": "ANTES DE CUALQUIER DATO",
   "events": [
    [
@@ -160,8 +160,8 @@
   "line_label": "L'UNICA RIGA CHE CAMBIA",
   "contract_label": "CONTRATTO DI OUTPUT (uguale in entrambe)",
   "contract": "Dichiara le ipotesi, non modificare file e termina con una tabella di al massimo 10 rischi.",
-  "ans_plain": "Risposta alla richiesta semplice",
-  "ans_sent": "Risposta alla richiesta con la frase",
+  "ans_plain": "Risposta: richiesta semplice",
+  "ans_sent": "Risposta: richiesta con la frase",
   "ans_sub": "colonna dei rischi della tabella finale · prova {t}",
   "covers": "copre {k} dei 6 rischi di riferimento",
   "ref_head": "Rischio di riferimento (compito U08)",
@@ -217,7 +217,7 @@
   "head2": "Testa dopo l'analisi",
   "btc": "ancorata nel blocco 975226 di Bitcoin",
   "sub": "ancorata nel blocco 975820 di Bitcoin",
-  "tamper": "Cambiare qualsiasi file registrato cambia tutti gli hash successivi.",
+  "tamper": "Alterare qualsiasi registrazione cambia tutti gli hash successivi.",
   "before": "PRIMA DI QUALSIASI DATO",
   "events": [
    [

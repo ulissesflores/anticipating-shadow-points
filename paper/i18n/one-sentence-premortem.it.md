@@ -160,7 +160,7 @@ Qui i modelli fanno le veci di ingegneri indipendenti, una sostituzione che le l
 | GPT-OSS 120B | sì | no | no | no | 9 |
 | Grok | sì | no | secondo giudice | no | 0 |
 
-*Nota.* Un rischio di riferimento porta la formulazione del primo revisore, in ordine alfabetico di nome del revisore, che lo ha scritto, ragione per cui nessuno porta la formulazione di Grok. Nessun modello esterno condivide il fornitore con i modelli provati.
+*Nota.* Un rischio di riferimento porta la formulazione del primo revisore, in ordine alfabetico di nome del revisore, che lo ha scritto, ragione per cui nessuno porta la formulazione di Grok. Nessun modello esterno condivide il fornitore con i modelli provati. Gli output salvati del client di Grok non riportano alcun identificatore di modello (Flores, 2026b).
 
 ### 4.5. Valutazione
 
@@ -291,7 +291,7 @@ Il limite opposto dà la stessa lettura. Se ciascuna delle tre prove con errore 
 
 Il tempo medio di esecuzione è stato minore con la frase, come i turni e i token di output, in entrambi i modelli (Tabella 8). Il protocollo elenca queste misure come descrittive e non assegna loro alcun test, quindi sono riportate come descrizione (Flores, 2026b). Sostengono una sola affermazione: non si è osservato alcun costo aggiuntivo.
 
-Una differenza di comportamento sta dietro una parte di questi numeri. Nella modalità di pianificazione, l'agente può salvare il piano in un file, con una chiamata a uno strumento, prima di rispondere (Anthropic, 2026). In Opus 5.5 lo ha fatto in 59 delle 60 prove semplici e in 22 delle 60 prove con la frase; in Sonnet 5.5 non lo ha fatto mai, in nessuna condizione (Flores, 2026b). La Sezione 7, obiezione 13, esamina se quella differenza potrebbe spiegare il guadagno di copertura.
+Una differenza di comportamento sta dietro una parte di questi numeri. Nella modalità di pianificazione, l'agente può salvare il piano in un file, con una chiamata a uno strumento, prima di rispondere (Anthropic, 2026). In Opus 5.5 lo ha fatto in 59 delle 60 prove semplici e in 22 delle 60 prove con la frase; in Sonnet 5.5 non lo ha fatto mai, in nessuna condizione (Flores, 2026b). La Sezione 7, obiezione 13, esamina se quella differenza potrebbe spiegare il guadagno di copertura. Le due prove di Opus 5.5 terminate con un errore di rete (Sezione 5.5) avevano già salvato un file di piano quando la connessione è caduta, e quella di Sonnet 5.5 no. Una prova semplice su Opus 5.5 è durata in media un turno in più (Tabella 8) ed è rimasta più a lungo esposta all'interruzione.
 
 **Tabella 8.** Costo medio per prova, per condizione e modello, nelle prove che non sono terminate con errore.
 
@@ -337,6 +337,8 @@ La differenza resta positiva con un metro di misura che non condivide le parole 
 
 I dati non dicono quanta parte della distanza tra 11,4 e 6,7 venga dalle parole. Questa è una sola nuova raccolta di liste; i due insiemi di liste differiscono per dimensione e per contenuto, e una copertura iniziale più alta lascia meno spazio di guadagno (Tabella 9). Due limiti valgono per questa verifica. Gemini ha scritto la formulazione di 98 dei 111 rischi di riferimento ed è anche, finora, il suo unico giudice, la concentrazione che descrive l'obiezione 3 della Sezione 7. La quota d'uso del secondo giudice si è esaurita dopo 11 di 240 verdetti; l'aggiunta vieta di sostituire un giudice, per cui i suoi verdetti non sono in questa versione (Sezione 8).
 
+Altre tre verifiche di questo metro di misura sono state aggiunte su richiesta di un revisore cieco di questo manoscritto, dopo che il suo risultato era noto; nessuna è nell'aggiunta (Sezione 8). Le tre prove con errore di rete sono tutte prove semplici e anche qui contano zero. Senza i tre strati che le contengono la differenza è di 5,3 punti (p = 0,0002), e senza le tre prove è di 5,6 (p = 0,0002). Al limite opposto, con ogni prova con errore valutata come copertura totale, è di 4,2 punti (p = 0,0051): 5,3 su Sonnet 5.5 (p = 0,0097) e 3,2 su Opus 5.5, dove non è più significativa (p = 0,099). La lettura fissata nell'aggiunta poggia sul test congiunto e regge con ogni trattamento; il risultato isolato di Opus 5.5 non regge a quel limite (Flores, 2026b). L'intervallo bootstrap della seconda differenza va da 4,1 a 9,4 punti e si sovrappone all'intervallo originale, da 8,9 a 14,0. Ricampionare i dodici compiti, e non le repliche, lo allarga a 2,2 a 11,1, contro 8,2 a 14,5 per il metro di misura originale.
+
 ---
 
 ## 6. Discussione
@@ -359,9 +361,9 @@ I dati non dicono quanta parte della distanza tra 11,4 e 6,7 venga dalle parole.
 
 Questa sezione prende le obiezioni una per una. Seguono le classi abituali di minacce nell'ingegneria del software empirica (Wohlin et al., 2012) e le cautele sollevate per gli studi che usano LLM (Sallou et al., 2024; Baltes et al., 2026). Prima che questa versione fosse scritta, il manoscritto e i suoi dati sono stati consegnati a due modelli di altri fornitori, ciascuno istruito, in modo indipendente, ad agire da revisore ostile; entrambi hanno sollevato l'obiezione 1. A uno di essi è stata poi data la frase stessa in studio, rivolta al manoscritto: prima di pubblicare questo articolo, elenca i modi in cui può andare storto. Quella richiesta ha prodotto l'obiezione 13, che nessuna delle due revisioni aveva sollevato. Il repository conserva i tre rapporti (Flores, 2026b).
 
-**1. Il metro di misura è stato ottenuto con le parole della frase provata (costrutto).** Ai revisori che hanno scritto le liste di riferimento è stato indicato di dare "the concrete ways this change could go wrong" (Appendice A). La condizione provata chiede all'agente di "list the ways this change could go wrong", e la condizione semplice non vede mai quelle parole. Parte del guadagno potrebbe quindi essere una coincidenza tra le risposte provate e la domanda che ha prodotto il metro di misura, e non più dei rischi reali della modifica. Le due condizioni sono valutate rispetto alle stesse liste, il che protegge il confronto da differenze tra liste; non lo protegge da un trattamento che conduce l'agente verso la cornice dei revisori. Nulla nei dati pre-registrati separa le due letture. La misura di rilevanza, che non usa le liste di riferimento, mostra che le righe non sono diventate meno concrete (Sezione 5.4), e questa è solo una risposta parziale. Un secondo metro di misura, ottenuto con le parole del contratto di output che le due condizioni ricevono, è stato specificato dopo che questi risultati erano noti, in un'aggiunta datata sigillata prima della sua raccolta (Flores, 2026b). Rispetto a esso la differenza è di 6,7 punti (p = 0,0002), positiva su entrambi i modelli e circa quattro decimi più piccola della stima pre-registrata (Sezione 5.8). L'obiezione è accolta in parte: il guadagno non scompare quando il metro di misura smette di condividere le parole della frase, e la sua dimensione dipende invece dal metro di misura.
+**1. Il metro di misura è stato ottenuto con le parole della frase provata (costrutto).** Ai revisori che hanno scritto le liste di riferimento è stato indicato di dare "the concrete ways this change could go wrong" (Appendice A). La condizione provata chiede all'agente di "list the ways this change could go wrong", e la condizione semplice non vede mai quelle parole. Parte del guadagno potrebbe quindi essere una coincidenza tra le risposte provate e la domanda che ha prodotto il metro di misura, e non più dei rischi reali della modifica. Le due condizioni sono valutate rispetto alle stesse liste, il che protegge il confronto da differenze tra liste; non lo protegge da un trattamento che conduce l'agente verso la cornice dei revisori. Nulla nei dati pre-registrati separa le due letture. La misura di rilevanza, che non usa le liste di riferimento, mostra che le righe non sono diventate meno concrete (Sezione 5.4), e questa è solo una risposta parziale. Un secondo metro di misura, ottenuto con le parole del contratto di output che le due condizioni ricevono, è stato specificato dopo che questi risultati erano noti, in un'aggiunta datata sigillata prima della sua raccolta (Flores, 2026b). Rispetto a esso la differenza è di 6,7 punti (p = 0,0002), positiva su entrambi i modelli e circa quattro decimi più piccola della stima pre-registrata (Sezione 5.8). Al limite opposto per le tre prove con errore è di 4,2 punti (p = 0,0051), e di 3,2 sul solo Opus 5.5, non significativa (p = 0,099). L'obiezione è accolta in parte: il guadagno non scompare quando il metro di misura smette di condividere le parole della frase, e la sua dimensione dipende invece dal metro di misura.
 
-**2. Le liste di riferimento sono state scritte da modelli (costrutto).** La copertura misura la concordanza con ciò che tre LLM di altri fornitori si aspettavano che andasse storto, filtrata sugli elementi che almeno due di loro hanno citato (Sezione 4.4). Non è una misura di rischio reale. Un rischio che i tre revisori hanno lasciato passare non può essere accreditato. Nell'esperimento sul campo di Caraeni et al. (2026), i pianificatori umani hanno colto rischi specifici del contesto che il modello da solo non ha colto, quindi un metro di misura umano potrebbe cambiare i valori assoluti. Il passo (i) della Sezione 9 se ne occupa.
+**2. Le liste di riferimento sono state scritte da modelli (costrutto).** La copertura misura la concordanza con ciò che tre LLM di altri fornitori si aspettavano che andasse storto, filtrata sugli elementi che almeno due di loro hanno citato (Sezione 4.4). Non è una misura di rischio reale. Un rischio che i tre revisori hanno lasciato passare non può essere accreditato. Nell'esperimento sul campo di Caraeni et al. (2026), i pianificatori umani hanno colto rischi specifici del contesto che il modello da solo non ha colto, quindi un metro di misura umano potrebbe cambiare i valori assoluti. Il passo (i) della Sezione 9 se ne occupa. La copertura dà inoltre lo stesso peso a ogni rischio di riferimento, qualunque sia la gravità del guasto che nomina.
 
 **3. Un modello occupa quattro ruoli (costrutto).** Gemini 3.8 Flash ha scritto una lista di revisore, ha raggruppato gli elementi, è il giudice principale della copertura e l'unico giudice della rilevanza, e 91 dei 100 rischi di riferimento portano la sua formulazione (Tabella 4). Un giudice può far coincidere più facilmente la propria formulazione (Panickssery et al., 2024). Il secondo giudice è il controllo per questo: Grok non ha scritto alcuna formulazione di riferimento, e trova un guadagno di 10,7 punti contro 11,4 (Tabella 5). La rilevanza non ha un tale controllo, il che è una seconda ragione per affermare soltanto che non è calata.
 
@@ -373,7 +375,7 @@ Questa sezione prende le obiezioni una per una. Seguono le classi abituali di mi
 
 **7. Tabelle più lunghe potrebbero spiegare un recall maggiore (interna).** Le tabelle con la frase hanno in media 0,4 righe in più (Tabella 8). Tra le prove con le dieci righe complete, la differenza è di 11,3 punti (Sezione 5.4).
 
-**8. Il giudice potrebbe percepire la condizione (interna).** Al giudice non viene comunicata la condizione, e l'elenco di parole sostituito prima del giudizio non è stato pensato per queste due condizioni (Sezione 4.5). Un giudice potrebbe inferire la condizione dallo stile di una tabella. Lo studio non ha una misura di questo. Due giudici di fornitori diversi concordano nel 93,2% delle decisioni (Sezione 5.3), il che delimita il rumore del giudice e non una distorsione che possano condividere.
+**8. Il giudice potrebbe percepire la condizione (interna).** Al giudice non viene comunicata la condizione, e l'elenco di parole sostituito prima del giudizio non è stato pensato per queste due condizioni (Sezione 4.5). Un giudice potrebbe inferire la condizione dallo stile di una tabella. Lo studio non ha una misura di questo. Due giudici di fornitori diversi concordano nel 93,2% delle decisioni (Sezione 5.3), il che delimita il rumore del giudice e non una distorsione che possano condividere. Il giudice decide inoltre tutti i rischi di riferimento di una risposta in un'unica chiamata, quindi quelle decisioni non sono indipendenti (Flores, 2026b).
 
 **9. I repository sono pubblici e probabilmente stanno nei dati di addestramento dei modelli (esterna).** Diversi compiti usano progetti di esempio largamente copiati (Tabella 2). L'agente può ricordare trappole note di quei progetti, e la frase può aiutare di più il recupero che il ragionamento. Le due condizioni usano gli stessi repository, quindi questo riguarda il significato dell'effetto e non la sua esistenza; valgono le cautele sulla fuga di dati negli studi con LLM (Sallou et al., 2024).
 
@@ -385,7 +387,7 @@ Questa sezione prende le obiezioni una per una. Seguono le classi abituali di mi
 
 **13. In uno dei modelli, le condizioni differiscono in una chiamata a uno strumento (interna).** In Opus 5.5, la richiesta semplice ha portato l'agente a salvare un file di piano in 59 prove su 60, contro 22 su 60 con la frase (Sezione 5.6). Un agente che ha scritto il piano in un file può dare una risposta finale più corta, e la tabella è valutata a partire dalla risposta finale. Sonnet 5.5 è il controllo: non ha salvato alcun file di piano in nessuna prova, e il suo guadagno è il maggiore dei due, 12,4 punti (Tabella 5). Tra le prove di Opus 5.5 che hanno salvato il file, la differenza è di 7,5 punti nei 10 strati in cui le due condizioni restano (Flores, 2026b). La chiamata allo strumento non spiega il guadagno; può spiegare parte del costo minore in Opus 5.5.
 
-**Validità della conclusione.** Un test principale porta la decisione; le misure secondarie sono riportate come tali, e l'analisi di sensibilità, il limite opposto, l'intervallo bootstrap, il κ di Cohen, il confronto di tabelle complete, il confronto del file di piano e la Sezione 5.7 sono etichettati come non pianificati, la separazione che la pre-registrazione esiste per proteggere (Nosek et al., 2018). Cinque repliche per cella danno medie di strato grossolane; il test combina 24 strati e non dipende da nessuno di essi (Tabella 6).
+**Validità della conclusione.** Un test principale porta la decisione; le misure secondarie sono riportate come tali, e l'analisi di sensibilità, il limite opposto, l'intervallo bootstrap, il κ di Cohen, il confronto di tabelle complete, il confronto del file di piano e la Sezione 5.7 sono etichettati come non pianificati, la separazione che la pre-registrazione esiste per proteggere (Nosek et al., 2018). Cinque repliche per cella danno medie di strato grossolane; il test combina 24 strati e non dipende da nessuno di essi (Tabella 6). I test trattano i dodici compiti come fissi, e i due modelli li condividono; ricampionare compiti interi dà da 8,2 a 14,5 punti per la differenza pre-registrata e da 2,2 a 11,1 per il secondo metro di misura (Sezione 5.8).
 
 ---
 
@@ -400,7 +402,7 @@ Il file del protocollo registra ogni deviazione con la sua data (Flores, 2026b).
 5. **Una pausa nella valutazione.** La quota d'uso del giudice principale si è esaurita dopo 225 verdetti su 240. I 15 rimanenti sono stati prodotti dallo stesso modello, con lo stesso comando, dopo che la quota è stata ripristinata. Nessun giudice è stato sostituito.
 6. **Una condizione esplorativa che non è stata eseguita.** Il protocollo permetteva, se avanzava uso, una terza condizione con la cornice completa di Klein: "Imagine it is a month from now and this change has failed. Before planning, list why it failed." (in italiano: "Immagina che sia passato un mese e che questa modifica sia fallita. Prima di pianificare, elenca perché è fallita.") Non ha prove e non ha alcun rapporto con il risultato.
 7. **Analisi non pianificate,** ciascuna etichettata dove compare: l'analisi di sensibilità e il suo limite opposto, l'intervallo bootstrap, il κ di Cohen, il confronto di tabelle complete, il confronto del file di piano e la descrizione per elemento.
-8. **Il secondo metro di misura,** esplorativo e specificato dopo il risultato (Sezione 5.8). La quota del giudice principale si è esaurita dopo 208 dei suoi 240 verdetti, ripresi dopo il rinnovo con lo stesso modello e lo stesso comando. La quota del secondo giudice si è esaurita dopo 11 verdetti e non era tornata quando è stata scritta questa versione.
+8. **Il secondo metro di misura,** esplorativo e specificato dopo il risultato (Sezione 5.8). La quota del giudice principale si è esaurita dopo 208 dei suoi 240 verdetti, ripresi dopo il rinnovo con lo stesso modello e lo stesso comando. La quota del secondo giudice si è esaurita dopo 11 verdetti e non era tornata quando è stata scritta questa versione. Tre verifiche vi sono state aggiunte in seguito, su richiesta di un revisore (Sezione 5.8).
 
 ---
 
@@ -414,7 +416,9 @@ I limiti sono quelli della Sezione 7: il metro di misura e i giudici erano model
 
 ## 10. Disponibilità di dati e codice
 
-Il materiale dietro ogni numero di questo articolo è nel repository pubblico `anticipating-shadow-points`, in https://github.com/ulissesflores/anticipating-shadow-points (Flores, 2026b). La Tabella 10 elenca ciò che contiene.
+Il materiale dietro ogni numero di questo articolo è nel repository pubblico `anticipating-shadow-points` (Flores, 2026b), che la Tabella 10 descrive.
+
+Un solo comando, `python run_all.py`, ricalcola ogni numero di questo articolo a partire dalle risposte e dai verdetti conservati e non chiama alcun modello; richiede Python 3.11 o successivo (Flores, 2026b). Rieseguire le prove richiede un abbonamento a Claude e l'accesso ai due modelli giudici, che possono essere cambiati da novembre 2026.
 
 **Tabella 10.** Ciò che il repository contiene per questo articolo.
 
@@ -422,18 +426,16 @@ Il materiale dietro ogni numero di questo articolo è nel repository pubblico `a
 |---|---|---|
 | Protocollo, deviazioni e l'aggiunta del secondo metro di misura | `PROTOCOL.md`, `yardstick2/` | Che cosa è stato fissato prima dei dati e che cosa è cambiato dopo |
 | Compiti e prompt | `tasks.json`, `run.py`, `prompts/` | Il testo esatto che ogni prova e ogni revisore hanno ricevuto |
-| Liste di riferimento e loro fusione | `lists/` | I 369 elementi dei revisori e i 100 rischi di riferimento |
-| Le 240 risposte e i registri di esecuzione | `runs/` | Ogni risposta e il registro di ogni esecuzione |
-| I 720 verdetti | `judge/` | Ogni decisione, con il prompt che l'ha prodotta |
-| Analisi e verifiche | `analyze.py`, `sensitivity.py`, `describe.py`; `tests/test_paper3_numbers.py` | Come si calcola ogni numero, e che il testo concorda con i dati |
-| Registro concatenato e marche temporali | `ledger.jsonl`, `*.ots` | Che nessun file registrato è cambiato e che il protocollo precede le prove |
-| Revisioni esterne di questo manoscritto | `docs/paper/review/` | I rapporti dietro la Sezione 7 |
-| Lo studio di origine | `benchmark/study-2026-11/` | Lo stesso materiale per le 90 prove della Sezione 3 |
+| Liste di riferimento e loro fusione | `lists/` | I 369 elementi e i 100 rischi |
+| Le 240 risposte e i loro registri | `runs/` | Ogni risposta e il suo registro |
+| I 720 verdetti | `judge/` | Ogni decisione, con il suo prompt |
+| Analisi e verifiche | `analyze.py`, `sensitivity.py`, `describe.py`; `tests/test_paper3_numbers.py` | Come si calcola ogni numero; il testo concorda con i dati |
+| Registro concatenato e marche temporali | `ledger.jsonl`, `*.ots` | Che ogni file corrisponde all'ultima registrazione e il protocollo precede le prove |
+| Revisioni esterne del manoscritto | `docs/paper/review/` | I rapporti dietro la Sezione 7 |
+| Lo studio di origine | `benchmark/study-2026-11/` | Lo stesso, per la Sezione 3 |
 
 *Nota.* I percorsi senza cartella davanti stanno dentro `benchmark/study-2026-11b/` (Flores, 2026b). Dai registri di esecuzione sono stati rimossi i percorsi di macchina.
 
-
-Un solo comando, `python run_all.py`, eseguito dentro la cartella del repository, ricalcola ogni numero di questo articolo a partire dalle risposte e dai verdetti conservati e non chiama alcun modello; richiede Python 3.11 o successivo (Flores, 2026b). Rieseguire le prove richiede un abbonamento a Claude, e i giudici richiedono accesso ai due modelli giudici; i modelli dietro quei nomi possono essere cambiati da novembre 2026.
 
 ---
 

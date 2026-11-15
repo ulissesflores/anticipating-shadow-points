@@ -26,6 +26,10 @@ STEPS = [
         "study 2 second yardstick",
         [sys.executable, "benchmark/study-2026-11b/yardstick2/yardstick2.py", "results"],
     ),
+    (
+        "study 2 second yardstick, checks",
+        [sys.executable, "benchmark/study-2026-11b/yardstick2/sensitivity2.py", "--quiet"],
+    ),
     ("figures", [sys.executable, "analysis/make_figures.py"]),
     ("tests", [sys.executable, "-m", "pytest", "-q", "tests"]),
     (
