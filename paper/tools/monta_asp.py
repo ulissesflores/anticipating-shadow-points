@@ -152,8 +152,14 @@ def derive(src: Path, date: str, keep_colophon: bool, drop_resumo: bool, lang: s
     corpo = "".join(novos)
     if traduzida:
         assert "::: {lang=en-US}\n## Abstract" in corpo, f"no '## {LB['resumo']}' in the translated source"
+    # series number and keywords travel in the front matter: the exporter prints the number on the cover and
+    # writes the keywords into the file properties (canon v1.6, rules SER-META-001 and core_keywords_required)
+    serie = re.search(r"Codex Hash Research Report \d{4}-\d{2}", texto)
+    chaves = re.search(r"^\*\*[^*\n]+:\*\* (.+)$", corpo, re.M)
+    extra = (f'report_number: "{serie.group(0)}"\n' if serie else "") + (
+        f'keywords: "{chaves.group(1).strip().replace("*", "")}"\n' if chaves else "")
     meta = (f'---\ntitle: "{titulo}"\nsubtitle: "{subtitulo}"\nauthor: "{AUTHOR}"\naffiliation: "{AFFIL}"\n'
-            f'orcid: "{ORCID}"\ndate: "{date}"\nlang: {LB["code"]}\n---\n\n')
+            f'orcid: "{ORCID}"\ndate: "{date}"\n{extra}lang: {LB["code"]}\n---\n\n')
     return meta + "# " + h1.group(1).strip() + "\n\n" + corpo.rstrip() + "\n", rel
 
 

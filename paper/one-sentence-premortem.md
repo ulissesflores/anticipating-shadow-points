@@ -9,13 +9,13 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 ## Abstract
 
-A pre-mortem asks a team to assume that its plan has failed and to list why (Klein, 2007). An earlier pre-registered study found, as a secondary result, that the listing half of that exercise, put in one sentence, made a coding agent's plan cover more independently listed risks, and that a 13-phase protocol did not beat the sentence (Flores, 2026a). This paper reports the confirmatory study. Twelve change requests on twelve pinned public repositories were given to Claude Code in plan mode, on Claude Opus 5.5 and Claude Sonnet 5.5, under two requests that differ by one sentence: "Plan this change." and "Before planning, list the ways this change could go wrong." Reference risks were written blind by three models of other vendors, and a blind judge of another vendor scored each answer. Tasks, prompts, reference lists, analysis and decision rule were sealed in a hash ledger and timestamped before the first trial. Over 240 trials the sentence raised coverage from 46.1% to 57.5%, a mean difference of 11.4 percentage points over 24 task-by-model strata (stratified permutation p = 0.0001, and p = 0.0001 within each model). A second judge gave +10.7 points (Cohen's κ = 0.86 between judges). Without the three strata that hold a trial lost to a network error the difference is 10.1 points. Against a second set of reference lists, elicited afterwards with other words, it is 6.7 points (p = 0.0002), and 9.0 by a judge of a third vendor added afterwards. The claim is limited to two models of one vendor, to model-written reference lists and to plans, not code.
+A pre-mortem asks a team to assume that its plan has failed and to list why (Klein, 2007). In an earlier pre-registered study the listing half of that exercise, put in one sentence, made a coding agent's plan cover more independently listed risks, as a secondary result (Flores, 2026a). This paper reports the confirmatory study. Twelve change requests on pinned public repositories were given to Claude Code in plan mode, on Claude Opus 5.5 and Claude Sonnet 5.5, under two requests that differ by one sentence: "Plan this change." and "Before planning, list the ways this change could go wrong." Reference risks were written blind by three models of other vendors, and a blind judge of another vendor scored each answer. Protocol, lists and analysis were sealed and timestamped before the first trial. Over 240 trials the sentence raised coverage from 46.1% to 57.5%, a mean difference of 11.4 percentage points over 24 task-by-model strata (stratified permutation p < .001, also within each model). A second judge gave +10.7 points (Cohen's κ = .86). Without the three strata that hold a trial lost to a network error the difference is 10.1 points. Against a second set of reference lists, worded differently, it is 6.7 points (p < .001), and 9.0 by a third-vendor judge added later. The claim is limited to two models of one vendor, to model-written reference lists and to plans, not code.
 
 **Keywords:** pre-mortem; prompt engineering; LLM coding agents; risk identification; pre-registration; software planning
 
 ## Resumo
 
-Um pré-mortem pede que a equipe suponha que o plano fracassou e liste os motivos (Klein, 2007). Um estudo pré-registrado anterior encontrou, como resultado secundário, que a metade de listagem desse exercício, posta em uma frase, fez o plano de um agente de código cobrir mais riscos listados de forma independente, e que um protocolo de 13 fases não superou a frase (Flores, 2026a). Este artigo relata o estudo confirmatório. Doze pedidos de mudança em doze repositórios públicos fixados foram entregues ao Claude Code em modo de planejamento, no Claude Opus 5.5 e no Claude Sonnet 5.5, sob dois pedidos que diferem em uma frase: "Plan this change." e "Before planning, list the ways this change could go wrong." Os riscos de referência foram escritos às cegas por três modelos de outros fornecedores, e um juiz cego de outro fornecedor pontuou cada resposta. Tarefas, pedidos, listas de referência, análise e regra de decisão foram selados num registro encadeado por hash e carimbados antes da primeira rodada. Em 240 rodadas, a frase elevou a cobertura de 46,1% para 57,5%, diferença média de 11,4 pontos percentuais em 24 estratos de tarefa por modelo (permutação estratificada, p = 0,0001, e p = 0,0001 dentro de cada modelo). Um segundo juiz deu +10,7 pontos (κ de Cohen = 0,86 entre os juízes). Sem os três estratos que têm uma rodada perdida por erro de rede, a diferença é de 10,1 pontos. Contra um segundo conjunto de listas de referência, pedido depois com outras palavras, ela é de 6,7 pontos (p = 0,0002), e de 9,0 por um juiz de um terceiro fornecedor acrescentado depois. A afirmação se limita a dois modelos de um fornecedor, a listas de referência escritas por modelos e a planos, não a código.
+Um pré-mortem pede que a equipe suponha que o plano fracassou e liste os motivos (Klein, 2007). Num estudo pré-registrado anterior, a metade de listagem desse exercício, posta em uma frase, fez o plano de um agente de código cobrir mais riscos listados de forma independente, como resultado secundário (Flores, 2026a). Este é o estudo confirmatório. O Claude Code, em modo de planejamento no Claude Opus 5.5 e no Claude Sonnet 5.5, recebeu doze pedidos de mudança em repositórios públicos fixados, sob dois pedidos que diferem em uma frase: "Plan this change." e "Before planning, list the ways this change could go wrong." Três modelos de outros fornecedores escreveram às cegas os riscos de referência, e um juiz cego de outro fornecedor pontuou cada resposta. Protocolo, listas e análise foram selados e carimbados antes da primeira rodada. Em 240 rodadas, a frase elevou a cobertura de 46,1% para 57,5%, diferença média de 11,4 pontos percentuais em 24 estratos de tarefa por modelo (permutação estratificada, p < ,001, também em cada modelo). Um segundo juiz deu +10,7 pontos (κ de Cohen = ,86). Sem os três estratos com rodada perdida por erro de rede, a diferença é de 10,1 pontos. Contra um segundo conjunto de listas, pedido com outras palavras, ela é de 6,7 pontos (p < ,001), e de 9,0 por um terceiro juiz acrescentado depois. A afirmação se limita a dois modelos de um fornecedor, a listas de referência escritas por modelos e a planos, não a código.
 
 **Palavras-chave:** pré-mortem; engenharia de prompt; agentes de código baseados em LLM; identificação de riscos; pré-registro; planejamento de software
 
@@ -39,7 +39,7 @@ This paper reports that study. It was designed to give the earlier finding a fai
 
 ### 1.1. Contributions
 
-1. **A confirmatory, pre-registered test of a one-sentence request in a coding agent.** Over 240 trials on twelve pinned public repositories and two models, the sentence raises the coverage of independently listed risks by 11.4 percentage points (p = 0.0001), and by a similar amount within each model (Section 5.2).
+1. **A confirmatory, pre-registered test of a one-sentence request in a coding agent.** Over 240 trials on twelve pinned public repositories and two models, the sentence raises the coverage of independently listed risks by 11.4 percentage points (p < .001), and by a similar amount within each model (Section 5.2).
 2. **Checks on the gain.** A second judge of a different vendor reaches the same decision (Section 5.3), the listed risks are not judged less concrete (Section 5.4), and the result survives the removal of three trials that a network error zeroed in the comparison's favour (Section 5.5). Against reference lists elicited afterwards with other words, the gain stays positive and falls to 6.7 points (Section 5.8).
 3. **A sealed, open record.** Every prompt, reference list, answer, verdict and analysis file is public and linked in a hash ledger whose pre-trial state is anchored in the Bitcoin blockchain (Section 4.7), and one command recomputes every number in this paper (Flores, 2026b).
 4. **A stated list of objections.** Section 7 takes the strongest objections to the result, including those raised by outside reviewers of this manuscript, and answers each with data or names it as open.
@@ -102,7 +102,7 @@ The earlier study ran 90 trials on six public repositories with Claude Opus 5.5 
 
 ![Figure 3. Originating study: share of the blind reference risks covered by each condition's final table, per task and overall (primary judge).](../output/figures/fig3_study_2026_11_coverage_clear.png)
 
-The pre-registered primary comparison of that study, ASP against the sentence, was negative on all six tasks: −18 points, p = 1.0 (Figure 3). The secondary comparison, the sentence against the plain request, was +10 points (p = 0.0014) by the primary judge and +13 points (p = 0.0001) by the second (Table 1). Because the protocol labelled that comparison secondary, the earlier report claimed only its direction and announced the present study (Flores, 2026a).
+The pre-registered primary comparison of that study, ASP against the sentence, was negative on all six tasks: −18 points, p = 1.0 (Figure 3). The secondary comparison, the sentence against the plain request, was +10 points (p = .001) by the primary judge and +13 points (p < .001) by the second (Table 1). Because the protocol labelled that comparison secondary, the earlier report claimed only its direction and announced the present study (Flores, 2026a).
 
 Two properties of that result shaped the new design. The effect was measured on a single model, and prompt effects can reverse between models (Patel et al., 2026). And it rested on six tasks, so the new study uses twelve that the earlier one never touched (Table 2).
 
@@ -116,7 +116,7 @@ The hypothesis is directional: the sentence raises coverage. The design crosses 
 
 ### 4.2. Tasks
 
-Each task is a one-sentence change request on a public repository pinned to one commit (Table 2). The requests were written to have consequences beyond the files a first reading suggests: stored data that must migrate, clients that must keep working, defaults that other projects rely on. They span seven languages, a spread that guidelines for LLM studies in software engineering recommend over a single-language sample (Baltes et al., 2026). The task file was committed before any reference list was written (Table 4).
+Each task is a one-sentence change request on a public repository pinned to one commit (Table 2). The requests were written to have consequences beyond the files a first reading suggests: stored data that must migrate, clients that must keep working, defaults that other projects rely on. They span seven languages, a spread that guidelines for LLM studies in software engineering recommend over a single-language sample (Baltes et al., 2026). The task file was committed before any reference list was written (Section 4.7).
 
 ### 4.3. Conditions and harness
 
@@ -187,7 +187,7 @@ LLM judges reach over 80% agreement with human preferences in some settings (Zhe
 
 The test statistic is the mean, over the 24 strata, of the difference between mean coverage with the sentence and mean coverage without it. Its significance comes from a permutation test (Ernst, 2004): the condition labels are shuffled within each stratum 10,000 times, and the p-value is the share of shuffles whose statistic is at least the observed one, counted as (hits + 1) / 10,001 so that it is never zero (Phipson & Smyth, 2010). The test is one-sided and makes no assumption about the distribution of coverage. Shuffling within strata keeps differences between tasks and between models out of the comparison (Ernst, 2004).
 
-The decision rule has one condition for "confirmed": pooled p below 0.05 *and* the same test within each model, over its twelve strata, below 0.05 for both models (Flores, 2026b). If only one model passed, the result would be stated as confirmed for that model alone. The rule also required at least 18 complete strata. No other analysis is confirmatory, in the sense of Nosek et al. (2018).
+The decision rule has one condition for "confirmed": pooled p below .05 *and* the same test within each model, over its twelve strata, below .05 for both models (Flores, 2026b). If only one model passed, the result would be stated as confirmed for that model alone. The rule also required at least 18 complete strata. No other analysis is confirmatory, in the sense of Nosek et al. (2018).
 
 An error in a trial was fixed in advance to count as coverage zero and relevance zero and not to be rerun, except for a usage-limit error, which stops collection (Flores, 2026b). Section 5.5 examines what this rule did.
 
@@ -227,7 +227,7 @@ All 240 trials were recorded, on one version of Claude Code, and none changed a 
 
 ### 5.2. Primary result
 
-The sentence raised coverage from 46.1% to 57.5% by the primary judge (Table 5). The pre-registered statistic, the mean difference over the 24 strata, is 11.4 percentage points, with p = 0.0001, the smallest value the test can return (Phipson & Smyth, 2010). None of the 10,000 shuffles reached the observed difference; the largest gave 5.9 points (Figure 9). Within Claude Opus 5.5 the difference is 10.4 points and within Claude Sonnet 5.5 it is 12.4 points, each with p = 0.0001. The difference is positive in 22 of the 24 strata, zero in one and negative in one (Table 6). The decision rule returns *confirmed*.
+The sentence raised coverage from 46.1% to 57.5% by the primary judge (Table 5). The pre-registered statistic, the mean difference over the 24 strata, is 11.4 percentage points, with p < .001, the smallest value the test can return (Phipson & Smyth, 2010). None of the 10,000 shuffles reached the observed difference; the largest gave 5.9 points (Figure 9). Within Claude Opus 5.5 the difference is 10.4 points and within Claude Sonnet 5.5 it is 12.4 points, each with p < .001. The difference is positive in 22 of the 24 strata, zero in one and negative in one (Table 6). The decision rule returns *confirmed*.
 
 **Table 5.** Risk coverage by model and judge.
 
@@ -268,13 +268,13 @@ Figure 10 and Table 6 show the result task by task. The gain is not carried by a
 
 ### 5.3. Second judge
 
-The second judge gave 50.0% without the sentence and 60.8% with it: a mean difference of 10.7 points over the strata (p = 0.0001), 9.3 points within Opus 5.5 and 12.1 within Sonnet 5.5 (each p = 0.0001), positive in 22 strata (Table 5). It marks slightly more risks as covered than the primary judge in both conditions and reaches the same decision.
+The second judge gave 50.0% without the sentence and 60.8% with it: a mean difference of 10.7 points over the strata (p < .001), 9.3 points within Opus 5.5 and 12.1 within Sonnet 5.5 (each p < .001), positive in 22 strata (Table 5). It marks slightly more risks as covered than the primary judge in both conditions and reaches the same decision.
 
-The two judges made 2,000 decisions each, one per reference risk per trial, and agreed on 93.2% of them. Cohen's κ, which discounts the agreement expected by chance (Cohen, 1960), is 0.86. Of those decisions, 29 concern the three trials without a table, where both judges could only answer "not covered"; over the other 1,971 the agreement is 93.1% and κ is 0.86. The lexical matcher scored 3.0% and 1.3%; as in the originating study, it does not see paraphrase and carries no information here (Flores, 2026a).
+The two judges made 2,000 decisions each, one per reference risk per trial, and agreed on 93.2% of them. Cohen's κ, which discounts the agreement expected by chance (Cohen, 1960), is .86. Of those decisions, 29 concern the three trials without a table, where both judges could only answer "not covered"; over the other 1,971 the agreement is 93.1% and κ is .86. The lexical matcher scored 3.0% and 1.3%; as in the originating study, it does not see paraphrase and carries no information here (Flores, 2026a).
 
 ### 5.4. Relevance
 
-Over the trials that produced a table, the share of rows that the primary judge called concrete and plausible was 71.1% without the sentence and 73.9% with it (Table 7). Under the fixed rule, which scores the three trials without a table as zero, the plain figure is 69.4%. No reduction in mean judged relevance was observed, which is the reading the protocol fixed. The study sets no non-inferiority margin, so this does not prove that the coverage gain came with no vaguer rows, the risk that the human literature points to (Mitchell et al., 1989). No rise in relevance is claimed: the pooled difference of 4.5 points has p = 0.011 under the fixed rule, but neither model reaches 0.05 on its own (0.052 and 0.060), and the difference is not significant once the error trials are set aside (Table 7).
+Over the trials that produced a table, the share of rows that the primary judge called concrete and plausible was 71.1% without the sentence and 73.9% with it (Table 7). Under the fixed rule, which scores the three trials without a table as zero, the plain figure is 69.4%. No reduction in mean judged relevance was observed, which is the reading the protocol fixed. The study sets no non-inferiority margin, so this does not prove that the coverage gain came with no vaguer rows, the risk that the human literature points to (Mitchell et al., 1989). No rise in relevance is claimed: the pooled difference of 4.5 points has p = .011 under the fixed rule, but neither model reaches .05 on its own (.052 and .060), and the difference is not significant once the error trials are set aside (Table 7).
 
 Tables held 9.2 rows without the sentence and 9.6 with it, against a cap of ten (Table 8). Coverage is a measure of recall, so a longer table has more chances to match a reference risk. Restricting the comparison to the trials whose table has the full ten rows, 56 plain and 82 with the sentence, leaves the difference at 11.3 points over the 17 strata where both conditions remain (Flores, 2026b). The length of a table is itself an effect of the request, so this restricted comparison describes and does not isolate a cause; it shows that the gain is present among tables of equal length.
 
@@ -286,17 +286,17 @@ During a short loss of internet access, three trials ended with an error after t
 
 | Analysis | Strata | Primary judge | Second judge | Relevance |
 |---|---|---|---|---|
-| As pre-registered (errors count zero) | 24 | +11.4 (p = 0.0001) | +10.7 (p = 0.0001) | +4.5 (p = 0.011) |
-| Without the three strata that hold an error | 21 | +10.1 (p = 0.0001) | +8.9 (p = 0.0001) | +2.5 (p = 0.091) |
-| Without the three trials only | 24 | +10.5 (p = 0.0001) | +9.7 (p = 0.0001) | +2.9 (p = 0.054) |
+| As pre-registered (errors count zero) | 24 | +11.4 (p < .001) | +10.7 (p < .001) | +4.5 (p = .011) |
+| Without the three strata that hold an error | 21 | +10.1 (p < .001) | +8.9 (p < .001) | +2.5 (p = .091) |
+| Without the three trials only | 24 | +10.5 (p < .001) | +9.7 (p < .001) | +2.9 (p = .054) |
 
 *Note.* Differences in percentage points, sentence minus plain. Only the first row is confirmatory.
 
-The coverage result holds in every row of Table 7, and within each model: in the most conservative row the per-model differences are 8.5 points for Opus 5.5 (p = 0.0002) and 11.6 for Sonnet 5.5 (p = 0.0001) by the primary judge, and 6.9 (p = 0.0005) and 10.7 (p = 0.0001) by the second. The relevance difference does not hold at the 0.05 level without the error trials, which is why Section 5.4 states only that no reduction in relevance was observed.
+The coverage result holds in every row of Table 7, and within each model: in the most conservative row the per-model differences are 8.5 points for Opus 5.5 (p < .001) and 11.6 for Sonnet 5.5 (p < .001) by the primary judge, and 6.9 (p < .001) and 10.7 (p < .001) by the second. The relevance difference does not hold at the .05 level without the error trials, which is why Section 5.4 states only that no reduction in relevance was observed.
 
 The opposite bound gives the same reading. If each of the three error trials is scored as if its table had covered every reference risk, the difference is 8.9 points by the primary judge and 8.2 by the second (Flores, 2026b).
 
-The three trials were also run once more, two days after collection, as an unplanned addition fixed in a dated addendum before the runs (Section 8). Each ended normally, with a table of 8, 9 and 10 rows. With their coverage in place of the three zeros, the difference on the original lists is 10.5 points (p = 0.0001): 9.0 on Opus 5.5 and 11.9 on Sonnet 5.5 (Flores, 2026b). The rows fixed in advance are unchanged, and Section 5.8 gives the limits of this rerun.
+The three trials were also run once more, two days after collection, as an unplanned addition fixed in a dated addendum before the runs (Section 8). Each ended normally, with a table of 8, 9 and 10 rows. With their coverage in place of the three zeros, the difference on the original lists is 10.5 points (p < .001): 9.0 on Opus 5.5 and 11.9 on Sonnet 5.5 (Flores, 2026b). The rows fixed in advance are unchanged, and Section 5.8 gives the limits of this rerun.
 
 ### 5.6. Cost
 
@@ -333,14 +333,14 @@ The largest gains are risks of interaction between the change and what already e
 
 This check was specified after the results above were known, and it tests nothing that was pre-registered. It answers objection 1 of Section 7: the reference lists were asked for with words close to the sentence under test. The three reviewers wrote new lists for the twelve tasks under a prompt in which one sentence changed. It asks for "the main risks of this change", which are the words of the output contract that both conditions receive, and the words "go wrong" do not appear (Flores, 2026b). The rule that merges the lists, the 240 answers, the judge's prompt and the statistic stayed as they were. The addendum, the prompt and the code were sealed in the ledger and timestamped before the first reviewer was called (Table 4).
 
-The new lists hold 111 reference risks, between 7 and 11 per task. Against them the primary judge gives 55.8% without the sentence and 62.5% with it: a mean difference of 6.7 points (p = 0.0002), 6.5 on Opus (p = 0.002) and 6.9 on Sonnet (p = 0.0013). Of the 24 strata, 16 are positive, 2 are zero and 6 are negative (Table 9).
+The new lists hold 111 reference risks, between 7 and 11 per task. Against them the primary judge gives 55.8% without the sentence and 62.5% with it: a mean difference of 6.7 points (p < .001), 6.5 on Opus (p = .002) and 6.9 on Sonnet (p = .001). Of the 24 strata, 16 are positive, 2 are zero and 6 are negative (Table 9).
 
 **Table 9.** Risk coverage against the two yardsticks, primary judge.
 
 | Yardstick, by the words of its prompt | Reference risks | Plain | With the sentence | Difference | p | Positive strata |
 |---|---|---|---|---|---|---|
-| Original: "ways this change could go wrong" | 100 | 46.1% | 57.5% | +11.4 | 0.0001 | 22 of 24 |
-| Second: "the main risks of this change" | 111 | 55.8% | 62.5% | +6.7 | 0.0002 | 16 of 24 |
+| Original: "ways this change could go wrong" | 100 | 46.1% | 57.5% | +11.4 | < .001 | 22 of 24 |
+| Second: "the main risks of this change" | 111 | 55.8% | 62.5% | +6.7 | < .001 | 16 of 24 |
 
 *Note.* Differences are in percentage points, as the mean over the 24 task-by-model strata; p is from the stratified permutation test of Section 4.6. The second row is exploratory and was computed after the first was known.
 
@@ -348,7 +348,7 @@ The difference stays positive under a yardstick that does not share the words of
 
 The data do not say how much of the gap between 11.4 and 6.7 comes from the wording. This is one new elicitation; the two sets of lists differ in size and in content, and a higher starting coverage leaves less room to gain (Table 9). Three limits apply to this check. The prompt that merges the three lists was kept as it was, and it still describes them as "ways a software change could go wrong"; the check therefore removes those words from the request to the reviewers and not from the whole construction of the yardstick (Flores, 2026b). Gemini wrote the wording of 98 of the 111 reference risks and was its only judge in the planned analysis, the concentration that objection 3 of Section 7 describes. The planned second judge's usage quota ran out after 11 of 240 verdicts; the addendum forbids substituting a judge, so its verdicts are not in this version (Section 8).
 
-Three further checks on this yardstick were added at the request of a blind reviewer of this manuscript, after its result was known; none is in the addendum (Section 8). The three network-error trials are all plain trials and count as zero here too. Without the three strata that hold them the difference is 5.3 points (p = 0.0002), and without the three trials it is 5.6 (p = 0.0002). At the opposite bound, with each error trial scored as full coverage, it is 4.2 points (p = 0.0051): 5.3 on Sonnet 5.5 (p = 0.0097) and 3.2 on Opus 5.5, where it is no longer significant (p = 0.099). The reading fixed in the addendum rests on the combined test and holds under every handling; the separate result on Opus 5.5 does not hold at that bound (Flores, 2026b). The bootstrap interval of the second difference is 4.1 to 9.4 points and overlaps the original interval, 8.9 to 14.0. Resampling the twelve tasks, and not the replicates, widens it to 2.2 to 11.1, against 8.2 to 14.5 for the original yardstick.
+Three further checks on this yardstick were added at the request of a blind reviewer of this manuscript, after its result was known; none is in the addendum (Section 8). The three network-error trials are all plain trials and count as zero here too. Without the three strata that hold them the difference is 5.3 points (p < .001), and without the three trials it is 5.6 (p < .001). At the opposite bound, with each error trial scored as full coverage, it is 4.2 points (p = .005): 5.3 on Sonnet 5.5 (p = .010) and 3.2 on Opus 5.5, where it is no longer significant (p = .099). The reading fixed in the addendum rests on the combined test and holds under every handling; the separate result on Opus 5.5 does not hold at that bound (Flores, 2026b). The bootstrap interval of the second difference is 4.1 to 9.4 points and overlaps the original interval, 8.9 to 14.0. Resampling the twelve tasks, and not the replicates, widens it to 2.2 to 11.1, against 8.2 to 14.5 for the original yardstick.
 
 Two additions followed the second round of review, each fixed in a dated addendum that was sealed and timestamped before its first call (Section 8). First, the three error trials were run once more, one attempt each, with the same prompt, pinned commit, model identifier and Claude Code version; all three ended normally (Section 5.5). Second, GPT-6 Astra, a model of a third vendor, scored the 240 answers and the three reruns against the second yardstick with the unchanged judge prompt, as a judge that was not planned (Table 10). It does not replace the planned second judge, whose verdicts are still owed (Flores, 2026b).
 
@@ -356,18 +356,18 @@ Two additions followed the second round of review, each fixed in a dated addendu
 
 | Handling of the three error trials | Judge | Difference | Opus 5.5 | Sonnet 5.5 |
 |---|---|---|---|---|
-| Count zero, as fixed in advance | Gemini 3.8 Flash | +6.7 (p = 0.0002) | +6.5 (p = 0.002) | +6.9 (p = 0.0013) |
-| Count zero, as fixed in advance | GPT-6 Astra | +9.0 (p = 0.0001) | +8.1 (p = 0.0001) | +9.8 (p = 0.0001) |
-| Scored as full coverage | Gemini 3.8 Flash | +4.2 (p = 0.0051) | +3.2 (p = 0.099) | +5.3 (p = 0.0097) |
-| Scored as full coverage | GPT-6 Astra | +6.5 (p = 0.0001) | +4.7 (p = 0.013) | +8.2 (p = 0.0001) |
-| Run once more | Gemini 3.8 Flash, by API | +5.6 (p = 0.0003) | +4.9 (p = 0.0094) | +6.4 (p = 0.0017) |
-| Run once more | GPT-6 Astra | +7.7 (p = 0.0001) | +6.2 (p = 0.0003) | +9.1 (p = 0.0001) |
+| Count zero, as fixed in advance | Gemini 3.8 Flash | +6.7 (p < .001) | +6.5 (p = .002) | +6.9 (p = .001) |
+| Count zero, as fixed in advance | GPT-6 Astra | +9.0 (p < .001) | +8.1 (p < .001) | +9.8 (p < .001) |
+| Scored as full coverage | Gemini 3.8 Flash | +4.2 (p = .005) | +3.2 (p = .099) | +5.3 (p = .010) |
+| Scored as full coverage | GPT-6 Astra | +6.5 (p < .001) | +4.7 (p = .013) | +8.2 (p < .001) |
+| Run once more | Gemini 3.8 Flash, by API | +5.6 (p < .001) | +4.9 (p = .009) | +6.4 (p = .002) |
+| Run once more | GPT-6 Astra | +7.7 (p < .001) | +6.2 (p < .001) | +9.1 (p < .001) |
 
 *Note.* Differences in percentage points, sentence minus plain, with the permutation p of Section 4.6. Every row is exploratory. In the fifth row the Gemini verdicts on the three reruns came through a paid API, not through the command-line client of the 240 sealed verdicts.
 
-Every row of Table 10 is positive, and the pooled test stays below 0.05 in each. By GPT-6 Astra the difference under the fixed rule is 9.0 points, from 64.0% to 73.0%, with 20 of 24 strata positive, and it stays significant on each model at the opposite bound, where Gemini's separate result on Opus 5.5 did not hold. With the trials run once more, both judges give a significant difference on both models. The two judges agree on 89.4% of 2,192 single decisions (Cohen's κ = 0.77), and GPT-6 Astra marks more items as covered, 68.8% against 59.0% (Flores, 2026b).
+Every row of Table 10 is positive, and the pooled test stays below .05 in each. By GPT-6 Astra the difference under the fixed rule is 9.0 points, from 64.0% to 73.0%, with 20 of 24 strata positive, and it stays significant on each model at the opposite bound, where Gemini's separate result on Opus 5.5 did not hold. With the trials run once more, both judges give a significant difference on both models. The two judges agree on 89.4% of 2,192 single decisions (Cohen's κ = .77), and GPT-6 Astra marks more items as covered, 68.8% against 59.0% (Flores, 2026b).
 
-These additions carry their own limits. The rerun was made two days after collection by an operator who knew the result, and nothing observable proves that the model behind an identifier had not changed; the session model, the models used and the plugins that the three sessions report are those of the sealed trials. GPT-6 Astra shares a vendor with GPT-OSS 120B, which wrote one of the three reviewer lists. The primary judge's command-line quota ran out after 4 of its 9 verdicts on the reruns, and the author chose not to wait: all 9 were produced by the same model through a paid API, a further deviation. A sample of 30 sealed trials, fixed by a seed and scored through that channel, agrees with the sealed verdicts on 98.2% of 281 decisions (κ = 0.96), with a mean coverage of 56.0% against 56.4%. The command-line verdicts will be reported next to these when the quota returns (Flores, 2026b).
+These additions carry their own limits. The rerun was made two days after collection by an operator who knew the result, and nothing observable proves that the model behind an identifier had not changed; the session model, the models used and the plugins that the three sessions report are those of the sealed trials. GPT-6 Astra shares a vendor with GPT-OSS 120B, which wrote one of the three reviewer lists. The primary judge's command-line quota ran out after 4 of its 9 verdicts on the reruns, and the author chose not to wait: all 9 were produced by the same model through a paid API, a further deviation. A sample of 30 sealed trials, fixed by a seed and scored through that channel, agrees with the sealed verdicts on 98.2% of 281 decisions (κ = .96), with a mean coverage of 56.0% against 56.4%. The command-line verdicts will be reported next to these when the quota returns (Flores, 2026b).
 
 ---
 
@@ -391,7 +391,7 @@ These additions carry their own limits. The rerun was made two days after collec
 
 This section takes the objections one by one. They follow the usual classes of threats in empirical software engineering (Wohlin et al., 2012) and the cautions raised for studies that use LLMs (Sallou et al., 2024; Baltes et al., 2026). Before this version was written, the manuscript and its data were given to two models of other vendors, each asked independently to act as a hostile reviewer; both raised objection 1. One of them was then given the sentence under study itself, turned on the manuscript: before this paper is published, list the ways it could go wrong. That request produced objection 13, which neither review had raised. The repository holds the three reports (Flores, 2026b).
 
-**1. The yardstick was elicited with the words of the sentence under test (construct).** The reviewers who wrote the reference lists were asked for "the concrete ways this change could go wrong" (Appendix A). The condition under test asks the agent to "list the ways this change could go wrong", and the plain condition never sees those words. Part of the gain could therefore be a match between the tested answers and the question that produced the yardstick, and not more of the change's real risks. Both conditions are scored against the same lists, which protects the comparison from differences between lists; it does not protect it from a treatment that steers the agent toward the reviewers' framing. Nothing in the pre-registered data separates the two readings. The relevance measure, which does not use the reference lists, shows no reduction in the mean judged relevance of the rows (Section 5.4), and that is a partial answer only. A second yardstick, elicited with the words of the output contract that both conditions receive, was specified after these results were known, in a dated addendum sealed before its collection (Flores, 2026b). Against it the difference is 6.7 points (p = 0.0002), positive on both models and about four tenths smaller than the pre-registered estimate (Section 5.8). At the opposite bound for the three error trials it is 4.2 points (p = 0.0051), and 3.2 on Opus 5.5 alone, not significant (p = 0.099). With the three trials run once more it is 5.6 points (p = 0.0003) and 4.9 on Opus 5.5 (p = 0.0094), and a judge of a third vendor gives 9.0 points under the fixed rule (Table 10). The objection is upheld in part: the gain does not vanish when the yardstick stops sharing the sentence's words, and its size does depend on the yardstick.
+**1. The yardstick was elicited with the words of the sentence under test (construct).** The reviewers who wrote the reference lists were asked for "the concrete ways this change could go wrong" (Appendix A). The condition under test asks the agent to "list the ways this change could go wrong", and the plain condition never sees those words. Part of the gain could therefore be a match between the tested answers and the question that produced the yardstick, and not more of the change's real risks. Both conditions are scored against the same lists, which protects the comparison from differences between lists; it does not protect it from a treatment that steers the agent toward the reviewers' framing. Nothing in the pre-registered data separates the two readings. The relevance measure, which does not use the reference lists, shows no reduction in the mean judged relevance of the rows (Section 5.4), and that is a partial answer only. A second yardstick, elicited with the words of the output contract that both conditions receive, was specified after these results were known, in a dated addendum sealed before its collection (Flores, 2026b). Against it the difference is 6.7 points (p < .001), positive on both models and about four tenths smaller than the pre-registered estimate (Section 5.8). At the opposite bound for the three error trials it is 4.2 points (p = .005), and 3.2 on Opus 5.5 alone, not significant (p = .099). With the three trials run once more it is 5.6 points (p < .001) and 4.9 on Opus 5.5 (p = .009), and a judge of a third vendor gives 9.0 points under the fixed rule (Table 10). The objection is upheld in part: the gain does not vanish when the yardstick stops sharing the sentence's words, and its size does depend on the yardstick.
 
 **2. The reference lists were written by models (construct).** Coverage measures agreement with what three LLMs of other vendors expected to go wrong, filtered to items at least two of them named (Section 4.4). It is not a measure of real risk. A risk that all three reviewers missed cannot be credited. Nor can a risk that only one of them named: the merge keeps a risk when at least two reviewers name it, which leaves out 132 of the 232 groups of the original lists and 102 of the 213 of the second (Flores, 2026b). That filter may favour the risks that models tend to repeat over those that one reviewer alone saw, and no human has audited the groups left out. In the field experiment of Caraeni et al. (2026), human planners captured context-specific risks that the model working alone did not, so a human yardstick could change the absolute figures. The first next step in Section 9 addresses this. Coverage also gives every reference risk the same weight, whatever the severity of the failure it names.
 
@@ -401,7 +401,7 @@ This section takes the objections one by one. They follow the usual classes of t
 
 **5. The design does not separate position from wording (internal).** The sentence differs from the plain request in what it asks and in when it asks (Appendix A). Section 6 offers order as a reading and does not test it. The ablation is the third next step in Section 9.
 
-**6. The three error trials favour the hypothesis (internal).** All three fall in the plain condition and count as zero under the fixed rule. Table 7 shows the result without the three strata that hold them, 10.1 points (p = 0.0001), and without the three trials alone, 10.5 points (p = 0.0001).
+**6. The three error trials favour the hypothesis (internal).** All three fall in the plain condition and count as zero under the fixed rule. Table 7 shows the result without the three strata that hold them, 10.1 points (p < .001), and without the three trials alone, 10.5 points (p < .001).
 
 **7. Longer tables could explain higher recall (internal).** Tables with the sentence have 0.4 more rows on average (Table 8). Among trials with the full ten rows the difference is 11.3 points (Section 5.4).
 
@@ -469,6 +469,16 @@ A single command, `python run_all.py`, recomputes every number in this paper fro
 
 *Note.* Paths without a folder in front are inside `benchmark/study-2026-11b/` (Flores, 2026b). Run records have machine paths removed.
 
+
+## 11. Declarations
+
+**Conflict of interest.** The author maintains ASP, the plugin whose protocol the originating study compared with the tested sentence, and directs the laboratory that publishes it. The result reported here is unfavourable to that protocol (Flores, 2026a).
+
+**Funding.** This work received no external funding. The costs of using the models were paid by the author.
+
+**Author contribution.** Single author: conception, design, data collection, analysis, writing and revision.
+
+**Use of AI tools.** Language models take four roles in this study, all described in Section 4: the agents under test, the writers of the reference lists, the judges, and the blind reviewers of the manuscript (Flores, 2026b). An AI assistant was also used in programming, in the analysis, and in drafting and translating the text, under the author's direction. The author checked every number against the data and is responsible for the content.
 
 ---
 
@@ -580,6 +590,8 @@ Table B1 shows the reference list of task U08, the shortest of the twelve, with 
 ## Technical Note
 
 **Version** 1.0 · November 2026
+
+**Series** Codex Hash Research Report 2026-03
 
 **License** Text, figures and data: CC BY 4.0. Companion software: MIT.
 

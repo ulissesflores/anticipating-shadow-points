@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
 
@@ -21,6 +22,15 @@ DESC = json.loads((STUDY / "descriptives.json").read_text(encoding="utf-8"))
 STUDY1 = json.loads((ROOT / "benchmark" / "study-2026-11" / "results.json").read_text("utf-8"))
 OPUS, SONNET = "claude-opus-5-5", "claude-sonnet-5-5"
 A, B = "RED-risk", "RED-plain"
+
+
+sys.path.insert(0, str(ROOT / "paper" / "tools"))
+from apa_stats import p_text as P  # noqa: E402  (APA 7: "< .001" or "= .0xx", canon v1.6)
+
+
+def K(x: float) -> str:
+    """Return a kappa with two decimals and no zero before the decimal point, as APA 7 writes it."""
+    return f"{x:.2f}".lstrip("0")
 
 
 def pct(x: float, places: int = 1) -> str:
@@ -69,10 +79,10 @@ def test_primary_result():
     """46.1% to 57.5%, +11.4 points, p = 0.0001 pooled and per model, 22 of 24 strata."""
     g = RESULTS["gemini"]
     assert f"from {pct(g['overall'][B])}% to {pct(g['overall'][A])}%" in PAPER
-    assert f"is {pct(g['delta_bar'])} percentage points, with p = {g['p']}" in PAPER
+    assert f"is {pct(g['delta_bar'])} percentage points, with p {P(g['p'])}" in PAPER
     assert (
         f"Within Claude Opus 5.5 the difference is {pct(g['by_model'][OPUS])} points and within "
-        f"Claude Sonnet 5.5 it is {pct(g['by_model'][SONNET])} points, each with p = 0.0001"
+        f"Claude Sonnet 5.5 it is {pct(g['by_model'][SONNET])} points, each with p < .001"
     ) in PAPER
     assert g["p_by_model"] == {OPUS: 0.0001, SONNET: 0.0001}
     assert g["positive_strata"] == 22 and g["complete_strata"] == 24
@@ -90,7 +100,7 @@ def test_abstract_matches_results():
         f"a mean difference of {pct(g['delta_bar'])} percentage points over 24",
         f"A second judge gave +{pct(k['delta_bar'])} points",
         f"the difference is {pct(SENS['gemini']['without_strata']['delta_bar'])} points",
-        f"κ = {DESC['judges']['kappa']:.2f}",
+        f"κ = {K(DESC['judges']['kappa'])}",
     ):
         assert text in PAPER, text
 
@@ -153,12 +163,12 @@ def test_second_judge_and_agreement():
     )
     assert k["positive_strata"] == 22 and k["decision"] == "confirmed"
     assert j["items"] == 2000 and pct(j["agreement"]) == "93.2"
-    assert f"(Cohen, 1960), is {j['kappa']:.2f}" in PAPER
+    assert f"(Cohen, 1960), is {K(j['kappa'])}" in PAPER
     assert f"scored {pct(m['overall'][B])}% and {pct(m['overall'][A])}%" in PAPER
     w = DESC["judges_where_a_table_exists"]
     assert w["items"] == 1971 and j["items"] - w["items"] == 29
     assert (
-        f"over the other 1,971 the agreement is {pct(w['agreement'])}% and κ is {w['kappa']:.2f}"
+        f"over the other 1,971 the agreement is {pct(w['agreement'])}% and κ is {K(w['kappa'])}"
         in PAPER
     )
 
@@ -174,17 +184,18 @@ def test_relevance():
     )
     assert f"the plain figure is {pct(r['overall'][B])}%" in PAPER
     assert round(exact_delta("relevance"), 4) == r["delta_bar"]
-    assert f"difference of {pct(exact_delta('relevance'))} points has p = {r['p']:.3f}" in PAPER
-    assert f"({r['p_by_model'][OPUS]:.3f} and {r['p_by_model'][SONNET]:.3f})" in PAPER
+    assert f"difference of {pct(exact_delta('relevance'))} points has p {P(r['p'])}" in PAPER
+    by = [P(r["p_by_model"][m]).removeprefix("= ") for m in (OPUS, SONNET)]
+    assert f"({by[0]} and {by[1]})" in PAPER
 
 
 def test_sensitivity_table():
     """Table 5 and the per-model figures of the most conservative row."""
     g, k, r = RESULTS["gemini"], RESULTS["grok"], RESULTS["relevance"]
     rows = [
-        f"| As pre-registered (errors count zero) | 24 | +{pct(g['delta_bar'])} (p = {g['p']}) | "
-        f"+{pct(k['delta_bar'])} (p = {k['p']}) | "
-        f"+{pct(exact_delta('relevance'))} (p = {r['p']:.3f}) |"
+        f"| As pre-registered (errors count zero) | 24 | +{pct(g['delta_bar'])} (p {P(g['p'])}) | "
+        f"+{pct(k['delta_bar'])} (p {P(k['p'])}) | "
+        f"+{pct(exact_delta('relevance'))} (p {P(r['p'])}) |"
     ]
     for label, key in (
         ("Without the three strata that hold an error", "without_strata"),
@@ -192,18 +203,18 @@ def test_sensitivity_table():
     ):
         sg, sk, sr = SENS["gemini"][key], SENS["grok"][key], SENS["relevance"][key]
         rows.append(
-            f"| {label} | {sg['strata']} | +{pct(sg['delta_bar'])} (p = {sg['p']}) | "
-            f"+{pct(sk['delta_bar'])} (p = {sk['p']}) | "
-            f"+{pct(sr['delta_bar'])} (p = {sr['p']:.3f}) |"
+            f"| {label} | {sg['strata']} | +{pct(sg['delta_bar'])} (p {P(sg['p'])}) | "
+            f"+{pct(sk['delta_bar'])} (p {P(sk['p'])}) | "
+            f"+{pct(sr['delta_bar'])} (p {P(sr['p'])}) |"
         )
     for row in rows:
         assert row in PAPER, row
     sg, sk = SENS["gemini"]["without_strata"], SENS["grok"]["without_strata"]
     assert (
-        f"{pct(sg['by_model'][OPUS])} points for Opus 5.5 (p = {sg['p_by_model'][OPUS]}) and "
-        f"{pct(sg['by_model'][SONNET])} for Sonnet 5.5 (p = {sg['p_by_model'][SONNET]}) by the "
-        f"primary judge, and {pct(sk['by_model'][OPUS])} (p = {sk['p_by_model'][OPUS]}) and "
-        f"{pct(sk['by_model'][SONNET])} (p = {sk['p_by_model'][SONNET]}) by the second"
+        f"{pct(sg['by_model'][OPUS])} points for Opus 5.5 (p {P(sg['p_by_model'][OPUS])}) and "
+        f"{pct(sg['by_model'][SONNET])} for Sonnet 5.5 (p {P(sg['p_by_model'][SONNET])}) by the "
+        f"primary judge, and {pct(sk['by_model'][OPUS])} (p {P(sk['p_by_model'][OPUS])}) and "
+        f"{pct(sk['by_model'][SONNET])} (p {P(sk['p_by_model'][SONNET])}) by the second"
     ) in PAPER
 
 
@@ -324,7 +335,18 @@ def test_every_paragraph_cites_a_source():
     bare = []
     for block in re.split(r"\n\s*\n", body):
         text = block.strip()
-        if not text or text.startswith(("#", "|", "![", "---", "**Table", "*Note.*")):
+        if not text or text.startswith(
+            (
+                "#",
+                "|",
+                "![",
+                "---",
+                "**Table",
+                "*Note.*",
+                "**Funding.**",
+                "**Author contribution.**",
+            )
+        ):
             continue
         if len(text.split()) >= 12 and not source.search(text):
             bare.append(text[:90])
@@ -358,12 +380,12 @@ def test_second_yardstick():
     delta = pct(g["delta_bar"])
     assert "grok" not in y2  # the second judge's verdicts are incomplete and not reported
     assert (
-        f"| 111 | {plain}% | {risk}% | +{delta} | {g['p']} | {g['positive_strata']} of 24 |"
+        f"| 111 | {plain}% | {risk}% | +{delta} | {P(g['p'])} | {g['positive_strata']} of 24 |"
         in PAPER
     )
     assert sum(sizes.values()) == 111 and (min(sizes.values()), max(sizes.values())) == (7, 11)
-    assert f"{pct(g['by_model'][OPUS])} on Opus (p = {g['p_by_model'][OPUS]})" in PAPER
-    assert f"{pct(g['by_model'][SONNET])} on Sonnet (p = {g['p_by_model'][SONNET]})" in PAPER
+    assert f"{pct(g['by_model'][OPUS])} on Opus (p {P(g['p_by_model'][OPUS])})" in PAPER
+    assert f"{pct(g['by_model'][SONNET])} on Sonnet (p {P(g['p_by_model'][SONNET])})" in PAPER
     assert "16 are positive, 2 are zero and 6 are negative" in PAPER
     assert y2["wording_origin"] == {"gemini": 98, "gptoss": 13, "grok": 0}
     assert "98 of the 111 reference risks" in PAPER
@@ -373,14 +395,15 @@ def test_second_yardstick():
     s2 = json.loads((STUDY / "yardstick2" / "sensitivity2.json").read_text())["gemini"]
     assert s2["fixed_rule"]["delta_bar"] == g["delta_bar"] and s2["fixed_rule"]["p"] == g["p"]
     ws, wt, full = s2["without_strata"], s2["without_trials"], s2["errors_as_full_coverage"]
-    assert f"the difference is {pct(ws['delta_bar'])} points (p = {ws['p']})" in PAPER
-    assert f"without the three trials it is {pct(wt['delta_bar'])} (p = {wt['p']})" in PAPER
-    assert f"it is {pct(full['delta_bar'])} points (p = {full['p']})" in PAPER
+    assert f"the difference is {pct(ws['delta_bar'])} points (p {P(ws['p'])})" in PAPER
+    assert f"without the three trials it is {pct(wt['delta_bar'])} (p {P(wt['p'])})" in PAPER
+    assert f"it is {pct(full['delta_bar'])} points (p {P(full['p'])})" in PAPER
     assert (
-        f"{pct(full['by_model'][SONNET])} on Sonnet 5.5 (p = {full['p_by_model'][SONNET]})" in PAPER
+        f"{pct(full['by_model'][SONNET])} on Sonnet 5.5 (p {P(full['p_by_model'][SONNET])})"
+        in PAPER
     )
     assert pct(full["by_model"][OPUS]) == "3.2" and full["p_by_model"][OPUS] == 0.0994
-    assert "3.2 on Opus 5.5, where it is no longer significant (p = 0.099)" in PAPER
+    assert "3.2 on Opus 5.5, where it is no longer significant (p = .099)" in PAPER
     low, high = (pct(v) for v in s2["bootstrap_95"])
     assert f"second difference is {low} to {high} points" in PAPER
     low, high = (pct(v) for v in s2["task_bootstrap_95"])
@@ -403,10 +426,7 @@ def test_rerun_and_third_judge():
     def row(x: dict) -> str:
         p = [x["p"], x["p_by_model"][OPUS], x["p_by_model"][SONNET]]
         d = [x["delta_bar"], x["by_model"][OPUS], x["by_model"][SONNET]]
-        return " | ".join(
-            f"+{pct(v)} (p = {round(q, 3) if q == 0.0129 else q})"
-            for v, q in zip(d, p, strict=True)
-        )
+        return " | ".join(f"+{pct(v)} (p {P(q)})" for v, q in zip(d, p, strict=True))
 
     full = dict(s2["errors_as_full_coverage"])
     full["p_by_model"] = {OPUS: 0.099, SONNET: full["p_by_model"][SONNET]}
@@ -424,18 +444,18 @@ def test_rerun_and_third_judge():
     assert f"from {plain}% to {risk}%, with {fx['positive_strata']} of 24" in PAPER
     k = a["agreement_with_gemini"]
     assert (
-        f"{pct(k['agreement'])}% of 2,192 single decisions (Cohen's κ = {k['kappa']:.2f})" in PAPER
+        f"{pct(k['agreement'])}% of 2,192 single decisions (Cohen's κ = {K(k['kappa'])})" in PAPER
     )
     assert k["items"] == 2192
     assert f"{pct(k['covered_second'])}% against {pct(k['covered_first'])}%" in PAPER
     y1 = r["yardstick1_with_reruns"]
     assert (
-        f"is {pct(y1['delta_bar'])} points (p = {y1['p']}): "
+        f"is {pct(y1['delta_bar'])} points (p {P(y1['p'])}): "
         f"{pct(y1['by_model'][OPUS])} on Opus 5.5 and {pct(y1['by_model'][SONNET])} on Sonnet 5.5"
     ) in PAPER
     c = r["channel_check"]
     ci = c["items"]
-    assert f"{pct(ci['agreement'])}% of {ci['items']} decisions (κ = {ci['kappa']:.2f})" in PAPER
+    assert f"{pct(ci['agreement'])}% of {ci['items']} decisions (κ = {K(ci['kappa'])})" in PAPER
     assert f"{pct(c['mean_coverage_api'])}% against {pct(c['mean_coverage_cli'])}%" in PAPER
     assert len(c["trials"]) == 30
     assert (

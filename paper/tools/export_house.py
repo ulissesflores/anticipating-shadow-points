@@ -264,6 +264,8 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
         rosto.append(divs("CoverInfo", meta["affiliation"]))
     if meta.get("orcid"):
         rosto.append(divs("CoverSmall", f"ORCID: {meta['orcid']}"))
+    if meta.get("report_number"):
+        rosto.append(divs("CoverSmall", meta["report_number"]))
     if data_txt:
         rosto += [espaco(1400), divs("CoverInfo", f"{LB['date']}: {data_txt}")]
     corpo = texto[corte:]
@@ -392,7 +394,7 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
         saida.append(escapa_travessao(ln))
         i += 1
     rel["figuras"] = figuras
-    titulo_meta = re.sub(r"`", "", f"{titulo}: {sub_t}" if sub_t else titulo)
+    titulo_meta = re.sub(r"[`*]", "", f"{titulo}: {sub_t}" if sub_t else titulo)
     return "\n".join(rosto) + "\n" + "\n".join(saida), {"meta": meta, "titulo": titulo_meta, "rel": rel}
 
 
@@ -1389,7 +1391,7 @@ def listas_em_texto(corpo: etree._Element, nm: etree._Element) -> int:
 
 
 def escrever_pacote(raw: Path, out: Path, titulo: str, autor: str, fig_cm: float, rel: dict,
-                    forcar_paisagem: str = "") -> dict:
+                    forcar_paisagem: str = "", palavras: str = "") -> dict:
     with zipfile.ZipFile(raw) as z:
         partes = {n: z.read(n) for n in z.namelist()}
     parse = etree.fromstring
@@ -1484,6 +1486,12 @@ def escrever_pacote(raw: Path, out: Path, titulo: str, autor: str, fig_cm: float
         if el is None:
             el = etree.SubElement(core, tag)
         el.text = val
+    if palavras:
+        CP = "http://schemas.openxmlformats.org/package/2006/metadata/core-properties"
+        el = core.find(f"{{{CP}}}keywords")
+        if el is None:
+            el = etree.SubElement(core, f"{{{CP}}}keywords")
+        el.text = palavras
     partes["docProps/core.xml"] = etree.tostring(core, xml_declaration=True, encoding="UTF-8", standalone=True)
 
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
@@ -1526,7 +1534,8 @@ def main(argv: list[str] | None = None) -> int:
                     "--shift-heading-level-by=-1", "--syntax-highlighting=none", "-M", f"lang={LB['code']}",
                     f"--resource-path={work}",
                     "-o", str(raw)], check=True)
-    inf = escrever_pacote(raw, out, ctx["titulo"], ctx["meta"].get("author", ""), fig_cm, rel, a.forcar_paisagem)
+    inf = escrever_pacote(raw, out, ctx["titulo"], ctx["meta"].get("author", ""), fig_cm, rel, a.forcar_paisagem,
+                          palavras=ctx["meta"].get("keywords", ""))
 
     meta_json = {"fig_largura_cm": fig_cm, "fig_teto_cm": CFG["fig_largura_cm"],
                  "fig_max_por_figura": folga, "img_px": a.img_px,
