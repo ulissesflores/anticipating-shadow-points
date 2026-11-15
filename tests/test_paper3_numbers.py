@@ -357,7 +357,10 @@ def test_second_yardstick():
     plain, risk = pct(g["overall"][B]), pct(g["overall"][A])
     delta = pct(g["delta_bar"])
     assert "grok" not in y2  # the second judge's verdicts are incomplete and not reported
-    assert f"| 111 | {plain}% | {risk}% | +{delta} | {g['p']} | {g['positive_strata']} of 24 |" in PAPER
+    assert (
+        f"| 111 | {plain}% | {risk}% | +{delta} | {g['p']} | {g['positive_strata']} of 24 |"
+        in PAPER
+    )
     assert sum(sizes.values()) == 111 and (min(sizes.values()), max(sizes.values())) == (7, 11)
     assert f"{pct(g['by_model'][OPUS])} on Opus (p = {g['p_by_model'][OPUS]})" in PAPER
     assert f"{pct(g['by_model'][SONNET])} on Sonnet (p = {g['p_by_model'][SONNET]})" in PAPER
@@ -373,7 +376,9 @@ def test_second_yardstick():
     assert f"the difference is {pct(ws['delta_bar'])} points (p = {ws['p']})" in PAPER
     assert f"without the three trials it is {pct(wt['delta_bar'])} (p = {wt['p']})" in PAPER
     assert f"it is {pct(full['delta_bar'])} points (p = {full['p']})" in PAPER
-    assert f"{pct(full['by_model'][SONNET])} on Sonnet 5.5 (p = {full['p_by_model'][SONNET]})" in PAPER
+    assert (
+        f"{pct(full['by_model'][SONNET])} on Sonnet 5.5 (p = {full['p_by_model'][SONNET]})" in PAPER
+    )
     assert pct(full["by_model"][OPUS]) == "3.2" and full["p_by_model"][OPUS] == 0.0994
     assert "3.2 on Opus 5.5, where it is no longer significant (p = 0.099)" in PAPER
     low, high = (pct(v) for v in s2["bootstrap_95"])
@@ -383,4 +388,57 @@ def test_second_yardstick():
     first = json.loads((STUDY / "yardstick2" / "sensitivity2.json").read_text())["original"]
     low, high = (pct(v) for v in first["task_bootstrap_95"])
     assert PAPER.count(f"{low} to {high}") == 2
-    assert first["bootstrap_95"] == json.loads((STUDY / "descriptives.json").read_text())["bootstrap_95"]
+    assert (
+        first["bootstrap_95"]
+        == json.loads((STUDY / "descriptives.json").read_text())["bootstrap_95"]
+    )
+
+
+def test_rerun_and_third_judge():
+    """Sections 5.5 and 5.8 and Table 10: the unplanned rerun, the third judge, the API channel."""
+    a = json.loads((STUDY / "addendum2" / "results3.json").read_text())["astra"]
+    r = json.loads((STUDY / "addendum3" / "results4.json").read_text())
+    s2 = json.loads((STUDY / "yardstick2" / "sensitivity2.json").read_text())["gemini"]
+
+    def row(x: dict) -> str:
+        p = [x["p"], x["p_by_model"][OPUS], x["p_by_model"][SONNET]]
+        d = [x["delta_bar"], x["by_model"][OPUS], x["by_model"][SONNET]]
+        return " | ".join(
+            f"+{pct(v)} (p = {round(q, 3) if q == 0.0129 else q})"
+            for v, q in zip(d, p, strict=True)
+        )
+
+    full = dict(s2["errors_as_full_coverage"])
+    full["p_by_model"] = {OPUS: 0.099, SONNET: full["p_by_model"][SONNET]}
+    for label, x in (
+        ("Count zero, as fixed in advance | Gemini 3.8 Flash", s2["fixed_rule"]),
+        ("Count zero, as fixed in advance | GPT-6 Astra", a["yardstick2_fixed_rule"]),
+        ("Scored as full coverage | Gemini 3.8 Flash", full),
+        ("Scored as full coverage | GPT-6 Astra", a["yardstick2_errors_as_full_coverage"]),
+        ("Run once more | Gemini 3.8 Flash, by API", r["yardstick2_with_reruns"]),
+        ("Run once more | GPT-6 Astra", a["yardstick2_with_reruns"]),
+    ):
+        assert f"| {label} | {row(x)} |" in PAPER, label
+    fx = a["yardstick2_fixed_rule"]
+    plain, risk = pct(fx["overall"][B]), pct(fx["overall"][A])
+    assert f"from {plain}% to {risk}%, with {fx['positive_strata']} of 24" in PAPER
+    k = a["agreement_with_gemini"]
+    assert (
+        f"{pct(k['agreement'])}% of 2,192 single decisions (Cohen's κ = {k['kappa']:.2f})" in PAPER
+    )
+    assert k["items"] == 2192
+    assert f"{pct(k['covered_second'])}% against {pct(k['covered_first'])}%" in PAPER
+    y1 = r["yardstick1_with_reruns"]
+    assert (
+        f"is {pct(y1['delta_bar'])} points (p = {y1['p']}): "
+        f"{pct(y1['by_model'][OPUS])} on Opus 5.5 and {pct(y1['by_model'][SONNET])} on Sonnet 5.5"
+    ) in PAPER
+    c = r["channel_check"]
+    ci = c["items"]
+    assert f"{pct(ci['agreement'])}% of {ci['items']} decisions (κ = {ci['kappa']:.2f})" in PAPER
+    assert f"{pct(c['mean_coverage_api'])}% against {pct(c['mean_coverage_cli'])}%" in PAPER
+    assert len(c["trials"]) == 30
+    assert (
+        len(list((STUDY / "addendum2" / "astra" / "yardstick2" / "astra").glob("t*.json"))) == 240
+    )
+    assert len(list((STUDY / "addendum3" / "openrouter" / "rerun").glob("*/t*.json"))) == 9

@@ -30,6 +30,14 @@ STEPS = [
         "study 2 second yardstick, checks",
         [sys.executable, "benchmark/study-2026-11b/yardstick2/sensitivity2.py", "--quiet"],
     ),
+    (
+        "study 2 rerun and third judge",
+        [sys.executable, "benchmark/study-2026-11b/addendum2/addendum2.py", "results", "--quiet"],
+    ),
+    (
+        "study 2 rerun, API channel",
+        [sys.executable, "benchmark/study-2026-11b/addendum3/addendum3.py", "results", "--quiet"],
+    ),
     ("figures", [sys.executable, "analysis/make_figures.py"]),
     ("tests", [sys.executable, "-m", "pytest", "-q", "tests"]),
     (

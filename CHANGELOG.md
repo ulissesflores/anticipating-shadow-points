@@ -22,6 +22,14 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
   With the three network-error trials scored as full coverage the difference
   is +4.2 points (p = 0.0051), and +3.2 on Opus 5.5 alone (p = 0.099)
   (`yardstick2/sensitivity2.py`, added at a reviewer's request).
+- **Two further unplanned additions to that study**, each sealed before it
+  ran (`benchmark/study-2026-11b/addendum2/`, `addendum3/`): the three
+  network-error trials run once more, and GPT-6 Astra as a third judge on
+  the second yardstick. Third judge: 64.0% to 73.0%, +9.0 points
+  (p = 0.0001). With the reruns, primary judge: +5.6 points (p = 0.0003),
+  +4.9 on Opus 5.5 (p = 0.0094). The primary judge's verdicts on the reruns
+  came through a paid API after its command-line quota ran out; a check on
+  30 sealed trials agrees on 98.2% of the items.
 - **The third paper**, `paper/one-sentence-premortem.md`, in English,
   Portuguese, Spanish and Italian under `docs/paper/`.
 - Three trials ended in a network error and count as 0 under the fixed rule.
