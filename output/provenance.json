@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "96adde6767ba812d98e0bf3ef7496e6824c87584b0b7a955592a967e4605ae2c",
+  "chain_hash": "d30e22c4894190d24ef19c68e3679c85af75736d079942a4d9c91b44e958aae3",
   "informational_not_hashed": {
     "files": [
       {
@@ -2281,7 +2281,7 @@
         },
         {
           "path": "benchmark/study-2026-11b/PROTOCOL.md",
-          "sha256": "49fbbbf7b0fbbf5575103ccdb54a9fb401c00e03aa6cf18a478aca5636f3a78d"
+          "sha256": "5922c2f469e86109769375d8f18d7703731bb47a602ba6f7af30f77de3854939"
         },
         {
           "path": "benchmark/study-2026-11b/analysis-head.txt",
@@ -5269,7 +5269,7 @@
         },
         {
           "path": "benchmark/study-2026-11b/ledger.jsonl",
-          "sha256": "7d88bff9a814a5d5a24e8c452a4c55d830d481be7f4003f27a5676229f9c9feb"
+          "sha256": "b1a6930672cd8609d31c57e03c1dea95fec1693cf3ba4c2d911dabd8f6583411"
         },
         {
           "path": "benchmark/study-2026-11b/lists/gemini/U01.md",
@@ -7380,7 +7380,7 @@
           "sha256": "092db9db9fb8f11236e4c91d03a0660d22fd983506f0c353053966362ef90624"
         }
       ],
-      "leaf_sha256": "1f975efa919a351355950e2e264b4d3417f7875e3586af9ba93339a92b2efe91"
+      "leaf_sha256": "20fb614070c89d8d7bd267bf2167217c03b67dbe276d740bffdad679e62e8841"
     },
     "frozen_inputs": {
       "files": [
