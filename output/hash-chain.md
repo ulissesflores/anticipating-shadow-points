@@ -1,12 +1,12 @@
 # Hash chain
 
-**chain_hash** `aa53051b1f509f506133593148a0b2b0479e4da19eb6d5a3d4c98074fbcf7663`
+**chain_hash** `5ed686c58f3c4f8f2f23299600b9556b3afbb6ea83599a2a48f9b2c42428ba01`
 
 Recompute with `python make_provenance.py --verify`.
 
 | Leaf | Files | leaf_sha256 |
 |---|---|---|
-| code | 30 | `85e458a2efc6209e6df4bbfe2ca9f7ed7f7b4c738ef55f039fa8459ab9c14531` |
+| code | 30 | `fac8e25e85532c6f6e9c7d582308e31999742c7bcd9ada55834e2a5812ed9126` |
 | tests | 13 | `74f918b401286f37a7f797b2a6410036fe5031d4eba0d39412ab43f5af63efac` |
 | frozen_inputs | 406 | `e867e6802d3350f911f2a1f0bcf456a3291923184d71bb9651da801296896467` |
 | data | 1746 | `c757ba6e32f2901d483f7c0ece1d34ef86b3cb01d96ab2a4b323bd291b0ca0b9` |
@@ -16,14 +16,14 @@ Recompute with `python make_provenance.py --verify`.
 
 Figures, the lockfile and the platform vary by machine and are listed for audit only.
 
-- `output/figures/fig13_effects.es.png` `2cfbb2814b1f667a…`
-- `output/figures/fig13_effects.es.svg` `0ab87766f2b83187…`
-- `output/figures/fig13_effects.it.png` `e2bba6e21f58f5de…`
-- `output/figures/fig13_effects.it.svg` `5e4250ba3ea1a0ae…`
-- `output/figures/fig13_effects.png` `25ec43d8b75aeba6…`
-- `output/figures/fig13_effects.pt-BR.png` `e16dcfb1022ff4cd…`
-- `output/figures/fig13_effects.pt-BR.svg` `7d18876e85d571f0…`
-- `output/figures/fig13_effects.svg` `c8e1c49a54bff812…`
+- `output/figures/fig13_effects.es.png` `5ac172af7c406818…`
+- `output/figures/fig13_effects.es.svg` `4bdffa300959e22a…`
+- `output/figures/fig13_effects.it.png` `f72ccbf1acb33a98…`
+- `output/figures/fig13_effects.it.svg` `baae660d19a8a1bd…`
+- `output/figures/fig13_effects.png` `152b1be6bb713c65…`
+- `output/figures/fig13_effects.pt-BR.png` `75c0c86d61e67b36…`
+- `output/figures/fig13_effects.pt-BR.svg` `079d940178872ff4…`
+- `output/figures/fig13_effects.svg` `37850dfff1199f8d…`
 - `output/figures/fig1_silent_refusal_readings.es.png` `c68413dbe41fc502…`
 - `output/figures/fig1_silent_refusal_readings.es.svg` `cadc18d8a62c3178…`
 - `output/figures/fig1_silent_refusal_readings.it.png` `8f0e59b1fc15e725…`

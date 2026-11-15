@@ -114,8 +114,9 @@ def effects(lang: str):
     for i, ((value, interval), label) in enumerate(zip(values, t["rowsfx"], strict=True)):
         if i in groups:
             y += 0.55
-            ax.text(-0.5, y, groups[i], fontsize=8, color=INK, fontweight="bold", va="center",
-                    ha="left", transform=ax.get_yaxis_transform())  # fmt: skip
+            # right-aligned at the axis like the rows: a long translated heading cannot cross it
+            ax.text(-0.025, y, groups[i], fontsize=8, color=INK, fontweight="bold", va="center",
+                    ha="right", transform=ax.get_yaxis_transform())  # fmt: skip
             y += 0.75
         if interval:
             ax.plot([interval[0] * 100, interval[1] * 100], [y, y], color=colors[i], linewidth=2.2,

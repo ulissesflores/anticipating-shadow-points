@@ -285,7 +285,7 @@ L 415.278375 254.628
 " style="fill: none; stroke: #d9d8d4; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_16">
-    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: start; fill: #0b0b0b" x="28.206375" y="26.2295" transform="rotate(-0 28.206375 26.2295)">Estudio de origen (6 tareas, Opus 5.5)</text>
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: end; fill: #0b0b0b" x="150.779175" y="26.2295" transform="rotate(-0 150.779175 26.2295)">Estudio de origen (6 tareas, Opus 5.5)</text>
    </g>
    <g id="text_17">
     <text style="font-size: 7.6px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: end; fill: #0b0b0b" x="412.760834" y="42.0032" transform="rotate(-0 412.760834 42.0032)">+10,3</text>
@@ -294,7 +294,7 @@ L 415.278375 254.628
     <text style="font-size: 7.6px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: end; fill: #0b0b0b" x="412.760834" y="58.0007" transform="rotate(-0 412.760834 58.0007)">+13,4</text>
    </g>
    <g id="text_19">
-    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: start; fill: #0b0b0b" x="28.206375" y="85.9535" transform="rotate(-0 28.206375 85.9535)">Este estudio (12 tareas, dos modelos)</text>
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: end; fill: #0b0b0b" x="150.779175" y="85.9535" transform="rotate(-0 150.779175 85.9535)">Este estudio (12 tareas, dos modelos)</text>
    </g>
    <g id="text_20">
     <text style="font-size: 7.6px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: end; fill: #0b0b0b" x="412.760834" y="101.7272" transform="rotate(-0 412.760834 101.7272)">+11,4</text>
@@ -309,7 +309,7 @@ L 415.278375 254.628
     <text style="font-size: 7.6px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: end; fill: #0b0b0b" x="412.760834" y="149.7197" transform="rotate(-0 412.760834 149.7197)">+12,4</text>
    </g>
    <g id="text_24">
-    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: start; fill: #0b0b0b" x="28.206375" y="177.6725" transform="rotate(-0 28.206375 177.6725)">Comprobaciones en este estudio</text>
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: end; fill: #0b0b0b" x="150.779175" y="177.6725" transform="rotate(-0 150.779175 177.6725)">Comprobaciones en este estudio</text>
    </g>
    <g id="text_25">
     <text style="font-size: 7.6px; font-family: 'Helvetica Neue', 'DejaVu Sans'; text-anchor: end; fill: #0b0b0b" x="412.760834" y="193.4462" transform="rotate(-0 412.760834 193.4462)">+10,1</text>
