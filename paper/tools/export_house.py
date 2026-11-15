@@ -24,6 +24,7 @@ import argparse
 import copy
 import json
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -1022,8 +1023,8 @@ def nao_separa(corpo: etree._Element) -> None:
             ordenar(pxml(prev), ORD_PPR)
     for tbl in corpo.iter(w("tbl")):
         linhas = tbl.findall(w("tr"))
-        if len(linhas) > 25:
-            continue
+        if len(linhas) > 25 or len(linhas) - 1 > int(os.environ.get("CH_TABLE_KEEP", "25")):
+            continue                                   # CH_TABLE_KEEP: ver _prender
         for tr in linhas[:-1]:
             for par in tr.iter(w("p")):
                 get_or_add(pxml(par), "keepNext")
@@ -1219,7 +1220,10 @@ def _prender(k: int, n: int, alta: bool = False) -> bool:
     pagina meio vazia (leitura do PDF, Tabelas 3 e 5); se nao couber, o Word parte do mesmo jeito.
     """
     dados = n - 1
-    if dados <= 10 and not alta:  # alta = enche a pagina: presa inteira, o Word a parte e a Nota cai sozinha (Tabela I1)
+    # CH_TABLE_KEEP (padrao 10): acima desse numero de linhas de dados a tabela pode partir entre paginas, com o
+    # cabecalho repetido. Artigo com muitas tabelas medias usa um valor menor para nao deixar meia pagina em branco
+    # antes de cada tabela (leitura do PDF do one-sentence-premortem, 2026-11-14).
+    if dados <= int(os.environ.get("CH_TABLE_KEEP", "10")) and not alta:  # alta = enche a pagina: presa inteira, o Word a parte e a Nota cai sozinha (Tabela I1)
         return True                      # a ultima tambem: a Nota nunca fica sozinha na pagina seguinte
     return k in (0, 1) or k >= n - 2
 
@@ -1449,6 +1453,13 @@ def escrever_pacote(raw: Path, out: Path, titulo: str, autor: str, fig_cm: float
         c = mk("compat")
         sub(c, "compatSetting", name="compatibilityMode", uri="http://schemas.microsoft.com/office/word", val=15)
         se.insert(len(se) - 4 if len(se) > 4 else len(se), c)
+    if os.environ.get("CH_KEEP_IMAGE_PIXELS") and se.find(w("doNotAutoCompressPictures")) is None:
+        # o Word reduz toda imagem a cerca de 190 ppi ao salvar; com esta marca ele guarda os pixels entregues
+        # (figuras de traco fino ficavam serrilhadas no PDF do one-sentence-premortem, 2026-11-14). O esquema fixa
+        # a ordem: depois de themeFontLang / clrSchemeMapping / doNotIncludeSubdocsInStats.
+        antes = [i for i, el in enumerate(se)
+                 if el.tag in (w("themeFontLang"), w("clrSchemeMapping"), w("doNotIncludeSubdocsInStats"))]
+        se.insert(antes[-1] + 1 if antes else len(se), mk("doNotAutoCompressPictures"))
     partes["word/settings.xml"] = etree.tostring(se, xml_declaration=True, encoding="UTF-8", standalone=True)
 
     # cabecalho com numero de pagina

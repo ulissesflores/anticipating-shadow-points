@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 830" width="1000" height="830">
+<text x="500.0" y="34" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">Ogni voce conserva l&#x27;impronta SHA-256 di un file e l&#x27;hash della voce precedente</text>
+<rect x="40" y="64" width="280" height="226" rx="12" fill="none" stroke="#1c64c7" stroke-width="2.5"/>
+<text x="180" y="100" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">Voce 1</text>
+<text x="180" y="126" font-family="Menlo, Consolas, monospace" font-size="17.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">PROTOCOL.md</text>
+<text x="58" y="171" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">file</text>
+<rect x="158" y="146" width="146" height="36" rx="8" fill="#ffffff" stroke="#1b1b1b" stroke-width="1.5"/>
+<text x="231" y="171" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="400" fill="#1b1b1b" text-anchor="middle">8b6f1fc0…</text>
+<text x="58" y="217" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">precedente</text>
+<rect x="158" y="192" width="146" height="36" rx="8" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.5"/>
+<text x="231" y="217" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">00000000…</text>
+<text x="58" y="263" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">hash</text>
+<rect x="158" y="238" width="146" height="36" rx="8" fill="#edf3fc" stroke="#1c64c7" stroke-width="2.5"/>
+<text x="231" y="263" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="600" fill="#1c64c7" text-anchor="middle">a730cebe…</text>
+<path d="M304,256 H340 V210 H348" fill="none" stroke="#1c64c7" stroke-width="2.5" stroke-linejoin="round"/>
+<polygon points="360,210 346,202 346,218" fill="#1c64c7"/>
+<rect x="360" y="64" width="280" height="226" rx="12" fill="none" stroke="#1c64c7" stroke-width="2.5"/>
+<text x="500" y="100" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">Voce 2</text>
+<text x="500" y="126" font-family="Menlo, Consolas, monospace" font-size="17.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">tasks.json</text>
+<text x="378" y="171" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">file</text>
+<rect x="478" y="146" width="146" height="36" rx="8" fill="#ffffff" stroke="#1b1b1b" stroke-width="1.5"/>
+<text x="551" y="171" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="400" fill="#1b1b1b" text-anchor="middle">d5e82491…</text>
+<text x="378" y="217" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">precedente</text>
+<rect x="478" y="192" width="146" height="36" rx="8" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.5"/>
+<text x="551" y="217" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">a730cebe…</text>
+<text x="378" y="263" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">hash</text>
+<rect x="478" y="238" width="146" height="36" rx="8" fill="#edf3fc" stroke="#1c64c7" stroke-width="2.5"/>
+<text x="551" y="263" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="600" fill="#1c64c7" text-anchor="middle">bb6d5fec…</text>
+<path d="M624,256 H660 V210 H668" fill="none" stroke="#1c64c7" stroke-width="2.5" stroke-linejoin="round"/>
+<polygon points="680,210 666,202 666,218" fill="#1c64c7"/>
+<rect x="680" y="64" width="280" height="226" rx="12" fill="none" stroke="#1c64c7" stroke-width="2.5"/>
+<text x="820" y="100" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">Voce 3</text>
+<text x="820" y="126" font-family="Menlo, Consolas, monospace" font-size="17.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">reference-list.txt</text>
+<text x="698" y="171" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">file</text>
+<rect x="798" y="146" width="146" height="36" rx="8" fill="#ffffff" stroke="#1b1b1b" stroke-width="1.5"/>
+<text x="871" y="171" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="400" fill="#1b1b1b" text-anchor="middle">f6332067…</text>
+<text x="698" y="217" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">precedente</text>
+<rect x="798" y="192" width="146" height="36" rx="8" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.5"/>
+<text x="871" y="217" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">bb6d5fec…</text>
+<text x="698" y="263" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">hash</text>
+<rect x="798" y="238" width="146" height="36" rx="8" fill="#edf3fc" stroke="#1c64c7" stroke-width="2.5"/>
+<text x="871" y="263" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="600" fill="#1c64c7" text-anchor="middle">9d602665…</text>
+<text x="500.0" y="330" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="30" font-weight="400" fill="#5c5c5c" text-anchor="middle">· · ·</text>
+<text x="500.0" y="362" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">seguono più di 1.200 voci, ciascuna legata alla precedente</text>
+<rect x="40" y="400" width="194" height="112" rx="12" fill="#edf3fc" stroke="#1c64c7" stroke-width="2.5"/>
+<text x="137" y="450" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">Protocollo,</text>
+<text x="137" y="476.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">liste e codice</text>
+<rect x="282" y="400" width="194" height="112" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2.5"/>
+<text x="379" y="463" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">240 risposte</text>
+<rect x="524" y="400" width="194" height="112" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2.5"/>
+<text x="621" y="463" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">720 verdetti</text>
+<rect x="766" y="400" width="194" height="112" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2.5"/>
+<text x="863" y="463" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">Analisi</text>
+<rect x="216" y="440" width="84" height="32" rx="16" fill="none" stroke="#1b1b1b" stroke-width="5"/>
+<rect x="458" y="440" width="84" height="32" rx="16" fill="none" stroke="#1b1b1b" stroke-width="5"/>
+<rect x="700" y="440" width="84" height="32" rx="16" fill="none" stroke="#1b1b1b" stroke-width="5"/>
+<line x1="168" y1="514" x2="168" y2="557" stroke="#1c64c7" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="168,566 159,552.5 177,552.5" fill="#1c64c7"/>
+<text x="168" y="600" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#1b1b1b" text-anchor="middle">Testa prima della prova 1</text>
+<rect x="40" y="616" width="256" height="40" rx="8" fill="none" stroke="#1c64c7" stroke-width="2"/>
+<text x="168" y="643" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="600" fill="#1c64c7" text-anchor="middle">8d1489f8…ee846947</text>
+<text x="168" y="686" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1c64c7" text-anchor="middle" font-style="italic">ancorata nel blocco 975226 di</text>
+<text x="168" y="711.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1c64c7" text-anchor="middle" font-style="italic">Bitcoin</text>
+<line x1="832" y1="514" x2="832" y2="557" stroke="#d2501a" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="832,566 823,552.5 841,552.5" fill="#d2501a"/>
+<text x="832" y="600" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#1b1b1b" text-anchor="middle">Testa dopo l&#x27;analisi</text>
+<rect x="704" y="616" width="256" height="40" rx="8" fill="none" stroke="#d2501a" stroke-width="2"/>
+<text x="832" y="643" font-family="Menlo, Consolas, monospace" font-size="18.5" font-weight="600" fill="#d2501a" text-anchor="middle">8872c0c5…c2284e29</text>
+<text x="832" y="686" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#d2501a" text-anchor="middle" font-style="italic">ancorata nel blocco 975820 di</text>
+<text x="832" y="711.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#d2501a" text-anchor="middle" font-style="italic">Bitcoin</text>
+<line x1="40" y1="760" x2="960" y2="760" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="500.0" y="800" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#1b1b1b" text-anchor="middle">Cambiare qualsiasi file registrato cambia tutti gli hash successivi.</text>
+</svg>

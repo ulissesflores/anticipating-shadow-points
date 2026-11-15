@@ -16,7 +16,7 @@ PAPERS = ROOT / "docs" / "paper"
 LIST = ROOT / "paper" / "PAPER-SHA256.txt"
 EDITIONS = {
     f"{name}.{lang}.{ext}"
-    for name in ("asp-preprint", "graceful-refusals")
+    for name in ("asp-preprint", "graceful-refusals", "one-sentence-premortem")
     for lang in ("en", "pt-BR", "es", "it")
     for ext in ("pdf", "docx")
 }
@@ -39,7 +39,7 @@ def recorded() -> dict[str, str]:
 
 
 def test_every_edition_is_committed_and_listed() -> None:
-    """Both papers ship in four languages as PDF and DOCX, and each file is listed."""
+    """Each paper ships in four languages as PDF and DOCX, and each file is listed."""
     assert {p.name for p in PAPERS.glob("*.pdf")} | {
         p.name for p in PAPERS.glob("*.docx")
     } == EDITIONS

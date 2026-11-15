@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="1000" height="560">
+<text x="40" y="44" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="start">Risco de referência (tarefa U08)</text>
+<text x="700" y="30" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#1b1b1b" text-anchor="middle">simples</text>
+<text x="700" y="54" font-family="Menlo, Consolas, monospace" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">t078</text>
+<text x="880" y="30" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#d2501a" text-anchor="middle">com a frase</text>
+<text x="880" y="54" font-family="Menlo, Consolas, monospace" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">t051</text>
+<line x1="40" y1="70" x2="960" y2="70" stroke="#1b1b1b" stroke-width="2" stroke-linecap="round"/>
+<text x="64" y="110" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#5c5c5c" text-anchor="end">1</text>
+<text x="80" y="110" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#1b1b1b" text-anchor="start">Tokens antigos deixam de validar depois da atualização</text>
+<path d="M689,105 l8,9 l15,-19" fill="none" stroke="#1c64c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M869,105 l8,9 l15,-19" fill="none" stroke="#1c64c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="40" y1="132" x2="960" y2="132" stroke="#c8c8c8" stroke-width="1.2" stroke-linecap="round"/>
+<text x="64" y="172" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#5c5c5c" text-anchor="end">2</text>
+<text x="80" y="172" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#1b1b1b" text-anchor="start">As duas classes ficam com padrões diferentes</text>
+<path d="M692,158 l16,16 M708,158 l-16,16" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M869,167 l8,9 l15,-19" fill="none" stroke="#1c64c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="40" y1="194" x2="960" y2="194" stroke="#c8c8c8" stroke-width="1.2" stroke-linecap="round"/>
+<text x="64" y="234" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#5c5c5c" text-anchor="end">3</text>
+<text x="80" y="234" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#1b1b1b" text-anchor="start">A chave derivada muda de valor e de tamanho</text>
+<path d="M692,220 l16,16 M708,220 l-16,16" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M872,220 l16,16 M888,220 l-16,16" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="40" y1="256" x2="960" y2="256" stroke="#c8c8c8" stroke-width="1.2" stroke-linecap="round"/>
+<text x="64" y="296" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#5c5c5c" text-anchor="end">4</text>
+<text x="80" y="296" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#1b1b1b" text-anchor="start">Testes afirmam saídas que batem com SHA-1</text>
+<path d="M689,291 l8,9 l15,-19" fill="none" stroke="#1c64c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M869,291 l8,9 l15,-19" fill="none" stroke="#1c64c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="40" y1="318" x2="960" y2="318" stroke="#c8c8c8" stroke-width="1.2" stroke-linecap="round"/>
+<text x="64" y="358" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#5c5c5c" text-anchor="end">5</text>
+<text x="80" y="358" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#1b1b1b" text-anchor="start">Assinaturas maiores estouram colunas, URLs ou cookies</text>
+<path d="M689,353 l8,9 l15,-19" fill="none" stroke="#1c64c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M869,353 l8,9 l15,-19" fill="none" stroke="#1c64c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="40" y1="380" x2="960" y2="380" stroke="#c8c8c8" stroke-width="1.2" stroke-linecap="round"/>
+<text x="64" y="420" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#5c5c5c" text-anchor="end">6</text>
+<text x="80" y="420" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#1b1b1b" text-anchor="start">Documentação e doctests ainda dizem SHA-1</text>
+<path d="M692,406 l16,16 M708,406 l-16,16" fill="none" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M869,415 l8,9 l15,-19" fill="none" stroke="#1c64c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="40" y1="442" x2="960" y2="442" stroke="#c8c8c8" stroke-width="1.2" stroke-linecap="round"/>
+<text x="80" y="492" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="start">Cobertos</text>
+<rect x="622" y="458" width="156" height="54" rx="12" fill="#f4f4f3" stroke="#1b1b1b" stroke-width="2"/>
+<text x="700" y="493" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#1b1b1b" text-anchor="middle">3 de 6 = 50%</text>
+<rect x="802" y="458" width="156" height="54" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2"/>
+<text x="880" y="493" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#1b1b1b" text-anchor="middle">5 de 6 = 83%</text>
+</svg>

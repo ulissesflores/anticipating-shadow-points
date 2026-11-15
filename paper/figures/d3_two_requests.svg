@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="1000" height="560">
+<text x="260" y="42" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#1b1b1b" text-anchor="middle">Plain request</text>
+<rect x="40" y="62" width="440" height="488" rx="12" fill="none" stroke="#5c5c5c" stroke-width="2"/>
+<text x="64" y="104" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1">CHANGE REQUEST (example: task U08)</text>
+<line x1="60" y1="220" x2="460" y2="220" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="64" y="254" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#d2501a" text-anchor="start" letter-spacing="1">THE ONLY LINE THAT DIFFERS</text>
+<line x1="60" y1="400" x2="460" y2="400" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="64" y="434" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1">OUTPUT CONTRACT (same in both)</text>
+<text x="260" y="146" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">“Change the default signing digest</text>
+<text x="260" y="175.04" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">from SHA-1 to SHA-256.”</text>
+<text x="260" y="310" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="700" fill="#1b1b1b" text-anchor="middle">“Plan this change.”</text>
+<text x="260" y="474" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">State assumptions, edit no file, and</text>
+<text x="260" y="500.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">end with a table of at most 10 risks.</text>
+<text x="740" y="42" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#1b1b1b" text-anchor="middle">Request with the sentence</text>
+<rect x="520" y="62" width="440" height="488" rx="12" fill="none" stroke="#d2501a" stroke-width="2.5"/>
+<text x="544" y="104" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1">CHANGE REQUEST (example: task U08)</text>
+<line x1="540" y1="220" x2="940" y2="220" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="544" y="254" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#d2501a" text-anchor="start" letter-spacing="1">THE ONLY LINE THAT DIFFERS</text>
+<line x1="540" y1="400" x2="940" y2="400" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="544" y="434" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1">OUTPUT CONTRACT (same in both)</text>
+<text x="740" y="146" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">“Change the default signing digest</text>
+<text x="740" y="175.04" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">from SHA-1 to SHA-256.”</text>
+<rect x="534" y="268" width="412" height="118" rx="12" fill="#fdf0e8" stroke="none" stroke-width="2"/>
+<text x="740" y="310" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="700" fill="#1b1b1b" text-anchor="middle">“Before planning, list the ways</text>
+<text x="740" y="340.36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="700" fill="#1b1b1b" text-anchor="middle">this change could go wrong.”</text>
+<text x="740" y="474" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">State assumptions, edit no file, and</text>
+<text x="740" y="500.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">end with a table of at most 10 risks.</text>
+</svg>

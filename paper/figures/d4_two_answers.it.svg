@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 784" width="1000" height="784">
+<text x="260" y="36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">Risposta alla richiesta semplice</text>
+<rect x="40" y="60" width="440" height="610" rx="12" fill="none" stroke="#5c5c5c" stroke-width="2"/>
+<text x="64" y="96" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="start" font-style="italic">colonna dei rischi della tabella finale · prova t078</text>
+<line x1="60" y1="112" x2="460" y2="112" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="86" y="148" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">1</text>
+<text x="100" y="148" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">I token esistenti smettono di essere</text>
+<text x="100" y="173.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">verificati</text>
+<text x="86" y="212" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">2</text>
+<text x="100" y="212" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">I token di Signer e TimestampSigner</text>
+<text x="100" y="237.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">semplici si rompono</text>
+<text x="86" y="276" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">3</text>
+<text x="100" y="276" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Le build FIPS sollevano ValueError con</text>
+<text x="100" y="301.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">token non validi</text>
+<text x="86" y="340" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">4</text>
+<text x="100" y="340" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Ripete il problema della versione 1.0.0</text>
+<text x="86" y="378" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">5</text>
+<text x="100" y="378" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Token più lunghi</text>
+<text x="86" y="416" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">6</text>
+<text x="100" y="416" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Il fallback mantiene SHA-1 come</text>
+<text x="100" y="441.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">accettato</text>
+<text x="86" y="480" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">7</text>
+<text x="100" y="480" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Token fissi nei test</text>
+<text x="86" y="518" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">8</text>
+<text x="100" y="518" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Il codice di terzi dipende dal valore</text>
+<text x="100" y="543.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">predefinito</text>
+<text x="86" y="582" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">9</text>
+<text x="100" y="582" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Codice che importa _lazy_sha1 o</text>
+<text x="100" y="607.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">controlla il valore predefinito</text>
+<rect x="80" y="690" width="360" height="46" rx="12" fill="#f4f4f3" stroke="#5c5c5c" stroke-width="2"/>
+<text x="260" y="720" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">copre 3 dei 6 rischi di riferimento</text>
+<text x="740" y="36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">Risposta alla richiesta con la</text>
+<text x="740" y="67.68" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">frase</text>
+<rect x="520" y="60" width="440" height="610" rx="12" fill="none" stroke="#d2501a" stroke-width="2.5"/>
+<text x="544" y="96" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="start" font-style="italic">colonna dei rischi della tabella finale · prova t051</text>
+<line x1="540" y1="112" x2="940" y2="112" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="566" y="148" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">1</text>
+<text x="580" y="148" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Tutti i token esistenti smettono di</text>
+<text x="580" y="173.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">essere verificati</text>
+<text x="566" y="212" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">2</text>
+<text x="580" y="212" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Chi usa Signer e TimestampSigner</text>
+<text x="580" y="237.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">direttamente resta senza fallback</text>
+<text x="566" y="276" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">3</text>
+<text x="580" y="276" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Una lista fallback_signers propria</text>
+<text x="580" y="301.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">scarta SHA-1</text>
+<text x="566" y="340" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">4</text>
+<text x="580" y="340" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Regressione in FIPS</text>
+<text x="566" y="378" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">5</text>
+<text x="580" y="378" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Lo stesso errore della versione 1.0.0,</text>
+<text x="580" y="403.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">che è stata ritirata</text>
+<text x="566" y="442" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">6</text>
+<text x="580" y="442" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Cookie e URL si allungano</text>
+<text x="566" y="480" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">7</text>
+<text x="580" y="480" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">I rilasci graduali rifiutano i token</text>
+<text x="580" y="505.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">nuovi</text>
+<text x="566" y="544" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">8</text>
+<text x="580" y="544" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Si rompono sottoclassi e introspezione</text>
+<text x="566" y="582" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">9</text>
+<text x="580" y="582" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Le librerie dipendenti cambiano</text>
+<text x="580" y="607.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">comportamento in silenzio</text>
+<text x="566" y="646" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" fill="#5c5c5c" text-anchor="end">10</text>
+<text x="580" y="646" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1b1b1b" text-anchor="start">Test e documentazione restano indietro</text>
+<rect x="560" y="690" width="360" height="46" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2"/>
+<text x="740" y="720" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">copre 5 dei 6 rischi di riferimento</text>
+<text x="500.0" y="772" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">tradotto dall&#x27;inglese; l&#x27;originale è nel repository</text>
+</svg>

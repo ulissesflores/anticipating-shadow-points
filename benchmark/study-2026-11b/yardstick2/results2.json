@@ -1,0 +1,40 @@
+{
+ "note": "Exploratory and post hoc (ADDENDUM.md). The confirmatory analysis is ../results.json.",
+ "reference_risks_per_task": {
+  "U01": 9,
+  "U02": 8,
+  "U03": 10,
+  "U04": 9,
+  "U05": 10,
+  "U06": 7,
+  "U07": 8,
+  "U08": 10,
+  "U09": 11,
+  "U10": 9,
+  "U11": 11,
+  "U12": 9
+ },
+ "wording_origin": {
+  "gemini": 98,
+  "gptoss": 13,
+  "grok": 0
+ },
+ "gemini": {
+  "overall": {
+   "RED-risk": 0.625,
+   "RED-plain": 0.5576
+  },
+  "delta_bar": 0.0674,
+  "p": 0.0002,
+  "by_model": {
+   "claude-opus-5-5": 0.0654,
+   "claude-sonnet-5-5": 0.0693
+  },
+  "p_by_model": {
+   "claude-opus-5-5": 0.002,
+   "claude-sonnet-5-5": 0.0013
+  },
+  "positive_strata": 16,
+  "complete_strata": 24
+ }
+}

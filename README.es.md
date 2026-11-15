@@ -198,7 +198,7 @@ Prerregistrado en [`benchmark/study-2026-11/PROTOCOL.md`](benchmark/study-2026-1
 
 El estudio 1 encontró el efecto de la frase como comparación secundaria. El estudio 2 lo pone a prueba como pregunta principal, prerregistrado en [`benchmark/study-2026-11b/PROTOCOL.md`](benchmark/study-2026-11b/PROTOCOL.md) y sellado en el tiempo antes de la ejecución 1. Hasta donde sabemos, ningún estudio anterior mide esta frase única en un agente de código. Cómo se hizo:
 - **Tareas:** doce peticiones de cambio nuevas en doce repositorios públicos, cada uno fijado en un commit. Ninguna se usó en el estudio 1.
-- **Condiciones:** dos, sin plugin en ninguna. Se diferencian por una frase: "Plan this change." frente a "Before planning, list the ways this change could go wrong."
+- **Condiciones:** dos, con ASP y los plugins de la cuenta desactivados en ambas (los cuatro plugins integrados en Claude Code siguieron activos). Se diferencian por una frase: "Plan this change." frente a "Before planning, list the ways this change could go wrong."
 - **Ejecuciones:** 5 por tarea, modelo y condición, 240 en total, con Claude Opus 5.5 y Claude Sonnet 5.5.
 - **Listas de referencia y puntuación:** como en el estudio 1, con una segunda medida, la relevancia: la parte de las filas de la tabla de una respuesta que el juez considera un riesgo concreto y plausible de ese cambio.
 
@@ -210,6 +210,7 @@ El estudio 1 encontró el efecto de la frase como comparación secundaria. El es
 
 - **Primario, prerregistrado:** la frase menos la petición simple = +11 puntos (Gemini), p de permutación = 0,0001 en total y p = 0,0001 dentro de cada modelo, positivo en 22 de las 24 celdas de tarea y modelo. La regla de decisión fijada de antemano dice *confirmado*, con alcance limitado a estos dos modelos, estas tareas y listas de referencia escritas por modelos.
 - **Segundo juez:** Grok da +11 puntos y la misma decisión. Los dos jueces coinciden en el 93,2% de 2.000 decisiones por ítem.
+- **Una segunda vara de medir, no planificada:** revisores del artículo objetaron que las listas de referencia se pidieron con palabras próximas a las de la frase. Listas nuevas, pedidas como "the main risks of this change" (los principales riesgos de este cambio), dan 56% frente a 62%: +7 puntos (Gemini, p = 0,0002), positivo en los dos modelos y en 16 de 24 celdas. El efecto se mantiene y es menor con esa vara de medir. Los veredictos de Grok para ella siguen pendientes. Véase [`benchmark/study-2026-11b/yardstick2/ADDENDUM.md`](benchmark/study-2026-11b/yardstick2/ADDENDUM.md).
 - **Relevancia:** la frase no hizo menos relevantes los riesgos enumerados. Obtuvo un 74% frente a un 69%; sin los errores de red de abajo, la diferencia es de +3 puntos y no es significativa (p = 0,09).
 - **Coste:** las respuestas con la frase tardaron 40 s de media frente a 50 s, y sus tablas tienen casi el mismo número de filas (9,6 frente a 9,2).
 - **Tres errores de red y una comprobación que no estaba prevista:**

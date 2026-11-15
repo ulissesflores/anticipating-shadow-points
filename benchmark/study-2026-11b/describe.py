@@ -247,6 +247,83 @@ def full_tables_only(trials: list[dict]) -> dict:
     }
 
 
+def plan_file(trials: list[dict]) -> dict:
+    """Count the trials whose run wrote a plan file, and repeat the comparison inside that group.
+
+    In plan mode Claude Code may save its plan with the ``Write`` tool before answering. If one
+    condition does so more often, the final answer could differ for that reason alone.
+
+    Parameters
+    ----------
+    trials : list of dict
+        Scored trials.
+
+    Returns
+    -------
+    dict
+        Trials with a ``Write`` call per model and condition, and the mean difference over the
+        Opus strata where both conditions hold trials that wrote the file (error trials left out).
+    """
+    import gzip
+
+    wrote = {}
+    for t in trials:
+        path = HERE / "runs" / "envelopes" / f"{t['trial']}.jsonl.gz"
+        wrote[t["trial"]] = '"type":"tool_use"' in (text := gzip.open(path, "rt").read()) and (
+            '"name":"Write"' in text
+        )
+    counts = {
+        m: {c: sum(wrote[t["trial"]] for t in trials if t["model"] == m and t["condition"] == c)
+            for c in (B, A)}
+        for m in MODELS
+    }  # fmt: skip
+    kept = [t for t in trials if wrote[t["trial"]] and not t["is_error"]]
+    scores = {k: c for k, c in cells(kept).items() if c[A] and c[B]}
+    return {
+        "trials_that_wrote_a_plan_file": counts,
+        "among_those": {"strata": len(scores), "delta_bar": round(delta_bar(scores), 4)},
+    }
+
+
+def reviewers_per_risk() -> dict:
+    """Return how many reference risks were named by all three reviewers and by two.
+
+    Returns
+    -------
+    dict
+        ``{"3": n, "2": n}`` over the 100 reference risks.
+    """
+    merged = json.loads((HERE / "lists" / "merged.json").read_text())
+    out: dict = defaultdict(int)
+    for v in merged.values():
+        for r in v["reference"]:
+            out[str(len({g[0] for g in r["group"]}))] += 1
+    return dict(sorted(out.items(), reverse=True))
+
+
+def worst_case(trials: list[dict]) -> dict:
+    """Repeat the primary statistic with each error trial scored as full coverage.
+
+    The fixed rule scores an error trial 0. This is the opposite bound: every reference risk
+    covered in the three trials that left no table.
+
+    Parameters
+    ----------
+    trials : list of dict
+        Scored trials.
+
+    Returns
+    -------
+    dict
+        The mean difference under that bound, for each judge.
+    """
+    out = {}
+    for key in ("gemini", "grok"):
+        scores = cells([{**t, key: 1.0} if t["is_error"] else t for t in trials], key)
+        out[key] = round(delta_bar(scores), 4)
+    return out
+
+
 def costs(trials: list[dict], runs: dict) -> dict:
     """Return mean cost per condition and model over the trials that did not end in an error.
 
@@ -425,6 +502,9 @@ def main() -> None:
         "relevance_where_a_table_exists": relevance_where_a_table_exists(trials),
         "wording_origin": wording_origin(),
         "full_tables_only": full_tables_only(trials),
+        "plan_file": plan_file(trials),
+        "reviewers_per_risk": reviewers_per_risk(),
+        "errors_as_full_coverage": worst_case(trials),
         "null": null_distribution(cells_in_analysis_order(trials)),
         "by_item": by_item(trials),
     }

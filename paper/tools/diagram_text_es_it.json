@@ -1,0 +1,258 @@
+{
+ "es": {
+  "klein": "PRE-MORTEM DE KLEIN (2007)",
+  "half1": "Supón que el plan ya fracasó",
+  "half2": "Enumera los motivos del fracaso",
+  "unused": "no se usa en este estudio",
+  "tested": "la frase probada en este estudio",
+  "sentence_local": "Antes de planificar, enumera las formas en que este cambio puede salir mal.",
+  "plain_local": "Planifica este cambio.",
+  "tasks": "12 solicitudes de cambio en 12 repositorios públicos, cada uno fijado en una versión",
+  "yardstick": "LA VARA DE MEDIR",
+  "yardstick_sub": "riesgos de referencia, escritos sin ver al agente",
+  "answers": "LAS RESPUESTAS",
+  "answers_sub": "el agente de código probado",
+  "y1": "3 modelos revisores de otros proveedores leen cada repositorio",
+  "y2": "369 problemas que esperan",
+  "y3": "se conserva lo que 2 de los 3 señalan como el mismo problema",
+  "y4": "100 riesgos de referencia",
+  "a1": "Claude Code en modo de planificación, con Opus 5.5 y Sonnet 5.5",
+  "a2": "Solicitud simple",
+  "a3": "Solicitud con la frase",
+  "trials": "120 ejecuciones",
+  "a4": "Cada respuesta termina con una tabla de hasta 10 riesgos",
+  "judge": "Un juez ciego de otro proveedor contrasta cada riesgo de referencia con la tabla",
+  "coverage": "cobertura = riesgos de referencia cubiertos ÷ riesgos de referencia",
+  "sealed": "sellado y con sello de tiempo antes de la ejecución 1",
+  "plain_t": "Solicitud simple",
+  "sent_t": "Solicitud con la frase",
+  "req_label": "SOLICITUD DE CAMBIO (ejemplo: tarea U08)",
+  "req": "Change the default signing digest from SHA-1 to SHA-256.",
+  "req_local": "Cambiar el algoritmo de firma por defecto de SHA-1 a SHA-256.",
+  "line_label": "LA ÚNICA LÍNEA QUE CAMBIA",
+  "contract_label": "CONTRATO DE SALIDA (igual en ambos)",
+  "contract": "Declara los supuestos, no edites archivos y termina con una tabla de hasta 10 riesgos.",
+  "ans_plain": "Respuesta a la solicitud simple",
+  "ans_sent": "Respuesta a la solicitud con la frase",
+  "ans_sub": "columna de riesgos de la tabla final · ejecución {t}",
+  "covers": "cubre {k} de los 6 riesgos de referencia",
+  "ref_head": "Riesgo de referencia (tarea U08)",
+  "col_plain": "simple",
+  "col_sent": "con la frase",
+  "refs": [
+   "Los tokens antiguos dejan de validarse tras la actualización",
+   "Las dos clases acaban con valores por defecto distintos",
+   "La clave derivada cambia de valor y de tamaño",
+   "Las pruebas afirman salidas que coinciden con SHA-1",
+   "Las firmas más largas desbordan columnas, URL o cookies",
+   "La documentación y los doctests aún dicen SHA-1"
+  ],
+  "total": "cubiertos",
+  "of": "de",
+  "plain_rows": [
+   "Los tokens existentes dejan de verificarse",
+   "Los tokens de Signer y TimestampSigner simples se rompen",
+   "Las builds FIPS lanzan ValueError con tokens inválidos",
+   "Repite el problema de la versión 1.0.0",
+   "Tokens más largos",
+   "El fallback mantiene SHA-1 como aceptado",
+   "Tokens fijos en las pruebas",
+   "El código de terceros depende del valor por defecto",
+   "Código que importa _lazy_sha1 o comprueba el valor por defecto"
+  ],
+  "sent_rows": [
+   "Todos los tokens existentes dejan de verificarse",
+   "Quien usa Signer y TimestampSigner directamente se queda sin fallback",
+   "Una lista fallback_signers propia descarta SHA-1",
+   "Regresión en FIPS",
+   "El mismo error de la versión 1.0.0, que fue retirada",
+   "Las cookies y las URL se alargan",
+   "Los despliegues graduales rechazan tokens nuevos",
+   "Se rompen subclases e introspección",
+   "Las bibliotecas dependientes cambian de comportamiento en silencio",
+   "Las pruebas y la documentación quedan desfasadas"
+  ],
+  "translated": "traducido del inglés; el original está en el repositorio",
+  "how": "Cada entrada guarda la huella SHA-256 de un archivo y el hash de la entrada anterior",
+  "entry": "Entrada",
+  "file": "archivo",
+  "prev": "anterior",
+  "hash": "hash",
+  "more": "siguen más de 1.200 entradas, cada una ligada a la anterior",
+  "stages": [
+   "Protocolo, listas y código",
+   "240 respuestas",
+   "720 veredictos",
+   "Análisis"
+  ],
+  "head1": "Cabeza antes de la ejecución 1",
+  "head2": "Cabeza después del análisis",
+  "btc": "anclada en el bloque 975226 de Bitcoin",
+  "sub": "anclada en el bloque 975820 de Bitcoin",
+  "tamper": "Cambiar cualquier archivo registrado cambia todos los hashes posteriores.",
+  "before": "ANTES DE CUALQUIER DATO",
+  "events": [
+   [
+    "9 nov · 15:25",
+    "Tareas fijadas"
+   ],
+   [
+    "9 nov · 16:08",
+    "Protocolo, listas de referencia y código sellados"
+   ],
+   [
+    "9 nov · 16:10",
+    "Ejecución 1"
+   ],
+   [
+    "9 nov · 16:19",
+    "Recolección en pausa en 38 ejecuciones"
+   ],
+   [
+    "13 nov · 09:40",
+    "Recolección reanudada"
+   ],
+   [
+    "14 nov · 00:30",
+    "240 respuestas publicadas"
+   ],
+   [
+    "14 nov · 12:44",
+    "720 veredictos sellados"
+   ],
+   [
+    "14 nov · 12:45",
+    "Análisis ejecutado y sellado"
+   ]
+  ],
+  "tz": "noviembre de 2026, hora de São Paulo"
+ },
+ "it": {
+  "klein": "PRE-MORTEM DI KLEIN (2007)",
+  "half1": "Supponi che il piano sia già fallito",
+  "half2": "Elenca i motivi del fallimento",
+  "unused": "non usato in questo studio",
+  "tested": "la frase provata in questo studio",
+  "sentence_local": "Prima di pianificare, elenca i modi in cui questa modifica potrebbe andare storto.",
+  "plain_local": "Pianifica questa modifica.",
+  "tasks": "12 richieste di modifica su 12 repository pubblici, ciascuno fissato a una versione",
+  "yardstick": "IL METRO DI MISURA",
+  "yardstick_sub": "rischi di riferimento, scritti senza vedere l'agente",
+  "answers": "LE RISPOSTE",
+  "answers_sub": "l'agente di programmazione provato",
+  "y1": "3 modelli revisori di altri fornitori leggono ogni repository",
+  "y2": "369 problemi che si aspettano",
+  "y3": "resta ciò che 2 dei 3 indicano come lo stesso problema",
+  "y4": "100 rischi di riferimento",
+  "a1": "Claude Code in modalità di pianificazione, con Opus 5.5 e Sonnet 5.5",
+  "a2": "Richiesta semplice",
+  "a3": "Richiesta con la frase",
+  "trials": "120 prove",
+  "a4": "Ogni risposta termina con una tabella di al massimo 10 rischi",
+  "judge": "Un giudice cieco di un altro fornitore confronta ogni rischio di riferimento con la tabella",
+  "coverage": "copertura = rischi di riferimento coperti ÷ rischi di riferimento",
+  "sealed": "sigillato e con marca temporale prima della prova 1",
+  "plain_t": "Richiesta semplice",
+  "sent_t": "Richiesta con la frase",
+  "req_label": "RICHIESTA DI MODIFICA (esempio: compito U08)",
+  "req": "Change the default signing digest from SHA-1 to SHA-256.",
+  "req_local": "Cambiare l'algoritmo di firma predefinito da SHA-1 a SHA-256.",
+  "line_label": "L'UNICA RIGA CHE CAMBIA",
+  "contract_label": "CONTRATTO DI OUTPUT (uguale in entrambe)",
+  "contract": "Dichiara le ipotesi, non modificare file e termina con una tabella di al massimo 10 rischi.",
+  "ans_plain": "Risposta alla richiesta semplice",
+  "ans_sent": "Risposta alla richiesta con la frase",
+  "ans_sub": "colonna dei rischi della tabella finale · prova {t}",
+  "covers": "copre {k} dei 6 rischi di riferimento",
+  "ref_head": "Rischio di riferimento (compito U08)",
+  "col_plain": "semplice",
+  "col_sent": "con la frase",
+  "refs": [
+   "I vecchi token smettono di validarsi dopo l'aggiornamento",
+   "Le due classi finiscono con valori predefiniti diversi",
+   "La chiave derivata cambia di valore e di dimensione",
+   "I test affermano output che coincidono con SHA-1",
+   "Le firme più lunghe sforano colonne, URL o cookie",
+   "La documentazione e i doctest dicono ancora SHA-1"
+  ],
+  "total": "coperti",
+  "of": "su",
+  "plain_rows": [
+   "I token esistenti smettono di essere verificati",
+   "I token di Signer e TimestampSigner semplici si rompono",
+   "Le build FIPS sollevano ValueError con token non validi",
+   "Ripete il problema della versione 1.0.0",
+   "Token più lunghi",
+   "Il fallback mantiene SHA-1 come accettato",
+   "Token fissi nei test",
+   "Il codice di terzi dipende dal valore predefinito",
+   "Codice che importa _lazy_sha1 o controlla il valore predefinito"
+  ],
+  "sent_rows": [
+   "Tutti i token esistenti smettono di essere verificati",
+   "Chi usa Signer e TimestampSigner direttamente resta senza fallback",
+   "Una lista fallback_signers propria scarta SHA-1",
+   "Regressione in FIPS",
+   "Lo stesso errore della versione 1.0.0, che è stata ritirata",
+   "Cookie e URL si allungano",
+   "I rilasci graduali rifiutano i token nuovi",
+   "Si rompono sottoclassi e introspezione",
+   "Le librerie dipendenti cambiano comportamento in silenzio",
+   "Test e documentazione restano indietro"
+  ],
+  "translated": "tradotto dall'inglese; l'originale è nel repository",
+  "how": "Ogni voce conserva l'impronta SHA-256 di un file e l'hash della voce precedente",
+  "entry": "Voce",
+  "file": "file",
+  "prev": "precedente",
+  "hash": "hash",
+  "more": "seguono più di 1.200 voci, ciascuna legata alla precedente",
+  "stages": [
+   "Protocollo, liste e codice",
+   "240 risposte",
+   "720 verdetti",
+   "Analisi"
+  ],
+  "head1": "Testa prima della prova 1",
+  "head2": "Testa dopo l'analisi",
+  "btc": "ancorata nel blocco 975226 di Bitcoin",
+  "sub": "ancorata nel blocco 975820 di Bitcoin",
+  "tamper": "Cambiare qualsiasi file registrato cambia tutti gli hash successivi.",
+  "before": "PRIMA DI QUALSIASI DATO",
+  "events": [
+   [
+    "9 nov · 15:25",
+    "Compiti fissati"
+   ],
+   [
+    "9 nov · 16:08",
+    "Protocollo, liste di riferimento e codice sigillati"
+   ],
+   [
+    "9 nov · 16:10",
+    "Prova 1"
+   ],
+   [
+    "9 nov · 16:19",
+    "Raccolta sospesa a 38 prove"
+   ],
+   [
+    "13 nov · 09:40",
+    "Raccolta ripresa"
+   ],
+   [
+    "14 nov · 00:30",
+    "240 risposte pubblicate"
+   ],
+   [
+    "14 nov · 12:44",
+    "720 verdetti sigillati"
+   ],
+   [
+    "14 nov · 12:45",
+    "Analisi eseguita e sigillata"
+   ]
+  ],
+  "tz": "novembre 2026, ora di San Paolo"
+ }
+}

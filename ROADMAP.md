@@ -24,7 +24,7 @@ The 2026-11b study ([`benchmark/study-2026-11b/`](benchmark/study-2026-11b/)) ma
 ## Next
 
 1. **A human engineer on a sample of the reference lists.** Both studies scored against lists written by models of other vendors. This is the stated weakness that remains.
-   The two studies together are the source of the series' third paper.
+   The third paper of the series, on the two studies, is written with this weakness stated ([`paper/one-sentence-premortem.md`](paper/one-sentence-premortem.md)); the human check comes after it.
 2. **ASP v2.1, rebuilt on what was measured.**
    - The one-sentence pre-mortem, now confirmed, becomes the cheap default.
    - The full protocol becomes an option that has to earn its cost.

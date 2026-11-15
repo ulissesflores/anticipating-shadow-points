@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1010" width="1000" height="1010">
+<rect x="140" y="20" width="720" height="84" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<text x="500.0" y="54" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="600" fill="#1b1b1b" text-anchor="middle">12 change requests on 12 public repositories, each</text>
+<text x="500.0" y="84.36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="600" fill="#1b1b1b" text-anchor="middle">fixed at one version</text>
+<line x1="300" y1="104" x2="300" y2="141" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="300,150 291,136.5 309,136.5" fill="#5c5c5c"/>
+<line x1="700" y1="104" x2="700" y2="141" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="700,150 691,136.5 709,136.5" fill="#5c5c5c"/>
+<text x="40" y="186" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1c64c7" text-anchor="start" letter-spacing="2">THE YARDSTICK</text>
+<text x="40" y="214" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#5c5c5c" text-anchor="start" font-style="italic">reference risks, written without seeing the</text>
+<text x="40" y="239.08" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#5c5c5c" text-anchor="start" font-style="italic">agent</text>
+<rect x="40" y="250" width="430" height="104" rx="12" fill="#ffffff" stroke="#1c64c7" stroke-width="2"/>
+<text x="255" y="295.5" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#1b1b1b" text-anchor="middle">3 reviewer models of other vendors</text>
+<text x="255" y="324.54" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#1b1b1b" text-anchor="middle">read each repository</text>
+<line x1="255" y1="354" x2="255" y2="375" stroke="#1c64c7" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="255,384 246,370.5 264,370.5" fill="#1c64c7"/>
+<rect x="40" y="386" width="430" height="74" rx="12" fill="#ffffff" stroke="#1c64c7" stroke-width="2"/>
+<text x="255" y="431.0" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#1b1b1b" text-anchor="middle">369 problems they expect</text>
+<line x1="255" y1="460" x2="255" y2="481" stroke="#1c64c7" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="255,490 246,476.5 264,476.5" fill="#1c64c7"/>
+<rect x="40" y="492" width="430" height="104" rx="12" fill="#ffffff" stroke="#1c64c7" stroke-width="2"/>
+<text x="255" y="537.5" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#1b1b1b" text-anchor="middle">kept when 2 of the 3 name the same</text>
+<text x="255" y="566.54" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#1b1b1b" text-anchor="middle">problem</text>
+<line x1="255" y1="596" x2="255" y2="617" stroke="#1c64c7" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="255,626 246,612.5 264,612.5" fill="#1c64c7"/>
+<rect x="40" y="628" width="430" height="84" rx="12" fill="#edf3fc" stroke="#1c64c7" stroke-width="2.5"/>
+<text x="255" y="678.0" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">100 reference risks</text>
+<text x="530" y="186" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#d2501a" text-anchor="start" letter-spacing="2">THE ANSWERS</text>
+<text x="530" y="214" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#5c5c5c" text-anchor="start" font-style="italic">the coding agent under test</text>
+<rect x="530" y="250" width="430" height="104" rx="12" fill="none" stroke="#5c5c5c" stroke-width="2"/>
+<text x="745" y="295.5" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#1b1b1b" text-anchor="middle">Claude Code in plan mode, on Opus</text>
+<text x="745" y="324.54" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#1b1b1b" text-anchor="middle">5.5 and Sonnet 5.5</text>
+<line x1="637" y1="354" x2="637" y2="391" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="637,400 628,386.5 646,386.5" fill="#5c5c5c"/>
+<line x1="853" y1="354" x2="853" y2="391" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="853,400 844,386.5 862,386.5" fill="#5c5c5c"/>
+<rect x="530" y="402" width="214" height="124" rx="12" fill="#ffffff" stroke="#5c5c5c" stroke-width="2"/>
+<text x="637" y="446" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">Plain request</text>
+<text x="637" y="481.04" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">120 trials</text>
+<line x1="637" y1="526" x2="637" y2="567" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="637,576 628,562.5 646,562.5" fill="#5c5c5c"/>
+<rect x="746" y="402" width="214" height="124" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2.5"/>
+<text x="853" y="432" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">Request with the</text>
+<text x="853" y="461.04" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">sentence</text>
+<text x="853" y="496.08000000000004" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">120 trials</text>
+<line x1="853" y1="526" x2="853" y2="567" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="853,576 844,562.5 862,562.5" fill="#5c5c5c"/>
+<rect x="530" y="578" width="430" height="104" rx="12" fill="none" stroke="#5c5c5c" stroke-width="2"/>
+<text x="745" y="623.5" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#1b1b1b" text-anchor="middle">Each answer ends with a table of at</text>
+<text x="745" y="652.54" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#1b1b1b" text-anchor="middle">most 10 risks</text>
+<line x1="255" y1="712" x2="255" y2="771" stroke="#1c64c7" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="255,780 246,766.5 264,766.5" fill="#1c64c7"/>
+<line x1="745" y1="682" x2="745" y2="771" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="745,780 736,766.5 754,766.5" fill="#5c5c5c"/>
+<rect x="40" y="782" width="920" height="170" rx="12" fill="#f4f4f3" stroke="#1b1b1b" stroke-width="2.5"/>
+<text x="500.0" y="826" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="400" fill="#1b1b1b" text-anchor="middle">A blind judge of another vendor checks each reference risk against the table</text>
+<text x="500.0" y="872.36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#1b1b1b" text-anchor="middle">coverage = reference risks covered ÷ reference risks</text>
+<text x="40" y="992" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#1c64c7" text-anchor="start" font-style="italic">sealed and timestamped before trial 1</text>
+</svg>

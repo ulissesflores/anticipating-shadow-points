@@ -21,6 +21,11 @@ STEPS = [
     ("study results", [sys.executable, "benchmark/study-2026-11/analyze.py", "results", "5"]),
     ("study 2 results", [sys.executable, "benchmark/study-2026-11b/analyze.py", "results", "5"]),
     ("study 2 sensitivity", [sys.executable, "benchmark/study-2026-11b/sensitivity.py", "--quiet"]),
+    ("study 2 descriptives", [sys.executable, "benchmark/study-2026-11b/describe.py", "--quiet"]),
+    (
+        "study 2 second yardstick",
+        [sys.executable, "benchmark/study-2026-11b/yardstick2/yardstick2.py", "results"],
+    ),
     ("figures", [sys.executable, "analysis/make_figures.py"]),
     ("tests", [sys.executable, "-m", "pytest", "-q", "tests"]),
     (

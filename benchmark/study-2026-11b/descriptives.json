@@ -485,6 +485,10 @@
   }
  },
  "delta_bar": 0.114,
+ "errors_as_full_coverage": {
+  "gemini": 0.089,
+  "grok": 0.0822
+ },
  "full_tables_only": {
   "coverage": {
    "RED-plain": 0.4734,
@@ -705,6 +709,22 @@
    "delta": 0.1375
   }
  },
+ "plan_file": {
+  "among_those": {
+   "delta_bar": 0.0753,
+   "strata": 10
+  },
+  "trials_that_wrote_a_plan_file": {
+   "claude-opus-5-5": {
+    "RED-plain": 59,
+    "RED-risk": 22
+   },
+   "claude-sonnet-5-5": {
+    "RED-plain": 0,
+    "RED-risk": 0
+   }
+  }
+ },
  "reference_risks_per_task": {
   "U01": 7,
   "U02": 8,
@@ -728,6 +748,10 @@
    "relevance": 0.739,
    "trials": 120
   }
+ },
+ "reviewers_per_risk": {
+  "2": 69,
+  "3": 31
  },
  "wording_origin": {
   "gemini": 91,

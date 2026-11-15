@@ -193,7 +193,7 @@ Pre-registered in [`benchmark/study-2026-11/PROTOCOL.md`](benchmark/study-2026-1
 
 Study 1 found the one-sentence effect as a secondary comparison. Study 2 tests it as the primary question, pre-registered in [`benchmark/study-2026-11b/PROTOCOL.md`](benchmark/study-2026-11b/PROTOCOL.md) and timestamped before trial 1. To our knowledge, no earlier study measures this single sentence in a coding agent. The setup:
 - **Tasks:** twelve new change requests on twelve public repositories, each pinned to one commit. None was used in study 1.
-- **Conditions:** two, with no plugin in either. They differ by one sentence: "Plan this change." against "Before planning, list the ways this change could go wrong."
+- **Conditions:** two, with ASP and the account's plugins turned off in both (the four plugins built into Claude Code stayed on). They differ by one sentence: "Plan this change." against "Before planning, list the ways this change could go wrong."
 - **Runs:** 5 per task, model and condition, 240 in total, on Claude Opus 5.5 and Claude Sonnet 5.5.
 - **Reference lists and scoring:** as in study 1, with a second measure, relevance: the share of an answer's table rows that the judge calls a concrete, plausible risk of that change.
 
@@ -205,6 +205,7 @@ Study 1 found the one-sentence effect as a secondary comparison. Study 2 tests i
 
 - **Primary, pre-registered:** the sentence minus the plain request = +11 points (Gemini), permutation p = 0.0001 overall and p = 0.0001 within each model, positive in 22 of 24 task-and-model cells. The decision rule fixed in advance says *confirmed*, scoped to these two models, these tasks and model-written reference lists.
 - **Second judge:** Grok gives +11 points and the same decision. The two judges agree on 93.2% of 2,000 item decisions.
+- **A second yardstick, not planned:** reviewers of the paper objected that the reference lists were asked for with words close to the sentence. New lists, asked for as "the main risks of this change", give 56% against 62%: +7 points (Gemini, p = 0.0002), positive on both models and in 16 of 24 cells. The effect holds and is smaller on that yardstick. The Grok verdicts for it are still pending. See [`benchmark/study-2026-11b/yardstick2/ADDENDUM.md`](benchmark/study-2026-11b/yardstick2/ADDENDUM.md).
 - **Relevance:** the sentence did not make the listed risks less relevant. It scored 74% against 69%; without the network errors below, the difference is +3 points and not significant (p = 0.09).
 - **Cost:** the answers with the sentence took 40 s on average against 50 s, and their tables have about the same number of rows (9.6 against 9.2).
 - **Three network errors, and a check that was not planned:**

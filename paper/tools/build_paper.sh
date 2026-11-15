@@ -44,6 +44,10 @@ else
   [ -n "$I18N_SRC" ] || I18N_SRC="$ROOT/paper/i18n/$NOME.$LANG_ED.md"
   [ -s "$I18N_SRC" ] || { echo "[FAIL] translated source not found: $I18N_SRC (use --i18n-src)"; exit 66; }
 fi
+# tables of more than 5 data rows may split across pages in this paper (11 tables: kept whole, each left a half-empty page)
+[ "$NOME" = one-sentence-premortem ] && export CH_TABLE_KEEP=5
+# and its figures are embedded at 2400 px (the default 850 px looked coarse in print)
+[ "$NOME" = one-sentence-premortem ] && export PX_LIST="2400 2000 1600" CH_KEEP_IMAGE_PIXELS=1
 BUILD="$ROOT/build/$TAG"
 mkdir -p "$BUILD" "$ROOT/docs/paper"
 if [ "$LANG_ED" = en ]; then
@@ -57,6 +61,10 @@ bash "$ROOT/paper/tools/build_house.sh" --src "$BUILD/fonte.md" --out "$BUILD" -
 RC=$?
 set -e
 [ -s "$BUILD/$TAG.pdf" ] || exit 70
+if [ -n "${CH_KEEP_IMAGE_PIXELS:-}" ]; then   # Word writes pictures at ~192 ppi: put the source pixels back
+  uv run --no-project --with pikepdf --with pillow python "$ROOT/paper/tools/sharpen_pdf.py" \
+    "$BUILD/$TAG.pdf" "$BUILD/fonte.md" --width 2000 || exit 71
+fi
 DOCS_NAME="$NOME.$LANG_ED"                          # docs/paper/<nome>.<lang>.{docx,pdf}; en keeps <nome>.en.*
 cp "$BUILD/$TAG.docx" "$ROOT/docs/paper/$DOCS_NAME.docx"
 cp "$BUILD/$TAG.pdf" "$ROOT/docs/paper/$DOCS_NAME.pdf"

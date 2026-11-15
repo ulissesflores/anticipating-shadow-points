@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="1000" height="650">
+<text x="260" y="42" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#1b1b1b" text-anchor="middle">Richiesta semplice</text>
+<rect x="40" y="62" width="440" height="578" rx="12" fill="none" stroke="#5c5c5c" stroke-width="2"/>
+<text x="64" y="104" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1">RICHIESTA DI MODIFICA (esempio: compito U08)</text>
+<line x1="60" y1="250" x2="460" y2="250" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="64" y="284" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#d2501a" text-anchor="start" letter-spacing="1">L&#x27;UNICA RIGA CHE CAMBIA</text>
+<line x1="60" y1="470" x2="460" y2="470" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="64" y="504" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1">CONTRATTO DI OUTPUT (uguale in entrambe)</text>
+<text x="260" y="146" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">“Change the default signing digest</text>
+<text x="260" y="175.04" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">from SHA-1 to SHA-256.”</text>
+<text x="260" y="208.07999999999998" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">Cambiare l&#x27;algoritmo di firma predefinito da</text>
+<text x="260" y="231.83999999999997" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">SHA-1 a SHA-256.</text>
+<text x="260" y="340" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="700" fill="#1b1b1b" text-anchor="middle">“Plan this change.”</text>
+<text x="260" y="374.36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">Pianifica questa modifica.</text>
+<text x="260" y="544" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">Dichiara le ipotesi, non modificare</text>
+<text x="260" y="570.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">file e termina con una tabella di al</text>
+<text x="260" y="596.8" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">massimo 10 rischi.</text>
+<text x="740" y="42" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#1b1b1b" text-anchor="middle">Richiesta con la frase</text>
+<rect x="520" y="62" width="440" height="578" rx="12" fill="none" stroke="#d2501a" stroke-width="2.5"/>
+<text x="544" y="104" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1">RICHIESTA DI MODIFICA (esempio: compito U08)</text>
+<line x1="540" y1="250" x2="940" y2="250" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="544" y="284" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#d2501a" text-anchor="start" letter-spacing="1">L&#x27;UNICA RIGA CHE CAMBIA</text>
+<line x1="540" y1="470" x2="940" y2="470" stroke="#c8c8c8" stroke-width="1.5" stroke-linecap="round"/>
+<text x="544" y="504" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15.5" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1">CONTRATTO DI OUTPUT (uguale in entrambe)</text>
+<text x="740" y="146" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">“Change the default signing digest</text>
+<text x="740" y="175.04" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#1b1b1b" text-anchor="middle">from SHA-1 to SHA-256.”</text>
+<text x="740" y="208.07999999999998" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">Cambiare l&#x27;algoritmo di firma predefinito da</text>
+<text x="740" y="231.83999999999997" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">SHA-1 a SHA-256.</text>
+<rect x="534" y="298" width="412" height="158" rx="12" fill="#fdf0e8" stroke="none" stroke-width="2"/>
+<text x="740" y="340" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="700" fill="#1b1b1b" text-anchor="middle">“Before planning, list the ways</text>
+<text x="740" y="370.36" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="700" fill="#1b1b1b" text-anchor="middle">this change could go wrong.”</text>
+<text x="740" y="404.72" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">Prima di pianificare, elenca i modi in</text>
+<text x="740" y="429.8" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">cui questa modifica potrebbe andare</text>
+<text x="740" y="454.88" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">storto.</text>
+<text x="740" y="544" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">Dichiara le ipotesi, non modificare</text>
+<text x="740" y="570.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">file e termina con una tabella di al</text>
+<text x="740" y="596.8" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#5c5c5c" text-anchor="middle">massimo 10 rischi.</text>
+</svg>

@@ -1,0 +1,1110 @@
+{
+ "U01": {
+  "reference": [
+   {
+    "item": "The User model in prisma/schema.prisma currently lacks an email verification field, meaning adding an unverified check to verifyLogin without a backfill migration will immediately lock out existing users and break prisma/seed.ts (e.g., rachel@remix.run).",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "B2",
+     "C3"
+    ]
+   },
+   {
+    "item": "app/routes/join.tsx currently calls createUserSession to issue a session cookie immediately upon registration, requiring a significant architectural change to withhold authentication until confirmation without leaving the user flow broken.",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "C1"
+    ]
+   },
+   {
+    "item": "Automated Cypress tests (cypress/e2e/smoke.cy.ts) and test helpers (cypress/support/create-user.ts) rely on immediate user creation and login sessions, which will fail continuous integration pipelines unless tests and fixtures are adapted to mock or bypass verification.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "C9"
+    ]
+   },
+   {
+    "item": "The application completely lacks an email delivery service, SMTP transport, and related configuration in package.json and .env.example, requiring net-new third-party infrastructure and credential management before verification messages can be sent.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "C2"
+    ]
+   },
+   {
+    "item": "In server.ts, multi-region database replays via fly-replay are configured only for non-GET requests, meaning an email verification link visited via a standard GET request will fail when attempting to write verification status against a read-only database replica.",
+    "from": "gemini",
+    "group": [
+     "A5",
+     "C8"
+    ]
+   },
+   {
+    "item": "Because User.email is enforced with a unique constraint in prisma/schema.prisma and join.tsx rejects existing emails, unverified registrations created maliciously or with typos will permanently block the legitimate owners from creating accounts unless an account cleanup or expiration process is implemented.",
+    "from": "gemini",
+    "group": [
+     "A6",
+     "C5"
+    ]
+   },
+   {
+    "item": "Protected route guards getUser and requireUser in app/session.server.ts check only user existence by ID, which would allow unverified users with existing session cookies to continue accessing protected /notes routes.",
+    "from": "gemini",
+    "group": [
+     "A7",
+     "C4"
+    ]
+   },
+   {
+    "item": "The codebase currently possesses no mechanism or schema for generating, hashing, expiring, and invalidating single-use tokens, risking vulnerabilities if verification tokens are stored insecurely or lack expiration limits.",
+    "from": "gemini",
+    "group": [
+     "A9",
+     "B3",
+     "C7"
+    ]
+   },
+   {
+    "item": "Informing users of unverified status in app/routes/login.tsx risks introducing account enumeration vulnerabilities if error handling distinguishes between non-existent accounts and unverified registered users.",
+    "from": "gemini",
+    "group": [
+     "A10",
+     "B6",
+     "C6"
+    ]
+   }
+  ],
+  "n_reference": 9,
+  "n_by_reviewer": {
+   "gemini": 10,
+   "gptoss": 8,
+   "grok": 10
+  },
+  "share_named_by_another": {
+   "gemini": 0.9,
+   "gptoss": 0.375,
+   "grok": 0.9
+  }
+ },
+ "U02": {
+  "reference": [
+   {
+    "item": "FindOneArticle(&ArticleModel{Slug: slug}) is hardcoded across all article endpoints (ArticleRetrieve, ArticleFavorite, ArticleCommentCreate, etc.) in articles/routers.go to query ArticleModel by Slug directly. Supporting historical slugs requires decoupling this lookup into an alias-aware resolution layer so that all handlers consistently locate the current article without breaking existing query signatures.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "C1"
+    ]
+   },
+   {
+    "item": "In ArticleDelete (articles/routers.go), the handler executes DeleteArticleModel(&ArticleModel{Slug: slug}) using the raw URL parameter rather than the resolved article's primary key or current slug. If an article is accessed and deleted via a historical slug, GORM will attempt to delete a non-existent slug on ArticleModel, returning HTTP 204 while leaving the article intact in the database.",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "C8"
+    ]
+   },
+   {
+    "item": "makeUniqueSlug in articles/models.go only counts collisions against ArticleModel.Slug and ignores historical slug aliases. A newly created or retitled article could claim an old slug that was previously shared, leading to routing ambiguity or hijacking existing links unless makeUniqueSlug and its retry loop validate against both current and historical slugs.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "B2",
+     "C4"
+    ]
+   },
+   {
+    "item": "ArticleUpdate executes articleModel.Update(updates) without a database transaction and relies on an optimistic retry loop for unique index collisions. Updating the current slug on ArticleModel while simultaneously inserting or updating a historical alias record across multiple steps risks partial failures and database inconsistency during concurrent requests.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "B7",
+     "C6"
+    ]
+   },
+   {
+    "item": "An author may rename an article back to an earlier title or swap titles between multiple articles, creating circular references or duplicate key errors in the alias history. The design must explicitly define how historical aliases are pruned, reclaimed, or redirected when a slug reverts to its original owner.",
+    "from": "gemini",
+    "group": [
+     "A6",
+     "C5",
+     "C7"
+    ]
+   },
+   {
+    "item": "Returning HTTP 301/308 redirects for historical slugs can break strict RealWorld API clients that do not follow redirects or that strip the Authorization: Token ... header on redirection. Conversely, serving 200 OK directly causes canonical URL duplication and may confuse clients because ArticleResponse omits the database ID (json:\"-\") and only returns the new slug.",
+    "from": "gemini",
+    "group": [
+     "A8",
+     "C2",
+     "C3"
+    ]
+   },
+   {
+    "item": "Database migrations in hello.go and test resets in articles/unittest.go (resetDBWithMock) rely on GORM's AutoMigrate over SQLite. Introducing a new alias table or modifying constraints requires updating migration lists across application entry points and all test fixtures, while SQLite's limited ALTER TABLE capabilities complicate schema evolution on existing databases.",
+    "from": "gemini",
+    "group": [
+     "A10",
+     "C9"
+    ]
+   },
+   {
+    "item": "Validation logic (articles/validators.go) may not currently enforce slug immutability; allowing edits could bypass length or character restrictions leading to malformed URLs.",
+    "from": "gptoss",
+    "group": [
+     "B8",
+     "C10"
+    ]
+   }
+  ],
+  "n_reference": 8,
+  "n_by_reviewer": {
+   "gemini": 10,
+   "gptoss": 12,
+   "grok": 10
+  },
+  "share_named_by_another": {
+   "gemini": 0.7,
+   "gptoss": 0.25,
+   "grok": 1.0
+  }
+ },
+ "U03": {
+  "reference": [
+   {
+    "item": "The User model and users table have no role or permissions schema, and authorization across the application relies on ad-hoc checks in FormRequests like DeleteComment, meaning moderator designation and privilege enforcement have no existing infrastructure.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "B3",
+     "C1"
+    ]
+   },
+   {
+    "item": "CommentController::index and CommentTransformer strictly adhere to the external RealWorld API specification, so altering comment payloads or filtering comments from responses risks breaking compatibility with standard client frontends.",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "C3"
+    ]
+   },
+   {
+    "item": "Because CommentController::index uses optional JWT authentication (auth.api:optional), hiding abusive comments via simple query filters or global scopes risks either leaking abusive content to unauthenticated users or preventing comment authors from viewing their own hidden comments to initiate an appeal.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "C4"
+    ]
+   },
+   {
+    "item": "CommentController::destroy executes a hard database deletion ($comment->delete()) without Eloquent soft delete support, creating the risk that an author or cascading article deletion permanently erases a hidden comment along with its appeal eligibility.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "B4",
+     "C2"
+    ]
+   },
+   {
+    "item": "The Comment model only defines body and userid in $fillable, so adding moderation and appeal status flags without careful attribute guarding and request validation could expose mass-assignment vulnerabilities.",
+    "from": "gemini",
+    "group": [
+     "A5",
+     "B1",
+     "C8"
+    ]
+   },
+   {
+    "item": "The application has no queue or task scheduling configured in app/Console/Kernel.php, meaning the 7-day appeal expiration must either be computed synchronously on each request or require introducing new scheduling and background worker infrastructure to transition expired records.",
+    "from": "gemini",
+    "group": [
+     "A6",
+     "B7",
+     "C5"
+    ]
+   },
+   {
+    "item": "Although the User model includes the Notifiable trait, no notification handlers or mail drivers are configured in EventServiceProvider, leaving comment authors with no mechanism to be notified when their comment is hidden or when the 7-day appeal countdown begins.",
+    "from": "gemini",
+    "group": [
+     "A7",
+     "B12"
+    ]
+   },
+   {
+    "item": "The database schema has no audit logging or moderation tracking table, creating the risk that moderation actions cannot be attributed to specific moderators, leaving no audit trail for abuse reasons or appeal resolutions.",
+    "from": "gemini",
+    "group": [
+     "A8",
+     "B5"
+    ]
+   },
+   {
+    "item": "Nested route model binding under articles/{article}/comments in routes/api.php does not verify in CommentController that the resolved Comment actually belongs to the given Article, risking cross-article moderation and appeal execution if new endpoints follow this pattern.",
+    "from": "gemini",
+    "group": [
+     "A9",
+     "C7"
+    ]
+   },
+   {
+    "item": "Without database transaction management or concurrency locks in CommentController, simultaneous actions\u2014such as an author appealing while a moderator modifies or deletes the comment\u2014can result in race conditions and corrupted comment lifecycle states.",
+    "from": "gemini",
+    "group": [
+     "A10",
+     "B6",
+     "C6"
+    ]
+   }
+  ],
+  "n_reference": 10,
+  "n_by_reviewer": {
+   "gemini": 10,
+   "gptoss": 12,
+   "grok": 8
+  },
+  "share_named_by_another": {
+   "gemini": 1.0,
+   "gptoss": 0.583,
+   "grok": 1.0
+  }
+ },
+ "U04": {
+  "reference": [
+   {
+    "item": "Under the current [\"ipaddress\"] default, an IP attempting passwords against multiple accounts is blocked after AXESFAILURELIMIT attempts, but switching to [[\"username\", \"ipaddress\"]] enables attackers to execute horizontal password spraying across unlimited usernames from a single IP without triggering lockout.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "C2"
+    ]
+   },
+   {
+    "item": "In axes.helpers.makecachekeylist, cache keys are generated by concatenating parameter values without a delimiter via \"\".join(...), causing hash collisions in AxesCacheHandler between distinct username and IP combinations (such as username \"admin1\" with IP \"0.0.0.1\" versus \"admin\" with IP \"10.0.0.1\").",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "C5"
+    ]
+   },
+   {
+    "item": "In AxesCacheHandler.resetattempts, cache keys are computed only from the provided arguments, meaning management commands axesresetip and axesresetusername will silently fail to clear lockout keys because neither passes both username and IP together.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "C8"
+    ]
+   },
+   {
+    "item": "In AxesDatabaseHandler.userloginfailed, the guard to avoid creating records when username is None strictly checks lockoutparameters == [\"username\"]; under [[\"username\", \"ipaddress\"]], requests missing a username will record username=None attempts in the database that will not protect actual accounts.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "B7",
+     "C4"
+    ]
+   },
+   {
+    "item": "In AccessAttempt, queries filter on exact username matches without normalization, which allows attackers to bypass lockout thresholds against case-insensitive authentication backends (such as email-based logins) by varying character casing unless AXESUSERNAMECALLABLE is configured.",
+    "from": "gemini",
+    "group": [
+     "A5",
+     "C3"
+    ]
+   },
+   {
+    "item": "Existing integration tests in tests/testlogin.py (including testlockoutbyipblockswhendiffusersameipwithoutcache and its cached equivalent) explicitly assert default lockout by IP across different usernames, causing multiple test suite failures without a major test overhaul.",
+    "from": "gemini",
+    "group": [
+     "A6",
+     "B6"
+    ]
+   },
+   {
+    "item": "AccessAttempt defines a unique constraint on (username, ipaddress, useragent) and individual indexes on username and ipaddress, but lacks a composite index on (username, ipaddress); making this pair the default query pattern will increase row volume and could degrade query performance during getfailures.",
+    "from": "gemini",
+    "group": [
+     "A7",
+     "B3"
+    ]
+   },
+   {
+    "item": "In axes/admin.py, IsLockedOutFilter and status evaluate lockout thresholds against an individual AccessAttempt row's failuressincestart rather than aggregating failures across rotating user agents for a (username, IP) pair as getfailures does, causing false negative lockout displays in the admin.",
+    "from": "gemini",
+    "group": [
+     "A10",
+     "C9"
+    ]
+   },
+   {
+    "item": "Documentation drift \u2013 The project\u2019s ADRs, changelog, and README currently describe IP\u2011only lockouts. Updating the default without synchronizing these artifacts will create misinformation for future developers and operators.",
+    "from": "gptoss",
+    "group": [
+     "B12",
+     "C10"
+    ]
+   }
+  ],
+  "n_reference": 9,
+  "n_by_reviewer": {
+   "gemini": 10,
+   "gptoss": 12,
+   "grok": 10
+  },
+  "share_named_by_another": {
+   "gemini": 0.8,
+   "gptoss": 0.333,
+   "grok": 0.7
+  }
+ },
+ "U05": {
+  "reference": [
+   {
+    "item": "In index.js, unmodified sessions rely on store.touch() rather than store.save(); if a session store does not implement touch(), the backend session TTL will not be extended, causing sessions to expire prematurely in the store while the client-side cookie continues to renew.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "C3"
+    ]
+   },
+   {
+    "item": "Enabling rolling by default causes shouldSetCookie() to return true on every request for an active session, injecting a Set-Cookie header on all responses and breaking downstream HTTP caching and CDN edge caching.",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "C8"
+    ]
+   },
+   {
+    "item": "Because store.touch() is executed during res.end() on every request, rolling by default transforms all read-only HTTP traffic into write operations on the session store, risking severe I/O bottlenecks and connection pool exhaustion in external stores like Redis or MongoDB.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "B4"
+    ]
+   },
+   {
+    "item": "When a session is configured without a maxAge (a browser-session cookie where expires is null), shouldSetCookie() still evaluates to true, repeatedly sending redundant Set-Cookie headers on every response even though there is no cookie expiration to extend.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "C2"
+    ]
+   },
+   {
+    "item": "Because express-session only resets cookie.maxAge and lacks a built-in absolute expiration ceiling, rolling sessions by default allows sessions to remain active indefinitely through periodic background requests, significantly increasing the window of exposure for hijacked sessions.",
+    "from": "gemini",
+    "group": [
+     "A5",
+     "B1",
+     "C5"
+    ]
+   },
+   {
+    "item": "Concurrent requests from the same user will trigger simultaneous invocations of store.touch() (or store.save()) and res.setHeader('Set-Cookie', ...), creating race conditions, out-of-order cookie expirations, and potential session data overwrites.",
+    "from": "gemini",
+    "group": [
+     "A6",
+     "C4"
+    ]
+   },
+   {
+    "item": "Numerous unit tests in test/session.js explicitly assert that rolling defaults to false and that unmodified requests do not send a Set-Cookie header via shouldNotHaveHeader('Set-Cookie'), causing immediate, widespread test suite failures.",
+    "from": "gemini",
+    "group": [
+     "A9",
+     "B7"
+    ]
+   },
+   {
+    "item": "Changing the default value of opts.rolling from false to true alters default HTTP header behavior and session lifecycles for all consumers, representing a breaking API change that requires a major version bump.",
+    "from": "gemini",
+    "group": [
+     "A10",
+     "C1"
+    ]
+   },
+   {
+    "item": "Compatibility with saveUninitialized: false \u2013 When saveUninitialized is false, rolling by default may cause cookies to be sent even though no session data has been persisted, breaking the intended \u201cno\u2011session\u2011cookie\u2011until\u2011data\u2011saved\u201d semantics.",
+    "from": "gptoss",
+    "group": [
+     "B3",
+     "C9"
+    ]
+   },
+   {
+    "item": "Interaction with cookie.maxAge reset \u2013 The Session.prototype.touch method resets maxAge to originalMaxAge; with rolling always on, this reset may be invoked more frequently, potentially overriding custom per\u2011request max\u2011age adjustments.",
+    "from": "gptoss",
+    "group": [
+     "B8",
+     "C6"
+    ]
+   }
+  ],
+  "n_reference": 10,
+  "n_by_reviewer": {
+   "gemini": 10,
+   "gptoss": 12,
+   "grok": 9
+  },
+  "share_named_by_another": {
+   "gemini": 0.8,
+   "gptoss": 0.417,
+   "grok": 0.889
+  }
+ },
+ "U06": {
+  "reference": [
+   {
+    "item": "In boot.sh and Procfile, the application runs on Gunicorn with default synchronous workers, meaning an endpoint that aggregates all of a user's posts and comments in-request could block worker processes and trigger reverse-proxy timeouts (such as Heroku's 30-second limit). Without an asynchronous export pipeline or streaming response, concurrent download requests could easily starve the web server and cause a Denial of Service.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "B3"
+    ]
+   },
+   {
+    "item": "The User model contains sensitive internal attributes including passwordhash, role configurations, and confirmation tokens. If data serialization dumps model attributes directly rather than using a strict allowlist, user password hashes or internal security metadata could be leaked in the exported file.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "B2",
+     "C3"
+    ]
+   },
+   {
+    "item": "The Comment model includes a disabled flag used by moderators, and comments can be authored by third parties on a user's posts. If the export includes comments received on a user's posts or fails to filter disabled comments, it risks exposing other users' private information and moderated content that is normally suppressed in comments.html.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "C4",
+     "C5"
+    ]
+   },
+   {
+    "item": "Users with extensive histories could have thousands of posts and comments containing lengthy text and generated bodyhtml. Aggregating this entire dataset into a single in-memory payload (such as a massive JSON document or archive) risks exhausting memory and crashing Python processes within container-constrained environments like the Alpine-based Dockerfile.",
+    "from": "gemini",
+    "group": [
+     "A5",
+     "B6"
+    ]
+   },
+   {
+    "item": "Existing model methods like User.tojson() only serialize limited public metadata (username, membersince, lastseen) and deliberately exclude profile fields like aboutme, location, name, and email. Relying on existing serialization helpers will produce incomplete exports, while building custom serialization without a defined schema risks introducing inconsistencies between raw markdown body and rendered bodyhtml.",
+    "from": "gemini",
+    "group": [
+     "A6",
+     "C2"
+    ]
+   },
+   {
+    "item": "If the new download route accepts a user identifier without strictly verifying that currentuser matches the requested record or possesses Permission.ADMIN, any authenticated user could download another user's personal data. This would expose private information, such as email addresses that are otherwise restricted in user.html to administrators.",
+    "from": "gemini",
+    "group": [
+     "A7",
+     "B1",
+     "C1"
+    ]
+   },
+   {
+    "item": "The application currently has no rate-limiting extension installed (such as Flask-Limiter), leaving endpoints vulnerable to rapid repeated invocations. Malicious or abusive users could repeatedly trigger full-database data extractions, saturating database connections and exhausting application server resources.",
+    "from": "gemini",
+    "group": [
+     "A8",
+     "B4",
+     "C8"
+    ]
+   }
+  ],
+  "n_reference": 7,
+  "n_by_reviewer": {
+   "gemini": 10,
+   "gptoss": 12,
+   "grok": 10
+  },
+  "share_named_by_another": {
+   "gemini": 0.7,
+   "gptoss": 0.417,
+   "grok": 0.6
+  }
+ },
+ "U07": {
+  "reference": [
+   {
+    "item": "In app/api/summaries.py, the readsummary, updatesummary, and deletesummary endpoints strictly enforce id: int = Path(..., gt=0). Replacing this parameter type with UUID will immediately reject existing clients' integer requests with 422 Unprocessable Entity unless the routes accept a union type or custom path converter.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "B7",
+     "C2",
+     "C4"
+    ]
+   },
+   {
+    "item": "In app/models/pydantic.py, SummaryResponseSchema defines id: int, and app/models/tortoise.py generates SummarySchema dynamically via pydanticmodelcreator(TextSummary). Replacing id with a UUID string in API responses will break JSON deserialization and schema validation in existing clients that expect an integer.",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "B4",
+     "C1",
+     "C3"
+    ]
+   },
+   {
+    "item": "The TextSummary model in app/models/tortoise.py relies on Tortoise's default auto-incrementing serial primary key defined in migration 020250421234125init.py. Altering the primary key column to a UUID in PostgreSQL using Aerich risks table locks, migration failure, and data loss unless legacy integer IDs are preserved alongside a new UUID column.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "B1",
+     "C5"
+    ]
+   },
+   {
+    "item": "In app/summarizer.py, generatesummary(summaryid: int, url: str) expects an integer and queries TextSummary.filter(id=summaryid) as an asynchronous task scheduled by BackgroundTasks in createsummary. Changing the exposed ID to UUID without coordinating this background task's signature and query logic will cause asynchronous summarization jobs to fail.",
+    "from": "gemini",
+    "group": [
+     "A5",
+     "C7"
+    ]
+   },
+   {
+    "item": "The readallsummaries endpoint in app/api/crud.py uses TextSummary.all().values(), which defaults to PostgreSQL's natural primary key order. Shifting the exposed identifier to non-sequential UUIDs without adding an explicit orderby(\"createdat\") clause risks disrupting the expected listing order for existing clients.",
+    "from": "gemini",
+    "group": [
+     "A7",
+     "C10"
+    ]
+   },
+   {
+    "item": "The test suites in tests/testsummaries.py and tests/testsummariesunit.py heavily assert integer IDs, mock integer returns from crud, and test boundary validation such as id=0 expecting gt: 0 error details. Changing route types and payload schemas will break existing unit and integration tests unless the test suite is refactored to verify both legacy integer and UUID client paths.",
+    "from": "gemini",
+    "group": [
+     "A8",
+     "B5",
+     "C11"
+    ]
+   },
+   {
+    "item": "The release script in release.sh deploys Docker containers directly to Heroku without a zero-downtime migration strategy. If the database migration alters or drops the integer primary key while old container instances are running, in-flight client requests will fail due to schema mismatches.",
+    "from": "gemini",
+    "group": [
+     "A9",
+     "C6"
+    ]
+   },
+   {
+    "item": "Backward\u2011compatibility strategy \u2013 Providing a migration path that preserves the old integer ID for existing clients (e.g., dual\u2011field response or header) adds complexity and must be carefully designed to avoid ambiguous identifiers.",
+    "from": "gptoss",
+    "group": [
+     "B9",
+     "C8"
+    ]
+   }
+  ],
+  "n_reference": 8,
+  "n_by_reviewer": {
+   "gemini": 9,
+   "gptoss": 9,
+   "grok": 11
+  },
+  "share_named_by_another": {
+   "gemini": 0.778,
+   "gptoss": 0.556,
+   "grok": 0.909
+  }
+ },
+ "U08": {
+  "reference": [
+   {
+    "item": "Existing production tokens and signatures (such as session cookies or password reset links) signed under the current SHA-1 default will fail validation with BadSignature, reproducing the severe backward-incompatibility issue that led to yanking release 1.0.0.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "B1",
+     "C1"
+    ]
+   },
+   {
+    "item": "Standalone Signer and TimestampSigner classes lack any fallback verification mechanism, meaning callers using them directly rather than through Serializer will immediately reject existing SHA-1 signatures unless custom multi-signer verification logic is manually added.",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "C2"
+    ]
+   },
+   {
+    "item": "Because Serializer.defaultfallbacksigners currently defaults to an empty list, even Serializer.loads() will fail to validate existing SHA-1 tokens by default unless SHA-1 is explicitly added to defaultfallbacksigners.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "C3"
+    ]
+   },
+   {
+    "item": "In Signer.derivekey(), digestmethod is used for key derivation across concat, django-concat, and hmac modes, meaning switching to SHA-256 changes both the derived signing key material and the signature, breaking external compatibility with systems expecting Django-compatible SHA-1 key derivation.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "B8"
+    ]
+   },
+   {
+    "item": "A SHA-256 HMAC digest produces 32 raw bytes (43 base64 characters) instead of SHA-1's 20 bytes (27 characters), increasing overall token length by 16 characters and risking payload overflow in size-constrained environments like HTTP cookie limits or compact URLs generated by URLSafeSerializer.",
+    "from": "gemini",
+    "group": [
+     "A5",
+     "C8"
+    ]
+   },
+   {
+    "item": "Class-level defaultdigestmethod is declared independently on both HMACAlgorithm and Signer in src/itsdangerous/signer.py, creating a desynchronization risk if both attributes are not updated uniformly or if downstream subclasses override only one of them.",
+    "from": "gemini",
+    "group": [
+     "A6",
+     "C7"
+    ]
+   },
+   {
+    "item": "The lazy loading pattern implemented via lazysha1 to prevent import-time exceptions on FIPS-compliant systems must be evaluated for SHA-256, and any retained SHA-1 fallback must preserve lazy resolution so it does not trigger errors on FIPS builds where SHA-1 is disabled.",
+    "from": "gemini",
+    "group": [
+     "A7",
+     "C6"
+    ]
+   },
+   {
+    "item": "In distributed architectures and rolling deployments (such as multi-server Flask deployments), upgraded nodes will emit SHA-256 tokens that older nodes cannot parse, leading to session drops and authentication failures across the deployment window.",
+    "from": "gemini",
+    "group": [
+     "A9",
+     "B5"
+    ]
+   },
+   {
+    "item": "Existing unit tests in tests/testitsdangerous/testserializer.py assert explicit equality against SHA-1 output (including testdigests checking the hardcoded signature [42].-9cNi0CxsSB3hZPNCe9a2eEs1ZM and testiterunsigners checking for lazysha1), which will fail immediately without test updates.",
+    "from": "gemini",
+    "group": [
+     "A10",
+     "B3"
+    ]
+   },
+   {
+    "item": "Documentation throughout docs/concepts.rst, docs/signer.rst, and class docstrings explicitly details hashlib.sha1 as the default, justifies its security properties in HMAC, and provides hardcoded SHA-1 examples that will become incorrect and misleading.",
+    "from": "gemini",
+    "group": [
+     "A11",
+     "B6",
+     "C9"
+    ]
+   }
+  ],
+  "n_reference": 10,
+  "n_by_reviewer": {
+   "gemini": 11,
+   "gptoss": 8,
+   "grok": 9
+  },
+  "share_named_by_another": {
+   "gemini": 0.909,
+   "gptoss": 0.625,
+   "grok": 0.778
+  }
+ },
+ "U09": {
+  "reference": [
+   {
+    "item": "In PasswordHasher.cs, algorithm detection currently relies on a fragile byte-length check (hash.Length == 64 && salt.Length == 16) for HMAC-SHA512 before passing payloads to ASP.NET Core Identity's VerifyHashedPassword. Introducing a third hashing format risks decoding errors or format collisions unless an explicit format discriminator is established to distinguish HMAC, Identity PBKDF2, and the new scheme.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "C1"
+    ]
+   },
+   {
+    "item": "Transparent rehashing upon authentication is implemented only in Login.Handler, whereas Edit.Handler updates password hashes only when a new password is explicitly submitted. Users who authenticate exclusively through existing JWT tokens without logging in via /api/users/login will continue using legacy password hashes indefinitely.",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "B9",
+     "C5"
+    ]
+   },
+   {
+    "item": "The Person entity lacks concurrency tokens or row-versioning, leaving rehash operations vulnerable to race conditions. Simultaneous login requests for the same account, or a login concurrent with a profile update in Edit.cs, could overwrite newer user data or trigger concurrency exceptions under SQL Server's ReadCommitted isolation.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "B11",
+     "C6"
+    ]
+   },
+   {
+    "item": "Password hashing in PasswordHasher executes synchronously on thread-pool threads via Task.FromResult. Upgrading to a computationally heavier or memory-intensive algorithm doubles the execution overhead during an existing user's first login (verifying the legacy hash and generating the new hash), risking thread-pool starvation and request timeouts under peak login traffic.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "B4"
+    ]
+   },
+   {
+    "item": "If the new hashing scheme requires alterations to Person.Hash, Person.Salt, or the addition of algorithm metadata columns, migrations must be synchronized across both SqliteConduitContext and SqlServerConduitContext. Any discrepancy between the providers will immediately cause MigrationTests.cs to fail its HasPendingModelChanges() assertion and break CI.",
+    "from": "gemini",
+    "group": [
+     "A5",
+     "B2"
+    ]
+   },
+   {
+    "item": "Because Login.Command does not implement IReadOnlyRequest, every login is wrapped in an explicit transaction by DBContextTransactionPipelineBehavior, which uses Serializable isolation for SQLite. Converting every active user's initial login from a read operation into an immediate database write will significantly increase database lock contention on SQLite deployments.",
+    "from": "gemini",
+    "group": [
+     "A8",
+     "C4"
+    ]
+   },
+   {
+    "item": "The project enforces centralized package management via Directory.Packages.props and locked restores via RestorePackagesWithLockFile. Introducing third-party cryptographic dependencies (such as an Argon2 or BCrypt library) requires updating locked package files and risks introducing cross-platform native runtime issues between macOS, Linux, and containerized deployments.",
+    "from": "gemini",
+    "group": [
+     "A9",
+     "B7"
+    ]
+   },
+   {
+    "item": "Existing integration tests in PasswordHashingTests.cs explicitly assert legacy HMAC rehash semantics and verify that upgraded records have empty salt arrays (Assert.Empty(upgraded.Salt)). Changing the hashing strategy, payload representation, or rehash lifecycle without updating these tests will cause the test suite to fail.",
+    "from": "gemini",
+    "group": [
+     "A10",
+     "B6"
+    ]
+   },
+   {
+    "item": "Legacy hash compatibility \u2013 Existing users still have HMAC\u2011SHA\u2011512 hashes (64\u202fbytes\u202f+\u202f16\u202fbyte salt); switching to a stronger scheme must retain verification for these legacy hashes, otherwise logins will fail for all current accounts.",
+    "from": "gptoss",
+    "group": [
+     "B1",
+     "C2"
+    ]
+   },
+   {
+    "item": "Re\u2011hash trigger logic \u2013 The current Verify method returns SuccessRehashNeeded for legacy hashes; introducing a new scheme requires updating the login flow to automatically re\u2011hash the password on successful verification, which may be missed and leave old hashes unchanged.",
+    "from": "gptoss",
+    "group": [
+     "B3",
+     "C8"
+    ]
+   },
+   {
+    "item": "Salt handling \u2013 The existing implementation expects a separate salt byte array; a modern scheme often embeds the salt in the stored hash. Mismatched expectations may lead to null\u2011reference errors or incorrect verification if the API surfaces the salt incorrectly.",
+    "from": "gptoss",
+    "group": [
+     "B5",
+     "C7"
+    ]
+   }
+  ],
+  "n_reference": 11,
+  "n_by_reviewer": {
+   "gemini": 11,
+   "gptoss": 12,
+   "grok": 8
+  },
+  "share_named_by_another": {
+   "gemini": 0.727,
+   "gptoss": 0.75,
+   "grok": 0.875
+  }
+ },
+ "U10": {
+  "reference": [
+   {
+    "item": "Because authentication uses ASP.NET Core's built-in MapIdentityApi<ApplicationUser>() and CurrentUser only exposes Id and Roles, there is currently no tenant concept in the identity model or token claims. Without defining how tenants are registered, stored, and resolved per request, the application cannot securely authenticate a tenant context.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "B4",
+     "C1"
+    ]
+   },
+   {
+    "item": "Handlers such as GetTodosQueryHandler query context.TodoLists directly across the entire database without tenant scoping. If tenant filtering is implemented ad hoc in individual queries rather than centrally via EF Core Global Query Filters in ApplicationDbContext, future queries or navigation property traversals are prone to cross-tenant data leaks.",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "B2"
+    ]
+   },
+   {
+    "item": "CreateTodoItemCommand and UpdateTodoItemDetailCommand accept an arbitrary ListId without verifying that the target TodoList belongs to the current tenant, allowing users to insert items into or reparent items into another company's list. Furthermore, commands using FindAsync([request.Id]) will permit cross-tenant mutations or deletions if tenant ownership checks are omitted.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "B3",
+     "C2"
+    ]
+   },
+   {
+    "item": "CreateTodoListCommandValidator and UpdateTodoListCommandValidator enforce unique titles across the entire TodoLists table using context.TodoLists.AnyAsync. Without scoping this check to the current tenant, companies will encounter collisions on common list titles like \"Work\" or \"Personal\", while validation errors could leak the existence of other tenants' lists.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "C5"
+    ]
+   },
+   {
+    "item": "ApplicationDbContextInitialiser uses EnsureCreatedAsync() rather than EF Core migrations and seeds hardcoded default users and todo lists without any tenant association. Introducing a required TenantId will break database initialisation, corrupt seed workflows, and fail on existing databases unless a migration and data backfill strategy is planned.",
+    "from": "gemini",
+    "group": [
+     "A7",
+     "B1",
+     "C6"
+    ]
+   },
+   {
+    "item": "The test infrastructure in Application.FunctionalTests (WebApiFactory, TestApp, and DatabaseResetter) mocks IUser without tenant context and executes against a shared, unpartitioned database state. Introducing tenant requirements will break existing functional test runs and give a false sense of security unless multi-tenant test fixtures and cross-tenant boundary assertions are created.",
+    "from": "gemini",
+    "group": [
+     "A8",
+     "B7",
+     "C7"
+    ]
+   },
+   {
+    "item": "The frontend Angular and React applications rely on generated API clients via NSwag (nswag.json). If tenant context alters API route parameters, registration contracts, or request payloads instead of being handled transparently via authentication claims or session headers, the generated client and UI components will experience breaking changes across the board.",
+    "from": "gemini",
+    "group": [
+     "A9",
+     "B9"
+    ]
+   },
+   {
+    "item": "EF Core configuration oversights \u2013 The entity configurations (src/Infrastructure/Data/Configurations/TodoItemConfiguration.cs and TodoListConfiguration.cs) need global query filters for TenantId; forgetting this will leave the database unprotected.",
+    "from": "gptoss",
+    "group": [
+     "B5",
+     "C4"
+    ]
+   },
+   {
+    "item": "Security rule enforcement \u2013 The AuthorizationBehaviour (src/Application/Common/Behaviours/AuthorizationBehaviour.cs) only checks roles; it must also enforce tenant isolation, otherwise role\u2011based access may inadvertently grant cross\u2011tenant visibility.",
+    "from": "gptoss",
+    "group": [
+     "B10",
+     "C3"
+    ]
+   }
+  ],
+  "n_reference": 9,
+  "n_by_reviewer": {
+   "gemini": 9,
+   "gptoss": 12,
+   "grok": 8
+  },
+  "share_named_by_another": {
+   "gemini": 0.778,
+   "gptoss": 0.667,
+   "grok": 0.875
+  }
+ },
+ "U11": {
+  "reference": [
+   {
+    "item": "VisitController.processNewVisitForm loads the Owner and persists visits in memory without transaction locking or concurrency checks, creating a race condition where concurrent booking requests for the same vet and time will result in duplicate bookings.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "B2"
+    ]
+   },
+   {
+    "item": "The Visit entity and the visits tables across h2/schema.sql, mysql/schema.sql, and postgres/schema.sql lack any association or foreign key to Vet, requiring schema changes and coupling the currently independent owner and vet domain packages.",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "B1"
+    ]
+   },
+   {
+    "item": "Visit.java records visits using java.time.LocalDate (DATE in SQL) without a time-of-day, duration, or time-zone concept, requiring a temporal model redesign and migration of existing seed data in data.sql to support \"at the same time\" checks.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "B10",
+     "C1"
+    ]
+   },
+   {
+    "item": "The codebase contains no authentication or authorization layer, which leaves endpoints like /owners/{ownerId}/pets/{petId}/visits/new publicly exposed and allows anonymous users to book appointments on behalf of arbitrary owners.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "B6",
+     "C6"
+    ]
+   },
+   {
+    "item": "Visits are currently persisted exclusively through cascade saves on the Owner aggregate root (this.owners.save(owner)) rather than a dedicated VisitRepository, preventing independent locking or direct querying of a vet's booked schedule.",
+    "from": "gemini",
+    "group": [
+     "A5",
+     "B4",
+     "C2"
+    ]
+   },
+   {
+    "item": "VetRepository annotates vet lookups with @Cacheable(\"vets\"), which risks serving stale availability data if appointment booking logic is coupled to cached vet entity state.",
+    "from": "gemini",
+    "group": [
+     "A6",
+     "C7"
+    ]
+   },
+   {
+    "item": "The application maintains separate DDL scripts for H2, MySQL, and PostgreSQL without a database migration tool (such as Flyway or Liquibase), making simultaneous additions of foreign keys and unique constraints prone to dialect drift and CI test failures.",
+    "from": "gemini",
+    "group": [
+     "A7",
+     "B9",
+     "C4"
+    ]
+   },
+   {
+    "item": "Unlike PetController, VisitController does not catch DataIntegrityViolationException, meaning any database-level unique constraint violation triggered by a booking collision will bubble up to CrashController and show a 500 error page instead of a form validation message.",
+    "from": "gemini",
+    "group": [
+     "A8",
+     "C3"
+    ]
+   },
+   {
+    "item": "VisitController explicitly configures dataBinder.setDisallowedFields(\"id\", \".id\"), which will silently drop incoming vet identifiers during form submission unless binder rules are updated carefully to avoid mass assignment risks.",
+    "from": "gemini",
+    "group": [
+     "A9",
+     "B5"
+    ]
+   },
+   {
+    "item": "I18nPropertiesSyncTest fails the build if new template text or message keys are added without synchronizing all ten localized messages.properties files, making UI additions for vet and slot selection a failure point for automated verification.",
+    "from": "gemini",
+    "group": [
+     "A10",
+     "B7",
+     "C9"
+    ]
+   },
+   {
+    "item": "Insufficient Validation of Overlap \u2013 No existing service checks for overlapping visits per vet; a na\u00efve date\u2011time comparison could miss edge cases (e.g., time\u2011zone differences or appointments spanning midnight).",
+    "from": "gptoss",
+    "group": [
+     "B3",
+     "C8"
+    ]
+   }
+  ],
+  "n_reference": 11,
+  "n_by_reviewer": {
+   "gemini": 10,
+   "gptoss": 12,
+   "grok": 9
+  },
+  "share_named_by_another": {
+   "gemini": 1.0,
+   "gptoss": 0.75,
+   "grok": 0.889
+  }
+ },
+ "U12": {
+  "reference": [
+   {
+    "item": "In starlette/testclient.py, TestClient defaults to baseurl=\"http://testserver\". Because HTTPX does not transmit Secure cookies over insecure HTTP connections, enabling Secure by default will break the majority of existing test cases in tests/middleware/testsession.py that rely on sessions persisting across requests.",
+    "from": "gemini",
+    "group": [
+     "A1",
+     "B4",
+     "C1"
+    ]
+   },
+   {
+    "item": "Applications running in local development or test environments over plain HTTP (such as http://127.0.0.1:8000 or non-TLS containers) will fail to persist sessions because browsers drop Secure cookies on unencrypted origins. Developers would encounter broken session behavior out of the box without clear diagnostic errors.",
+    "from": "gemini",
+    "group": [
+     "A2",
+     "B1",
+     "C9"
+    ]
+   },
+   {
+    "item": "Setting SameSite=Strict by default prevents browsers from sending the session cookie on top-level cross-site GET navigations, such as following an external link or opening a bookmark. Users navigating to the application from external sites will appear unauthenticated on their initial landing page until an internal navigation occurs.",
+    "from": "gemini",
+    "group": [
+     "A3",
+     "C3"
+    ]
+   },
+   {
+    "item": "Authentication workflows that rely on third-party redirects\u2014such as OAuth2 callbacks, OpenID Connect logins, or SAML identity provider flows\u2014will break because incoming redirects will not carry the session cookie under SameSite=Strict. This will cause state parameter validation failures and loss of pre-authenticated session context.",
+    "from": "gemini",
+    "group": [
+     "A4",
+     "B2"
+    ]
+   },
+   {
+    "item": "SessionMiddleware handles scope[\"type\"] == \"websocket\", extracting cookies during the initial connection handshake. Marking the cookie Secure by default will block browsers from sending the session cookie over unencrypted WebSocket connections (ws://), breaking WebSocket endpoints during local development or in non-TLS environments.",
+    "from": "gemini",
+    "group": [
+     "A8",
+     "C7"
+    ]
+   },
+   {
+    "item": "SessionMiddleware supports partitioned cookies for embedded contexts (partitioned: bool = False), which explicitly requires samesite=\"none\" and HTTPS as documented in docs/middleware.md. Defaulting to SameSite=Strict will silently break embedded or iframe use cases unless developers explicitly override both parameters.",
+    "from": "gemini",
+    "group": [
+     "A9",
+     "C4"
+    ]
+   },
+   {
+    "item": "docs/middleware.md explicitly instructs users that httpsonly defaults to False and samesite defaults to 'lax', with specific recommendations for production configuration. Modifying these defaults without synchronizing the documentation, release notes, and migration guides will cause user confusion and unexpected breaking changes for downstream frameworks like FastAPI.",
+    "from": "gemini",
+    "group": [
+     "A10",
+     "B10",
+     "C2"
+    ]
+   },
+   {
+    "item": "Cookie\u2011clearing inconsistencies \u2013 The code that clears a session (elif session.modified and not initialsessionwasempty) re\u2011uses self.securityflags. If the defaults are changed, stale cookies set with the old flag combination may remain, causing ambiguous session state after a logout.",
+    "from": "gptoss",
+    "group": [
+     "B5",
+     "C6"
+    ]
+   },
+   {
+    "item": "Reduced flexibility for advanced users \u2013 The httpsonly flag becomes redundant, and developers who previously relied on toggling it to enable Secure only in production will lose that granular control, possibly requiring code changes elsewhere.",
+    "from": "gptoss",
+    "group": [
+     "B9",
+     "C8"
+    ]
+   }
+  ],
+  "n_reference": 9,
+  "n_by_reviewer": {
+   "gemini": 10,
+   "gptoss": 12,
+   "grok": 9
+  },
+  "share_named_by_another": {
+   "gemini": 0.7,
+   "gptoss": 0.5,
+   "grok": 0.889
+  }
+ }
+}
