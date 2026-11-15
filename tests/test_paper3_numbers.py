@@ -442,3 +442,23 @@ def test_rerun_and_third_judge():
         len(list((STUDY / "addendum2" / "astra" / "yardstick2" / "astra").glob("t*.json"))) == 240
     )
     assert len(list((STUDY / "addendum3" / "openrouter" / "rerun").glob("*/t*.json"))) == 9
+
+
+def test_groups_left_out_by_the_merge():
+    """Objection 2: how many merged groups only one reviewer named, on each yardstick."""
+    import sys
+
+    sys.path.insert(0, str(STUDY))
+    from judge import first_json
+
+    for folder, text in (
+        (STUDY / "judge" / "merge", "132 of the 232 groups"),
+        (STUDY / "yardstick2" / "judge" / "merge", "102 of the 213"),
+    ):
+        groups = [
+            g
+            for f in sorted(folder.glob("*.raw.txt"))
+            for g in first_json(f.read_text(encoding="utf-8"))["groups"]
+        ]
+        single = sum(len({k[0] for k in g}) < 2 for g in groups)
+        assert f"{single} of the {len(groups)}" in text and text in PAPER

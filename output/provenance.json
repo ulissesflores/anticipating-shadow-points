@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "d30e22c4894190d24ef19c68e3679c85af75736d079942a4d9c91b44e958aae3",
+  "chain_hash": "19a02977185efac0c529d28b04736402e09b13cb0d2dc499a14c3894f4cea016",
   "informational_not_hashed": {
     "files": [
       {
@@ -2281,7 +2281,7 @@
         },
         {
           "path": "benchmark/study-2026-11b/PROTOCOL.md",
-          "sha256": "5922c2f469e86109769375d8f18d7703731bb47a602ba6f7af30f77de3854939"
+          "sha256": "845550fa10ff1b40a5bd60af91a6cbb1b5b41276669bf3b600df169118d636fa"
         },
         {
           "path": "benchmark/study-2026-11b/analysis-head.txt",
@@ -5269,7 +5269,7 @@
         },
         {
           "path": "benchmark/study-2026-11b/ledger.jsonl",
-          "sha256": "b1a6930672cd8609d31c57e03c1dea95fec1693cf3ba4c2d911dabd8f6583411"
+          "sha256": "6dee24763a101431d4be170f7ee3768883058319ea0b152f1be9c4b21a338633"
         },
         {
           "path": "benchmark/study-2026-11b/lists/gemini/U01.md",
@@ -7380,7 +7380,7 @@
           "sha256": "092db9db9fb8f11236e4c91d03a0660d22fd983506f0c353053966362ef90624"
         }
       ],
-      "leaf_sha256": "20fb614070c89d8d7bd267bf2167217c03b67dbe276d740bffdad679e62e8841"
+      "leaf_sha256": "8690c112fb2c7ceebf40afc4766f81db2a06111f49137001620f004073790306"
     },
     "frozen_inputs": {
       "files": [
@@ -9064,7 +9064,7 @@
         },
         {
           "path": "tests/test_paper3_numbers.py",
-          "sha256": "fea887069a10852874c5776c9dc73a22844294dddcd8bb4a24764e9e6d9965ef"
+          "sha256": "0fe2cfea1aab199a5f04745fa1e46ac7d29d4878b0ea841a53026cda4b8341d9"
         },
         {
           "path": "tests/test_paper_numbers.py",
@@ -9099,7 +9099,7 @@
           "sha256": "1cd40c4d32b3f55823a9f69947ddaa03aae3977f5a357262a0b575a55aad1426"
         }
       ],
-      "leaf_sha256": "dc4b2eeab9989f58b6cf521829c0f84c93fa2feb38c2183e4f048603f5f70433"
+      "leaf_sha256": "4b935ff37520c5798bad3fb87e60589381d5c806abfe2f7bf980c8514e06d2a9"
     }
   },
   "schema": 1
