@@ -1,0 +1,67 @@
+{
+ "note": "Exploratory and post hoc (ADDENDUM-2.md). The confirmatory analysis is ../results.json; the planned analysis of the second yardstick is ../yardstick2/results2.json. Neither is changed by this file.",
+ "astra": {
+  "judge_model": "gpt-6-astra",
+  "yardstick2_fixed_rule": {
+   "overall": {
+    "RED-risk": 0.7299,
+    "RED-plain": 0.6403
+   },
+   "delta_bar": 0.0895,
+   "p": 0.0001,
+   "by_model": {
+    "claude-opus-5-5": 0.0808,
+    "claude-sonnet-5-5": 0.0983
+   },
+   "p_by_model": {
+    "claude-opus-5-5": 0.0001,
+    "claude-sonnet-5-5": 0.0001
+   },
+   "positive_strata": 20,
+   "strata": 24
+  },
+  "yardstick2_errors_as_full_coverage": {
+   "overall": {
+    "RED-risk": 0.7299,
+    "RED-plain": 0.6653
+   },
+   "delta_bar": 0.0645,
+   "p": 0.0001,
+   "by_model": {
+    "claude-opus-5-5": 0.0474,
+    "claude-sonnet-5-5": 0.0817
+   },
+   "p_by_model": {
+    "claude-opus-5-5": 0.0129,
+    "claude-sonnet-5-5": 0.0001
+   },
+   "positive_strata": 18,
+   "strata": 24
+  },
+  "agreement_with_gemini": {
+   "items": 2192,
+   "agreement": 0.8937,
+   "covered_first": 0.5903,
+   "covered_second": 0.6875,
+   "kappa": 0.772
+  },
+  "yardstick2_with_reruns": {
+   "overall": {
+    "RED-risk": 0.7299,
+    "RED-plain": 0.6533
+   },
+   "delta_bar": 0.0766,
+   "p": 0.0001,
+   "by_model": {
+    "claude-opus-5-5": 0.0622,
+    "claude-sonnet-5-5": 0.0909
+   },
+   "p_by_model": {
+    "claude-opus-5-5": 0.0003,
+    "claude-sonnet-5-5": 0.0001
+   },
+   "positive_strata": 20,
+   "strata": 24
+  }
+ }
+}
