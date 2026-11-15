@@ -1,0 +1,42 @@
+{
+ "trial": "t100",
+ "covered": [
+  3,
+  5,
+  6
+ ],
+ "n": 9,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. Decide, for each reference problem, whether any row of the table addresses the same underlying problem (names it as a risk or mitigates it specifically), even if worded differently.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nReference problems:\n1. Because authentication uses ASP.NET Core's built-in MapIdentityApi<ApplicationUser>() and CurrentUser only exposes Id and Roles, there is currently no tenant concept in the identity model or token claims. Without defining how tenants are registered, stored, and resolved per request, the application cannot securely authenticate a tenant context.\n2. Handlers such as GetTodosQueryHandler query context.TodoLists directly across the entire database without tenant scoping. If tenant filtering is implemented ad hoc in individual queries rather than centrally via EF Core Global Query Filters in ApplicationDbContext, future queries or navigation property traversals are prone to cross-tenant data leaks.\n3. CreateTodoItemCommand and UpdateTodoItemDetailCommand accept an arbitrary ListId without verifying that the target TodoList belongs to the current tenant, allowing users to insert items into or reparent items into another company's list. Furthermore, commands using FindAsync([request.Id]) will permit cross-tenant mutations or deletions if tenant ownership checks are omitted.\n4. CreateTodoListCommandValidator and UpdateTodoListCommandValidator enforce unique titles across the entire TodoLists table using context.TodoLists.AnyAsync. Without scoping this check to the current tenant, companies will encounter collisions on common list titles like \"Work\" or \"Personal\", while validation errors could leak the existence of other tenants' lists.\n5. ApplicationDbContextInitialiser uses EnsureCreatedAsync() rather than EF Core migrations and seeds hardcoded default users and todo lists without any tenant association. Introducing a required TenantId will break database initialisation, corrupt seed workflows, and fail on existing databases unless a migration and data backfill strategy is planned.\n6. The test infrastructure in Application.FunctionalTests (WebApiFactory, TestApp, and DatabaseResetter) mocks IUser without tenant context and executes against a shared, unpartitioned database state. Introducing tenant requirements will break existing functional test runs and give a false sense of security unless multi-tenant test fixtures and cross-tenant boundary assertions are created.\n7. The frontend Angular and React applications rely on generated API clients via NSwag (nswag.json). If tenant context alters API route parameters, registration contracts, or request payloads instead of being handled transparently via authentication claims or session headers, the generated client and UI components will experience breaking changes across the board.\n8. EF Core configuration oversights \u2013 The entity configurations (src/Infrastructure/Data/Configurations/TodoItemConfiguration.cs and TodoListConfiguration.cs) need global query filters for TenantId; forgetting this will leave the database unprotected.\n9. Security rule enforcement \u2013 The AuthorizationBehaviour (src/Application/Common/Behaviours/AuthorizationBehaviour.cs) only checks roles; it must also enforce tenant isolation, otherwise role\u2011based access may inadvertently grant cross\u2011tenant visibility.\n\nRows of the risk table:\n-  Filter bypass through `FindAsync`   The handlers use `FindAsync`, which can skip query filters if the entity is already tracked   Switch to `FirstOrDefaultAsync`, or add a cross-tenant test per handler  \n-  Tenant taken from client input   An id in a request body or header can be forged   Read it only from the signed claim  \n-  Missing tenant fails open   A null `TenantId` compared in a filter can match nothing, or in the wrong setup everything   Fail closed with a 403 and a test for the null case  \n-  `IgnoreQueryFilters` misuse   Seeding and admin code have to bypass the filter   Restrict its use to seeding and review every call  \n-  Item and list tenant drift   `TodoItem` has its own `TenantId` and `ListId`, so they can disagree   Stamp from the parent list and assert in the interceptor  \n-  Existing data has no tenant   The rebuild hides this in dev, but a real database would break   Use a backfill migration if production data exists  \n-  Stale claim after tenant change   Cookie claims persist until re-login   Short cookie lifetime, or re-validate against the user record  \n-  Test fixtures break   `TestApp` creates tenant-less users   Update the test helpers first  \n-  Cross-tenant leaks outside the filter   Domain events, logs and caches are not filtered   Review `LogTodoItemCompleted` and any caching  \n-  Tenant filter cost   Every query gains a predicate   Composite indexes on `TenantId`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per reference number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": false,\n  \"2\": false,\n  \"3\": true,\n  \"4\": false,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false,\n  \"9\": false\n}\n```",
+ "channel": "openrouter",
+ "reasoning_effort": "high",
+ "api": {
+  "id": "gen-1794763625-i1gegFJ901isHc7pBHR2",
+  "model": "google/gemini-3.8-flash",
+  "provider": "Google AI Studio",
+  "usage": {
+   "prompt_tokens": 1027,
+   "completion_tokens": 5949,
+   "total_tokens": 6976,
+   "cost": 0.023079,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.023079,
+    "upstream_inference_prompt_cost": 0.00077025,
+    "upstream_inference_completions_cost": 0.02230875
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 5879,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+}

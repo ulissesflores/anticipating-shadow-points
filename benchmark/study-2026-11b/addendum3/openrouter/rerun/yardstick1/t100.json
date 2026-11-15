@@ -1,0 +1,42 @@
+{
+ "trial": "t100",
+ "covered": [
+  2,
+  3,
+  7
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. Decide, for each reference problem, whether any row of the table addresses the same underlying problem (names it as a risk or mitigates it specifically), even if worded differently.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nReference problems:\n1. CreateTodoListCommandValidator and UpdateTodoListCommandValidator enforce unique titles using global queries across context.TodoLists. Without scoping these validation queries to the current tenant, different companies will be blocked from creating lists with common names (such as \"Tasks\"), and users could probe other companies' list titles through validation errors.\n2. CreateTodoItemCommandHandler assigns request.ListId and UpdateTodoItemDetailCommandHandler updates entity.ListId without validating that the target TodoList belongs to the caller's tenant. Without explicit tenant checks on list associations, users could inject or move to-do items into another company's lists by supplying foreign list IDs.\n3. Item command handlers (UpdateTodoItemCommandHandler, DeleteTodoItemCommandHandler, and UpdateTodoItemDetailCommandHandler) look up entities directly by primary key using context.TodoItems.FindAsync([request.Id]). If TodoItem lacks a tenant identifier or relies solely on parent-list navigation for scoping without global query filters, a user could manipulate or delete any company's items simply by guessing integer IDs.\n4. ApplicationDbContextInitialiser.TrySeedAsync inserts default TodoList and TodoItem records on application startup without any tenant association. If a required, non-nullable tenant property or foreign key is introduced, application startup in Program.cs will crash during initialization or create orphaned entities that are invisible to all tenants.\n5. IUser and CurrentUser only expose Id and Roles from ClaimsPrincipal, and Users.MapIdentityApi<ApplicationUser>() uses standard ASP.NET Core Identity endpoints that do not capture, store, or issue tenant claims. Without establishing a clear tenant resolution mechanism (such as subdomain, tenant header, or JWT claim), handlers cannot securely identify which company the authenticated user belongs to.\n6. If tenant assignment is handled implicitly within AuditableEntityInterceptor alongside CreatedBy, modifying entities outside an active HTTP request context (such as background jobs, database seeders, or integration tests) will fail or overwrite tenant values with null.\n7. WebApiFactory and TestApp in the functional test suite mock IUser with only a user ID and roles, and helper methods like TestApp.AddAsync persist entities directly to ApplicationDbContext without tenant context. Introducing mandatory tenant constraints or query filters will silently hide data from assertions or break existing functional tests across the suite.\n8. If the tenant identifier is introduced into API route templates or command contracts rather than resolved transparently on the server, existing OpenAPI specifications and generated NSwag clients in both ClientApp (Angular) and ClientApp-React will break and require coordinated client-side refactoring.\n9. Existing queries (e.g., in GetTodos.cs) do not filter by tenant, so without explicit tenant scoping every company could retrieve all other tenants\u2019 data.\n10. The AuthorizationBehaviour and AuthorizeAttribute currently enforce role\u2011based checks but not tenant isolation; omitting tenant validation could allow privileged users to bypass tenant boundaries.\n\nRows of the risk table:\n-  Filter bypass through `FindAsync`   The handlers use `FindAsync`, which can skip query filters if the entity is already tracked   Switch to `FirstOrDefaultAsync`, or add a cross-tenant test per handler  \n-  Tenant taken from client input   An id in a request body or header can be forged   Read it only from the signed claim  \n-  Missing tenant fails open   A null `TenantId` compared in a filter can match nothing, or in the wrong setup everything   Fail closed with a 403 and a test for the null case  \n-  `IgnoreQueryFilters` misuse   Seeding and admin code have to bypass the filter   Restrict its use to seeding and review every call  \n-  Item and list tenant drift   `TodoItem` has its own `TenantId` and `ListId`, so they can disagree   Stamp from the parent list and assert in the interceptor  \n-  Existing data has no tenant   The rebuild hides this in dev, but a real database would break   Use a backfill migration if production data exists  \n-  Stale claim after tenant change   Cookie claims persist until re-login   Short cookie lifetime, or re-validate against the user record  \n-  Test fixtures break   `TestApp` creates tenant-less users   Update the test helpers first  \n-  Cross-tenant leaks outside the filter   Domain events, logs and caches are not filtered   Review `LogTodoItemCompleted` and any caching  \n-  Tenant filter cost   Every query gains a predicate   Composite indexes on `TenantId`  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per reference number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": false,\n  \"2\": true,\n  \"3\": true,\n  \"4\": false,\n  \"5\": false,\n  \"6\": false,\n  \"7\": true,\n  \"8\": false,\n  \"9\": false,\n  \"10\": false\n}\n```",
+ "channel": "openrouter",
+ "reasoning_effort": "high",
+ "api": {
+  "id": "gen-1794763394-buWTSDZU9wn5MdaIIxaC",
+  "model": "google/gemini-3.8-flash",
+  "provider": "Google AI Studio",
+  "usage": {
+   "prompt_tokens": 1052,
+   "completion_tokens": 34151,
+   "total_tokens": 35203,
+   "cost": 0.12885525,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.12885525,
+    "upstream_inference_prompt_cost": 0.000789,
+    "upstream_inference_completions_cost": 0.12806625
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 34073,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+}

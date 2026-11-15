@@ -1,0 +1,43 @@
+{
+ "trial": "t203",
+ "covered": [
+  1,
+  3,
+  5,
+  6
+ ],
+ "n": 9,
+ "redactions": 1,
+ "prompt": "A plan for a software change ends with a table of risks. Decide, for each reference problem, whether any row of the table addresses the same underlying problem (names it as a risk or mitigates it specifically), even if worded differently.\n\nChange request: Make every to-do list and item belong to a tenant, so that each company only sees its own data.\n\nReference problems:\n1. Because authentication uses ASP.NET Core's built-in MapIdentityApi<ApplicationUser>() and CurrentUser only exposes Id and Roles, there is currently no tenant concept in the identity model or token claims. Without defining how tenants are registered, stored, and resolved per request, the application cannot securely authenticate a tenant context.\n2. Handlers such as GetTodosQueryHandler query context.TodoLists directly across the entire database without tenant scoping. If tenant filtering is implemented ad hoc in individual queries rather than centrally via EF Core Global Query Filters in ApplicationDbContext, future queries or navigation property traversals are prone to cross-tenant data leaks.\n3. CreateTodoItemCommand and UpdateTodoItemDetailCommand accept an arbitrary ListId without verifying that the target TodoList belongs to the current tenant, allowing users to insert items into or reparent items into another company's list. Furthermore, commands using FindAsync([request.Id]) will permit cross-tenant mutations or deletions if tenant ownership checks are omitted.\n4. CreateTodoListCommandValidator and UpdateTodoListCommandValidator enforce unique titles across the entire TodoLists table using context.TodoLists.AnyAsync. Without scoping this check to the current tenant, companies will encounter collisions on common list titles like \"Work\" or \"Personal\", while validation errors could leak the existence of other tenants' lists.\n5. ApplicationDbContextInitialiser uses EnsureCreatedAsync() rather than EF Core migrations and seeds hardcoded default users and todo lists without any tenant association. Introducing a required TenantId will break database initialisation, corrupt seed workflows, and fail on existing databases unless a migration and data backfill strategy is planned.\n6. The test infrastructure in Application.FunctionalTests (WebApiFactory, TestApp, and DatabaseResetter) mocks IUser without tenant context and executes against a shared, unpartitioned database state. Introducing tenant requirements will break existing functional test runs and give a false sense of security unless multi-tenant test fixtures and cross-tenant boundary assertions are created.\n7. The frontend Angular and React applications rely on generated API clients via NSwag (nswag.json). If tenant context alters API route parameters, registration contracts, or request payloads instead of being handled transparently via authentication claims or session headers, the generated client and UI components will experience breaking changes across the board.\n8. EF Core configuration oversights \u2013 The entity configurations (src/Infrastructure/Data/Configurations/TodoItemConfiguration.cs and TodoListConfiguration.cs) need global query filters for TenantId; forgetting this will leave the database unprotected.\n9. Security rule enforcement \u2013 The AuthorizationBehaviour (src/Application/Common/Behaviours/AuthorizationBehaviour.cs) only checks roles; it must also enforce tenant isolation, otherwise role\u2011based access may inadvertently grant cross\u2011tenant visibility.\n\nRows of the risk table:\n-  Item added to another company's list   `CreateTodoItemCommand.ListId` comes from the client, and the foreign key only checks `Id`   Composite FK `(ListId, TenantId)` plus a filtered lookup of the list in the handler  \n-  Filter bypassed or captured wrongly   The filter reads the current user's tenant from the database context; context pooling or `IgnoreQueryFilters` would break it   Keep the context non-pooled; grep for `IgnoreQueryFilters` and limit it to seeding and tests  \n-  Seeding breaks   Seeding runs with no user, so the filter hides everything and the interceptor refuses to save   Seed with an explicit tenant and `IgnoreQueryFilters()`  \n-  New sign-ups have no company   The built-in registration endpoint knows nothing about companies   Fail closed (empty list / forbidden); document an admin assignment step  \n-  Old tenant claim after a user moves company   The tenant lives in the login cookie or token   Refresh the security stamp when a user's company changes  \n-  Existing tests fail   Tests insert lists without a tenant and use a mocked `IUser`   Give `TestApp` and the mock a tenant; bypass the filter in raw-data helpers  \n-  Template options don't build   The `#if` blocks in the dependency-injection setup cover cookie and bearer, plus three database providers   Run `build/test.ps1` across all options  \n-  Duplicate-title race   The title check is only a [term]   Unique `(TenantId, Title)` index  \n-  Adopters with existing data   Here the database is recreated each start, but real deployments use migrations   Ship a migration with a backfill to a default company  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per reference number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": false,\n  \"3\": true,\n  \"4\": false,\n  \"5\": true,\n  \"6\": true,\n  \"7\": false,\n  \"8\": false,\n  \"9\": false\n}\n```",
+ "channel": "openrouter",
+ "reasoning_effort": "high",
+ "api": {
+  "id": "gen-1794766252-TSCrBTAF8TVQgvPgmeyb",
+  "model": "google/gemini-3.8-flash",
+  "provider": "Google AI Studio",
+  "usage": {
+   "prompt_tokens": 1068,
+   "completion_tokens": 52441,
+   "total_tokens": 53509,
+   "cost": 0.19745475,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.19745475,
+    "upstream_inference_prompt_cost": 0.000801,
+    "upstream_inference_completions_cost": 0.19665375
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 52371,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+}

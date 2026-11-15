@@ -1,0 +1,45 @@
+{
+ "trial": "t164",
+ "covered": [
+  1,
+  2,
+  5,
+  7,
+  8,
+  9
+ ],
+ "n": 10,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. Decide, for each reference problem, whether any row of the table addresses the same underlying problem (names it as a risk or mitigates it specifically), even if worded differently.\n\nChange request: Make sessions roll by default, so that every request extends the session's expiry.\n\nReference problems:\n1. In index.js, unmodified sessions rely on store.touch() rather than store.save(); if a session store does not implement touch(), the backend session TTL will not be extended, causing sessions to expire prematurely in the store while the client-side cookie continues to renew.\n2. Enabling rolling by default causes shouldSetCookie() to return true on every request for an active session, injecting a Set-Cookie header on all responses and breaking downstream HTTP caching and CDN edge caching.\n3. Because store.touch() is executed during res.end() on every request, rolling by default transforms all read-only HTTP traffic into write operations on the session store, risking severe I/O bottlenecks and connection pool exhaustion in external stores like Redis or MongoDB.\n4. When a session is configured without a maxAge (a browser-session cookie where expires is null), shouldSetCookie() still evaluates to true, repeatedly sending redundant Set-Cookie headers on every response even though there is no cookie expiration to extend.\n5. Because express-session only resets cookie.maxAge and lacks a built-in absolute expiration ceiling, rolling sessions by default allows sessions to remain active indefinitely through periodic background requests, significantly increasing the window of exposure for hijacked sessions.\n6. Concurrent requests from the same user will trigger simultaneous invocations of store.touch() (or store.save()) and res.setHeader('Set-Cookie', ...), creating race conditions, out-of-order cookie expirations, and potential session data overwrites.\n7. Numerous unit tests in test/session.js explicitly assert that rolling defaults to false and that unmodified requests do not send a Set-Cookie header via shouldNotHaveHeader('Set-Cookie'), causing immediate, widespread test suite failures.\n8. Changing the default value of opts.rolling from false to true alters default HTTP header behavior and session lifecycles for all consumers, representing a breaking API change that requires a major version bump.\n9. Compatibility with saveUninitialized: false \u2013 When saveUninitialized is false, rolling by default may cause cookies to be sent even though no session data has been persisted, breaking the intended \u201cno\u2011session\u2011cookie\u2011until\u2011data\u2011saved\u201d semantics.\n10. Interaction with cookie.maxAge reset \u2013 The Session.prototype.touch method resets maxAge to originalMaxAge; with rolling always on, this reset may be invoked more frequently, potentially overriding custom per\u2011request max\u2011age adjustments.\n\nRows of the risk table:\n-  Silent breaking change   Every app without `rolling` set changes behaviour on upgrade   Ship as major (2.0); HISTORY entry; optional deprecation warning first  \n-  Responses can't be cached / cookie leaks via shared cache   A `Set-Cookie` on every response blocks CDN caching and risks one user's cookie being served to others   Document it; recommend `Cache-Control: private`  \n-  Sessions never expire   Polling keeps them alive and there's no absolute timeout   Document it; consider an absolute-lifetime option later  \n-  Cookie extended but store record expires   Store expiry only moves via save or `touch`, not via `rolling`   Document `touch` / `resave`; test that `store.touch` is called  \n-  `rolling: false` ignored   A naive `opts.rolling \\ \\  true` overrides it   Check for `undefined`; add explicit-false test  \n-  Test churn hides real regressions   26 no-`Set-Cookie` assertions, many using defaults   Pin `rolling: false` per test on purpose; don't bulk-flip  \n-  `saveUninitialized: false` stops holding   Rolling must not create cookies for empty sessions   Keep the `cookieId !== sessionID` check first; add a test  \n-  Change seems to do nothing   Without `maxAge` the cookie lasts until the browser closes   README note; manual check with `maxAge`  \n-  Outside docs and types go stale   `@types/express-session` says the default is `false`   Open a DefinitelyTyped follow-up  \n-  More Set-Cookie writes and secure-cookie edge cases   `onHeaders` now always runs `touch` and `setcookie`   Keep the `secure` check; run the existing secure/proxy tests  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per reference number: {\"1\": true, \"2\": false, ...}",
+ "raw": "```json\n{\n  \"1\": true,\n  \"2\": true,\n  \"3\": false,\n  \"4\": false,\n  \"5\": true,\n  \"6\": false,\n  \"7\": true,\n  \"8\": true,\n  \"9\": true,\n  \"10\": false\n}\n```",
+ "channel": "openrouter",
+ "reasoning_effort": "high",
+ "api": {
+  "id": "gen-1794765970-dDlvaYhw0rk0PrSQPA2u",
+  "model": "google/gemini-3.8-flash",
+  "provider": "Google AI Studio",
+  "usage": {
+   "prompt_tokens": 1017,
+   "completion_tokens": 9943,
+   "total_tokens": 10960,
+   "cost": 0.038049,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.038049,
+    "upstream_inference_prompt_cost": 0.00076275,
+    "upstream_inference_completions_cost": 0.03728625
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 9865,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+}
