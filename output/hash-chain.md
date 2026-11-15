@@ -1,6 +1,6 @@
 # Hash chain
 
-**chain_hash** `ae0a98e468a8ddd2c517a272b65216bfee30655fa6268532b2eb56c856f6a708`
+**chain_hash** `ea687421bee00b00ca6e9e0db8600a393396f3b00c59848af19cdd289d8c2b2e`
 
 Recompute with `python make_provenance.py --verify`.
 
@@ -9,7 +9,7 @@ Recompute with `python make_provenance.py --verify`.
 | code | 30 | `2ed9601d7bcf969e58c5e66ab9e774f811e7845aa4e649438d7fa203a22e254b` |
 | tests | 13 | `07e3cf51bb1376a54ea9883a023772ce7e308de5eea7a4de628e3381ea813ca7` |
 | frozen_inputs | 406 | `e867e6802d3350f911f2a1f0bcf456a3291923184d71bb9651da801296896467` |
-| data | 1746 | `e305f9f1b00dd5cea48d7ba88ede00dcb9239e59f4bf3fb1d89e298ccb598ef1` |
+| data | 1746 | `554b288a3058a9462ccd230359ea9215c4dcbd2da6af98a1df53346b289a34c5` |
 | results | 7 | `42bfa0d572101b8a2ded71999ce3ae2b51824271688b0420edd14b068e45e9bd` |
 
 ## Informational (NOT hashed)
