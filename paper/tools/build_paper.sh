@@ -60,7 +60,10 @@ set +e
 bash "$ROOT/paper/tools/build_house.sh" --src "$BUILD/fonte.md" --out "$BUILD" --nome "$TAG" --lang "$LANG_ED"
 RC=$?
 set -e
+# crivo answers 0, 1 or 2; anything else is the export itself failing (Word, stale or foreign PDF): nothing is copied
+case "$RC" in 0|1|2) ;; *) echo "[FAIL] build_house exit $RC: docs/paper left untouched"; exit "$RC";; esac
 [ -s "$BUILD/$TAG.pdf" ] || exit 70
+[ ! "$BUILD/$TAG.pdf" -ot "$BUILD/$TAG.docx" ] || { echo "[FAIL] $BUILD/$TAG.pdf is older than its DOCX"; exit 70; }
 if [ -n "${CH_KEEP_IMAGE_PIXELS:-}" ]; then   # Word writes pictures at ~192 ppi: put the source pixels back
   uv run --no-project --with pikepdf --with pillow python "$ROOT/paper/tools/sharpen_pdf.py" \
     "$BUILD/$TAG.pdf" "$BUILD/fonte.md" --width 2000 || exit 71

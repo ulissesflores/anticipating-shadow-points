@@ -32,16 +32,21 @@ WORD_IO="${WORD_IO:-/Users/ulissesflores/Developer/lgbt-indicador-violencia/pape
 
 word_pdf() {  # $1 docx, $2 final pdf
   mkdir -p "$(dirname "$WORD_IO")"
-  cp "$1" "$WORD_IO"
+  # Every edition goes through the same exchange file name. If an earlier export failed, Word may still hold the
+  # previous edition open under that name and would save THAT one (an English PDF came out as pt-BR on 2026-11-16).
+  # So: the stale PDFs are removed first, a document left open under the name is closed before opening, a failed
+  # save closes the document and fails the build, and the caller checks date and language of what came back.
+  cp "$1" "$WORD_IO" || return 1
   local pdf_io="${WORD_IO%.docx}.pdf"
-  rm -f "$pdf_io"
-  osascript - "$WORD_IO" "$pdf_io" <<'APPLESCRIPT'
+  rm -f "$pdf_io" "$2"
+  osascript - "$WORD_IO" "$pdf_io" <<'APPLESCRIPT' || return 1
 on run argv
   set docPath to item 1 of argv
   set pdfPath to item 2 of argv
   set docName to do shell script "basename " & quoted form of docPath
   with timeout of 900 seconds
     tell application "Microsoft Word"
+      if (exists document docName) then close document docName saving no
       set n0 to count of documents
       open POSIX file docPath
       set t to 0
@@ -54,22 +59,34 @@ on run argv
         error "Word did not open " & docName & " in 120 s (probably 'Grant File Access': approve the path once, or use WORD_IO=<authorised path>)"
       end if
       set d to document docName
-      save as d file name pdfPath file format format PDF
+      try
+        save as d file name pdfPath file format format PDF
+      on error msg number num
+        close d saving no
+        if n0 = 0 then quit saving no
+        error "Word could not save " & docName & " as PDF: " & msg number num
+      end try
       close d saving no
       if n0 = 0 then quit saving no
     end tell
   end timeout
 end run
 APPLESCRIPT
-  mv "$pdf_io" "$2"
+  mv "$pdf_io" "$2" || return 1
 }
+
+# first heading of page 2 = the edition's own summary (en: Abstract); proves the PDF is of THIS edition
+case "$LANG_ED" in en) P2="Abstract";; pt-BR) P2="Resumo";; es) P2="Resumen";; it) P2="Riassunto";; esac
 
 for PX in "${PXS[@]}"; do
   echo "== exporting DOCX (images ${PX}px)"
   "$PY" "$ROOT/tools/export_house.py" --src "$SRC" --work "$OUT/work" --out "$DOCX" --fig-cm "$FIG" --img-px "$PX" --lang "$LANG_ED"
   echo "== Word -> PDF"
-  word_pdf "$DOCX" "$PDF"
+  word_pdf "$DOCX" "$PDF" || { echo "[FAIL] Word export failed; no PDF kept in $OUT"; exit 70; }
   [ -s "$PDF" ] || { echo "[FAIL] Word did not produce $PDF"; exit 70; }
+  [ ! "$PDF" -ot "$DOCX" ] || { echo "[FAIL] $PDF is older than its DOCX (stale export)"; rm -f "$PDF"; exit 70; }
+  pdftotext -f 2 -l 2 "$PDF" - | grep -v '^[[:space:]]*$' | head -3 | grep -qx "$P2" \
+    || { echo "[FAIL] page 2 of $PDF does not open with '$P2': PDF of another edition"; rm -f "$PDF"; exit 72; }
   TAM=$(stat -f%z "$PDF")
   echo "   PDF: $TAM bytes ($(pdfinfo "$PDF" | awk '/^Pages:/{print $2}') pages)"
   [ "$TAM" -le "$TETO" ] && break
