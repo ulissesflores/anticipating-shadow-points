@@ -237,7 +237,7 @@ La frase ha portato la copertura dal 46,1% al 57,5% secondo il giudice principal
 
 Un *bootstrap* per percentili che ricampiona le repliche all'interno di ciascuna cella, che il protocollo non aveva previsto e che è riportato solo come descrizione, dà un intervallo al 95% da 8,9 a 14,0 punti per la differenza combinata, da 6,8 a 14,1 per Opus 5.5 e da 8,8 a 16,2 per Sonnet 5.5 (Flores, 2026b). L'intervallo riflette la variazione tra esecuzioni su questi dodici compiti, non tra compiti.
 
-La Figura 10 e la Tabella 6 mostrano il risultato compito per compito. Il guadagno non dipende da pochi compiti. L'unico strato negativo è la modifica dello slug in Go con Sonnet 5.5 (U02, −5 punti), e lo strato a zero è l'esportazione dei dati con Sonnet 5.5 (U06), in cui le due condizioni coprivano già il 73% (Tabella 6).
+La Figura 10 e la Tabella 6 mostrano il risultato compito per compito. Il guadagno non dipende da pochi compiti. L'unico strato negativo è la modifica dello *slug* in Go con Sonnet 5.5 (U02, −5 punti), e lo strato a zero è l'esportazione dei dati con Sonnet 5.5 (U06), in cui le due condizioni coprivano già il 73% (Tabella 6).
 
 ![Figura 10. Quota dei rischi di riferimento ciechi coperta dalla tabella finale dei rischi, per compito e modello, con e senza la frase (giudice principale).](../output/figures/fig4_study_2026_11b_coverage.it.png)
 
@@ -566,16 +566,16 @@ La Tabella A1 dà le richieste principali dello studio confermativo; le richiest
 
 La Tabella B1 mostra la lista di riferimento del compito U08, la più breve delle dodici, con la quota delle prove di ciascuna condizione la cui tabella copre ogni rischio secondo il giudice principale. Illustra lo schema della Sezione 5.7: rischi che ogni piano cita in entrambe le condizioni (righe 1 e 5), rischi che la frase rende regolari (righe 4 e 6) e un rischio che le due condizioni lasciano quasi sempre passare (riga 2). Le liste complete sono nel repository (Flores, 2026b).
 
-**Tabella B1.** I sei rischi di riferimento del compito U08 (cambiare il digest di firma predefinito da SHA-1 a SHA-256) e la loro copertura.
+**Tabella B1.** I sei rischi di riferimento del compito U08 (cambiare il *digest* di firma predefinito da SHA-1 a SHA-256) e la loro copertura.
 
 | # | Rischio di riferimento, abbreviato | Revisori che lo hanno citato | Semplice | Frase |
 |---|---|---|---|---|
 | 1 | I token firmati da versioni precedenti con le impostazioni predefinite falliscono la validazione dopo l'aggiornamento, invalidando le sessioni nei progetti dipendenti come Flask. | 3 | 100% | 100% |
-| 2 | Cambiare il valore predefinito nel signer e non nella classe dell'algoritmo HMAC lascia i due valori predefiniti non sincronizzati. | 3 | 10% | 20% |
-| 3 | La derivazione della chiave usa anch'essa il digest, quindi la chiave derivata cambia di valore e passa da 20 a 32 byte. | 3 | 40% | 50% |
+| 2 | Cambiare il valore predefinito nel *signer* e non nella classe dell'algoritmo HMAC lascia i due valori predefiniti non sincronizzati. | 3 | 10% | 20% |
+| 3 | La derivazione della chiave usa anch'essa il *digest*, quindi la chiave derivata cambia di valore e passa da 20 a 32 byte. | 3 | 40% | 50% |
 | 4 | I test affermano output che coincidono con firme SHA-1. | 2 | 70% | 100% |
-| 5 | Le firme passano da 27 a 43 caratteri e possono sforare colonne di database, limiti di URL o dimensioni dei cookie. | 2 | 100% | 100% |
-| 6 | Gli esempi di documentazione e i doctest conservano output SHA-1 e affermano che SHA-1 è il valore predefinito. | 2 | 40% | 90% |
+| 5 | Le firme passano da 27 a 43 caratteri e possono sforare colonne di database, limiti di URL o dimensioni dei *cookie*. | 2 | 100% | 100% |
+| 6 | Gli esempi di documentazione e i *doctest* conservano output SHA-1 e affermano che SHA-1 è il valore predefinito. | 2 | 40% | 90% |
 
 *Nota.* Dieci prove per condizione (cinque per modello). I sei rischi portano la formulazione del revisore Gemini.
 
@@ -588,7 +588,7 @@ Ogni testo che un modello ha ricevuto in questo studio era in inglese, e l'artic
 | Compito | Richiesta di modifica, in italiano |
 |---|---|
 | U01 | Richiedere che i nuovi utenti confermino il proprio indirizzo e-mail prima di poter accedere. |
-| U02 | Permettere agli autori di cambiare il titolo di un articolo, e con esso lo slug dell'URL, senza rompere i *link* già condivisi. |
+| U02 | Permettere agli autori di cambiare il titolo di un articolo, e con esso lo *slug* dell'URL, senza rompere i *link* già condivisi. |
 | U03 | Permettere ai moderatori di nascondere i commenti abusivi e all'autore del commento di fare ricorso entro 7 giorni. |
 | U04 | Bloccare gli utenti per la combinazione di nome utente e indirizzo IP, e non solo per l'indirizzo IP, come nuovo valore predefinito. |
 | U05 | Far rinnovare le sessioni per impostazione predefinita, in modo che ogni richiesta estenda la validità della sessione. |
@@ -598,9 +598,9 @@ Ogni testo che un modello ha ricevuto in questo studio era in inglese, e l'artic
 | U09 | Conservare le password con uno schema di hash più forte, senza obbligare gli utenti attuali a reimpostare la password. |
 | U10 | Far appartenere ogni lista di attività e ogni elemento a un'organizzazione (tenant), in modo che ogni azienda veda solo i propri dati. |
 | U11 | Permettere ai proprietari di animali di prenotare visite *online*, senza che due visite vengano prenotate per lo stesso veterinario alla stessa ora. |
-| U12 | Rendere il cookie del middleware di sessione Secure e SameSite=Strict per impostazione predefinita. |
+| U12 | Rendere il *cookie* del middleware di sessione Secure e SameSite=Strict per impostazione predefinita. |
 
-*Nota.* Lo slug è la parte leggibile dell'indirizzo di una pagina. UUID è un identificatore lungo e praticamente unico. Tenant è ciascun cliente di un sistema che ne serve diversi contemporaneamente.
+*Nota.* Lo *slug* è la parte leggibile dell'indirizzo di una pagina. UUID è un identificatore lungo e praticamente unico. Tenant è ciascun cliente di un sistema che ne serve diversi contemporaneamente.
 
 **Tabella C2.** Le richieste inviate all'agente, ai revisori e al giudice, tradotte.
 

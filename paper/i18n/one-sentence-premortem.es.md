@@ -237,7 +237,7 @@ La frase elevó la cobertura de 46,1% a 57,5% según el juez principal (Tabla 5)
 
 Un *bootstrap* por percentiles que remuestrea réplicas dentro de cada celda, que el protocolo no previó y que se reporta solo como descripción, da un intervalo del 95% de 8,9 a 14,0 puntos para la diferencia combinada, de 6,8 a 14,1 para Opus 5.5 y de 8,8 a 16,2 para Sonnet 5.5 (Flores, 2026b). El intervalo refleja la variación entre ejecuciones en estas doce tareas, no entre tareas.
 
-La Figura 10 y la Tabla 6 muestran el resultado tarea por tarea. La mejora no depende de pocas tareas. El único estrato negativo es el cambio de slug en Go con Sonnet 5.5 (U02, −5 puntos), y el estrato en cero es la exportación de datos con Sonnet 5.5 (U06), en el que las dos condiciones ya cubrían el 73% (Tabla 6).
+La Figura 10 y la Tabla 6 muestran el resultado tarea por tarea. La mejora no depende de pocas tareas. El único estrato negativo es el cambio de *slug* en Go con Sonnet 5.5 (U02, −5 puntos), y el estrato en cero es la exportación de datos con Sonnet 5.5 (U06), en el que las dos condiciones ya cubrían el 73% (Tabla 6).
 
 ![Figura 10. Fracción de los riesgos de referencia ciegos cubierta por la tabla final de riesgos, por tarea y modelo, con y sin la frase (juez principal).](../output/figures/fig4_study_2026_11b_coverage.es.png)
 
@@ -566,16 +566,16 @@ La Tabla A1 da las peticiones principales del estudio confirmatorio; las peticio
 
 La Tabla B1 muestra la lista de referencia de la tarea U08, la más corta de las doce, con la parte de las ejecuciones de cada condición cuya tabla cubre cada riesgo según el juez principal. Ilustra el patrón de la Sección 5.7: riesgos que todo plan cita en las dos condiciones (filas 1 y 5), riesgos que la frase vuelve regulares (filas 4 y 6) y un riesgo que las dos condiciones casi siempre pasan por alto (fila 2). Las listas completas están en el repositorio (Flores, 2026b).
 
-**Tabla B1.** Los seis riesgos de referencia de la tarea U08 (cambiar el digest de firma por defecto de SHA-1 a SHA-256) y su cobertura.
+**Tabla B1.** Los seis riesgos de referencia de la tarea U08 (cambiar el *digest* de firma por defecto de SHA-1 a SHA-256) y su cobertura.
 
 | # | Riesgo de referencia, abreviado | Revisores que lo citaron | Simple | Frase |
 |---|---|---|---|---|
 | 1 | Los tokens firmados por versiones anteriores con la configuración por defecto fallan en la validación tras la actualización, invalidando sesiones en proyectos dependientes como Flask. | 3 | 100% | 100% |
-| 2 | Cambiar el valor por defecto en el signer y no en la clase del algoritmo HMAC deja los dos valores por defecto desincronizados. | 3 | 10% | 20% |
-| 3 | La derivación de clave también usa el digest, de modo que la clave derivada cambia de valor y pasa de 20 a 32 bytes. | 3 | 40% | 50% |
+| 2 | Cambiar el valor por defecto en el *signer* y no en la clase del algoritmo HMAC deja los dos valores por defecto desincronizados. | 3 | 10% | 20% |
+| 3 | La derivación de clave también usa el *digest*, de modo que la clave derivada cambia de valor y pasa de 20 a 32 bytes. | 3 | 40% | 50% |
 | 4 | Las pruebas afirman salidas que coinciden con firmas SHA-1. | 2 | 70% | 100% |
-| 5 | Las firmas pasan de 27 a 43 caracteres y pueden desbordar columnas de base de datos, límites de URL o tamaños de cookie. | 2 | 100% | 100% |
-| 6 | Los ejemplos de documentación y los doctests guardan salidas SHA-1 y afirman que SHA-1 es el valor por defecto. | 2 | 40% | 90% |
+| 5 | Las firmas pasan de 27 a 43 caracteres y pueden desbordar columnas de base de datos, límites de URL o tamaños de *cookie*. | 2 | 100% | 100% |
+| 6 | Los ejemplos de documentación y los *doctests* guardan salidas SHA-1 y afirman que SHA-1 es el valor por defecto. | 2 | 40% | 90% |
 
 *Nota.* Diez ejecuciones por condición (cinco por modelo). Los seis riesgos llevan la redacción del revisor Gemini.
 
@@ -588,7 +588,7 @@ Todo texto que un modelo recibió en este estudio estaba en inglés, y el artíc
 | Tarea | Solicitud de cambio, en español |
 |---|---|
 | U01 | Exigir que los usuarios nuevos confirmen su dirección de correo electrónico antes de poder iniciar sesión. |
-| U02 | Permitir que los autores cambien el título de un artículo, y con él el slug de la URL, sin romper los enlaces ya compartidos. |
+| U02 | Permitir que los autores cambien el título de un artículo, y con él el *slug* de la URL, sin romper los enlaces ya compartidos. |
 | U03 | Permitir que los moderadores oculten comentarios abusivos y que el autor del comentario apele en un plazo de 7 días. |
 | U04 | Bloquear a los usuarios por la combinación de nombre de usuario y dirección IP, y no solo por la dirección IP, como nuevo valor por defecto. |
 | U05 | Hacer que las sesiones se renueven por defecto, de modo que cada solicitud extienda la validez de la sesión. |
@@ -598,9 +598,9 @@ Todo texto que un modelo recibió en este estudio estaba en inglés, y el artíc
 | U09 | Guardar las contraseñas con un esquema de hash más fuerte, sin obligar a los usuarios actuales a restablecer su contraseña. |
 | U10 | Hacer que cada lista de tareas y cada elemento pertenezcan a una organización (tenant), de modo que cada empresa vea solo sus propios datos. |
 | U11 | Permitir que los dueños de mascotas reserven citas por internet, sin que se reserven dos citas para el mismo veterinario a la misma hora. |
-| U12 | Hacer que la cookie del middleware de sesión sea Secure y SameSite=Strict por defecto. |
+| U12 | Hacer que la *cookie* del middleware de sesión sea Secure y SameSite=Strict por defecto. |
 
-*Nota.* Slug es la parte legible de la dirección de una página. UUID es un identificador largo y prácticamente único. Tenant es cada cliente de un sistema que atiende a varios al mismo tiempo.
+*Nota.* *Slug* es la parte legible de la dirección de una página. UUID es un identificador largo y prácticamente único. Tenant es cada cliente de un sistema que atiende a varios al mismo tiempo.
 
 **Tabla C2.** Las solicitudes enviadas al agente, a los revisores y al juez, traducidas.
 

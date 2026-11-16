@@ -552,7 +552,7 @@ def estilo_tabela() -> etree._Element:
     sub(st, "basedOn", val="TableNormal")
     tpr = sub(st, "tblPr")
     mar = sub(tpr, "tblCellMar")
-    for lado, v in (("top", 20), ("left", 72), ("bottom", 20), ("right", 72)):
+    for lado, v in (("top", 50), ("left", 72), ("bottom", 50), ("right", 72)):
         sub(mar, lado, w=v, type="dxa")
     return st
 
@@ -1070,11 +1070,21 @@ def celula_texto(tc: etree._Element) -> list[tuple[str, bool]]:
     return saida
 
 
+def valor_curto(txt: str) -> bool:
+    """Diz se a celula e um valor curto (tem algarismo e ate 18 caracteres), que nao deve partir em duas linhas."""
+    t = txt.replace(ZWSP, "").strip()
+    return 0 < len(t) <= 18 and any(c.isdigit() for c in t)
+
+
 def larguras_coluna(linhas: list[list[etree._Element]], ncol: int, pt: int, util: int,
                     folga: float = 1.0) -> list[int] | None:
-    """Reparte `util` twips: piso = maior pedaco indivisivel (Times real), alvo = maior celula em uma linha."""
+    """Reparte `util` twips: piso = maior pedaco indivisivel (Times real), alvo = maior celula em uma linha.
+
+    Celula curta com numero (valor, "p < ,001", "22 de 24") nao parte: o piso dela e a celula inteira. Quando
+    sobra largura, a sobra vai para as colunas de texto que foram limitadas, nao para as de numero.
+    """
     pad = 2 * 72 + 30
-    pisos, alvos = [0.0] * ncol, [0.0] * ncol
+    pisos, alvos, naturais = [0.0] * ncol, [0.0] * ncol, [0.0] * ncol
     for k, linha in enumerate(linhas):
         for i, tc in enumerate(linha[:ncol]):
             partes = celula_texto(tc)
@@ -1085,15 +1095,25 @@ def larguras_coluna(linhas: list[list[etree._Element]], ncol: int, pt: int, util
                 for pedaco in [tok] if iso else re.split(f"{ZWSP}|(?<=-)", tok):
                     pisos[i] = max(pisos[i], largura_pt(pedaco, pt, estilo) * 20)
             larg = largura_pt(txt.replace(ZWSP, ""), pt, estilo) * 20
+            if k and valor_curto(txt):       # valor curto fica inteiro numa linha
+                pisos[i] = max(pisos[i], larg)
             if k == 0:                       # cabecalho pode quebrar em varias linhas: pesa pouco no alvo
                 larg = min(larg, 1500)
+            else:
+                naturais[i] = max(naturais[i], larg)
             alvos[i] = max(alvos[i], larg)
     pisos = [p + pad for p in pisos]
     alvos = [max(min(a, util * 0.45) + pad, p) for a, p in zip(alvos, pisos)]
     if sum(pisos) > util * folga:
         return None
     if sum(alvos) <= util:
-        larg = [a * util / sum(alvos) for a in alvos]
+        sobra = util - sum(alvos)
+        falta = [max(n + pad - a, 0.0) for n, a in zip(naturais, alvos)]   # colunas de texto limitadas em 45%
+        dado = [min(f, sobra * f / sum(falta)) if sum(falta) else 0.0 for f in falta]
+        larg = [a + d for a, d in zip(alvos, dado)]
+        resto = util - sum(larg)
+        texto = [i for i in range(ncol) if naturais[i] > 2200] or list(range(ncol))  # o resto vai para o texto
+        larg = [x + (resto / len(texto) if i in texto else 0.0) for i, x in enumerate(larg)]
     else:
         folga = util - sum(pisos)
         extra = [a - p for a, p in zip(alvos, pisos)]
@@ -1119,6 +1139,12 @@ def formatar_tabela(tbl: etree._Element, forcar_paisagem: bool = False) -> dict:
                 t.text = re.sub(r"(\[[^\]\s;]+;) ([^\]\s]+\])", "\\1\u00a0\\2", t.text)  # "[3,57; 4,08]"
             if t.text and any(len(x) >= 14 for x in t.text.split()):
                 t.text = " ".join(zwsp_token(x) for x in t.text.split(" "))
+    for tcs in linhas[1:]:                       # valor curto: espaco que nao quebra, para ficar numa linha
+        for tc in tcs:
+            ts = [t for t in tc.iter(w("t")) if t.text]
+            if valor_curto("".join(t.text for t in ts)):
+                for t in ts:
+                    t.text = t.text.replace(" ", "\u00a0")
     # pisos somados tem de caber com folga (FOLGA_COLUNAS): sem folga a coluna de texto fica estreita demais
     # (Tabela 8: "Lula, 1o mandato (2003 a 2006)" quebrava em 4 linhas). Ordem: retrato 10..8 pt, paisagem 10..8 pt,
     # e so entao retrato a 8 pt sem folga.
@@ -1155,7 +1181,7 @@ def formatar_tabela(tbl: etree._Element, forcar_paisagem: bool = False) -> dict:
         sub(br, lado, val="single", sz=CFG["regua_sz"], space=0, color="auto")
     sub(tpr, "tblLayout", type="fixed")
     mar = sub(tpr, "tblCellMar")
-    for lado, v in (("top", 20), ("left", 72), ("bottom", 20), ("right", 72)):
+    for lado, v in (("top", 50), ("left", 72), ("bottom", 50), ("right", 72)):
         sub(mar, lado, w=v, type="dxa")
     sub(tpr, "tblLook", val="0420", firstRow=1, lastRow=0, firstColumn=0, lastColumn=0, noHBand=1, noVBand=1)
     ordenar(tpr, ORD_TBLPR)

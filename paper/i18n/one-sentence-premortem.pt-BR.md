@@ -237,7 +237,7 @@ A frase elevou a cobertura de 46,1% para 57,5% pelo juiz principal (Tabela 5). A
 
 Um *bootstrap* por percentis que reamostra réplicas dentro de cada célula, o qual o protocolo não previu e que é relatado apenas como descrição, dá um intervalo de 95% de 8,9 a 14,0 pontos para a diferença combinada, de 6,8 a 14,1 para o Opus 5.5 e de 8,8 a 16,2 para o Sonnet 5.5 (Flores, 2026b). O intervalo reflete a variação entre execuções nessas doze tarefas, não entre tarefas.
 
-A Figura 10 e a Tabela 6 mostram o resultado tarefa por tarefa. O ganho não é carregado por poucas tarefas. O único estrato negativo é a mudança de slug em Go no Sonnet 5.5 (U02, −5 pontos), e o estrato em zero é a exportação de dados no Sonnet 5.5 (U06), em que as duas condições já cobriam 73% (Tabela 6).
+A Figura 10 e a Tabela 6 mostram o resultado tarefa por tarefa. O ganho não é carregado por poucas tarefas. O único estrato negativo é a mudança de *slug* em Go no Sonnet 5.5 (U02, −5 pontos), e o estrato em zero é a exportação de dados no Sonnet 5.5 (U06), em que as duas condições já cobriam 73% (Tabela 6).
 
 ![Figura 10. Fração dos riscos de referência cegos coberta pela tabela final de riscos, por tarefa e modelo, com e sem a frase (juiz principal).](../output/figures/fig4_study_2026_11b_coverage.pt-BR.png)
 
@@ -566,16 +566,16 @@ A Tabela A1 dá os pedidos principais do estudo confirmatório; os pedidos que f
 
 A Tabela B1 mostra a lista de referência da tarefa U08, a mais curta das doze, com a parcela das rodadas de cada condição cuja tabela cobre cada risco pelo juiz principal. Ela ilustra o padrão da Seção 5.7: riscos que todo plano cita nas duas condições (linhas 1 e 5), riscos que a frase torna regulares (linhas 4 e 6) e um risco que as duas condições quase sempre deixam passar (linha 2). As listas completas estão no repositório (Flores, 2026b).
 
-**Tabela B1.** Os seis riscos de referência da tarefa U08 (mudar o digest de assinatura padrão de SHA-1 para SHA-256) e sua cobertura.
+**Tabela B1.** Os seis riscos de referência da tarefa U08 (mudar o *digest* de assinatura padrão de SHA-1 para SHA-256) e sua cobertura.
 
 | # | Risco de referência, abreviado | Revisores que o citaram | Simples | Frase |
 |---|---|---|---|---|
 | 1 | Tokens assinados por versões anteriores com as configurações padrão falham na validação depois da atualização, invalidando sessões em projetos dependentes como o Flask. | 3 | 100% | 100% |
-| 2 | Mudar o padrão no signer e não na classe do algoritmo HMAC deixa os dois padrões fora de sincronia. | 3 | 10% | 20% |
-| 3 | A derivação de chave também usa o digest, de modo que a chave derivada muda de valor e passa de 20 para 32 bytes. | 3 | 40% | 50% |
+| 2 | Mudar o padrão no *signer* e não na classe do algoritmo HMAC deixa os dois padrões fora de sincronia. | 3 | 10% | 20% |
+| 3 | A derivação de chave também usa o *digest*, de modo que a chave derivada muda de valor e passa de 20 para 32 bytes. | 3 | 40% | 50% |
 | 4 | Testes afirmam saídas que casam com assinaturas SHA-1. | 2 | 70% | 100% |
-| 5 | As assinaturas passam de 27 para 43 caracteres e podem estourar colunas de banco de dados, limites de URL ou tamanhos de cookie. | 2 | 100% | 100% |
-| 6 | Exemplos de documentação e doctests guardam saídas SHA-1 e afirmam que SHA-1 é o padrão. | 2 | 40% | 90% |
+| 5 | As assinaturas passam de 27 para 43 caracteres e podem estourar colunas de banco de dados, limites de URL ou tamanhos de *cookie*. | 2 | 100% | 100% |
+| 6 | Exemplos de documentação e *doctests* guardam saídas SHA-1 e afirmam que SHA-1 é o padrão. | 2 | 40% | 90% |
 
 *Nota.* Dez rodadas por condição (cinco por modelo). Os seis riscos levam a redação do revisor Gemini.
 
@@ -588,7 +588,7 @@ Todo texto que um modelo recebeu neste estudo estava em inglês, e o artigo o re
 | Tarefa | Pedido de mudança, em português |
 |---|---|
 | U01 | Exigir que novos usuários confirmem o endereço de e-mail antes de poderem entrar. |
-| U02 | Permitir que os autores mudem o título de um artigo, e com ele o slug da URL, sem quebrar os *links* já compartilhados. |
+| U02 | Permitir que os autores mudem o título de um artigo, e com ele o *slug* da URL, sem quebrar os *links* já compartilhados. |
 | U03 | Permitir que moderadores ocultem comentários abusivos e que o autor do comentário recorra em até 7 dias. |
 | U04 | Bloquear usuários pela combinação de nome de usuário e endereço IP, e não só pelo endereço IP, como novo padrão. |
 | U05 | Fazer as sessões se renovarem por padrão, de modo que cada requisição estenda a validade da sessão. |
@@ -598,9 +598,9 @@ Todo texto que um modelo recebeu neste estudo estava em inglês, e o artigo o re
 | U09 | Guardar as senhas com um esquema de hash mais forte, sem obrigar os usuários atuais a redefinir a senha. |
 | U10 | Fazer cada lista de tarefas e cada item pertencerem a uma organização (tenant), de modo que cada empresa veja só os próprios dados. |
 | U11 | Permitir que donos de animais marquem consultas pela internet, sem que duas consultas sejam marcadas para o mesmo veterinário no mesmo horário. |
-| U12 | Tornar o cookie do middleware de sessão Secure e SameSite=Strict por padrão. |
+| U12 | Tornar o *cookie* do middleware de sessão Secure e SameSite=Strict por padrão. |
 
-*Nota.* Slug é o trecho legível do endereço de uma página. UUID é um identificador longo e praticamente único. Tenant é cada cliente de um sistema que atende vários ao mesmo tempo.
+*Nota.* *Slug* é o trecho legível do endereço de uma página. UUID é um identificador longo e praticamente único. Tenant é cada cliente de um sistema que atende vários ao mesmo tempo.
 
 **Tabela C2.** Os pedidos enviados ao agente, aos revisores e ao juiz, traduzidos.
 
