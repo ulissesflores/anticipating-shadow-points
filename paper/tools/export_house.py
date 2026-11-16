@@ -1071,9 +1071,12 @@ def celula_texto(tc: etree._Element) -> list[tuple[str, bool]]:
 
 
 def valor_curto(txt: str) -> bool:
-    """Diz se a celula e um valor curto (tem algarismo e ate 18 caracteres), que nao deve partir em duas linhas."""
+    """Diz se a celula e um valor curto (tem algarismo e ate 22 caracteres), que nao deve partir em duas linhas.
+
+    22 e nao 18: data com hora e segundos ("9 nov 2026, 16:08:23", "Nov 9, 2026, 16:08:23") partia depois da virgula.
+    """
     t = txt.replace(ZWSP, "").strip()
-    return 0 < len(t) <= 18 and any(c.isdigit() for c in t)
+    return 0 < len(t) <= 22 and any(c.isdigit() for c in t)
 
 
 def larguras_coluna(linhas: list[list[etree._Element]], ncol: int, pt: int, util: int,

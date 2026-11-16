@@ -1,12 +1,12 @@
 # Hash chain
 
-**chain_hash** `af298cc51b9f6119832cd63ef3772882160f4c446846e53f6521c36405651049`
+**chain_hash** `738ddf4356b354ec1eb630c1dad96b4ee1b284c6bf4d7dd6c599c5f224165321`
 
 Recompute with `python make_provenance.py --verify`.
 
 | Leaf | Files | leaf_sha256 |
 |---|---|---|
-| code | 30 | `b324f94bf283826ff20f1b7ddb748a4a35d609b54e34ad4d4bc83055931a9789` |
+| code | 30 | `2bd95897278321a09936f228093256cf1d8fbc14ae381b00ded27dae68add94e` |
 | tests | 13 | `ebed468e98e4d3d4a9b9a440d50935b571712dc93c64b70c51245781dddf6def` |
 | frozen_inputs | 406 | `e867e6802d3350f911f2a1f0bcf456a3291923184d71bb9651da801296896467` |
 | data | 1746 | `4b65fbbbad051c004d457dce2eadf3c9d4ec85d43050f04f1c8e0372b82ec86d` |
@@ -64,14 +64,14 @@ Figures, the lockfile and the platform vary by machine and are listed for audit 
 - `output/figures/fig4_study_2026_11b_coverage.pt-BR.png` `fb651d923848c559…`
 - `output/figures/fig4_study_2026_11b_coverage.pt-BR.svg` `86788d94b461951c…`
 - `output/figures/fig4_study_2026_11b_coverage.svg` `7da920f54d0f129a…`
-- `output/figures/fig6_study_2026_11b_null.es.png` `ee84cbf428506fb4…`
-- `output/figures/fig6_study_2026_11b_null.es.svg` `429e1f81e79ff6b0…`
-- `output/figures/fig6_study_2026_11b_null.it.png` `e0cb5fb1e3eb546d…`
-- `output/figures/fig6_study_2026_11b_null.it.svg` `aead4c77bf8c6df6…`
-- `output/figures/fig6_study_2026_11b_null.png` `36a10ba5dcd8db02…`
-- `output/figures/fig6_study_2026_11b_null.pt-BR.png` `ffee89f643eaf95c…`
-- `output/figures/fig6_study_2026_11b_null.pt-BR.svg` `5e87f940ffd906d9…`
-- `output/figures/fig6_study_2026_11b_null.svg` `6d263fd6ae383cbf…`
+- `output/figures/fig6_study_2026_11b_null.es.png` `2c974fd3416915e4…`
+- `output/figures/fig6_study_2026_11b_null.es.svg` `445204531785b986…`
+- `output/figures/fig6_study_2026_11b_null.it.png` `da36093b2522fb8f…`
+- `output/figures/fig6_study_2026_11b_null.it.svg` `ed84e2f96ef71f17…`
+- `output/figures/fig6_study_2026_11b_null.png` `f4159243ef49ecdc…`
+- `output/figures/fig6_study_2026_11b_null.pt-BR.png` `b5ceaf6080f148ff…`
+- `output/figures/fig6_study_2026_11b_null.pt-BR.svg` `6f7b3f374732c6ac…`
+- `output/figures/fig6_study_2026_11b_null.svg` `b4a1231473bc2661…`
 - `output/figures/fig7_study_2026_11b_items.es.png` `2ed76a6950989183…`
 - `output/figures/fig7_study_2026_11b_items.es.svg` `e4a7d65019efb629…`
 - `output/figures/fig7_study_2026_11b_items.it.png` `c8f6a66fb2e058e9…`

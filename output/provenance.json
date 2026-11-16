@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "af298cc51b9f6119832cd63ef3772882160f4c446846e53f6521c36405651049",
+  "chain_hash": "738ddf4356b354ec1eb630c1dad96b4ee1b284c6bf4d7dd6c599c5f224165321",
   "informational_not_hashed": {
     "files": [
       {
@@ -197,35 +197,35 @@
       },
       {
         "path": "output/figures/fig6_study_2026_11b_null.es.png",
-        "sha256": "ee84cbf428506fb441663d1bb1f7db4b637560bf2a5ad0d08745a9b83229c14e"
+        "sha256": "2c974fd3416915e40f6c39717194d12c4d1908a736d40d3b792a5d4be7f025b6"
       },
       {
         "path": "output/figures/fig6_study_2026_11b_null.es.svg",
-        "sha256": "429e1f81e79ff6b0793a8fa14b2653cb59d98d144202acdece2e6005ab6c60a5"
+        "sha256": "445204531785b98624766ca86d76538d1539a829604a1fddd76ef51d2d7c3a26"
       },
       {
         "path": "output/figures/fig6_study_2026_11b_null.it.png",
-        "sha256": "e0cb5fb1e3eb546ddbb2c7b6159d68aa6538136e2045c6968beda13759d7d484"
+        "sha256": "da36093b2522fb8f4427f314dc5ccfbe23b50c4b7b08699dc87aee455ecef972"
       },
       {
         "path": "output/figures/fig6_study_2026_11b_null.it.svg",
-        "sha256": "aead4c77bf8c6df644e0c93344aa2c39c680f6d8c2be2f4a1a28458bb765fb64"
+        "sha256": "ed84e2f96ef71f1798e7177304f448caf1d3a3e8b5d27dbe7a250b2eee223e52"
       },
       {
         "path": "output/figures/fig6_study_2026_11b_null.png",
-        "sha256": "36a10ba5dcd8db0244ba91ce22e117c216084382e7a2b764bf4473d4fdc64400"
+        "sha256": "f4159243ef49ecdcd47768f69576615722711343407015455b6659ccbf021f8d"
       },
       {
         "path": "output/figures/fig6_study_2026_11b_null.pt-BR.png",
-        "sha256": "ffee89f643eaf95c214dae86ae48ade9ed51c124523912937b504cc9831d1c4e"
+        "sha256": "b5ceaf6080f148ff5b52001d65caa3ecf4d3997ad18fd49d954e3c426d112f9d"
       },
       {
         "path": "output/figures/fig6_study_2026_11b_null.pt-BR.svg",
-        "sha256": "5e87f940ffd906d92527345e1024b64cd00e4027dc4bde43ff554759295347c7"
+        "sha256": "6f7b3f374732c6ac7e3d0d087736b69ea31dbd69693d727e40138d14bb75142e"
       },
       {
         "path": "output/figures/fig6_study_2026_11b_null.svg",
-        "sha256": "6d263fd6ae383cbf3e675d8b6da47d6835917c3c1c9786d996b5a010bee8b0cb"
+        "sha256": "b4a1231473bc266184e6f2fb874e4cbda85324430a20fa272d403030ff2d215a"
       },
       {
         "path": "output/figures/fig7_study_2026_11b_items.es.png",
@@ -276,7 +276,7 @@
         },
         {
           "path": "analysis/make_figures.py",
-          "sha256": "cd3fa836ec294ba303cd77de8c050a720c637825ab91cf89b11d3c54a811be09"
+          "sha256": "14ac970cf9d249004778885ccd86e5cc15267087160fbb46924c7361f8a2d244"
         },
         {
           "path": "analysis/results.py",
@@ -391,7 +391,7 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "b324f94bf283826ff20f1b7ddb748a4a35d609b54e34ad4d4bc83055931a9789"
+      "leaf_sha256": "2bd95897278321a09936f228093256cf1d8fbc14ae381b00ded27dae68add94e"
     },
     "data": {
       "files": [

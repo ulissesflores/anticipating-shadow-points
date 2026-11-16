@@ -459,7 +459,7 @@ Un único comando, `python run_all.py`, recalcula cada número de este artículo
 | Análisis y verificaciones | `analyze.py`, `sensitivity.py`, `describe.py`; `tests/test_paper3_numbers.py` | Cómo se calcula cada número; el texto concuerda con los datos |
 | Registro y sellos de tiempo | `ledger.jsonl`, `*.ots` | Cada archivo coincide con su registro, y el orden de los eventos sellados, dentro de los límites de la Sección 4.7 |
 | Revisiones externas del manuscrito | `docs/paper/review/` | Los informes detrás de la Sección 7 |
-| El estudio de origen | `benchmark/study-2026-11/` | Lo mismo, para la Sección 3 |
+| El estudio de origen | `benchmark/study-2026-11/` | El mismo material para las 90 ejecuciones de la Sección 3 |
 
 *Nota.* Las rutas sin carpeta delante están dentro de `benchmark/study-2026-11b/` (Flores, 2026b). A los registros de ejecución se les quitaron las rutas de máquina.
 

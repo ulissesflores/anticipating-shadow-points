@@ -584,8 +584,10 @@ def requests(t: dict) -> Drawing:
         The diagram.
     """
     local = bool(t["sentence_local"])
-    d = Drawing(650 if local else 560)
-    row = [70, 250 if local else 220, 470 if local else 400, d.height - 20]  # block tops
+    # with a local gloss the sentence block takes up to five lines (Italian): 30 units more than the first cut,
+    # where the last line of the gloss ran past the tinted box
+    d = Drawing(680 if local else 560)
+    row = [70, 250 if local else 220, 500 if local else 400, d.height - 20]  # block tops
     labels = [t["req_label"], t["line_label"], t["contract_label"]]
     for x, title, edge in ((40, t["plain_t"], MUTED), (520, t["sent_t"], ORANGE)):
         d.text(x + 220, 42, title, size=26, anchor="middle", weight=700)

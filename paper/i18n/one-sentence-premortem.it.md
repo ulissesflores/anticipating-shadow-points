@@ -459,7 +459,7 @@ Un solo comando, `python run_all.py`, ricalcola ogni numero di questo articolo a
 | Analisi e verifiche | `analyze.py`, `sensitivity.py`, `describe.py`; `tests/test_paper3_numbers.py` | Come si calcola ogni numero; il testo concorda con i dati |
 | Registro concatenato e marche temporali | `ledger.jsonl`, `*.ots` | Che ogni file corrisponde all'ultima registrazione, e l'ordine degli eventi sigillati, nei limiti indicati nella Sezione 4.7 |
 | Revisioni esterne del manoscritto | `docs/paper/review/` | I rapporti dietro la Sezione 7 |
-| Lo studio di origine | `benchmark/study-2026-11/` | Lo stesso, per la Sezione 3 |
+| Lo studio di origine | `benchmark/study-2026-11/` | Lo stesso materiale per le 90 prove della Sezione 3 |
 
 *Nota.* I percorsi senza cartella davanti stanno dentro `benchmark/study-2026-11b/` (Flores, 2026b). Dai registri di esecuzione sono stati rimossi i percorsi di macchina.
 

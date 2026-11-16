@@ -485,6 +485,9 @@ def fig6(desc: dict, lang: str = "en") -> None:
     ax.text(top + 0.15, ymax * 0.42, t["largest"].format(v=_num(top, lang)), color=INK_2,
             ha="left", fontsize=8)  # fmt: skip
     ax.set_xlim(-8, 13)
+    ax.set_ylim(0, ymax * 1.2)  # headroom: the legend sits above the tallest bar, not on it
+    if lang != "en":  # tick labels with the decimal mark of the edition, like the text around the figure
+        ax.xaxis.set_major_formatter(lambda v, _pos: _num(v, lang).replace("-", "\u2212"))
     ax.set_xlabel(t["null_x"], fontsize=8.5)
     ax.set_ylabel(t["null_y"], fontsize=8.5)
     ax.legend(loc="upper left", frameon=False, fontsize=8)

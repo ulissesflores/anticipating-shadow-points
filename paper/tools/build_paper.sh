@@ -67,6 +67,10 @@ case "$RC" in 0|1|2) ;; *) echo "[FAIL] build_house exit $RC: docs/paper left un
 if [ -n "${CH_KEEP_IMAGE_PIXELS:-}" ]; then   # Word writes pictures at ~192 ppi: put the source pixels back
   uv run --no-project --with pikepdf --with pillow python "$ROOT/paper/tools/sharpen_pdf.py" \
     "$BUILD/$TAG.pdf" "$BUILD/fonte.md" --width 2000 || exit 71
+  # the pages rendered by build_house are of the PDF before this step and show the figures on black:
+  # render them again from the final PDF, so that what is read is what is published
+  rm -f "$BUILD/render"/p-*.png
+  pdftoppm -r 100 -png "$BUILD/$TAG.pdf" "$BUILD/render/p" || exit 71
 fi
 DOCS_NAME="$NOME.$LANG_ED"                          # docs/paper/<nome>.<lang>.{docx,pdf}; en keeps <nome>.en.*
 cp "$BUILD/$TAG.docx" "$ROOT/docs/paper/$DOCS_NAME.docx"
