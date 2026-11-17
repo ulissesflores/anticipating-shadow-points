@@ -21,7 +21,7 @@ I team di sviluppo software delegano sempre più spesso lavoro ingegneristico di
 
 Il modo di fallimento dominante in produzione dei moderni agenti di programmazione LLM, nella nostra esperienza, non è il codice *sbagliato*. È il codice *incompleto*: l'agente fa ciò che gli è stato chiesto, ma non ciò che qualcuno con una profonda conoscenza del dominio si sarebbe chiesto *prima di cominciare*. Il ritardo di replica durante una migrazione di schema. L'header CORS sulla edge function. La policy di sicurezza a livello di riga che va aggiornata per corrispondere alla nuova colonna. Chiamiamo questi elementi mancanti **shadow point** — modi di guasto ovvi per un professionista che ne è stato scottato, invisibili a un agente che non lo è stato.
 
-Due filoni di letteratura convergono su questa lacuna. Il primo, nella scienza delle decisioni, è il **pre-mortem**: un esercizio strutturato in cui un team immagina che un progetto sia già fallito ed elenca le cause prima di agire. La tecnica è stata resa operativa per i team di progetto da Klein (2007) e fondata sul precedente lavoro empirico di Mitchell, Russo e Pennington (1989) sulla *prospective hindsight*; Klein (2007) la riassume come un aumento di circa il 30% della capacità di individuare le ragioni di un esito futuro, una cifra che non siamo riusciti a ricalcolare dall'articolo del 1989 (Appendice A). Il secondo, nella ricerca sugli agenti, è la recente caratterizzazione dei modi di fallimento multi-agente di Cemri et al. (2025), che hanno derivato una tassonomia di 14 modi da 150 tracce iniziali di sistemi LLM multi-agente (accordo tra annotatori κ=,88) e hanno rilasciato un corpus di oltre 1.600 tracce annotate. Nessuno dei due filoni è stato integrato come **disciplina di runtime** che un agente di programmazione possa essere costretto a seguire a ogni compito non banale.
+Due filoni di letteratura convergono su questa lacuna. Il primo, nella scienza delle decisioni, è il **pre-mortem**: un esercizio strutturato in cui un team immagina che un progetto sia già fallito ed elenca le cause prima di agire. La tecnica è stata resa operativa per i team di progetto da Klein (2007) e fondata sul precedente lavoro empirico di Mitchell, Russo e Pennington (1989) sulla *prospective hindsight*; Klein (2007) la riassume come un aumento di circa il 30% della capacità di individuare le ragioni di un esito futuro, una cifra che non siamo riusciti a ricalcolare dall'articolo del 1989 (Appendice A). Il secondo, nella ricerca sugli agenti, è la recente caratterizzazione dei modi di fallimento multi-agente di Cemri et al. (2025), che hanno derivato una tassonomia di 14 modi da 150 tracce iniziali di sistemi LLM multi-agente (accordo tra annotatori κ = ,88) e hanno rilasciato un corpus di oltre 1.600 tracce annotate. Nessuno dei due filoni è stato integrato come **disciplina di runtime** che un agente di programmazione possa essere costretto a seguire a ogni compito non banale.
 
 Questo articolo riferisce su **Anticipating Shadow Points (ASP)**, un protocollo di pianificazione in 13 fasi distribuito come skill di Claude Code che combina il ragionamento da pre-mortem con la *checklist* MAST a 14 modi, separa pianificazione e validazione con un rigoroso isolamento dei *prompt* e affida l'esecuzione a un sottoprocesso figlio con un contratto basato su file. Abbiamo rilasciato la skill, distribuita attraverso tre percorsi di installazione (marketplace dei *plugin*, modalità sviluppatore, *script* autonomo), l'abbiamo sottoposta a cinque valutazioni ingegneristiche e riportiamo il progetto e ciò che le valutazioni possono e non possono mostrare. La valutazione è preliminare e, come corretto in questa versione, non misurata: GREEN su cinque compiti e RED su tre, un'esecuzione ciascuno, un solo modello, letto dall'autore senza procedura in cieco, con le trascrizioni grezze non conservate. La riportiamo come osservazione qualitativa; le quattro scelte di progetto che trattiamo come ipotesi, e una quinta misurata nell'articolo complementare, sono nella Sezione 6.
 
@@ -48,7 +48,7 @@ La tecnica del pre-mortem chiede a un team di immaginare, prima di impegnarsi, c
 
 ### 2.2. Modi di fallimento multi-agente (MAST)
 
-Gli agenti LLM alternano ragionamento e azione in un unico ciclo (Yao et al., 2023) e sono sempre più composti in flussi di lavoro multi-agente i cui modi di fallimento si sommano. Cemri et al. (2025) introducono la **Multi-Agent System Failure Taxonomy (MAST)** con **MAST-Data**, un corpus di oltre 1.600 tracce annotate provenienti da sette *framework* multi-agente diffusi come AG2 (già AutoGen; Wu et al., 2023). Da un'analisi rigorosa di 150 tracce iniziali (accordo tra annotatori κ=,88), hanno derivato quattordici modi di fallimento organizzati in tre categorie: specifica e progetto del sistema (5 modi), disallineamento tra agenti (6 modi) e verifica e terminazione del compito (3 modi). L'elenco dei 14 modi è il più solido fondamento empirico recente per una *checklist* di modi di fallimento; ASP adotta alla lettera i nomi dei modi e rende operativo ciascuno in un *prompt* di pre-mortem più una mitigazione nei file della skill complementare. Due lavori concomitanti estendono la direzione della tassonomia: Zhu et al. (2025) introducono AgentDebug e la AgentErrorTaxonomy (memoria / riflessione / pianificazione / azione / livello di sistema), e S. Zhang et al. (2025), un ICML 2025 Spotlight, apre l'**attribuzione automatica dei fallimenti** con il *dataset* Who&When. MAST è dunque una tassonomia tra le altre: TRAIL formalizza una tassonomia di errori agentici su 148 tracce annotate da esseri umani (Deshpande et al., 2025), AgentRx annota 170 traiettorie fallite con un passo critico e una categoria tratta da una tassonomia fondata sui dati (grounded theory) (Barke et al., 2026), e AgenTracer riporta che gli attuali LLM di ragionamento attribuiscono i fallimenti nelle tracce multi-agente con un'accuratezza generalmente inferiore al 10% (G. Zhang et al., 2025). ASP usa MAST come libreria di *prompt* per anticipare i fallimenti, non come classificatore di quelli osservati, quindi la scelta della tassonomia delimita ciò che la Fase 2 chiede anziché ciò che può rilevare.
+Gli agenti LLM alternano ragionamento e azione in un unico ciclo (Yao et al., 2023) e sono sempre più composti in flussi di lavoro multi-agente i cui modi di fallimento si sommano. Cemri et al. (2025) introducono la **Multi-Agent System Failure Taxonomy (MAST)** con **MAST-Data**, un corpus di oltre 1.600 tracce annotate provenienti da sette *framework* multi-agente diffusi come AG2 (già AutoGen; Wu et al., 2023). Da un'analisi rigorosa di 150 tracce iniziali (accordo tra annotatori κ = ,88), hanno derivato quattordici modi di fallimento organizzati in tre categorie: specifica e progetto del sistema (5 modi), disallineamento tra agenti (6 modi) e verifica e terminazione del compito (3 modi). L'elenco dei 14 modi è il più solido fondamento empirico recente per una *checklist* di modi di fallimento; ASP adotta alla lettera i nomi dei modi e rende operativo ciascuno in un *prompt* di pre-mortem più una mitigazione nei file della skill complementare. Due lavori concomitanti estendono la direzione della tassonomia: Zhu et al. (2025) introducono AgentDebug e la AgentErrorTaxonomy (memoria / riflessione / pianificazione / azione / livello di sistema), e S. Zhang et al. (2025), un ICML 2025 Spotlight, apre l'**attribuzione automatica dei fallimenti** con il *dataset* Who&When. MAST è dunque una tassonomia tra le altre: TRAIL formalizza una tassonomia di errori agentici su 148 tracce annotate da esseri umani (Deshpande et al., 2025), AgentRx annota 170 traiettorie fallite con un passo critico e una categoria tratta da una tassonomia fondata sui dati (grounded theory) (Barke et al., 2026), e AgenTracer riporta che gli attuali LLM di ragionamento attribuiscono i fallimenti nelle tracce multi-agente con un'accuratezza generalmente inferiore al 10% (G. Zhang et al., 2025). ASP usa MAST come libreria di *prompt* per anticipare i fallimenti, non come classificatore di quelli osservati, quindi la scelta della tassonomia delimita ciò che la Fase 2 chiede anziché ciò che può rilevare.
 
 ### 2.3. Limiti dell'autocorrezione e isolamento del validatore
 
@@ -217,6 +217,8 @@ Abbiamo sottoposto ASP a cinque valutazioni ingegneristiche strutturate che copr
 
 ### 5.1. L'insieme di valutazioni
 
+La Tabella 4 elenca le cinque valutazioni ingegneristiche.
+
 **Tabella 4.** Le cinque valutazioni ingegneristiche.
 
 | ID | Dominio | Compito (abbreviato) | Dimensione attesa | Accettazione |
@@ -262,6 +264,8 @@ Lo studio è stato preregistrato nel repository (`benchmark/study-2026-11/PROTOC
   - **ASP:** `/asp --standard`, fermato dopo il piano validato.
 - **Liste di riferimento.** Tre modelli di altri fornitori (Grok, GPT-OSS 120B, Gemini 3.8 Flash) hanno letto ogni repository e ogni richiesta senza vedere ASP e hanno scritto i rischi che si aspettavano. Un giudice cieco ha raggruppato le loro voci, e un rischio è entrato nella lista di riferimento quando almeno due revisori lo hanno nominato (da 8 a 12 per compito). I modelli hanno preso il posto degli ingegneri indipendenti richiesti dalla bozza precedente, cosa che il protocollo dichiara come un indebolimento.
 - **Punteggio.** Il giudice principale (Gemini 3.8 Flash) ha visto solo le righe della tabella di ogni risposta, con le parole che rivelerebbero la condizione oscurate, e ha segnato ogni rischio di riferimento come coperto o no. Un secondo giudice (Grok) ha fatto lo stesso. I due hanno concordato sul 91,9% di 855 decisioni per voce.
+
+La Tabella 5 e la Figura 3 riportano la copertura per condizione.
 
 **Tabella 5.** Copertura dei rischi e tempo per esecuzione nello studio 2026-11, per condizione.
 
@@ -354,7 +358,7 @@ Il seguito più forte è uno studio confermativo del pre-mortem di una frase. Il
 
 ## Ringraziamenti
 
-Questo resoconto di esperienza è stato preparato in esplicita collaborazione con intervento umano (human-in-the-loop) con Claude (Anthropic, Opus 4.7), usato come partner di stesura, verifica e revisione. Le decisioni metodologiche, il disegno empirico e la finalizzazione sono stati svolti dall'autore umano. Il modello di collaborazione è documentato in `docs/ARCHITECTURE.md`, Parti 5–6, del repository complementare.
+Questo resoconto di esperienza è stato preparato in esplicita collaborazione con intervento umano (human-in-the-loop) con un assistente di IA, usato come partner di stesura, verifica e revisione. Le decisioni metodologiche, il disegno empirico e la finalizzazione sono stati svolti dall'autore umano. Il modello di collaborazione è documentato in `docs/ARCHITECTURE.md`, Parti 5–6, del repository complementare.
 
 L'autore ringrazia i manutentori del *framework* di skill [obra/superpowers](https://github.com/obra/superpowers), i contributori dello standard aperto [agentskills.io](https://agentskills.io) e il team di Claude Code di Anthropic per la primitiva `/goal` il cui comportamento empirico ha motivato le Iron Law 11 e 12.
 
@@ -446,13 +450,13 @@ I nove riferimenti introdotti nella §2.5 (Avizienis et al., 2004; International
 
 ## Appendice B — Insieme di valutazioni e riproducibilità
 
-Le cinque valutazioni ingegneristiche sono sottoposte a *commit* nel repository complementare:
+Le cinque valutazioni ingegneristiche sono sottoposte a *commit* nel repository complementare, nella cartella `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/`:
 
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/01-supabase-migration.md` (E1)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/02-edge-function-deploy.md` (E2)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/03-refactor-shared-util.md` (E3)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/04-rls-policy-change.md` (E4)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/05-cron-skill-conflict.md` (E5)
+- `01-supabase-migration.md` (E1)
+- `02-edge-function-deploy.md` (E2)
+- `03-refactor-shared-util.md` (E3)
+- `04-rls-policy-change.md` (E4)
+- `05-cron-skill-conflict.md` (E5)
 
 Ogni file contiene l'enunciato INPUT, l'elenco EXPECTED degli shadow point e la soglia di ACCEPTANCE, tutti scritti dal progettista del protocollo. Il pacchetto di *benchmark* in `benchmark/` fornisce:
 
@@ -461,7 +465,7 @@ Ogni file contiene l'enunciato INPUT, l'elenco EXPECTED degli shadow point e la 
 - un sottocomando `verify` che riesamina una directory di esecuzione e segnala ogni deriva a livello di byte;
 - 31 test unitari che coprono il giudicatore, i parser delle valutazioni e delle risposte, il manifest e l'hasher, incluso il contratto di determinismo.
 
-**Riprodurre i numeri calcolati delle Sezioni 5.3–5.4 (nessuna chiamata a modelli).** La Tabella B1 elenca ciò che il repository contiene per essi.
+**Riprodurre i numeri calcolati delle Sezioni 5.3–5.5 (nessuna chiamata a modelli).** La Tabella B1 elenca ciò che il repository contiene per essi.
 
 **Tabella B1.** Ciò che il repository contiene per le Sezioni da 5.3 a 5.5.
 

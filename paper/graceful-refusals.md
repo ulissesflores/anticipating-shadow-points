@@ -65,7 +65,7 @@ A fixed suite of **N=50 prompts authored to provoke a decline**, spanning four c
 | Reasoned decline of an impossible-in-one-turn task | 8 | 0 | `end_turn` |
 | Legitimate completion of a seemingly impossible task | 4 | 0 | `end_turn` |
 
-So 24 trials exited 0, and how many of them count as a *silent refusal* depends on a coding choice. We report four readings rather than one:
+So 24 trials exited 0 (Table 1), and how many of them count as a *silent refusal* depends on a coding choice. We report four readings rather than one (Table 2; Figure 1):
 
 **Table 2.** Silent-refusal count under four readings (exit 0 and a decline), with 95% Wilson intervals.
 

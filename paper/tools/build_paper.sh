@@ -45,7 +45,9 @@ else
   [ -s "$I18N_SRC" ] || { echo "[FAIL] translated source not found: $I18N_SRC (use --i18n-src)"; exit 66; }
 fi
 # tables of more than 5 data rows may split across pages in this paper (11 tables: kept whole, each left a half-empty page)
-[ "$NOME" = one-sentence-premortem ] && export CH_TABLE_KEEP=5
+# asp-preprint: Tables 1 and 2 kept whole left pages 30% to 45% full in en and es; split there, the same setting
+# pushes Figure 2 to the next page in pt-BR and it (page 24 at 36% and 45%), so those two keep the default
+case "$NOME.$LANG_ED" in one-sentence-premortem.*|asp-preprint.en|asp-preprint.es) export CH_TABLE_KEEP=5;; esac
 # and its figures are embedded at 2400 px (the default 850 px looked coarse in print)
 [ "$NOME" = one-sentence-premortem ] && export PX_LIST="2400 2000 1600" CH_KEEP_IMAGE_PIXELS=1
 BUILD="$ROOT/build/$TAG"

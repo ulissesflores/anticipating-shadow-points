@@ -59,7 +59,7 @@ Una suite fija de **N=50 *prompts* redactados para provocar un rechazo**, que ab
 | Rechazo fundamentado de una tarea imposible en un turno | 8 | 0 | `end_turn` |
 | Finalización legítima de una tarea aparentemente imposible | 4 | 0 | `end_turn` |
 
-Así, 24 ensayos terminaron con 0, y cuántos de ellos cuentan como un *rechazo silencioso* depende de una decisión de codificación. Informamos de cuatro lecturas en lugar de una:
+Así, 24 ensayos terminaron con 0 (Tabla 1), y cuántos de ellos cuentan como un *rechazo silencioso* depende de una decisión de codificación. Informamos de cuatro lecturas en lugar de una (Tabla 2; Figura 1):
 
 **Tabla 2.** Recuento de rechazos silenciosos según cuatro lecturas (exit 0 y un rechazo), con intervalos de Wilson al 95%.
 
@@ -84,7 +84,7 @@ Los evaluadores ciegos fueron LLM (tres sesiones de Opus 4.8, Sonnet 5, Haiku), 
 
 ### 3.3. Restricciones de alcance
 
-1. **Es una tasa *condicional* sobre una suite adversarial, no una tasa base en tráfico natural.** El denominador es un conjunto construido para provocar rechazos; "el 24–40% de los prompts que provocan rechazo terminan en silencio" no debe leerse como "el 24–40% de las tareas de agentes fallan en silencio".
+1. **Es una tasa *condicional* sobre una suite adversarial, no una tasa base en tráfico natural.** El denominador es un conjunto construido para provocar rechazos; "el 24–40% de los *prompts* que provocan rechazo terminan en silencio" no debe leerse como "el 24–40% de las tareas de agentes fallan en silencio".
 2. **`--max-turns 1` es un factor de confusión, no una mera salvedad.** Un límite de un turno fuerza el rechazo en un turno (exit 0) o el corte (exit 1); un límite más alto movería casos entre las categorías.
 3. **El entorno no estaba limpio.** El lote de julio se ejecutó dentro de la propia configuración de Claude Code del autor, con sus instrucciones globales cargadas, y ocho de las 24 respuestas con exit 0 hacen referencia explícita a esa configuración, a sus reglas o a su espacio de trabajo (A.01–A.03, A.10, A.11, A.13, C.01, C.12) y otras dos probablemente la reflejan (A.04 termina con la firma de cierre habitual del autor; B.09 invoca pruebas de seguridad autorizadas); esta es la lectura del autor, de modo que algunos rechazos fundamentados estuvieron condicionados por esas instrucciones; el lote de mayo se ejecutó en la carpeta de pruebas del repositorio con el *plugin* instalado.
 4. **Los *prompts* de julio no se capturaron en el envelope.** Cada ensayo lleva el identificador de escenario de la suite bloqueada; el texto del *prompt* enviado se infiere a partir del identificador.
@@ -300,11 +300,11 @@ Zhu, J., Xie, S., Chen, A. L. F., Ding, X., Tang, C., Qi, R., & Fei, Y. (2026). 
 
 **Licencia** Texto, figuras y datos: CC BY 4.0. Software complementario: MIT.
 
-**El proyecto ASP.** ASP (Anticipating Shadow Points) es un *plugin* de código abierto para Claude Code, el agente de programación de línea de comandos de Anthropic, que hace que el agente enumere lo que podría salir mal antes de escribir código. El *plugin* y el material de replicación están en un repositorio público (Flores, 2026b), un *whitepaper* describe cómo funciona (Flores, 2026a) y esta nota mide por sí sola una de sus reglas: no confiar nunca en el código de salida de `claude -p`. La Sección 5.5 del *whitepaper* informa de la primera medición de si ASP mejora los planes de un agente (ningún beneficio medible frente a una petición de una frase para enumerar lo que puede salir mal); un tercer artículo informará del estudio confirmatorio de ese pre-mortem de una frase.
+**El proyecto ASP.** ASP (Anticipating Shadow Points) es un *plugin* de código abierto para Claude Code, el agente de programación de línea de comandos de Anthropic, que hace al agente enumerar lo que podría salir mal antes de escribir código. El *plugin* y el material de replicación están en un repositorio público (Flores, 2026b); un *whitepaper* describe cómo funciona (Flores, 2026a) y esta nota mide aparte una de sus reglas: no confiar nunca en el código de salida de `claude -p`. La Sección 5.5 del *whitepaper* trae la primera medición de si ASP mejora los planes de un agente (sin beneficio medible frente a una petición de una frase para enumerar lo que puede salir mal); un tercer artículo traerá el estudio confirmatorio de ese pre-mortem de una frase.
 
-**DOI.** Un DOI (Digital Object Identifier) es un enlace permanente a una obra depositada. Zenodo, un archivo público de investigación gestionado por el CERN, guarda esta nota como registro propio: https://doi.org/10.5281/zenodo.24065935. El *plugin*, los datos y el código forman otro registro (Flores, 2026b), cuyo DOI de concepto, https://doi.org/10.5281/zenodo.20276631, abre siempre la *release* más reciente; la *release* 2.0.0 es la que corresponde a esta nota. Las releases de mayo de 2026 de ese registro (1.0.0 a 1.0.3) llamaban preregistrada a la ejecución de mayo y son anteriores a los datos de julio; la *release* 2.0.0 las sustituye.
+**DOI.** Un DOI (Digital Object Identifier) es un enlace permanente a una obra depositada. Zenodo, archivo público de investigación gestionado por el CERN, guarda esta nota como registro propio: https://doi.org/10.5281/zenodo.24065935. El *plugin*, los datos y el código forman otro registro (Flores, 2026b), cuyo DOI de concepto, https://doi.org/10.5281/zenodo.20276631, abre siempre la *release* más reciente; a esta nota corresponde la 2.0.0. Las de mayo de 2026 (1.0.0 a 1.0.3) llamaban preregistrada a la ejecución de mayo y son anteriores a los datos de julio; la 2.0.0 las sustituye.
 
-**Replicación.** Todo número que esta nota calcula a partir de sus datos puede recalcularse desde el repositorio sin llamar a ningún modelo; la sección 9, Disponibilidad de datos y código, enumera lo que hay y cómo ejecutarlo.
+**Replicación.** Todo número que esta nota calcula de sus datos puede recalcularse desde el repositorio sin llamar a ningún modelo; la sección 9 dice qué hay y cómo ejecutarlo.
 ---
 
 ## Sobre el autor

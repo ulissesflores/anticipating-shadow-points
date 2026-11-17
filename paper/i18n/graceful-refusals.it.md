@@ -59,7 +59,7 @@ Una suite fissa di **N=50 *prompt* scritti per provocare un rifiuto**, distribui
 | Rifiuto motivato di un compito impossibile in un solo turno | 8 | 0 | `end_turn` |
 | Completamento legittimo di un compito apparentemente impossibile | 4 | 0 | `end_turn` |
 
-Dunque 24 prove sono uscite con 0, e quante di esse contino come *rifiuto silenzioso* dipende da una scelta di codifica. Riportiamo quattro letture anziché una:
+Dunque 24 prove sono uscite con 0 (Tabella 1), e quante di esse contino come *rifiuto silenzioso* dipende da una scelta di codifica. Riportiamo quattro letture anziché una (Tabella 2; Figura 1):
 
 **Tabella 2.** Conteggio dei rifiuti silenziosi secondo quattro letture (exit 0 e un rifiuto), con intervalli di Wilson al 95%.
 
@@ -84,7 +84,7 @@ I valutatori in cieco erano LLM (tre sessioni di Opus 4.8, Sonnet 5, Haiku), han
 
 ### 3.3. Vincoli di ambito
 
-1. **È un tasso *condizionato* su una suite avversariale — non un tasso di base nel traffico naturale.** Il denominatore è un insieme costruito per suscitare rifiuti; "il 24–40% dei prompt che provocano un rifiuto esce in silenzio" non va letto come "il 24–40% dei compiti degli agenti fallisce in silenzio".
+1. **È un tasso *condizionato* su una suite avversariale — non un tasso di base nel traffico naturale.** Il denominatore è un insieme costruito per suscitare rifiuti; "il 24–40% dei *prompt* che provocano un rifiuto esce in silenzio" non va letto come "il 24–40% dei compiti degli agenti fallisce in silenzio".
 2. **`--max-turns 1` è un fattore confondente, non una semplice avvertenza.** Un limite di un turno forza a rifiutare in un turno (exit 0) o a interrompere (exit 1); un limite più alto sposterebbe i casi da una categoria all'altra.
 3. **L'ambiente non era pulito.** Il batch di luglio è stato eseguito dentro la configurazione di Claude Code dell'autore, con le sue istruzioni globali caricate, e otto delle 24 risposte con exit 0 rimandano esplicitamente a quella configurazione, alle sue regole o al suo spazio di lavoro (A.01–A.03, A.10, A.11, A.13, C.01, C.12) e altre due plausibilmente la riflettono (A.04 termina con la firma di chiusura abituale dell'autore; B.09 invoca test di sicurezza autorizzati); questa è la lettura dell'autore, quindi alcuni rifiuti motivati sono stati plasmati da quelle istruzioni; il batch di maggio è stato eseguito nella cartella di test del repository con il *plugin* installato.
 4. **I *prompt* di luglio non sono stati catturati nell'envelope.** Ogni prova reca l'id di scenario della suite bloccata; il testo del *prompt* inviato è dedotto dall'id.

@@ -59,7 +59,7 @@ Uma suíte fixa de **N=50 *prompts* escritos para provocar uma recusa**, em quat
 | Recusa fundamentada de uma tarefa impossível em um turno | 8 | 0 | `end_turn` |
 | Conclusão legítima de uma tarefa aparentemente impossível | 4 | 0 | `end_turn` |
 
-Assim, 24 tentativas saíram com 0, e quantas delas contam como *recusa silenciosa* depende de uma escolha de codificação. Relatamos quatro leituras em vez de uma:
+Assim, 24 tentativas saíram com 0 (Tabela 1), e quantas delas contam como *recusa silenciosa* depende de uma escolha de codificação. Relatamos quatro leituras em vez de uma (Tabela 2; Figura 1):
 
 **Tabela 2.** Contagem de recusas silenciosas sob quatro leituras (saída 0 e uma recusa), com intervalos de Wilson de 95%.
 
@@ -84,7 +84,7 @@ Os avaliadores cegos eram LLMs (três sessões do Opus 4.8, o Sonnet 5 e o Haiku
 
 ### 3.3. Restrições de escopo
 
-1. **É uma taxa *condicional* sobre uma suíte adversarial — não uma taxa-base no tráfego natural.** O denominador é um conjunto construído para provocar recusas; "24–40% dos prompts feitos para provocar recusa saem em silêncio" não deve ser lido como "24–40% das tarefas de agente falham em silêncio".
+1. **É uma taxa *condicional* sobre uma suíte adversarial — não uma taxa-base no tráfego natural.** O denominador é um conjunto construído para provocar recusas; "24–40% dos *prompts* feitos para provocar recusa saem em silêncio" não deve ser lido como "24–40% das tarefas de agente falham em silêncio".
 2. **`--max-turns 1` é um fator de confusão, não apenas uma ressalva.** Um limite de um turno força recusar em um turno (exit 0) ou cortar (exit 1); um limite maior moveria casos entre as categorias.
 3. **O ambiente não estava limpo.** O lote de julho rodou dentro da configuração própria do Claude Code do autor, com as instruções globais do autor carregadas, e oito das 24 respostas com exit 0 se referem explicitamente a essa configuração, às suas regras ou ao seu espaço de trabalho (A.01–A.03, A.10, A.11, A.13, C.01, C.12) e outras duas provavelmente a refletem (A.04 termina com a assinatura de fecho habitual do autor; B.09 invoca testes de segurança autorizados); esta é a leitura do autor, de modo que algumas recusas fundamentadas foram moldadas por essas instruções; o lote de maio rodou na pasta de testes do repositório, com o *plugin* instalado.
 4. **Os *prompts* de julho não foram capturados no envelope.** Cada tentativa traz o id de cenário da suíte travada; o texto do *prompt* enviado é inferido a partir do id.
@@ -302,7 +302,7 @@ Zhu, J., Xie, S., Chen, A. L. F., Ding, X., Tang, C., Qi, R., & Fei, Y. (2026). 
 
 **O projeto ASP.** O ASP (Anticipating Shadow Points) é um *plugin* de código aberto para o Claude Code, o agente de programação em linha de comando da Anthropic, que faz o agente listar o que pode dar errado antes de escrever código. O *plugin* e o material de replicação ficam num repositório público (Flores, 2026b), um *whitepaper* descreve como ele funciona (Flores, 2026a) e esta nota mede, sozinha, uma de suas regras: nunca confiar no código de saída do `claude -p`. A Seção 5.5 do *whitepaper* relata a primeira medição de se o ASP melhora os planos de um agente (nenhum benefício mensurável sobre um pedido de uma frase para listar o que pode dar errado); um terceiro artigo relatará o estudo confirmatório desse pre-mortem de uma frase.
 
-**DOI.** Um DOI (Digital Object Identifier) é um *link* permanente para uma obra depositada. O Zenodo, arquivo público de pesquisa mantido pelo CERN, guarda esta nota como registro próprio: https://doi.org/10.5281/zenodo.24065935. O *plugin*, os dados e o código formam outro registro (Flores, 2026b), cujo DOI de conceito, https://doi.org/10.5281/zenodo.20276631, sempre abre a *release* mais recente; a *release* 2.0.0 é a que corresponde a esta nota. As releases de maio de 2026 desse registro (1.0.0 a 1.0.3) chamavam a execução de maio de pré-registrada e são anteriores aos dados de julho; a *release* 2.0.0 as substitui.
+**DOI.** Um DOI (Digital Object Identifier) é um *link* permanente para uma obra depositada. O Zenodo, arquivo público de pesquisa mantido pelo CERN, guarda esta nota como registro próprio: https://doi.org/10.5281/zenodo.24065935. O *plugin*, os dados e o código formam outro registro (Flores, 2026b), cujo DOI de conceito, https://doi.org/10.5281/zenodo.20276631, sempre abre a *release* mais recente; a *release* 2.0.0 é a que corresponde a esta nota. As *releases* de maio de 2026 desse registro (1.0.0 a 1.0.3) chamavam a execução de maio de pré-registrada e são anteriores aos dados de julho; a *release* 2.0.0 as substitui.
 
 **Replicação.** Todo número que esta nota calcula a partir de seus dados pode ser recalculado a partir do repositório sem chamar um modelo; a Seção 9, Disponibilidade de dados e código, lista o que há lá e como executar.
 ---

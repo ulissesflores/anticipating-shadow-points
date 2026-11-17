@@ -22,7 +22,7 @@ Equipes de software delegam cada vez mais trabalho de engenharia rotineiro — a
 
 O modo de falha dominante em produção dos agentes de código modernos com LLM, em nossa experiência, não é o código *ruim*. É o código *incompleto*: o agente faz o que foi pedido, mas não o que alguém com profundo contexto de domínio teria se perguntado *antes de começar*. O atraso de réplica durante uma migração de esquema. O cabeçalho CORS na edge function. A política de segurança por linha que precisa ser atualizada para acompanhar a coluna nova. Chamamos esses itens ausentes de **shadow points** — modos de falha óbvios para um profissional que já se queimou com eles, invisíveis para um agente que não se queimou.
 
-Duas vertentes da literatura convergem nessa lacuna. A primeira, na ciência da decisão, é o **pre-mortem**: um exercício estruturado em que uma equipe imagina que um projeto já fracassou e enumera as causas antes de agir. A técnica foi operacionalizada para equipes de projeto por Klein (2007) e fundamentada no trabalho empírico anterior de Mitchell, Russo e Pennington (1989) sobre retrospecção prospectiva (*prospective hindsight*); Klein (2007) a resume como um aumento de cerca de 30% na capacidade de identificar razões para um resultado futuro, número que não conseguimos recalcular a partir do artigo de 1989 (Apêndice A). A segunda, na pesquisa em agentes, é a caracterização recente dos modos de falha multiagente por Cemri et al. (2025), que derivaram uma taxonomia de 14 modos a partir de 150 traços iniciais de sistemas multiagente de LLM (concordância entre anotadores κ=,88) e liberaram um corpus de mais de 1.600 traços anotados. Nenhuma das duas vertentes foi integrada como uma **disciplina de tempo de execução** que um agente de código possa ser levado a seguir em toda tarefa não trivial.
+Duas vertentes da literatura convergem nessa lacuna. A primeira, na ciência da decisão, é o **pre-mortem**: um exercício estruturado em que uma equipe imagina que um projeto já fracassou e enumera as causas antes de agir. A técnica foi operacionalizada para equipes de projeto por Klein (2007) e fundamentada no trabalho empírico anterior de Mitchell, Russo e Pennington (1989) sobre retrospecção prospectiva (*prospective hindsight*); Klein (2007) a resume como um aumento de cerca de 30% na capacidade de identificar razões para um resultado futuro, número que não conseguimos recalcular a partir do artigo de 1989 (Apêndice A). A segunda, na pesquisa em agentes, é a caracterização recente dos modos de falha multiagente por Cemri et al. (2025), que derivaram uma taxonomia de 14 modos a partir de 150 traços iniciais de sistemas multiagente de LLM (concordância entre anotadores κ = ,88) e liberaram um corpus de mais de 1.600 traços anotados. Nenhuma das duas vertentes foi integrada como uma **disciplina de tempo de execução** que um agente de código possa ser levado a seguir em toda tarefa não trivial.
 
 Este artigo relata o **Anticipating Shadow Points (ASP)**, um protocolo de planejamento em 13 fases distribuído como skill do Claude Code, que combina o raciocínio de pre-mortem com a lista de verificação de 14 modos do MAST, separa planejamento de validação sob estrito isolamento de *prompt* e entrega a execução a um subprocesso filho com contrato em arquivo. Implantamos a skill, distribuímo-la por três caminhos de instalação (marketplace de *plugins*, modo de desenvolvimento, *script* autônomo), submetemo-la a cinco avaliações de engenharia e relatamos o desenho e o que as avaliações podem e não podem mostrar. A avaliação é preliminar e, como corrigido nesta versão, não medida: GREEN em cinco tarefas e RED em três, uma execução cada, um único modelo, lidas pelo autor sem cegamento, com as transcrições brutas não preservadas. Relatamos isso como observação qualitativa; as quatro escolhas de projeto que tratamos como hipóteses, e uma quinta medida no artigo complementar, estão na Seção 6.
 
@@ -49,7 +49,7 @@ A técnica do pre-mortem pede a uma equipe que imagine, antes do compromisso, qu
 
 ### 2.2. Modos de falha multiagente (MAST)
 
-Agentes de LLM intercalam raciocínio e ação num único ciclo (Yao et al., 2023) e são cada vez mais compostos em fluxos de trabalho multiagente cujos modos de falha se acumulam. Cemri et al. (2025) introduzem a **Multi-Agent System Failure Taxonomy (MAST)** com o **MAST-Data**, um corpus de mais de 1.600 traços anotados de sete frameworks multiagente populares, como o AG2 (antigo AutoGen; Wu et al., 2023). A partir de uma análise rigorosa de 150 traços iniciais (concordância entre anotadores κ=,88), derivaram quatorze modos de falha organizados em três categorias: especificação e projeto do sistema (5 modos), desalinhamento entre agentes (6 modos) e verificação e término de tarefas (3 modos). A lista de 14 modos é a fundamentação empírica recente mais forte para uma lista de verificação de modos de falha; o ASP adota os nomes dos modos literalmente e operacionaliza cada um num *prompt* de pre-mortem mais uma mitigação, nos arquivos da skill complementar. Dois trabalhos concorrentes estendem a direção da taxonomia: Zhu et al. (2025) introduzem o AgentDebug e a AgentErrorTaxonomy (memória / reflexão / planejamento / ação / nível de sistema), e S. Zhang et al. (2025), um Spotlight do ICML 2025, abre a **atribuição automatizada de falhas** com o conjunto de dados Who&When. O MAST é, portanto, uma taxonomia entre várias: o TRAIL formaliza uma taxonomia de erros agênticos sobre 148 traços anotados por humanos (Deshpande et al., 2025), o AgentRx anota 170 trajetórias fracassadas com um passo crítico e uma categoria de uma taxonomia de teoria fundamentada (Barke et al., 2026), e o AgenTracer relata que os LLMs de raciocínio atuais atribuem falhas em traços multiagente com acurácia geralmente abaixo de 10% (G. Zhang et al., 2025). O ASP usa o MAST como uma biblioteca de *prompts* para antecipar falhas, não como classificador das observadas, de modo que a escolha da taxonomia delimita o que a Fase 2 pergunta, e não o que ela consegue detectar.
+Agentes de LLM intercalam raciocínio e ação num único ciclo (Yao et al., 2023) e são cada vez mais compostos em fluxos de trabalho multiagente cujos modos de falha se acumulam. Cemri et al. (2025) introduzem a **Multi-Agent System Failure Taxonomy (MAST)** com o **MAST-Data**, um corpus de mais de 1.600 traços anotados de sete frameworks multiagente populares, como o AG2 (antigo AutoGen; Wu et al., 2023). A partir de uma análise rigorosa de 150 traços iniciais (concordância entre anotadores κ = ,88), derivaram quatorze modos de falha organizados em três categorias: especificação e projeto do sistema (5 modos), desalinhamento entre agentes (6 modos) e verificação e término de tarefas (3 modos). A lista de 14 modos é a fundamentação empírica recente mais forte para uma lista de verificação de modos de falha; o ASP adota os nomes dos modos literalmente e operacionaliza cada um num *prompt* de pre-mortem mais uma mitigação, nos arquivos da skill complementar. Dois trabalhos concorrentes estendem a direção da taxonomia: Zhu et al. (2025) introduzem o AgentDebug e a AgentErrorTaxonomy (memória / reflexão / planejamento / ação / nível de sistema), e S. Zhang et al. (2025), um Spotlight do ICML 2025, abre a **atribuição automatizada de falhas** com o conjunto de dados Who&When. O MAST é, portanto, uma taxonomia entre várias: o TRAIL formaliza uma taxonomia de erros agênticos sobre 148 traços anotados por humanos (Deshpande et al., 2025), o AgentRx anota 170 trajetórias fracassadas com um passo crítico e uma categoria de uma taxonomia de teoria fundamentada (Barke et al., 2026), e o AgenTracer relata que os LLMs de raciocínio atuais atribuem falhas em traços multiagente com acurácia geralmente abaixo de 10% (G. Zhang et al., 2025). O ASP usa o MAST como uma biblioteca de *prompts* para antecipar falhas, não como classificador das observadas, de modo que a escolha da taxonomia delimita o que a Fase 2 pergunta, e não o que ela consegue detectar.
 
 ### 2.3. Limites da autocorreção e isolamento do validador
 
@@ -218,6 +218,8 @@ Submetemos o ASP a cinco avaliações estruturadas de engenharia, que abrangem d
 
 ### 5.1. O conjunto de avaliações
 
+A Tabela 4 lista as cinco avaliações de engenharia.
+
 **Tabela 4.** As cinco avaliações de engenharia.
 
 | ID | Domínio | Tarefa (abreviada) | Tamanho esperado | Aceitação |
@@ -263,6 +265,8 @@ O estudo foi pré-registrado no repositório (`benchmark/study-2026-11/PROTOCOL.
   - **ASP:** `/asp --standard`, parado após o plano validado.
 - **Listas de referência.** Três modelos de outros fornecedores (Grok, GPT-OSS 120B, Gemini 3.8 Flash) leram cada repositório e cada pedido sem ver o ASP e escreveram os riscos que esperavam. Um juiz cego agrupou os itens, e um risco entrou na lista de referência quando pelo menos dois revisores o citaram (8 a 12 por tarefa). Modelos ocuparam o lugar dos engenheiros independentes que o rascunho anterior exigia, o que o protocolo declara como um enfraquecimento.
 - **Pontuação.** O juiz principal (Gemini 3.8 Flash) viu só as linhas da tabela de cada resposta, com as palavras que revelariam a condição apagadas, e marcou cada risco de referência como coberto ou não. Um segundo juiz (Grok) fez o mesmo. Os dois concordaram em 91,9% de 855 decisões por item.
+
+A Tabela 5 e a Figura 3 trazem a cobertura por condição.
 
 **Tabela 5.** Cobertura de riscos e tempo por rodada no estudo de 2026-11, por condição.
 
@@ -355,7 +359,7 @@ O desdobramento mais forte é um estudo confirmatório do pre-mortem de uma fras
 
 ## Agradecimentos
 
-Este relato de experiência foi preparado em explícita colaboração com humano no ciclo com o Claude (Anthropic, Opus 4.7), usado como parceiro de redação, verificação e revisão. As decisões de metodologia, o desenho empírico e a finalização foram feitos pelo autor humano. O modelo de colaboração está documentado nas Partes 5–6 do `docs/ARCHITECTURE.md` do repositório complementar.
+Este relato de experiência foi preparado em explícita colaboração com humano no ciclo com um assistente de IA, usado como parceiro de redação, verificação e revisão. As decisões de metodologia, o desenho empírico e a finalização foram feitos pelo autor humano. O modelo de colaboração está documentado nas Partes 5–6 do `docs/ARCHITECTURE.md` do repositório complementar.
 
 O autor agradece aos mantenedores do *framework* de skills [obra/superpowers](https://github.com/obra/superpowers), aos contribuidores do padrão aberto [agentskills.io](https://agentskills.io) e à equipe do Claude Code da Anthropic pela primitiva `/goal`, cujo comportamento empírico motivou as Iron Laws 11 e 12.
 
@@ -447,13 +451,13 @@ As nove referências introduzidas na §2.5 (Avizienis et al., 2004; Internationa
 
 ## Apêndice B — Conjunto de avaliações e reprodutibilidade
 
-As cinco avaliações de engenharia estão versionadas no repositório complementar:
+As cinco avaliações de engenharia estão versionadas no repositório complementar, na pasta `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/`:
 
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/01-supabase-migration.md` (E1)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/02-edge-function-deploy.md` (E2)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/03-refactor-shared-util.md` (E3)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/04-rls-policy-change.md` (E4)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/05-cron-skill-conflict.md` (E5)
+- `01-supabase-migration.md` (E1)
+- `02-edge-function-deploy.md` (E2)
+- `03-refactor-shared-util.md` (E3)
+- `04-rls-policy-change.md` (E4)
+- `05-cron-skill-conflict.md` (E5)
 
 Cada arquivo contém o enunciado INPUT, a lista de shadow points EXPECTED e o limiar de ACCEPTANCE, todos escritos pelo projetista do protocolo. O pacote de *benchmark* em `benchmark/` fornece:
 
@@ -462,7 +466,7 @@ Cada arquivo contém o enunciado INPUT, a lista de shadow points EXPECTED e o li
 - um subcomando `verify` que percorre de novo um diretório de execução e relata qualquer deriva em nível de byte;
 - 31 testes unitários que cobrem o adjudicador, os analisadores de avaliações e de respostas, o manifesto e o cálculo de hash, incluindo o contrato de determinismo.
 
-**Reproduzindo os números calculados das Seções 5.3–5.4 (sem chamadas de modelo).** A Tabela B1 lista o que o repositório contém para eles.
+**Reproduzindo os números calculados das Seções 5.3–5.5 (sem chamadas de modelo).** A Tabela B1 lista o que o repositório contém para eles.
 
 **Tabela B1.** O que o repositório contém para as Seções 5.3 a 5.5.
 
@@ -493,7 +497,7 @@ run_all.py`, executado dentro da pasta do repositório, refaz tudo o que está n
 
 **O projeto ASP.** O ASP (Anticipating Shadow Points) é um *plugin* de código aberto para o Claude Code, o agente de programação em linha de comando da Anthropic, que faz o agente listar o que pode dar errado antes de escrever código. O *plugin* e o material de replicação ficam num repositório público (Flores, 2026a), este *whitepaper* descreve como ele funciona e uma nota técnica mede, sozinha, uma de suas regras: nunca confiar no código de saída do `claude -p` (Flores, 2026b). A Seção 5.5 relata a primeira medição de se o ASP melhora os planos de um agente; um terceiro artigo relatará o estudo confirmatório do pre-mortem de uma frase para o qual ela apontou.
 
-**DOI.** Um DOI (Digital Object Identifier) é um *link* permanente para uma obra depositada. O Zenodo, arquivo público de pesquisa mantido pelo CERN, guarda este *whitepaper* como registro próprio: https://doi.org/10.5281/zenodo.24065969. O *plugin*, os dados e o código formam outro registro (Flores, 2026a), cujo DOI de conceito, https://doi.org/10.5281/zenodo.20276631, sempre abre a *release* mais recente; a *release* 2.0.0 é a que corresponde a este *whitepaper*. As releases de maio de 2026 desse registro (1.0.0 a 1.0.3) apresentavam as notas que o matcher deu aos planos de exemplo do autor como leitura de saídas reais do modelo; a *release* 2.0.0 as substitui.
+**DOI.** Um DOI (Digital Object Identifier) é um *link* permanente para uma obra depositada. O Zenodo, arquivo público de pesquisa mantido pelo CERN, guarda este *whitepaper* como registro próprio: https://doi.org/10.5281/zenodo.24065969. O *plugin*, os dados e o código formam outro registro (Flores, 2026a), cujo DOI de conceito, https://doi.org/10.5281/zenodo.20276631, sempre abre a *release* mais recente; a *release* 2.0.0 é a que corresponde a este *whitepaper*. As *releases* de maio de 2026 desse registro (1.0.0 a 1.0.3) apresentavam as notas que o matcher deu aos planos de exemplo do autor como leitura de saídas reais do modelo; a *release* 2.0.0 as substitui.
 
 **Replicação.** Todo número que as Seções 5.3 a 5.5 calculam pode ser recalculado a partir do repositório sem chamar um modelo; o Apêndice B, Conjunto de avaliações e reprodutibilidade, lista o que há lá e como executar.
 ---

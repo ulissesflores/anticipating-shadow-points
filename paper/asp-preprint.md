@@ -58,7 +58,7 @@ raising the ability to identify reasons for a future outcome by about 30%, a
 figure we could not re-derive from the 1989 paper (Appendix A). The second, in agent
 research, is the recent characterization of multi-agent failure modes by
 Cemri et al. (2025), who derived a 14-mode taxonomy from 150 seed traces
-of multi-agent LLM systems (inter-annotator agreement κ=.88) and released
+of multi-agent LLM systems (inter-annotator agreement κ = .88) and released
 a corpus of 1,600+ annotated traces. Neither stream has been integrated as a **runtime discipline**
 that a coding agent can be made to follow on every non-trivial task.
 
@@ -149,7 +149,7 @@ failure modes compound. Cemri et al. (2025) introduce the **Multi-Agent
 System Failure Taxonomy (MAST)** with **MAST-Data**, a corpus of 1,600+
 annotated traces from seven popular multi-agent frameworks such as AG2
 (formerly AutoGen; Wu et al., 2023). From rigorous analysis of 150
-seed traces (inter-annotator agreement κ=.88), they derived fourteen
+seed traces (inter-annotator agreement κ = .88), they derived fourteen
 failure modes organised into three categories: specification and system
 design (5 modes), inter-agent misalignment (6 modes), and task
 verification and termination (3 modes). The 14-mode list is the strongest
@@ -521,6 +521,8 @@ the deterministic adjudicator shows about itself on constructed fixtures
 
 ### 5.1. The evaluation set
 
+Table 4 lists the five engineering evaluations.
+
 **Table 4.** The five engineering evaluations.
 
 | ID | Domain | Task (abbreviated) | Expected size | Acceptance |
@@ -645,6 +647,8 @@ The study was pre-registered in the repository (`benchmark/study-2026-11/PROTOCO
   - **ASP:** `/asp --standard`, stopped after the validated plan.
 - **Reference lists.** Three models of other vendors (Grok, GPT-OSS 120B, Gemini 3.8 Flash) read each repository and request without seeing ASP and wrote the risks they expected. A blind judge grouped their items, and a risk entered the reference list when at least two reviewers named it (8 to 12 per task). Models stood in for the independent engineers the earlier draft required, which the protocol states as a weakening.
 - **Scoring.** The primary judge (Gemini 3.8 Flash) saw only the rows of each answer's table, with words that would reveal the condition redacted, and marked each reference risk as covered or not. A second judge (Grok) did the same. The two agreed on 91.9% of 855 item decisions.
+
+Table 5 and Figure 3 report coverage by condition.
 
 **Table 5.** Risk coverage and time per trial in the 2026-11 study, by condition.
 
@@ -821,7 +825,7 @@ of the `claude -p` measurement (Flores, 2026b).
 ## Acknowledgments
 
 This experience report was prepared in explicit human-in-the-loop
-collaboration with Claude (Anthropic, Opus 4.7), used as a drafting,
+collaboration with an AI assistant, used as a drafting,
 verification, and review partner. Methodology decisions, empirical
 design, and finalisation were performed by the human author. The
 collaboration model is documented in the companion repository's
@@ -940,13 +944,13 @@ catalogue entry — on 2026-07-08.
 ## Appendix B — Evaluation set and reproducibility
 
 The five engineering evaluations are committed in the companion
-repository:
+repository, in the folder `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/`:
 
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/01-supabase-migration.md` (E1)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/02-edge-function-deploy.md` (E2)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/03-refactor-shared-util.md` (E3)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/04-rls-policy-change.md` (E4)
-- `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/05-cron-skill-conflict.md` (E5)
+- `01-supabase-migration.md` (E1)
+- `02-edge-function-deploy.md` (E2)
+- `03-refactor-shared-util.md` (E3)
+- `04-rls-policy-change.md` (E4)
+- `05-cron-skill-conflict.md` (E5)
 
 Each file contains the INPUT statement, the EXPECTED shadow-points list,
 and the ACCEPTANCE threshold, all authored by the protocol's designer. The
@@ -961,7 +965,7 @@ benchmark package in `benchmark/` provides:
 - 31 unit tests covering the adjudicator, the evaluation and reply parsers,
   the manifest and the hasher, including the determinism contract.
 
-**Reproducing the computed numbers of Sections 5.3–5.4 (no model calls).**
+**Reproducing the computed numbers of Sections 5.3–5.5 (no model calls).**
 Table B1 lists what the repository holds for them.
 
 **Table B1.** What the repository holds for Sections 5.3 to 5.5.

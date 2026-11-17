@@ -421,14 +421,14 @@ Esta sección toma las objeciones una a una. Siguen las clases habituales de ame
 
 El archivo del protocolo registra cada desviación con su fecha (Flores, 2026b). En resumen:
 
-1. **Un ajuste de infraestructura en los primeros minutos.** Las ejecuciones t001 a t090 fallaron en la etapa de clonación, antes de cualquier llamada al modelo, porque una carpeta temporal aún guardaba clones del estudio anterior. Las ejecuciones t091 a t096, cuyas carpetas no existían, corrieron antes y se mantuvieron. Se cambió el nombre de la carpeta y la recolección se reanudó en el orden con semilla. *Prompts*, modelos, tareas, puntuación y análisis no cambiaron.
+1. **Un ajuste de infraestructura en los primeros minutos.** Las ejecuciones t001 a t090 fallaron al clonar, antes de toda llamada al modelo, porque una carpeta temporal aún guardaba clones del estudio anterior. Las t091 a t096, cuyas carpetas no existían, corrieron antes y se mantuvieron. Se renombró la carpeta y la recolección se reanudó en el orden con semilla. *Prompts*, modelos, tareas, puntuación y análisis no cambiaron.
 2. **Una pausa de cuatro días.** El ordenador del operador tuvo que apagarse después de 38 ejecuciones. Las ejecuciones en curso en ese momento no dejaron registro y se corrieron de nuevo al reanudar. Su número y sus condiciones no se registraron, de modo que una selección por duración entre las ejecuciones en curso en ese momento no puede medirse ni descartarse. El ordenador actualizó Claude Code durante la pausa; las ejecuciones restantes corrieron en la versión de las primeras 38, instalada por separado.
-3. **Rutas de máquina eliminadas de tres respuestas.** Las respuestas t006, t022 y t023 nombraron un archivo del ordenador del operador por su ruta completa, fuera de la tabla de riesgos. La ruta se cambió por un marcador, cada archivo corregido recibió una nueva entrada en el registro, y, de las ejecuciones reanudadas en adelante, el ejecutor aplica los mismos marcadores antes de guardar.
+3. **Rutas de máquina eliminadas de tres respuestas.** Las t006, t022 y t023 citaron un archivo del ordenador del operador por su ruta completa, fuera de la tabla de riesgos. La ruta se cambió por un marcador, cada archivo corregido recibió nueva entrada en el registro, y, desde la reanudación, el ejecutor aplica los mismos marcadores antes de guardar.
 4. **Tres ejecuciones con error de red,** tratadas como se fijó de antemano y examinadas en la Sección 5.5.
 5. **Una pausa en la puntuación.** La cuota de uso del juez principal se agotó después de 225 de 240 veredictos. Los 15 restantes los produjo el mismo modelo, con el mismo comando, después de que se repuso la cuota. No se sustituyó a ningún juez.
 6. **Una condición exploratoria que no se ejecutó.** El protocolo permitía, si sobraba uso, una tercera condición con el marco completo de Klein: "Imagine it is a month from now and this change has failed. Before planning, list why it failed." (en español: "Imagina que pasó un mes y este cambio fracasó. Antes de planificar, enumera por qué fracasó.") No tiene ejecuciones y no guarda relación con el resultado.
 7. **Análisis no planificados,** cada uno etiquetado donde aparece: el análisis de sensibilidad y su límite opuesto, el intervalo *bootstrap*, el κ de Cohen, la comparación de tablas completas, la comparación del archivo de plan y la descripción por elemento.
-8. **La segunda vara de medir,** exploratoria y especificada después del resultado (Sección 5.8). La cuota del juez principal se agotó tras 208 de sus 240 veredictos, que se reanudaron después de la renovación con el mismo modelo y el mismo comando. La cuota del segundo juez se agotó tras 11 veredictos y no había vuelto cuando se escribió esta versión. Se le añadieron después tres comprobaciones, a petición de un revisor (Sección 5.8).
+8. **La segunda vara de medir,** exploratoria y especificada después del resultado (Sección 5.8). La cuota del juez principal se agotó tras 208 de sus 240 veredictos, que se reanudaron tras la renovación con el mismo modelo y comando. La cuota del segundo juez se agotó tras 11 veredictos y no había vuelto al escribirse esta versión. Después se le añadieron tres comprobaciones, pedidas por un revisor (Sección 5.8).
 9. **Una repetición de las tres ejecuciones con error y un tercer juez,** ambos no planificados y fijados en un segundo anexo antes de cualquier llamada (Secciones 5.5 y 5.8). La cuota del juez principal en la línea de comandos se agotó tras 4 de sus 9 veredictos sobre las repeticiones. Por decisión del autor, registrada en un tercer anexo antes de las llamadas, los 9 los produjo el mismo modelo por una API de pago, con una comprobación de canal en 30 ejecuciones selladas. Ese anexo decía que la respuesta completa de la API se guardaría con cada veredicto; el código guardó el texto de la respuesta, el modelo, el proveedor, el recuento de tokens y el identificador de la llamada. Los veredictos de la línea de comandos siguen pendientes.
 
 ---
@@ -437,7 +437,7 @@ El archivo del protocolo registra cada desviación con su fecha (Flores, 2026b).
 
 Una frase que abre una solicitud de planificación en lugar de "Plan this change.", "Before planning, list the ways this change could go wrong.", elevó de 46% a 58% la parte de riesgos enumerados de forma independiente que cubre el plan de un agente de código, en un estudio confirmatorio prerregistrado de 240 ejecuciones, en los dos modelos probados y según dos jueces (Tabla 5). Los riesgos enumerados no se juzgaron menos concretos, y no se observó costo adicional (Sección 5.4; Tabla 8). El hallazgo replica un resultado secundario de un estudio anterior en tareas nuevas y en un segundo modelo (Flores, 2026a).
 
-Los límites son los de la Sección 7: la vara de medir y los jueces eran modelos, la vara de medir se obtuvo con palabras próximas a las de la frase, y una segunda vara de medir, obtenida con otras palabras, da una ganancia menor, de 6,7 puntos (Sección 5.8), los dos agentes comparten proveedor, y el desenlace es lo que dice la tabla de un plan, no lo que hace el código. Los próximos pasos se derivan de ellos, en el orden previsto: (i) un ingeniero humano que puntúe una muestra de las listas de referencia y de las decisiones de los jueces, y riesgos de referencia tomados de defectos reales, que ningún *prompt* provocó; (ii) el mismo diseño en un modelo de otro proveedor; (iii) una ablación que separe listar los riesgos *antes de planificar* de listarlos sin más, y que añada la suposición de fracaso de Klein (Klein, 2007); y (iv) un desenlace en código, implementando los planes de las dos condiciones y ejecutando las pruebas de los proyectos, como hacen Patel et al. (2026) para un *prompt* más largo.
+Los límites son los de la Sección 7: la vara de medir y los jueces eran modelos, la vara se obtuvo con palabras próximas a las de la frase, y una segunda vara, obtenida con otras palabras, da una ganancia menor, de 6,7 puntos (Sección 5.8), los dos agentes comparten proveedor, y el desenlace es lo que dice la tabla de un plan, no lo que hace el código. Los próximos pasos salen de ellos, en el orden previsto: (i) un ingeniero humano que puntúe una muestra de las listas de referencia y las decisiones de los jueces, y riesgos de referencia tomados de defectos reales, que ningún *prompt* provocó; (ii) el mismo diseño en un modelo de otro proveedor; (iii) una ablación que separe listar los riesgos *antes de planificar* de listarlos sin más, y que añada la suposición de fracaso de Klein (Klein, 2007); y (iv) un desenlace en código: implementar los planes de las dos condiciones y ejecutar las pruebas de los proyectos, como Patel et al. (2026) con un *prompt* más largo.
 
 ---
 
@@ -454,11 +454,11 @@ Un único comando, `python run_all.py`, recalcula cada número de este artículo
 | Protocolo, desviaciones y los tres anexos | `PROTOCOL.md`, `yardstick2/`, `addendum2/`, `addendum3/` | Qué se fijó antes de los datos y qué cambió después |
 | Tareas y *prompts* | `tasks.json`, `run.py`, `prompts/` | El texto exacto de cada ejecución y revisor |
 | Listas de referencia y su fusión | `lists/` | Los 369 elementos y los 100 riesgos |
-| Las 240 respuestas y sus registros | `runs/` | Cada respuesta y su registro |
+| Las 240 respuestas y registros | `runs/` | Cada respuesta y su registro |
 | Los 720 veredictos | `judge/` | Cada decisión, con su *prompt* |
 | Análisis y verificaciones | `analyze.py`, `sensitivity.py`, `describe.py`; `tests/test_paper3_numbers.py` | Cómo se calcula cada número; el texto concuerda con los datos |
-| Registro y sellos de tiempo | `ledger.jsonl`, `*.ots` | Cada archivo coincide con su registro, y el orden de los eventos sellados, dentro de los límites de la Sección 4.7 |
-| Revisiones externas del manuscrito | `docs/paper/review/` | Los informes detrás de la Sección 7 |
+| Registro y sellos de tiempo | `ledger.jsonl`, `*.ots` | Cada archivo coincide con su registro, y el orden de los eventos sellados (límites: Sección 4.7) |
+| Revisión externa del manuscrito | `docs/paper/review/` | Los informes detrás de la Sección 7 |
 | El estudio de origen | `benchmark/study-2026-11/` | El mismo material para las 90 ejecuciones de la Sección 3 |
 
 *Nota.* Las rutas sin carpeta delante están dentro de `benchmark/study-2026-11b/` (Flores, 2026b). A los registros de ejecución se les quitaron las rutas de máquina.
@@ -468,7 +468,7 @@ Un único comando, `python run_all.py`, recalcula cada número de este artículo
 
 **Conflicto de intereses.** El autor mantiene ASP, el *plugin* cuyo protocolo el estudio de origen comparó con la frase probada, y dirige el laboratorio que lo publica. El resultado reportado aquí es desfavorable a ese protocolo (Flores, 2026a).
 
-**Financiación.** Este trabajo no recibió financiación externa. Los costos de uso de los modelos los pagó el autor.
+**Financiación.** Este trabajo no recibió financiación externa. El autor pagó el uso de los modelos.
 
 **Contribución del autor.** Autor único: concepción, diseño, recogida de datos, análisis, redacción y revisión.
 
