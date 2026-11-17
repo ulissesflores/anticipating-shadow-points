@@ -215,11 +215,13 @@ def divs(estilo: str, texto: str) -> str:
 
 
 def split_legenda(legenda: str) -> tuple[str, str]:
-    """Titulo = primeira frase (>= 20 caracteres); o resto vira Nota. Nenhuma palavra se perde.
+    """Titulo = primeira frase (>= 20 caracteres), que pode terminar em sigla; o resto vira Nota. Nenhuma palavra se perde.
     Legenda de ate 160 caracteres fica inteira como titulo."""
     if len(legenda) <= 160:
         return legenda.rstrip("."), ""
-    for m in re.finditer(r"(?<=[a-zà-ÿ0-9\)%])\.\s+(?=[A-ZÀ-Ý“\"(])", legenda):
+    # a sentence may also end in an acronym ("... papéis do ASP. As fases ..."): two capitals before the period
+    # count as an end, one does not (initials)
+    for m in re.finditer(r"(?:(?<=[a-zà-ÿ0-9\)%])|(?<=[A-Z]{2}))\.\s+(?=[A-ZÀ-Ý“\"(])", legenda):
         if m.start() >= 20:
             return legenda[:m.start()].strip(), legenda[m.end():].strip()
     return legenda.rstrip("."), ""

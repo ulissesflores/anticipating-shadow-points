@@ -9,13 +9,13 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 ## Abstract
 
-Shell pipelines and agent harnesses route control flow on the exit code of LLM command-line runners, a channel POSIX defines as zero for successful completion (The Open Group, 2024). Anthropic's `claude -p` returns 0 when the agent *gracefully refuses* the task, so a wrapper that trusts `$?` reads the refusal as success. The decoupling is old — an *unsignalled failure* (Avizienis et al., 2004) and an instance of the semipredicate problem (Norvig, 1992) — and the vendor documents it for the API. We argue that the defect is the width of the channel: an agent runner has at least four task outcomes and the exit code two values for them. On N=50 refusal-provoking prompts (Claude Code 2.1.200, July 2026, run inside the author's own configuration), 24 trials exit 0, all with `stop_reason: end_turn`, and 12 to 20 of them are graceful declines: 24% to 40% of the suite depending on how a decline is counted (40% under the author's label, 95% Wilson CI 28–54%), with an 18% floor from an English-only phrase detector. Among the 24 exit-0 trials no status field separates a decline from a delivery; for the question a wrapper asks — was the task delivered? — the exit code carries 0.09 of 0.40 bits (22.4%). We steel-man exit 0 as a process status, name the trade-off between in-band and out-of-band signalling, and propose an opt-in typed termination contract, with a content check tested in-sample as the stopgap. Every count, rate, interval and information share computed from these data is re-derived from committed files under a SHA-256 seal.
+Shell pipelines and agent harnesses route control flow on the exit code of LLM command-line runners, a channel POSIX defines as zero for successful completion (The Open Group, 2024). Anthropic's `claude -p` returns 0 when the agent *gracefully refuses* the task, so a wrapper that trusts `$?` reads the refusal as success. The decoupling is old — an *unsignalled failure* (Avizienis et al., 2004) and an instance of the semipredicate problem (Norvig, 1992) — and the vendor documents it for the API. We argue that the defect is the width of the channel: an agent runner has at least four task outcomes and the exit code two values for them. On N=50 refusal-provoking prompts (Claude Code 2.1.200, July 2026, run inside the author's own configuration), 24 trials exit 0, all with `stop_reason: end_turn`, and 12 to 20 of them are graceful declines: 24% to 40% of the suite depending on how a decline is counted (40% under the author's label, 95% Wilson CI 28–54%). Among the 24 exit-0 trials no status field separates a decline from a delivery; on whether the task was delivered, the exit code carries 0.09 of 0.40 bits (22.4%). We steel-man exit 0 as a process status and propose an opt-in typed termination contract, with a content check tested in-sample as the stopgap. Every number computed from these data is re-derived from committed files under a SHA-256 seal.
 
 **Keywords:** LLM CLI; exit codes; graceful refusal; unsignalled failure; mutual information; shell pipelines
 
 ## Resumo
 
-Pipelines de shell e harnesses de agentes decidem o fluxo pelo código de saída de executores de LLM por linha de comando, um canal que o POSIX define como zero para término bem-sucedido (The Open Group, 2024). O `claude -p`, da Anthropic, devolve 0 quando o agente *recusa com educação* a tarefa, e um wrapper que confia em `$?` lê a recusa como sucesso. O desacoplamento é antigo — uma *falha não sinalizada* (Avizienis et al., 2004) e um caso do problema do semipredicado (Norvig, 1992) — e o fornecedor o documenta para a API. Argumentamos que o defeito é a largura do canal: um executor de agente tem pelo menos quatro desfechos de tarefa e o código de saída, dois valores para eles. Em N=50 prompts feitos para provocar recusa (Claude Code 2.1.200, julho de 2026, rodados dentro da configuração do próprio autor), 24 tentativas saem com 0, todas com `stop_reason: end_turn`, e de 12 a 20 delas são recusas: de 24% a 40% do conjunto, conforme o critério de contagem (40% pelo rótulo do autor, IC de Wilson 95% 28–54%), com piso de 18% num detector de frases só em inglês. Entre as 24 tentativas com saída 0, nenhum campo de status separa recusa de entrega; para a pergunta que o wrapper faz — a tarefa foi entregue? —, o código de saída carrega 0,09 de 0,40 bits (22,4%). Defendemos com a melhor versão possível o exit 0 como status de processo, nomeamos o trade-off entre sinalização dentro e fora da banda e propomos um contrato de término tipado e opcional, com uma checagem de conteúdo testada dentro da amostra como paliativo. Todas as contagens, taxas, intervalos e parcelas de informação calculados destes dados são recalculados a partir de arquivos versionados sob um selo SHA-256.
+*Pipelines* de *shell* e *harnesses* de agentes decidem o fluxo pelo código de saída de executores de LLM por linha de comando, canal que o POSIX define como zero para término bem-sucedido (The Open Group, 2024). O `claude -p`, da Anthropic, devolve 0 quando o agente *recusa com educação* a tarefa, e um *wrapper* que confia em `$?` lê a recusa como sucesso. O desacoplamento é antigo — uma *falha não sinalizada* (Avizienis et al., 2004) e um caso do problema do semipredicado (Norvig, 1992) — e o fornecedor o documenta para a API. Argumentamos que o defeito é a largura do canal: um executor de agente tem ao menos quatro desfechos de tarefa e o código de saída, dois valores. Em N=50 *prompts* que provocam recusa (Claude Code 2.1.200, julho de 2026, na configuração do próprio autor), 24 tentativas saem com 0, todas com `stop_reason: end_turn`, e de 12 a 20 delas são recusas: de 24% a 40% do conjunto, conforme o critério de contagem (40% pelo rótulo do autor, IC de Wilson 95% 28–54%). Entre as 24 tentativas com saída 0, nenhum campo de status separa recusa de entrega; sobre a entrega da tarefa, o código de saída carrega 0,09 de 0,40 bits (22,4%). Defendemos na melhor versão o exit 0 como status de processo e propomos um contrato de término tipado e opcional, com uma checagem de conteúdo testada na amostra como paliativo. Todo número calculado destes dados é recalculado de arquivos versionados sob um selo SHA-256.
 
 **Palavras-chave:** CLI de LLM; códigos de saída; recusa educada; falha não sinalizada; informação mútua; pipelines de shell
 
@@ -208,6 +208,18 @@ A SHA-256 fingerprint is a 64-character code computed from a file; changing a si
 
 ---
 
+## 10. Declarations
+
+**Conflict of interest.** The author maintains ASP, an open-source plugin for Claude Code, the tool measured here, and directs the laboratory that publishes this note.
+
+**Funding.** This work received no external funding. The costs of using the models were paid by the author.
+
+**Author contribution.** Single author: conception, design, data collection, analysis, writing and revision.
+
+**Use of AI tools.** Language models take two roles in this study, both described in Section 3: the agent under test and the five blind raters. An AI assistant was also used in programming, in the analysis, and in drafting and translating the text, under the author's direction. The author checked every number against the data and is responsible for the content.
+
+---
+
 ## References
 
 Advani, L. (2026). From confident closing to silent failure: Characterizing false success in LLM agents. *FAGEN Workshop at ICML 2026*. arXiv:2606.09863. https://arxiv.org/abs/2606.09863
@@ -289,6 +301,8 @@ Zhu, J., Xie, S., Chen, A. L. F., Ding, X., Tang, C., Qi, R., & Fei, Y. (2026). 
 ## Technical Note
 
 **Version** 2.3 · November 2026
+
+**Series** Codex Hash Research Report 2026-02
 
 **License** Text, figures and data: CC BY 4.0. Companion software: MIT.
 

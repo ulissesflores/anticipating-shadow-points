@@ -44,6 +44,22 @@ on run argv
   set docPath to item 1 of argv
   set pdfPath to item 2 of argv
   set docName to do shell script "basename " & quoted form of docPath
+  -- a Word that is still starting answers "Connection is invalid (-609)" or "Not authorized (-1743)" to
+  -- "count of documents" (three failed builds in a row on 2026-11-16): start it and ask until it answers
+  if application "Microsoft Word" is not running then
+    tell application "Microsoft Word" to launch
+  end if
+  set pronto to false
+  repeat 30 times
+    try
+      tell application "Microsoft Word" to count of documents
+      set pronto to true
+      exit repeat
+    on error
+      delay 2
+    end try
+  end repeat
+  if not pronto then error "Microsoft Word did not answer within 60 s of starting"
   with timeout of 900 seconds
     tell application "Microsoft Word"
       if (exists document docName) then close document docName saving no

@@ -9,17 +9,17 @@ c.ulisses@gmail.com · https://ulissesflores.com
 
 ## Abstract
 
-LLM coding assistants often produce *locally correct* code that omits failure modes a senior engineer would surface in a pre-mortem — a row-level security policy, an external API's rate limit, replica lag during a migration — and production then breaks in ways that are expensive to debug. We call these missing items *shadow points*. This experience report describes Anticipating Shadow Points (ASP), a 13-phase planning protocol shipped as a Claude Code skill that integrates Klein's (2007) pre-mortem with the multi-agent failure taxonomy of Cemri et al. (2025), checks the plan with a validator that does not share the planner's context, following the self-correction-limit literature (Huang et al., 2024; Tyen et al., 2024), and hands execution to a child subprocess with a file-based contract. We document the design, its deployment as an open-source plugin, and preliminary observations from five engineering evaluations, read by the author without blinding and with transcripts not preserved. A pre-registered study then measured the protocol on six public repositories, each pinned to one commit: 90 trials on Claude Opus 5.5, reference risks listed blind by three models of other vendors, and two blind judges. ASP covered 48% of the reference risks against 66% for plain Claude Code asked to list the ways the change could go wrong before planning. It was behind on all six tasks: no measurable benefit under the rule fixed in advance. That single request raised coverage over a plain planning request from 56% to 66% (p = 0.0014), a pre-registered secondary comparison that a confirmatory study will test as its primary question.
+LLM coding assistants often produce *locally correct* code that omits failure modes a senior engineer would surface in a pre-mortem, and production then breaks in ways that are expensive to debug. We call these missing items *shadow points*. This experience report describes Anticipating Shadow Points (ASP), a 13-phase planning protocol shipped as a Claude Code skill that integrates Klein's (2007) pre-mortem with the multi-agent failure taxonomy of Cemri et al. (2025), checks the plan with a validator that does not share the planner's context, following the self-correction-limit literature (Huang et al., 2024; Tyen et al., 2024), and hands execution to a child subprocess with a file-based contract. We document the design, its deployment as an open-source plugin, and preliminary observations from five engineering evaluations, read by the author without blinding and with transcripts not preserved. A pre-registered study then measured the protocol on six public repositories: 90 trials on Claude Opus 5.5, reference risks listed blind by three models of other vendors, and two blind judges. ASP covered 48% of the reference risks against 66% for plain Claude Code asked to list the ways the change could go wrong before planning. It was behind on all six tasks: no measurable benefit under the rule fixed in advance. That single request raised coverage over a plain planning request from 56% to 66% (p = .001), a pre-registered secondary comparison that a confirmatory study will test as its primary question.
 
 **Keywords:** LLM coding agents; pre-mortem; multi-agent failure modes;
 Claude Code; operational protocols; pre-registration; experience report
 
 ## Resumo
 
-Assistentes de código baseados em LLM muitas vezes produzem código *localmente correto* que omite modos de falha que um engenheiro sênior levantaria num pre-mortem — uma política de segurança por linha, o limite de taxa de uma API externa, o atraso de réplica durante uma migração —, e a produção então quebra de formas caras de depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de experiência descreve o Anticipating Shadow Points (ASP), um protocolo de planejamento em 13 fases distribuído como skill do Claude Code, que integra o pre-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al. (2025), confere o plano com um validador que não compartilha o contexto do planejador, seguindo a literatura sobre os limites da autocorreção (Huang et al., 2024; Tyen et al., 2024), e entrega a execução a um subprocesso filho com contrato em arquivo. Documentamos o desenho, a implantação como plugin de código aberto e observações preliminares de cinco avaliações de engenharia, lidas pelo autor sem cegamento e sem transcrições preservadas. Um adjudicador determinístico acompanha a skill; suas notas sobre fixtures escritos pelo autor exercitam o instrumento e nada mais, por isso não relatamos efeito medido do ASP. Fixamos de antemão o resultado que mostraria um: num benchmark em modo real, com listas esperadas cegas e escritas por revisores independentes e oito réplicas por tarefa e condição, benefício medido se a cobertura média da condição assistida superar a da não assistida nas cinco tarefas e um teste de permutação unilateral, estratificado por tarefa, der p < 0,05; nenhum benefício mensurável se não a superar, empate incluído, em três ou mais; inconclusivo nos demais casos; e nenhum veredito se o orçamento interromper a coleta antes. O protocolo está redigido e ainda não foi depositado.
+Assistentes de código baseados em LLM costumam produzir código *localmente correto* que omite modos de falha que um engenheiro sênior levantaria num *pre-mortem*, e a produção quebra de formas caras de depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de experiência descreve o Anticipating Shadow Points (ASP), um protocolo de planejamento em 13 fases distribuído como *skill* do Claude Code, que integra o *pre-mortem* de Klein (2007) à taxonomia de falhas multiagente de Cemri et al. (2025), confere o plano com um validador que não compartilha o contexto do planejador, conforme a literatura sobre limites da autocorreção (Huang et al., 2024; Tyen et al., 2024), e entrega a execução a um subprocesso filho com contrato em arquivo. Documentamos o desenho, a implantação como *plugin* de código aberto e observações preliminares de cinco avaliações de engenharia, lidas pelo autor sem cegamento nem transcrições preservadas. Um estudo pré-registrado mediu depois o protocolo em seis repositórios públicos: 90 rodadas com o Claude Opus 5.5, riscos de referência listados às cegas por três modelos de outros fornecedores e dois juízes cegos. O ASP cobriu 48% dos riscos de referência, contra 66% do Claude Code simples com o pedido de listar, antes de planejar, o que pode dar errado. Ficou atrás nas seis tarefas: nenhum benefício mensurável pela regra fixada de antemão. Esse pedido único elevou a cobertura sobre um pedido simples de planejamento de 56% para 66% (p = ,001), uma comparação secundária pré-registrada que um estudo confirmatório testará como pergunta principal.
 
 **Palavras-chave:** agentes de código LLM; pre-mortem; modos de falha
-multiagente; Claude Code; protocolos operacionais; relato de experiência
+multiagente; Claude Code; protocolos operacionais; pré-registro; relato de experiência
 
 ---
 
@@ -58,7 +58,7 @@ raising the ability to identify reasons for a future outcome by about 30%, a
 figure we could not re-derive from the 1989 paper (Appendix A). The second, in agent
 research, is the recent characterization of multi-agent failure modes by
 Cemri et al. (2025), who derived a 14-mode taxonomy from 150 seed traces
-of multi-agent LLM systems (inter-annotator agreement κ=0.88) and released
+of multi-agent LLM systems (inter-annotator agreement κ=.88) and released
 a corpus of 1,600+ annotated traces. Neither stream has been integrated as a **runtime discipline**
 that a coding agent can be made to follow on every non-trivial task.
 
@@ -149,7 +149,7 @@ failure modes compound. Cemri et al. (2025) introduce the **Multi-Agent
 System Failure Taxonomy (MAST)** with **MAST-Data**, a corpus of 1,600+
 annotated traces from seven popular multi-agent frameworks such as AG2
 (formerly AutoGen; Wu et al., 2023). From rigorous analysis of 150
-seed traces (inter-annotator agreement κ=0.88), they derived fourteen
+seed traces (inter-annotator agreement κ=.88), they derived fourteen
 failure modes organised into three categories: specification and system
 design (5 modes), inter-agent misalignment (6 modes), and task
 verification and termination (3 modes). The 14-mode list is the strongest
@@ -657,7 +657,7 @@ The study was pre-registered in the repository (`benchmark/study-2026-11/PROTOCO
 ![Figure 3. Share of the blind reference risks covered by each condition's final table, per task and overall (primary judge).](../output/figures/fig3_study_2026_11_coverage.png)
 
 - **Primary.** ASP minus risk was −0.18 (primary judge) and −0.16 (second judge). It was negative on all six tasks, with a task-stratified permutation p = 1.0. The decision rule fixed in advance returns *no measurable benefit*.
-- **Secondary, pre-registered.** risk minus plain was +0.10 (p = 0.0014) and +0.13 (p = 0.0001): asking for the ways the change could go wrong, in one sentence, raised coverage.
+- **Secondary, pre-registered.** risk minus plain was +0.10 (p = .001) and +0.13 (p < .001): asking for the ways the change could go wrong, in one sentence, raised coverage.
 - **Exploratory.** ASP's answers handle some risks in their assumptions and deliverables rather than in the final table. When the primary judge read the whole answer, the gap narrowed to −0.08 (66% against 74%), and ASP was still behind on five of the six tasks.
 - **Limits.** One model, six tasks, reference lists and judges that are all models, and coverage as the only outcome: whether listed risks are real, or lead to better code, was not measured.
 - **Record.** Every trial, verdict and analysis is in the repository, chained by hash, and `run_all.py` re-derives every number above.
@@ -803,6 +803,18 @@ the CLI boundary.
 The strongest follow-up is a confirmatory study of the one-sentence pre-mortem. The most useful
 companion work is a human second rater and a pre-registered third snapshot
 of the `claude -p` measurement (Flores, 2026b).
+
+---
+
+## 10. Declarations
+
+**Conflict of interest.** The author created and maintains ASP, the plugin this report describes, and directs the laboratory that publishes it. The pre-registered study of Section 5.5 found no measurable benefit of the protocol.
+
+**Funding.** This work received no external funding. The costs of using the models were paid by the author.
+
+**Author contribution.** Single author: conception, design, data collection, analysis, writing and revision.
+
+**Use of AI tools.** Language models are the subject of this report and take three roles in the study of Section 5.5: the agents under test, the writers of the reference lists, and the judges. An AI assistant was also used in programming, in the analysis, and in drafting and translating the text, under the author's direction, as the Acknowledgments detail. The author checked every number against the data and is responsible for the content.
 
 ---
 
@@ -987,6 +999,8 @@ can be re-implemented in another language.
 ## Technical Note
 
 **Version** 2.3 · November 2026 · first published 18 May 2026
+
+**Series** Codex Hash Research Report 2026-01
 
 **License** Paper text, figures and data: CC BY 4.0. Companion software: MIT.
 

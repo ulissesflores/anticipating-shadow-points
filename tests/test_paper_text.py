@@ -6,6 +6,7 @@ in the prose, so a paper cannot drift from ``output/results.json`` unnoticed.
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 import pytest
@@ -184,5 +185,8 @@ def test_preprint_quotes_the_2026_11_study():
     assert f"−{abs(gem['primary']['delta_bar']):.2f} (primary judge)" in paper
     assert f"−{abs(grok['primary']['delta_bar']):.2f} (second judge)" in paper
     sec = gem["secondary"]["RED-risk - RED-plain"]
-    assert f"+{sec['delta_bar']:.2f} (p = {sec['p']})" in paper
+    sys.path.insert(0, str(PAPER / "tools"))
+    from apa_stats import p_text  # APA 7, canon v1.6: "= .001", never "= 0.0014"
+
+    assert f"+{sec['delta_bar']:.2f} (p {p_text(sec['p'])})" in paper
     assert "91.9% of 855 item decisions" in paper
