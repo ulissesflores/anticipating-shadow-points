@@ -642,7 +642,7 @@ Table 5 and Figure 3 report coverage by condition.
 
 We highlight five design choices we believed to be load-bearing. The first four
 are hypotheses about ASP's design, each stated with the observation that
-motivated it. The 2026-11 study (Section 5.5) measured the protocol as a whole
+motivated it. The 2026-11 study (Section 5.5) measured the planning phases of the protocol as a whole
 and found no benefit, which weighs against them taken together without testing
 any one alone. The fifth rests on the companion paper's measurement.
 
@@ -728,8 +728,8 @@ lists and the judges are models, in place of independent engineers, which the pr
 outcome, so whether the listed risks are real, or lead to better code, was not
 measured; and the final-table contract may miss risks that ASP handles in its
 assumptions and deliverables (read whole, the gap narrowed
-but did not close). Internal: the study measured the protocol as a whole, not
-any one component (Section 6). 
+but did not close). Internal: the study measured the planning phases of the protocol as a whole, not
+any one component (Section 6). The primary judge also wrote one of the three reviewer lists, and 50 of the 57 reference risks carry its wording; the second judge wrote another list, so neither judge is independent of the yardstick it applies. 
 
 ---
 
@@ -770,7 +770,7 @@ integrating Mitchell, Russo and Pennington's (1989) prospective hindsight
 finding, Klein's (2007) pre-mortem operationalisation, and Cemri et al.'s
 (2025) MAST 14-mode failure taxonomy as runtime discipline under a
 contract of twelve Iron Laws. The skill ships open source with three
-install paths. The author's early, non-blind observation that assisted plans covered more failure modes did not survive measurement. In a pre-registered study on six real repositories, the full protocol covered fewer of the reviewers' risks than plain Claude Code asked, in one sentence, to list the ways the change could go wrong, and that sentence alone beat a plain planning request.
+install paths. The author's early, non-blind observation that assisted plans covered more failure modes did not survive measurement. In a pre-registered study on six real repositories, the planning phases of the protocol covered fewer of the reviewers' risks than plain Claude Code asked, in one sentence, to list the ways the change could go wrong, and that sentence alone beat a plain planning request.
 
 We additionally observed that `claude -p` returns exit code 0 even when
 the agent gracefully refuses the requested goal. The vendor documents the
