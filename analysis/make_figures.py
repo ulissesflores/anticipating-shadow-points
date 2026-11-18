@@ -79,7 +79,7 @@ plt.rcParams.update(
 )
 
 
-def _save(fig, name: str, clear: bool = False) -> None:
+def _save(fig, name: str, clear: bool = False, close: bool = True) -> None:
     """Write one figure as PNG and SVG with stable metadata.
 
     Parameters
@@ -90,13 +90,16 @@ def _save(fig, name: str, clear: bool = False) -> None:
         File stem.
     clear : bool
         Save with a transparent background (figures placed on the white page of a paper).
+    close : bool
+        Close the figure afterwards; pass False to save the same drawing again under another name.
     """
     FIGDIR.mkdir(parents=True, exist_ok=True)
     fig.savefig(FIGDIR / f"{name}.png", dpi=400 if clear else 200, bbox_inches="tight",
                 metadata={"Software": None}, transparent=clear)  # fmt: skip
     fig.savefig(FIGDIR / f"{name}.svg", bbox_inches="tight", metadata={"Date": None},
                 transparent=clear)  # fmt: skip
-    plt.close(fig)
+    if close:
+        plt.close(fig)
 
 
 def _clean(ax) -> None:
@@ -166,8 +169,8 @@ LABELS = {
         "all": "Las 6 tareas",
         "x3": "% de los riesgos de referencia ciegos cubiertos por la tabla"
         " final (juez: Gemini; 5 ejecuciones por tarea, 30 en total)",
-        "may": "May 2026 · detector de frases bloqueado\nCC 2.1.143 · Opus 4.7",
-        "jul_detector": "Jul 2026 · detector de frases bloqueado",
+        "may": "May 2026 · detector de frases precintado\nCC 2.1.143 · Opus 4.7",
+        "jul_detector": "Jul 2026 · detector de frases precintado",
         "jul_core": "Jul 2026 · solo rechazos inequívocos",
         "jul_codebook": "Jul 2026 · mayoría del codebook",
         "jul_author": "Jul 2026 · etiqueta del autor\n"
@@ -255,7 +258,9 @@ def fig1(results: dict, lang: str = "en") -> None:
     ax.set_xlim(0, 100)
     ax.set_xlabel(t["x1"])
     _clean(ax)
-    _save(fig, "fig1_silent_refusal_readings" + ("" if lang == "en" else f".{lang}"))
+    suffix = "" if lang == "en" else f".{lang}"
+    _save(fig, "fig1_silent_refusal_readings" + suffix, close=False)
+    _save(fig, "fig1_silent_refusal_readings_clear" + suffix, clear=True)  # the same drawing without a background, for the paper
 
 
 def fig2(results: dict, lang: str = "en") -> None:
@@ -294,7 +299,9 @@ def fig2(results: dict, lang: str = "en") -> None:
     ax.set_ylabel(t["y2"])
     for side in ax.spines.values():
         side.set_visible(False)
-    _save(fig, "fig2_adjudicator_fixture_check" + ("" if lang == "en" else f".{lang}"))
+    suffix = "" if lang == "en" else f".{lang}"
+    _save(fig, "fig2_adjudicator_fixture_check" + suffix, close=False)
+    _save(fig, "fig2_adjudicator_fixture_check_clear" + suffix, clear=True)  # the same drawing without a background, for the paper
 
 
 def fig3(study: dict, lang: str = "en") -> None:

@@ -20,7 +20,9 @@ BOLD = "\x00"
 def italicise(text: str, lang_cfg: dict) -> tuple[str, int]:
     """Return the text with every bare listed term wrapped in asterisks, and how many were wrapped."""
     terms = sorted(lang_cfg["foreign_terms_italic"], key=len, reverse=True)
-    term = re.compile(r"(?<![\w*-])(" + "|".join(map(re.escape, terms)) + r")(?![\w*-])", re.I)
+    # singular and plural, as the rule demands since 2026-11-17; "es" only after s, x, z, ch, sh
+    # (patches, harnesses), so that "clientes" is not read as the plural of "client"
+    term = re.compile(r"(?<![\w*-])((?:" + "|".join(map(re.escape, terms)) + r")(?:(?<=[sxzh])es|s)?)(?![\w*-])", re.I)
     keep = re.compile(
         r"(```.*?```|`[^`\n]*`|\]\([^)]*\)|https?://\S+|\"[^\"\n]*\"|“[^”\n]*”|\*[^*\n]+\*)", re.S
     )

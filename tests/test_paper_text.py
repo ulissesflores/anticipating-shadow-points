@@ -14,6 +14,11 @@ import pytest
 PAPER = Path(__file__).resolve().parent.parent / "paper"
 
 
+def unit(value: float) -> str:
+    """Format a value that cannot exceed 1 the APA 7 way: two decimals, no leading zero (.11)."""
+    return f"{value:.2f}".removeprefix("0")
+
+
 def text(name: str) -> str:
     """Return a paper's Markdown source.
 
@@ -113,7 +118,7 @@ def test_preprint_quotes_overlap_and_rater_agreement(results):
     """The 0.11 window overlap and the four identical raters appear as derived."""
     paper = text("asp-preprint.md")
     fx = results["adjudicator_fixture_check_2026_05"]
-    assert f"Jaccard of {fx['e2_red_rate_limit_best_jaccard']:.2f}" in paper
+    assert f"Jaccard of {unit(fx['e2_red_rate_limit_best_jaccard'])}" in paper
     identical = results["iron_law_11"]["july_2026"]["raters_identical_to_r1"]
     assert {4: "four"}[identical] + " of which returned identical labels" in paper
 
@@ -128,7 +133,7 @@ def test_iron_law_11_quotes_secondary_counts(results):
     assert f"Opus 4.8 on {o['trials']} exit-0 trials, {o['author_declines']} of which" in note
     cm = results["iron_law_11"]["may_2026"]["lock_file_confusion"]
     assert f"{cm['false_alarm']} false alarms are {cm['false_alarm_turn_cap']} turn-cap" in note
-    assert f"precision {cm['precision']:.2f}, recall {cm['recall']:.2f}" in note
+    assert f"precision {unit(cm['precision'])}, recall {unit(cm['recall'])}" in note
 
 
 def test_iron_law_11_quotes_shares_and_conditional_rates(results):
@@ -138,7 +143,7 @@ def test_iron_law_11_quotes_shares_and_conditional_rates(results):
     d = jul["outcome_information"]["author"]["delivered"]
     assert f"{d['exit_code']['bits']:.2f} of {d['entropy_bits']:.2f} bits" in note
     lo, hi = results["iron_law_11"]["may_2026"]["detector_silent_refusals"]["wilson95"]
-    assert f"{round(lo * 100)}–{round(hi * 100)}%" in note
+    assert f"95% CI [{round(lo * 100)}, {round(hi * 100)}]" in note  # APA 7 form since paper version 2.4
     for key in ("author", "codebook", "core"):
         k, n = map(int, jul["declines_given_exit0"][key].split("/"))
         assert f"({round(100 * k / n)}%)" in note
@@ -162,7 +167,7 @@ def test_preprint_quotes_layer3_numbers(results):
     moved = fx["tail_fix_moved_best_jaccard"]
     assert {3: "three"}[len(moved)] + " unmatched points" in paper
     before, after = moved["RED/E2/Observability / logs"]
-    assert f"from {before:.2f} to {after:.2f}" in paper
+    assert f"from {unit(before)} to {unit(after)}" in paper
     w = fx["layer3_window_distinct_words"]
     assert f"{w['min']} to {w['max']} distinct content words (median {w['median']})" in paper
     n, short = fx["expected_points"], fx["expected_points_at_most_10_tokens"]
@@ -182,11 +187,11 @@ def test_preprint_quotes_the_2026_11_study():
         assert f"{gem['overall'][cond]:.0%}" == pct and pct in paper
     for cond, pct in (("RED-plain", "57%"), ("RED-risk", "70%"), ("GREEN", "54%")):
         assert f"{grok['overall'][cond]:.0%}" == pct and pct in paper
-    assert f"−{abs(gem['primary']['delta_bar']):.2f} (primary judge)" in paper
-    assert f"−{abs(grok['primary']['delta_bar']):.2f} (second judge)" in paper
+    assert f"−{unit(abs(gem['primary']['delta_bar']))} (primary judge)" in paper
+    assert f"−{unit(abs(grok['primary']['delta_bar']))} (second judge)" in paper
     sec = gem["secondary"]["RED-risk - RED-plain"]
     sys.path.insert(0, str(PAPER / "tools"))
     from apa_stats import p_text  # APA 7, canon v1.6: "= .001", never "= 0.0014"
 
-    assert f"+{sec['delta_bar']:.2f} (p {p_text(sec['p'])})" in paper
+    assert f"+{unit(sec['delta_bar'])} (p {p_text(sec['p'])})" in paper
     assert "91.9% of 855 item decisions" in paper

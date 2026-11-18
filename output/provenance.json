@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "b09ffd3b440ed54ec9c76cb84f4d27723edfcb7a9ab9ff25d480733a60486319",
+  "chain_hash": "80207a8d1b1fc10c30af1bf70fa08fbd7708d6f9dd84ba16717063d79aa2db0f",
   "informational_not_hashed": {
     "files": [
       {
@@ -37,11 +37,11 @@
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings.es.png",
-        "sha256": "c68413dbe41fc502003fb49eadd6135a145f274c77f269944c72c0a2fada618d"
+        "sha256": "0f129fdb7fa79273b6aa0aeb808218d8f2ae9a468f9dc89ab01af002c03dadf6"
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings.es.svg",
-        "sha256": "cadc18d8a62c3178ebd4cae2874468e6bde4d16254f5b3f08d06206c168afd31"
+        "sha256": "35e35d61fb6b6d070937bbddc9466116f062e503939197d17ce57f543f834320"
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings.it.png",
@@ -66,6 +66,38 @@
       {
         "path": "output/figures/fig1_silent_refusal_readings.svg",
         "sha256": "359d4837371c47332e060efdea6536bed69a2a65d7c867b6b41f76772aecb6bb"
+      },
+      {
+        "path": "output/figures/fig1_silent_refusal_readings_clear.es.png",
+        "sha256": "86eeed89597ab7750bfb388b70bf8d469b8f05864ed789e9d6355fc5a1f0a922"
+      },
+      {
+        "path": "output/figures/fig1_silent_refusal_readings_clear.es.svg",
+        "sha256": "1c343e39e5329114b27e68fe2ec93d2e34fb5bd3dc700059c08770061808fac5"
+      },
+      {
+        "path": "output/figures/fig1_silent_refusal_readings_clear.it.png",
+        "sha256": "f373b2c5bf140c42369454197c5adc15f4c84004dc849deff5adc6efc05fdd98"
+      },
+      {
+        "path": "output/figures/fig1_silent_refusal_readings_clear.it.svg",
+        "sha256": "9462e705dd3632364c393d738e03e363928818a5046c3912c1f4885e2f057da6"
+      },
+      {
+        "path": "output/figures/fig1_silent_refusal_readings_clear.png",
+        "sha256": "6ead31a42d3b54249719252548f968b00d16f212c9553ddb5d8ee512a62b7e27"
+      },
+      {
+        "path": "output/figures/fig1_silent_refusal_readings_clear.pt-BR.png",
+        "sha256": "cb647a1db96b2c122ec4d509798ed76ff4d0d2bb1b9153292dff82adc91898d1"
+      },
+      {
+        "path": "output/figures/fig1_silent_refusal_readings_clear.pt-BR.svg",
+        "sha256": "de87fa6bd33f6cd2532538bc2aec0bd4639afedaa152fa07a013622f400b8da1"
+      },
+      {
+        "path": "output/figures/fig1_silent_refusal_readings_clear.svg",
+        "sha256": "87e1aed532399a55e8874ad9faf1ac9cc762c79bdabf272b2906117dacb2bbb2"
       },
       {
         "path": "output/figures/fig2_adjudicator_fixture_check.es.png",
@@ -98,6 +130,38 @@
       {
         "path": "output/figures/fig2_adjudicator_fixture_check.svg",
         "sha256": "5b705f76ee937036d61971ebc3f05d633233d41df54b49a3e447d4b881b7b22d"
+      },
+      {
+        "path": "output/figures/fig2_adjudicator_fixture_check_clear.es.png",
+        "sha256": "861fd0a32623da7b4b9d2d93316998e59c7e8bc3c6354f5914689de7679d14d9"
+      },
+      {
+        "path": "output/figures/fig2_adjudicator_fixture_check_clear.es.svg",
+        "sha256": "b4fe9a79d677c687b31aa6eaaad210656553162534bb68f2018e6965c308dc95"
+      },
+      {
+        "path": "output/figures/fig2_adjudicator_fixture_check_clear.it.png",
+        "sha256": "4bb872ae0956fd5887ef4e0e37328d3f380979bc1d729ef88fab8c1587ff1cfe"
+      },
+      {
+        "path": "output/figures/fig2_adjudicator_fixture_check_clear.it.svg",
+        "sha256": "e6b92bca25d70e815e0943dc178fe2acf9fe6d6f6ad8493ba3df8dedd2d4fb19"
+      },
+      {
+        "path": "output/figures/fig2_adjudicator_fixture_check_clear.png",
+        "sha256": "5a1e1c7f081baf6fee6d69e2574a8f85518c363635155ed5550073421e43f18f"
+      },
+      {
+        "path": "output/figures/fig2_adjudicator_fixture_check_clear.pt-BR.png",
+        "sha256": "dc7a800a6b6fd9d59fd13fb7d975b10ff731ad63bc61bbf532b6fb0b52fe13df"
+      },
+      {
+        "path": "output/figures/fig2_adjudicator_fixture_check_clear.pt-BR.svg",
+        "sha256": "4f633ef2b37eca996e93d4e4955666eceb12840e6b81bd480a69be310e775ccb"
+      },
+      {
+        "path": "output/figures/fig2_adjudicator_fixture_check_clear.svg",
+        "sha256": "48dff1feed8d7b4372d3963ad869d641b610c5b6003dafb760721d4c8c074a6d"
       },
       {
         "path": "output/figures/fig3_study_2026_11_coverage.es.png",
@@ -276,7 +340,7 @@
         },
         {
           "path": "analysis/make_figures.py",
-          "sha256": "14ac970cf9d249004778885ccd86e5cc15267087160fbb46924c7361f8a2d244"
+          "sha256": "70a17530be00f7831d408056cfa77aec08f71894f1249a913c07af1aff9553f3"
         },
         {
           "path": "analysis/results.py",
@@ -391,7 +455,7 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "2bd95897278321a09936f228093256cf1d8fbc14ae381b00ded27dae68add94e"
+      "leaf_sha256": "4b6d2e7303c4ef9819fbf6a4051fdec0a3d53c446be87e1d11fdce689d2f499f"
     },
     "data": {
       "files": [
@@ -9076,7 +9140,7 @@
         },
         {
           "path": "tests/test_paper_text.py",
-          "sha256": "232c9dc95c43ad051e380efd09ca3ed519893f1e970b374fa10daea78dcc33ea"
+          "sha256": "8e3aa03996b5dc0fb85a4bfb80d95e9a22c7827dfd3ee065c9ac73762ae29e0c"
         },
         {
           "path": "tests/test_plugin_payload.py",
@@ -9099,7 +9163,7 @@
           "sha256": "1cd40c4d32b3f55823a9f69947ddaa03aae3977f5a357262a0b575a55aad1426"
         }
       ],
-      "leaf_sha256": "06e196918d44fb615cc6f4492e7b867ec14f5d969536bd50ad1abc58a22e80e1"
+      "leaf_sha256": "4073c72e7018c059118de82836a64cb09a1eeffe5f7ef5d2a6bafd1c983b03a9"
     }
   },
   "schema": 1

@@ -16,9 +16,9 @@ Claude Code; operational protocols; pre-registration; experience report
 
 ## Resumo
 
-Assistentes de código baseados em LLM costumam produzir código *localmente correto* que omite modos de falha que um engenheiro sênior levantaria num *pre-mortem*, e a produção quebra de formas caras de depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de experiência descreve o Anticipating Shadow Points (ASP), um protocolo de planejamento em 13 fases distribuído como *skill* do Claude Code, que integra o *pre-mortem* de Klein (2007) à taxonomia de falhas multiagente de Cemri et al. (2025), confere o plano com um validador que não compartilha o contexto do planejador, conforme a literatura sobre limites da autocorreção (Huang et al., 2024; Tyen et al., 2024), e entrega a execução a um subprocesso filho com contrato em arquivo. Documentamos o desenho, a implantação como *plugin* de código aberto e observações preliminares de cinco avaliações de engenharia, lidas pelo autor sem cegamento nem transcrições preservadas. Um estudo pré-registrado mediu depois o protocolo em seis repositórios públicos: 90 rodadas com o Claude Opus 5.5, riscos de referência listados às cegas por três modelos de outros fornecedores e dois juízes cegos. O ASP cobriu 48% dos riscos de referência, contra 66% do Claude Code simples com o pedido de listar, antes de planejar, o que pode dar errado. Ficou atrás nas seis tarefas: nenhum benefício mensurável pela regra fixada de antemão. Esse pedido único elevou a cobertura sobre um pedido simples de planejamento de 56% para 66% (p = ,001), uma comparação secundária pré-registrada que um estudo confirmatório testará como pergunta principal.
+Assistentes de código baseados em LLM costumam produzir código *localmente correto* que omite modos de falha que um engenheiro sênior levantaria num pré-mortem, e a produção quebra de formas caras de depurar. Chamamos esses itens ausentes de *shadow points*. Este relato de experiência descreve o Anticipating Shadow Points (ASP), um protocolo de planejamento em 13 fases distribuído como *skill* do Claude Code, que integra o pré-mortem de Klein (2007) à taxonomia de falhas multiagente de Cemri et al. (2025), confere o plano com um validador que não compartilha o contexto do planejador, conforme a literatura sobre limites da autocorreção (Huang et al., 2024; Tyen et al., 2024), e entrega a execução a um subprocesso filho com contrato em arquivo. Documentamos o desenho, a implantação como *plugin* de código aberto e observações preliminares de cinco avaliações de engenharia, lidas pelo autor sem cegamento nem transcrições preservadas. Um estudo pré-registrado mediu depois o protocolo em seis repositórios públicos: 90 rodadas com o Claude Opus 5.5, riscos de referência listados às cegas por três modelos de outros fornecedores e dois juízes cegos. O ASP cobriu 48% dos riscos de referência, contra 66% do Claude Code simples com o pedido de listar, antes de planejar, o que pode dar errado. Ficou atrás nas seis tarefas: nenhum benefício mensurável pela regra fixada de antemão. Esse pedido único elevou a cobertura sobre um pedido simples de planejamento de 56% para 66% (p = ,001), uma comparação secundária pré-registrada que um estudo confirmatório testará como pergunta principal.
 
-**Palavras-chave:** agentes de código LLM; pre-mortem; modos de falha
+**Palavras-chave:** agentes de código LLM; pré-mortem; modos de falha
 multiagente; Claude Code; protocolos operacionais; pré-registro; relato de experiência
 
 ---
@@ -39,12 +39,12 @@ belong together at runtime: before writing code, an agent should be made to
 run a pre-mortem against a fixed failure taxonomy, and its plan should be
 checked by a validator that cannot see the planner's reasoning.
 
-The dominant production failure mode of modern LLM coding agents, in our
-experience, is not *bad* code. It is *incomplete* code: the agent does
+The failure mode of LLM coding agents that motivated ASP is not *bad* code. It is *incomplete* code: the agent does
 what was asked, but not what someone with deep domain context would have
 asked themselves *before starting*. The replica lag during a schema
-migration. The CORS header on the edge function. The row-level security
-policy that needs updating to match the new column. We call these missing
+migration. The CORS header on the edge function, which tells browsers which
+other sites may call it. The row-level security (RLS) policy, which limits
+the rows each user can read and needs updating to match the new column. We call these missing
 items **shadow points** — failure modes obvious to a practitioner who has
 been burnt by them, invisible to an agent that has not.
 
@@ -57,7 +57,8 @@ Pennington (1989) on prospective hindsight; Klein (2007) summarises it as
 raising the ability to identify reasons for a future outcome by about 30%, a
 figure we could not re-derive from the 1989 paper (Appendix A). The second, in agent
 research, is the recent characterization of multi-agent failure modes by
-Cemri et al. (2025), who derived a 14-mode taxonomy from 150 seed traces
+Cemri et al. (2025), who derived a 14-mode taxonomy, the Multi-Agent System
+Failure Taxonomy (MAST), from 150 seed traces
 of multi-agent LLM systems (inter-annotator agreement κ = .88) and released
 a corpus of 1,600+ annotated traces. Neither stream has been integrated as a **runtime discipline**
 that a coding agent can be made to follow on every non-trivial task.
@@ -69,9 +70,9 @@ validation under strict prompt isolation, and hands execution to a
 child subprocess with a file-based contract. We deployed the skill,
 distributed it through three install paths (plugin marketplace, dev mode,
 standalone script), ran it through five engineering evaluations, and
-report the design and what the evaluations can and cannot show. The evaluation is preliminary and, as corrected in
-this version, unmeasured: GREEN on five tasks and RED on three, one dispatch
-each, a single
+report the design and what the evaluations can and cannot show. The evaluation is preliminary and
+unmeasured: GREEN (the agent given the ASP discipline) on five tasks and RED
+(asked to plan without it) on three, one dispatch each, a single
 model, read by the author without blinding, with the raw transcripts not
 preserved. We report it as qualitative observation; the four design choices
 we treat as hypotheses, and a fifth measured in the companion paper, are in
@@ -84,11 +85,11 @@ This experience report contributes:
 1. **The ASP protocol as documented design** — thirteen phases, each
    emitting a named artifact, organised around the principle that no
    implementation begins before shadow points have been surfaced.
-2. **Twelve operational constraints we call "Iron Laws"**, each tied to a
+2. **Twelve operational constraints we call "Iron Laws"** (Section 3.3), each tied to a
    primary literature source or to a documented design decision. Two have a
    shell-level check in the runner template the agent is told to run (Iron
-   Law 12's JSON output, a template default the operator can override, and Iron Law 9's `ASP_IN_GOAL` flag set for
-   the child, whose check at entry is a Bash snippet the skill tells the agent
+   Law 12's JSON output, a template default the operator can override, and Iron Law 9's `ASP_IN_GOAL` flag, set for
+   the child so that ASP does not start again inside it, whose check at entry is a Bash snippet the skill tells the agent
    to run); the other ten are prompt-level instructions.
 3. **Preliminary, qualitative observations** from five engineering
    evaluations, and a deterministic adjudicator with cryptographic
@@ -145,14 +146,14 @@ pre-mortem as runtime discipline for coding agents.
 
 LLM agents interleave reasoning and acting in a single loop (Yao et al.,
 2023), and are increasingly composed into multi-agent workflows whose
-failure modes compound. Cemri et al. (2025) introduce the **Multi-Agent
-System Failure Taxonomy (MAST)** with **MAST-Data**, a corpus of 1,600+
+failure modes compound. Cemri et al. (2025) introduce **MAST** with **MAST-Data**, a corpus of 1,600+
 annotated traces from seven popular multi-agent frameworks such as AG2
 (formerly AutoGen; Wu et al., 2023). From rigorous analysis of 150
 seed traces (inter-annotator agreement κ = .88), they derived fourteen
 failure modes organised into three categories: specification and system
 design (5 modes), inter-agent misalignment (6 modes), and task
-verification and termination (3 modes). The 14-mode list is the strongest
+verification and termination (3 modes); the tables of Section 3 cite these
+modes by their codes, FM-1.1 to FM-3.3. The 14-mode list is the strongest
 recent empirical grounding for a failure-mode checklist; ASP adopts the
 mode names verbatim and operationalizes each into a pre-mortem prompt
 plus mitigation in its companion skill files. Two concurrent works
@@ -228,11 +229,9 @@ ASP differs from PreFlect along four axes:
 ### 2.5. Classical software and quality-engineering lineage
 
 The four threads above place ASP within the recent LLM-agents
-literature. A reviewer from software or quality engineering will,
-however, recognise ASP's machinery as a transposition of disciplines
-that predate LLMs by decades. We make the borrowing explicit, because
-concealing it would be both dishonest and weaker: what is new in ASP is
-not the disciplines but their transposition to a non-deterministic agent
+literature. ASP's machinery is, however, a transposition of software- and
+quality-engineering disciplines that predate LLMs by decades. What is new in
+ASP is not the disciplines but their transposition to a non-deterministic agent
 runtime and the mechanisms that enforce them there.
 
 **Non-redundancy versus defensive re-verification: where ASP departs from Design by Contract.** ASP's micro-TODO
@@ -253,15 +252,14 @@ contract-programming analog, importing instead the Popperian stance
 disconfirmation attempt rather than by a confirming check alone. This
 trade of Design by Contract's non-redundancy for defensive
 re-verification is the same trust-nothing ethos that produces the
-exit-code discipline of Iron Laws 11–12; it is a considered inversion of
-Meyer, not an oversight. The Iron Laws, in turn, are stated as the
+exit-code discipline of Iron Laws 11–12. The Iron Laws, in turn, are stated as the
 analogue of DbC's third contract element — the class invariant — rather than
 as a per-task pre/post condition; ten of them are instructions the agent is
 told to keep, not checks that run.
 
 **Failure-mode enumeration.** Shadow-point detection (Phase 2) is a
-prospective failure-mode enumeration in the tradition of FMEA
-(MIL-STD-1629A, 1980; IEC 60812:2018). It is deliberately *not* full
+prospective failure-mode enumeration in the tradition of failure modes and
+effects analysis (FMEA; MIL-STD-1629A, 1980; IEC 60812:2018). It is deliberately *not* full
 FMEA: ASP performs no per-component decomposition and no risk-priority
 scoring (severity × occurrence × detection), so the debt is to FMEA's
 prospective-enumeration discipline, not its bottom-up mechanics. Three
@@ -269,14 +267,17 @@ inputs to Phase 2 occupy roles worth separating: the pre-mortem (Klein,
 2007; §2.1) supplies the *philosophy* — imagine the failure as already
 certain; the MAST fourteen-mode taxonomy (Cemri et al., 2025; §2.2)
 supplies the *library* of failure modes; and the forced enumeration
-against that fixed library is closer, structurally, to HAZOP-style
-guideword prompting (IEC 61882:2016) than to component-by-component FMEA. What ASP adds is
+against that fixed library is closer, structurally, to the guideword
+prompting of hazard and operability studies (HAZOP; IEC 61882:2016), where a
+fixed list of words drives the search for deviations, than to
+component-by-component FMEA. What ASP adds is
 the substrate — the "component" whose failure modes are enumerated is an
 LLM plan, and the enumeration is run by a validator that does not share the
 planner's context (§2.3).
 
 **Mistake-proofing.** A subset of the Iron Laws (§3.3) are poka-yoke
-(Shingo, 1986) at the protocol level: the runner template in
+(Shingo, 1986), devices that make a mistake physically impossible, at the
+protocol level: the runner template in
 `claude-p-goal-runner.md` sets `ASP_IN_GOAL` for the child and always passes
 `--output-format json` (Iron Laws 9 and 12); Iron Law 10's file-based
 contract is an instruction. These checks live in a Bash template the agent
@@ -450,7 +451,7 @@ with seven labeled fields:
 - **POSTCONDITION** — state change effected by the step.
 - **ACCEPTANCE-TEST** — command and expected output that prove the postcondition.
 - **FALSIFICATION-TEST** — command or observation that would prove the step failed.
-- **DEPENDS-ON** — upstream task identifiers (DAG structure).
+- **DEPENDS-ON** — upstream task identifiers (a directed acyclic graph, or DAG: dependencies without cycles).
 - **DELIVERABLE-ID** — which deliverable in the register this step contributes to.
 
 This schema is what makes the task list auditable: no task is marked
@@ -514,8 +515,7 @@ CC BY 4.0.
 ## 5. Preliminary Observations
 
 We ran ASP through five structured engineering evaluations spanning
-heterogeneous domains. This section separates three things that version
-1.0 blurred: what the author observed in real model dispatches (5.2), what
+heterogeneous domains. This section separates three things: what the author observed in real model dispatches (5.2), what
 the deterministic adjudicator shows about itself on constructed fixtures
 (5.3), and what has not been measured at all.
 
@@ -557,7 +557,8 @@ committed in `tests/baseline-pressure-tests.md` and
 `tests/evals-summary.md`. The raw transcripts were not committed and are no
 longer available. The RED prompts recorded there are shorter Portuguese
 phrasings of E1–E3 that omit details the expected lists later score: E2's
-RED prompt does not state Resend's 100 req/s rate limit, and E1's does not
+RED prompt does not state the 100 req/s rate limit of Resend, the e-mail API
+the task calls, and E1's does not
 say that app code already references the new column in five query sites.
 Part of the RED shortfall may therefore be an artefact of the prompt, not of
 the absence of the protocol.
@@ -566,8 +567,7 @@ Under that non-blind reading, the three RED plans covered roughly 30–60% of
 their expected lists (mean near 47%, counting partial mentions as covered)
 and the GREEN plans covered all or nearly all of theirs. The committed
 summaries, written in May 2026, conclude that ASP is "reproducibly better";
-a note added above them in version 2.0 withdraws that conclusion, which is
-not supported. These figures are an author's judgement on unpreserved text, scored
+a note above them withdraws that conclusion, which is not supported. These figures are an author's judgement on unpreserved text, scored
 against lists the same author wrote, with the MAST vocabulary that the
 GREEN prompt injects appearing in those lists. They are reported as
 observation, not measurement, and no number in this paragraph is asserted
@@ -599,20 +599,20 @@ name "Alerting", and the other cells are zero because layer 1 requires a
 whole expected name to appear verbatim. The matcher is also stricter than
 the evaluation files, which tell a human evaluator to accept paraphrases. Recall is a separate matter, and the fixtures show a false negative: the E2 RED fixture mentions a rate
 limit, retries and logging and still scores 0/10: its best window overlap
-with the expected point "Rate-limit backoff" (its name and description) is a Jaccard of 0.11, below the 0.30 threshold, and
+with the expected point "Rate-limit backoff" (its name and description) is a Jaccard of .11, below the .30 threshold, and
 the matcher does no stemming ("logging" does not match "logs"). Paraphrase
-with low lexical overlap is missed. Re-scoring also exposed a defect, fixed in
-v2.0: the sliding window skipped the last few tokens of a text whose length
+with low lexical overlap is missed. Re-scoring also exposed a defect, now
+fixed: the sliding window skipped the last few tokens of a text whose length
 did not land on the stride; re-scoring every fixture with the fix changes no
 coverage value, though the best overlap of three unmatched points rises
-slightly (E2 RED "Observability / logs" from 0.00 to 0.02), still far below
+slightly (E2 RED "Observability / logs" from .00 to .02), still far below
 the threshold. Layer 3 also has an arithmetic ceiling: Jaccard divides by
 the union, and a 40-token window of the fixtures holds 27 to 40 distinct
 content words (median 36); in any window with 34 or more, an expected point
-with ten or fewer distinct tokens cannot reach 0.30 even if the plan repeats
+with ten or fewer distinct tokens cannot reach .30 even if the plan repeats
 all of them, and 19 of the 50 expected points are that short. The 2026-11 study (Section 5.5) replaced layer 3 with token recall before any reference list existed. On the reviewers' own lists even that version could not see that two reviewers named the same problem, so a blind judge became the primary scorer before any data was collected; the matcher is reported as secondary.
 
-![Figure 2. Instrument check: each author-constructed GREEN fixture scored against every task's expected list. Not an effect of ASP.](../output/figures/fig2_adjudicator_fixture_check.png)
+![Figure 2. Instrument check: each author-constructed GREEN fixture scored against every task's expected list. Not an effect of ASP.](../output/figures/fig2_adjudicator_fixture_check_clear.png)
 
 Section 5.5 reports the measurement; Section 6 states the design hypotheses it bears on.
 
@@ -645,7 +645,7 @@ The study was pre-registered in the repository (`benchmark/study-2026-11/PROTOCO
   - **plain:** "Plan this change."
   - **risk:** "Before planning, list the ways this change could go wrong."
   - **ASP:** `/asp --standard`, stopped after the validated plan.
-- **Reference lists.** Three models of other vendors (Grok, GPT-OSS 120B, Gemini 3.8 Flash) read each repository and request without seeing ASP and wrote the risks they expected. A blind judge grouped their items, and a risk entered the reference list when at least two reviewers named it (8 to 12 per task). Models stood in for the independent engineers the earlier draft required, which the protocol states as a weakening.
+- **Reference lists.** Three models of other vendors (Grok, GPT-OSS 120B, Gemini 3.8 Flash) read each repository and request without seeing ASP and wrote the risks they expected. A blind judge grouped their items, and a risk entered the reference list when at least two reviewers named it (8 to 12 per task). Models stood in for independent engineers, which the protocol states as a weakening.
 - **Scoring.** The primary judge (Gemini 3.8 Flash) saw only the rows of each answer's table, with words that would reveal the condition redacted, and marked each reference risk as covered or not. A second judge (Grok) did the same. The two agreed on 91.9% of 855 item decisions.
 
 Table 5 and Figure 3 report coverage by condition.
@@ -658,11 +658,11 @@ Table 5 and Figure 3 report coverage by condition.
 | risk | 66% | 70% | 50 s |
 | ASP | 48% | 54% | 175 s |
 
-![Figure 3. Share of the blind reference risks covered by each condition's final table, per task and overall (primary judge).](../output/figures/fig3_study_2026_11_coverage.png)
+![Figure 3. Share of the blind reference risks covered by each condition's final table, per task and overall (primary judge).](../output/figures/fig3_study_2026_11_coverage_clear.png)
 
-- **Primary.** ASP minus risk was −0.18 (primary judge) and −0.16 (second judge). It was negative on all six tasks, with a task-stratified permutation p = 1.0. The decision rule fixed in advance returns *no measurable benefit*.
-- **Secondary, pre-registered.** risk minus plain was +0.10 (p = .001) and +0.13 (p < .001): asking for the ways the change could go wrong, in one sentence, raised coverage.
-- **Exploratory.** ASP's answers handle some risks in their assumptions and deliverables rather than in the final table. When the primary judge read the whole answer, the gap narrowed to −0.08 (66% against 74%), and ASP was still behind on five of the six tasks.
+- **Primary.** ASP minus risk was −.18 (primary judge) and −.16 (second judge). It was negative on all six tasks, with a task-stratified permutation p = 1.0. The decision rule fixed in advance returns *no measurable benefit*.
+- **Secondary, pre-registered.** risk minus plain was +.10 (p = .001) and +.13 (p < .001): asking for the ways the change could go wrong, in one sentence, raised coverage.
+- **Exploratory.** ASP's answers handle some risks in their assumptions and deliverables rather than in the final table. When the primary judge read the whole answer, the gap narrowed to −.08 (66% against 74%), and ASP was still behind on five of the six tasks.
 - **Limits.** One model, six tasks, reference lists and judges that are all models, and coverage as the only outcome: whether listed risks are real, or lead to better code, was not measured.
 - **Record.** Every trial, verdict and analysis is in the repository, chained by hash, and `run_all.py` re-derives every number above.
 
@@ -719,26 +719,28 @@ was material to the system's reliability.
 We treat threats explicitly across the four categories standard in
 empirical software-engineering reports.
 
-**Construct validity.** The same researcher who designed the protocol
+**Construct validity.** In the evaluations of Sections 5.1–5.2, the same researcher who designed the protocol
 authored the expected-shadow-points lists *and* hand-adjudicated coverage.
 Even with a written rubric, this is the single largest threat to the
 observation's interpretability. The deterministic adjudicator we ship would
-mitigate this once applied to real, preserved transcripts; in this version
+mitigate this once applied to real, preserved transcripts; so far
 it has only been run on constructed fixtures (§5.3), and it does not address the prior question of whether the
 expected lists themselves are biased toward what ASP surfaces. **Blind
-re-authoring by independent reviewers is the strongest follow-up.**
+re-authoring by independent reviewers is the strongest follow-up.** The study
+of Section 5.5 had its reference lists written blind, by three models of other
+vendors rather than engineers, for six new tasks rather than these five.
 
 **Internal validity.** With one dispatch per cell, GREEN on five tasks and
-RED on three, the evaluation at most suggests that the protocol can change
-the transcripts on these cases; it is *not* sufficient to estimate an
+RED on three, the evaluations of Sections 5.1–5.2 at most suggest that the protocol can change
+the transcripts on these cases; they are *not* sufficient to estimate an
 effect size, establish causality, or support statistical inference, and
-no statistical test is reported. No formal
+no statistical test is reported for them. No formal
 ablation of components has been run (the qualitative attribution of
 load-bearing-ness to the MAST checklist in §6 is a hypothesis).
 The acceptance threshold of 80% is the author's choice and not derived
 from prior literature.
 
-**External validity.** Single underlying model (Claude Opus 4.7, presumed from the session; not recorded per dispatch),
+**External validity.** For the evaluations of Sections 5.1–5.2: a single underlying model (Claude Opus 4.7, presumed from the session; not recorded per dispatch),
 single environment (the author's macOS workstation and the Claude Code
 version of May 2026, not recorded per dispatch), five engineering
 tasks drawn from the author's domain experience. We make no claim of
@@ -750,6 +752,14 @@ committed to the companion repository; the 2026-05-17 dispatch transcripts
 were not preserved, so the observations of §5.2 cannot be re-checked. The benchmark
 package builds a cryptographically-chained manifest per run so any byte
 edited under a run directory invalidates the manifest hash.
+
+**The study of Section 5.5.** External: one model (Claude Opus 5.5) and six tasks. Construct: the reference
+lists and the judges are models, in place of independent engineers, which the protocol states as a weakening; coverage is the only
+outcome, so whether the listed risks are real, or lead to better code, was not
+measured; and the final-table contract may miss risks that ASP handles in its
+assumptions and deliverables (read whole, the gap narrowed
+but did not close). Internal: the study measured the protocol as a whole, not
+any one component (Section 6). 
 
 ---
 
@@ -780,13 +790,6 @@ one-to-one. The highest-priority follow-ups, in order, are:
    public agent benchmark; replicating the direction on SWE-bench
    (Jimenez et al., 2024) or a comparable standardized suite would test
    whether it survives outside the author's chosen tasks.
-8. **Translation review**: the author's review of the Portuguese and a
-   native speaker's of the Spanish, Italian and Hebrew documentation
-   translations.
-9. **Submission target.** Workshop venues — NeurIPS LLM-agents track,
-   ICLR agents workshop, AAAI agents track — are the appropriate fit
-   for the current empirical scale. Main-track submission requires the
-   follow-ups above.
 
 ---
 
@@ -856,7 +859,7 @@ Erdogan, L. E., Lee, N., Kim, S., Moon, S., Furuta, H., Anumanchipalli, G., Keut
 
 Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
 
-Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.3) [Technical note]. Zenodo. https://doi.org/10.5281/zenodo.24065935
+Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.4) [Technical note]. Zenodo. https://doi.org/10.5281/zenodo.24065934
 
 Huang, J., Chen, X., Mishra, S., Zheng, H. S., Yu, A. W., Song, X., & Zhou, D. (2024). *Large language models cannot self-correct reasoning yet*. ICLR 2024. https://arxiv.org/abs/2310.01798
 
@@ -1002,15 +1005,19 @@ can be re-implemented in another language.
 
 ## Technical Note
 
-**Version** 2.3 · November 2026 · first published 18 May 2026
+**Version** 2.4 · November 2026 · first published 18 May 2026
 
 **Series** Codex Hash Research Report 2026-01
 
 **License** Paper text, figures and data: CC BY 4.0. Companion software: MIT.
 
-**The ASP project.** ASP (Anticipating Shadow Points) is an open-source plugin for Claude Code, Anthropic's command-line coding agent, that makes the agent list what could go wrong before it writes code. Its plugin and replication material sit in one public repository (Flores, 2026a), this whitepaper describes how it works, and a technical note measures one of its rules on its own: never trust the exit code of `claude -p` (Flores, 2026b). Section 5.5 reports the first measurement of whether ASP improves an agent's plans; a third paper will report the confirmatory study of the one-sentence pre-mortem that it pointed to.
+**The ASP project.** ASP (Anticipating Shadow Points) is an open-source plugin for Claude Code, Anthropic's command-line coding agent, that makes the agent list what could go wrong before it writes code. Its plugin and replication material sit in one public repository (Flores, 2026a), this experience report describes how it works, and a technical note measures one of its rules on its own: never trust the exit code of `claude -p` (Flores, 2026b). Section 5.5 reports the first measurement of whether ASP improves an agent's plans; a third paper will report the confirmatory study of the one-sentence pre-mortem that it pointed to.
 
-**DOI.** A DOI (Digital Object Identifier) is a permanent link to a deposited work. Zenodo, a public research archive run by CERN, holds this whitepaper as its own record: https://doi.org/10.5281/zenodo.24065969. The plugin, data and code are a separate record (Flores, 2026a) whose concept DOI, https://doi.org/10.5281/zenodo.20276631, always opens the newest release; release 2.0.0 is the one that matches this whitepaper. That record's May 2026 releases (1.0.0 to 1.0.3) presented the matcher's scores on the author's sample plans as a reading of real model output; release 2.0.0 replaces them.
+**DOI.** A DOI (Digital Object Identifier) is a permanent link to a deposited work. Zenodo, a public research archive run by CERN, holds this experience report as its own record: https://doi.org/10.5281/zenodo.24065968. The plugin, data and code are a separate record (Flores, 2026a) whose concept DOI, https://doi.org/10.5281/zenodo.20276631, always opens the newest release; release 2.0.0 is the one that matches this experience report. That record's May 2026 releases (1.0.0 to 1.0.3) presented the matcher's scores on the author's sample plans as a reading of real model output; release 2.0.0 replaces them.
+
+**Corrections.** Version 1.0 of this report also presented the five evaluations as measured and blurred three things that Section 5 now separates: what the author observed in real dispatches, what the adjudicator shows about itself on constructed fixtures, and what has not been measured. Version 2.0 corrected this, added above the committed May summaries the note that withdraws their conclusion that ASP is "reproducibly better" (Section 5.2), and fixed the sliding-window defect of Section 5.3.
+
+**Translations and submission.** The documentation translations await review (Section 4). Workshop venues (the NeurIPS LLM-agents track, the ICLR agents workshop, the AAAI agents track) fit the current empirical scale; main-track submission requires the follow-ups of Section 8.
 
 **Replication.** Every number that Sections 5.3 to 5.5 compute can be recomputed from the repository without calling a model; Appendix B, Evaluation set and reproducibility, lists what is there and how to run it.
 ---
@@ -1022,8 +1029,8 @@ Research Laboratory, an independent R&D lab in São Paulo, Brazil. He
 builds production systems where silent failure is expensive —
 historically in algorithmic trading, embedded IoT and edge cryptography,
 and currently in agentic-AI tooling. The ASP skill described in this
-whitepaper grew out of that latter line of work; the empirical finding
-reported in the companion whitepaper grew out of using Anthropic's
+experience report grew out of that latter line of work; the empirical finding
+reported in the companion technical note grew out of using Anthropic's
 `claude -p` runner as an autonomous execution kernel and watching it
 return exit code 0 on a graceful agent refusal.
 

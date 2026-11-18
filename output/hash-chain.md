@@ -1,13 +1,13 @@
 # Hash chain
 
-**chain_hash** `b09ffd3b440ed54ec9c76cb84f4d27723edfcb7a9ab9ff25d480733a60486319`
+**chain_hash** `80207a8d1b1fc10c30af1bf70fa08fbd7708d6f9dd84ba16717063d79aa2db0f`
 
 Recompute with `python make_provenance.py --verify`.
 
 | Leaf | Files | leaf_sha256 |
 |---|---|---|
-| code | 30 | `2bd95897278321a09936f228093256cf1d8fbc14ae381b00ded27dae68add94e` |
-| tests | 13 | `06e196918d44fb615cc6f4492e7b867ec14f5d969536bd50ad1abc58a22e80e1` |
+| code | 30 | `4b6d2e7303c4ef9819fbf6a4051fdec0a3d53c446be87e1d11fdce689d2f499f` |
+| tests | 13 | `4073c72e7018c059118de82836a64cb09a1eeffe5f7ef5d2a6bafd1c983b03a9` |
 | frozen_inputs | 406 | `e867e6802d3350f911f2a1f0bcf456a3291923184d71bb9651da801296896467` |
 | data | 1746 | `4b65fbbbad051c004d457dce2eadf3c9d4ec85d43050f04f1c8e0372b82ec86d` |
 | results | 7 | `42bfa0d572101b8a2ded71999ce3ae2b51824271688b0420edd14b068e45e9bd` |
@@ -24,14 +24,22 @@ Figures, the lockfile and the platform vary by machine and are listed for audit 
 - `output/figures/fig13_effects.pt-BR.png` `dcee6f205b8e9090…`
 - `output/figures/fig13_effects.pt-BR.svg` `c5917f0f0c3c23f7…`
 - `output/figures/fig13_effects.svg` `0647a40aa73b6387…`
-- `output/figures/fig1_silent_refusal_readings.es.png` `c68413dbe41fc502…`
-- `output/figures/fig1_silent_refusal_readings.es.svg` `cadc18d8a62c3178…`
+- `output/figures/fig1_silent_refusal_readings.es.png` `0f129fdb7fa79273…`
+- `output/figures/fig1_silent_refusal_readings.es.svg` `35e35d61fb6b6d07…`
 - `output/figures/fig1_silent_refusal_readings.it.png` `8f0e59b1fc15e725…`
 - `output/figures/fig1_silent_refusal_readings.it.svg` `b5adf6557adc24ca…`
 - `output/figures/fig1_silent_refusal_readings.png` `fa327ab4b96ef15a…`
 - `output/figures/fig1_silent_refusal_readings.pt-BR.png` `65682123d5c808d5…`
 - `output/figures/fig1_silent_refusal_readings.pt-BR.svg` `40077dddb880d2c8…`
 - `output/figures/fig1_silent_refusal_readings.svg` `359d4837371c4733…`
+- `output/figures/fig1_silent_refusal_readings_clear.es.png` `86eeed89597ab775…`
+- `output/figures/fig1_silent_refusal_readings_clear.es.svg` `1c343e39e5329114…`
+- `output/figures/fig1_silent_refusal_readings_clear.it.png` `f373b2c5bf140c42…`
+- `output/figures/fig1_silent_refusal_readings_clear.it.svg` `9462e705dd363236…`
+- `output/figures/fig1_silent_refusal_readings_clear.png` `6ead31a42d3b5424…`
+- `output/figures/fig1_silent_refusal_readings_clear.pt-BR.png` `cb647a1db96b2c12…`
+- `output/figures/fig1_silent_refusal_readings_clear.pt-BR.svg` `de87fa6bd33f6cd2…`
+- `output/figures/fig1_silent_refusal_readings_clear.svg` `87e1aed532399a55…`
 - `output/figures/fig2_adjudicator_fixture_check.es.png` `6b9535db8d34ce93…`
 - `output/figures/fig2_adjudicator_fixture_check.es.svg` `dfd7ff10e2bf9fb9…`
 - `output/figures/fig2_adjudicator_fixture_check.it.png` `938b280421ce4ae2…`
@@ -40,6 +48,14 @@ Figures, the lockfile and the platform vary by machine and are listed for audit 
 - `output/figures/fig2_adjudicator_fixture_check.pt-BR.png` `9237543718ec7e4f…`
 - `output/figures/fig2_adjudicator_fixture_check.pt-BR.svg` `4634125779ad7303…`
 - `output/figures/fig2_adjudicator_fixture_check.svg` `5b705f76ee937036…`
+- `output/figures/fig2_adjudicator_fixture_check_clear.es.png` `861fd0a32623da7b…`
+- `output/figures/fig2_adjudicator_fixture_check_clear.es.svg` `b4fe9a79d677c687…`
+- `output/figures/fig2_adjudicator_fixture_check_clear.it.png` `4bb872ae0956fd58…`
+- `output/figures/fig2_adjudicator_fixture_check_clear.it.svg` `e6b92bca25d70e81…`
+- `output/figures/fig2_adjudicator_fixture_check_clear.png` `5a1e1c7f081baf6f…`
+- `output/figures/fig2_adjudicator_fixture_check_clear.pt-BR.png` `dc7a800a6b6fd9d5…`
+- `output/figures/fig2_adjudicator_fixture_check_clear.pt-BR.svg` `4f633ef2b37eca99…`
+- `output/figures/fig2_adjudicator_fixture_check_clear.svg` `48dff1feed8d7b43…`
 - `output/figures/fig3_study_2026_11_coverage.es.png` `d232f36e55ca44c0…`
 - `output/figures/fig3_study_2026_11_coverage.es.svg` `29d23e31b27a7791…`
 - `output/figures/fig3_study_2026_11_coverage.it.png` `249e002df0ffd14a…`
