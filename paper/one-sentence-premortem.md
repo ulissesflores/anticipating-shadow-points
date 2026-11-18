@@ -502,7 +502,7 @@ Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agen
 
 Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points https://doi.org/10.5281/zenodo.20276631
 
-Fröhling, L., Giaconia, A., Bogucka, E. P., & Quercia, D. (2026). *Agent-supported foresight for AI systemic risks: AI agents for breadth, experts for judgment*. arXiv:2602.08565. https://arxiv.org/abs/2602.08565
+Fröhling, L., Giaconia, A., Bogucka, E. P., & Quercia, D. (2026). Agent-supported foresight for AI systemic risks: AI agents for breadth, experts for judgment. In *Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems* (pp. 1–48). ACM. https://doi.org/10.1145/3772318.3790712
 
 International Electrotechnical Commission. (2019). *Risk management — Risk assessment techniques* (IEC 31010:2019, Edition 2.0). https://webstore.iec.ch/en/publication/59809
 
@@ -532,7 +532,7 @@ Schoenegger, P., Jones, C. R., Tetlock, P. E., & Mellers, B. (2025). *Prompt eng
 
 Sclar, M., Choi, Y., Tsvetkov, Y., & Suhr, A. (2024). *Quantifying language models' sensitivity to spurious features in prompt design or: How I learned to start worrying about prompt formatting*. ICLR 2024. https://arxiv.org/abs/2310.11324
 
-Tony, C., Díaz Ferreyra, N. E., Mutas, M., Dhiff, S., & Scandariato, R. (2025). *Prompting techniques for secure code generation: A systematic investigation*. arXiv:2407.07064. https://arxiv.org/abs/2407.07064
+Tony, C., Díaz Ferreyra, N. E., Mutas, M., Dhif, S., & Scandariato, R. (2025). Prompting techniques for secure code generation: A systematic investigation. *ACM Transactions on Software Engineering and Methodology, 34*(8), 1–53. https://doi.org/10.1145/3722108
 
 Veinott, B., Klein, G. A., & Wiggins, S. (2010). Evaluating the effectiveness of the PreMortem technique on plan confidence. In *Proceedings of the 7th International ISCRAM Conference*. https://web.archive.org/web/20200928015943/http://idl.iscram.org/files/veinott/2010/1049_Veinott_etal2010.pdf
 

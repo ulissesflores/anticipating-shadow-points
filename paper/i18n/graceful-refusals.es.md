@@ -34,7 +34,7 @@ El desacoplamiento entre el éxito del proceso y el éxito de la tarea es antigu
 - **Informes públicos previos.** Dos *issues* de GitHub preceden a esta nota: `anthropics/claude-code` #15685 (exit 0 ante un mensaje de límite de tasa; brupelo, 2025) y `paperclipai/paperclip` #1117 (una ejecución marcada como exitosa aunque el agente no hizo ningún trabajo; florinel-chis, 2026); ambos proponen la misma clase de corrección, y ambos son prueba de que usuarios reales sufren esto en la automatización de producción.
 - **Qué cambió después de julio de 2026.** Desde entonces Anthropic ha corregido varios casos *adyacentes* de exit 0 en `claude -p`: los fallos de arranque (2.1.314), las transcripciones perdidas (2.1.317) y las acciones rechazadas en modo automático por falta de una comprobación de seguridad (2.1.319) ahora terminan con 1 (Anthropic, 2026b). Una ejecución *headless* con `stream-json` en 2.1.302 informa de un rechazo de categoría cibernética con `is_error: true`, `stop_reason: refusal` y exit 1 (hlp-ishida, 2026), el mismo patrón que nuestro C.02. Claude Code cambia automáticamente a otro modelo tras un mensaje marcado; la versión 2.1.312 amplió ese cambio y documentó `CLAUDE_CODE_DISABLE_REFUSAL_FALLBACK=1` para desactivarlo. Ese mecanismo es coherente con el traspaso de Fable 5 a Opus 4.8 registrado en nuestros datos de julio; los *envelopes* muestran qué modelo respondió, no por qué. Tras leer todas las entradas del *changelog* de 2.1.200 a 2.1.319, **no** encontramos ninguna entrada, ni ningún *issue* abierto, que cambie cómo se señala un rechazo *generado por el modelo*, y la documentación *headless* sigue definiendo el exit 0 como éxito (Anthropic, 2026c).
 - **La literatura más amplia sobre falso éxito** ha crecido en 2026: fallos semánticos silenciosos en agentes de programación (Mehta, 2026), el "cierre confiado" en las trayectorias de agentes (Advani, 2026) y el fallo como proceso en trazas de agentes de programación por CLI (Zhao et al., 2026). Ninguno de ellos mide cuánto del desenlace de un agente transmite el código de salida de su ejecutor.
-- **El rechazo en sí se estudia** como sobrerrechazo (XSTest — Röttger et al., 2024; OR-Bench — Cui et al., 2024), como rechazo de solicitudes inseguras (SORRY-Bench — Xie et al., 2025) y, de forma más general, como abstención (Wen et al., 2025).
+- **El rechazo en sí se estudia** como sobrerrechazo (XSTest — Röttger et al., 2024; OR-Bench — Cui et al., 2025), como rechazo de solicitudes inseguras (SORRY-Bench — Xie et al., 2025) y, de forma más general, como abstención (Wen et al., 2025).
 
 Nuestra afirmación es solo lo que miden y argumentan los §3–§5 en la frontera de la CLI.
 
@@ -235,7 +235,7 @@ brupelo. (2025). *[BUG] Claude API's "Pay-to-Fail" model: Charging developers fo
 
 Cristian, F. (1991). Understanding fault-tolerant distributed systems. *Communications of the ACM, 34*(2), 56–78. https://doi.org/10.1145/102792.102801
 
-Cui, J., Chiang, W.-L., Stoica, I., & Hsieh, C.-J. (2024). *OR-Bench: An over-refusal benchmark for large language models*. arXiv. https://arxiv.org/abs/2405.20947
+Cui, J., Chiang, W.-L., Stoica, I., & Hsieh, C.-J. (2025). OR-Bench: An over-refusal benchmark for large language models. In *Proceedings of the 42nd International Conference on Machine Learning* (Vol. 267, pp. 11515–11542). PMLR. https://proceedings.mlr.press/v267/cui25a.html
 
 Dominus, M. J. (2005). *Higher-order Perl: Transforming programs with programs*. Morgan Kaufmann. https://hop.perl.plover.com/book/
 
@@ -263,7 +263,7 @@ Norvig, P. (1992). *Paradigms of artificial intelligence programming: Case studi
 
 OpenAI. (n.d.). *Structured model outputs* [Software documentation]. https://platform.openai.com/docs/guides/structured-outputs
 
-Powell, D. (1992). Failure mode assumptions and assumption coverage. *FTCS-22*. https://doi.org/10.1109/FTCS.1992.243562
+Powell, D. (1992). Failure mode assumptions and assumption coverage. In *Digest of Papers, FTCS-22: The Twenty-Second International Symposium on Fault-Tolerant Computing* (pp. 386–395). IEEE. https://doi.org/10.1109/FTCS.1992.243562
 
 Raymond, E. S. (2003). *The art of Unix programming*. Addison-Wesley. http://www.catb.org/esr/writings/taoup/html/ch01s06.html
 
@@ -273,7 +273,7 @@ Sarter, N. B., & Woods, D. D. (1997). Team play with a powerful and independent 
 
 Schlichting, R. D., & Schneider, F. B. (1983). Fail-stop processors: An approach to designing fault-tolerant computing systems. *ACM Transactions on Computer Systems, 1*(3), 222–238. https://doi.org/10.1145/357369.357371
 
-Souly, A., Lu, Q., Bowen, D., Trinh, T., Hsieh, E., Pandey, S., Abbeel, P., Svegliato, J., Emmons, S., Watkins, O., & Toyer, S. (2024). *A StrongREJECT for empty jailbreaks*. arXiv:2402.10260. https://arxiv.org/abs/2402.10260
+Souly, A., Lu, Q., Bowen, D., Trinh, T., Hsieh, E., Pandey, S., Abbeel, P., Svegliato, J., Emmons, S., Watkins, O., & Toyer, S. (2024). A StrongREJECT for empty jailbreaks. *Advances in Neural Information Processing Systems, 37*, 125416–125440. https://doi.org/10.52202/079017-3984
 
 Takehi, R., Hachiuma, R., Ghosh, S., Zhao, D., Wang, Y.-C. F., & Hirota, Y. (2026). *MLLMs fail to refuse when using tools agentically*. arXiv:2610.03938. https://arxiv.org/abs/2610.03938
 
@@ -285,7 +285,7 @@ Xie, T., Qi, X., Zeng, Y., Huang, Y., Sehwag, U. M., Huang, K., He, L., Wei, B.,
 
 Xu, B., & Chen, B. (2026). *Cross-provider review as a runtime contract for coding agents: A controlled pilot and fault-injection study*. arXiv:2610.10961. https://arxiv.org/abs/2610.10961
 
-Yuan, D., Luo, Y., Zhuang, X., Rodrigues, G. R., Zhao, X., Zhang, Y., Jain, P. U., & Stumm, M. (2014). Simple testing can prevent most critical failures. *USENIX OSDI '14*. https://www.usenix.org/conference/osdi14/technical-sessions/presentation/yuan
+Yuan, D., Luo, Y., Zhuang, X., Rodrigues, G. R., Zhao, X., Zhang, Y., Jain, P. U., & Stumm, M. (2014). Simple testing can prevent most critical failures: An analysis of production failures in distributed data-intensive systems. In *Proceedings of the 11th USENIX Symposium on Operating Systems Design and Implementation (OSDI '14)* (pp. 249–265). USENIX Association. https://www.usenix.org/conference/osdi14/technical-sessions/presentation/yuan
 
 Zarif, F., Galib, K. S. A., Promi, S. A., Tarin, S. S., Hossain, A., Ahmed, S., & Sadeque, F. Y. (2026). *Ignored, not refused: What low prompt-injection success rates hide in small tool-using agents*. arXiv:2610.23254. https://arxiv.org/abs/2610.23254
 
