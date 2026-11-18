@@ -1,13 +1,13 @@
 # Hash chain
 
-**chain_hash** `80207a8d1b1fc10c30af1bf70fa08fbd7708d6f9dd84ba16717063d79aa2db0f`
+**chain_hash** `27a75034ad26d6c6f6e4527f210256ca05f94880e2856fb76df8e53294b44249`
 
 Recompute with `python make_provenance.py --verify`.
 
 | Leaf | Files | leaf_sha256 |
 |---|---|---|
 | code | 30 | `4b6d2e7303c4ef9819fbf6a4051fdec0a3d53c446be87e1d11fdce689d2f499f` |
-| tests | 13 | `4073c72e7018c059118de82836a64cb09a1eeffe5f7ef5d2a6bafd1c983b03a9` |
+| tests | 13 | `3bf3ec0a4284ee54b904cd9e4cddb1e7fb23f48611f0136f3a363bc555cb35dd` |
 | frozen_inputs | 406 | `e867e6802d3350f911f2a1f0bcf456a3291923184d71bb9651da801296896467` |
 | data | 1746 | `4b65fbbbad051c004d457dce2eadf3c9d4ec85d43050f04f1c8e0372b82ec86d` |
 | results | 7 | `42bfa0d572101b8a2ded71999ce3ae2b51824271688b0420edd14b068e45e9bd` |
