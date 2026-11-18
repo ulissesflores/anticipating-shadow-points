@@ -17,7 +17,7 @@ A pre-mortem asks a team to assume that its plan has failed and to list why (Kle
 
 Um pré-mortem pede que a equipe suponha que o plano fracassou e liste os motivos (Klein, 2007). Num estudo pré-registrado anterior, a metade de listagem desse exercício, posta em uma frase, fez o plano de um agente de código cobrir mais riscos listados de forma independente, como resultado secundário (Flores, 2026a). Este é o estudo confirmatório. O Claude Code, em modo de planejamento no Claude Opus 5.5 e no Claude Sonnet 5.5, recebeu doze pedidos de mudança em repositórios públicos fixados, sob dois pedidos que diferem em uma frase: "Plan this change." e "Before planning, list the ways this change could go wrong." Três modelos de outros fornecedores escreveram às cegas os riscos de referência, e um juiz cego de outro fornecedor pontuou cada resposta. Protocolo, listas e análise foram selados e carimbados antes da primeira rodada. Em 240 rodadas, a frase elevou a cobertura de 46,1% para 57,5%, diferença média de 11,4 pontos percentuais em 24 estratos de tarefa por modelo (permutação estratificada, p < ,001, também em cada modelo). Um segundo juiz deu +10,7 pontos (κ de Cohen = ,86). Sem os três estratos com rodada perdida por erro de rede, a diferença é de 10,1 pontos. Contra um segundo conjunto de listas, pedido com outras palavras, ela é de 6,7 pontos (p < ,001), e de 9,0 por um terceiro juiz acrescentado depois. A afirmação se limita a dois modelos de um fornecedor, a listas de referência escritas por modelos e a planos, não a código.
 
-**Palavras-chave:** pré-mortem; engenharia de prompt; agentes de código baseados em LLM; identificação de riscos; pré-registro; planejamento de software
+**Palavras-chave:** pré-mortem; engenharia de *prompt*; agentes de código baseados em LLM; identificação de riscos; pré-registro; planejamento de software
 
 ---
 
@@ -41,7 +41,7 @@ This paper reports that study. It was designed to give the earlier finding a fai
 
 1. **A confirmatory, pre-registered test of a one-sentence request in a coding agent.** Over 240 trials on twelve pinned public repositories and two models, the sentence raises the coverage of independently listed risks by 11.4 percentage points (p < .001), and by a similar amount within each model (Section 5.2).
 2. **Checks on the gain.** A second judge of a different vendor reaches the same decision (Section 5.3), the listed risks are not judged less concrete (Section 5.4), and the result survives the removal of three trials that a network error zeroed in the comparison's favour (Section 5.5). Against reference lists elicited afterwards with other words, the gain stays positive and falls to 6.7 points (Section 5.8).
-3. **A sealed, open record.** Every prompt, reference list, answer, verdict and analysis file is public and linked in a hash ledger whose pre-trial state is anchored in the Bitcoin blockchain (Section 4.7), and one command recomputes every number in this paper (Flores, 2026b).
+3. **A sealed, open record.** Every prompt defined by the study, every reference list, answer, verdict and analysis file is public and linked in a hash ledger whose pre-trial state is anchored in the Bitcoin blockchain (Section 4.7), and one command recomputes every number in this paper (Flores, 2026b).
 4. **A stated list of objections.** Section 7 takes the strongest objections to the result, including those raised by outside reviewers of this manuscript, and answers each with data or names it as open.
 
 To our knowledge, no prior study measures the effect of a minimal pre-mortem instruction on the coverage of independently elicited risks in software-change planning by a coding agent, apart from the originating study, where it was a secondary comparison (Flores, 2026a). Section 2.5 states what bounds that sentence. The mechanism itself, enumerating failure modes before responding, has prior support (Kim et al., 2026) and is not claimed here.
@@ -500,7 +500,7 @@ Ernst, M. D. (2004). Permutation methods: A basis for exact inference. *Statisti
 
 Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.3) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.24065969
 
-Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points https://doi.org/10.5281/zenodo.20276631
 
 Fröhling, L., Giaconia, A., Bogucka, E. P., & Quercia, D. (2026). *Agent-supported foresight for AI systemic risks: AI agents for breadth, experts for judgment*. arXiv:2602.08565. https://arxiv.org/abs/2602.08565
 

@@ -283,7 +283,7 @@ protocol level: the runner template in
 contract is an instruction. These checks live in a Bash template the agent
 is told to run, not in a hook outside the agent's control, and they are not the
 physical impossibility of true poka-yoke — an environment flag can be
-unset or fail to propagate — and the remaining laws are honestly
+unset or fail to propagate — and the remaining laws are
 procedural gates (Iron Laws 1, 2, 4, 5) or verification rules that still
 depend on the operator, of which Iron Law 11 ("never trust `$?`") is the
 clearest case: precisely the operator-vigilance dependence poka-yoke is
@@ -332,7 +332,7 @@ what ASP adds.
 | Prompt-isolated validator (Iron Law 2) | IV&V (IEEE Std 1012-2016) | organisational independence recast as prompt isolation; not IV&V |
 | Never-trust-`$?` (Iron Laws 11–12) | Unsignalled failure (Avizienis et al., 2004); Yuan et al. (2014) | characterised in the companion paper (Flores, 2026b); not the failure class |
 
-Read together, the section makes a deliberately modest claim: ASP's
+Read together, the section makes a modest claim: ASP's
 machinery is an *integration* of established reliability and
 quality-engineering disciplines — contract, failure-mode enumeration,
 IV&V, mistake-proofing — into one protocol whose contribution is
@@ -827,7 +827,7 @@ Deshpande, D., Gangal, V., Mehta, H., Krishnan, J., Kannappan, A., & Qian, R. (2
 
 Erdogan, L. E., Lee, N., Kim, S., Moon, S., Furuta, H., Anumanchipalli, G., Keutzer, K., & Gholami, A. (2025). *Plan-and-Act: Improving planning of agents for long-horizon tasks*. ICML 2025. https://arxiv.org/abs/2503.09572
 
-Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026a). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points https://doi.org/10.5281/zenodo.20276631
 
 Flores, C. U. (2026b). *Graceful refusals as unsignalled failures: Characterising `claude -p` exit-code semantics on agent declines* (Version 2.4) [Technical note]. Zenodo. https://doi.org/10.5281/zenodo.24065934
 

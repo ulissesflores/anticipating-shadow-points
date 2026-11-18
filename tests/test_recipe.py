@@ -115,6 +115,13 @@ def test_recipe_on_july_extract(tmp_path):
         # The documented object form carries no "type": the gate must still read it.
         ({"stop_reason": "end_turn", "result": "Done."}, 0, 0),
         ({"stop_reason": "end_turn", "result": "I won't do this."}, 0, 2),
+        # An error flag or an empty result is never a success, whatever the exit code.
+        ({"type": "result", "stop_reason": "end_turn"}, 0, 1),
+        (
+            {"type": "result", "stop_reason": "end_turn", "is_error": True, "result": "Execution failed."},
+            0,
+            1,
+        ),
     ],
 )
 def test_recipe_edge_cases(tmp_path, envelope, rc, expected):

@@ -35,7 +35,7 @@ Este artigo relata esse estudo. Ele foi desenhado para dar ao achado anterior um
 
 1. **Um teste confirmatório e pré-registrado de um pedido de uma frase num agente de código.** Em 240 rodadas, em doze repositórios públicos fixados e dois modelos, a frase eleva a cobertura dos riscos listados de forma independente em 11,4 pontos percentuais (p < ,001), e em valor semelhante dentro de cada modelo (Seção 5.2).
 2. **Verificações do ganho.** Um segundo juiz de outro fornecedor chega à mesma decisão (Seção 5.3), os riscos listados não são julgados menos concretos (Seção 5.4), e o resultado sobrevive à retirada de três rodadas que um erro de rede zerou a favor da comparação (Seção 5.5). Contra listas de referência pedidas depois com outras palavras, o ganho continua positivo e cai para 6,7 pontos (Seção 5.8).
-3. **Um registro selado e aberto.** Cada *prompt*, lista de referência, resposta, veredito e arquivo de análise é público e está ligado a um registro encadeado por hash (*ledger*) cujo estado anterior às rodadas está ancorado no *blockchain* do Bitcoin (Seção 4.7), e um único comando recalcula cada número deste artigo (Flores, 2026b).
+3. **Um registro selado e aberto.** Cada *prompt* definido pelo estudo, cada lista de referência, resposta, veredito e arquivo de análise é público e está ligado a um registro encadeado por hash (*ledger*) cujo estado anterior às rodadas está ancorado no *blockchain* do Bitcoin (Seção 4.7), e um único comando recalcula cada número deste artigo (Flores, 2026b).
 4. **Uma lista declarada de objeções.** A Seção 7 toma as objeções mais fortes ao resultado, inclusive as levantadas por revisores externos deste manuscrito, e responde a cada uma com dados ou a registra como em aberto.
 
 Até onde sabemos, nenhum estudo anterior mede o efeito de uma instrução mínima de pré-mortem sobre a cobertura de riscos levantados de forma independente no planejamento de mudanças de software por um agente de código, afora o estudo de origem, em que ele foi uma comparação secundária (Flores, 2026a). A Seção 2.5 diz o que delimita essa afirmação. O mecanismo em si, enumerar modos de falha antes de responder, tem apoio anterior (Kim et al., 2026) e não é reivindicado aqui.
@@ -494,7 +494,7 @@ Ernst, M. D. (2004). Permutation methods: A basis for exact inference. *Statisti
 
 Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.3) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.24065969
 
-Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points https://doi.org/10.5281/zenodo.20276631
 
 Fröhling, L., Giaconia, A., Bogucka, E. P., & Quercia, D. (2026). *Agent-supported foresight for AI systemic risks: AI agents for breadth, experts for judgment*. arXiv:2602.08565. https://arxiv.org/abs/2602.08565
 

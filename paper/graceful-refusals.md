@@ -17,7 +17,7 @@ Shell pipelines and agent harnesses route control flow on the exit code of LLM c
 
 *Pipelines* de *shell* e *harnesses* de agentes decidem o fluxo pelo código de saída de executores de LLM por linha de comando, canal que o POSIX define como zero para término bem-sucedido (The Open Group, 2024). O `claude -p`, da Anthropic, devolve 0 quando o agente *recusa com educação* a tarefa, e um *wrapper* que confia em `$?` lê a recusa como sucesso. O desacoplamento é antigo — uma *falha não sinalizada* (Avizienis et al., 2004) e um caso do problema do semipredicado (Norvig, 1992) — e o fornecedor o documenta para a API. Argumentamos que o defeito é a largura do canal: um executor de agente tem ao menos quatro desfechos de tarefa e o código de saída, dois valores. Em N=50 *prompts* que provocam recusa (Claude Code 2.1.200, julho de 2026, na configuração do próprio autor), 24 tentativas saem com 0, todas com `stop_reason: end_turn`, e de 12 a 20 delas são recusas: de 24% a 40% do conjunto, conforme o critério de contagem (40% pelo rótulo do autor, IC de Wilson 95% 28–54%). Entre as 24 tentativas com saída 0, nenhum campo de status separa recusa de entrega; sobre a entrega da tarefa, o código de saída carrega 0,09 de 0,40 bits (22,4%). Defendemos na melhor versão o exit 0 como status de processo e propomos um contrato de término tipado e opcional, com uma checagem de conteúdo testada na amostra como paliativo. Todo número calculado destes dados é recalculado de arquivos versionados sob um selo SHA-256.
 
-**Palavras-chave:** CLI de LLM; códigos de saída; recusa educada; falha não sinalizada; informação mútua; pipelines de shell
+**Palavras-chave:** CLI de LLM; códigos de saída; recusa educada; falha não sinalizada; informação mútua; *pipelines* de *shell*
 
 ---
 
@@ -150,6 +150,9 @@ case "$TERM:$STOP" in
   max_turns*|max_budget*|*:max_tokens) echo "agent hit a cap" >&2; exit 3 ;;
 esac
 [ "$RC" -ne 0 ] && { echo "claude -p failed (exit $RC)" >&2; exit 1; }
+# 3b. An envelope flagged as an error, or with no result text, is not a success.
+ERR="$(jq -r "$RESULT | .is_error // false" out.json)"
+{ [ "$ERR" = true ] || [ -z "$TEXT" ]; } && { echo "error flag or empty result" >&2; exit 1; }
 # 4. Exit 0 + end_turn does NOT rule out a graceful decline: check content.
 [ "$STOP" = end_turn ] || { echo "unexpected stop_reason: $STOP" >&2; exit 6; }
 if grep -qiE "i (can't|cannot|won't|am unable)|não (vou|posso|dá)" <<<"$TEXT"; then
@@ -159,7 +162,7 @@ fi
 
 A stronger stopgap exists where the task can be phrased as structured output. The headless documentation states that a `--json-schema` run that ends without valid output — "for example because Claude declined the request" — carries no `structured_output` field (Anthropic, 2026c). Checking for that field turns the decline into a machine-readable signal without a phrase list; it is the out-of-band contract of §5, available today for structured tasks only.
 
-**How the recipe behaves on the July data.** Run against all 50 July trials (the test `tests/test_recipe.py` extracts the block above from this file and executes everything after the `claude -p` call on each recorded envelope, with the recorded exit code injected; the call itself is not re-run), the recipe routes the 25 turn-cap cut-offs as caps (exit 3) and the server block as a classifier refusal (exit 4) — both of which the runner reported only as exit 1 —, flags 19 of the 20 author-labelled declines (exit 2) — it misses A.07, the one item the codebook raters call a delivery — and flags none of the 4 legitimate completions. Against the codebook labels that is 19 of 19 declines and no false alarm. This is **in-sample**: the content pattern, including its Portuguese clause, was written after reading these replies, so it is not the held-out precision and recall that §8 calls for.
+**How the recipe behaves on the July data.** Run against all 50 July trials (the test `tests/test_recipe.py` extracts the recipe above from the source of this article and executes everything after the `claude -p` call on each recorded envelope, with the recorded exit code injected; the call itself is not re-run), the recipe routes the 25 turn-cap cut-offs as caps (exit 3) and the server block as a classifier refusal (exit 4) — both of which the runner reported only as exit 1 —, flags 19 of the 20 author-labelled declines (exit 2) — it misses A.07, the one item the codebook raters call a delivery — and flags none of the 4 legitimate completions. Against the codebook labels that is 19 of 19 declines and no false alarm. This is **in-sample**: the content pattern, including its Portuguese clause, was written after reading these replies, so it is not the held-out precision and recall that §8 calls for.
 
 The phrase check *relocates* the semipredicate rather than removing it: it is a **heuristic classifier over free text**, with its own false positives (output that legitimately *discusses* refusals — e.g. "document when the API declines" — or quotes one of the phrases anywhere in a delivered answer, since the pattern scans the whole reply) and false negatives (novel phrasings, other languages). Automated jailbreak judges have been shown to overstate attack success relative to human judgement (Souly et al., 2024), a warning that applies to any text classifier standing in for a human reading. The recipe buys safety, not correctness.
 
@@ -244,7 +247,7 @@ Dominus, M. J. (2005). *Higher-order Perl: Transforming programs with programs*.
 
 Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.4) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.24065968
 
-Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points https://doi.org/10.5281/zenodo.20276631
 
 florinel-chis. (2026). *Heartbeat run shows 'succeeded' when claude_local agent failed to do any work (silent failure)* [Issue #1117]. paperclipai/paperclip. https://github.com/paperclipai/paperclip/issues/1117
 

@@ -144,6 +144,9 @@ case "$TERM:$STOP" in
   max_turns*|max_budget*|*:max_tokens) echo "agent hit a cap" >&2; exit 3 ;;
 esac
 [ "$RC" -ne 0 ] && { echo "claude -p failed (exit $RC)" >&2; exit 1; }
+# 3b. An envelope flagged as an error, or with no result text, is not a success.
+ERR="$(jq -r "$RESULT | .is_error // false" out.json)"
+{ [ "$ERR" = true ] || [ -z "$TEXT" ]; } && { echo "error flag or empty result" >&2; exit 1; }
 # 4. Exit 0 + end_turn does NOT rule out a graceful decline: check content.
 [ "$STOP" = end_turn ] || { echo "unexpected stop_reason: $STOP" >&2; exit 6; }
 if grep -qiE "i (can't|cannot|won't|am unable)|não (vou|posso|dá)" <<<"$TEXT"; then
@@ -153,7 +156,7 @@ fi
 
 Existe un paliativo más sólido cuando la tarea puede formularse como salida estructurada. La documentación *headless* establece que una ejecución con `--json-schema` que termina sin una salida válida —"por ejemplo, porque Claude rechazó la solicitud"— no lleva campo `structured_output` (Anthropic, 2026c). Comprobar ese campo convierte el rechazo en una señal legible por máquina sin una lista de frases; es el contrato fuera de banda del §5, disponible hoy solo para tareas estructuradas.
 
-**Cómo se comporta la receta con los datos de julio.** Ejecutada sobre los 50 ensayos de julio (la prueba `tests/test_recipe.py` extrae el bloque anterior de este archivo y ejecuta todo lo que sigue a la llamada a `claude -p` sobre cada *envelope* grabado, con el código de salida grabado inyectado; la llamada en sí no se repite), la receta encamina los 25 cortes por el límite de turnos como límites (exit 3) y el bloqueo del servidor como un rechazo del clasificador (exit 4) —ambos, que el ejecutor informó solo como exit 1—, marca 19 de los 20 rechazos etiquetados por el autor (exit 2) —no capta A.07, el único ítem que los evaluadores del *codebook* llaman entrega— y no marca ninguna de las 4 finalizaciones legítimas. Frente a las etiquetas del *codebook*, son 19 de 19 rechazos y ninguna falsa alarma. Esto es **dentro de la muestra**: el patrón de contenido, incluida su cláusula en portugués, se escribió después de leer estas respuestas, de modo que no es la precisión y exhaustividad con datos de reserva que reclama el §8.
+**Cómo se comporta la receta con los datos de julio.** Ejecutada sobre los 50 ensayos de julio (la prueba `tests/test_recipe.py` extrae la receta anterior de la fuente de este artículo y ejecuta todo lo que sigue a la llamada a `claude -p` sobre cada *envelope* grabado, con el código de salida grabado inyectado; la llamada en sí no se repite), la receta encamina los 25 cortes por el límite de turnos como límites (exit 3) y el bloqueo del servidor como un rechazo del clasificador (exit 4) —ambos, que el ejecutor informó solo como exit 1—, marca 19 de los 20 rechazos etiquetados por el autor (exit 2) —no capta A.07, el único ítem que los evaluadores del *codebook* llaman entrega— y no marca ninguna de las 4 finalizaciones legítimas. Frente a las etiquetas del *codebook*, son 19 de 19 rechazos y ninguna falsa alarma. Esto es **dentro de la muestra**: el patrón de contenido, incluida su cláusula en portugués, se escribió después de leer estas respuestas, de modo que no es la precisión y exhaustividad con datos de reserva que reclama el §8.
 
 La verificación de frases *reubica* el semipredicado en lugar de eliminarlo: es un **clasificador heurístico sobre texto libre**, con sus propios falsos positivos (una salida que legítimamente *habla de* rechazos —p. ej. "document when the API declines"— o que cita una de las frases en cualquier punto de una respuesta entregada, ya que el patrón recorre la respuesta entera) y falsos negativos (formulaciones nuevas, otros idiomas). Se ha mostrado que los jueces automáticos de *jailbreak* sobrestiman el éxito del ataque en comparación con el juicio humano (Souly et al., 2024), una advertencia que vale para cualquier clasificador de texto que sustituya a una lectura humana. La receta compra seguridad, no corrección.
 
@@ -238,7 +241,7 @@ Dominus, M. J. (2005). *Higher-order Perl: Transforming programs with programs*.
 
 Flores, C. U. (2026a). *ASP: An operational pre-mortem skill for LLM coding agents — An experience report* (Version 2.4) [Technical report]. Zenodo. https://doi.org/10.5281/zenodo.24065968
 
-Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points. https://doi.org/10.5281/zenodo.20276631
+Flores, C. U. (2026b). *ASP — Anticipating Shadow Points: Claude Code plugin and replication package* (Version 2.0.0) [Computer software]. GitHub. https://github.com/ulissesflores/anticipating-shadow-points https://doi.org/10.5281/zenodo.20276631
 
 florinel-chis. (2026). *Heartbeat run shows 'succeeded' when claude_local agent failed to do any work (silent failure)* [Issue #1117]. paperclipai/paperclip. https://github.com/paperclipai/paperclip/issues/1117
 
