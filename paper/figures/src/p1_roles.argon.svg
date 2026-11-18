@@ -51,7 +51,7 @@
 
 
       <line x1="40" y1="670" x2="960" y2="670" stroke="#1b1b1b" stroke-width="3" stroke-dasharray="12,8" />
-  <text x="56" y="652" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#5c5c5c">{{r_boundary}}</text>
+  <text x="56" y="652" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#5c5c5c">{{r_boundary}}</text>
   <text x="56" y="702" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" fill="#5c5c5c">{{r_contract}}</text>
 
     <line x1="390" y1="580" x2="390" y2="736" stroke="#1c64c7" stroke-width="2" />
@@ -104,17 +104,17 @@
   <text x="361" y="982" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="19" fill="#1b1b1b">{{r_il12}}</text>
 
 
-      <line x1="740" y1="860" x2="915" y2="860" stroke="#1c64c7" stroke-width="2" />
+      <line x1="740" y1="860" x2="862" y2="860" stroke="#1c64c7" stroke-width="2" />
   
   
-  <line x1="915" y1="860" x2="915" y2="1036" stroke="#1c64c7" stroke-width="2" />
-  <polygon points="908,1034 922,1034 915,1046" fill="#1c64c7" />
+  <line x1="862" y1="860" x2="862" y2="1036" stroke="#1c64c7" stroke-width="2" />
+  <polygon points="855,1034 869,1034 862,1046" fill="#1c64c7" />
 
-    <rect x="775" y="706" width="175" height="54" rx="6" ry="6" fill="#ffffff" stroke="#1c64c7" stroke-width="2" />
-  <polygon points="789,716 809,716 815,722 815,750 789,750" fill="#edf3fc" stroke="#1c64c7" stroke-width="2" />
-  <line x1="794" y1="730" x2="810" y2="730" stroke="#1c64c7" stroke-width="2" />
-  <line x1="794" y1="739" x2="810" y2="739" stroke="#1c64c7" stroke-width="2" />
-  <text x="827" y="740" font-family="Menlo, Consolas, monospace" font-size="19" font-weight="bold" fill="#1b1b1b">exec.json</text>
+    <rect x="775" y="906" width="175" height="54" rx="6" ry="6" fill="#ffffff" stroke="#1c64c7" stroke-width="2" />
+  <polygon points="789,916 809,916 815,922 815,950 789,950" fill="#edf3fc" stroke="#1c64c7" stroke-width="2" />
+  <line x1="794" y1="930" x2="810" y2="930" stroke="#1c64c7" stroke-width="2" />
+  <line x1="794" y1="939" x2="810" y2="939" stroke="#1c64c7" stroke-width="2" />
+  <text x="827" y="940" font-family="Menlo, Consolas, monospace" font-size="19" font-weight="bold" fill="#1b1b1b">exec.json</text>
 
     <rect x="40" y="1048" width="920" height="72" rx="12" ry="12" fill="#f4f4f3" stroke="#1c64c7" stroke-width="2" />
     <rect x="76" y="1064" width="36" height="42" rx="3" ry="3" fill="#ffffff" stroke="#1c64c7" stroke-width="2" />

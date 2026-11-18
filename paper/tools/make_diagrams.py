@@ -17,6 +17,7 @@ Output: ``paper/figures/<name>[.<lang>].svg`` and ``.png``.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from html import escape
 from pathlib import Path
@@ -829,7 +830,9 @@ def timeline(t: dict) -> Drawing:
 
 
 def roles(t: dict) -> Drawing:
-    """Draw the three roles of ASP (``paper/asp-preprint.md``): planner, validator and worker.
+    """Fill in the drawing of the three roles of ASP (``paper/asp-preprint.md``).
+
+    The planner, the validator and the worker are drawn in ``paper/figures/src/p1_roles.argon.svg``.
 
     Parameters
     ----------
@@ -841,45 +844,15 @@ def roles(t: dict) -> Drawing:
     Drawing
         The diagram.
     """
-    d = Drawing(1170)
-    mid = W / 2
-    # the parent process holds the planner, the validator, the approval and the hand-off
-    d.rect(40, 20, 920, 610, stroke=INK, width=2.5)
-    d.text(70, 62, t["r_parent"], size=20, weight=700, spacing=2)
-    d.rect(110, 90, 780, 96, fill=BLUE_TINT, stroke=BLUE, width=2.5)
-    d.text(mid, 130, t["r_planner"], size=22, anchor="middle", weight=700, fill=BLUE)
-    d.text(mid, 162, t["r_phases"], size=22, anchor="middle")
-    d.arrow(mid, 186, mid, 246)
-    d.text(mid + 22, 223, t["r_art"], size=19, fill=MUTED, italic=True)
-    d.rect(110, 248, 780, 96, fill=ORANGE_TINT, stroke=ORANGE, width=2.5)
-    d.text(mid, 288, t["r_val"], size=22, anchor="middle", weight=700)
-    d.text(mid, 320, t["r_fresh"], size=22, anchor="middle", fill=ORANGE)
-    d.arrow(mid, 344, mid, 404)
-    d.text(mid + 22, 381, "APPROVE", size=19, fill=MUTED, mono=True)
-    d.rect(110, 406, 780, 70, stroke=MUTED)
-    d.text(mid, 449, t["r_user"], size=22, anchor="middle")
-    d.arrow(mid, 476, mid, 526)
-    d.rect(110, 528, 780, 70, stroke=MUTED)
-    d.text(mid, 571, t["r_emit"], size=22, anchor="middle")
-    # the process boundary: only files cross it
-    d.arrow(mid, 630, mid, 760)
-    d.text(mid + 22, 672, t["r_contract"], size=19, fill=MUTED, italic=True)
-    d.line(40, 712, 960, 712, stroke=MUTED, dash=True)
-    d.text(40, 742, t["r_boundary"], size=20, fill=MUTED, weight=700, spacing=2)
-    # the child subprocess holds the worker
-    d.rect(40, 762, 920, 230, stroke=INK, width=2.5)
-    d.text(70, 804, t["r_child"], size=20, weight=700, spacing=2)
-    d.text(930, 804, "claude -p /goal", size=20, anchor="end", mono=True)
-    d.rect(110, 826, 780, 140, fill=GREY_TINT, stroke=MUTED)
-    d.text(mid, 866, t["r_work"], size=22, anchor="middle", weight=700)
-    d.text(150, 908, "ASP_IN_GOAL=1", size=20, mono=True)
-    d.text(470, 908, t["r_il9"], size=22)
-    d.text(150, 942, "--output-format json", size=20, mono=True)
-    d.text(470, 942, t["r_il12"], size=22)
-    d.arrow(mid, 992, mid, 1062)
-    d.text(mid + 22, 1034, "exec.json", size=19, fill=MUTED, mono=True)
-    d.rect(40, 1064, 920, 80, stroke=INK, width=2.5)
-    d.text(mid, 1112, t["r_close"], size=22, anchor="middle")
+    # The drawing came from a reviewer model as an SVG with {{r_*}} placeholders; only the labels
+    # change per language, so the file is read as is and the placeholders are filled in.
+    source = (OUT / "src" / "p1_roles.argon.svg").read_text(encoding="utf-8")
+    height = int(re.search(r'viewBox="0 0 \d+ (\d+)"', source).group(1))
+    inner = source[source.index(">") + 1 : source.rindex("</svg>")]
+    for key in re.findall(r"\{\{(r_\w+)\}\}", inner):
+        inner = inner.replace("{{" + key + "}}", escape(t[key], quote=False))
+    d = Drawing(height)
+    d.parts.append(inner.strip())
     return d
 
 
