@@ -227,7 +227,7 @@ All 240 trials were recorded, on one version of Claude Code, and none changed a 
 
 ### 5.2. Primary result
 
-The sentence raised coverage from 46.1% to 57.5% by the primary judge (Table 5). The pre-registered statistic, the mean difference over the 24 strata, is 11.4 percentage points, with p = 1/10,001, the smallest value the test can return, reported as p < .001 (Phipson & Smyth, 2010). None of the 10,000 shuffles reached the observed difference; the largest gave 5.9 points (Figure 9). Within Claude Opus 5.5 the difference is 10.4 points and within Claude Sonnet 5.5 it is 12.4 points, each with p < .001. The difference is positive in 22 of the 24 strata, zero in one and negative in one (Table 6). The decision rule returns *confirmed*.
+The sentence raised coverage from 46.1% to 57.5% by the primary judge (Table 5). The pre-registered statistic, the mean difference over the 24 strata, is 11.4 percentage points, with p < .001: the value is 1/10,001, the smallest the test can return (Phipson & Smyth, 2010). None of the 10,000 shuffles reached the observed difference; the largest gave 5.9 points (Figure 9). Within Claude Opus 5.5 the difference is 10.4 points and within Claude Sonnet 5.5 it is 12.4 points, each with p < .001. The difference is positive in 22 of the 24 strata, zero in one and negative in one (Table 6). The decision rule returns *confirmed*.
 
 **Table 5.** Risk coverage by model and judge.
 

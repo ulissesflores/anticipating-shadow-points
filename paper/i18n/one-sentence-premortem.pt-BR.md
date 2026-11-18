@@ -221,7 +221,7 @@ As 240 rodadas foram registradas, numa só versão do Claude Code, e nenhuma alt
 
 ### 5.2. Resultado principal
 
-A frase elevou a cobertura de 46,1% para 57,5% pelo juiz principal (Tabela 5). A estatística pré-registrada, a diferença média sobre os 24 estratos, é de 11,4 pontos percentuais, com p = 1/10.001, o menor valor que o teste pode devolver, relatado como p < ,001 (Phipson e Smyth, 2010). Nenhum dos 10.000 embaralhamentos alcançou a diferença observada; o maior deu 5,9 pontos (Figura 9). Dentro do Claude Opus 5.5 a diferença é de 10,4 pontos e dentro do Claude Sonnet 5.5 é de 12,4 pontos, cada uma com p < ,001. A diferença é positiva em 22 dos 24 estratos, zero em um e negativa em um (Tabela 6). A regra de decisão devolve *confirmado*.
+A frase elevou a cobertura de 46,1% para 57,5% pelo juiz principal (Tabela 5). A estatística pré-registrada, a diferença média sobre os 24 estratos, é de 11,4 pontos percentuais, com p < ,001: o valor é 1/10.001, o menor que o teste pode devolver (Phipson e Smyth, 2010). Nenhum dos 10.000 embaralhamentos alcançou a diferença observada; o maior deu 5,9 pontos (Figura 9). Dentro do Claude Opus 5.5 a diferença é de 10,4 pontos e dentro do Claude Sonnet 5.5 é de 12,4 pontos, cada uma com p < ,001. A diferença é positiva em 22 dos 24 estratos, zero em um e negativa em um (Tabela 6). A regra de decisão devolve *confirmado*.
 
 **Tabela 5.** Cobertura de riscos por modelo e juiz.
 

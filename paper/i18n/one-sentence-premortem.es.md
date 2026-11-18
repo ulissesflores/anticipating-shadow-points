@@ -221,7 +221,7 @@ Las 240 ejecuciones se registraron, en una sola versión de Claude Code, y ningu
 
 ### 5.2. Resultado principal
 
-La frase elevó la cobertura de 46,1% a 57,5% según el juez principal (Tabla 5). El estadístico prerregistrado, la diferencia media sobre los 24 estratos, es de 11,4 puntos porcentuales, con p = 1/10.001, el menor valor que la prueba puede devolver, informado como p < ,001 (Phipson y Smyth, 2010). Ninguna de las 10.000 permutaciones alcanzó la diferencia observada; la mayor dio 5,9 puntos (Figura 9). Dentro de Claude Opus 5.5 la diferencia es de 10,4 puntos y dentro de Claude Sonnet 5.5 es de 12,4 puntos, cada una con p < ,001. La diferencia es positiva en 22 de los 24 estratos, cero en uno y negativa en uno (Tabla 6). La regla de decisión devuelve *confirmado*.
+La frase elevó la cobertura de 46,1% a 57,5% según el juez principal (Tabla 5). El estadístico prerregistrado, la diferencia media sobre los 24 estratos, es de 11,4 puntos porcentuales, con p < ,001: el valor es 1/10.001, el menor que la prueba puede devolver (Phipson y Smyth, 2010). Ninguna de las 10.000 permutaciones alcanzó la diferencia observada; la mayor dio 5,9 puntos (Figura 9). Dentro de Claude Opus 5.5 la diferencia es de 10,4 puntos y dentro de Claude Sonnet 5.5 es de 12,4 puntos, cada una con p < ,001. La diferencia es positiva en 22 de los 24 estratos, cero en uno y negativa en uno (Tabla 6). La regla de decisión devuelve *confirmado*.
 
 **Tabla 5.** Cobertura de riesgos por modelo y juez.
 

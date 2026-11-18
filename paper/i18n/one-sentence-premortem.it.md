@@ -221,7 +221,7 @@ Le 240 prove sono state registrate, in un'unica versione di Claude Code, e nessu
 
 ### 5.2. Risultato principale
 
-La frase ha portato la copertura dal 46,1% al 57,5% secondo il giudice principale (Tabella 5). La statistica pre-registrata, la differenza media sui 24 strati, è di 11,4 punti percentuali, con p = 1/10.001, il valore minore che il test può restituire, riportato come p < ,001 (Phipson e Smyth, 2010). Nessuna delle 10.000 permutazioni ha raggiunto la differenza osservata; la maggiore ha dato 5,9 punti (Figura 9). All'interno di Claude Opus 5.5 la differenza è di 10,4 punti e all'interno di Claude Sonnet 5.5 è di 12,4 punti, ciascuna con p < ,001. La differenza è positiva in 22 dei 24 strati, zero in uno e negativa in uno (Tabella 6). La regola di decisione restituisce *confermato*.
+La frase ha portato la copertura dal 46,1% al 57,5% secondo il giudice principale (Tabella 5). La statistica pre-registrata, la differenza media sui 24 strati, è di 11,4 punti percentuali, con p < ,001: il valore è 1/10.001, il minore che il test può restituire (Phipson e Smyth, 2010). Nessuna delle 10.000 permutazioni ha raggiunto la differenza osservata; la maggiore ha dato 5,9 punti (Figura 9). All'interno di Claude Opus 5.5 la differenza è di 10,4 punti e all'interno di Claude Sonnet 5.5 è di 12,4 punti, ciascuna con p < ,001. La differenza è positiva in 22 dei 24 strati, zero in uno e negativa in uno (Tabella 6). La regola di decisione restituisce *confermato*.
 
 **Tabella 5.** Copertura dei rischi per modello e giudice.
 
