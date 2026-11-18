@@ -49,7 +49,7 @@ fi
 # pushes Figure 2 to the next page in pt-BR and it (page 24 at 36% and 45%), so those two keep the default
 case "$NOME.$LANG_ED" in one-sentence-premortem.*|asp-preprint.en|asp-preprint.es) export CH_TABLE_KEEP=5;; esac
 # and its figures are embedded at 2400 px (the default 850 px looked coarse in print)
-[ "$NOME" = one-sentence-premortem ] && export PX_LIST="2400 2000 1600" CH_KEEP_IMAGE_PIXELS=1
+case "$NOME" in one-sentence-premortem|asp-preprint) export PX_LIST="2400 2000 1600" CH_KEEP_IMAGE_PIXELS=1;; esac  # asp-preprint: Figure 1 is a drawn diagram since 2026-11-17
 BUILD="$ROOT/build/$TAG"
 mkdir -p "$BUILD" "$ROOT/docs/paper"
 if [ "$LANG_ED" = en ]; then

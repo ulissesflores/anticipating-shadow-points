@@ -124,35 +124,9 @@ O ASP é um protocolo de 13 fases que progride da admissão (*intake*) até a ap
 
 ### 3.2. Posicionamento arquitetural
 
-O ASP separa três papéis de agente com passagens explícitas apenas por artefatos (Figura 1):
+O ASP separa três papéis de agente com passagens explícitas apenas por artefatos (Figura 1).
 
-```
-+----------------------------------------------------+
-|                processo-pai do ASP                 |
-|  Fases 0a, 1, 0b, 2, 3, 4    -> papel PLANEJADOR   |
-|                ↓ só artefatos                      |
-|  Fase 5: subagente validador <- prompt novo        |
-|                ↓ APPROVE                           |
-|  Fase 7: aprovação do usuário                      |
-|                ↓                                   |
-|  Fase 8: emite micro-TODO + Goal Spec              |
-+----------------------------------------------------+
-                 ↓ contrato em arquivo
-      - - - - fronteira do processo - - - -
-                 ↓
-+----------------------------------------------------+
-|         subprocesso filho claude -p /goal          |
-|  Fase 9: worker + avaliador                        |
-|  ASP_IN_GOAL=1 (Iron Law 9: sem reentrada)         |
-|  --output-format json (Iron Law 12)                |
-+----------------------------------------------------+
-                 ↓ exec.json
-+----------------------------------------------------+
-|  processo-pai do ASP: Fases 10, 11                 |
-+----------------------------------------------------+
-```
-
-**Figura 1.** Separação em três papéis do ASP. As fases do planejador rodam no processo pai. O validador roda no pai, mas num *prompt* novo de subagente que recebe apenas artefatos, nunca a transcrição do planejador. O *worker* roda num subprocesso filho `claude -p` com contrato em arquivo.
+![Figura 1. Separação em três papéis do ASP. As fases do planejador rodam no processo pai. O validador roda no pai, mas num *prompt* novo de subagente que recebe apenas artefatos, nunca a transcrição do planejador. O *worker* roda num subprocesso filho `claude -p` com contrato em arquivo.](../paper/figures/p1_roles.pt-BR.png)
 
 ### 3.3. Iron Laws
 

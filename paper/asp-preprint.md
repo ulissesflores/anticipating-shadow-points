@@ -379,39 +379,9 @@ subprocess with a file-based contract (Phase 9).
 ### 3.2. Architectural positioning
 
 ASP separates three agent roles with explicit artifact-only handoffs
-(Figure 1):
+(Figure 1).
 
-```
-+----------------------------------------------------+
-|                 ASP parent process                 |
-|  Phases 0a, 1, 0b, 2, 3, 4   -> PLANNER role       |
-|                ↓ artifacts only                    |
-|  Phase 5: validator subagent <- fresh prompt       |
-|                ↓ APPROVE                           |
-|  Phase 7: user approval                            |
-|                ↓                                   |
-|  Phase 8: emit micro-TODO + Goal Spec              |
-+----------------------------------------------------+
-                 ↓ file-based contract
-      - - - - - process boundary - - - - -
-                 ↓
-+----------------------------------------------------+
-|          claude -p /goal child subprocess          |
-|  Phase 9: worker + evaluator                       |
-|  ASP_IN_GOAL=1 (Iron Law 9: no re-entry)           |
-|  --output-format json (Iron Law 12)                |
-+----------------------------------------------------+
-                 ↓ exec.json
-+----------------------------------------------------+
-|  ASP parent process: Phases 10, 11                 |
-+----------------------------------------------------+
-```
-
-**Figure 1.** ASP's three-role separation. Planner phases run in the
-parent. The validator runs in the parent but in a fresh subagent prompt
-that receives only artifacts, never the planner's transcript. The
-worker runs in a child `claude -p` subprocess with a file-based
-contract.
+![Figure 1. ASP's three-role separation. Planner phases run in the parent. The validator runs in the parent but in a fresh subagent prompt that receives only artifacts, never the planner's transcript. The worker runs in a child `claude -p` subprocess with a file-based contract.](../paper/figures/p1_roles.png)
 
 ### 3.3. Iron Laws
 

@@ -123,35 +123,9 @@ ASP è un protocollo in 13 fasi che procede dall'acquisizione (*intake*) fino al
 
 ### 3.2. Posizionamento architetturale
 
-ASP separa tre ruoli di agente con passaggi esclusivamente tramite artefatti (Figura 1):
+ASP separa tre ruoli di agente con passaggi esclusivamente tramite artefatti (Figura 1).
 
-```
-+----------------------------------------------------+
-|               processo padre di ASP                |
-|  Fasi 0a, 1, 0b, 2, 3, 4   -> ruolo PIANIFICATORE  |
-|                ↓ solo artefatti                    |
-|  Fase 5: subagente validatore <- prompt nuovo      |
-|                ↓ APPROVE                           |
-|  Fase 7: approvazione dell'utente                  |
-|                ↓                                   |
-|  Fase 8: emette micro-TODO + Goal Spec             |
-+----------------------------------------------------+
-                 ↓ contratto su file
-      - - - - confine del processo - - - -
-                 ↓
-+----------------------------------------------------+
-|        sottoprocesso figlio claude -p /goal        |
-|  Fase 9: worker + valutatore                       |
-|  ASP_IN_GOAL=1 (Iron Law 9: niente rientro)        |
-|  --output-format json (Iron Law 12)                |
-+----------------------------------------------------+
-                 ↓ exec.json
-+----------------------------------------------------+
-|  processo padre di ASP: Fasi 10, 11                |
-+----------------------------------------------------+
-```
-
-**Figura 1.** La separazione di ASP in tre ruoli. Le fasi del pianificatore girano nel processo padre. Il validatore gira nel padre ma in un *prompt* di sottoagente nuovo che riceve solo artefatti, mai la trascrizione del pianificatore. Il *worker* gira in un sottoprocesso figlio `claude -p` con un contratto basato su file.
+![Figura 1. La separazione di ASP in tre ruoli. Le fasi del pianificatore girano nel processo padre. Il validatore gira nel padre ma in un *prompt* di sottoagente nuovo che riceve solo artefatti, mai la trascrizione del pianificatore. Il *worker* gira in un sottoprocesso figlio `claude -p` con un contratto basato su file.](../paper/figures/p1_roles.it.png)
 
 ### 3.3. Iron Law
 

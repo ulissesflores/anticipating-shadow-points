@@ -123,35 +123,9 @@ ASP es un protocolo de 13 fases que avanza desde la recepción hasta la conformi
 
 ### 3.2. Posicionamiento arquitectónico
 
-ASP separa tres roles de agente con traspasos explícitos solo mediante artefactos (Figura 1):
+ASP separa tres roles de agente con traspasos explícitos solo mediante artefactos (Figura 1).
 
-```
-+----------------------------------------------------+
-|                proceso padre de ASP                |
-|  Fases 0a, 1, 0b, 2, 3, 4  -> rol PLANIFICADOR     |
-|                ↓ solo artefactos                   |
-|  Fase 5: subagente validador <- prompt nuevo       |
-|                ↓ APPROVE                           |
-|  Fase 7: aprobación del usuario                    |
-|                ↓                                   |
-|  Fase 8: emite micro-TODO + Goal Spec              |
-+----------------------------------------------------+
-                 ↓ contrato en archivos
-      - - - - frontera del proceso - - - -
-                 ↓
-+----------------------------------------------------+
-|          subproceso hijo claude -p /goal           |
-|  Fase 9: worker + evaluador                        |
-|  ASP_IN_GOAL=1 (Iron Law 9: sin reentrada)         |
-|  --output-format json (Iron Law 12)                |
-+----------------------------------------------------+
-                 ↓ exec.json
-+----------------------------------------------------+
-|  proceso padre de ASP: Fases 10, 11                |
-+----------------------------------------------------+
-```
-
-**Figura 1.** Separación en tres roles de ASP. Las fases del planificador se ejecutan en el padre. El validador se ejecuta en el padre pero en un *prompt* de subagente nuevo que recibe solo artefactos, nunca la transcripción del planificador. El *worker* se ejecuta en un subproceso hijo `claude -p` con un contrato basado en archivos.
+![Figura 1. Separación en tres roles de ASP. Las fases del planificador se ejecutan en el padre. El validador se ejecuta en el padre pero en un *prompt* de subagente nuevo que recibe solo artefactos, nunca la transcripción del planificador. El *worker* se ejecuta en un subproceso hijo `claude -p` con un contrato basado en archivos.](../paper/figures/p1_roles.es.png)
 
 ### 3.3. Iron Laws
 

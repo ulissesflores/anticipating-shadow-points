@@ -405,7 +405,10 @@ def copiar_figuras(figuras: list[dict], work: Path, px: int, cores: int) -> None
     saida.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(LOGO, saida / LOGO.name)
     for f in figuras:
-        img = Image.open(ROOT / f["arquivo"]).convert("RGB")
+        img = Image.open(ROOT / f["arquivo"]).convert("RGBA")
+        branco = Image.new("RGB", img.size, "white")     # figura sem fundo: achatar sobre branco (convert("RGB") direto
+        branco.paste(img, mask=img.split()[3])           # pintava de preto o que era transparente)
+        img = branco
         f["px_orig"] = img.size
         if img.width > px:
             img = img.resize((px, round(img.height * px / img.width)), Image.LANCZOS)

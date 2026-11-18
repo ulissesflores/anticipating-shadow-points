@@ -121,6 +121,21 @@ TEXT = {
                    ("13 Nov · 09:40", "Collection resumed"), ("14 Nov · 00:30", "240 answers published"),
                    ("14 Nov · 12:44", "720 verdicts sealed"), ("14 Nov · 12:45", "Analysis run and sealed")],
         "tz": "November 2026, São Paulo time",
+        "r_parent": "ASP PARENT PROCESS",
+        "r_planner": "PLANNER role",
+        "r_phases": "Phases 0a, 1, 0b, 2, 3, 4",
+        "r_art": "artifacts only",
+        "r_val": "Phase 5: validator subagent",
+        "r_fresh": "fresh prompt",
+        "r_user": "Phase 7: user approval",
+        "r_emit": "Phase 8: emit micro-TODO + Goal Spec",
+        "r_contract": "file-based contract",
+        "r_boundary": "PROCESS BOUNDARY",
+        "r_child": "CHILD SUBPROCESS",
+        "r_work": "Phase 9: worker + evaluator",
+        "r_il9": "Iron Law 9: no re-entry",
+        "r_il12": "Iron Law 12",
+        "r_close": "ASP parent process: Phases 10, 11",
     },
     "pt-BR": {
         "klein": "PRÉ-MORTEM DE KLEIN (2007)",
@@ -206,6 +221,21 @@ TEXT = {
                    ("14 nov · 12:44", "720 vereditos selados"),
                    ("14 nov · 12:45", "Análise executada e selada")],
         "tz": "novembro de 2026, horário de São Paulo",
+        "r_parent": "PROCESSO-PAI DO ASP",
+        "r_planner": "papel PLANEJADOR",
+        "r_phases": "Fases 0a, 1, 0b, 2, 3, 4",
+        "r_art": "só artefatos",
+        "r_val": "Fase 5: subagente validador",
+        "r_fresh": "prompt novo",
+        "r_user": "Fase 7: aprovação do usuário",
+        "r_emit": "Fase 8: emite micro-TODO + Goal Spec",
+        "r_contract": "contrato em arquivo",
+        "r_boundary": "FRONTEIRA DO PROCESSO",
+        "r_child": "SUBPROCESSO FILHO",
+        "r_work": "Fase 9: worker + avaliador",
+        "r_il9": "Iron Law 9: sem reentrada",
+        "r_il12": "Iron Law 12",
+        "r_close": "processo-pai do ASP: Fases 10, 11",
     },
 }  # fmt: skip
 
@@ -798,6 +828,61 @@ def timeline(t: dict) -> Drawing:
     return d
 
 
+def roles(t: dict) -> Drawing:
+    """Draw the three roles of ASP (``paper/asp-preprint.md``): planner, validator and worker.
+
+    Parameters
+    ----------
+    t : dict
+        Text of the edition language.
+
+    Returns
+    -------
+    Drawing
+        The diagram.
+    """
+    d = Drawing(1170)
+    mid = W / 2
+    # the parent process holds the planner, the validator, the approval and the hand-off
+    d.rect(40, 20, 920, 610, stroke=INK, width=2.5)
+    d.text(70, 62, t["r_parent"], size=20, weight=700, spacing=2)
+    d.rect(110, 90, 780, 96, fill=BLUE_TINT, stroke=BLUE, width=2.5)
+    d.text(mid, 130, t["r_planner"], size=22, anchor="middle", weight=700, fill=BLUE)
+    d.text(mid, 162, t["r_phases"], size=22, anchor="middle")
+    d.arrow(mid, 186, mid, 246)
+    d.text(mid + 22, 223, t["r_art"], size=19, fill=MUTED, italic=True)
+    d.rect(110, 248, 780, 96, fill=ORANGE_TINT, stroke=ORANGE, width=2.5)
+    d.text(mid, 288, t["r_val"], size=22, anchor="middle", weight=700)
+    d.text(mid, 320, t["r_fresh"], size=22, anchor="middle", fill=ORANGE)
+    d.arrow(mid, 344, mid, 404)
+    d.text(mid + 22, 381, "APPROVE", size=19, fill=MUTED, mono=True)
+    d.rect(110, 406, 780, 70, stroke=MUTED)
+    d.text(mid, 449, t["r_user"], size=22, anchor="middle")
+    d.arrow(mid, 476, mid, 526)
+    d.rect(110, 528, 780, 70, stroke=MUTED)
+    d.text(mid, 571, t["r_emit"], size=22, anchor="middle")
+    # the process boundary: only files cross it
+    d.arrow(mid, 630, mid, 760)
+    d.text(mid + 22, 672, t["r_contract"], size=19, fill=MUTED, italic=True)
+    d.line(40, 712, 960, 712, stroke=MUTED, dash=True)
+    d.text(40, 742, t["r_boundary"], size=20, fill=MUTED, weight=700, spacing=2)
+    # the child subprocess holds the worker
+    d.rect(40, 762, 920, 230, stroke=INK, width=2.5)
+    d.text(70, 804, t["r_child"], size=20, weight=700, spacing=2)
+    d.text(930, 804, "claude -p /goal", size=20, anchor="end", mono=True)
+    d.rect(110, 826, 780, 140, fill=GREY_TINT, stroke=MUTED)
+    d.text(mid, 866, t["r_work"], size=22, anchor="middle", weight=700)
+    d.text(150, 908, "ASP_IN_GOAL=1", size=20, mono=True)
+    d.text(470, 908, t["r_il9"], size=22)
+    d.text(150, 942, "--output-format json", size=20, mono=True)
+    d.text(470, 942, t["r_il12"], size=22)
+    d.arrow(mid, 992, mid, 1062)
+    d.text(mid + 22, 1034, "exec.json", size=19, fill=MUTED, mono=True)
+    d.rect(40, 1064, 920, 80, stroke=INK, width=2.5)
+    d.text(mid, 1112, t["r_close"], size=22, anchor="middle")
+    return d
+
+
 DIAGRAMS = {
     "d1_premortem_halves": halves,
     "d2_design": design,
@@ -806,6 +891,7 @@ DIAGRAMS = {
     "d5_scoring": scoring,
     "d6_hash_chain": chain,
     "d7_timeline": timeline,
+    "p1_roles": roles,  # Figure 1 of paper/asp-preprint.md
 }
 
 
