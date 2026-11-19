@@ -143,7 +143,9 @@ def test_iron_law_11_quotes_shares_and_conditional_rates(results):
     d = jul["outcome_information"]["author"]["delivered"]
     assert f"{d['exit_code']['bits']:.2f} of {d['entropy_bits']:.2f} bits" in note
     lo, hi = results["iron_law_11"]["may_2026"]["detector_silent_refusals"]["wilson95"]
-    assert f"95% CI [{round(lo * 100)}, {round(hi * 100)}]" in note  # APA 7 form since paper version 2.4
+    assert (
+        f"95% CI [{round(lo * 100)}, {round(hi * 100)}]" in note
+    )  # APA 7 form since paper version 2.4
     for key in ("author", "codebook", "core"):
         k, n = map(int, jul["declines_given_exit0"][key].split("/"))
         assert f"({round(100 * k / n)}%)" in note
@@ -195,3 +197,57 @@ def test_preprint_quotes_the_2026_11_study():
 
     assert f"+{unit(sec['delta_bar'])} (p {p_text(sec['p'])})" in paper
     assert "91.9% of 855 item decisions" in paper
+
+
+EQUATIONS = (
+    r"\[ \frac{p + \frac{z^{2}}{2n} \pm z\sqrt{\frac{p(1-p)}{n} + \frac{z^{2}}{4n^{2}}}}"
+    r"{1 + \frac{z^{2}}{n}} \]",
+    r"\[ H = -\sum_{i} p_{i} \log_{2} p_{i} \]",
+    r"\[ \frac{I}{H} = \frac{H - H_{c}}{H} \]",
+)
+
+
+@pytest.mark.parametrize(
+    "name",
+    [
+        "graceful-refusals.md",
+        *(f"i18n/graceful-refusals.{lang}.md" for lang in ("pt-BR", "es", "it")),
+    ],
+)
+def test_iron_law_11_prints_the_same_three_equations_in_every_edition(name):
+    """Equations 1 to 3 are the same symbols, each alone on its line, in the four sources."""
+    lines = text(name).splitlines()
+    assert [line for line in lines if line.startswith(r"\[")] == list(EQUATIONS)
+
+
+def test_iron_law_11_equations_give_the_sealed_numbers(results):
+    """Equations 1 to 3, computed as printed from the sealed counts, give the sealed numbers."""
+    from math import log2, sqrt
+
+    jul = results["iron_law_11"]["july_2026"]
+
+    def entropy(counts):
+        """Equation 2: entropy in bits of a table of counts."""
+        return -sum(c / sum(counts) * log2(c / sum(counts)) for c in counts if c)
+
+    z = 1.959963984540054  # the 97.5th percentile of the normal curve, printed as 1.96
+    for reading in ("author", "codebook", "core", "detector"):
+        block = jul[f"{reading}_silent_refusals"]
+        n, p = block["n"], block["k"] / block["n"]
+        centre, half = p + z**2 / (2 * n), z * sqrt(p * (1 - p) / n + z**2 / (4 * n**2))
+        limits = [(centre + sign * half) / (1 + z**2 / n) for sign in (-1, 1)]  # Equation 1
+        assert [round(x, 4) for x in limits] == block["wilson95"]
+    for labels in ("author", "codebook"):
+        info = jul["outcome_information"][labels]
+        n = info["outcomes"]
+        total = sum(n.values())
+        h = entropy(n.values())
+        assert round(h, 4) == info["entropy_bits"]
+        # the exit code makes two groups: exit 1 (cut, blocked) and exit 0 (declined, done)
+        groups = [[n["cut"], n["blocked"]], [n["declined"], n["done"]]]
+        h_c = sum(sum(g) / total * entropy(g) for g in groups)
+        assert round((h - h_c) / h, 4) == info["exit_code"]["share"]  # Equation 3
+        # stop_reason adds the split of cut from blocked; declined and done stay together
+        h_c = (n["declined"] + n["done"]) / total * entropy(groups[1])
+        assert round((h - h_c) / h, 4) == info["exit_code_and_stop_reason"]["share"]
+        assert round(h_c, 4) == info["residual_bits"]
