@@ -39,6 +39,9 @@ def main() -> int:
     for ext in ("docx", "pdf"):
         shutil.copyfile(b / f"{tag}.{ext}", pasta / "docs/paper" / f"{BASE}.{ext}")
         (pasta / "repo/docs/paper" / f"{BASE}.{ext}").symlink_to(REPO / "docs/paper" / f"{nome}.{lang}.{ext}")
+    sign = REPO / "docs/paper" / f"{nome}.{lang}.signoff.json"  # the reader's record, bound to the PDF by its SHA-256
+    if sign.exists():
+        shutil.copyfile(sign, pasta / "docs/paper" / f"{BASE}.signoff.json")
     for f in META + PROV:
         if (REPO / f).exists():
             d = pasta / "repo" / f

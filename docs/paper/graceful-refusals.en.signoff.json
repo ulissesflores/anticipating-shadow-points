@@ -1,0 +1,37 @@
+{
+  "pdf": "graceful-refusals.en.pdf",
+  "pdf_sha256": "19c5a2e01554541548f8b68ca16f785a3187c5b0e776cd9c0e4a838e1d82153d",
+  "items": {
+    "SER-JUD-001": {
+      "by": "Claude (leitor de conferência, sessão e8259210), sob registro",
+      "date": "2026-11-18",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-18.md"
+    },
+    "SER-JUD-002": {
+      "by": "Claude (leitor de conferência, sessão e8259210), sob registro",
+      "date": "2026-11-18",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-18.md"
+    },
+    "SER-JUD-003": {
+      "by": "Claude (leitor de conferência, sessão e8259210), sob registro",
+      "date": "2026-11-18",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-18.md"
+    },
+    "SER-JUD-004": {
+      "by": "Claude (leitor de conferência, sessão e8259210), sob registro",
+      "date": "2026-11-18",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-18.md"
+    },
+    "SER-JUD-005": {
+      "by": "Claude (leitor de conferência, sessão e8259210), sob registro",
+      "date": "2026-11-18",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-18.md",
+      "note": "edição de origem: regra de tradução não se aplica"
+    },
+    "SER-JUD-007": {
+      "by": "Claude (leitor de conferência, sessão e8259210), sob registro",
+      "date": "2026-11-18",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-18.md"
+    }
+  }
+}
