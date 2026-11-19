@@ -60,21 +60,23 @@ research, is the recent characterization of multi-agent failure modes by
 Cemri et al. (2025), who derived a 14-mode taxonomy, the Multi-Agent System
 Failure Taxonomy (MAST), from 150 seed traces
 of multi-agent LLM systems (inter-annotator agreement κ = .88) and released
-a corpus of 1,600+ annotated traces. Neither stream has been integrated as a **runtime discipline**
+a corpus of 1,600+ annotated traces. We found neither stream integrated as a **runtime discipline**
 that a coding agent can be made to follow on every non-trivial task.
 
 This paper reports on **Anticipating Shadow Points (ASP)**, a 13-phase
 planning protocol shipped as a Claude Code skill that combines pre-mortem
 reasoning with the MAST 14-mode checklist, separates planning from
-validation under strict prompt isolation, and hands execution to a
-child subprocess with a file-based contract. We deployed the skill,
+validation under prompt isolation, and, in its opt-in `--goal` mode, hands execution to a
+child subprocess with a file-based contract (by default execution stays in the user's session). We deployed the skill,
 distributed it through three install paths (plugin marketplace, dev mode,
 standalone script), ran it through five engineering evaluations, and
-report the design and what the evaluations can and cannot show. The evaluation is preliminary and
+report the design and what the evaluations can and cannot show. These five evaluations are preliminary and
 unmeasured: GREEN (the agent given the ASP discipline) on five tasks and RED
 (asked to plan without it) on three, one dispatch each, a single
 model, read by the author without blinding, with the raw transcripts not
-preserved. We report it as qualitative observation; the four design choices
+preserved. We report them as qualitative observation. One pre-registered measurement came later
+(Section 5.5): on six tasks, the planning phases of ASP covered fewer reference risks than a
+one-sentence request. The four design choices
 we treat as hypotheses, and a fifth measured in the companion paper, are in
 Section 6.
 
@@ -153,8 +155,8 @@ seed traces (inter-annotator agreement κ = .88), they derived fourteen
 failure modes organised into three categories: specification and system
 design (5 modes), inter-agent misalignment (6 modes), and task
 verification and termination (3 modes); the tables of Section 3 cite these
-modes by their codes, FM-1.1 to FM-3.3. The 14-mode list is the strongest
-recent empirical grounding for a failure-mode checklist; ASP adopts the
+modes by their codes, FM-1.1 to FM-3.3. The 14-mode list is the empirical
+grounding of ASP's failure-mode checklist: ASP adopts the
 mode names verbatim and operationalizes each into a pre-mortem prompt
 plus mitigation in its companion skill files. Two concurrent works
 extend the taxonomy direction: Zhu et al. (2025) introduce AgentDebug
@@ -188,16 +190,17 @@ literature and conclude that reliable self-correction of reasoning errors
 requires external feedback or verifiers rather than the model's unaided
 judgment; intrinsic self-feedback methods such as Self-Refine (Madaan et
 al., 2023) improve some generation tasks but do not close the localization
-gap that Tyen et al. (2024) isolate. Together these findings argue
-that a validator sharing context with a planner inherits the planner's
-confidence calibration on shared content, including erroneous content
-the planner is confident about. ASP's design enforces strict prompt
-isolation between planner and validator (Iron Law 2 below) as the
-architectural counter-move. Kambhampati et al. (2024) reach the same
-conclusion for planning: auto-regressive LLMs cannot by themselves plan or
-self-verify, but can serve as approximate knowledge sources inside an
-"LLM-Modulo" loop with external verifiers — the role ASP assigns to the
-isolated validator and to the executable acceptance tests.
+gap that Tyen et al. (2024) isolate. Together these findings motivate a
+hypothesis that this paper does not test (Section 6): that a validator sharing
+context with a planner inherits the planner's confidence calibration on shared
+content, including erroneous content the planner is confident about. ASP's
+design responds by instructing prompt isolation between planner and validator
+(Iron Law 2 below). Kambhampati et al. (2024) argue, for planning, that
+auto-regressive LLMs cannot by themselves plan or self-verify, but can serve as
+approximate knowledge sources inside an "LLM-Modulo" loop with external
+verifiers. ASP's executable acceptance tests are verifiers of that external
+kind. Its validator is not: it is a second prompt to the same model, which
+separates context but not the model.
 
 ### 2.4. Closest related work: PreFlect
 
@@ -211,11 +214,11 @@ reflection as a limitation and shift criticism *before* the action.
 ASP differs from PreFlect along four axes:
 
 1. **Prompt-isolated validator.** PreFlect distils errors into the
-   agent's own pre-execution criticism; ASP enforces a separate-prompt
-   validator subagent that never sees the planner's transcript.
-2. **Process-level isolation for the executor.** ASP spawns the
+   agent's own pre-execution criticism; ASP instructs a separate-prompt
+   validator subagent that is not given the planner's transcript.
+2. **Process-level isolation for the executor.** In its opt-in `--goal` mode ASP spawns the
    executor as a `claude -p` subprocess with a file-based contract;
-   PreFlect operates within a single process.
+   the PreFlect paper describes no equivalent process boundary.
 3. **Explicit runtime constraints.** ASP states twelve Iron Laws, two of
    them guarded by executable checks and ten as prompt-level rules; PreFlect is presented
    as a methodology rather than a constraint system.
@@ -234,7 +237,7 @@ quality-engineering disciplines that predate LLMs by decades. What is new in
 ASP is not the disciplines but their transposition to a non-deterministic agent
 runtime and the mechanisms that enforce them there.
 
-**Non-redundancy versus defensive re-verification: where ASP departs from Design by Contract.** ASP's micro-TODO
+**Non-redundancy versus defensive re-verification: ASP and Design by Contract.** ASP's micro-TODO
 schema (§3.4) is Design by Contract (Meyer, 1992) relocated from the
 routine boundary to the agent-task boundary. Meyer's contract assigns
 obligations across a caller/routine boundary: the caller must establish
@@ -243,16 +246,20 @@ Meyer's non-redundancy principle forbids the body from re-checking it —
 and the routine must guarantee the POSTCONDITION on which the caller
 relies. Of the schema's seven fields, PRECONDITION, ACTION and
 POSTCONDITION map onto this contract directly, with ACTION as the routine
-body the pre/post pair wraps. ASP then *departs* from Meyer on purpose:
-because the obligor is a non-deterministic model rather than a compiled
-routine, ASP does not assume the postcondition — it re-verifies it with
-an external ACCEPTANCE-TEST, and adds a FALSIFICATION-TEST that has no
-contract-programming analog, importing instead the Popperian stance
+body the pre/post pair wraps. Meyer (1992) also provides for monitoring
+assertions at run time, postconditions included, as an option chosen at
+compilation; by default only preconditions are monitored. ASP turns that
+option into the rule: because the obligor is a non-deterministic model rather
+than a compiled routine, every step's postcondition is checked by an external
+ACCEPTANCE-TEST, a command run outside the model. The trade-off is the one
+Meyer draws between non-redundancy and defensive programming: he rejects
+redundant checks because a contract makes them unnecessary, and ASP pays for a
+check on every step, in time and tokens, because nothing guarantees that a
+model kept its contract. The FALSIFICATION-TEST adds the Popperian stance
 (Popper, 1959/2002) that a claim earns confidence by surviving a
-disconfirmation attempt rather than by a confirming check alone. This
-trade of Design by Contract's non-redundancy for defensive
-re-verification is the same trust-nothing ethos that produces the
-exit-code discipline of Iron Laws 11–12. The Iron Laws, in turn, are stated as the
+disconfirmation attempt rather than by a confirming check alone; it works as a
+negative test beside the contract, not as a clause of it. The same stance
+produces the exit-code discipline of Iron Laws 11–12. The Iron Laws, in turn, are stated as the
 analogue of DbC's third contract element — the class invariant — rather than
 as a per-task pre/post condition; ten of them are instructions the agent is
 told to keep, not checks that run.
@@ -272,14 +279,14 @@ prompting of hazard and operability studies (HAZOP; IEC 61882:2016), where a
 fixed list of words drives the search for deviations, than to
 component-by-component FMEA. What ASP adds is
 the substrate — the "component" whose failure modes are enumerated is an
-LLM plan, and the enumeration is run by a validator that does not share the
-planner's context (§2.3).
+LLM plan; the planner runs the enumeration (Phase 2), and a validator that does
+not share the planner's context reviews the resulting list (Phase 5; §2.3).
 
 **Mistake-proofing.** A subset of the Iron Laws (§3.3) are poka-yoke
 (Shingo, 1986), devices that make a mistake physically impossible, at the
 protocol level: the runner template in
-`claude-p-goal-runner.md` sets `ASP_IN_GOAL` for the child and always passes
-`--output-format json` (Iron Laws 9 and 12); Iron Law 10's file-based
+`claude-p-goal-runner.md` sets `ASP_IN_GOAL` for the child and passes
+`--output-format json` by default (Iron Laws 9 and 12); Iron Law 10's file-based
 contract is an instruction. These checks live in a Bash template the agent
 is told to run, not in a hook (a command that the runner itself executes) outside the agent's control, and they are not the
 physical impossibility of true poka-yoke — an environment flag can be
@@ -325,9 +332,9 @@ what ASP adds.
 
 | ASP mechanism | Classical ancestor | What ASP adds (and does *not* claim) |
 |---|---|---|
-| micro-TODO PRE/ACTION/POST + ACCEPTANCE-TEST | Design by Contract (Meyer, 1992) | a non-deterministic obligor whose postcondition is re-verified by external command, not assumed; not the contract idea |
-| micro-TODO FALSIFICATION-TEST | Popperian falsification (Popper, 1959/2002) | a disconfirmation step at the agent-task boundary; no Design-by-Contract analog |
-| Shadow-point detection (Phase 2) | FMEA-style enumeration (MIL-STD-1629A; IEC 60812:2018) + HAZOP guidewords, over the MAST library (Cemri et al., 2025) | enumeration of an LLM plan under isolation; no risk-priority scoring, no per-component decomposition |
+| micro-TODO PRE/ACTION/POST + ACCEPTANCE-TEST | Design by Contract (Meyer, 1992) | a non-deterministic obligor whose postcondition is checked by an external command on every step, where Meyer's run-time monitoring is an option; not the contract idea |
+| micro-TODO FALSIFICATION-TEST | Popperian falsification (Popper, 1959/2002) | a disconfirmation step at the agent-task boundary; a negative test beside the contract, not a clause of it |
+| Shadow-point detection (Phase 2) | FMEA-style enumeration (MIL-STD-1629A; IEC 60812:2018) + HAZOP guidewords, over the MAST library (Cemri et al., 2025) | enumeration over an LLM plan by the planner, reviewed by a prompt-isolated validator; no risk-priority scoring, no per-component decomposition |
 | Iron Laws 9 and 12 as shell-level checks | Poka-yoke (Shingo, 1986) | two checks in a runner script the agent is instructed to emit; not physical impossibility, and Iron Law 10 is an instruction |
 | Prompt-isolated validator (Iron Law 2) | IV&V (IEEE Std 1012-2016) | organisational independence recast as prompt isolation; not IV&V |
 | Never-trust-`$?` (Iron Laws 11–12) | Unsignalled failure (Avizienis et al., 2004); Yuan et al. (2014) | characterised in the companion paper (Flores, 2026b); not the failure class |
@@ -353,8 +360,9 @@ against the classical literature.
 ASP is a 13-phase protocol that progresses from intake through delivery
 sign-off. Each phase emits a named artifact (Table 2). The principle
 organising the phases is that no implementation begins before shadow
-points have been surfaced (Phase 2), validated independently (Phase 5),
-and approved by the user (Phase 7); execution is delegated to a child
+points have been surfaced (Phase 2), reviewed by a prompt-isolated validator (Phase 5),
+and approved by the user (Phase 7); execution stays in the user's session by default and,
+with the opt-in `--goal` flag, is delegated to a child
 subprocess with a file-based contract (Phase 9).
 
 **Table 2.** ASP phases and their emitted artifacts. Phase 0 has two sub-phases (0a before research, 0b after it), so thirteen phases occupy fourteen rows.
@@ -371,7 +379,7 @@ subprocess with a file-based contract (Phase 9).
 | 6 | Internal loop (cap=3) | Final-revision plan | Bounded iteration; FM-1.5 |
 | 7 | User approval | Go / no-go | Human-in-the-loop gate |
 | 8 | Micro-TODO + Goal Spec | `TaskCreate` per step + Goal Spec | Executor handoff |
-| 9 | Execution via `/goal` subprocess | Tasks marked completed with evidence | Process-level isolation; see Flores (2026b) |
+| 9 | Execution, in session or via the opt-in `/goal` subprocess | Tasks marked completed with evidence | Process-level isolation in the opt-in mode; see Flores (2026b) |
 | 10 | Per-deliverable sign-off | Each deliverable accepted or rejected | Acceptance contract |
 | 11 | Execution Report + memory | Closure artifact + memory write-back | Reflexion-style memory (Shinn et al., 2023) |
 | 12 | (Opt-in) public release | Plugin marketplace + GitHub release | Distribution layer |
@@ -381,7 +389,7 @@ subprocess with a file-based contract (Phase 9).
 ASP separates three agent roles with explicit artifact-only handoffs
 (Figure 1).
 
-![Figure 1. ASP's three-role separation. Planner phases run in the parent. The validator runs in the parent but in a fresh subagent prompt that receives only artifacts, never the planner's transcript. The worker runs in a child `claude -p` subprocess with a file-based contract.](../paper/figures/p1_roles.png)
+![Figure 1. ASP's three-role separation. Planner phases run in the parent. The validator runs in the parent but in a fresh subagent prompt that receives only artifacts, never the planner's transcript. With the opt-in `--goal` flag, the case drawn here, the worker runs in a child `claude -p` subprocess with a file-based contract; by default it runs in the user's session.](../paper/figures/p1_roles.png)
 
 ### 3.3. Iron Laws
 
@@ -442,7 +450,7 @@ install paths, each appropriate for a different audience:
    claude plugin install anticipating-shadow-points@anticipating-shadow-points
    ```
    Invocation: `/anticipating-shadow-points:asp <task>` or bare `/asp`.
-2. **Developer mode** (for contributors): `claude --plugin-dir ./` loads
+2. **Developer mode** (for contributors): `claude --plugin-dir ./plugins/anticipating-shadow-points` loads
    the skill in place; useful when iterating on the skill itself.
 3. **Standalone install script** (for users who do not use the plugin
    manager): `./scripts/install.sh` copies the skill into the user's
@@ -614,11 +622,11 @@ each run) record which model answered, not why. Twenty-four trials exited 0, all
 
 The study was pre-registered in the repository (`benchmark/study-2026-11/PROTOCOL.md`), and its hash ledger was timestamped with OpenTimestamps, a public timestamping service, before the first trial. It replaced the never-deposited Protocol 2 of `PREREGISTRATION.md`. The design (Figure 3):
 
-- **Tasks.** Six change requests on six public repositories, each pinned to one commit: soft-deleting users (FastAPI template), a weekly e-mail digest (Flask), linking Google and password sign-in (Django), retrying POST by default (the `ky` HTTP library), zero-downtime deploys (Django on Docker), and co-authors per article (Express with Prisma).
+- **Tasks.** Six change requests on six public repositories, each pinned to one commit: soft-deleting users (T1, FastAPI template), a weekly e-mail digest (T2, Flask), linking Google and password sign-in (T3, Django), retrying POST by default (T4, the `ky` HTTP library), zero-downtime deploys (T5, Django on Docker), and co-authors per article (T6, Express with Prisma).
 - **Conditions.** Three, each run five times per task (90 trials) with `claude -p` on Claude Opus 5.5, in plan mode, from a fresh clone and a clean environment, with the same output contract: a final table of at most ten risks.
   - **plain:** "Plan this change."
   - **risk:** "Before planning, list the ways this change could go wrong."
-  - **ASP:** `/asp --standard`, stopped after the validated plan.
+  - **ASP:** `/asp --standard`, stopped after the plan had been through its single validator round.
 - **Reference lists.** Three models of other vendors (Grok, GPT-OSS 120B, Gemini 3.8 Flash) read each repository and request without seeing ASP and wrote the risks they expected. A blind judge grouped their items, and a risk entered the reference list when at least two reviewers named it (8 to 12 per task). Models stood in for independent engineers, which the protocol states as a weakening.
 - **Scoring.** The primary judge (Gemini 3.8 Flash) saw only the rows of each answer's table, with words that would reveal the condition redacted, and marked each reference risk as covered or not. A second judge (Grok) did the same. The two agreed on 91.9% of 855 item decisions.
 
@@ -636,10 +644,10 @@ Table 5 and Figure 4 report coverage by condition.
 
 ![Figure 4. Share of the blind reference risks covered by each condition's final table, per task and overall (primary judge).](../output/figures/fig3_study_2026_11_coverage_clear.png)
 
-- **Primary.** ASP minus risk was −.18 (primary judge) and −.16 (second judge). It was negative on all six tasks, with a task-stratified permutation p = 1.0. The decision rule fixed in advance returns *no measurable benefit*.
+- **Primary.** ASP minus risk was −.18 (primary judge) and −.16 (second judge). It was negative on all six tasks, with a one-sided, task-stratified permutation p = 1.0 (the test asks whether ASP exceeds risk). The decision rule fixed in advance returns *no measurable benefit*.
 - **Secondary, pre-registered.** risk minus plain was +.10 (p = .001) and +.13 (p < .001): asking for the ways the change could go wrong, in one sentence, raised coverage.
 - **Exploratory.** ASP's answers handle some risks in their assumptions and deliverables rather than in the final table. When the primary judge read the whole answer, the gap narrowed to −.08 (66% against 74%), and ASP was still behind on five of the six tasks.
-- **Limits.** One model, six tasks, reference lists and judges that are all models, and coverage as the only outcome: whether listed risks are real, or lead to better code, was not measured.
+- **Limits.** One session model (in one of the 90 trials the harness also called a smaller model of the same vendor), six tasks, reference lists and judges that are all models, and coverage as the only outcome: whether listed risks are real, or lead to better code, was not measured.
 - **Record.** Every trial, verdict and analysis is in the repository, chained by hash, and `run_all.py` re-derives every number above.
 
 ---
@@ -849,7 +857,7 @@ International Electrotechnical Commission. (2019). *Risk management — Risk ass
 
 Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., & Narasimhan, K. (2024). *SWE-bench: Can language models resolve real-world GitHub issues?* ICLR 2024. https://arxiv.org/abs/2310.06770
 
-Kambhampati, S., Valmeekam, K., Guan, L., Verma, M., Stechly, K., Bhambri, S., Saldyt, L., & Murthy, A. (2024). *LLMs can't plan, but can help planning in LLM-Modulo frameworks*. ICML 2024 (position paper). https://arxiv.org/abs/2402.01817
+Kambhampati, S., Valmeekam, K., Guan, L., Verma, M., Stechly, K., Bhambri, S., Saldyt, L. P., & Murthy, A. B. (2024). Position: LLMs can't plan, but can help planning in LLM-Modulo frameworks. In *Proceedings of the 41st International Conference on Machine Learning* (Vol. 235, pp. 22895–22907). PMLR. https://proceedings.mlr.press/v235/kambhampati24a.html
 
 Kamoi, R., Zhang, Y., Zhang, N., Han, J., & Zhang, R. (2024). When can LLMs actually correct their own mistakes? A critical survey of self-correction of LLMs. *Transactions of the Association for Computational Linguistics, 12*, 1417–1440. https://doi.org/10.1162/tacl_a_00713
 
@@ -865,7 +873,7 @@ Popper, K. R. (2002). *The logic of scientific discovery*. Routledge. (Original 
 
 Shingo, S. (1986). *Zero quality control: Source inspection and the poka-yoke system* (A. P. Dillon, Trans.). Productivity Press. (Original work published 1985)
 
-Shinn, N., Cassano, F., Berman, E., Gopinath, A., Narasimhan, K., & Yao, S. (2023). *Reflexion: Language agents with verbal reinforcement learning*. NeurIPS 2023. https://arxiv.org/abs/2303.11366
+Shinn, N., Cassano, F., Gopinath, A., Narasimhan, K., & Yao, S. (2023). Reflexion: Language agents with verbal reinforcement learning. *Advances in Neural Information Processing Systems, 36*, 8634–8652. https://doi.org/10.52202/075280-0377
 
 Tyen, G., Mansoor, H., Cărbune, V., Chen, P., & Mak, T. (2024). LLMs cannot find reasoning errors, but can correct them given the error location. In *Findings of the Association for Computational Linguistics: ACL 2024*. https://arxiv.org/abs/2311.08516
 

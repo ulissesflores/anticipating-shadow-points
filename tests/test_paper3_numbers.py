@@ -87,6 +87,9 @@ def test_primary_result():
     assert g["p_by_model"] == {OPUS: 0.0001, SONNET: 0.0001}
     assert g["positive_strata"] == 22 and g["complete_strata"] == 24
     assert "positive in 22 of the 24 strata, zero in one and negative in one" in PAPER
+    k = RESULTS["grok"]
+    assert k["positive_strata"] == 22 and k["complete_strata"] == 24
+    assert "positive in 22 of the 24 strata by this judge as well" in PAPER
     deltas = [v[m]["delta"] for v in DESC["per_task"].values() for m in (OPUS, SONNET)]
     assert sum(d == 0 for d in deltas) == 1 and sum(d < 0 for d in deltas) == 1
     assert g["decision"] == "confirmed"

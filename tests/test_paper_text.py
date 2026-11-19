@@ -197,6 +197,11 @@ def test_preprint_quotes_the_2026_11_study():
 
     assert f"+{unit(sec['delta_bar'])} (p {p_text(sec['p'])})" in paper
     assert "91.9% of 855 item decisions" in paper
+    log = PAPER.parent / "benchmark/study-2026-11/runs/trials.jsonl"
+    trials = [json.loads(line) for line in log.read_text().splitlines() if line.strip()]
+    second = [t for t in trials if len(t["models"]) > 1]
+    assert len(trials) == 90 and len(second) == 1
+    assert "in one of the 90 trials the harness also called a smaller model" in paper
 
 
 EQUATIONS = (
