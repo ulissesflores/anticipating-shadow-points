@@ -1,26 +1,26 @@
 {
   "pdf": "asp-preprint.pt-BR.pdf",
-  "pdf_sha256": "76f855817f7ba7a2ba05e4c857e4d3181ec0be8ee23d3bce04db6f29ec509943",
+  "pdf_sha256": "f19d15b2a092899a35be784604d697844d72bc3760cee981bf9fc892120f4133",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão e8259210), sob registro",
-      "date": "2026-11-18",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-18.md"
+      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "date": "2026-11-19",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-19b.md"
     },
     "SER-JUD-004": {
-      "by": "Claude (leitor de conferência, sessão e8259210), sob registro",
-      "date": "2026-11-18",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-18.md"
+      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "date": "2026-11-19",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-19b.md"
     },
     "SER-JUD-005": {
-      "by": "Claude (leitor de conferência, sessão e8259210), sob registro",
-      "date": "2026-11-18",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-18.md"
+      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "date": "2026-11-19",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-19b.md"
     },
     "SER-JUD-007": {
-      "by": "Claude (leitor de conferência, sessão e8259210), sob registro",
-      "date": "2026-11-18",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-18.md"
+      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "date": "2026-11-19",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-19b.md"
     }
   }
 }

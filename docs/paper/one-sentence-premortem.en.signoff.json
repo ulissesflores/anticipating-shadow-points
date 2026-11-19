@@ -1,0 +1,22 @@
+{
+  "pdf": "one-sentence-premortem.en.pdf",
+  "pdf_sha256": "cd72502a5406219a592eec261685faf28dfcf86d654527120696b6da97fb521c",
+  "items": {
+    "SER-JUD-001": {
+      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "date": "2026-11-19",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-en-2026-11-19b.md"
+    },
+    "SER-JUD-005": {
+      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "date": "2026-11-19",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-en-2026-11-19b.md",
+      "note": "edição de origem: regra de tradução não se aplica"
+    },
+    "SER-JUD-007": {
+      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "date": "2026-11-19",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-en-2026-11-19b.md"
+    }
+  }
+}
