@@ -406,7 +406,7 @@ recommendation, or an empirical design decision.
 | # | Law | Derivation |
 |---|---|---|
 | 1 | No implementation without shadow-point pass first | Klein (2007) + Cemri et al. (2025) |
-| 2 | No plan approval without independent validator pass (separate prompt) | Huang et al. (2024) + Tyen et al. (2024) + Zheng et al. (2023); mitigates FM-3.3 |
+| 2 | No plan approval without independent validator pass (separate prompt); the `--quick` mode skips the validator | Huang et al. (2024) + Tyen et al. (2024) + Zheng et al. (2023); mitigates FM-3.3 |
 | 3 | No micro-TODO without macro plan + charter + deliverables approved by user | Anthropic Skills: verifiable intermediate outputs |
 | 4 | No step completion without fresh acceptance-test evidence | Cemri et al. (2025) FM-3.1 + FM-3.2 + FM-2.6 |
 | 5 | No deliverable accepted without evidence file/output matched | Cemri et al. (2025) FM-3.1 |
@@ -435,7 +435,8 @@ with seven labeled fields:
 This schema is what makes the task list auditable: no task is marked
 completed without acceptance-test evidence (Iron Law 4); no deliverable
 is signed off without matching evidence (Iron Law 5). The schema is
-shared with the Goal Spec consumed by the Phase 9 subprocess.
+shared with the Goal Spec that the Phase 9 subprocess consumes in the opt-in
+`--goal` mode.
 
 ---
 
@@ -462,7 +463,7 @@ format (Claude Code 2.1+; Anthropic, 2026a). It lives in its own folder,
 licence, so an install copies nothing else; the repository root doubles as a
 self-host marketplace via `.claude-plugin/marketplace.json`.
 
-**Permissions.** Since plugin version 1.0.4 the Phase 9 runner spawns the
+**Permissions.** Since plugin version 1.0.4 the Phase 9 runner of the opt-in `--goal` mode spawns the
 `claude -p` child with **no permission flag**: the child runs under the
 user's own Claude Code permission settings, and the skill never grants,
 widens or bypasses them. Earlier versions passed
@@ -678,7 +679,7 @@ point at this; we have not tested it inside ASP.
 
 **Hypothesis: file-based handoffs survive context pressure better than
 transcript-based ones.** ASP commits charter, macro plan, deliverables register and
-goal spec to disk before the executor is spawned. The child receives only
+goal spec to disk before execution starts. In the opt-in `--goal` mode the child receives only
 the Goal Spec text on stdin (standard input) and returns a JSON result; the parent
 reconstructs state from that result and from the files on disk, so neither
 side depends on a transcript that may have been compressed or truncated.
@@ -734,8 +735,10 @@ generalisation beyond these conditions.
 lists, the mock-run fixtures and the deterministic-adjudicator code are
 committed to the companion repository; the 2026-05-17 dispatch transcripts
 were not preserved, so the observations of §5.2 cannot be re-checked. The benchmark
-package builds a cryptographically-chained manifest per run so any byte
-edited under a run directory invalidates the manifest hash.
+package builds a cryptographically-chained manifest per run, so any byte
+edited in the files the manifest covers (environment, code, inputs, outputs
+and adjudication) invalidates the manifest hash; the manifest file itself and
+the run's `report.md` are outside it.
 
 **The study of Section 5.5.** External: one model (Claude Opus 5.5) and six tasks. Construct: the reference
 lists and the judges are models, in place of independent engineers, which the protocol states as a weakening; coverage is the only
@@ -743,7 +746,7 @@ outcome, so whether the listed risks are real, or lead to better code, was not
 measured; and the final-table contract may miss risks that ASP handles in its
 assumptions and deliverables (read whole, the gap narrowed
 but did not close). Internal: the study measured the planning phases of the protocol as a whole, not
-any one component (Section 6). The primary judge also wrote one of the three reviewer lists, and 50 of the 57 reference risks carry its wording; the second judge wrote another list, so neither judge is independent of the yardstick it applies. 
+any one component (Section 6). The reviewers who wrote the reference lists were asked for "the concrete ways this change could go wrong", words close to those of the risk condition, which may favour that condition on coverage. The primary judge also wrote one of the three reviewer lists, and 50 of the 57 reference risks carry its wording; the second judge wrote another list, so neither judge is independent of the yardstick it applies. 
 
 ---
 
@@ -908,9 +911,11 @@ The references present in version 1.0 were verified by direct URL fetch on
 2026-05-17; references added in the July 2026 revision (Flores, 2026b; the
 classical-lineage entries of Section 2.5) were checked when added; and the
 entries added in November 2026 (Barke et al., 2026; Deshpande et al., 2025;
-Kambhampati et al., 2024; G. Zhang et al., 2025; J. Zhang et al., 2026) were
+G. Zhang et al., 2025; J. Zhang et al., 2026) were
 checked against their arXiv records, and Cemri et al. (2025) against its
-NeurIPS proceedings record. The MAST 14-mode names are quoted verbatim from
+NeurIPS proceedings record. In the same month Kambhampati et al. (2024) and
+Shinn et al. (2023) were checked against their proceedings records (PMLR and
+NeurIPS), and their entries now cite those records. The MAST 14-mode names are quoted verbatim from
 Cemri et al. (2025) and listed in the companion skill file
 `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/mast-checklist.md`. Mitchell et al.
 (1989) is the primary study of prospective hindsight; the ≈30% figure is
@@ -948,7 +953,7 @@ benchmark package in `benchmark/` provides:
 - per-run cryptographic provenance (env, code, inputs, outputs and
   adjudication hashed into a Merkle-style chain);
 - a `verify` subcommand that re-walks a run directory and reports any
-  byte-level drift;
+  byte-level drift in the files the manifest covers;
 - 31 unit tests covering the adjudicator, the evaluation and reply parsers,
   the manifest and the hasher, including the determinism contract.
 
