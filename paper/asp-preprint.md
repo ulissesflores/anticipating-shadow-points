@@ -612,7 +612,7 @@ each run) record which model answered, not why. Twenty-four trials exited 0, all
 
 ### 5.5. A pre-registered measurement (2026-11)
 
-The study was pre-registered in the repository (`benchmark/study-2026-11/PROTOCOL.md`), and its hash ledger was timestamped with OpenTimestamps before the first trial. It replaced the never-deposited Protocol 2 of `PREREGISTRATION.md`. The design (Figure 3):
+The study was pre-registered in the repository (`benchmark/study-2026-11/PROTOCOL.md`), and its hash ledger was timestamped with OpenTimestamps, a public timestamping service, before the first trial. It replaced the never-deposited Protocol 2 of `PREREGISTRATION.md`. The design (Figure 3):
 
 - **Tasks.** Six change requests on six public repositories, each pinned to one commit: soft-deleting users (FastAPI template), a weekly e-mail digest (Flask), linking Google and password sign-in (Django), retrying POST by default (the `ky` HTTP library), zero-downtime deploys (Django on Docker), and co-authors per article (Express with Prisma).
 - **Conditions.** Three, each run five times per task (90 trials) with `claude -p` on Claude Opus 5.5, in plan mode, from a fresh clone and a clean environment, with the same output contract: a final table of at most ten risks.

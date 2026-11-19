@@ -234,7 +234,7 @@ Esse achado é observacionalmente significativo para qualquer cadeia de ferramen
 
 ### 5.5. Uma medição pré-registrada (2026-11)
 
-O estudo foi pré-registrado no repositório (`benchmark/study-2026-11/PROTOCOL.md`), e seu registro encadeado de hashes recebeu carimbo de tempo no OpenTimestamps antes da primeira rodada. Ele substituiu o Protocolo 2 do `PREREGISTRATION.md`, que nunca foi depositado. O desenho (Figura 3):
+O estudo foi pré-registrado no repositório (`benchmark/study-2026-11/PROTOCOL.md`), e seu registro encadeado de hashes recebeu carimbo de tempo no OpenTimestamps, um serviço público de carimbo de tempo, antes da primeira rodada. Ele substituiu o Protocolo 2 do `PREREGISTRATION.md`, que nunca foi depositado. O desenho (Figura 3):
 
 - **Tarefas.** Seis pedidos de mudança em seis repositórios públicos, cada um fixado num *commit*: exclusão lógica de usuários (*template* FastAPI), um resumo semanal por e-mail (Flask), vincular o login do Google ao login por senha (Django), novas tentativas de POST por padrão (a biblioteca HTTP `ky`), *deploys* sem indisponibilidade (Django em Docker) e coautores por artigo (Express com Prisma).
 - **Condições.** Três, cada uma executada cinco vezes por tarefa (90 rodadas) com `claude -p` no Claude Opus 5.5, em modo plano, a partir de um clone novo e de um ambiente limpo, com o mesmo contrato de saída: uma tabela final de no máximo dez riscos.

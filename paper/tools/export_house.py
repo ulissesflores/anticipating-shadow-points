@@ -1471,6 +1471,9 @@ def equacoes_numeradas(corpo: etree._Element) -> int:
         if p.getparent().tag != w("body"):
             continue
         n += 1
+        ant = p.getprevious()  # a frase que apresenta a equacao nao fica sozinha no pe da pagina anterior
+        if ant is not None and ant.tag == w("p"):
+            get_or_add(pxml(ant), "keepNext")
         tbl = mk("tbl")
         pr = sub(tbl, "tblPr")
         sub(pr, "tblW", w=util, type="dxa")

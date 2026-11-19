@@ -233,7 +233,7 @@ Questo risultato è significativo sul piano osservativo per qualsiasi *toolchain
 
 ### 5.5. Una misurazione preregistrata (2026-11)
 
-Lo studio è stato preregistrato nel repository (`benchmark/study-2026-11/PROTOCOL.md`), e il suo registro concatenato di hash ha ricevuto una marca temporale OpenTimestamps prima della prima esecuzione. Ha sostituito il Protocollo 2 di `PREREGISTRATION.md`, mai depositato. Il disegno (Figura 3):
+Lo studio è stato preregistrato nel repository (`benchmark/study-2026-11/PROTOCOL.md`), e il suo registro concatenato di hash ha ricevuto una marca temporale OpenTimestamps, un servizio pubblico di marcatura temporale, prima della prima esecuzione. Ha sostituito il Protocollo 2 di `PREREGISTRATION.md`, mai depositato. Il disegno (Figura 3):
 
 - **Compiti.** Sei richieste di modifica su sei repository pubblici, ciascuno fissato a un *commit*: cancellazione logica degli utenti (*template* FastAPI), un riepilogo settimanale via e-mail (Flask), collegare l'accesso Google a quello con password (Django), ritentare le POST per impostazione predefinita (la libreria HTTP `ky`), *deploy* senza interruzioni (Django su Docker) e coautori per articolo (Express con Prisma).
 - **Condizioni.** Tre, ciascuna eseguita cinque volte per compito (90 esecuzioni) con `claude -p` su Claude Opus 5.5, in modalità piano, da un clone nuovo e da un ambiente pulito, con lo stesso contratto di uscita: una tabella finale di al massimo dieci rischi.

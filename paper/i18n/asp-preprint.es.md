@@ -233,7 +233,7 @@ Este hallazgo es observacionalmente significativo para cualquier cadena de herra
 
 ### 5.5. Una medición prerregistrada (2026-11)
 
-El estudio se prerregistró en el repositorio (`benchmark/study-2026-11/PROTOCOL.md`), y su registro encadenado de hashes recibió un sello de tiempo de OpenTimestamps antes de la primera ejecución. Sustituyó al Protocolo 2 de `PREREGISTRATION.md`, que nunca se depositó. El diseño (Figura 3):
+El estudio se prerregistró en el repositorio (`benchmark/study-2026-11/PROTOCOL.md`), y su registro encadenado de hashes recibió un sello de tiempo de OpenTimestamps, un servicio público de sellado de tiempo, antes de la primera ejecución. Sustituyó al Protocolo 2 de `PREREGISTRATION.md`, que nunca se depositó. El diseño (Figura 3):
 
 - **Tareas.** Seis peticiones de cambio en seis repositorios públicos, cada uno fijado en un *commit*: borrado lógico de usuarios (plantilla FastAPI), un resumen semanal por correo (Flask), vincular el inicio de sesión de Google con el de contraseña (Django), reintentar POST por defecto (la biblioteca HTTP `ky`), despliegues sin interrupción (Django en Docker) y coautores por artículo (Express con Prisma).
 - **Condiciones.** Tres, cada una ejecutada cinco veces por tarea (90 ejecuciones) con `claude -p` en Claude Opus 5.5, en modo plan, desde un clon nuevo y un entorno limpio, con el mismo contrato de salida: una tabla final de como máximo diez riesgos.
