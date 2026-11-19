@@ -338,7 +338,7 @@ El autor agradece a los mantenedores del *framework* de *skills* [obra/superpowe
 
 ---
 
-## Referencias (APA, 7.ª edición)
+## Referencias
 
 Anthropic. (2026a). *Plugins reference* [Software documentation]. https://code.claude.com/docs/en/plugins-reference
 

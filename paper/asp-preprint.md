@@ -811,7 +811,7 @@ whose empirical behavior motivated Iron Laws 11 and 12.
 
 ---
 
-## References (APA, 7th edition)
+## References
 
 Anthropic. (2026a). *Plugins reference* [Software documentation]. https://code.claude.com/docs/en/plugins-reference
 

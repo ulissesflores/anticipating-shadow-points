@@ -339,7 +339,7 @@ O autor agradece aos mantenedores do *framework* de *skills* [obra/superpowers](
 
 ---
 
-## Referências (APA, 7.ª edição)
+## Referências
 
 Anthropic. (2026a). *Plugins reference* [Software documentation]. https://code.claude.com/docs/en/plugins-reference
 
