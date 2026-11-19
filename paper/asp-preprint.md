@@ -281,7 +281,7 @@ protocol level: the runner template in
 `claude-p-goal-runner.md` sets `ASP_IN_GOAL` for the child and always passes
 `--output-format json` (Iron Laws 9 and 12); Iron Law 10's file-based
 contract is an instruction. These checks live in a Bash template the agent
-is told to run, not in a hook outside the agent's control, and they are not the
+is told to run, not in a hook (a command that the runner itself executes) outside the agent's control, and they are not the
 physical impossibility of true poka-yoke — an environment flag can be
 unset or fail to propagate — and the remaining laws are
 procedural gates (Iron Laws 1, 2, 4, 5) or verification rules that still
@@ -304,7 +304,7 @@ IV&V's.
 **Dependability vocabulary.** The exit-code behaviour behind Iron Laws
 11–12 has an exact name in the dependability taxonomy: an exit 0 on a
 graceful decline is an *unsignalled failure* (Avizienis et al., 2004),
-neither a crash nor a fail-silent stop. The term, its prior art, and the
+neither a crash nor a fail-silent stop (one that halts and emits nothing). The term, its prior art, and the
 measurement are developed in the companion paper (Flores, 2026b); this
 section imports only the vocabulary and does not re-open the novelty
 question here.
@@ -594,7 +594,7 @@ Section 5.5 reports the measurement; Section 6 states the design hypotheses it b
 
 During a four-test battery against the `claude -p` non-interactive
 runner, we observed that the binary returns exit code 0 even when the
-agent gracefully refuses the requested goal — the harness reports a
+agent gracefully refuses the requested goal — the harness (the program that runs the agent) reports a
 successful conversation end despite the agent semantically refusing the
 task. The exit code reflects process-level success of the CLI binary,
 not semantic success of the agent's task. Iron Laws 11 and 12 require `--output-format json` or `stream-json` and reading
@@ -671,7 +671,7 @@ point at this; we have not tested it inside ASP.
 **Hypothesis: file-based handoffs survive context pressure better than
 transcript-based ones.** ASP commits charter, macro plan, deliverables register and
 goal spec to disk before the executor is spawned. The child receives only
-the Goal Spec text on stdin and returns a JSON result; the parent
+the Goal Spec text on stdin (standard input) and returns a JSON result; the parent
 reconstructs state from that result and from the files on disk, so neither
 side depends on a transcript that may have been compressed or truncated.
 We have not compared the two handoffs.
