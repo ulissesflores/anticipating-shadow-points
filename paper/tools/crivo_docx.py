@@ -139,6 +139,12 @@ def sid_de(p: etree._Element) -> str:
 # --------------------------------------------------------------------------- #
 # fase DOCX                                                                    #
 # --------------------------------------------------------------------------- #
+def tabela_equacao(tbl: etree._Element) -> bool:
+    """A tabela sem borda que carrega uma equacao numerada (export_house.equacoes_numeradas): nao e Tabela do artigo."""
+    d = tbl.find(f"{w('tblPr')}/{w('tblDescription')}")
+    return d is not None and re.fullmatch(rf"{re.escape(X.LB['equation'])} \d+", d.get(w("val"), "")) is not None
+
+
 def crivo_docx(docx: Path, fig_cm: float) -> dict:
     z = zipfile.ZipFile(docx)
     partes = {n: z.read(n) for n in z.namelist()}
@@ -167,7 +173,8 @@ def crivo_docx(docx: Path, fig_cm: float) -> dict:
         if p is None or (not r.findall(w("t")) and r.find(f".//{w('drawing')}") is None):
             continue
         ps = sid_de(p)
-        em_tab = any(a.tag == w("tc") for a in r.iterancestors())
+        tab = next((a for a in r.iterancestors() if a.tag == w("tbl")), None)
+        em_tab = tab is not None and not tabela_equacao(tab)   # o numero "(N)" da equacao tem o corpo do texto
         f = est.fonte(r, ps)
         codigo = ps == "CodeBlock"
         if f != X.TNR and not (codigo and f == X.MONO):
@@ -191,7 +198,7 @@ def crivo_docx(docx: Path, fig_cm: float) -> dict:
         v("FORMA", "F03", f"{k} run(s) em tabela com {t} pt (esperado {X.CFG['pt_tabela_min']} a {X.CFG['pt_tabela']})")
 
     # F04: preenchimento em tabela (corpo e estilo de tabela usado)
-    for i, tbl in enumerate(corpo.iter(w("tbl")), 1):
+    for i, tbl in enumerate((t for t in corpo.iter(w("tbl")) if not tabela_equacao(t)), 1):
         for s in tbl.iter(w("shd")):
             v("FORMA", "F04", f"tabela {i}: shd/fill ({s.get(w('fill'))}) em {etree.QName(s.getparent()).localname}")
             break
@@ -240,7 +247,7 @@ def crivo_docx(docx: Path, fig_cm: float) -> dict:
                 if (X.quebra_direta(t) or rx_apendice().match(t) or X.sobre_autor(t) or X.nota_tecnica(t)) and not quebra:
                     v("FORMA", "F07", f"titulo sem quebra de pagina antes: {t[:50]!r}")
                 ctx["titulos"].append(t)
-            elif rx_apendice().match(t):
+            elif rx_apendice().match(t) and not sid.startswith("TOC"):   # entrada do sumario cita o apendice
                 v("FORMA", "F07", f"apendice fora de Heading1: {t[:50]!r}")
             if sid == "Lista" or el.find(f"{w('pPr')}/{w('numPr')}") is not None:
                 if sid != "Lista":
@@ -253,7 +260,10 @@ def crivo_docx(docx: Path, fig_cm: float) -> dict:
             if el.find(f".//{w('drawing')}") is not None and el.find(f".//{{{WP}}}docPr").get("descr") != X.LOGO_ALT:
                 ctx["figuras"].append(el)
         elif el.tag == w("tbl"):
-            ctx["tabelas"].append((idx, el))
+            if tabela_equacao(el):
+                ctx["equacoes"] = ctx.get("equacoes", 0) + 1
+            else:
+                ctx["tabelas"].append((idx, el))
 
     # F06/F14: figuras
     emu = round(fig_cm * X.EMU_CM)
@@ -357,7 +367,9 @@ def crivo_pdf(pdf: Path, docx_ctx: dict, render: Path | None) -> None:
     fonts = subprocess.run(["pdffonts", str(pdf)], capture_output=True, text=True).stdout.splitlines()[2:]
     nomes = [ln.split()[0] for ln in fonts if ln.strip()]
     mono = X.MONO.replace(" ", "")
-    ruins = [n for n in nomes if "TimesNewRoman" not in n and mono not in n]
+    # o editor de equacao do Word compoe em Cambria Math: admitida so em edicao que tem equacao numerada
+    math_ok = "CambriaMath" if docx_ctx.get("equacoes") else "\0"
+    ruins = [n for n in nomes if "TimesNewRoman" not in n and mono not in n and math_ok not in n]
     for n in ruins:
         v("FORMA", "P01", f"pdffonts: fonte {n} (so Times New Roman e permitido)")
     INFO.append(f"pdffonts: {len(nomes)} faces ({', '.join(sorted(set(nomes)))}); PDF {tam} bytes")

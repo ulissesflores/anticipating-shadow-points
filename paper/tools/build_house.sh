@@ -39,10 +39,18 @@ word_pdf() {  # $1 docx, $2 final pdf
   cp "$1" "$WORD_IO" || return 1
   local pdf_io="${WORD_IO%.docx}.pdf"
   rm -f "$pdf_io" "$2"
-  osascript - "$WORD_IO" "$pdf_io" <<'APPLESCRIPT' || return 1
+  # Contents page (house norm v1.7): a long edition carries a TOC field that only Word fills. Without updating the
+  # field before saving, the PDF comes out with an empty contents page; two passes, because the first changes the
+  # size of the contents itself and may push the pages it cites. `grep -c`, not `grep -q`: -q leaves at the first
+  # hit, unzip dies of SIGPIPE and under pipefail the test is false exactly when there is a field (factory, 2026-11-19).
+  local toc=0
+  if unzip -p "$1" word/document.xml | grep -c 'TOC \\o' >/dev/null; then toc=1; fi
+  osascript - "$WORD_IO" "$pdf_io" "$toc" > "${WORD_IO%.docx}.toc.txt" <<'APPLESCRIPT' || return 1
 on run argv
   set docPath to item 1 of argv
   set pdfPath to item 2 of argv
+  set hasToc to item 3 of argv
+  set tocEntries to ""
   set docName to do shell script "basename " & quoted form of docPath
   -- a Word that is still starting answers "Connection is invalid (-609)" or "Not authorized (-1743)" to
   -- "count of documents" (three failed builds in a row on 2026-11-16): start it and ask until it answers
@@ -75,6 +83,19 @@ on run argv
         error "Word did not open " & docName & " in 120 s (probably 'Grant File Access': approve the path once, or use WORD_IO=<authorised path>)"
       end if
       set d to document docName
+      if hasToc is "1" then
+        try
+          if (count of tables of contents of d) = 0 then error "Word did not recognise the contents field"
+          repeat 2 times
+            update (table of contents 1 of d)
+          end repeat
+          set tocEntries to content of text object of table of contents 1 of d
+        on error msg
+          close d saving no
+          if n0 = 0 then quit saving no
+          error "could not update the contents field: " & msg
+        end try
+      end if
       try
         save as d file name pdfPath file format format PDF
       on error msg number num
@@ -86,9 +107,16 @@ on run argv
       if n0 = 0 then quit saving no
     end tell
   end timeout
+  return tocEntries
 end run
 APPLESCRIPT
   mv "$pdf_io" "$2" || return 1
+  if [ "$toc" = 1 ]; then
+    # Word closed without saving: the entries it computed go into the DOCX as the field result; the DOCX keeps the
+    # date of the PDF made from it, so that "PDF older than its DOCX" still means a stale export
+    "$PY" "$ROOT/tools/export_house.py" --entradas-do-sumario "$1" "${WORD_IO%.docx}.toc.txt" || return 1
+    touch -r "$2" "$1"
+  fi
 }
 
 # first heading of page 2 = the edition's own summary (en: Abstract); proves the PDF is of THIS edition

@@ -38,6 +38,13 @@ from PIL import Image, ImageFont
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import rotulos  # noqa: E402  (rótulos por idioma da edição; `en` = literais originais)
 
+# contrato da serie (norma Codex Hash): as quebras de pagina e o sumario saem das MESMAS funcoes que o verificador
+# usa (series_rules), para a edicao perto do limiar nao cair de um lado aqui e do outro la
+CANON_JSON = Path("/Users/ulissesflores/Developer/research-lab/metodo/templates/codex-hash-canon.json")
+sys.path.insert(0, "/Users/ulissesflores/Developer/research-lab/metodo/tools")
+import series_rules  # noqa: E402
+SERIE: dict = {"quebras": [], "sumario": "", "declaracoes": ""}   # preenchido em main() para a edicao da vez
+
 # --------------------------------------------------------------------------- #
 # 0. constantes de forma (UM lugar) — o crivo importa estas mesmas             #
 # --------------------------------------------------------------------------- #
@@ -227,6 +234,10 @@ def split_legenda(legenda: str) -> tuple[str, str]:
     return legenda.rstrip("."), ""
 
 
+# equacao destacada na fonte: uma linha `\\[ ... \\]` (o `$` fica literal no texto: o artigo escreve `$?`)
+RE_EQ = re.compile(r"\\\[.+\\\]")
+
+
 def escapa_travessao(ln: str) -> str:
     """`--flag` em texto corrido vira travessao no pandoc (smart): escapa, MAS so fora de codigo inline e de tabela
     separadora (o original escapava ate dentro de `code`, que mostraria a barra invertida)."""
@@ -393,6 +404,10 @@ def preparar_md(src: Path, work: Path, fig_cm: str) -> tuple[str, dict]:
                 rel["sem_nota"].append(f"{LB['figure']} {num}")
             i += 1
             continue
+        if RE_EQ.fullmatch(ln.strip()):                 # equacao destacada: LaTeX intocado, sozinha no paragrafo
+            saida += ["", ln.strip(), ""]
+            i += 1
+            continue
         saida.append(escapa_travessao(ln))
         i += 1
     rel["figuras"] = figuras
@@ -539,7 +554,22 @@ def construir_estilos() -> list[etree._Element]:
         estilo_par("CoverInfo", "CoverInfo", (2.0, 0, 6), jc="center"),
         estilo_par("CoverSmall", "CoverSmall", (1.5, 0, 3), jc="center", sz=22),
         estilo_par("Cabecalho", "header", ESP["cabecalho"], jc="right", custom=False),
+        estilo_sumario(1), estilo_sumario(2),
     ]
+
+
+def estilo_sumario(nivel: int) -> etree._Element:
+    """Entrada do sumario (norma v1.7): Times 12, espaco simples, a esquerda, numero na margem direita com pontos.
+    3 pt antes de cada secao de nivel 1 (medida da fabrica, 2026-11-19: com 6 pt o sumario passava de pagina)."""
+    util = CFG["pagina_twips"][0] - 2 * CFG["margem_twips"]
+    st = estilo_par(f"TOC{nivel}", f"toc {nivel}", (1.0, 3 if nivel == 1 else 0, 0), recuo=(360 * (nivel - 1), 0, 0),
+                    custom=False)
+    ppr = st.find(w("pPr"))
+    tabs = mk("tabs")
+    sub(tabs, "tab", val="right", leader="dot", pos=util)
+    ppr.insert(0, tabs)
+    ordenar(ppr, ORD_PPR)
+    return st
 
 
 def estilo_char_hyperlink() -> etree._Element:
@@ -789,6 +819,11 @@ def formatar_corpo(doc: etree._Element, media: dict[str, Path], fig_cm: float, r
             for t in list(r.iter(w("t"))):  # codigo nao parte no hifen ("claude -" / "p"); espaco fica comum para
                 if not t.text:              # o comando copiado do PDF colar certo no terminal
                     continue
+                # titulo fica com o hifen comum: o sumario (norma v1.7) e o verificador comparam o texto do
+                # titulo com o do PDF, e o elemento <w:noBreakHyphen/> some do texto extraido do DOCX
+                par_r = next((a for a in r.iterancestors() if a.tag == w("p")), None)
+                if par_r is not None and estilo_de(par_r).startswith("Heading"):
+                    continue
                 if "-" in t.text:              # <w:noBreakHyphen/> do Word: copia como hifen comum, nao U+2011
                     partes = t.text.split("-")
                     t.text = partes[0]
@@ -932,6 +967,8 @@ def formatar_corpo(doc: etree._Element, media: dict[str, Path], fig_cm: float, r
                 for tag in ("sz", "szCs"):
                     for el in rpr.findall(w(tag)) if rpr is not None else []:
                         rpr.remove(el)
+    if SERIE["sumario"]:
+        inserir_sumario(corpo, SERIE["sumario"])
     quebras_de_pagina(corpo)
     resumo_inteiro(corpo)
     nao_separa(corpo)
@@ -1038,20 +1075,112 @@ def nao_separa(corpo: etree._Element) -> None:
                 ordenar(pxml(par), ORD_PPR)
 
 
+AVISO_SUMARIO = "Update this field in Word to see the sections and their pages."
+
+
+def inserir_sumario(corpo: etree._Element, titulo: str) -> None:
+    """Pagina de sumario antes da primeira secao numerada (norma v1.7, SER-STRUCT-005). Porte de `sumario()` da
+    fabrica (research-lab, artigo 2025-lstm-asset-prediction, medido no Word em 2026-11-19).
+
+    O sumario e um campo TOC do Word (niveis 1 e 2, com o numero da pagina), nunca texto digitado. O campo so lista
+    o que esta dentro do marcador `corpo`, aberto no titulo da primeira secao numerada e fechado no ultimo paragrafo
+    do documento: sem isso listaria a si mesmo e os resumos. O marcador abre e fecha DENTRO de paragrafos (entre
+    paragrafos o Word atualiza sem erro e devolve o sumario vazio). O campo fecha num paragrafo proprio de altura
+    minima com 9 pt depois (sem ele sobra uma linha vazia que transborda para pagina em branco). Quem preenche o
+    campo e o Word, em build_house.sh; o aviso so aparece se alguem abrir o DOCX sem atualizar os campos.
+    """
+    intro = next(p for p in corpo.iter(w("p")) if estilo_de(p) == "Heading1" and re.match(r"^1\. ", texto_de(p).strip()))
+    cab = mk("p")
+    sub(sub(cab, "pPr"), "pStyle", val="Heading1")
+    sub(sub(cab, "r"), "t").text = titulo
+    campo = mk("p")
+    sub(sub(campo, "pPr"), "pStyle", val="TOC1")
+    sub(sub(campo, "r"), "fldChar", fldCharType="begin")
+    it = sub(sub(campo, "r"), "instrText")
+    it.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+    it.text = ' TOC \\o "1-2" \\h \\b corpo '
+    sub(sub(campo, "r"), "fldChar", fldCharType="separate")
+    sub(sub(campo, "r"), "t").text = AVISO_SUMARIO
+    fecho = mk("p")
+    ppr = sub(fecho, "pPr")
+    sub(ppr, "spacing", before=0, after=180, line=20, lineRule="exact")
+    sub(sub(ppr, "rPr"), "sz", val=2)
+    sub(sub(fecho, "r"), "fldChar", fldCharType="end")
+    for el in (cab, campo, fecho):
+        intro.addprevious(el)
+    pxml(intro).addnext(mk("bookmarkStart", id=9000, name="corpo"))
+    ultimo = [p for p in corpo if p.tag == w("p")][-1]
+    ultimo.append(mk("bookmarkEnd", id=9000))
+
+
+def preencher_sumario(docx: Path, entradas: str) -> int:
+    """Grava no DOCX as entradas que o Word calculou, para o arquivo abrir com o sumario pronto (o PDF ja saiu do
+    Word com o campo atualizado, e o roteiro fecha o documento sem salvar). `entradas` = texto do sumario devolvido
+    pelo Word, uma linha por entrada, `titulo<TAB>pagina`; entra como resultado do campo, no lugar do aviso."""
+    # o Word devolve o hifen inseparavel como U+001E e o hifen opcional como U+001F (medido em 2026-11-19, "micro-TODO")
+    entradas = entradas.replace("\x1e", "\u2011").replace("\x1f", "")
+    linhas = [ln.split("\t") for ln in re.split(r"[\r\n]+", entradas) if "\t" in ln]
+    with zipfile.ZipFile(docx) as z:
+        nomes = z.namelist()
+        partes = {n: z.read(n) for n in nomes}
+    doc = etree.fromstring(partes["word/document.xml"])
+    corpo = doc.find(w("body"))
+    nivel2 = {texto_de(p).strip() for p in corpo.iter(w("p")) if estilo_de(p) == "Heading2"}
+    avisos = [t for t in corpo.iter(w("t")) if t.text == AVISO_SUMARIO]
+    if not linhas or len(avisos) != 1:
+        raise SystemExit(f"[FAIL] sumario: {len(linhas)} entradas do Word, {len(avisos)} aviso(s) no DOCX")
+    r_aviso = avisos[0].getparent()
+    par = r_aviso.getparent()
+    par.remove(r_aviso)
+    for k, campos in enumerate(linhas):
+        titulo, pagina = campos[0].strip(), campos[-1].strip()
+        if k:                                   # a primeira entrada continua o paragrafo que abre o campo
+            novo = mk("p")
+            par.addnext(novo)
+            par = novo
+        ppr = par.find(w("pPr"))
+        if ppr is None:
+            ppr = mk("pPr")
+            par.insert(0, ppr)
+        for old in ppr.findall(w("pStyle")):
+            ppr.remove(old)
+        ppr.insert(0, mk("pStyle", val="TOC2" if titulo in nivel2 else "TOC1"))
+        t = sub(sub(par, "r"), "t")
+        t.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+        t.text = titulo
+        sub(sub(par, "r"), "tab")
+        sub(sub(par, "r"), "t").text = pagina
+    partes["word/document.xml"] = etree.tostring(doc, xml_declaration=True, encoding="UTF-8", standalone=True)
+    tmp = docx.with_suffix(".sumario.tmp")
+    with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as z:
+        for n in nomes:
+            z.writestr(n, partes[n])
+    shutil.move(tmp, docx)
+    print(f"[OK] sumario gravado no DOCX: {len(linhas)} entradas")
+    return len(linhas)
+
+
 def quebras_de_pagina(corpo: etree._Element) -> None:
     """Canon en: pageBreakBefore so em Abstract, 1. e References; cada apendice comeca em pagina nova por quebra
     manual no proprio titulo (APA 7: cada apendice em pagina propria), sem contar como pageBreakBefore. O "Sobre o
     autor" tambem (norma da casa v1.4, 2026-11-08): pagina propria depois da ultima referencia."""
+    depois_das_declaracoes = False
     for p in corpo.iter(w("p")):
         if estilo_de(p) != "Heading1":
             continue
         t = texto_de(p).strip()
-        if quebra_direta(t):
+        sem_numero = re.sub(r"^\d+\.\s+", "", t)
+        # norma v1.7: Declaracoes (com ou sem numero de secao) e o titulo do sumario entram pela lista do contrato;
+        # o titulo que vem depois das Declaracoes tambem abre pagina (quebra manual, como apendice, se nao for da lista)
+        da_lista = quebra_direta(t) or sem_numero in SERIE["quebras"]
+        if da_lista:
             sub(pxml(p), "pageBreakBefore")
-        elif re.match(rf"^{re.escape(LB['appendix'])} [A-Z] —", t) or sobre_autor(t) or nota_tecnica(t):
+        elif (re.match(rf"^{re.escape(LB['appendix'])} [A-Z] —", t) or sobre_autor(t) or nota_tecnica(t)
+              or depois_das_declaracoes):
             r = mk("r")
             sub(r, "br", type="page")
             pxml(p).addnext(r)
+        depois_das_declaracoes = bool(SERIE["declaracoes"]) and sem_numero == SERIE["declaracoes"]
         if nota_tecnica(t):   # titulo centralizado com uma linha embaixo (o negrito ja vem do Heading1)
             ppr = pxml(p)
             bdr = sub(ppr, "pBdr")
@@ -1323,6 +1452,66 @@ def aplicar_secoes(corpo: etree._Element, infos: list[dict]) -> int:
     return n
 
 
+M_NS = "http://schemas.openxmlformats.org/officeDocument/2006/math"
+
+
+def equacoes_numeradas(corpo: etree._Element) -> int:
+    """Equacao destacada no padrao APA 7: centrada, com o numero entre parenteses na margem direita.
+
+    O pandoc escreve `\\[...\\]` como paragrafo com `m:oMathPara`, sem numero. Porte de `equacoes_numeradas` da
+    fabrica (research-lab, artigo 2025-lstm-asset-prediction, medido no Word em 2026-11-06): o `#` de `m:eqArr` nao
+    alinha o numero e a tabulacao deixa a equacao em modo de linha; o que funciona e uma tabela sem borda de tres
+    celulas com a equacao em modo de exibicao na do meio. Roda DEPOIS da passada de tabelas APA: esta tabela nao e
+    Tabela do artigo, e o crivo a reconhece pelo `tblDescription` ("<rotulo> N").
+    """
+    util = CFG["pagina_twips"][0] - 2 * CFG["margem_twips"]
+    larg = [1404, util - 2 * 1404, 1404]
+    n = 0
+    for p in [q for q in corpo.iter(w("p")) if q.find(f"{{{M_NS}}}oMathPara") is not None]:
+        if p.getparent().tag != w("body"):
+            continue
+        n += 1
+        tbl = mk("tbl")
+        pr = sub(tbl, "tblPr")
+        sub(pr, "tblW", w=util, type="dxa")
+        sub(pr, "jc", val="center")
+        bd = sub(pr, "tblBorders")
+        for lado in ("top", "left", "bottom", "right", "insideH", "insideV"):
+            sub(bd, lado, val="nil")
+        sub(pr, "tblLayout", type="fixed")
+        mar = sub(pr, "tblCellMar")
+        sub(mar, "left", w=0, type="dxa")
+        sub(mar, "right", w=0, type="dxa")
+        sub(pr, "tblDescription", val=f"{LB['equation']} {n}")
+        grade = sub(tbl, "tblGrid")
+        for lg in larg:
+            sub(grade, "gridCol", w=lg)
+        tr = sub(tbl, "tr")
+        sub(sub(tr, "trPr"), "cantSplit")
+        for lg, jc in zip(larg, ("left", "center", "right")):
+            tc = sub(tr, "tc")
+            tcpr = sub(tc, "tcPr")
+            sub(tcpr, "tcW", w=lg, type="dxa")
+            sub(tcpr, "vAlign", val="center")
+            par = sub(tc, "p")
+            ppr = sub(par, "pPr")
+            sub(ppr, "spacing", before=0, after=0, line=240, lineRule="auto")
+            sub(ppr, "jc", val=jc)
+            if jc == "center":
+                par.append(p.find(f"{{{M_NS}}}oMathPara"))
+            elif jc == "right":
+                r = sub(par, "r")
+                set_fonte_run(r, CFG["pt"])
+                t = sub(r, "t")
+                t.text = f"({n})"
+        respiro = mk("p")                     # tabela colada na seguinte vira uma so no Word
+        sub(sub(respiro, "pPr"), "spacing", before=0, after=0, line=240, lineRule="auto")
+        p.addnext(respiro)
+        p.addnext(tbl)
+        p.getparent().remove(p)
+    return n
+
+
 def cabecalho_xml() -> bytes:
     nsmap = {"w": W, "r": R}
     h = etree.Element(w("hdr"), nsmap=nsmap)
@@ -1462,6 +1651,7 @@ def escrever_pacote(raw: Path, out: Path, titulo: str, autor: str, fig_cm: float
     ordenar(primeira, ORD_SECT)
     for p in corpo.iter(w("p")):
         ordenar(pxml(p), ORD_PPR) if p.find(w("pPr")) is not None else None
+    inf["equacoes"] = equacoes_numeradas(corpo)       # depois das tabelas APA e das secoes: nao e Tabela
     partes["word/document.xml"] = etree.tostring(doc, xml_declaration=True, encoding="UTF-8", standalone=True)
 
     st = parse(partes["word/styles.xml"])
@@ -1480,6 +1670,13 @@ def escrever_pacote(raw: Path, out: Path, titulo: str, autor: str, fig_cm: float
                     if a.split("}")[1] in THEME_ATTRS:
                         del rf.attrib[a]
             partes[nome] = etree.tostring(x, xml_declaration=True, encoding="UTF-8", standalone=True)
+
+    # tema: ao atualizar o sumario o Word cria runs com a fonte do TEMA (Aptos no modelo do pandoc; medido em
+    # 2026-11-19: um espaco em Aptos por linha do sumario). O tema passa a dizer Times New Roman.
+    if "word/theme/theme1.xml" in partes:
+        partes["word/theme/theme1.xml"] = re.sub(
+            rb'(<a:(?:major|minor)Font>\s*<a:latin typeface=")[^"]*', rb"\1" + TNR.encode(),
+            partes["word/theme/theme1.xml"])
 
     # configuracao: modo de compatibilidade moderno e idioma de revisao
     se = parse(partes["word/settings.xml"])
@@ -1540,6 +1737,9 @@ def escrever_pacote(raw: Path, out: Path, titulo: str, autor: str, fig_cm: float
 # 9. orquestracao                                                              #
 # --------------------------------------------------------------------------- #
 def main(argv: list[str] | None = None) -> int:
+    if argv is None and len(sys.argv) > 1 and sys.argv[1] == "--entradas-do-sumario":   # <docx> <arquivo de entradas>
+        preencher_sumario(Path(sys.argv[2]), Path(sys.argv[3]).read_text(encoding="utf-8"))
+        return 0
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--src", default=str(ROOT / "paper.md"))
     ap.add_argument("--work", required=True, help="pasta de trabalho (md de exportacao, copias leves das figuras)")
@@ -1556,6 +1756,12 @@ def main(argv: list[str] | None = None) -> int:
     work.mkdir(parents=True, exist_ok=True)
     out.parent.mkdir(parents=True, exist_ok=True)
 
+    canon = json.loads(CANON_JSON.read_text(encoding="utf-8"))
+    fonte_txt = src.read_text(encoding="utf-8")       # o mesmo texto que o espelho entrega ao verificador
+    lcfg = canon["i18n"]["langs"][a.lang]
+    SERIE["quebras"] = series_rules.page_break_headings(fonte_txt, canon, a.lang)
+    SERIE["sumario"] = lcfg["contents"]["heading"] if series_rules.wants_contents(fonte_txt, canon, a.lang) else ""
+    SERIE["declaracoes"] = (lcfg.get("declarations") or {}).get("heading", "")
     md, ctx = preparar_md(src, work, a.fig_cm)
     rel = ctx["rel"]
     copiar_figuras(rel["figuras"], work, a.img_px, a.img_cores)
@@ -1564,7 +1770,7 @@ def main(argv: list[str] | None = None) -> int:
     export_md.write_text(md, encoding="utf-8")
 
     raw = work / "raw-pandoc.docx"
-    subprocess.run(["pandoc", str(export_md), "-f", "markdown-tex_math_dollars-implicit_figures",
+    subprocess.run(["pandoc", str(export_md), "-f", "markdown-tex_math_dollars+tex_math_single_backslash-implicit_figures",
                     "--shift-heading-level-by=-1", "--syntax-highlighting=none", "-M", f"lang={LB['code']}",
                     f"--resource-path={work}",
                     "-o", str(raw)], check=True)
