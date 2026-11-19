@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="1000" height="480">
+<text x="30" y="30" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1.5">DESENLACE DE LA TAREA, SEGÚN</text>
+<text x="30" y="51.120000000000005" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1.5">LAS ETIQUETAS DEL AUTOR</text>
+<text x="610" y="30" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#5c5c5c" text-anchor="start" letter-spacing="1.5">LO QUE EL WRAPPER PUEDE LEER</text>
+<rect x="30" y="84" width="500" height="76" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<text x="50" y="116" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="start">cortada por el límite de un turno</text>
+<text x="50" y="143" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">25 ensayos</text>
+<line x1="536" y1="122.0" x2="595" y2="122.0" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="604,122.0 590.5,113.0 590.5,131.0" fill="#5c5c5c"/>
+<rect x="610" y="84" width="360" height="76" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<text x="790.0" y="129" font-family="Menlo, Consolas, monospace" font-size="17" font-weight="400" fill="#1b1b1b" text-anchor="middle">exit 1 · stop_reason: tool_use</text>
+<rect x="30" y="180" width="500" height="76" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<text x="50" y="212" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="start">bloqueada por el filtro de seguridad del servidor</text>
+<text x="50" y="239" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">1 ensayo</text>
+<line x1="536" y1="218.0" x2="595" y2="218.0" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="604,218.0 590.5,209.0 590.5,227.0" fill="#5c5c5c"/>
+<rect x="610" y="180" width="360" height="76" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<text x="790.0" y="225" font-family="Menlo, Consolas, monospace" font-size="17" font-weight="400" fill="#1b1b1b" text-anchor="middle">exit 1 · stop_reason: refusal</text>
+<rect x="30" y="276" width="500" height="76" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2"/>
+<text x="50" y="308" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="start">rechazada por el modelo</text>
+<text x="50" y="335" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">20 ensayos</text>
+<line x1="536" y1="314.0" x2="595" y2="314.0" stroke="#d2501a" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="604,314.0 590.5,305.0 590.5,323.0" fill="#d2501a"/>
+<rect x="30" y="372" width="500" height="76" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2"/>
+<text x="50" y="404" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="start">entregada</text>
+<text x="50" y="431" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="start">4 ensayos</text>
+<line x1="536" y1="410.0" x2="595" y2="410.0" stroke="#d2501a" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="604,410.0 590.5,401.0 590.5,419.0" fill="#d2501a"/>
+<rect x="610" y="276" width="360" height="172" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2.5"/>
+<text x="790.0" y="352" font-family="Menlo, Consolas, monospace" font-size="17" font-weight="400" fill="#1b1b1b" text-anchor="middle">exit 0 · stop_reason: end_turn</text>
+<text x="790.0" y="390" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#d2501a" text-anchor="middle">una señal para dos desenlaces</text>
+</svg>

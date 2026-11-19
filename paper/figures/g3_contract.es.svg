@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 372" width="1000" height="372">
+<rect x="16" y="16" width="470" height="340" rx="12" fill="none" stroke="#c8c8c8" stroke-width="2"/>
+<text x="251.0" y="54" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#5c5c5c" text-anchor="middle" letter-spacing="1.5">HOY</text>
+<rect x="32" y="82" width="150" height="110" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<text x="107" y="132" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="middle">tarea</text>
+<text x="107" y="158.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="middle">entregada</text>
+<line x1="188" y1="137" x2="213" y2="137" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="222,137 208.5,128 208.5,146" fill="#5c5c5c"/>
+<rect x="226" y="82" width="244" height="110" rx="12" fill="#ffffff" stroke="#c8c8c8" stroke-width="2"/>
+<text x="348.0" y="126" font-family="Menlo, Consolas, monospace" font-size="17" font-weight="400" fill="#1b1b1b" text-anchor="middle">exit 0 · end_turn</text>
+<text x="348.0" y="158" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">misma señal</text>
+<rect x="32" y="214" width="150" height="110" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<text x="107" y="264" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="middle">tarea</text>
+<text x="107" y="290.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="middle">rechazada</text>
+<line x1="188" y1="269" x2="213" y2="269" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="222,269 208.5,260 208.5,278" fill="#5c5c5c"/>
+<rect x="226" y="214" width="244" height="110" rx="12" fill="#ffffff" stroke="#c8c8c8" stroke-width="2"/>
+<text x="348.0" y="258" font-family="Menlo, Consolas, monospace" font-size="17" font-weight="400" fill="#1b1b1b" text-anchor="middle">exit 0 · end_turn</text>
+<text x="348.0" y="290" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">misma señal</text>
+<rect x="514" y="16" width="470" height="340" rx="12" fill="none" stroke="#1c64c7" stroke-width="2" stroke-dasharray="9 7"/>
+<text x="749.0" y="54" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1c64c7" text-anchor="middle" letter-spacing="1.5">PROPUESTA, OPCIONAL</text>
+<rect x="530" y="82" width="150" height="110" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<text x="605" y="132" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="middle">tarea</text>
+<text x="605" y="158.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="middle">entregada</text>
+<line x1="686" y1="137" x2="711" y2="137" stroke="#1c64c7" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="720,137 706.5,128 706.5,146" fill="#1c64c7"/>
+<rect x="724" y="82" width="244" height="110" rx="12" fill="#ffffff" stroke="#c8c8c8" stroke-width="2"/>
+<text x="846.0" y="126" font-family="Menlo, Consolas, monospace" font-size="17" font-weight="400" fill="#1b1b1b" text-anchor="middle">exit 0 · end_turn</text>
+<text x="846.0" y="158" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#5c5c5c" text-anchor="middle" font-style="italic">sin cambio</text>
+<rect x="530" y="214" width="150" height="110" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<text x="605" y="264" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="middle">tarea</text>
+<text x="605" y="290.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#1b1b1b" text-anchor="middle">rechazada</text>
+<line x1="686" y1="269" x2="711" y2="269" stroke="#1c64c7" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="720,269 706.5,260 706.5,278" fill="#1c64c7"/>
+<rect x="724" y="214" width="244" height="110" rx="12" fill="#edf3fc" stroke="#1c64c7" stroke-width="2"/>
+<text x="846.0" y="244" font-family="Menlo, Consolas, monospace" font-size="17" font-weight="400" fill="#1b1b1b" text-anchor="middle">outcome: &quot;declined&quot;</text>
+<text x="846.0" y="270" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">con la opción activada, un</text>
+<text x="846.0" y="291.78" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">código de salida reservado</text>
+<text x="846.0" y="313.55999999999995" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">(por ejemplo, 80)</text>
+</svg>

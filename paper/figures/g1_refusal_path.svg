@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400">
+<rect x="18" y="20" width="166" height="236" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<circle cx="48" cy="52" r="19" fill="#ffffff" stroke="#5c5c5c" stroke-width="2"/>
+<text x="48" y="59.5" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#5c5c5c" text-anchor="middle">1</text>
+<text x="101.0" y="104" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">The wrapper</text>
+<text x="101.0" y="128.42000000000002" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">hands a task to</text>
+<text x="101.0" y="152.84000000000003" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">the runner</text>
+<line x1="188" y1="138.0" x2="208" y2="138.0" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="217,138.0 203.5,129.0 203.5,147.0" fill="#5c5c5c"/>
+<rect x="221" y="20" width="166" height="236" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<circle cx="251" cy="52" r="19" fill="#ffffff" stroke="#5c5c5c" stroke-width="2"/>
+<text x="251" y="59.5" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#5c5c5c" text-anchor="middle">2</text>
+<text x="304.0" y="104" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">The runner</text>
+<text x="304.0" y="128.42000000000002" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">completes one</text>
+<text x="304.0" y="152.84000000000003" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">conversation</text>
+<text x="304.0" y="177.26000000000005" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">turn</text>
+<line x1="391" y1="138.0" x2="411" y2="138.0" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="420,138.0 406.5,129.0 406.5,147.0" fill="#5c5c5c"/>
+<rect x="424" y="20" width="166" height="236" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<circle cx="454" cy="52" r="19" fill="#ffffff" stroke="#5c5c5c" stroke-width="2"/>
+<text x="454" y="59.5" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#5c5c5c" text-anchor="middle">3</text>
+<text x="507.0" y="104" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">The model</text>
+<text x="507.0" y="128.42000000000002" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">declines in the</text>
+<text x="507.0" y="152.84000000000003" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">reply text</text>
+<text x="507.0" y="189.26000000000005" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#1b1b1b" text-anchor="middle" font-style="italic">“I won&#x27;t provide</text>
+<text x="507.0" y="211.70000000000005" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#1b1b1b" text-anchor="middle" font-style="italic">this.”</text>
+<line x1="594" y1="138.0" x2="614" y2="138.0" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="623,138.0 609.5,129.0 609.5,147.0" fill="#5c5c5c"/>
+<rect x="627" y="20" width="166" height="236" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<circle cx="657" cy="52" r="19" fill="#ffffff" stroke="#5c5c5c" stroke-width="2"/>
+<text x="657" y="59.5" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#5c5c5c" text-anchor="middle">4</text>
+<text x="710.0" y="104" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">The envelope</text>
+<text x="710.0" y="128.42000000000002" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">reports no</text>
+<text x="710.0" y="152.84000000000003" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">error</text>
+<text x="710.0" y="187.26000000000005" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="400" fill="#5c5c5c" text-anchor="middle">is_error: false</text>
+<text x="710.0" y="207.06000000000006" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="400" fill="#5c5c5c" text-anchor="middle">stop_reason:</text>
+<text x="710.0" y="226.86000000000007" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="400" fill="#5c5c5c" text-anchor="middle">end_turn</text>
+<line x1="797" y1="138.0" x2="817" y2="138.0" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="826,138.0 812.5,129.0 812.5,147.0" fill="#5c5c5c"/>
+<rect x="830" y="20" width="166" height="236" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2"/>
+<circle cx="860" cy="52" r="19" fill="#ffffff" stroke="#d2501a" stroke-width="2"/>
+<text x="860" y="59.5" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#d2501a" text-anchor="middle">5</text>
+<text x="913.0" y="104" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">The process</text>
+<text x="913.0" y="128.42000000000002" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="600" fill="#1b1b1b" text-anchor="middle">exits with code</text>
+<text x="913.0" y="186.84000000000003" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="46" font-weight="600" fill="#d2501a" text-anchor="middle">0</text>
+<line x1="913.0" y1="260" x2="913.0" y2="291" stroke="#d2501a" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="913.0,300 904.0,286.5 922.0,286.5" fill="#d2501a"/>
+<rect x="18" y="304" width="964" height="76" rx="12" fill="none" stroke="#d2501a" stroke-width="2.5"/>
+<text x="500.0" y="351" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="23" font-weight="600" fill="#1b1b1b" text-anchor="middle">The wrapper reads $? = 0 and routes the refusal as a completed task</text>
+</svg>

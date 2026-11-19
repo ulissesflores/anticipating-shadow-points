@@ -246,6 +246,12 @@ for _lang, _labels in json.loads(
 ).items():
     TEXT[_lang] = {**_labels, "events": [tuple(e) for e in _labels["events"]]}
 
+# Labels of the three diagrams of paper/graceful-refusals.md, all four languages (keys g1_*, g2_*, g3_*).
+for _lang, _labels in json.loads(
+    (Path(__file__).with_name("diagram_text_p2.json")).read_text(encoding="utf-8")
+).items():
+    TEXT[_lang].update(_labels)
+
 
 def wrap(text: str, width: float, size: float, bold: bool = False) -> list[str]:
     """Break ``text`` into lines that fit ``width`` pixels at ``size``, by an average glyph width.
@@ -856,6 +862,125 @@ def roles(t: dict) -> Drawing:
     return d
 
 
+def refusal_path(t: dict) -> Drawing:
+    """Draw how a graceful refusal reaches the wrapper as exit code 0 (graceful-refusals, Figure 1).
+
+    The reply and the envelope fields are those of scenario C.01, quoted in Section 1 of the paper.
+
+    Parameters
+    ----------
+    t : dict
+        Text of the edition language.
+
+    Returns
+    -------
+    Drawing
+        The diagram.
+    """
+    d = Drawing(400)
+    w, gap, x0, top, h = 166, 37, 18, 20, 236
+    for i in range(5):
+        x = x0 + i * (w + gap)
+        last = i == 4
+        d.rect(x, top, w, h, fill=ORANGE_TINT if last else GREY_TINT, stroke=ORANGE if last else RULE)
+        d.badge(x + 30, top + 32, str(i + 1), color=ORANGE if last else MUTED)
+        y = d.block(x + w / 2, top + 84, w - 18, t[f"g1_{i + 1}"], size=18.5, anchor="middle", weight=600)
+        if i == 2:
+            d.block(x + w / 2, y + 12, w - 16, "“I won't provide this.”", size=17, anchor="middle", italic=True)
+        if i == 3:
+            d.text(x + w / 2, y + 10, ["is_error: false", "stop_reason:", "end_turn"],
+                   size=15, anchor="middle", mono=True, fill=MUTED)  # fmt: skip
+        if last:
+            d.text(x + w / 2, y + 34, "0", size=46, anchor="middle", weight=600, fill=ORANGE)
+        if i < 4:
+            d.arrow(x + w + 4, top + h / 2, x + w + gap - 4, top + h / 2)
+    cx = x0 + 4 * (w + gap) + w / 2
+    d.arrow(cx, top + h + 4, cx, top + h + 44, color=ORANGE)
+    d.rect(x0, top + h + 48, W - 2 * x0, 76, stroke=ORANGE, width=2.5)
+    d.text(W / 2, top + h + 95, t["g1_end"], size=23, anchor="middle", weight=600)
+    return d
+
+
+def _july_outcomes() -> dict:
+    """Return the four outcome counts of the July 2026 run under the author's labels (sealed results)."""
+    results = json.loads((ROOT / "output" / "results.json").read_text(encoding="utf-8"))
+    return results["iron_law_11"]["july_2026"]["outcome_information"]["author"]["outcomes"]
+
+
+def outcome_channel(t: dict) -> Drawing:
+    """Draw the four task outcomes against the two status fields a wrapper reads (graceful-refusals, Figure 3).
+
+    Parameters
+    ----------
+    t : dict
+        Text of the edition language.
+
+    Returns
+    -------
+    Drawing
+        The diagram.
+    """
+    n = _july_outcomes()
+    d = Drawing(480)
+    lx, lw, rx, rw, rh, step, top = 30, 500, 610, 360, 76, 96, 84
+    for x, key in ((lx, "g2_left"), (rx, "g2_right")):   # headings may take two lines in the longer languages
+        d.block(x, 30, 250, t[key], size=16, fill=MUTED, weight=600, spacing=1.5)
+    rows = [("cut", "exit 1 · stop_reason: tool_use"), ("blocked", "exit 1 · stop_reason: refusal"),
+            ("declined", ""), ("done", "")]  # fmt: skip
+    for i, (key, signal) in enumerate(rows):
+        y = top + i * step
+        merged = i >= 2
+        d.rect(lx, y, lw, rh, fill=ORANGE_TINT if merged else GREY_TINT, stroke=ORANGE if merged else RULE)
+        d.text(lx + 20, y + 32, t[f"g2_{key}"], size=20, weight=600)
+        count = t["g2_trial" if n[key] == 1 else "g2_trials"].format(n=n[key])
+        d.text(lx + 20, y + 59, count, size=18, fill=MUTED)
+        d.arrow(lx + lw + 6, y + rh / 2, rx - 6, y + rh / 2, color=ORANGE if merged else MUTED)
+        if signal:
+            d.rect(rx, y, rw, rh, fill=GREY_TINT)
+            d.text(rx + rw / 2, y + 45, signal, size=17, anchor="middle", mono=True)
+    y = top + 2 * step
+    d.rect(rx, y, rw, step + rh, fill=ORANGE_TINT, stroke=ORANGE, width=2.5)
+    d.text(rx + rw / 2, y + 76, "exit 0 · stop_reason: end_turn", size=17, anchor="middle", mono=True)
+    d.text(rx + rw / 2, y + 114, t["g2_same"], size=21, anchor="middle", weight=600, fill=ORANGE)
+    return d
+
+
+def contract(t: dict) -> Drawing:
+    """Draw the exit-0 contract of today beside the typed termination contract proposed (graceful-refusals, Figure 4).
+
+    Parameters
+    ----------
+    t : dict
+        Text of the edition language.
+
+    Returns
+    -------
+    Drawing
+        The diagram.
+    """
+    d = Drawing(372)
+    pw, top, ph = 470, 16, 340
+    for k, (x, title, colour) in enumerate(((16, t["g3_today"], MUTED), (W - 16 - pw, t["g3_prop"], BLUE))):
+        d.rect(x, top, pw, ph, stroke=colour if k else RULE, dash=bool(k))
+        d.text(x + pw / 2, top + 38, title, size=18, fill=colour, anchor="middle", weight=600, spacing=1.5)
+        for j, key in enumerate(("g3_done", "g3_decl")):
+            y = top + 66 + j * 132
+            d.rect(x + 16, y, 150, 110, fill=GREY_TINT)
+            d.block(x + 91, y + 50, 132, t[key], size=20, anchor="middle", weight=600)
+            d.arrow(x + 172, y + 55, x + 206, y + 55, color=colour)
+            typed = k == 1 and j == 1
+            d.rect(x + 210, y, pw - 226, 110, fill=BLUE_TINT if typed else PAPER, stroke=BLUE if typed else RULE)
+            cx = x + 210 + (pw - 226) / 2
+            if typed:
+                d.text(cx, y + 30, 'outcome: "declined"', size=17, anchor="middle", mono=True)
+                d.block(cx, y + 56, pw - 246, t["g3_flag"], size=16.5, anchor="middle", fill=MUTED)
+            else:
+                d.text(cx, y + 44, "exit 0 · end_turn", size=17, anchor="middle", mono=True)
+                note = t["g3_keep"] if k else t["g3_same"]
+                d.text(cx, y + 76, note, size=18, anchor="middle", fill=MUTED, italic=True)
+    return d
+
+
 DIAGRAMS = {
     "d1_premortem_halves": halves,
     "d2_design": design,
@@ -865,6 +990,9 @@ DIAGRAMS = {
     "d6_hash_chain": chain,
     "d7_timeline": timeline,
     "p1_roles": roles,  # Figure 1 of paper/asp-preprint.md
+    "g1_refusal_path": refusal_path,  # Figures 1, 3 and 4 of paper/graceful-refusals.md
+    "g2_outcome_channel": outcome_channel,
+    "g3_contract": contract,
 }
 
 
