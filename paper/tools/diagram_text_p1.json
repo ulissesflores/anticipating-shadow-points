@@ -1,0 +1,58 @@
+{
+ "en": {
+  "s_tasks": "6 change requests on 6 public repositories, each pinned to one commit",
+  "s_yard": "THE YARDSTICK",
+  "s_ans": "THE ANSWERS",
+  "s_y1": "3 reviewer models of other vendors read each repository, without seeing ASP",
+  "s_y2": "Reference risk: named by at least 2 of the 3 reviewers (8 to 12 per task)",
+  "s_a1": "Claude Code in plan mode on Claude Opus 5.5: 90 trials",
+  "s_plain": "plain",
+  "s_risk": "risk",
+  "s_asp": "ASP",
+  "s_each": "5 per task",
+  "s_judge": "A blind judge of another vendor marks each reference risk as covered or not by the answer's final table",
+  "s_sealed": "protocol sealed and timestamped before trial 1"
+ },
+ "pt-BR": {
+  "s_tasks": "6 pedidos de mudança em 6 repositórios públicos, cada um fixado num commit",
+  "s_yard": "A RÉGUA",
+  "s_ans": "AS RESPOSTAS",
+  "s_y1": "3 modelos revisores de outros fornecedores leem cada repositório, sem ver o ASP",
+  "s_y2": "Risco de referência: citado por pelo menos 2 dos 3 revisores (8 a 12 por tarefa)",
+  "s_a1": "Claude Code em modo plano no Claude Opus 5.5: 90 rodadas",
+  "s_plain": "simples",
+  "s_risk": "riscos",
+  "s_asp": "ASP",
+  "s_each": "5 por tarefa",
+  "s_judge": "Um juiz cego de outro fornecedor marca cada risco de referência como coberto ou não pela tabela final da resposta",
+  "s_sealed": "protocolo selado e carimbado antes da rodada 1"
+ },
+ "es": {
+  "s_tasks": "6 peticiones de cambio en 6 repositorios públicos, cada uno fijado en un commit",
+  "s_yard": "LA VARA DE MEDIR",
+  "s_ans": "LAS RESPUESTAS",
+  "s_y1": "3 modelos revisores de otros proveedores leen cada repositorio, sin ver ASP",
+  "s_y2": "Riesgo de referencia: nombrado por al menos 2 de los 3 revisores (de 8 a 12 por tarea)",
+  "s_a1": "Claude Code en modo plan en Claude Opus 5.5: 90 ejecuciones",
+  "s_plain": "simple",
+  "s_risk": "riesgos",
+  "s_asp": "ASP",
+  "s_each": "5 por tarea",
+  "s_judge": "Un juez ciego de otro proveedor marca cada riesgo de referencia como cubierto o no por la tabla final de la respuesta",
+  "s_sealed": "protocolo sellado y con sello de tiempo antes de la ejecución 1"
+ },
+ "it": {
+  "s_tasks": "6 richieste di modifica su 6 repository pubblici, ciascuno fissato a un commit",
+  "s_yard": "IL METRO",
+  "s_ans": "LE RISPOSTE",
+  "s_y1": "3 modelli revisori di altri fornitori leggono ogni repository, senza vedere ASP",
+  "s_y2": "Rischio di riferimento: nominato da almeno 2 dei 3 revisori (da 8 a 12 per compito)",
+  "s_a1": "Claude Code in modalità piano su Claude Opus 5.5: 90 esecuzioni",
+  "s_plain": "semplice",
+  "s_risk": "rischi",
+  "s_asp": "ASP",
+  "s_each": "5 per compito",
+  "s_judge": "Un giudice cieco di un altro fornitore segna ogni rischio di riferimento come coperto o no dalla tabella finale della risposta",
+  "s_sealed": "protocollo sigillato e marcato temporalmente prima dell'esecuzione 1"
+ }
+}

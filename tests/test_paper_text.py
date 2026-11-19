@@ -251,3 +251,17 @@ def test_iron_law_11_equations_give_the_sealed_numbers(results):
         h_c = (n["declined"] + n["done"]) / total * entropy(groups[1])
         assert round((h - h_c) / h, 4) == info["exit_code_and_stop_reason"]["share"]
         assert round(h_c, 4) == info["residual_bits"]
+
+
+def test_preprint_prints_the_jaccard_the_matcher_computes():
+    """Equation 1 of the preprint is the score of layer 3, with the threshold the text gives."""
+    sys.path.insert(0, str(PAPER.parent / "benchmark" / "src"))
+    from asp_benchmark.adjudicator import JACCARD_THRESHOLD, _jaccard
+
+    equation = r"\[ J = \frac{|A \cap B|}{|A \cup B|} \]"
+    for name in ("asp-preprint.md", *(f"i18n/asp-preprint.{x}.md" for x in ("pt-BR", "es", "it"))):
+        assert [ln for ln in text(name).splitlines() if ln.startswith(r"\[")] == [equation], name
+    a, b = {"rate", "limit", "retry", "logs"}, {"rate", "limit", "backoff"}
+    assert _jaccard(a, b) == len(a & b) / len(a | b) == 2 / 5
+    assert JACCARD_THRESHOLD == 0.30
+    assert "A match needs a score of at least .30." in text("asp-preprint.md")

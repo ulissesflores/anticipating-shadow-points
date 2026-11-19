@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="1000" height="560">
+<rect x="30" y="16" width="940" height="64" rx="12" fill="#f4f4f3" stroke="#c8c8c8" stroke-width="2"/>
+<text x="500.0" y="56" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#1b1b1b" text-anchor="middle">6 pedidos de mudança em 6 repositórios públicos, cada um fixado num commit</text>
+<line x1="250" y1="80" x2="250" y2="141" stroke="#1c64c7" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="250,150 241,136.5 259,136.5" fill="#1c64c7"/>
+<line x1="750" y1="80" x2="750" y2="141" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="750,150 741,136.5 759,136.5" fill="#5c5c5c"/>
+<text x="30" y="132" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#1c64c7" text-anchor="start" letter-spacing="2">A RÉGUA</text>
+<text x="970" y="132" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#d2501a" text-anchor="end" letter-spacing="2">AS RESPOSTAS</text>
+<rect x="30" y="152" width="440" height="104" rx="12" fill="#ffffff" stroke="#1c64c7" stroke-width="2"/>
+<text x="250" y="186" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#1b1b1b" text-anchor="middle">3 modelos revisores de outros</text>
+<text x="250" y="212.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#1b1b1b" text-anchor="middle">fornecedores leem cada repositório, sem</text>
+<text x="250" y="238.8" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#1b1b1b" text-anchor="middle">ver o ASP</text>
+<rect x="30" y="296" width="440" height="104" rx="12" fill="#edf3fc" stroke="#1c64c7" stroke-width="2.5"/>
+<text x="250" y="330" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">Risco de referência: citado por pelo</text>
+<text x="250" y="356.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">menos 2 dos 3 revisores (8 a 12 por</text>
+<text x="250" y="382.79999999999995" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#1b1b1b" text-anchor="middle">tarefa)</text>
+<line x1="250" y1="256" x2="250" y2="285" stroke="#1c64c7" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="250,294 241,280.5 259,280.5" fill="#1c64c7"/>
+<rect x="530" y="152" width="440" height="104" rx="12" fill="#ffffff" stroke="#5c5c5c" stroke-width="2"/>
+<text x="750" y="199" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#1b1b1b" text-anchor="middle">Claude Code em modo plano no Claude Opus</text>
+<text x="750" y="225.4" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#1b1b1b" text-anchor="middle">5.5: 90 rodadas</text>
+<line x1="598" y1="256" x2="598" y2="285" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="598,294 589,280.5 607,280.5" fill="#5c5c5c"/>
+<rect x="530" y="296" width="136" height="104" rx="12" fill="#ffffff" stroke="#5c5c5c" stroke-width="2"/>
+<text x="598" y="342" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#1b1b1b" text-anchor="middle">simples</text>
+<text x="598" y="372" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">5 por tarefa</text>
+<line x1="598" y1="400" x2="598" y2="429" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="598,438 589,424.5 607,424.5" fill="#5c5c5c"/>
+<line x1="750" y1="256" x2="750" y2="285" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="750,294 741,280.5 759,280.5" fill="#5c5c5c"/>
+<rect x="682" y="296" width="136" height="104" rx="12" fill="#ffffff" stroke="#5c5c5c" stroke-width="2"/>
+<text x="750" y="342" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#1b1b1b" text-anchor="middle">riscos</text>
+<text x="750" y="372" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">5 por tarefa</text>
+<line x1="750" y1="400" x2="750" y2="429" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="750,438 741,424.5 759,424.5" fill="#5c5c5c"/>
+<line x1="902" y1="256" x2="902" y2="285" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="902,294 893,280.5 911,280.5" fill="#5c5c5c"/>
+<rect x="834" y="296" width="136" height="104" rx="12" fill="#fdf0e8" stroke="#d2501a" stroke-width="2"/>
+<text x="902" y="342" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#1b1b1b" text-anchor="middle">ASP</text>
+<text x="902" y="372" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17.5" font-weight="400" fill="#5c5c5c" text-anchor="middle">5 por tarefa</text>
+<line x1="902" y1="400" x2="902" y2="429" stroke="#5c5c5c" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="902,438 893,424.5 911,424.5" fill="#5c5c5c"/>
+<line x1="250" y1="400" x2="250" y2="429" stroke="#1c64c7" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="250,438 241,424.5 259,424.5" fill="#1c64c7"/>
+<rect x="30" y="440" width="940" height="76" rx="12" fill="#f4f4f3" stroke="#1b1b1b" stroke-width="2.5"/>
+<text x="500.0" y="472" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#1b1b1b" text-anchor="middle">Um juiz cego de outro fornecedor marca cada risco de referência como coberto ou não</text>
+<text x="500.0" y="499.72" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="21" font-weight="400" fill="#1b1b1b" text-anchor="middle">pela tabela final da resposta</text>
+<text x="30" y="546" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#1c64c7" text-anchor="start" font-style="italic">protocolo selado e carimbado antes da rodada 1</text>
+</svg>

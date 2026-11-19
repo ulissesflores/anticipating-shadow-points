@@ -561,6 +561,10 @@ with the expected list for GREEN. On those
 fixtures the matcher scores RED 4% and GREEN 80% on average — a statement
 about how the fixtures were written, not about ASP.
 
+In symbols, layer 3 scores a window of the plan against an expected point by Equation 1, where *A* is the set of distinct tokens of the window and *B* that of the expected point; the vertical bars count the tokens of a set. A match needs a score of at least .30.
+
+\[ J = \frac{|A \cap B|}{|A \cup B|} \]
+
 The useful property the mock run does establish is **discrimination**:
 scoring each GREEN fixture against a *different* task's expected list drops
 the mean from 80% to 0.5% (largest off-task cell 10%; Figure 2). That is
@@ -608,7 +612,7 @@ each run) record which model answered, not why. Twenty-four trials exited 0, all
 
 ### 5.5. A pre-registered measurement (2026-11)
 
-The study was pre-registered in the repository (`benchmark/study-2026-11/PROTOCOL.md`), and its hash ledger was timestamped with OpenTimestamps before the first trial. It replaced the never-deposited Protocol 2 of `PREREGISTRATION.md`. The design:
+The study was pre-registered in the repository (`benchmark/study-2026-11/PROTOCOL.md`), and its hash ledger was timestamped with OpenTimestamps before the first trial. It replaced the never-deposited Protocol 2 of `PREREGISTRATION.md`. The design (Figure 3):
 
 - **Tasks.** Six change requests on six public repositories, each pinned to one commit: soft-deleting users (FastAPI template), a weekly e-mail digest (Flask), linking Google and password sign-in (Django), retrying POST by default (the `ky` HTTP library), zero-downtime deploys (Django on Docker), and co-authors per article (Express with Prisma).
 - **Conditions.** Three, each run five times per task (90 trials) with `claude -p` on Claude Opus 5.5, in plan mode, from a fresh clone and a clean environment, with the same output contract: a final table of at most ten risks.
@@ -618,7 +622,9 @@ The study was pre-registered in the repository (`benchmark/study-2026-11/PROTOCO
 - **Reference lists.** Three models of other vendors (Grok, GPT-OSS 120B, Gemini 3.8 Flash) read each repository and request without seeing ASP and wrote the risks they expected. A blind judge grouped their items, and a risk entered the reference list when at least two reviewers named it (8 to 12 per task). Models stood in for independent engineers, which the protocol states as a weakening.
 - **Scoring.** The primary judge (Gemini 3.8 Flash) saw only the rows of each answer's table, with words that would reveal the condition redacted, and marked each reference risk as covered or not. A second judge (Grok) did the same. The two agreed on 91.9% of 855 item decisions.
 
-Table 5 and Figure 3 report coverage by condition.
+![Figure 3. Design of the 2026-11 study: the reference risks, written without seeing ASP, and the answers of the three conditions meet only at the blind judge.](../paper/figures/p1_study_design.png)
+
+Table 5 and Figure 4 report coverage by condition.
 
 **Table 5.** Risk coverage and time per trial in the 2026-11 study, by condition.
 
@@ -628,7 +634,7 @@ Table 5 and Figure 3 report coverage by condition.
 | risk | 66% | 70% | 50 s |
 | ASP | 48% | 54% | 175 s |
 
-![Figure 3. Share of the blind reference risks covered by each condition's final table, per task and overall (primary judge).](../output/figures/fig3_study_2026_11_coverage_clear.png)
+![Figure 4. Share of the blind reference risks covered by each condition's final table, per task and overall (primary judge).](../output/figures/fig3_study_2026_11_coverage_clear.png)
 
 - **Primary.** ASP minus risk was −.18 (primary judge) and −.16 (second judge). It was negative on all six tasks, with a task-stratified permutation p = 1.0. The decision rule fixed in advance returns *no measurable benefit*.
 - **Secondary, pre-registered.** risk minus plain was +.10 (p = .001) and +.13 (p < .001): asking for the ways the change could go wrong, in one sentence, raised coverage.
@@ -948,7 +954,7 @@ Table B1 lists what the repository holds for them.
 | The five evaluations | `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/` | Each task, its expected list and its acceptance rule (Table 4) |
 | The author's sample plans (RED and GREEN) and the run that scored them | `benchmark/tests/fixtures/mock_runs/` and `benchmark/runs/published/` | The plans the matcher scored and the scores behind Figure 2 |
 | The July 2026 `claude -p` run of the companion note | `data/spike-2026-07-08/` | The counts quoted in Section 5.4 |
-| The 2026-11 study | `benchmark/study-2026-11/` | Its protocol, tasks, reference lists, 90 trials, both judges' verdicts and hash ledger, behind Section 5.5 and Figure 3 |
+| The 2026-11 study | `benchmark/study-2026-11/` | Its protocol, tasks, reference lists, 90 trials, both judges' verdicts and hash ledger, behind Section 5.5 and Figure 4 |
 | The calculation | `analysis/results.py` and `benchmark/study-2026-11/analyze.py` | How each number of Sections 5.3 to 5.5 is computed |
 | The checks | `tests/test_paper_numbers.py` and `tests/test_study_2026_11.py` | That each of those numbers matches the data, and that the scored run is labelled `mock` |
 | The seal | `output/hash-chain.md` | One SHA-256 fingerprint over code, data and results, so that any later change shows |

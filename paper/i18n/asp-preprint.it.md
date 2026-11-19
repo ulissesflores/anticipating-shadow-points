@@ -215,6 +215,10 @@ Con questa lettura non in cieco, i tre piani RED hanno coperto all'incirca il 30
 
 Il pacchetto `benchmark/` valuta un piano rispetto a un elenco atteso con un *matcher* deterministico a 4 livelli, la parte che decide se un piano menziona un punto atteso: nome esatto, file laterale di sinonimi (un elenco facoltativo di sinonimi accettati), finestra scorrevole di Jaccard (un punteggio di sovrapposizione di parole su un tratto mobile del piano) e non corrispondente. Nell'esecuzione pubblicata tutte le 42 corrispondenze provengono dal primo livello (nome esatto); non esiste alcun file laterale di sinonimi per alcun compito, e il livello di Jaccard non scatta mai. La sua unica esecuzione pubblicata è un'esecuzione in **modalità *mock***: i testi RED e GREEN sono *fixture* che l'autore ha scritto per esercitare la *pipeline* da un capo all'altro (`benchmark/tests/fixtures/mock_runs/`); su di esse i livelli 2 e 3 non producono mai una corrispondenza (le sovrapposizioni del livello 3 sono calcolate e restano sotto la soglia), e solo i test unitari esercitano una corrispondenza attraverso quei livelli. Le *fixture* stesse sono state scritte deliberatamente più deboli per RED e deliberatamente allineate all'elenco atteso per GREEN. Su quelle *fixture* il *matcher* valuta RED al 4% e GREEN all'80% in media — un'affermazione su come sono state scritte le *fixture*, non su ASP.
 
+In simboli, il livello 3 valuta una finestra del piano rispetto a un punto atteso con l'Equazione 1, dove *A* è l'insieme dei token distinti della finestra e *B* quello del punto atteso; le barre verticali contano i token di un insieme. Una corrispondenza richiede un punteggio di almeno ,30.
+
+\[ J = \frac{|A \cap B|}{|A \cup B|} \]
+
 La proprietà utile che l'esecuzione *mock* stabilisce è la **discriminazione**: valutare ciascuna *fixture* GREEN rispetto all'elenco atteso di un compito *diverso* abbassa la media dall'80% allo 0,5% (la cella fuori compito più alta 10%; Figura 2). È un'evidenza più debole di quanto sembri: l'unica corrispondenza fuori compito è il nome generico di una sola parola "Alerting", e le altre celle sono zero perché il livello 1 richiede che un intero nome atteso compaia alla lettera. Il *matcher* è inoltre più severo dei file di valutazione, che dicono a un valutatore umano di accettare le parafrasi. Il *recall* è una questione a parte, e le *fixture* mostrano un falso negativo: la *fixture* RED di E2 menziona un *rate limit*, i *retry* e il *logging* e ottiene comunque 0/10: la sua migliore sovrapposizione di finestra con il punto atteso "Rate-limit backoff" (il suo nome e la sua descrizione) è un Jaccard di ,11, sotto la soglia di ,30, e il *matcher* non fa *stemming* ("logging" non corrisponde a "logs"). Le parafrasi con bassa sovrapposizione lessicale sfuggono. La rivalutazione ha inoltre portato alla luce un difetto, ora corretto: la finestra scorrevole saltava gli ultimi token di un testo la cui lunghezza non cadeva sul passo; rivalutare ogni *fixture* con la correzione non cambia alcun valore di copertura, benché la migliore sovrapposizione di tre punti non corrispondenti salga leggermente (E2 RED "Observability / logs" da ,00 a ,02), restando ben al di sotto della soglia. Il livello 3 ha anche un tetto aritmetico: Jaccard divide per l'unione, e una finestra di 40 token delle *fixture* contiene da 27 a 40 parole di contenuto distinte (mediana 36); in qualsiasi finestra con 34 o più, un punto atteso con dieci o meno token distinti non può raggiungere ,30 nemmeno se il piano li ripete tutti, e 19 dei 50 punti attesi sono così brevi. Lo studio 2026-11 (Sezione 5.5) ha sostituito il livello 3 con il *recall* dei token prima che esistesse qualsiasi lista di riferimento. Sulle liste dei revisori stessi, nemmeno quella versione vedeva che due revisori nominavano lo stesso problema, per cui un giudice cieco è diventato il punteggio principale prima di raccogliere qualsiasi dato; il *matcher* è riportato come secondario.
 
 ![Figura 2. Verifica dello strumento: ogni *fixture* GREEN costruita dall'autore valutata rispetto all'elenco atteso di ogni compito. Non è un effetto di ASP.](../output/figures/fig2_adjudicator_fixture_check_clear.it.png)
@@ -229,7 +233,7 @@ Questo risultato è significativo sul piano osservativo per qualsiasi *toolchain
 
 ### 5.5. Una misurazione preregistrata (2026-11)
 
-Lo studio è stato preregistrato nel repository (`benchmark/study-2026-11/PROTOCOL.md`), e il suo registro concatenato di hash ha ricevuto una marca temporale OpenTimestamps prima della prima esecuzione. Ha sostituito il Protocollo 2 di `PREREGISTRATION.md`, mai depositato. Il disegno:
+Lo studio è stato preregistrato nel repository (`benchmark/study-2026-11/PROTOCOL.md`), e il suo registro concatenato di hash ha ricevuto una marca temporale OpenTimestamps prima della prima esecuzione. Ha sostituito il Protocollo 2 di `PREREGISTRATION.md`, mai depositato. Il disegno (Figura 3):
 
 - **Compiti.** Sei richieste di modifica su sei repository pubblici, ciascuno fissato a un *commit*: cancellazione logica degli utenti (*template* FastAPI), un riepilogo settimanale via e-mail (Flask), collegare l'accesso Google a quello con password (Django), ritentare le POST per impostazione predefinita (la libreria HTTP `ky`), *deploy* senza interruzioni (Django su Docker) e coautori per articolo (Express con Prisma).
 - **Condizioni.** Tre, ciascuna eseguita cinque volte per compito (90 esecuzioni) con `claude -p` su Claude Opus 5.5, in modalità piano, da un clone nuovo e da un ambiente pulito, con lo stesso contratto di uscita: una tabella finale di al massimo dieci rischi.
@@ -239,7 +243,9 @@ Lo studio è stato preregistrato nel repository (`benchmark/study-2026-11/PROTOC
 - **Liste di riferimento.** Tre modelli di altri fornitori (Grok, GPT-OSS 120B, Gemini 3.8 Flash) hanno letto ogni repository e ogni richiesta senza vedere ASP e hanno scritto i rischi che si aspettavano. Un giudice cieco ha raggruppato le loro voci, e un rischio è entrato nella lista di riferimento quando almeno due revisori lo hanno nominato (da 8 a 12 per compito). I modelli hanno preso il posto di ingegneri indipendenti, cosa che il protocollo dichiara come un indebolimento.
 - **Punteggio.** Il giudice principale (Gemini 3.8 Flash) ha visto solo le righe della tabella di ogni risposta, con le parole che rivelerebbero la condizione oscurate, e ha segnato ogni rischio di riferimento come coperto o no. Un secondo giudice (Grok) ha fatto lo stesso. I due hanno concordato sul 91,9% di 855 decisioni per voce.
 
-La Tabella 5 e la Figura 3 riportano la copertura per condizione.
+![Figura 3. Disegno dello studio 2026-11: i rischi di riferimento, scritti senza vedere ASP, e le risposte delle tre condizioni si incontrano solo presso il giudice cieco.](../paper/figures/p1_study_design.it.png)
+
+La Tabella 5 e la Figura 4 riportano la copertura per condizione.
 
 **Tabella 5.** Copertura dei rischi e tempo per esecuzione nello studio 2026-11, per condizione.
 
@@ -249,7 +255,7 @@ La Tabella 5 e la Figura 3 riportano la copertura per condizione.
 | rischi | 66% | 70% | 50 s |
 | ASP | 48% | 54% | 175 s |
 
-![Figura 3. Quota dei rischi di riferimento ciechi coperta dalla tabella finale di ogni condizione, per compito e in totale (giudice principale).](../output/figures/fig3_study_2026_11_coverage_clear.it.png)
+![Figura 4. Quota dei rischi di riferimento ciechi coperta dalla tabella finale di ogni condizione, per compito e in totale (giudice principale).](../output/figures/fig3_study_2026_11_coverage_clear.it.png)
 
 - **Primario.** ASP meno rischi ha dato −,18 (giudice principale) e −,16 (secondo giudice). È stato negativo su tutti e sei i compiti, con un test di permutazione stratificato per compito p = 1,0. La regola di decisione fissata in anticipo dà *nessun beneficio misurabile*.
 - **Secondario, preregistrato.** rischi meno semplice ha dato +,10 (p = ,001) e +,13 (p < ,001): chiedere, in una frase, cosa può andare storto ha aumentato la copertura.
@@ -448,7 +454,7 @@ Ogni file contiene l'enunciato INPUT, l'elenco EXPECTED degli shadow point e la 
 | Le cinque valutazioni | `plugins/anticipating-shadow-points/skills/anticipating-shadow-points/evals/` | Ogni compito, il suo elenco atteso e la sua regola di accettazione (Tabella 4) |
 | I piani di esempio dell'autore (RED e GREEN) e l'esecuzione che li ha valutati | `benchmark/tests/fixtures/mock_runs/` e `benchmark/runs/published/` | I piani che il *matcher* ha valutato e i punteggi alla base della Figura 2 |
 | L'esecuzione di luglio 2026 di `claude -p` della nota complementare | `data/spike-2026-07-08/` | I conteggi citati nella Sezione 5.4 |
-| Lo studio 2026-11 | `benchmark/study-2026-11/` | Protocollo, compiti, liste di riferimento, 90 esecuzioni, verdetti di entrambi i giudici e registro concatenato di hash, alla base della Sezione 5.5 e della Figura 3 |
+| Lo studio 2026-11 | `benchmark/study-2026-11/` | Protocollo, compiti, liste di riferimento, 90 esecuzioni, verdetti di entrambi i giudici e registro concatenato di hash, alla base della Sezione 5.5 e della Figura 4 |
 | Il calcolo | `analysis/results.py` e `benchmark/study-2026-11/analyze.py` | Come si calcola ogni numero delle Sezioni da 5.3 a 5.5 |
 | I controlli | `tests/test_paper_numbers.py` e `tests/test_study_2026_11.py` | Che ciascuno di questi numeri corrisponde ai dati, e che l'esecuzione valutata è etichettata come `mock` |
 | Il sigillo | `output/hash-chain.md` | Una sola impronta SHA-256 su codice, dati e risultati, così che ogni modifica successiva si veda |
