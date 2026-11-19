@@ -183,6 +183,14 @@ Los jueces LLM alcanzan más de un 80% de concordancia con las preferencias huma
 
 El estadístico de prueba es la media, sobre los 24 estratos, de la diferencia entre la cobertura media con la frase y la cobertura media sin ella. Su significación proviene de una prueba de permutación (Ernst, 2004): las etiquetas de condición se permutan dentro de cada estrato 10.000 veces, y el valor p es la parte de las permutaciones cuyo estadístico es al menos el observado, contada como (aciertos + 1) / 10.001 para que nunca sea cero (Phipson y Smyth, 2010). La prueba es unilateral y no supone ninguna distribución para la cobertura. Permutar dentro de los estratos mantiene las diferencias entre tareas y entre modelos fuera de la comparación (Ernst, 2004).
 
+En símbolos, el estadístico *D* es la media de la Ecuación 1, donde *S* es el número de estratos y *d*~*s*~ es la diferencia, en el estrato *s*, entre la cobertura media con la frase y la cobertura media sin ella (Flores, 2026b).
+
+\[ D = \frac{1}{S} \sum_{s=1}^{S} d_{s} \]
+
+El valor p sigue la Ecuación 2, donde *B* es el número de permutaciones y *b* es el número de ellas cuyo estadístico es al menos el *D* observado (Phipson y Smyth, 2010). Con *B* = 10.000, el menor valor que la prueba puede devolver es 1/10.001.
+
+\[ p = \frac{b + 1}{B + 1} \]
+
 La regla de decisión tiene una condición para "confirmado": valor p combinado por debajo de ,05 *y* la misma prueba dentro de cada modelo, sobre sus doce estratos, por debajo de ,05 para los dos modelos (Flores, 2026b). Si solo un modelo pasara, el resultado se declararía confirmado únicamente para ese modelo. La regla también exigía al menos 18 estratos completos. Ningún otro análisis es confirmatorio, en el sentido de Nosek et al. (2018).
 
 Se fijó de antemano que un error en una ejecución cuenta como cobertura cero y relevancia cero y no se repite, salvo un error de límite de uso, que interrumpe la recolección (Flores, 2026b). La Sección 5.5 examina lo que hizo esa regla.

@@ -482,3 +482,25 @@ def test_groups_left_out_by_the_merge():
         ]
         single = sum(len({k[0] for k in g}) < 2 for g in groups)
         assert f"{single} of the {len(groups)}" in text and text in PAPER
+
+
+def test_equations_give_the_sealed_statistic_and_p():
+    """Equations 1 and 2, the same in the four editions, give the sealed difference and p-value."""
+    equations = [r"\[ D = \frac{1}{S} \sum_{s=1}^{S} d_{s} \]", r"\[ p = \frac{b + 1}{B + 1} \]"]
+    sources = ["one-sentence-premortem.md"]
+    sources += [f"i18n/one-sentence-premortem.{lang}.md" for lang in ("pt-BR", "es", "it")]
+    for name in sources:
+        lines = (ROOT / "paper" / name).read_text(encoding="utf-8").splitlines()
+        assert [line for line in lines if line.startswith(r"\[")] == equations, name
+    cells: dict = {}
+    for t in RESULTS["trials"]:
+        cells.setdefault((t["task"], t["model"]), {A: [], B: []})[t["condition"]].append(
+            t["gemini"]
+        )
+    d = [sum(c[A]) / len(c[A]) - sum(c[B]) / len(c[B]) for c in cells.values()]
+    assert len(d) == 24
+    assert round(sum(d) / len(d), 4) == RESULTS["gemini"]["delta_bar"]  # Equation 1
+    null = DESC["null"]
+    p = (null["hits"] + 1) / (null["relabellings"] + 1)  # Equation 2
+    assert round(p, 4) == RESULTS["gemini"]["p"]
+    assert "With *B* = 10,000, the smallest value the test can return is 1/10,001" in PAPER

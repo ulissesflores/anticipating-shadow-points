@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "f34917177d804848cdd5d03f5f3cb3aca9aa80e109e6fb0024c1176ef4412d8b",
+  "chain_hash": "9bbe27d93e788f5861ede2c29f57477c8ad40d473130b6b4282b20d731aa177a",
   "informational_not_hashed": {
     "files": [
       {
@@ -9128,7 +9128,7 @@
         },
         {
           "path": "tests/test_paper3_numbers.py",
-          "sha256": "d1fae7322b9b0e2a9cb202ca61625d1c471a26c09dbdbfda5d9820f2ce91c72b"
+          "sha256": "d13840ad4270f1fe1739e9e8a0f498c63fa6e8ed95557735616233628ec08dca"
         },
         {
           "path": "tests/test_paper_numbers.py",
@@ -9163,7 +9163,7 @@
           "sha256": "1cd40c4d32b3f55823a9f69947ddaa03aae3977f5a357262a0b575a55aad1426"
         }
       ],
-      "leaf_sha256": "b6d899cd3a2bf7313a2890d47f42b33375b85a13ad0abac165728c732e85f119"
+      "leaf_sha256": "dabe268de279e5d4de6b04acf8a09e412f8fef343a61c2e017cb7a72373f6ab2"
     }
   },
   "schema": 1

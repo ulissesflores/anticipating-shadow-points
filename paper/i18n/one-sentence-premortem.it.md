@@ -183,6 +183,14 @@ I giudici LLM raggiungono oltre l'80% di concordanza con le preferenze umane in 
 
 La statistica di test è la media, sui 24 strati, della differenza tra la copertura media con la frase e la copertura media senza di essa. La sua significatività viene da un test di permutazione (Ernst, 2004): le etichette di condizione sono permutate all'interno di ciascuno strato 10.000 volte, e il valore p è la quota delle permutazioni la cui statistica è almeno quella osservata, contata come (successi + 1) / 10.001 perché non sia mai zero (Phipson e Smyth, 2010). Il test è unilaterale e non suppone alcuna distribuzione per la copertura. Permutare all'interno degli strati tiene le differenze tra compiti e tra modelli fuori dal confronto (Ernst, 2004).
 
+In simboli, la statistica *D* è la media dell'Equazione 1, dove *S* è il numero di strati e *d*~*s*~ è la differenza, nello strato *s*, tra la copertura media con la frase e la copertura media senza di essa (Flores, 2026b).
+
+\[ D = \frac{1}{S} \sum_{s=1}^{S} d_{s} \]
+
+Il valore p segue l'Equazione 2, dove *B* è il numero di permutazioni e *b* è il numero di quelle la cui statistica è almeno il *D* osservato (Phipson e Smyth, 2010). Con *B* = 10.000, il valore più piccolo che il test può restituire è 1/10.001.
+
+\[ p = \frac{b + 1}{B + 1} \]
+
 La regola di decisione ha una condizione per "confermato": valore p combinato sotto ,05 *e* lo stesso test all'interno di ciascun modello, sui suoi dodici strati, sotto ,05 per entrambi i modelli (Flores, 2026b). Se passasse un solo modello, il risultato sarebbe dichiarato confermato solo per quel modello. La regola richiedeva anche almeno 18 strati completi. Nessun'altra analisi è confermativa, nel senso di Nosek et al. (2018).
 
 Si è fissato in anticipo che un errore in una prova conta come copertura zero e rilevanza zero e non viene ripetuto, tranne un errore di limite d'uso, che interrompe la raccolta (Flores, 2026b). La Sezione 5.5 esamina che cosa ha fatto quella regola.

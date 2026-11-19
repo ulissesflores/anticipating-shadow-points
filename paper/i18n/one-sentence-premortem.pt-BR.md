@@ -183,6 +183,14 @@ Juízes LLM chegam a mais de 80% de concordância com preferências humanas em a
 
 A estatística de teste é a média, sobre os 24 estratos, da diferença entre a cobertura média com a frase e a cobertura média sem ela. Sua significância vem de um teste de permutação (Ernst, 2004): os rótulos de condição são embaralhados dentro de cada estrato 10.000 vezes, e o valor p é a parcela dos embaralhamentos cuja estatística é pelo menos a observada, contada como (acertos + 1) / 10.001 para que nunca seja zero (Phipson e Smyth, 2010). O teste é unilateral e não supõe nenhuma distribuição para a cobertura. Embaralhar dentro dos estratos mantém as diferenças entre tarefas e entre modelos fora da comparação (Ernst, 2004).
 
+Em símbolos, a estatística *D* é a média da Equação 1, em que *S* é o número de estratos e *d*~*s*~ é a diferença, no estrato *s*, entre a cobertura média com a frase e a cobertura média sem ela (Flores, 2026b).
+
+\[ D = \frac{1}{S} \sum_{s=1}^{S} d_{s} \]
+
+O valor p segue a Equação 2, em que *B* é o número de embaralhamentos e *b* é o número deles cuja estatística é pelo menos o *D* observado (Phipson e Smyth, 2010). Com *B* = 10.000, o menor valor que o teste pode devolver é 1/10.001.
+
+\[ p = \frac{b + 1}{B + 1} \]
+
 A regra de decisão tem uma condição para "confirmado": valor p combinado abaixo de ,05 *e* o mesmo teste dentro de cada modelo, sobre seus doze estratos, abaixo de ,05 para os dois modelos (Flores, 2026b). Se só um modelo passasse, o resultado seria declarado confirmado apenas para esse modelo. A regra também exigia pelo menos 18 estratos completos. Nenhuma outra análise é confirmatória, no sentido de Nosek et al. (2018).
 
 Fixou-se de antemão que um erro numa rodada conta como cobertura zero e relevância zero e não é repetido, exceto um erro de limite de uso, que interrompe a coleta (Flores, 2026b). A Seção 5.5 examina o que essa regra fez.

@@ -189,6 +189,14 @@ LLM judges reach over 80% agreement with human preferences in some settings (Zhe
 
 The test statistic is the mean, over the 24 strata, of the difference between mean coverage with the sentence and mean coverage without it. Its significance comes from a permutation test (Ernst, 2004): the condition labels are shuffled within each stratum 10,000 times, and the p-value is the share of shuffles whose statistic is at least the observed one, counted as (hits + 1) / 10,001 so that it is never zero (Phipson & Smyth, 2010). The test is one-sided and makes no assumption about the distribution of coverage. Shuffling within strata keeps differences between tasks and between models out of the comparison (Ernst, 2004).
 
+In symbols, the statistic *D* is the average in Equation 1, where *S* is the number of strata and *d*~*s*~ is the difference, in stratum *s*, between mean coverage with the sentence and mean coverage without it (Flores, 2026b).
+
+\[ D = \frac{1}{S} \sum_{s=1}^{S} d_{s} \]
+
+The p-value follows Equation 2, where *B* is the number of shuffles and *b* is the number of them whose statistic is at least the observed *D* (Phipson & Smyth, 2010). With *B* = 10,000, the smallest value the test can return is 1/10,001.
+
+\[ p = \frac{b + 1}{B + 1} \]
+
 The decision rule has one condition for "confirmed": pooled p below .05 *and* the same test within each model, over its twelve strata, below .05 for both models (Flores, 2026b). If only one model passed, the result would be stated as confirmed for that model alone. The rule also required at least 18 complete strata. No other analysis is confirmatory, in the sense of Nosek et al. (2018).
 
 An error in a trial was fixed in advance to count as coverage zero and relevance zero and not to be rerun, except for a usage-limit error, which stops collection (Flores, 2026b). Section 5.5 examines what this rule did.
