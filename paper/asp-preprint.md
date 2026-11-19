@@ -813,7 +813,7 @@ whose empirical behavior motivated Iron Laws 11 and 12.
 
 ## References (APA, 7th edition)
 
-Anthropic. (2026a). *Claude Code* [Software documentation]. https://code.claude.com
+Anthropic. (2026a). *Plugins reference* [Software documentation]. https://code.claude.com/docs/en/plugins-reference
 
 Anthropic. (2026b). *Agent Skills best practices* [Software documentation]. https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
 

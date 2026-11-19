@@ -143,7 +143,7 @@ Enunciamos doce restricciones operativas y las llamamos Iron Laws (Tabla 3). Las
 | 6 | Ningún cierre de proyecto sin informe de ejecución + escritura de memoria | Búfer de memoria de Shinn et al. (2023) |
 | 7 | Ningún bucle sin tope (tope por defecto=3 rondas de validador) | Cemri et al. (2025) FM-1.5 |
 | 8 | Ninguna ejecución de la Fase 9 sin despacho del evaluador en los puntos de control (salvo con `--quick`) | Planificador/ejecutor de Erdogan et al. (2025) |
-| 9 | Ningún ASP reentrante dentro del hijo `claude -p /goal` (guarda con la variable de entorno `ASP_IN_GOAL`) | Mitigación de la explosión de costes; decisión de diseño |
+| 9 | Ningún ASP reentrante dentro del hijo `claude -p /goal` (guarda con la variable de entorno `ASP_IN_GOAL`) | Mitigación de la explosión de costos; decisión de diseño |
 | 10 | Ningún lanzamiento de `claude -p /goal` sin contrato basado en archivos | Mitigación de la divergencia de estado entre subprocesos; decisión de diseño |
 | 11 | Nunca confiar en `$?` de `claude -p` para el éxito o fracaso semántico | Observación empírica, caracterizada en Flores (2026b) |
 | 12 | Toda invocación de `claude -p` debe usar `--output-format json` o `stream-json` | Corolario de la Iron Law 11 |
@@ -340,7 +340,7 @@ El autor agradece a los mantenedores del *framework* de *skills* [obra/superpowe
 
 ## Referencias (APA, 7.ª edición)
 
-Anthropic. (2026a). *Claude Code* [Software documentation]. https://code.claude.com
+Anthropic. (2026a). *Plugins reference* [Software documentation]. https://code.claude.com/docs/en/plugins-reference
 
 Anthropic. (2026b). *Agent Skills best practices* [Software documentation]. https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
 
