@@ -1,27 +1,22 @@
 {
   "pdf": "asp-preprint.en.pdf",
-  "pdf_sha256": "c1e43ef1c5f41b6949fd0c8a4fc96ee62e669de022ed16f88214f6a823daf0bd",
+  "pdf_sha256": "58099efb704c2ca9ce5f0597e007ee930a43a1060162ac7c080d9de8e3a4ea3b",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-19b.md"
-    },
-    "SER-JUD-004": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-19d.md"
     },
     "SER-JUD-005": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-19b.md",
-      "note": "edição de origem: regra de tradução não se aplica"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-19d.md",
+      "note": "não se aplica: edição de origem"
     },
     "SER-JUD-007": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-19d.md"
     }
   }
 }
