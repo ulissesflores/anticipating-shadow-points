@@ -1,26 +1,31 @@
 {
   "pdf": "one-sentence-premortem.es.pdf",
-  "pdf_sha256": "b0ee405693bc9c8e238ef1b49e1e64a3eaebab364e448f5c087bddf33c0733e8",
+  "pdf_sha256": "fcba70ab41414fb0e41ea810cc0aaf17e335bdb10838e5cc475769837a328274",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-es-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-es-2026-11-19c.md"
+    },
+    "SER-JUD-003": {
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
+      "date": "2026-11-19",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-es-2026-11-19c.md"
     },
     "SER-JUD-004": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-es-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-es-2026-11-19c.md"
     },
     "SER-JUD-005": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-es-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-es-2026-11-19c.md"
     },
     "SER-JUD-007": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-es-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-es-2026-11-19c.md"
     }
   }
 }

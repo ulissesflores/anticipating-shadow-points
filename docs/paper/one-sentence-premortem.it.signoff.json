@@ -1,21 +1,21 @@
 {
   "pdf": "one-sentence-premortem.it.pdf",
-  "pdf_sha256": "1e445e2e6e332b8a919ff5e001166d5c74856c136e100909b7fd47e9b05d4974",
+  "pdf_sha256": "33080b30c0af694ca2b2e542702971d7bf3a76de82cc312ce722fb3390bc9813",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-it-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-it-2026-11-19c.md"
     },
     "SER-JUD-004": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-it-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-it-2026-11-19c.md"
     },
-    "SER-JUD-007": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+    "SER-JUD-005": {
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-it-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-it-2026-11-19c.md"
     }
   }
 }

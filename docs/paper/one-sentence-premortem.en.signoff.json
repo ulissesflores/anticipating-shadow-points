@@ -1,22 +1,27 @@
 {
   "pdf": "one-sentence-premortem.en.pdf",
-  "pdf_sha256": "cd72502a5406219a592eec261685faf28dfcf86d654527120696b6da97fb521c",
+  "pdf_sha256": "abba6e0c1d20d441087c989ba693e6def51bec4f07153bcb772ed87e4884020e",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-en-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-en-2026-11-19c.md"
+    },
+    "SER-JUD-004": {
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
+      "date": "2026-11-19",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-en-2026-11-19c.md"
     },
     "SER-JUD-005": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-en-2026-11-19b.md",
-      "note": "edição de origem: regra de tradução não se aplica"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-en-2026-11-19c.md",
+      "note": "não se aplica: edição de origem"
     },
     "SER-JUD-007": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-en-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-en-2026-11-19c.md"
     }
   }
 }

@@ -1,32 +1,27 @@
 {
   "pdf": "graceful-refusals.en.pdf",
-  "pdf_sha256": "4c9319791bf0e21e1d7f110c694e40bdf74d56c44f40479223e85717cb9b0f75",
+  "pdf_sha256": "d48b02817c083c204593936de4f21d2ae79659df306e082c6eb105279c491806",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19c.md"
     },
-    "SER-JUD-003": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+    "SER-JUD-002": {
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19c.md"
     },
     "SER-JUD-004": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19c.md"
     },
     "SER-JUD-005": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19b.md",
-      "note": "edição de origem: regra de tradução não se aplica"
-    },
-    "SER-JUD-007": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19c.md",
+      "note": "não se aplica: edição de origem"
     }
   }
 }

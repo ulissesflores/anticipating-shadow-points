@@ -1,31 +1,31 @@
 {
   "pdf": "graceful-refusals.pt-BR.pdf",
-  "pdf_sha256": "fdc37812eb139461eed1c8b16758407b04fdb05d3ea35f314d9dcd8dae7de984",
+  "pdf_sha256": "d9d6b494d0c9599a38423f095b2a947b3c32608ea092b19f1ccefbbb469e9932",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-pt-BR-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-pt-BR-2026-11-19c.md"
     },
     "SER-JUD-002": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-pt-BR-2026-11-19b.md"
-    },
-    "SER-JUD-003": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-pt-BR-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-pt-BR-2026-11-19c.md"
     },
     "SER-JUD-004": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-pt-BR-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-pt-BR-2026-11-19c.md"
+    },
+    "SER-JUD-005": {
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
+      "date": "2026-11-19",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-pt-BR-2026-11-19c.md"
     },
     "SER-JUD-007": {
-      "by": "Claude (leitor de conferência, sessão 79a610e0), sob registro",
+      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
       "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-pt-BR-2026-11-19b.md"
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-pt-BR-2026-11-19c.md"
     }
   }
 }
