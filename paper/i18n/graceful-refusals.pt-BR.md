@@ -330,5 +330,5 @@ Zhu, J., Xie, S., Chen, A. L. F., Ding, X., Tang, C., Qi, R., & Fei, Y. (2026). 
 
 **Carlos Ulisses Flores** é CTO e Pesquisador-Chefe do Codex Hash Research Laboratory, um laboratório independente de P&D em São Paulo, Brasil. Constrói sistemas de produção em que a falha silenciosa é cara — historicamente em trading algorítmico, IoT embarcada e criptografia de borda, atualmente em ferramentas de IA agêntica. Esta nota nasceu do uso do `claude -p` como núcleo de execução autônoma e de vê-lo devolver *exit code* 0 diante de uma recusa educada.
 
-**Identificadores** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes: [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
+**Identificadores** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes (registro nacional de currículos de pesquisadores do Brasil): [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
 **Contato** · c.ulisses@gmail.com · https://ulissesflores.com

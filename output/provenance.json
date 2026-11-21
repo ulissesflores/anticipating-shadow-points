@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "33ee6065af2e3b3e6b9e6d166c2c649f82f55def1e18088abb80f474ce0d040f",
+  "chain_hash": "b2fefc08bef6ffb9315843b32c85f6db317384d4a4ce0197b7cfaf4eb1c6b792",
   "informational_not_hashed": {
     "files": [
       {
@@ -37,11 +37,11 @@
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings.es.png",
-        "sha256": "0f129fdb7fa79273b6aa0aeb808218d8f2ae9a468f9dc89ab01af002c03dadf6"
+        "sha256": "a14b315d17850259b07f9f83e2cebecbadeba94709ccc3f66c8d6692b183e8d9"
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings.es.svg",
-        "sha256": "35e35d61fb6b6d070937bbddc9466116f062e503939197d17ce57f543f834320"
+        "sha256": "eb4fa51ed762299c3051ded334c34f8043902b6fb9fe5e61894f9027d0b1aeb1"
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings.it.png",
@@ -69,11 +69,11 @@
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings_clear.es.png",
-        "sha256": "86eeed89597ab7750bfb388b70bf8d469b8f05864ed789e9d6355fc5a1f0a922"
+        "sha256": "cdc492d0b5a63508ca975f1650dd15e0c1ba15de72bec0ca877513cf7ef7e0d9"
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings_clear.es.svg",
-        "sha256": "1c343e39e5329114b27e68fe2ec93d2e34fb5bd3dc700059c08770061808fac5"
+        "sha256": "bd4cba81dce7683e95d9392a90745c2a65b1441f6c0c06827cea5a8a18c26258"
       },
       {
         "path": "output/figures/fig1_silent_refusal_readings_clear.it.png",
@@ -340,7 +340,7 @@
         },
         {
           "path": "analysis/make_figures.py",
-          "sha256": "70a17530be00f7831d408056cfa77aec08f71894f1249a913c07af1aff9553f3"
+          "sha256": "af421974706f721978df69e70f1c335f991d26f914048157abc9506cec1b6cb3"
         },
         {
           "path": "analysis/results.py",
@@ -455,7 +455,7 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "4b6d2e7303c4ef9819fbf6a4051fdec0a3d53c446be87e1d11fdce689d2f499f"
+      "leaf_sha256": "56f98095cf24769065c7cedd581ec9e7190dce7f09f563293267ae4313bbad04"
     },
     "data": {
       "files": [

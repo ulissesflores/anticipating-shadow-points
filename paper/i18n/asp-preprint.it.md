@@ -491,5 +491,5 @@ run_all.py`, eseguito dentro la cartella del repository, rifà tutto ciò che è
 
 Scrive in portoghese, inglese, spagnolo e italiano.
 
-**Identificatori** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes: [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
+**Identificatori** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes (registro nazionale brasiliano dei curricula dei ricercatori): [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
 **Contatto** · c.ulisses@gmail.com · https://ulissesflores.com

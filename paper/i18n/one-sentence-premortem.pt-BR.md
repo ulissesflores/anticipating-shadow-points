@@ -643,5 +643,5 @@ Todo texto que um modelo recebeu neste estudo estava em inglês, e o artigo o re
 
 **Carlos Ulisses Flores** é CTO e Pesquisador-Chefe do Codex Hash Research Laboratory, um laboratório independente de P&D em São Paulo, Brasil. Constrói sistemas de produção em que a falha silenciosa é cara — historicamente em trading algorítmico, IoT embarcada e criptografia de borda, e atualmente em ferramentas de IA agêntica. Este artigo nasceu de medir o próprio *plugin* de planejamento para agentes de código e descobrir que uma frase funcionava melhor.
 
-**Identificadores** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes: [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
+**Identificadores** · ORCID: [`0000-0002-6034-7765`](https://orcid.org/0000-0002-6034-7765) · Lattes (registro nacional de currículos de pesquisadores do Brasil): [`6905246706890561`](http://lattes.cnpq.br/6905246706890561)
 **Contato** · c.ulisses@gmail.com · https://ulissesflores.com

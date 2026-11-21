@@ -169,11 +169,11 @@ LABELS = {
         "all": "Las 6 tareas",
         "x3": "% de los riesgos de referencia ciegos cubiertos por la tabla"
         " final (juez: Gemini; 5 ejecuciones por tarea, 30 en total)",
-        "may": "May 2026 · detector de frases precintado\nCC 2.1.143 · Opus 4.7",
-        "jul_detector": "Jul 2026 · detector de frases precintado",
-        "jul_core": "Jul 2026 · solo rechazos inequívocos",
-        "jul_codebook": "Jul 2026 · mayoría del codebook",
-        "jul_author": "Jul 2026 · etiqueta del autor\n"
+        "may": "Mayo 2026 · detector de frases precintado\nCC 2.1.143 · Opus 4.7",
+        "jul_detector": "Julio 2026 · detector de frases precintado",
+        "jul_core": "Julio 2026 · solo rechazos inequívocos",
+        "jul_codebook": "Julio 2026 · mayoría del codebook",
+        "jul_author": "Julio 2026 · etiqueta del autor\n"
         "CC 2.1.200 · Fable 5 (+ Opus 4.8 en seguridad)",
         "x1": "% de los 50 prompts que salen con 0 en un rechazo,"
         " según la lectura indicada a la izquierda (IC de Wilson 95%)",
