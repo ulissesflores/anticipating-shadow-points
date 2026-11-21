@@ -243,8 +243,6 @@ El estudio se prerregistró en el repositorio (`benchmark/study-2026-11/PROTOCOL
 - **Listas de referencia.** Tres modelos de otros proveedores (Grok, GPT-OSS 120B, Gemini 3.8 Flash) leyeron cada repositorio y cada petición sin ver ASP y escribieron los riesgos que esperaban. Un juez ciego agrupó sus elementos, y un riesgo entró en la lista de referencia cuando al menos dos revisores lo nombraron (de 8 a 12 por tarea). Los modelos ocuparon el lugar de ingenieros independientes, lo que el protocolo declara como un debilitamiento.
 - **Puntuación.** El juez principal (Gemini 3.8 Flash) vio solo las filas de la tabla de cada respuesta, con las palabras que revelarían la condición borradas, y marcó cada riesgo de referencia como cubierto o no. Un segundo juez (Grok) hizo lo mismo. Los dos coincidieron en el 91,9% de 855 decisiones por elemento (calculado a partir de `benchmark/study-2026-11/judge/` y comprobado en `tests/test_study_2026_11.py`).
 
-![Figura 3. Diseño del estudio de 2026-11: los riesgos de referencia, escritos sin ver ASP, y las respuestas de las tres condiciones solo se encuentran en el juez ciego.](../paper/figures/p1_study_design.es.png)
-
 La Tabla 5 y la Figura 4 muestran la cobertura por condición.
 
 **Tabla 5.** Cobertura de riesgos y tiempo por ejecución en el estudio de 2026-11, por condición.
@@ -254,6 +252,8 @@ La Tabla 5 y la Figura 4 muestran la cobertura por condición.
 | simple | 56% | 57% | 58 s |
 | riesgos | 66% | 70% | 50 s |
 | ASP | 48% | 54% | 175 s |
+
+![Figura 3. Diseño del estudio de 2026-11: los riesgos de referencia, escritos sin ver ASP, y las respuestas de las tres condiciones solo se encuentran en el juez ciego.](../paper/figures/p1_study_design.es.png)
 
 ![Figura 4. Fracción de los riesgos de referencia ciegos cubierta por la tabla final de cada condición, por tarea y en total (juez principal).](../output/figures/fig3_study_2026_11_coverage_clear.es.png)
 

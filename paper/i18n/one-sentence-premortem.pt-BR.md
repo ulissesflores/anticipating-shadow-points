@@ -94,9 +94,9 @@ O estudo anterior fez 90 rodadas em seis repositórios públicos com o Claude Op
 
 *Nota.* 30 rodadas por condição em seis tarefas. Fonte: Flores (2026a).
 
-![Figura 3. Estudo de origem: fração dos riscos de referência cegos coberta pela tabela final de cada condição, por tarefa e no total (juiz principal). Na legenda, "/asp --standard" executa o protocolo ASP e "liste o que pode dar errado" representa a frase.](../output/figures/fig3_study_2026_11_coverage_clear.pt-BR.png)
-
 A comparação principal pré-registrada desse estudo, ASP contra a frase, foi negativa nas seis tarefas: −18 pontos, p = 1,0 (Figura 3). A comparação secundária, a frase contra o pedido simples, foi de +10 pontos (p = ,001) pelo juiz principal e de +13 pontos (p < ,001) pelo segundo (Tabela 1). Como o protocolo rotulou essa comparação como secundária, o relato anterior afirmou apenas a direção dela e anunciou o presente estudo (Flores, 2026a).
+
+![Figura 3. Estudo de origem: fração dos riscos de referência cegos coberta pela tabela final de cada condição, por tarefa e no total (juiz principal). Na legenda, "/asp --standard" executa o protocolo ASP e "liste o que pode dar errado" representa a frase.](../output/figures/fig3_study_2026_11_coverage_clear.pt-BR.png)
 
 Duas propriedades desse resultado moldaram o novo desenho. O efeito foi medido num único modelo, e efeitos de *prompt* podem se inverter entre modelos (Patel et al., 2026). E ele se apoiava em seis tarefas, de modo que o novo estudo usa doze que o anterior nunca tocou (Tabela 2).
 
@@ -199,9 +199,9 @@ Fixou-se de antemão que um erro numa rodada conta como cobertura zero e relevâ
 
 Pré-registro aqui significa que o protocolo, as tarefas, os *prompts*, as listas de referência e o código de análise foram commitados num repositório público e carimbados no tempo antes da primeira rodada contada (Nosek et al., 2018). Os acréscimos posteriores listados na Tabela 4 foram fixados, cada um, num adendo, um texto datado acrescentado ao protocolo e selado do mesmo modo antes das chamadas que ele cobre. Um registro encadeado por hash (*ledger*) liga cada arquivo por trás dos resultados relatados (os onze vereditos parciais da Seção 8 ficam fora dele): cada entrada guarda a impressão digital SHA-256 de um arquivo e da entrada anterior, de modo que o registro não pode ser reescrito sem mudar sua última entrada, chamada de cabeça (Flores, 2026b). Um arquivo corrigido depois de registrado recebe uma nova entrada, e a antiga permanece na cadeia. Uma impressão digital SHA-256 é um código de 64 caracteres calculado a partir de um arquivo; mudar um byte do arquivo muda o código. A Figura 7 mostra as três primeiras entradas do registro com suas impressões digitais reais e as etapas que a cadeia fecha.
 
-A cabeça do registro antes da rodada 1 foi carimbada com o OpenTimestamps, serviço que ancora uma impressão digital no *blockchain* do Bitcoin, e o *commit* foi salvo no Software Heritage, um arquivo público de código-fonte. A Tabela 4 lista cada evento selado com o registro que prova sua ordem, e a Figura 8 mostra a sequência até a análise pré-registrada. O selo e a primeira rodada estão a 21 segundos um do outro no relógio do operador: o *commit* do selo é das 16:08:23 e a primeira resposta da primeira rodada é das 16:08:44. Essa ordem de segundos se apoia nesses registros locais; a âncora no Bitcoin e o arquivo mostram que os arquivos selados existiam quando essas provas foram feitas, e não que precederam a primeira rodada por segundos. As 240 respostas foram publicadas antes de existir qualquer veredito, e todos os vereditos foram acrescentados ao registro antes de a análise rodar (Flores, 2026b).
-
 ![Figura 7. A cadeia de hashes do registro do estudo: as três primeiras entradas, as duas cabeças carimbadas e as etapas entre elas.](../paper/figures/d6_hash_chain.pt-BR.png)
+
+A cabeça do registro antes da rodada 1 foi carimbada com o OpenTimestamps, serviço que ancora uma impressão digital no *blockchain* do Bitcoin, e o *commit* foi salvo no Software Heritage, um arquivo público de código-fonte. A Tabela 4 lista cada evento selado com o registro que prova sua ordem, e a Figura 8 mostra a sequência até a análise pré-registrada. O selo e a primeira rodada estão a 21 segundos um do outro no relógio do operador: o *commit* do selo é das 16:08:23 e a primeira resposta da primeira rodada é das 16:08:44. Essa ordem de segundos se apoia nesses registros locais; a âncora no Bitcoin e o arquivo mostram que os arquivos selados existiam quando essas provas foram feitas, e não que precederam a primeira rodada por segundos. As 240 respostas foram publicadas antes de existir qualquer veredito, e todos os vereditos foram acrescentados ao registro antes de a análise rodar (Flores, 2026b).
 
 **Tabela 4.** O registro de integridade do estudo.
 
@@ -325,11 +325,11 @@ Uma diferença de comportamento está por trás de parte desses números. No mod
 
 Esta seção não foi planejada e não testa nada. Ela examina os 100 riscos de referência um a um, pelo juiz principal, para descrever de onde vem o ganho (Figura 11). Na figura, um ponto laranja acima da diagonal é um risco coberto mais vezes com a frase, um ponto cinza sobre ela é um risco coberto o mesmo número de vezes e um ponto azul abaixo dela é um risco coberto menos vezes; o número dentro de um ponto conta os riscos naquela posição.
 
+![Figura 11. Cada risco de referência pela parcela de rodadas que o cobrem, sem e com a frase (juiz principal).](../output/figures/fig7_study_2026_11b_items.pt-BR.png)
+
 - **Amplitude.** 52 riscos de referência foram cobertos com mais frequência com a frase, 34 com a mesma frequência e 14 com menos. Cada risco foi pontuado em dez rodadas por condição, de modo que cada uma dessas diferenças é de pelo menos dez pontos (Figura 11).
 - **Confiabilidade.** O número de riscos de referência que a maioria das rodadas cobriu subiu de 41 para 56. A frase transformou principalmente riscos que o agente citava às vezes em riscos que ele citava na maior parte das vezes (Figura 11).
 - **Pontos cegos que permanecem.** 12 riscos de referência não foram cobertos por nenhuma rodada em nenhuma das condições, e 13 por nenhuma rodada com a frase. São sobretudo consequências estreitas, no nível de arquivo, como um índice composto de banco de dados ausente ou um formato de armazenamento em que um novo esquema de hash não caberia (Flores, 2026b).
-
-![Figura 11. Cada risco de referência pela parcela de rodadas que o cobrem, sem e com a frase (juiz principal).](../output/figures/fig7_study_2026_11b_items.pt-BR.png)
 
 Os maiores ganhos são riscos de interação entre a mudança e o que já existe: uma rota de cadastro existente que loga o usuário de imediato e assim contorna a nova verificação de e-mail (U01, de 30% para 100% das rodadas), linhas existentes que ficam sem valor depois que se acrescenta uma nova coluna de identificador (U07, de 30% para 90%) e um gerador de hash de senha síncrono que um algoritmo de uso intensivo de memória travaria (U09, de 20% para 90%). As maiores perdas estão em U02 e U03, em riscos que o plano simples já citava na maioria das rodadas (Flores, 2026b). O Apêndice B mostra a mesma leitura para uma lista inteira.
 
