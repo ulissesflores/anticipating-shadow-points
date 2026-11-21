@@ -7,6 +7,12 @@
       "date": "2026-11-21",
       "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-es-2026-11-21d.md"
     },
+    "SER-JUD-002": {
+      "by": "Claude (leitor de conferência, sessão c3b9e8f1), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-es-JUD002-2026-11-21e.md",
+      "note": "p.27 abaixo de 62% antes da Figura 2 aceita pelo autor em 2026-11-21 (sessão c3b9e8f1): \"quero fazer o que me recomendou\""
+    },
     "SER-JUD-003": {
       "by": "Claude (leitor de conferência, sessão c3b9e8f1), sob registro",
       "date": "2026-11-21",
