@@ -118,7 +118,12 @@ def test_recipe_on_july_extract(tmp_path):
         # An error flag or an empty result is never a success, whatever the exit code.
         ({"type": "result", "stop_reason": "end_turn"}, 0, 1),
         (
-            {"type": "result", "stop_reason": "end_turn", "is_error": True, "result": "Execution failed."},
+            {
+                "type": "result",
+                "stop_reason": "end_turn",
+                "is_error": True,
+                "result": "Execution failed.",
+            },
             0,
             1,
         ),

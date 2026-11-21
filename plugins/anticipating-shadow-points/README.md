@@ -60,8 +60,9 @@ The pre-mortem and the independent check rest on published evidence: prospective
 ## Learn more
 
 - Repository and replication package: <https://github.com/ulissesflores/anticipating-shadow-points>
-- *ASP: an operational pre-mortem skill for LLM coding agents*, whitepaper: <https://doi.org/10.5281/zenodo.24065969>
-- *Graceful refusals as unsignalled failures*, technical note on the `claude -p` exit code: <https://doi.org/10.5281/zenodo.24065935>
+- *ASP: an operational pre-mortem skill for LLM coding agents*, whitepaper: <https://doi.org/10.5281/zenodo.24410420>
+- *Graceful refusals as unsignalled failures*, technical note on the `claude -p` exit code: <https://doi.org/10.5281/zenodo.24410426>
+- *One sentence before the plan*, pre-registered confirmatory study of the one-sentence request: <https://doi.org/10.5281/zenodo.24410437>
 
 Both reports come in English, Portuguese, Spanish and Italian.
 

@@ -28,3 +28,6 @@ uv.lock
 assets/demo/live/raw.mp4
 assets/demo/live/badge.png
 PROMPT-RETOMADA.md
+
+# Readers' sign-off records (session ids, chat quotes, private evidence paths) stay local
+docs/paper/*.signoff.json

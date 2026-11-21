@@ -106,8 +106,8 @@ references:
         given-names: Carlos Ulisses
         orcid: "https://orcid.org/0000-0002-6034-7765"
     year: 2026
-    version: "2.3"
-    doi: "10.5281/zenodo.24065969"
+    version: "2.4"
+    doi: "10.5281/zenodo.24410420"
     notes: "Companion whitepaper: how ASP works. Its own Zenodo record."
 
   - type: report
@@ -117,9 +117,20 @@ references:
         given-names: Carlos Ulisses
         orcid: "https://orcid.org/0000-0002-6034-7765"
     year: 2026
-    version: "2.3"
-    doi: "10.5281/zenodo.24065935"
+    version: "2.4"
+    doi: "10.5281/zenodo.24410426"
     notes: "Companion technical note: the exit-code measurement behind Iron Law 11. Its own Zenodo record."
+
+  - type: report
+    title: "One Sentence Before the Plan: A Pre-Registered Confirmatory Study of Pre-Mortem Prompting in LLM Coding Agents"
+    authors:
+      - family-names: Flores
+        given-names: Carlos Ulisses
+        orcid: "https://orcid.org/0000-0002-6034-7765"
+    year: 2026
+    version: "1.0"
+    doi: "10.5281/zenodo.24410437"
+    notes: "Companion study report: the pre-registered confirmatory study in benchmark/study-2026-11b. Its own Zenodo record."
 
   - type: article
     title: "Performing a Project Premortem"

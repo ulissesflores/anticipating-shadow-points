@@ -260,7 +260,9 @@ def fig1(results: dict, lang: str = "en") -> None:
     _clean(ax)
     suffix = "" if lang == "en" else f".{lang}"
     _save(fig, "fig1_silent_refusal_readings" + suffix, close=False)
-    _save(fig, "fig1_silent_refusal_readings_clear" + suffix, clear=True)  # the same drawing without a background, for the paper
+    _save(
+        fig, "fig1_silent_refusal_readings_clear" + suffix, clear=True
+    )  # the same drawing without a background, for the paper
 
 
 def fig2(results: dict, lang: str = "en") -> None:
@@ -301,7 +303,9 @@ def fig2(results: dict, lang: str = "en") -> None:
         side.set_visible(False)
     suffix = "" if lang == "en" else f".{lang}"
     _save(fig, "fig2_adjudicator_fixture_check" + suffix, close=False)
-    _save(fig, "fig2_adjudicator_fixture_check_clear" + suffix, clear=True)  # the same drawing without a background, for the paper
+    _save(
+        fig, "fig2_adjudicator_fixture_check_clear" + suffix, clear=True
+    )  # the same drawing without a background, for the paper
 
 
 def fig3(study: dict, lang: str = "en") -> None:
@@ -493,7 +497,9 @@ def fig6(desc: dict, lang: str = "en") -> None:
             ha="left", fontsize=8)  # fmt: skip
     ax.set_xlim(-8, 13)
     ax.set_ylim(0, ymax * 1.2)  # headroom: the legend sits above the tallest bar, not on it
-    if lang != "en":  # tick labels with the decimal mark of the edition, like the text around the figure
+    if (
+        lang != "en"
+    ):  # tick labels with the decimal mark of the edition, like the text around the figure
         ax.xaxis.set_major_formatter(lambda v, _pos: _num(v, lang).replace("-", "\u2212"))
     ax.set_xlabel(t["null_x"], fontsize=8.5)
     ax.set_ylabel(t["null_y"], fontsize=8.5)

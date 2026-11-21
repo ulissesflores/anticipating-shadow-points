@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "9318f16060db8eddd0713438bdee2c9713332ac01ef145f5e0bd9297dbf795a1",
+  "chain_hash": "8a657b665c2021b53488aa8c2f78d1eec55f3d69e3dfd2b762b4e2e99d73ab07",
   "informational_not_hashed": {
     "files": [
       {
@@ -340,7 +340,7 @@
         },
         {
           "path": "analysis/make_figures.py",
-          "sha256": "af421974706f721978df69e70f1c335f991d26f914048157abc9506cec1b6cb3"
+          "sha256": "5cee6d0fad3a16f649e5cc0e5e8cee36a6508922a81ddb68dbd75cae772c8e00"
         },
         {
           "path": "analysis/results.py",
@@ -455,7 +455,7 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "4b44357710a3a66268ad227972105136dfb6531d1df0c4b95c58f9fe00b0c279"
+      "leaf_sha256": "8541747790040e1bbeff3297abc869384fcf2e66d674dadbdc61e1e4633272c1"
     },
     "data": {
       "files": [
@@ -9128,7 +9128,7 @@
         },
         {
           "path": "tests/test_paper3_numbers.py",
-          "sha256": "27ffbee83c8eede93f858eccd0de19a7e7065b55e3b465363f5463793442d411"
+          "sha256": "298669320933a81be5da90db7abad2ddaccbcd13f73efae43211f424defbdd2c"
         },
         {
           "path": "tests/test_paper_numbers.py",
@@ -9152,7 +9152,7 @@
         },
         {
           "path": "tests/test_recipe.py",
-          "sha256": "571fd6140449fd6b1375d84e062817fa275bfd700e4478a4295cc15349ab4d19"
+          "sha256": "ab0531299f54d106f60d6cc4bb1407ad40233be60ca5bf1ccdef8ea0e79ce129"
         },
         {
           "path": "tests/test_study_2026_11.py",
@@ -9163,7 +9163,7 @@
           "sha256": "1cd40c4d32b3f55823a9f69947ddaa03aae3977f5a357262a0b575a55aad1426"
         }
       ],
-      "leaf_sha256": "e862e03ea974166a2922f595be509af0990b9463b0d895b4cd3a617c99955084"
+      "leaf_sha256": "bbd2b2d4bf83630d57405a5ea3b7739d10849d4bc338b3ad741f20679578b323"
     }
   },
   "schema": 1

@@ -433,6 +433,7 @@ def test_rerun_and_third_judge():
     s2 = json.loads((STUDY / "yardstick2" / "sensitivity2.json").read_text())["gemini"]
 
     def row(x: dict) -> str:
+        """Render one Table 10 row: overall, Opus and Sonnet effects, each with its p."""
         p = [x["p"], x["p_by_model"][OPUS], x["p_by_model"][SONNET]]
         d = [x["delta_bar"], x["by_model"][OPUS], x["by_model"][SONNET]]
         return " | ".join(f"+{pct(v)} (p {P(q)})" for v, q in zip(d, p, strict=True))

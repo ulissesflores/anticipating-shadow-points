@@ -11,7 +11,7 @@
 [![Code: MIT](https://img.shields.io/badge/code-MIT-yellow.svg)](LICENSE)
 [![Papers and data: CC BY 4.0](https://img.shields.io/badge/papers%20%26%20data-CC%20BY%204.0-lightgrey.svg)](LICENSES/CC-BY-4.0.txt)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-97_passing-brightgreen.svg)](tests/)
+[![tests](https://img.shields.io/badge/tests-108_passing-brightgreen.svg)](tests/)
 [![reproducible](https://img.shields.io/badge/reproducible-SHA--256_chain-blueviolet.svg)](output/hash-chain.md)
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ulissesflores/anticipating-shadow-points/blob/main/colab/replication.ipynb)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)](#installazione)
@@ -53,10 +53,11 @@
 
 | Articolo | DOI | PDF (DOCX accanto) |
 |---|---|---|
-| *ASP: an operational pre-mortem skill for LLM coding agents*, whitepaper, versione 2.3 | [10.5281/zenodo.24065969](https://doi.org/10.5281/zenodo.24065969) | [en](docs/paper/asp-preprint.en.pdf) · [pt-BR](docs/paper/asp-preprint.pt-BR.pdf) · [es](docs/paper/asp-preprint.es.pdf) · [it](docs/paper/asp-preprint.it.pdf) |
-| *Graceful refusals as unsignalled failures*, nota tecnica, versione 2.3 | [10.5281/zenodo.24065935](https://doi.org/10.5281/zenodo.24065935) | [en](docs/paper/graceful-refusals.en.pdf) · [pt-BR](docs/paper/graceful-refusals.pt-BR.pdf) · [es](docs/paper/graceful-refusals.es.pdf) · [it](docs/paper/graceful-refusals.it.pdf) |
+| *ASP: an operational pre-mortem skill for LLM coding agents*, whitepaper, versione 2.4 | [10.5281/zenodo.24410420](https://doi.org/10.5281/zenodo.24410420) | [en](docs/paper/asp-preprint.en.pdf) · [pt-BR](docs/paper/asp-preprint.pt-BR.pdf) · [es](docs/paper/asp-preprint.es.pdf) · [it](docs/paper/asp-preprint.it.pdf) |
+| *Graceful refusals as unsignalled failures*, nota tecnica, versione 2.4 | [10.5281/zenodo.24410426](https://doi.org/10.5281/zenodo.24410426) | [en](docs/paper/graceful-refusals.en.pdf) · [pt-BR](docs/paper/graceful-refusals.pt-BR.pdf) · [es](docs/paper/graceful-refusals.es.pdf) · [it](docs/paper/graceful-refusals.it.pdf) |
+| *One sentence before the plan: a pre-registered confirmatory study of pre-mortem prompting in LLM coding agents*, rapporto tecnico, versione 1.0 | [10.5281/zenodo.24410437](https://doi.org/10.5281/zenodo.24410437) | [en](docs/paper/one-sentence-premortem.en.pdf) · [pt-BR](docs/paper/one-sentence-premortem.pt-BR.pdf) · [es](docs/paper/one-sentence-premortem.es.pdf) · [it](docs/paper/one-sentence-premortem.it.pdf) |
 
-Entrambi sono rapporti tecnici, non sottoposti a revisione paritaria, ciascuno con un proprio record su Zenodo. I sorgenti Markdown sono in [`paper/`](paper/) e lo SHA-256 di ogni edizione in [`paper/PAPER-SHA256.txt`](paper/PAPER-SHA256.txt). I lettori di ebraico possono usare l'edizione inglese.
+Tutti e tre sono rapporti tecnici, non sottoposti a revisione paritaria, ciascuno con un proprio record su Zenodo. I sorgenti Markdown sono in [`paper/`](paper/) e lo SHA-256 di ogni edizione in [`paper/PAPER-SHA256.txt`](paper/PAPER-SHA256.txt). I lettori di ebraico possono usare l'edizione inglese.
 
 ## Cosa apporta questo lavoro
 
@@ -308,8 +309,8 @@ Per citare un articolo, usa il suo DOI:
   title       = {ASP: An Operational Pre-Mortem Skill for LLM Coding Agents — An Experience Report},
   year        = {2026},
   institution = {Codex Hash Research Laboratory},
-  type        = {Whitepaper, version 2.3},
-  doi         = {10.5281/zenodo.24065969}
+  type        = {Whitepaper, version 2.4},
+  doi         = {10.5281/zenodo.24410420}
 }
 
 @techreport{flores_graceful_refusals_2026,
@@ -317,8 +318,17 @@ Per citare un articolo, usa il suo DOI:
   title       = {Graceful Refusals as Unsignalled Failures: Characterising claude -p Exit-Code Semantics on Agent Declines},
   year        = {2026},
   institution = {Codex Hash Research Laboratory},
-  type        = {Technical note, version 2.3},
-  doi         = {10.5281/zenodo.24065935}
+  type        = {Technical note, version 2.4},
+  doi         = {10.5281/zenodo.24410426}
+}
+
+@techreport{flores_one_sentence_2026,
+  author      = {Flores, Carlos Ulisses},
+  title       = {One Sentence Before the Plan: A Pre-Registered Confirmatory Study of Pre-Mortem Prompting in LLM Coding Agents},
+  year        = {2026},
+  institution = {Codex Hash Research Laboratory},
+  type        = {Technical report, version 1.0},
+  doi         = {10.5281/zenodo.24410437}
 }
 ```
 

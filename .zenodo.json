@@ -27,12 +27,17 @@
       "scheme": "url"
     },
     {
-      "identifier": "10.5281/zenodo.24065969",
+      "identifier": "10.5281/zenodo.24410420",
       "relation": "isDocumentedBy",
       "scheme": "doi"
     },
     {
-      "identifier": "10.5281/zenodo.24065935",
+      "identifier": "10.5281/zenodo.24410426",
+      "relation": "isReferencedBy",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.24410437",
       "relation": "isReferencedBy",
       "scheme": "doi"
     }

@@ -7,14 +7,17 @@ Versioning follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## [Unreleased]
 
-### Changed (papers, not yet deposited)
-- **Experience report and technical note, version 2.4** (local; Zenodo still holds 2.3). Both gain a
+### Changed (papers)
+- **Experience report and technical note, version 2.4**, deposited on Zenodo as
+  [10.5281/zenodo.24410420](https://doi.org/10.5281/zenodo.24410420) and
+  [10.5281/zenodo.24410426](https://doi.org/10.5281/zenodo.24410426). Both gain a
   Declarations section, summaries of at most 250 words and a series number. The threats section of the
   experience report now separates the May evaluations from the pre-registered study of Section 5.5; the
   history of corrections moved from the body to the Technical Note; jargon is explained at first use;
   figures have no background; proportions follow APA 7 (no leading zero). The Italian PDF of the technical
   note, which carried the Portuguese text in 2.3, is fixed.
-- **Third paper**: the points raised by four independent readers were applied in the four editions
+- **Third paper**, version 1.0, deposited on Zenodo as
+  [10.5281/zenodo.24410437](https://doi.org/10.5281/zenodo.24410437): the points raised by four independent readers were applied in the four editions
   (jargon at first use, neutral wording of the protocol deviations, unsourced claims softened, Figure 4
   cited in the text).
 
