@@ -238,13 +238,19 @@ def test_cost_table():
 
 
 def test_item_level_description():
-    """Section 5.7: 52 gain, 34 tie, 14 lose; 45 and 9 at ten points; 41 to 56; 12 and 13 never."""
+    """Section 5.7: 52 gain, 34 tie, 14 lose, all by 10+ points; 41 to 56; 12 and 13 never."""
     s = DESC["by_item"]["summary"]
     assert (
         f"{s['gain']} reference risks were covered more often with the sentence, {s['tie']} "
         f"equally often and {s['loss']} less often"
     ) in PAPER
-    assert f"{s['gain_10_points_or_more']} gained and {s['loss_10_points_or_more']} lost" in PAPER
+    # Derived from the shares themselves, not from the summary the text was written from.
+    shares = DESC["by_item"]["items"].values()
+    assert all(round(x * 10, 9).is_integer() for v in shares for x in v.values())
+    diffs = [round(v["RED-risk"] - v["RED-plain"], 3) for v in shares]
+    assert sum(d >= 0.1 for d in diffs) == s["gain"] == s["gain_10_points_or_more"]
+    assert sum(d <= -0.1 for d in diffs) == s["loss"] == s["loss_10_points_or_more"]
+    assert "every one of these differences is at least ten points" in PAPER
     assert f"rose from {s['covered_in_most_plain']} to {s['covered_in_most_risk']}" in PAPER
     assert (
         f"{s['never_covered_either']} reference risks were covered by no trial in either "

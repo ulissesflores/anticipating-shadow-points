@@ -445,7 +445,8 @@ def by_item(trials: list[dict]) -> dict:
         }
         for (task, i) in sorted(hits)
     }
-    diffs = [v[A] - v[B] for v in items.values()]
+    # Rounded like the shares: 0.6 - 0.5 is 0.0999... in floating point and would fail ">= 0.1".
+    diffs = [round(v[A] - v[B], 3) for v in items.values()]
     return {
         "items": items,
         "summary": {

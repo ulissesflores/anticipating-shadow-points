@@ -116,7 +116,7 @@ The hypothesis is directional: the sentence raises coverage. The design crosses 
 
 ### 4.2. Tasks
 
-Each task is a one-sentence change request on a public repository pinned to one commit, a recorded version of its code (Table 2). The requests were written to have consequences beyond the files a first reading suggests: stored data that must migrate, clients that must keep working, defaults that other projects rely on. They span seven languages, a spread that guidelines for LLM studies in software engineering recommend over a single-language sample (Baltes et al., 2026). The task file was committed before any reference list was written (Section 4.7).
+Each task is a one-sentence change request on a public repository pinned to one commit, a recorded version of its code (Table 2). The requests were written to have consequences beyond the files a first reading suggests: stored data that must migrate, clients that must keep working, defaults that other projects rely on. They span seven languages, a spread that guidelines for LLM studies in software engineering recommend over a single-language sample (Baltes et al., 2027). The task file was committed before any reference list was written (Section 4.7).
 
 ### 4.3. Conditions and harness
 
@@ -158,7 +158,7 @@ The harness, the program that runs the model as an agent, is Claude Code, versio
 
 The reference list of a task is the set of risks against which every answer for that task is scored, and the twelve lists together form the study's yardstick. Three models from other vendors wrote it: Grok, GPT-OSS 120B and Gemini 3.8 Flash (Table 3). Each read a fresh copy of the repository and the change request, under one prompt that asks for six to twelve concrete ways the change could go wrong in that codebase (Appendix A). None saw the conditions, the protocol or any output of the agent under test. They produced 369 items. A judge then grouped items that name the same problem, and a risk entered the reference list when at least two of the three reviewers had named it. This left 100 reference risks, between 6 and 10 per task; 31 were named by all three reviewers and 69 by two (Appendix B shows one list in full).
 
-Models stand in here for independent engineers, a substitution that guidelines for LLM studies ask authors to declare and bound (Baltes et al., 2026). The protocol declares it as a weakening. The reviewer prompt also shares its key words with the sentence under test, and Section 7, objection 1, treats that as the main threat to the result.
+Models stand in here for independent engineers, a substitution that guidelines for LLM studies ask authors to declare and bound (Baltes et al., 2027). The protocol declares it as a weakening. The reviewer prompt also shares its key words with the sentence under test, and Section 7, objection 1, treats that as the main threat to the result.
 
 **Table 3.** The roles each outside model plays in the study.
 
@@ -331,7 +331,7 @@ One difference in behaviour lies behind part of these figures. In plan mode the 
 
 This section was not planned and tests nothing. It looks at the 100 reference risks one by one, by the primary judge, to describe where the gain comes from (Figure 11). In the figure, an orange dot above the diagonal is a risk covered more often with the sentence, a grey dot on it one covered equally often and a blue dot below it one covered less often; a number inside a dot counts the risks at that point.
 
-- **Breadth.** 52 reference risks were covered more often with the sentence, 34 equally often and 14 less often. Counting only differences of ten points or more, 45 gained and 9 lost (Figure 11).
+- **Breadth.** 52 reference risks were covered more often with the sentence, 34 equally often and 14 less often. Each risk was scored over ten trials per condition, so every one of these differences is at least ten points (Figure 11).
 - **Reliability.** The number of reference risks that most trials covered rose from 41 to 56. The sentence mainly turned risks that the agent named sometimes into risks it named most of the time (Figure 11).
 - **Blind spots that remain.** 12 reference risks were covered by no trial in either condition, and 13 by no trial with the sentence. They are mostly narrow, file-level consequences, such as a missing composite database index or a storage format that a new hashing scheme would not fit (Flores, 2026b).
 
@@ -389,7 +389,7 @@ These additions carry their own limits. The rerun was made two days after collec
 
 ![Figure 12. The main estimates of the difference in coverage, from the originating study, from this study and from its checks.](../output/figures/fig13_effects.png)
 
-**The procedure–coverage trade-off.** In the originating study a 13-phase protocol covered fewer reference risks in its final table than this sentence, at three times the running time (Table 1). More procedure bought less coverage. The two studies do not show that structure is useless; multi-agent pipelines add failure modes of their own (Cemri et al., 2025). They show that a structured protocol has to be measured against the sentence, which is the cheap baseline, and that being better than a plain request is not enough.
+**The procedure–coverage trade-off.** In the originating study a 13-phase protocol covered fewer reference risks in its final table than this sentence, at three and a half times the running time (Table 1). More procedure bought less coverage. The two studies do not show that structure is useless; multi-agent pipelines add failure modes of their own (Cemri et al., 2025). They show that a structured protocol has to be measured against the sentence, which is the cheap baseline, and that being better than a plain request is not enough.
 
 **Plans are not code.** A prompt that asks a coding agent to forecast edge cases raised the joint rate of resolved tasks that avoid a later defect for one Claude model and lowered it for another (Patel et al., 2026). A plan that names a risk does not guarantee code that handles it, and nothing in Table 5 says otherwise.
 
@@ -399,7 +399,7 @@ These additions carry their own limits. The rerun was made two days after collec
 
 ## 7. Objections and threats to validity
 
-This section takes the objections one by one. They follow the usual classes of threats in empirical software engineering (Wohlin et al., 2012) and the cautions raised for studies that use LLMs (Sallou et al., 2024; Baltes et al., 2026). Before this version was written, the manuscript and its data were given to two models of other vendors, each asked independently to act as a hostile reviewer; both raised objection 1. One of them was then given the sentence under study itself, turned on the manuscript: before this paper is published, list the ways it could go wrong. That request produced objection 13, which neither review had raised. The repository holds the three reports (Flores, 2026b).
+This section takes the objections one by one. They follow the usual classes of threats in empirical software engineering (Wohlin et al., 2012) and the cautions raised for studies that use LLMs (Sallou et al., 2024; Baltes et al., 2027). Before this version was written, the manuscript and its data were given to two models of other vendors, each asked independently to act as a hostile reviewer; both raised objection 1. One of them was then given the sentence under study itself, turned on the manuscript: before this paper is published, list the ways it could go wrong. That request produced objection 13, which neither review had raised. The repository holds the three reports (Flores, 2026b).
 
 **1. The yardstick was elicited with the words of the sentence under test (construct).** The reviewers who wrote the reference lists were asked for "the concrete ways this change could go wrong" (Appendix A). The condition under test asks the agent to "list the ways this change could go wrong", and the plain condition never sees those words. Part of the gain could therefore be a match between the tested answers and the question that produced the yardstick, and not more of the change's real risks. Both conditions are scored against the same lists, which protects the comparison from differences between lists; it does not protect it from a treatment that steers the agent toward the reviewers' framing. Nothing in the pre-registered data separates the two readings. The relevance measure, which does not use the reference lists, shows no reduction in the mean judged relevance of the rows (Section 5.4), and that is a partial answer only. A second yardstick, elicited with the words of the output contract that both conditions receive, was specified after these results were known, in a dated addendum sealed before its collection (Flores, 2026b). Against it the difference is 6.7 points (p < .001), positive on both models and about four tenths smaller than the pre-registered estimate (Section 5.8). Under the other handlings of the error trials and by a judge of a third vendor it ranges from 4.2 to 9.0 points, and only its separate value on Opus 5.5 at the opposite bound is not significant (Table 10). The objection is upheld in part: the gain does not vanish when the request to the reviewers stops using the sentence's words, although the prompt that merges the lists keeps related words (Section 5.8), and its size does depend on the yardstick.
 
@@ -429,7 +429,7 @@ This section takes the objections one by one. They follow the usual classes of t
 
 **14. Three limits named in review (construct).** With the sentence the agent used fewer turns (Table 8), so it may have read less of the repository before answering, and this study does not measure how far the listed risks rest on the code. The table is capped at ten rows and both conditions nearly fill it, so the measure is which risks enter the first ten, not how many risks the agent could name. The judge decides every reference risk of an answer in one call and in a fixed order, so an effect of position on its decisions is not excluded (Flores, 2026b).
 
-**Conclusion validity.** One primary test carries the decision; secondary measures are reported as such, and every unplanned analysis is labelled as unplanned (Section 8), the separation that pre-registration exists to protect (Nosek et al., 2018). Five replicates per cell give coarse stratum means; the test pools 24 strata and does not rely on any one of them (Table 6). The tests treat the twelve tasks as fixed, and both models share them; resampling whole tasks gives 8.2 to 14.5 points for the pre-registered difference and 2.2 to 11.1 for the second yardstick (Section 5.8). Every p-value and interval here is conditional on the reference lists, their merge and the verdicts as collected; none includes the variation that a new elicitation, a new merge or a new judging would add, and the gap between the two yardsticks and between the two judges of the second shows that this variation is not small.
+**Conclusion validity.** One primary hypothesis carries the decision, through a joint rule: the pooled test and the test within each model must all fall below .05 (Section 4.6); secondary measures are reported as such, and every unplanned analysis is labelled as unplanned (Section 8), the separation that pre-registration exists to protect (Nosek et al., 2018). Five replicates per cell give coarse stratum means; the test pools 24 strata and does not rely on any one of them (Table 6). The tests treat the twelve tasks as fixed, and both models share them; resampling whole tasks gives 8.2 to 14.5 points for the pre-registered difference and 2.2 to 11.1 for the second yardstick (Section 5.8). Every p-value and interval here is conditional on the reference lists, their merge and the verdicts as collected; none includes the variation that a new elicitation, a new merge or a new judging would add, and the gap between the two yardsticks and between the two judges of the second shows that this variation is not small.
 
 ---
 
@@ -496,7 +496,7 @@ A single command, `python run_all.py`, recomputes every result of the study repo
 
 Anthropic. (2026). *Choose a permission mode* [Software documentation]. https://code.claude.com/docs/en/permission-modes
 
-Baltes, S., Angermeir, F., Arora, C., Muñoz Barón, M., Chen, C., Böhme, L., Calefato, F., Ernst, N., Falessi, D., Fitzgerald, B., Fucci, D., He, J., Treude, C., Kalinowski, M., Lambiase, S., Russo, D., Lungu, M., Martinez Montes, C., Prechelt, L., Ralph, P., van Tonder, R., & Wagner, S. (2026). Guidelines for empirical studies in software engineering involving large language models. *Empirical Software Engineering, 32*(2), Article 64. https://doi.org/10.1007/s10664-026-10922-3
+Baltes, S., Angermeir, F., Arora, C., Muñoz Barón, M., Chen, C., Böhme, L., Calefato, F., Ernst, N., Falessi, D., Fitzgerald, B., Fucci, D., He, J., Treude, C., Kalinowski, M., Lambiase, S., Russo, D., Lungu, M., Martinez Montes, C., Prechelt, L., Ralph, P., van Tonder, R., & Wagner, S. (2027). Guidelines for empirical studies in software engineering involving large language models. *Empirical Software Engineering, 32*(2), Article 64. https://doi.org/10.1007/s10664-026-10922-3
 
 Caraeni, A., Shick, A., & Lan, A. (2026). *Cognitive offloading in agile teams: How artificial intelligence reshapes risk assessment and planning quality*. arXiv:2604.13814. https://arxiv.org/abs/2604.13814
 
@@ -534,7 +534,7 @@ Panickssery, A., Bowman, S. R., & Feng, S. (2024). LLM evaluators recognize and 
 
 Patel, S., Liao, M., Henderson, P., He, H., & Chen, V. (2026). *Do coding agents catch their own bugs? (They don't.)*. arXiv:2611.01181. https://arxiv.org/abs/2611.01181
 
-Phipson, B., & Smyth, G. K. (2010). Permutation p-values should never be zero: Calculating exact p-values when permutations are randomly drawn. *Statistical Applications in Genetics and Molecular Biology, 9*(1). https://doi.org/10.2202/1544-6115.1585
+Phipson, B., & Smyth, G. K. (2010). Permutation p-values should never be zero: Calculating exact p-values when permutations are randomly drawn. *Statistical Applications in Genetics and Molecular Biology, 9*(1), Article 39. https://doi.org/10.2202/1544-6115.1585
 
 Sallou, J., Durieux, T., & Panichella, A. (2024). Breaking the silence: The threats of using LLMs in software engineering. In *Proceedings of the 2024 ACM/IEEE 44th International Conference on Software Engineering: New Ideas and Emerging Results* (pp. 102–106). ACM. https://doi.org/10.1145/3639476.3639764
 
@@ -542,7 +542,7 @@ Schoenegger, P., Jones, C. R., Tetlock, P. E., & Mellers, B. (2025). *Prompt eng
 
 Sclar, M., Choi, Y., Tsvetkov, Y., & Suhr, A. (2024). *Quantifying language models' sensitivity to spurious features in prompt design or: How I learned to start worrying about prompt formatting*. ICLR 2024. https://arxiv.org/abs/2310.11324
 
-Tony, C., Díaz Ferreyra, N. E., Mutas, M., Dhif, S., & Scandariato, R. (2025). Prompting techniques for secure code generation: A systematic investigation. *ACM Transactions on Software Engineering and Methodology, 34*(8), 1–53. https://doi.org/10.1145/3722108
+Tony, C., Díaz Ferreyra, N. E., Mutas, M., Dhif, S., & Scandariato, R. (2025). Prompting techniques for secure code generation: A systematic investigation. *ACM Transactions on Software Engineering and Methodology, 34*(8), Article 225. https://doi.org/10.1145/3722108
 
 Veinott, B., Klein, G. A., & Wiggins, S. (2010). Evaluating the effectiveness of the PreMortem technique on plan confidence. In *Proceedings of the 7th International ISCRAM Conference*. https://web.archive.org/web/20200928015943/http://idl.iscram.org/files/veinott/2010/1049_Veinott_etal2010.pdf
 

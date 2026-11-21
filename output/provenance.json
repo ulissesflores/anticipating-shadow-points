@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256 over canonical JSON (sorted keys, UTF-8, no whitespace)",
-  "chain_hash": "b2fefc08bef6ffb9315843b32c85f6db317384d4a4ce0197b7cfaf4eb1c6b792",
+  "chain_hash": "9318f16060db8eddd0713438bdee2c9713332ac01ef145f5e0bd9297dbf795a1",
   "informational_not_hashed": {
     "files": [
       {
@@ -420,7 +420,7 @@
         },
         {
           "path": "benchmark/study-2026-11b/describe.py",
-          "sha256": "fa5682fee9568a7d1833d7dff9cb008e263aadfaf37bc6bad92e1408f6ed5180"
+          "sha256": "46b51c2985ed399e534bfd7b4202c9f3bb218c30906c21264bd7bd03ca839282"
         },
         {
           "path": "benchmark/study-2026-11b/judge.py",
@@ -455,7 +455,7 @@
           "sha256": "ed2863885fe6aceaac11319366f4cc4f4ec2f29c018b72f41daf26cf9d5bda9f"
         }
       ],
-      "leaf_sha256": "56f98095cf24769065c7cedd581ec9e7190dce7f09f563293267ae4313bbad04"
+      "leaf_sha256": "4b44357710a3a66268ad227972105136dfb6531d1df0c4b95c58f9fe00b0c279"
     },
     "data": {
       "files": [
@@ -2345,7 +2345,7 @@
         },
         {
           "path": "benchmark/study-2026-11b/PROTOCOL.md",
-          "sha256": "3a15447e39e51695562455154582fa11441961fb3e9fb18c7133a132e6cddf8e"
+          "sha256": "2013b8af67e8e869868300f9359a6bcf1afd33aaee576fed47c825702afcfadf"
         },
         {
           "path": "benchmark/study-2026-11b/analysis-head.txt",
@@ -5333,7 +5333,7 @@
         },
         {
           "path": "benchmark/study-2026-11b/ledger.jsonl",
-          "sha256": "44f37be0fa4edd27df27982e03ae60ce3cb4e1ff3d0daf720e8a3a896e54d255"
+          "sha256": "9567a25f4e002fd8dfef5d22a0bea8da7cbac23370af8cc24fa38ac85a99ad6d"
         },
         {
           "path": "benchmark/study-2026-11b/lists/gemini/U01.md",
@@ -7444,7 +7444,7 @@
           "sha256": "092db9db9fb8f11236e4c91d03a0660d22fd983506f0c353053966362ef90624"
         }
       ],
-      "leaf_sha256": "4b65fbbbad051c004d457dce2eadf3c9d4ec85d43050f04f1c8e0372b82ec86d"
+      "leaf_sha256": "6fdc6af6742ee41830d54502ddf803016309ad51382c8c116536b79fe544e153"
     },
     "frozen_inputs": {
       "files": [
@@ -9083,7 +9083,7 @@
         },
         {
           "path": "benchmark/study-2026-11b/descriptives.json",
-          "sha256": "7d64e04cf421858b47cfcbe70f70de7641a14129907cb22dc6f80742c79db5f4"
+          "sha256": "0a00b85c14315dafa9dec90bc7849ced2186fb2e814ae06d5c3016b6310a1713"
         },
         {
           "path": "benchmark/study-2026-11b/results.json",
@@ -9106,7 +9106,7 @@
           "sha256": "66ead700deb59c2719b90ac0afaddf852019f1a9643098a926ee62f4ab5aedd3"
         }
       ],
-      "leaf_sha256": "42bfa0d572101b8a2ded71999ce3ae2b51824271688b0420edd14b068e45e9bd"
+      "leaf_sha256": "98814a502aa6a553f8c9203b1273ccec7ee2f6a260c8a777e3b60329b65abfda"
     },
     "tests": {
       "files": [
@@ -9128,7 +9128,7 @@
         },
         {
           "path": "tests/test_paper3_numbers.py",
-          "sha256": "cbfabf68881fa6d3b678cad726b4a560d6f3a84d0c7414f44ad5b260ca4afd7f"
+          "sha256": "27ffbee83c8eede93f858eccd0de19a7e7065b55e3b465363f5463793442d411"
         },
         {
           "path": "tests/test_paper_numbers.py",
@@ -9163,7 +9163,7 @@
           "sha256": "1cd40c4d32b3f55823a9f69947ddaa03aae3977f5a357262a0b575a55aad1426"
         }
       ],
-      "leaf_sha256": "882459906bf493fd77d07d20c1792ac9ee6024427c5dddad5c781a55997a7bfd"
+      "leaf_sha256": "e862e03ea974166a2922f595be509af0990b9463b0d895b4cd3a617c99955084"
     }
   },
   "schema": 1
