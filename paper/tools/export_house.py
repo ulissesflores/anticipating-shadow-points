@@ -1474,6 +1474,11 @@ def equacoes_numeradas(corpo: etree._Element) -> int:
         ant = p.getprevious()  # a frase que apresenta a equacao nao fica sozinha no pe da pagina anterior
         if ant is not None and ant.tag == w("p"):
             get_or_add(pxml(ant), "keepNext")
+            # keepNext so prende a ULTIMA linha: frase "(Equacao N)" no meio de paragrafo curto ficava na pagina
+            # anterior (art. 2 pt-BR e es, 2026-11-21). Curto (<= 600 car., ~4 linhas) desce inteiro; longo parte.
+            if len(texto_de(ant)) <= 600:
+                get_or_add(pxml(ant), "keepLines")
+            ordenar(pxml(ant), ORD_PPR)
         tbl = mk("tbl")
         pr = sub(tbl, "tblPr")
         sub(pr, "tblW", w=util, type="dxa")

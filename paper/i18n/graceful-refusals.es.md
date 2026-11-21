@@ -208,6 +208,8 @@ Direcciones futuras, en el orden en que pensamos ejecutarlas:
 
 El material detrás de cada cifra de esta nota está en el repositorio público `anticipating-shadow-points`, en https://github.com/ulissesflores/anticipating-shadow-points (Flores, 2026b). La Tabla 4 enumera lo que contiene.
 
+Una huella SHA-256 es un código de 64 caracteres calculado a partir de un archivo; cambiar un solo byte del archivo cambia el código. Un único comando, `python run_all.py`, ejecutado dentro de la carpeta del repositorio, rehace todo lo de la Tabla 4 y no llama a ningún modelo; requiere Python 3.11 o posterior, y el README del repositorio enumera los cuatro comandos que descargan el repositorio, instalan lo que necesita y lo ejecutan. Los registros originales de julio no se publican porque también contienen rutas de archivos y herramientas instaladas del ordenador del autor; sus huellas, guardadas en los archivos de julio, permiten a quien los tenga confirmar que son los mismos registros.
+
 **Tabla 4.** Lo que el repositorio contiene para esta nota.
 
 | Material | Dónde en el repositorio | Qué puede comprobar el lector con él |
@@ -217,8 +219,6 @@ El material detrás de cada cifra de esta nota está en el repositorio público 
 | El cálculo | `analysis/results.py` | Cómo se calcula cada recuento, tasa, intervalo y proporción de información, la Tabla 3 incluida |
 | Las comprobaciones | `tests/test_paper_numbers.py` | Que cifras seleccionadas coinciden con los resultados recalculados a partir de los datos; un segundo archivo, `tests/test_paper_text.py`, comprueba que algunas de ellas aparecen en el texto de esta nota, y ninguno de los dos comprueba todas las cifras que contiene |
 | El sello | `output/hash-chain.md` | Una única huella SHA-256 sobre código, datos y resultados, de modo que cualquier cambio posterior se note |
-
-Una huella SHA-256 es un código de 64 caracteres calculado a partir de un archivo; cambiar un solo byte del archivo cambia el código. Un único comando, `python run_all.py`, ejecutado dentro de la carpeta del repositorio, rehace todo lo de la Tabla 4 y no llama a ningún modelo; requiere Python 3.11 o posterior, y el README del repositorio enumera los cuatro comandos que descargan el repositorio, instalan lo que necesita y lo ejecutan. Los registros originales de julio no se publican porque también contienen rutas de archivos y herramientas instaladas del ordenador del autor; sus huellas, guardadas en los archivos de julio, permiten a quien los tenga confirmar que son los mismos registros.
 
 ---
 

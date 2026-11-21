@@ -1,22 +1,42 @@
 {
   "pdf": "asp-preprint.en.pdf",
-  "pdf_sha256": "58099efb704c2ca9ce5f0597e007ee930a43a1060162ac7c080d9de8e3a4ea3b",
+  "pdf_sha256": "1b90c2b93cf6925e510f618216177e0dcdd076bdbfc50dcbbc6ae4956bba4731",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-19d.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-21.md"
+    },
+    "SER-JUD-002": {
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-21.md"
+    },
+    "SER-JUD-003": {
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-21.md"
+    },
+    "SER-JUD-004": {
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-21.md"
     },
     "SER-JUD-005": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-19d.md",
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-21.md",
       "note": "não se aplica: edição de origem"
     },
+    "SER-JUD-006": {
+      "by": "Carlos Ulisses Flores (autor)",
+      "date": "2026-11-20",
+      "evidence": "aprovação no chat da sessão 01318da4: \"Aprovo como estão\""
+    },
     "SER-JUD-007": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-19d.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-en-2026-11-21.md"
     }
   }
 }

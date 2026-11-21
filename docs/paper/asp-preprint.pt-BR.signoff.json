@@ -1,26 +1,41 @@
 {
   "pdf": "asp-preprint.pt-BR.pdf",
-  "pdf_sha256": "bfc6b287243cb5b2ebd596d1a63937670e990422fa038ff954aaf4217b7c5c95",
+  "pdf_sha256": "d19a2fcbbc534b43eda5e4959fc524e635a84321a98bb00e8d65f2f675884e82",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-19d.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-21.md"
+    },
+    "SER-JUD-002": {
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-21.md"
+    },
+    "SER-JUD-003": {
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-21.md"
     },
     "SER-JUD-004": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-19d.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-21.md"
     },
     "SER-JUD-005": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-19d.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-21.md"
+    },
+    "SER-JUD-006": {
+      "by": "Carlos Ulisses Flores (autor)",
+      "date": "2026-11-20",
+      "evidence": "aprovação no chat da sessão 01318da4: \"Aprovo como estão\""
     },
     "SER-JUD-007": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-19d.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-asp-preprint-pt-BR-2026-11-21.md"
     }
   }
 }

@@ -1,27 +1,42 @@
 {
   "pdf": "graceful-refusals.en.pdf",
-  "pdf_sha256": "d48b02817c083c204593936de4f21d2ae79659df306e082c6eb105279c491806",
+  "pdf_sha256": "b8b28f388972dc7eeb6e37eb3f37ea201276c8e97cdedcb871a7e4dd2d319912",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19c.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-21.md"
     },
     "SER-JUD-002": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19c.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-21.md"
+    },
+    "SER-JUD-003": {
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-21.md"
     },
     "SER-JUD-004": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19c.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-21.md"
     },
     "SER-JUD-005": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-19c.md",
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-21.md",
       "note": "não se aplica: edição de origem"
+    },
+    "SER-JUD-006": {
+      "by": "Carlos Ulisses Flores (autor)",
+      "date": "2026-11-20",
+      "evidence": "aprovação no chat da sessão 01318da4: \"Aprovo como estão\""
+    },
+    "SER-JUD-007": {
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-graceful-refusals-en-2026-11-21.md"
     }
   }
 }

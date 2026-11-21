@@ -1,21 +1,41 @@
 {
   "pdf": "one-sentence-premortem.pt-BR.pdf",
-  "pdf_sha256": "5e5e2f9106da82f6faed4ef6940c269ed3d333530f5716614058731e820a3a4e",
+  "pdf_sha256": "def30df9a5d959df32557686fd8583a2ad5164d5bde3f162862e50726876ba6b",
   "items": {
     "SER-JUD-001": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-pt-BR-2026-11-19c.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-pt-BR-2026-11-21.md"
+    },
+    "SER-JUD-002": {
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-pt-BR-2026-11-21.md"
+    },
+    "SER-JUD-003": {
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-pt-BR-2026-11-21.md"
     },
     "SER-JUD-004": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-pt-BR-2026-11-19c.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-pt-BR-2026-11-21.md"
+    },
+    "SER-JUD-005": {
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-pt-BR-2026-11-21.md"
+    },
+    "SER-JUD-006": {
+      "by": "Carlos Ulisses Flores (autor)",
+      "date": "2026-11-20",
+      "evidence": "aprovação no chat da sessão 01318da4: \"Aprovo como estão\""
     },
     "SER-JUD-007": {
-      "by": "Claude (leitor de conferência, sessão b310ffd3), sob registro",
-      "date": "2026-11-19",
-      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-pt-BR-2026-11-19c.md"
+      "by": "Claude (leitor de conferência, sessão 4c2e4751), sob registro",
+      "date": "2026-11-21",
+      "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-pt-BR-2026-11-21.md"
     }
   }
 }
