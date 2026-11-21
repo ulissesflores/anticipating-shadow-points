@@ -26,7 +26,7 @@
       "by": "Claude (leitor de conferência, sessão c3b9e8f1), sob registro",
       "date": "2026-11-21",
       "evidence": "claude-cache/asp-publication/artigo12/releitura-one-sentence-premortem-pt-BR-2026-11-21d.md",
-      "note": "numerais de todas as tabelas conferidos por código contra a fonte inglesa (STATE 2026-11-21, revezamento 5)"
+      "note": "texto da fonte com as mesmas linhas da rodada 21 (ed9743b), só chamadas de figura em outra posição, conferido por código (multiconjunto de linhas); numerais de todas as tabelas iguais aos da fonte inglesa"
     },
     "SER-JUD-006": {
       "by": "Carlos Ulisses Flores (autor)",
