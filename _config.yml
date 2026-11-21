@@ -28,6 +28,7 @@ exclude:
   - assets/demo/live/        # recording scripts and the reply behind the demo GIF
   - scripts/                # install/uninstall/verify
   - tests/                  # evidence and probes — accessible via repo, not Pages
+  - benchmark/study-2026-11b/runs/  # raw model answers; some carry template tags that break the site build
   - .github/
   - .gitignore
   - .DS_Store
