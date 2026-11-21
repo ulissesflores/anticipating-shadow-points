@@ -399,8 +399,6 @@ subprocess with a file-based contract (Phase 9).
 ASP separates three agent roles with explicit artifact-only handoffs
 (Figure 1).
 
-![Figure 1. ASP's three-role separation. Planner phases run in the parent. The validator runs in the parent but in a fresh subagent prompt that receives only artifacts, never the planner's transcript. With the opt-in `--goal` flag, the case drawn here, the worker runs in a child `claude -p` subprocess with a file-based contract; by default it runs in the user's session.](../paper/figures/p1_roles.png)
-
 ### 3.3. Iron Laws
 
 We state twelve operational constraints and call them Iron Laws (Table 3).
@@ -410,6 +408,8 @@ instructs the agent to follow. Compliance with either kind has not been
 measured. Each is mapped to its
 derivation: a primary literature source, a documented Anthropic
 recommendation, or an empirical design decision.
+
+![Figure 1. ASP's three-role separation. Planner phases run in the parent. The validator runs in the parent but in a fresh subagent prompt that receives only artifacts, never the planner's transcript. With the opt-in `--goal` flag, the case drawn here, the worker runs in a child `claude -p` subprocess with a file-based contract; by default it runs in the user's session.](../paper/figures/p1_roles.png)
 
 **Table 3.** The 12 Iron Laws and their derivation.
 
