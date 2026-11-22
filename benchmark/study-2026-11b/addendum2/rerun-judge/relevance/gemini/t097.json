@@ -1,0 +1,16 @@
+{
+ "trial": "t097",
+ "covered": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+ ],
+ "n": 8,
+ "redactions": 0,
+ "prompt": "A plan for a software change ends with a table of risks. For each numbered row, decide whether it names a concrete, plausible risk of this specific change: not generic advice, not a restatement of the request, not unrelated to it.\n\nChange request: Store passwords with a stronger hashing scheme without forcing existing users to reset their passwords.\n\nRows:\n1.  Login timing reveals which emails exist   Checking a known email now costs ~100 ms; an unknown one returns at once   Check against a dummy hash when the email isn't found  \n2.  Rehash overwrites a new password   Login saves the whole tracked user, so the last save wins   Conditional update on the old `Hash` value  \n3.  Old hashes stay forever for inactive users   Upgrades only happen on login   Track the count; optional reset campaign later  \n4.  Old-format detection goes by byte length only   `64 && 16` is a guess from the stored shape   New hashes are 61 bytes so they can't match; add a test that locks this in  \n5.  Higher CPU per login and signup   210k iterations on every login and signup   Load-test; configurable iterations; rate limiting  \n6.  Rollback breaks logins   The old code can't read the new format   Ship forward-only; don't roll back past #152  \n7.  Rehash write fails and blocks login   `SaveChangesAsync` error returns a 500   Catch and log; still return the token  \n8.  Weak old HMAC key   Fixed key `\"realworld\"`; a leaked database can be attacked offline until users upgrade   Upgrade quickly; consider resetting high-value accounts  \n\nAnswer directly from the text above; do not run commands or use tools. Answer with JSON only, one key per row number: {\"1\": true, \"2\": false, ...}",
+ "raw": "{\"1\": true, \"2\": true, \"3\": true, \"4\": true, \"5\": true, \"6\": true, \"7\": true, \"8\": false}\n"
+}

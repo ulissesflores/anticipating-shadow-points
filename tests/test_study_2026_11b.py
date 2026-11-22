@@ -161,3 +161,18 @@ def test_ledger_chain_intact():
         [sys.executable, str(STUDY / "ledger.py"), "verify"], capture_output=True, text=True
     )
     assert out.returncode == 0, out.stdout + out.stderr
+
+
+def test_cli_verdicts_on_reruns_match_the_api_row():
+    """Addendum 3's promise: the 9 command-line verdicts, reported next to the API ones."""
+    cli = json.loads((STUDY / "addendum2" / "results3.json").read_text())["rerun"]
+    api = json.loads((STUDY / "addendum3" / "results4.json").read_text())
+    folder = STUDY / "addendum2" / "rerun-judge"
+    assert len(list(folder.glob("*/gemini/t*.json"))) == 9
+    assert {k: v["delta_bar"] for k, v in cli.items() if k.endswith("_with_reruns")} == {
+        "yardstick1_with_reruns": 0.1054,
+        "yardstick2_with_reruns": 0.0564,
+        "relevance_with_reruns": 0.0279,
+    }
+    assert api["yardstick2_with_reruns"]["delta_bar"] == 0.0564
+    assert cli["yardstick2_with_reruns"]["p"] == api["yardstick2_with_reruns"]["p"] == 0.0003

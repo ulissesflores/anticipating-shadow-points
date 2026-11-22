@@ -1,5 +1,238 @@
 {
  "note": "Exploratory and post hoc (ADDENDUM-2.md). The confirmatory analysis is ../results.json; the planned analysis of the second yardstick is ../yardstick2/results2.json. Neither is changed by this file.",
+ "rerun": {
+  "trials": {
+   "t097": {
+    "task": "U09",
+    "model": "claude-opus-5-5",
+    "condition": "RED-plain",
+    "rep": 3,
+    "is_error": false,
+    "subtype": "success",
+    "num_turns": 8,
+    "seconds": 62.2,
+    "rows_in_table": 8,
+    "yardstick1": 0.3333,
+    "yardstick2": 0.3636,
+    "relevance": 0.875
+   },
+   "t099": {
+    "task": "U07",
+    "model": "claude-opus-5-5",
+    "condition": "RED-plain",
+    "rep": 3,
+    "is_error": false,
+    "subtype": "success",
+    "num_turns": 5,
+    "seconds": 72.0,
+    "rows_in_table": 9,
+    "yardstick1": 0.5,
+    "yardstick2": 0.625,
+    "relevance": 0.3333
+   },
+   "t100": {
+    "task": "U10",
+    "model": "claude-sonnet-5-5",
+    "condition": "RED-plain",
+    "rep": 2,
+    "is_error": false,
+    "subtype": "success",
+    "num_turns": 5,
+    "seconds": 31.7,
+    "rows_in_table": 10,
+    "yardstick1": 0.2,
+    "yardstick2": 0.3333,
+    "relevance": 0.9
+   }
+  },
+  "compared_with_the_237_other_trials": {
+   "init_model": {
+    "t097": {
+     "rerun": "claude-opus-5-5",
+     "seen_in_sealed_trials_of_that_model": [
+      "claude-opus-5-5"
+     ]
+    },
+    "t099": {
+     "rerun": "claude-opus-5-5",
+     "seen_in_sealed_trials_of_that_model": [
+      "claude-opus-5-5"
+     ]
+    },
+    "t100": {
+     "rerun": "claude-sonnet-5-5",
+     "seen_in_sealed_trials_of_that_model": [
+      "claude-sonnet-5-5"
+     ]
+    }
+   },
+   "models": {
+    "t097": {
+     "rerun": [
+      "claude-opus-5-5"
+     ],
+     "seen_in_sealed_trials_of_that_model": [
+      [
+       "claude-opus-5-5"
+      ]
+     ]
+    },
+    "t099": {
+     "rerun": [
+      "claude-opus-5-5"
+     ],
+     "seen_in_sealed_trials_of_that_model": [
+      [
+       "claude-opus-5-5"
+      ]
+     ]
+    },
+    "t100": {
+     "rerun": [
+      "claude-sonnet-5-5"
+     ],
+     "seen_in_sealed_trials_of_that_model": [
+      [
+       "claude-sonnet-5-5"
+      ]
+     ]
+    }
+   },
+   "plugins": {
+    "t097": {
+     "rerun": [
+      "cc-plugin-agents-md",
+      "cc-plugin-plugin-authoring",
+      "cc-plugin-privacy",
+      "cc-plugin-telemetry"
+     ],
+     "seen_in_sealed_trials_of_that_model": [
+      [
+       "cc-plugin-agents-md",
+       "cc-plugin-plugin-authoring",
+       "cc-plugin-privacy",
+       "cc-plugin-telemetry"
+      ]
+     ]
+    },
+    "t099": {
+     "rerun": [
+      "cc-plugin-agents-md",
+      "cc-plugin-plugin-authoring",
+      "cc-plugin-privacy",
+      "cc-plugin-telemetry"
+     ],
+     "seen_in_sealed_trials_of_that_model": [
+      [
+       "cc-plugin-agents-md",
+       "cc-plugin-plugin-authoring",
+       "cc-plugin-privacy",
+       "cc-plugin-telemetry"
+      ]
+     ]
+    },
+    "t100": {
+     "rerun": [
+      "cc-plugin-agents-md",
+      "cc-plugin-plugin-authoring",
+      "cc-plugin-privacy",
+      "cc-plugin-telemetry"
+     ],
+     "seen_in_sealed_trials_of_that_model": [
+      [
+       "cc-plugin-agents-md",
+       "cc-plugin-plugin-authoring",
+       "cc-plugin-privacy",
+       "cc-plugin-telemetry"
+      ]
+     ]
+    }
+   },
+   "asp_loaded": {
+    "t097": {
+     "rerun": false,
+     "seen_in_sealed_trials_of_that_model": [
+      false
+     ]
+    },
+    "t099": {
+     "rerun": false,
+     "seen_in_sealed_trials_of_that_model": [
+      false
+     ]
+    },
+    "t100": {
+     "rerun": false,
+     "seen_in_sealed_trials_of_that_model": [
+      false
+     ]
+    }
+   },
+   "project_files_changed": {
+    "t097": {
+     "rerun": 0,
+     "seen_in_sealed_trials_of_that_model": [
+      0
+     ]
+    },
+    "t099": {
+     "rerun": 0,
+     "seen_in_sealed_trials_of_that_model": [
+      0
+     ]
+    },
+    "t100": {
+     "rerun": 0,
+     "seen_in_sealed_trials_of_that_model": [
+      0
+     ]
+    }
+   }
+  },
+  "yardstick1_with_reruns": {
+   "overall": {
+    "RED-risk": 0.5751,
+    "RED-plain": 0.4697
+   },
+   "delta_bar": 0.1054,
+   "p": 0.0001,
+   "by_model": {
+    "claude-opus-5-5": 0.09,
+    "claude-sonnet-5-5": 0.1208
+   },
+   "p_by_model": {
+    "claude-opus-5-5": 0.0001,
+    "claude-sonnet-5-5": 0.0001
+   },
+   "positive_strata": 22,
+   "strata": 24
+  },
+  "yardstick2_with_reruns": {
+   "overall": {
+    "RED-risk": 0.625,
+    "RED-plain": 0.5686
+   },
+   "delta_bar": 0.0564,
+   "p": 0.0003,
+   "by_model": {
+    "claude-opus-5-5": 0.049,
+    "claude-sonnet-5-5": 0.0638
+   },
+   "p_by_model": {
+    "claude-opus-5-5": 0.0094,
+    "claude-sonnet-5-5": 0.0017
+   },
+   "positive_strata": 16,
+   "strata": 24
+  },
+  "relevance_with_reruns": {
+   "overall": {
+    "RED-risk": 0.739,
+    "RED-plain": 0.7111
+   },
+   "delta_bar": 0.0279
+  }
+ },
  "astra": {
   "judge_model": "gpt-6-astra",
   "yardstick2_fixed_rule": {
